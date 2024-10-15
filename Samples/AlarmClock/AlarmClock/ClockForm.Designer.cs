@@ -39,7 +39,7 @@
             // DisplayLabel
             // 
             this.DisplayLabel.BackColor = System.Drawing.Color.Black;
-            this.DisplayLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.DisplayLabel.Font = new System.Drawing.Font("Tahoma", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.DisplayLabel.ForeColor = System.Drawing.Color.GreenYellow;
             this.DisplayLabel.Location = new System.Drawing.Point(13, 13);
             this.DisplayLabel.Name = "DisplayLabel";
