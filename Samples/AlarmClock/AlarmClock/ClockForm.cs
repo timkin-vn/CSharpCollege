@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -35,6 +36,11 @@ namespace AlarmClock
                 }
 
                 _awakeForm.Show();
+
+                if (_settings.IsSoundActive)
+                {
+                    SystemSounds.Beep.Play();
+                }
             }
         }
 
