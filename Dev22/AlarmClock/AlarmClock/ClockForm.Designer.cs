@@ -66,6 +66,7 @@
             this.SettingsButton.TabIndex = 2;
             this.SettingsButton.Text = "Настройки";
             this.SettingsButton.UseVisualStyleBackColor = true;
+            this.SettingsButton.Click += new System.EventHandler(this.SettingsButton_Click);
             // 
             // ExitButton
             // 
