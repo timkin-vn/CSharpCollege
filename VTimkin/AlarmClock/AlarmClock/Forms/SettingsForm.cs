@@ -13,18 +13,18 @@ namespace AlarmClock.Forms
 {
     public partial class SettingsForm : Form
     {
+        public AlarmSettings Settings { get; set; }
+
         public SettingsForm()
         {
             InitializeComponent();
         }
 
-        public AlarmSettings Settings { get; set; }
-
         private void OkButton_Click(object sender, EventArgs e)
         {
             if (!DateTime.TryParse(AlarmTimeTextBox.Text, out var alarmTime))
             {
-                MessageBox.Show("Время указано неверно!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Неверно задано время срабатывания", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -38,7 +38,7 @@ namespace AlarmClock.Forms
 
         private void SettingsForm_Load(object sender, EventArgs e)
         {
-            AlarmTimeTextBox.Text = Settings.AlarmTime.ToString("HH:mm");
+            AlarmTimeTextBox.Text = Settings.AlarmTime.ToString("H:mm");
             AlarmMessageTextBox.Text = Settings.AlarmMessage;
             IsAlarmActiveCheckBox.Checked = Settings.IsAlarmActive;
             IsSoundActiveCheckBox.Checked = Settings.IsSoundActive;

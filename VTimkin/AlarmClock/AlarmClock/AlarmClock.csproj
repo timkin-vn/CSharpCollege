@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AA58C401-73D6-41B8-8A00-DB35E544F7F3}</ProjectGuid>
+    <ProjectGuid>{1EECC246-8A00-4F89-BE46-C48250F87E81}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>AlarmClock</RootNamespace>
     <AssemblyName>AlarmClock</AssemblyName>
@@ -58,6 +58,12 @@
     <Compile Include="Forms\AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\AwakeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AwakeForm.Designer.cs">
+      <DependentUpon>AwakeForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\SettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -72,6 +78,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AwakeForm.resx">
+      <DependentUpon>AwakeForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
@@ -97,6 +106,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Images\Image1.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Image3.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Image4.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Image5.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Image7.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

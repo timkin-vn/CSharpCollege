@@ -52,28 +52,28 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(12, 41);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(80, 13);
+            this.label2.Size = new System.Drawing.Size(124, 13);
             this.label2.TabIndex = 1;
-            this.label2.Text = "Напоминание:";
+            this.label2.Text = "Тесктовое сообщение:";
             // 
             // AlarmTimeTextBox
             // 
-            this.AlarmTimeTextBox.Location = new System.Drawing.Point(137, 12);
+            this.AlarmTimeTextBox.Location = new System.Drawing.Point(142, 12);
             this.AlarmTimeTextBox.Name = "AlarmTimeTextBox";
             this.AlarmTimeTextBox.Size = new System.Drawing.Size(100, 20);
             this.AlarmTimeTextBox.TabIndex = 2;
             // 
             // AlarmMessageTextBox
             // 
-            this.AlarmMessageTextBox.Location = new System.Drawing.Point(137, 38);
+            this.AlarmMessageTextBox.Location = new System.Drawing.Point(142, 38);
             this.AlarmMessageTextBox.Name = "AlarmMessageTextBox";
-            this.AlarmMessageTextBox.Size = new System.Drawing.Size(100, 20);
+            this.AlarmMessageTextBox.Size = new System.Drawing.Size(293, 20);
             this.AlarmMessageTextBox.TabIndex = 3;
             // 
             // IsAlarmActiveCheckBox
             // 
             this.IsAlarmActiveCheckBox.AutoSize = true;
-            this.IsAlarmActiveCheckBox.Location = new System.Drawing.Point(15, 71);
+            this.IsAlarmActiveCheckBox.Location = new System.Drawing.Point(15, 70);
             this.IsAlarmActiveCheckBox.Name = "IsAlarmActiveCheckBox";
             this.IsAlarmActiveCheckBox.Size = new System.Drawing.Size(126, 17);
             this.IsAlarmActiveCheckBox.TabIndex = 4;
@@ -83,7 +83,7 @@
             // IsSoundActiveCheckBox
             // 
             this.IsSoundActiveCheckBox.AutoSize = true;
-            this.IsSoundActiveCheckBox.Location = new System.Drawing.Point(15, 94);
+            this.IsSoundActiveCheckBox.Location = new System.Drawing.Point(15, 93);
             this.IsSoundActiveCheckBox.Name = "IsSoundActiveCheckBox";
             this.IsSoundActiveCheckBox.Size = new System.Drawing.Size(158, 17);
             this.IsSoundActiveCheckBox.TabIndex = 5;
@@ -92,18 +92,18 @@
             // 
             // OkButton
             // 
-            this.OkButton.Location = new System.Drawing.Point(81, 117);
+            this.OkButton.Location = new System.Drawing.Point(279, 133);
             this.OkButton.Name = "OkButton";
             this.OkButton.Size = new System.Drawing.Size(75, 23);
             this.OkButton.TabIndex = 6;
-            this.OkButton.Text = "OK";
+            this.OkButton.Text = "ОК";
             this.OkButton.UseVisualStyleBackColor = true;
             this.OkButton.Click += new System.EventHandler(this.OkButton_Click);
             // 
             // CancelButton
             // 
             this.CancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelButton.Location = new System.Drawing.Point(162, 117);
+            this.CancelButton.Location = new System.Drawing.Point(360, 133);
             this.CancelButton.Name = "CancelButton";
             this.CancelButton.Size = new System.Drawing.Size(75, 23);
             this.CancelButton.TabIndex = 7;
@@ -114,7 +114,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(256, 153);
+            this.ClientSize = new System.Drawing.Size(447, 168);
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.OkButton);
             this.Controls.Add(this.IsSoundActiveCheckBox);
@@ -124,8 +124,9 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
             this.Name = "SettingsForm";
-            this.Text = "Настройки";
+            this.Text = "Настройки будильника";
             this.Load += new System.EventHandler(this.SettingsForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
