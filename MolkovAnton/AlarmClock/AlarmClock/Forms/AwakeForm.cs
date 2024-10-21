@@ -53,5 +53,11 @@ namespace AlarmClock.Forms
             AwakeTimer.Enabled = true;
             AwakePictureBox.Image = Properties.Resources.Image1;
         }
+
+        private void PostponeButton_Click(object sender, EventArgs e)
+        {
+            Settings.AlarmTime = DateTime.Now.AddMinutes(9);
+            Hide(); 
+        }
     }
 }

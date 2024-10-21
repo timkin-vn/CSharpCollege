@@ -32,12 +32,13 @@
             this.AwakeButton = new System.Windows.Forms.Button();
             this.AwakePictureBox = new System.Windows.Forms.PictureBox();
             this.AwakeTimer = new System.Windows.Forms.Timer(this.components);
+            this.PostponeButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.AwakePictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // AwakeButton
             // 
-            this.AwakeButton.Location = new System.Drawing.Point(244, 498);
+            this.AwakeButton.Location = new System.Drawing.Point(170, 498);
             this.AwakeButton.Name = "AwakeButton";
             this.AwakeButton.Size = new System.Drawing.Size(96, 23);
             this.AwakeButton.TabIndex = 0;
@@ -60,11 +61,22 @@
             this.AwakeTimer.Interval = 5000;
             this.AwakeTimer.Tick += new System.EventHandler(this.AwakeTimer_Tick);
             // 
+            // PostponeButton
+            // 
+            this.PostponeButton.Location = new System.Drawing.Point(304, 498);
+            this.PostponeButton.Name = "PostponeButton";
+            this.PostponeButton.Size = new System.Drawing.Size(75, 23);
+            this.PostponeButton.TabIndex = 2;
+            this.PostponeButton.Text = "Отложить";
+            this.PostponeButton.UseVisualStyleBackColor = true;
+            this.PostponeButton.Click += new System.EventHandler(this.PostponeButton_Click);
+            // 
             // AwakeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(586, 533);
+            this.Controls.Add(this.PostponeButton);
             this.Controls.Add(this.AwakePictureBox);
             this.Controls.Add(this.AwakeButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -83,5 +95,6 @@
         private System.Windows.Forms.Button AwakeButton;
         private System.Windows.Forms.PictureBox AwakePictureBox;
         private System.Windows.Forms.Timer AwakeTimer;
+        private System.Windows.Forms.Button PostponeButton;
     }
 }
