@@ -9,7 +9,7 @@ namespace AlarmClock.Models
     /// <summary>
     /// Настройки будильника
     /// </summary>
-    internal class AlarmSettings
+    public class AlarmSettings
     {
         /// <summary>
         /// Время срабатывания
