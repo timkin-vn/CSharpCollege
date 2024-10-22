@@ -64,6 +64,12 @@
     <Compile Include="Forms\AwakeForm.Designer.cs">
       <DependentUpon>AwakeForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\EditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EditForm.Designer.cs">
+      <DependentUpon>EditForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\SettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -71,6 +77,7 @@
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\AlarmSettings.cs" />
+    <Compile Include="Models\AlarmTime.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ClockForm.resx">
@@ -81,6 +88,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AwakeForm.resx">
       <DependentUpon>AwakeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditForm.resx">
+      <DependentUpon>EditForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
@@ -109,7 +119,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Image\85a4fec75f85a2f758a52533fad6b0bb.jpg" />
+    <Content Include="Images\Image1.jpg" />
+    <Content Include="Images\Image3.jpg" />
+    <Content Include="Images\Image4.jpg" />
+    <Content Include="Images\Image5.jpg" />
+    <Content Include="Images\Image7.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

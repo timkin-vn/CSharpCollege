@@ -13,21 +13,45 @@ namespace AlarmClock.Forms
 {
     public partial class AwakeForm : Form
     {
-        public AlarmSettings Settings = new AlarmSettings();
+        public AlarmSettings Settings { get; set; }
+
+        private int _imageIndex = 0;
+
+        private Bitmap[] _images = new[]
+        {
+            Properties.Resources.Image1,
+            Properties.Resources.Image3,
+            Properties.Resources.Image4,
+            Properties.Resources.Image5,
+            Properties.Resources.Image7,
+        };
+
         public AwakeForm()
         {
             InitializeComponent();
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
+        private void AwakeButton_Click(object sender, EventArgs e)
         {
-
+            
+            
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void AwakeTimer_Tick(object sender, EventArgs e)
         {
-            Settings.IsAlarmActive = false;
-            Hide();
+            _imageIndex++;
+            if (_imageIndex >= _images.Length)
+            {
+                _imageIndex = 0;
+            }
+
+            AwakePictureBox.Image = _images[_imageIndex];
+        }
+
+        private void AwakeForm_Load(object sender, EventArgs e)
+        {
+            AwakeTimer.Enabled = true;
+            AwakePictureBox.Image = Properties.Resources.Image1;
         }
     }
 }

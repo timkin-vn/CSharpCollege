@@ -28,41 +28,51 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
+            this.components = new System.ComponentModel.Container();
+            this.AwakeButton = new System.Windows.Forms.Button();
             this.AwakePictureBox = new System.Windows.Forms.PictureBox();
+            this.AwakeTimer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.AwakePictureBox)).BeginInit();
             this.SuspendLayout();
             // 
-            // button1
+            // AwakeButton
             // 
-            this.button1.Location = new System.Drawing.Point(244, 415);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(94, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Я проснулся";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.AwakeButton.Location = new System.Drawing.Point(244, 498);
+            this.AwakeButton.Name = "AwakeButton";
+            this.AwakeButton.Size = new System.Drawing.Size(96, 23);
+            this.AwakeButton.TabIndex = 0;
+            this.AwakeButton.Text = "Я проснулся";
+            this.AwakeButton.UseVisualStyleBackColor = true;
+            this.AwakeButton.Click += new System.EventHandler(this.AwakeButton_Click);
             // 
             // AwakePictureBox
             // 
-            this.AwakePictureBox.Image = global::AlarmClock.Properties.Resources._85a4fec75f85a2f758a52533fad6b0bb;
-            this.AwakePictureBox.Location = new System.Drawing.Point(12, 12);
+            this.AwakePictureBox.Image = global::AlarmClock.Properties.Resources.Image7;
+            this.AwakePictureBox.Location = new System.Drawing.Point(13, 13);
             this.AwakePictureBox.Name = "AwakePictureBox";
-            this.AwakePictureBox.Size = new System.Drawing.Size(491, 397);
+            this.AwakePictureBox.Size = new System.Drawing.Size(561, 479);
             this.AwakePictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.AwakePictureBox.TabIndex = 1;
             this.AwakePictureBox.TabStop = false;
-            this.AwakePictureBox.Click += new System.EventHandler(this.pictureBox1_Click);
+            // 
+            // AwakeTimer
+            // 
+            this.AwakeTimer.Interval = 5000;
+            this.AwakeTimer.Tick += new System.EventHandler(this.AwakeTimer_Tick);
             // 
             // AwakeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(528, 450);
+            this.ClientSize = new System.Drawing.Size(586, 533);
             this.Controls.Add(this.AwakePictureBox);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.AwakeButton);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "AwakeForm";
-            this.Text = "Просыпайся";
+            this.Text = "Просыпайся!";
+            this.Load += new System.EventHandler(this.AwakeForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.AwakePictureBox)).EndInit();
             this.ResumeLayout(false);
 
@@ -70,7 +80,8 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button AwakeButton;
         private System.Windows.Forms.PictureBox AwakePictureBox;
+        private System.Windows.Forms.Timer AwakeTimer;
     }
 }
