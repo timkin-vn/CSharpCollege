@@ -15,5 +15,6 @@ namespace AlarmClock.Models
         public bool IsAlarmActive { get; set; }
 
         public bool IsSoundActive { get; set; }
+        public string Theme { get; internal set; }
     }
 }
