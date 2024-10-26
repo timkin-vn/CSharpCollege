@@ -10,11 +10,13 @@ using System.Windows.Forms;
 
 namespace AlarmClock.Forms
 {
-    public partial class AboutForm : Form
+    public partial class Aboutt : Form
     {
-        public AboutForm()
+        public Aboutt()
         {
             InitializeComponent();
         }
+
+       
     }
 }

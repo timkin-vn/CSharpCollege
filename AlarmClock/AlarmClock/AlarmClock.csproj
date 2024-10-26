@@ -35,6 +35,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -64,6 +65,24 @@
     <Compile Include="Forms\AwakeForm.Designer.cs">
       <DependentUpon>AwakeForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Aboutt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Aboutt.Designer.cs">
+      <DependentUpon>Aboutt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Timers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Timers.Designer.cs">
+      <DependentUpon>Timers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\main_menu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\main_menu.Designer.cs">
+      <DependentUpon>main_menu.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\SettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -82,8 +101,17 @@
     <EmbeddedResource Include="Forms\AwakeForm.resx">
       <DependentUpon>AwakeForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Aboutt.resx">
+      <DependentUpon>Aboutt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\main_menu.resx">
+      <DependentUpon>main_menu.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Timers.resx">
+      <DependentUpon>Timers.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -93,6 +121,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -124,6 +153,9 @@
     <Content Include="Images\Image7.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\8601.png" />
+    <None Include="Resources\860.png" />
+    <None Include="Resources\haker2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -34,6 +34,7 @@
             this.SettingsButton = new System.Windows.Forms.Button();
             this.ExitButton = new System.Windows.Forms.Button();
             this.AlarmTimer = new System.Windows.Forms.Timer(this.components);
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // DisplayLabel
@@ -85,16 +86,29 @@
             this.AlarmTimer.Interval = 1000;
             this.AlarmTimer.Tick += new System.EventHandler(this.AlarmTimer_Tick);
             // 
+            // button1
+            // 
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button1.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.button1.Location = new System.Drawing.Point(12, 99);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(355, 23);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "return";
+            this.button1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // ClockForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(379, 111);
+            this.ClientSize = new System.Drawing.Size(379, 122);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.ExitButton);
             this.Controls.Add(this.SettingsButton);
             this.Controls.Add(this.AboutButton);
             this.Controls.Add(this.DisplayLabel);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.Name = "ClockForm";
             this.Text = "Будильник";
@@ -109,6 +123,7 @@
         private System.Windows.Forms.Button SettingsButton;
         private System.Windows.Forms.Button ExitButton;
         private System.Windows.Forms.Timer AlarmTimer;
+        private System.Windows.Forms.Button button1;
     }
 }
 
