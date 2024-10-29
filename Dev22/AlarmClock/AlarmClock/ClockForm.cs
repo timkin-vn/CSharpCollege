@@ -37,6 +37,8 @@ namespace AlarmClock
                     _awakeForm = new AwakeForm();
                 }
 
+                
+
                 _awakeForm.Settings = _settings;
                 _awakeForm.Show();
 
@@ -44,6 +46,15 @@ namespace AlarmClock
                 {
                     SystemSounds.Beep.Play();
                 }
+            }
+
+            if (_settings.IsAlarmActive)
+            {
+                label1.Text = "Будильник включен";
+            }
+            else
+            {
+                label1.Text = "Будильник выключен";
             }
         }
 
@@ -62,6 +73,11 @@ namespace AlarmClock
             var form = new SettingsForm();
             form.Settings = _settings;
             form.ShowDialog();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

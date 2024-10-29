@@ -50,7 +50,7 @@
             // 
             // AboutButton
             // 
-            this.AboutButton.Location = new System.Drawing.Point(312, 12);
+            this.AboutButton.Location = new System.Drawing.Point(312, 13);
             this.AboutButton.Name = "AboutButton";
             this.AboutButton.Size = new System.Drawing.Size(117, 23);
             this.AboutButton.TabIndex = 1;
