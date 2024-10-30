@@ -109,12 +109,9 @@ namespace AlarmClock
 
             int index = ListAlarmGrid.SelectedRows[0].Index;
             var currentSetting = _settings.TimeSettings[index];
-            //form.Settings = _settings;
-            var newSetting = new AlarmTime();
-            newSetting = currentSetting;
 
             var editForm = new EditForm();
-            editForm.Setting = newSetting;
+            editForm.Setting = currentSetting;
 
             if (editForm.ShowDialog() == DialogResult.OK)
             {
