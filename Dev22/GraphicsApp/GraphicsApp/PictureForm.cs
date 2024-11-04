@@ -29,11 +29,13 @@ namespace GraphicsApp
                 
 
             };
-            ComboBox combo = new ComboBox
+            Button combo = new Button
             {
-                Location = new Point(10, 110),
+
+                Location = new Point(10, 110)
 
             };
+            combo.Click += Clicll;
             GroupBox colorGroup = new GroupBox
             {
                 Text = "Выберите цвет",
@@ -47,6 +49,7 @@ namespace GraphicsApp
                 Checked = true,
                 Location = new Point(10, 20)
             };
+
             blackButton.CheckedChanged += (s, e) => { if (blackButton.Checked) drawingPen.Color = Color.Black; };
 
             RadioButton redButton = new RadioButton
@@ -66,6 +69,7 @@ namespace GraphicsApp
             colorGroup.Controls.Add(blackButton);
             colorGroup.Controls.Add(redButton);
             colorGroup.Controls.Add(blueButton);
+            colorGroup.Controls.Add(combo);
             this.Controls.Add(colorGroup);
 
             // Создание TrackBar для изменения толщины линии
@@ -74,6 +78,12 @@ namespace GraphicsApp
         InitializeComponent();
             this.DoubleBuffered = true;
         }
+
+        private void Clicll(object sender, EventArgs e)
+        {
+            new Form1().ShowDialog();
+        }
+
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
