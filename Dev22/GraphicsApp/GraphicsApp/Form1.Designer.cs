@@ -35,6 +35,7 @@ namespace GraphicsApp
             this.Text = "Form1";
         }
 
+
         #endregion
     }
 }

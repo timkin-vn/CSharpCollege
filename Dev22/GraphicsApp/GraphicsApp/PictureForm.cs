@@ -103,6 +103,7 @@ namespace GraphicsApp
                  lpoint = e.Location; // Обновляем последнюю точку
             }
         }
+        
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
@@ -176,7 +177,7 @@ namespace GraphicsApp
         private void PictureForm_Resize(object sender, EventArgs e)
         {
             Refresh();
-            this.Invalidate();
+           
         }
 
  

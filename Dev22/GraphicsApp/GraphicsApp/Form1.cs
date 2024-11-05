@@ -32,26 +32,27 @@ namespace GraphicsApp
             
             using (Brush seaBrush = new SolidBrush(Color.Blue))
             {
-                g.FillRectangle(seaBrush, 0, 400, this.ClientSize.Width, 200);
+                g.FillRectangle(seaBrush, 0, this.ClientSize.Height*5/6 , this.ClientSize.Width, this.ClientSize.Height/6);
             }
 
-            
+            var dx = ClientRectangle.Width / 6;
+            var dy = ClientRectangle.Height / 6;
             using (Brush sandBrush = new SolidBrush(Color.SandyBrown))
             {
-                g.FillRectangle(sandBrush, 0, 350, this.ClientSize.Width, 50);
+                g.FillRectangle(sandBrush, 0, dy*4, this.ClientSize.Width , dy);
             }
 
             
             using (Brush houseBrush = new SolidBrush(Color.Red))
             {
-                g.FillRectangle(houseBrush, 300, 250, 200, 150);
+                g.FillRectangle(houseBrush, (dx*3)/2, dy*2+(dy/2), dx * 2, dy * 2);
             }
 
             
             Point[] roofPoints = {
-            new Point(250, 250),
-            new Point(400, 150),
-            new Point(550, 250)
+            new Point((dx*3)/2, dy*2+(dy/2)),
+            new Point(((dx*3)/2+dx * 2)-dx, dy*2+(dy/2)-dy),
+            new Point((dx*3)/2+dx * 2, dy*2+(dy/2))
         };
             using (Brush roofBrush = new SolidBrush(Color.Brown))
             {
@@ -61,23 +62,29 @@ namespace GraphicsApp
             
             using (Brush doorBrush = new SolidBrush(Color.Brown))
             {
-                g.FillRectangle(doorBrush, 375, 325, 50, 75);
+                g.FillRectangle(doorBrush, (dx * 2)+dx/4 , dy * 3+(dy/2), (dx/2), dy );
             }
-            using (Brush upWindow = new SolidBrush(Color.White)) {
-                g.FillEllipse(upWindow, 370, 175, 65, 65);
+            using (Brush upWindow = new SolidBrush(Color.White))
+            {
+                g.FillEllipse(upWindow, (dx * 2)+dx/3 , dy * 2-dy/4 , dx / 3, dy / 3);
             }
-            
+
             using (Brush windowBrush = new SolidBrush(Color.White))
             {
-                g.FillRectangle(windowBrush, 325, 275, 50, 50);
-                g.FillRectangle(windowBrush, 425, 275, 50, 50);
+                g.FillRectangle(windowBrush, (dx*2)-(dx/4) , dy * 3-dy/4 , dx / 2, dy / 2);
+                g.FillRectangle(windowBrush, (dx * 3) - (dx / 4), dy * 3 - dy / 4, dx / 2, dy / 2);
             }
 
             
             using (Brush sunBrush = new SolidBrush(Color.Yellow))
             {
-                g.FillEllipse(sunBrush, 50, 50, 100, 100);
+                g.FillEllipse(sunBrush, dx/2, dy/2, dy , dy );
             }
+        }
+        private void Form1_Resize(object sender, EventArgs e)
+        {
+            Refresh();
+            
         }
 
     }
