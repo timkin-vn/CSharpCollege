@@ -15,7 +15,7 @@ namespace GraphicsApp.Models
         {
             Left = -8,
             Right = 9,
-            Bottom = -1,
+            Bottom = -3,
             Top = 9,
         };
 
