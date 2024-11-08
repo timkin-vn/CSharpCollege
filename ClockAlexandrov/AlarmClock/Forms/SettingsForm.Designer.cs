@@ -126,6 +126,7 @@
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.Filter = "Файлы Mp3|*.mp3";
             // 
             // SettingsForm
             // 

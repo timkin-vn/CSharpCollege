@@ -60,13 +60,19 @@ namespace AlarmClock
                     audioFile = new AudioFileReader(_settings.MusicUrl);
                     outputDevice.Init(audioFile);
                     outputDevice.Play();
-                        
                     
-
-
                 }
+                else
+                {
+                    outputDevice.Init(audioFile);
+                    outputDevice.Stop(); 
+                };
+
+
+
             }
         }
+        
 
         private void AboutButton_Click(object sender, EventArgs e)
         {
@@ -75,6 +81,9 @@ namespace AlarmClock
 
         private void ExitButton_Click(object sender, EventArgs e)
         {
+            outputDevice = new WaveOutEvent();
+            _settings.IsSoundActive = false;
+            outputDevice.Init(audioFile);
             outputDevice.Stop();
             Close();
         }

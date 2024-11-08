@@ -14,14 +14,18 @@ namespace GraphicsApp
     public partial class PictureForm : Form
     {
         private Random random = new Random();
+<<<<<<< HEAD
         private float scaleFactorX = 1.0f;
         private float scaleFactorY = 1.0f;
 
+=======
+>>>>>>> 7a12a6b039c544ee46808240510bb358c5129786
         public PictureForm()
         {
             InitializeComponent();
         }
 
+<<<<<<< HEAD
         
         private void UpdateScaleFactors()
         {
@@ -29,22 +33,31 @@ namespace GraphicsApp
             scaleFactorY = (float)this.ClientSize.Height / 600f;
         }
 
+=======
+>>>>>>> 7a12a6b039c544ee46808240510bb358c5129786
         private void PictureForm_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
 
+<<<<<<< HEAD
 
             UpdateScaleFactors();
 
 
             g.ScaleTransform(scaleFactorX, scaleFactorY);
 
+=======
+>>>>>>> 7a12a6b039c544ee46808240510bb358c5129786
             for (int i = 0; i < 10; i++)
             {
                 int shapeType = random.Next(3);
                 int x = random.Next(0, this.ClientSize.Width - 100);
                 int y = random.Next(0, this.ClientSize.Height - 100);
+<<<<<<< HEAD
                 int size = 70;
+=======
+                int size = random.Next(30, 100);
+>>>>>>> 7a12a6b039c544ee46808240510bb358c5129786
 
                 switch (shapeType)
                 {
@@ -60,11 +73,19 @@ namespace GraphicsApp
                 }
             }
 
+<<<<<<< HEAD
 
             g.DrawLine(Pens.Black, random.Next(150), random.Next(30), 200, random.Next(30));
             g.DrawLine(Pens.Red, random.Next(150), random.Next(30), 200, random.Next(30));
 
 
+=======
+            // Рисуем две линии
+            g.DrawLine(Pens.Black, random.Next(150), random.Next(30), 200, random.Next(30));
+            g.DrawLine(Pens.Red, random.Next(150), random.Next(30), 200, random.Next(30));
+
+            // Рисуем градиент
+>>>>>>> 7a12a6b039c544ee46808240510bb358c5129786
             using (Brush gradientBrush = new LinearGradientBrush(new Rectangle(50, 50, 200, 50), Color.Blue, Color.Green, 45F))
             {
                 g.FillRectangle(gradientBrush, 50, 50, 200, 50);
@@ -92,10 +113,17 @@ namespace GraphicsApp
         private void DrawFilledTriangle(Graphics g, int x, int y, int size)
         {
             Point[] points = {
+<<<<<<< HEAD
                 new Point(x, y + size),
                 new Point(x + size / 2, y),
                 new Point(x + size, y + size)
             };
+=======
+            new Point(x, y + size),
+            new Point(x + size / 2, y),
+            new Point(x + size, y + size)
+        };
+>>>>>>> 7a12a6b039c544ee46808240510bb358c5129786
             Color fillColor = Color.FromArgb(random.Next(256), random.Next(256), random.Next(256));
             using (Brush brush = new SolidBrush(fillColor))
             {
@@ -103,10 +131,16 @@ namespace GraphicsApp
             }
         }
 
+<<<<<<< HEAD
         private void PictureForm_Resize(object sender, EventArgs e)
         {
 
             UpdateScaleFactors();
+=======
+
+        private void PictureForm_Resize(object sender, EventArgs e)
+        {
+>>>>>>> 7a12a6b039c544ee46808240510bb358c5129786
             Refresh();
         }
     }
