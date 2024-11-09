@@ -57,5 +57,12 @@ namespace AlarmClock.Forms
             _fileNames.AddRange(Directory.EnumerateFiles(ImageFolderName));
             AwakePictureBox.Load(_fileNames[_imageIndex]);
         }
+
+        private void AwakeMessageLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+       
     }
 }

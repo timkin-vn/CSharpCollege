@@ -42,5 +42,10 @@ namespace AlarmClock
             form.Settings = _settings;
             form.ShowDialog();
         }
+
+        private void DisplayLabel_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

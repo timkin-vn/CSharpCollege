@@ -16,5 +16,12 @@ namespace AlarmClock.Forms
         {
             InitializeComponent();
         }
+
+       
+
+        private void ConfirmButton_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }

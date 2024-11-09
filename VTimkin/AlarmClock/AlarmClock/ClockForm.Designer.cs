@@ -41,18 +41,21 @@
             this.DisplayLabel.BackColor = System.Drawing.Color.Black;
             this.DisplayLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.DisplayLabel.ForeColor = System.Drawing.Color.GreenYellow;
-            this.DisplayLabel.Location = new System.Drawing.Point(13, 13);
+            this.DisplayLabel.Location = new System.Drawing.Point(17, 16);
+            this.DisplayLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.DisplayLabel.Name = "DisplayLabel";
-            this.DisplayLabel.Size = new System.Drawing.Size(293, 83);
+            this.DisplayLabel.Size = new System.Drawing.Size(391, 102);
             this.DisplayLabel.TabIndex = 0;
             this.DisplayLabel.Text = "00:00:00";
             this.DisplayLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.DisplayLabel.Click += new System.EventHandler(this.DisplayLabel_Click);
             // 
             // AboutButton
             // 
-            this.AboutButton.Location = new System.Drawing.Point(312, 12);
+            this.AboutButton.Location = new System.Drawing.Point(416, 15);
+            this.AboutButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.AboutButton.Name = "AboutButton";
-            this.AboutButton.Size = new System.Drawing.Size(117, 23);
+            this.AboutButton.Size = new System.Drawing.Size(156, 28);
             this.AboutButton.TabIndex = 1;
             this.AboutButton.Text = "О программе";
             this.AboutButton.UseVisualStyleBackColor = true;
@@ -60,9 +63,10 @@
             // 
             // SettingsButton
             // 
-            this.SettingsButton.Location = new System.Drawing.Point(312, 42);
+            this.SettingsButton.Location = new System.Drawing.Point(416, 52);
+            this.SettingsButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.SettingsButton.Name = "SettingsButton";
-            this.SettingsButton.Size = new System.Drawing.Size(117, 23);
+            this.SettingsButton.Size = new System.Drawing.Size(156, 28);
             this.SettingsButton.TabIndex = 2;
             this.SettingsButton.Text = "Настройки";
             this.SettingsButton.UseVisualStyleBackColor = true;
@@ -70,9 +74,10 @@
             // 
             // ExitButton
             // 
-            this.ExitButton.Location = new System.Drawing.Point(312, 72);
+            this.ExitButton.Location = new System.Drawing.Point(416, 89);
+            this.ExitButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ExitButton.Name = "ExitButton";
-            this.ExitButton.Size = new System.Drawing.Size(117, 23);
+            this.ExitButton.Size = new System.Drawing.Size(156, 28);
             this.ExitButton.TabIndex = 3;
             this.ExitButton.Text = "Выход";
             this.ExitButton.UseVisualStyleBackColor = true;
@@ -86,14 +91,15 @@
             // 
             // ClockForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(441, 111);
+            this.ClientSize = new System.Drawing.Size(588, 137);
             this.Controls.Add(this.ExitButton);
             this.Controls.Add(this.SettingsButton);
             this.Controls.Add(this.AboutButton);
             this.Controls.Add(this.DisplayLabel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ClockForm";

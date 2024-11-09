@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Media;
 using System.Text;
@@ -18,7 +19,11 @@ namespace AlarmClock
         private AlarmSettings _settings = new AlarmSettings();
 
         private AwakeForm _awakeForm;
+        private const string ImageFolderName = "Images";
 
+        private List<string> _fileNames = new List<string>();
+
+        private int _imageIndex = 0;
         public ClockForm()
         {
             InitializeComponent();
@@ -27,7 +32,7 @@ namespace AlarmClock
         private void AlarmTimer_Tick(object sender, EventArgs e)
         {
             // Обновление индикатора времени
-            DisplayLabel.Text = DateTime.Now.ToLongTimeString();
+           
 
             // Проверка срабатывания
             if (_settings.IsAlarmActive && DateTime.Now.TimeOfDay >= _settings.AlarmTime.TimeOfDay)
@@ -63,5 +68,7 @@ namespace AlarmClock
             form.Settings = _settings;
             form.ShowDialog();
         }
+
+        
     }
 }

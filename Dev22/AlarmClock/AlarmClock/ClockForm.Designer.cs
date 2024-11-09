@@ -29,30 +29,21 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.DisplayLabel = new System.Windows.Forms.Label();
             this.AboutButton = new System.Windows.Forms.Button();
             this.SettingsButton = new System.Windows.Forms.Button();
             this.ExitButton = new System.Windows.Forms.Button();
             this.AlarmTimer = new System.Windows.Forms.Timer(this.components);
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.TimePikter1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.TimePikter1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // DisplayLabel
-            // 
-            this.DisplayLabel.BackColor = System.Drawing.Color.Black;
-            this.DisplayLabel.Font = new System.Drawing.Font("Tahoma", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.DisplayLabel.ForeColor = System.Drawing.Color.LimeGreen;
-            this.DisplayLabel.Location = new System.Drawing.Point(13, 13);
-            this.DisplayLabel.Name = "DisplayLabel";
-            this.DisplayLabel.Size = new System.Drawing.Size(228, 83);
-            this.DisplayLabel.TabIndex = 0;
-            this.DisplayLabel.Text = "00:00:00";
-            this.DisplayLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // AboutButton
             // 
-            this.AboutButton.Location = new System.Drawing.Point(247, 13);
+            this.AboutButton.Location = new System.Drawing.Point(329, 16);
+            this.AboutButton.Margin = new System.Windows.Forms.Padding(4);
             this.AboutButton.Name = "AboutButton";
-            this.AboutButton.Size = new System.Drawing.Size(120, 23);
+            this.AboutButton.Size = new System.Drawing.Size(160, 28);
             this.AboutButton.TabIndex = 1;
             this.AboutButton.Text = "О программе";
             this.AboutButton.UseVisualStyleBackColor = true;
@@ -60,9 +51,10 @@
             // 
             // SettingsButton
             // 
-            this.SettingsButton.Location = new System.Drawing.Point(247, 43);
+            this.SettingsButton.Location = new System.Drawing.Point(329, 53);
+            this.SettingsButton.Margin = new System.Windows.Forms.Padding(4);
             this.SettingsButton.Name = "SettingsButton";
-            this.SettingsButton.Size = new System.Drawing.Size(120, 23);
+            this.SettingsButton.Size = new System.Drawing.Size(160, 28);
             this.SettingsButton.TabIndex = 2;
             this.SettingsButton.Text = "Настройки";
             this.SettingsButton.UseVisualStyleBackColor = true;
@@ -71,9 +63,10 @@
             // ExitButton
             // 
             this.ExitButton.AccessibleDescription = "";
-            this.ExitButton.Location = new System.Drawing.Point(247, 73);
+            this.ExitButton.Location = new System.Drawing.Point(329, 90);
+            this.ExitButton.Margin = new System.Windows.Forms.Padding(4);
             this.ExitButton.Name = "ExitButton";
-            this.ExitButton.Size = new System.Drawing.Size(120, 23);
+            this.ExitButton.Size = new System.Drawing.Size(160, 28);
             this.ExitButton.TabIndex = 3;
             this.ExitButton.Text = "Выход";
             this.ExitButton.UseVisualStyleBackColor = true;
@@ -85,30 +78,47 @@
             this.AlarmTimer.Interval = 1000;
             this.AlarmTimer.Tick += new System.EventHandler(this.AlarmTimer_Tick);
             // 
+            // imageList1
+            // 
+            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            // 
+            // TimePikter1
+            // 
+            this.TimePikter1.Location = new System.Drawing.Point(33, 16);
+            this.TimePikter1.Name = "TimePikter1";
+            this.TimePikter1.Size = new System.Drawing.Size(250, 213);
+            this.TimePikter1.TabIndex = 4;
+            this.TimePikter1.TabStop = false;
+            
+            // 
             // ClockForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(379, 111);
+            this.ClientSize = new System.Drawing.Size(709, 262);
+            this.Controls.Add(this.TimePikter1);
             this.Controls.Add(this.ExitButton);
             this.Controls.Add(this.SettingsButton);
             this.Controls.Add(this.AboutButton);
-            this.Controls.Add(this.DisplayLabel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.Name = "ClockForm";
             this.Text = "Будильник";
+            ((System.ComponentModel.ISupportInitialize)(this.TimePikter1)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Label DisplayLabel;
         private System.Windows.Forms.Button AboutButton;
         private System.Windows.Forms.Button SettingsButton;
         private System.Windows.Forms.Button ExitButton;
         private System.Windows.Forms.Timer AlarmTimer;
+        private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.PictureBox TimePikter1;
     }
 }
 

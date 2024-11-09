@@ -33,33 +33,39 @@
             this.AwakePictureBox = new System.Windows.Forms.PictureBox();
             this.AwakeButton = new System.Windows.Forms.Button();
             this.AwakeTimer = new System.Windows.Forms.Timer(this.components);
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.AwakePictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // AwakeMessageLabel
             // 
             this.AwakeMessageLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.AwakeMessageLabel.Location = new System.Drawing.Point(12, 13);
+            this.AwakeMessageLabel.Location = new System.Drawing.Point(16, 16);
+            this.AwakeMessageLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.AwakeMessageLabel.Name = "AwakeMessageLabel";
-            this.AwakeMessageLabel.Size = new System.Drawing.Size(621, 74);
+            this.AwakeMessageLabel.Size = new System.Drawing.Size(828, 91);
             this.AwakeMessageLabel.TabIndex = 0;
             this.AwakeMessageLabel.Text = "Сообщение";
             this.AwakeMessageLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.AwakeMessageLabel.Click += new System.EventHandler(this.AwakeMessageLabel_Click);
             // 
             // AwakePictureBox
             // 
-            this.AwakePictureBox.Location = new System.Drawing.Point(12, 90);
+            this.AwakePictureBox.Location = new System.Drawing.Point(16, 111);
+            this.AwakePictureBox.Margin = new System.Windows.Forms.Padding(4);
             this.AwakePictureBox.Name = "AwakePictureBox";
-            this.AwakePictureBox.Size = new System.Drawing.Size(621, 428);
+            this.AwakePictureBox.Size = new System.Drawing.Size(828, 527);
             this.AwakePictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.AwakePictureBox.TabIndex = 1;
             this.AwakePictureBox.TabStop = false;
+           
             // 
             // AwakeButton
             // 
-            this.AwakeButton.Location = new System.Drawing.Point(277, 524);
+            this.AwakeButton.Location = new System.Drawing.Point(369, 645);
+            this.AwakeButton.Margin = new System.Windows.Forms.Padding(4);
             this.AwakeButton.Name = "AwakeButton";
-            this.AwakeButton.Size = new System.Drawing.Size(93, 23);
+            this.AwakeButton.Size = new System.Drawing.Size(124, 28);
             this.AwakeButton.TabIndex = 2;
             this.AwakeButton.Text = "Я проснулся";
             this.AwakeButton.UseVisualStyleBackColor = true;
@@ -71,16 +77,23 @@
             this.AwakeTimer.Interval = 5000;
             this.AwakeTimer.Tick += new System.EventHandler(this.AwakeTimer_Tick);
             // 
+            // imageList1
+            // 
+            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            // 
             // AwakeForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(645, 559);
+            this.ClientSize = new System.Drawing.Size(860, 688);
             this.ControlBox = false;
             this.Controls.Add(this.AwakeButton);
             this.Controls.Add(this.AwakePictureBox);
             this.Controls.Add(this.AwakeMessageLabel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "AwakeForm";
@@ -97,5 +110,6 @@
         private System.Windows.Forms.PictureBox AwakePictureBox;
         private System.Windows.Forms.Button AwakeButton;
         private System.Windows.Forms.Timer AwakeTimer;
+        private System.Windows.Forms.ImageList imageList1;
     }
 }
