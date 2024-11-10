@@ -46,6 +46,7 @@
             this.ClearButton = new System.Windows.Forms.Button();
             this.EqualButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.historyListBox = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
             // DisplayLabel
@@ -241,17 +242,29 @@
             this.label1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.label1.Font = new System.Drawing.Font("Microsoft YaHei", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label1.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.label1.Location = new System.Drawing.Point(461, 9);
+            this.label1.Location = new System.Drawing.Point(258, 212);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(151, 444);
+            this.label1.Size = new System.Drawing.Size(34, 181);
             this.label1.TabIndex = 17;
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // historyListBox
+            // 
+            this.historyListBox.BackColor = System.Drawing.SystemColors.InfoText;
+            this.historyListBox.ForeColor = System.Drawing.SystemColors.Info;
+            this.historyListBox.FormattingEnabled = true;
+            this.historyListBox.Location = new System.Drawing.Point(460, 12);
+            this.historyListBox.Name = "historyListBox";
+            this.historyListBox.Size = new System.Drawing.Size(151, 446);
+            this.historyListBox.TabIndex = 18;
+            this.historyListBox.Click += new System.EventHandler(this.HistoryListBox_SelectedIndexChanged);
             // 
             // CalculatorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(614, 462);
+            this.Controls.Add(this.historyListBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.EqualButton);
             this.Controls.Add(this.ClearButton);
@@ -299,6 +312,7 @@
         private System.Windows.Forms.Button ClearButton;
         private System.Windows.Forms.Button EqualButton;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ListBox historyListBox;
     }
 }
 
