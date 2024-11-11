@@ -1,0 +1,6 @@
+C:\Users\chilldragam\Downloads\CSharpCollege-master (2)\CSharpCollege-master\Dev22\Calculator\Calculator.Business\bin\Debug\Calculator.Business.dll
+C:\Users\chilldragam\Downloads\CSharpCollege-master (2)\CSharpCollege-master\Dev22\Calculator\Calculator.Business\bin\Debug\Calculator.Business.pdb
+C:\Users\chilldragam\Downloads\CSharpCollege-master (2)\CSharpCollege-master\Dev22\Calculator\Calculator.Business\obj\Debug\Calculator.Business.csproj.AssemblyReference.cache
+C:\Users\chilldragam\Downloads\CSharpCollege-master (2)\CSharpCollege-master\Dev22\Calculator\Calculator.Business\obj\Debug\Calculator.Business.csproj.CoreCompileInputs.cache
+C:\Users\chilldragam\Downloads\CSharpCollege-master (2)\CSharpCollege-master\Dev22\Calculator\Calculator.Business\obj\Debug\Calculator.Business.dll
+C:\Users\chilldragam\Downloads\CSharpCollege-master (2)\CSharpCollege-master\Dev22\Calculator\Calculator.Business\obj\Debug\Calculator.Business.pdb
