@@ -15,5 +15,7 @@ namespace Calculator.Business.Entites
         public string OpCode { get; set; }
 
         public bool NeedClearX { get; set; }
+        public bool Isdou { get; set; }
+        public byte Dec { get; set; }
     }
 }

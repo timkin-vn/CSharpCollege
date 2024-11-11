@@ -11,19 +11,30 @@ namespace Calculator.Business.Services
     {
         public void InsertDigit(CalculatorState state, string digitText)
         {
-            var digit = byte.Parse(digitText);
+            if (digitText == ",")
+            {
+                state.Isdou=true;
+               
+                return;
+            }
+            var digit = double.Parse(digitText);
             if (state.NeedClearX)
             {
                 state.XRegister = 0;
             }
 
-            state.XRegister = state.XRegister * 10 + digit;
+                state.XRegister = state.XRegister * (state.Isdou?1:10) + (state.Isdou?digit/ Math.Pow(10, ++state.Dec) : digit);
+            
+
             state.NeedClearX = false;
         }
 
         public void Clear(CalculatorState state)
         {
             state.XRegister = 0;
+            state.Isdou = false;
+            state.Dec = 0;
+
         }
 
         public void InsertOperation(CalculatorState state, string opCode)
@@ -33,16 +44,23 @@ namespace Calculator.Business.Services
             state.OpCode = opCode;
             state.NeedClearX = true;
         }
-
+        public void plus_minuss(CalculatorState state) {
+            state.XRegister = -state.XRegister;
+        }
         private void MoveXToY(CalculatorState state)
         {
             state.YRegister = state.XRegister;
+            state.Isdou = false;
+            state.Dec = 0;
         }
 
         private void PerformOperation(CalculatorState state, string opCode)
         {
             switch (opCode)
             {
+                case "+/-":
+                    state.XRegister = -state.XRegister;
+                    break;
                 case "+":
                     state.XRegister += state.YRegister;
                     break;

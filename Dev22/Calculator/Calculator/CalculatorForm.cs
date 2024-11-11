@@ -27,11 +27,9 @@ namespace Calculator
         {
             var senderButton = (Button)sender;
             var digitText = senderButton.Text;
-
-            _service.InsertDigit(_state, digitText);
-            DisplayLabel.Text = _state.XRegister.ToString();
+         _service.InsertDigit(_state, digitText);
+         DisplayLabel.Text = _state.XRegister.ToString();   
         }
-
         private void ClearButton_Click(object sender, EventArgs e)
         {
             _service.Clear(_state);
@@ -42,8 +40,14 @@ namespace Calculator
         {
             var senderButton = (Button)sender;
             var opCode = senderButton.Text;
-
             _service.InsertOperation(_state, opCode);
+            DisplayLabel.Text = _state.XRegister.ToString();
+            
+        }
+
+        private void plus_minus_Click(object sender, EventArgs e)
+        {
+            _service.plus_minuss(_state);
             DisplayLabel.Text = _state.XRegister.ToString();
         }
     }

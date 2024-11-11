@@ -45,6 +45,8 @@
             this.DivideButton = new System.Windows.Forms.Button();
             this.ClearButton = new System.Windows.Forms.Button();
             this.EqualButton = new System.Windows.Forms.Button();
+            this.pounts = new System.Windows.Forms.Button();
+            this.plus_minus = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // DisplayLabel
@@ -84,9 +86,9 @@
             // Digit0Button
             // 
             this.Digit0Button.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Digit0Button.Location = new System.Drawing.Point(12, 337);
+            this.Digit0Button.Location = new System.Drawing.Point(93, 340);
             this.Digit0Button.Name = "Digit0Button";
-            this.Digit0Button.Size = new System.Drawing.Size(75, 74);
+            this.Digit0Button.Size = new System.Drawing.Size(156, 74);
             this.Digit0Button.TabIndex = 3;
             this.Digit0Button.Text = "0";
             this.Digit0Button.UseVisualStyleBackColor = true;
@@ -235,11 +237,40 @@
             this.EqualButton.UseVisualStyleBackColor = true;
             this.EqualButton.Click += new System.EventHandler(this.OperationButton_Click);
             // 
+            // pounts
+            // 
+            this.pounts.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.pounts.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.pounts.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.pounts.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.pounts.Location = new System.Drawing.Point(12, 337);
+            this.pounts.Name = "pounts";
+            this.pounts.Size = new System.Drawing.Size(75, 38);
+            this.pounts.TabIndex = 17;
+            this.pounts.Text = ",";
+            this.pounts.UseVisualStyleBackColor = false;
+            this.pounts.Click += new System.EventHandler(this.DigitButton_Click);
+            // 
+            // plus_minus
+            // 
+            this.plus_minus.BackColor = System.Drawing.SystemColors.Desktop;
+            this.plus_minus.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.plus_minus.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.plus_minus.Location = new System.Drawing.Point(12, 381);
+            this.plus_minus.Name = "plus_minus";
+            this.plus_minus.Size = new System.Drawing.Size(75, 33);
+            this.plus_minus.TabIndex = 18;
+            this.plus_minus.Text = "+/-";
+            this.plus_minus.UseVisualStyleBackColor = false;
+            this.plus_minus.Click += new System.EventHandler(this.plus_minus_Click);
+            // 
             // CalculatorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(449, 426);
+            this.Controls.Add(this.plus_minus);
+            this.Controls.Add(this.pounts);
             this.Controls.Add(this.EqualButton);
             this.Controls.Add(this.ClearButton);
             this.Controls.Add(this.DivideButton);
@@ -284,6 +315,8 @@
         private System.Windows.Forms.Button DivideButton;
         private System.Windows.Forms.Button ClearButton;
         private System.Windows.Forms.Button EqualButton;
+        private System.Windows.Forms.Button pounts;
+        private System.Windows.Forms.Button plus_minus;
     }
 }
 
