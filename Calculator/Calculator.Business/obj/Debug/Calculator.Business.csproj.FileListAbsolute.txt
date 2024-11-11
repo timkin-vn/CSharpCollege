@@ -1,0 +1,6 @@
+C:\Users\plato\Downloads\Calculator\Calculator\Calculator.Business\bin\Debug\Calculator.Business.dll
+C:\Users\plato\Downloads\Calculator\Calculator\Calculator.Business\bin\Debug\Calculator.Business.pdb
+C:\Users\plato\Downloads\Calculator\Calculator\Calculator.Business\obj\Debug\Calculator.Business.csproj.AssemblyReference.cache
+C:\Users\plato\Downloads\Calculator\Calculator\Calculator.Business\obj\Debug\Calculator.Business.csproj.CoreCompileInputs.cache
+C:\Users\plato\Downloads\Calculator\Calculator\Calculator.Business\obj\Debug\Calculator.Business.dll
+C:\Users\plato\Downloads\Calculator\Calculator\Calculator.Business\obj\Debug\Calculator.Business.pdb
