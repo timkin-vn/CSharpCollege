@@ -46,7 +46,7 @@ namespace GraphicsApp.Services
 
         public Point Scale(MathPoint pt)
         {
-            return new Point { X = ScaleX(pt.X), Y = ScaleY(pt.Y), };
+            return new Point { X = ScaleX(pt.X), Y = ScaleY(pt.Y) };
         }
 
         public Rectangle Scale(MathRectangle rect)
@@ -71,7 +71,7 @@ namespace GraphicsApp.Services
             }
             else
             {
-                var mathWidth = MathRectangle.Height * ScreenRectangle.Width / ScreenRectangle.Height;
+                var mathWidth = MathRectangle.Height * ScreenRectangle.Width / MathRectangle.Height;
                 var dx = (mathWidth - MathRectangle.Width) / 2;
                 MathRectangle.Left -= dx;
                 MathRectangle.Width += dx * 2;

@@ -42,5 +42,10 @@ namespace GraphicsApp
         {
             Refresh();
         }
+
+        private void PictureForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

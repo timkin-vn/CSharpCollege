@@ -11,7 +11,6 @@ namespace GraphicsApp.Services
     internal class PaintManager
     {
         public Scaler Scaler { get; set; }
-
         public Graphics Graphics { get; set; }
 
         public void DrawRectangle(Pen pen, Brush brush, MathRectangle rectangle)
@@ -78,21 +77,6 @@ namespace GraphicsApp.Services
             {
                 Graphics.DrawPolygon(pen, screenPoints);
             }
-        }
-
-        public void DrawLine(Pen pen, MathPoint startPoint, MathPoint endPoint)
-        {
-            var screenStartPoint = Scaler.Scale(startPoint);
-            var screenEndPoint = Scaler.Scale(endPoint);
-
-            Graphics.DrawLine(pen, screenStartPoint, screenEndPoint);
-        }
-
-        public void DrawArc(Pen pen, MathRectangle rectangle, float startAngle, float sweepAngle)
-        {
-            var screenRectangle = Scaler.Scale(rectangle);
-
-            Graphics.DrawArc(pen, screenRectangle, startAngle, sweepAngle);
         }
     }
 }

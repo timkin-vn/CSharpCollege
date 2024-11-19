@@ -37,6 +37,7 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Name = "PictureForm";
             this.Text = "Рисунок";
+            this.Load += new System.EventHandler(this.PictureForm_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.PictureForm_Paint);
             this.Resize += new System.EventHandler(this.PictureForm_Resize);
             this.ResumeLayout(false);

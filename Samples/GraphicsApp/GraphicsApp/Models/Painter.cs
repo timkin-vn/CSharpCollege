@@ -18,39 +18,59 @@ namespace GraphicsApp.Models
             Top = 9,
         };
 
+        private Random random = new Random();
+        private Color color1;
+        private Color color2;
+
+        public Painter()
+        {
+            color1 = GetRandomBrightColor();
+            color2 = GetRandomBrightColor();
+        }
+
         public void Paint(PaintManager paintManager)
         {
-            var treePen = new Pen(Color.Black, 3);
-            var treeBrush = new SolidBrush(Color.Green);
+            var mainPen = new Pen(Color.Black, 3);
 
-            // низ
-            paintManager.DrawPolygon(treePen, treeBrush, new[]
+            for (double x = LimitRectangle.Left; x < LimitRectangle.Right; x++)
             {
-                new MathPoint { X = 0, Y = -1 },
-                new MathPoint { X = -1, Y = 2 },
-                new MathPoint { X = 1, Y = 2 },
-            });
+                for (double y = LimitRectangle.Bottom; y < LimitRectangle.Top; y++)
+                {
+                    var rectangle = new MathRectangle { Left = x, Right = x + 1, Bottom = y, Top = y + 1 };
+                    var gradientColor = GetGradientColor(x, y, color1, color2, LimitRectangle);
+                    var gradientBrush = new SolidBrush(gradientColor);
+                    paintManager.DrawRectangle(mainPen, gradientBrush, rectangle);
+                }
+            }
+        }
 
-            // сеередин
-            paintManager.DrawPolygon(treePen, treeBrush, new[]
+        private Color GetGradientColor(double x, double y, Color color1, Color color2, MathRectangle limitRectangle)
+        {
+            double width = limitRectangle.Right - limitRectangle.Left;
+            double height = limitRectangle.Top - limitRectangle.Bottom;
+
+            double xRatio = (x - limitRectangle.Left) / width;
+            double yRatio = (y - limitRectangle.Bottom) / height;
+
+            int r = (int)(color1.R * (1 - xRatio) * (1 - yRatio) + color2.R * xRatio * yRatio);
+            int g = (int)(color1.G * (1 - xRatio) * (1 - yRatio) + color2.G * xRatio * yRatio);
+            int b = (int)(color1.B * (1 - xRatio) * (1 - yRatio) + color2.B * xRatio * yRatio);
+
+            return Color.FromArgb(r, g, b);
+        }
+
+        private Color GetRandomBrightColor()
+        {
+            var brightColors = new[]
             {
-                new MathPoint { X = 0, Y = 1 },
-                new MathPoint { X = -2, Y = 4 },
-                new MathPoint { X = 2, Y = 4 },
-            });
+                Color.Purple,
+                Color.Blue,
+                Color.Red,
+                Color.Green,
+                Color.Yellow
+            };
 
-            // вверх
-            paintManager.DrawPolygon(treePen, treeBrush, new[]
-            {
-                new MathPoint { X = 0, Y = 3 },
-                new MathPoint { X = -3, Y = 6 },
-                new MathPoint { X = 3, Y = 6 },
-            });
-
-            // Ствол
-            var trunkPen = new Pen(Color.Brown, 2);
-            var trunkBrush = new SolidBrush(Color.Brown);
-            paintManager.DrawRectangle(trunkPen, trunkBrush, new MathRectangle { Left = -0.5, Right = 0.5, Bottom = -1, Top = 0 });
+            return brightColors[random.Next(brightColors.Length)];
         }
     }
 }
