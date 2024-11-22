@@ -1,0 +1,16 @@
+﻿<Application x:Class="Calculator.Wpf.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Calculator.Wpf"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <!-- Themes Colors -->
+        <SolidColorBrush x:Key="WindowBackgroundColor" Color="#FFFAFAFA" />
+        <SolidColorBrush x:Key="ButtonBackgroundColor" Color="#FFEEEEEE" />
+        <SolidColorBrush x:Key="ButtonForegroundColor" Color="#FF222222" />
+
+        <Style TargetType="Window">
+            <Setter Property="Background" Value="{DynamicResource WindowBackgroundColor}" />
+        </Style>
+    </Application.Resources>
+</Application>
