@@ -1,0 +1,6 @@
+C:\Users\Я\Downloads\CSharpCollege-master (1)\CSharpCollege-master\Dev22\Calculator.Wpf\Calculator.Business\bin\Debug\Calculator.Business.dll
+C:\Users\Я\Downloads\CSharpCollege-master (1)\CSharpCollege-master\Dev22\Calculator.Wpf\Calculator.Business\bin\Debug\Calculator.Business.pdb
+C:\Users\Я\Downloads\CSharpCollege-master (1)\CSharpCollege-master\Dev22\Calculator.Wpf\Calculator.Business\obj\Debug\Calculator.Business.csproj.AssemblyReference.cache
+C:\Users\Я\Downloads\CSharpCollege-master (1)\CSharpCollege-master\Dev22\Calculator.Wpf\Calculator.Business\obj\Debug\Calculator.Business.csproj.CoreCompileInputs.cache
+C:\Users\Я\Downloads\CSharpCollege-master (1)\CSharpCollege-master\Dev22\Calculator.Wpf\Calculator.Business\obj\Debug\Calculator.Business.dll
+C:\Users\Я\Downloads\CSharpCollege-master (1)\CSharpCollege-master\Dev22\Calculator.Wpf\Calculator.Business\obj\Debug\Calculator.Business.pdb
