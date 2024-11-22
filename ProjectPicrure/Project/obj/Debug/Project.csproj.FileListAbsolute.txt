@@ -1,0 +1,10 @@
+D:\БомбитьКиев2014\БомбитьКиев2014\bin\Debug\БомбитьКиев2014.exe.config
+D:\БомбитьКиев2014\БомбитьКиев2014\bin\Debug\БомбитьКиев2014.exe
+D:\БомбитьКиев2014\БомбитьКиев2014\bin\Debug\БомбитьКиев2014.pdb
+D:\БомбитьКиев2014\БомбитьКиев2014\obj\Debug\БомбитьКиев2014.csproj.AssemblyReference.cache
+D:\БомбитьКиев2014\БомбитьКиев2014\obj\Debug\БомбитьКиев2014.PictureForm.resources
+D:\БомбитьКиев2014\БомбитьКиев2014\obj\Debug\БомбитьКиев2014.Properties.Resources.resources
+D:\БомбитьКиев2014\БомбитьКиев2014\obj\Debug\БомбитьКиев2014.csproj.GenerateResource.cache
+D:\БомбитьКиев2014\БомбитьКиев2014\obj\Debug\БомбитьКиев2014.csproj.CoreCompileInputs.cache
+D:\БомбитьКиев2014\БомбитьКиев2014\obj\Debug\БомбитьКиев2014.exe
+D:\БомбитьКиев2014\БомбитьКиев2014\obj\Debug\БомбитьКиев2014.pdb
