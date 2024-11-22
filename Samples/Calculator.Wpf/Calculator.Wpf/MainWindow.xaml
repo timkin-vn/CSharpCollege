@@ -9,7 +9,7 @@
     <Window.DataContext>
         <viewmodel:CalculatorViewModel />
     </Window.DataContext>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -39,7 +39,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <ListBox Grid.Row="0" ItemsSource="{Binding OperationLog}" SelectedItem="" />
+            <ListBox Grid.Row="0" ItemsSource="{Binding OperationLog}" SelectedItem="" Margin="0,83,0,0" />
 
             <Button Grid.Row="1" Content="Очистить" Margin="5" Padding="5" HorizontalAlignment="Center" Click="ClearOperationLog_Click" />
         </Grid>
@@ -75,5 +75,7 @@
         <Button Grid.Row="3" Grid.Column="5" Content="/" FontSize="36" Margin="5" Click="OperationButton_Click" />
 
         <Button Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" Content="=" FontSize="36" Margin="5" Click="OperationButton_Click" />
+        <Button Grid.Column="6" Content="√" FontSize="36" Margin="0,0,121,0" Click="OperationButton_Click" Height="79" VerticalAlignment="Center" />
+        <Button Grid.Column="6" Content="^" FontSize="36" Margin="106,0,15,0" Click="OperationButton_Click" Height="79" VerticalAlignment="Center" />
     </Grid>
 </Window>

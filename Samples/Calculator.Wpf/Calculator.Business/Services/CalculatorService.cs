@@ -1,10 +1,5 @@
 ﻿using Calculator.Business.Models;
-using Microsoft.SqlServer.Server;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Calculator.Business.Services
 {
@@ -29,10 +24,17 @@ namespace Calculator.Business.Services
 
         public void PressOperation(CalculatorState state, string opCode)
         {
-            MakeOperation(state, state.OpCodeRegister);
-            MoveXToY(state);
-            state.OpCodeRegister = opCode;
-            state.NeedClear = true;
+            if (opCode == "√")
+            {
+                MakeOperation(state, opCode);
+            }
+            else
+            {
+                MakeOperation(state, state.OpCodeRegister);
+                MoveXToY(state);
+                state.OpCodeRegister = opCode;
+                state.NeedClear = true;
+            }
         }
 
         private void MoveXToY(CalculatorState state)
@@ -70,8 +72,15 @@ namespace Calculator.Business.Services
                     state.XRegister = state.YRegister / state.XRegister;
                     state.OperationLog = operationLog + state.XRegister.ToString();
                     break;
+                case "^":
+                    state.XRegister = Math.Pow(state.YRegister, state.XRegister);
+                    state.OperationLog = operationLog + state.XRegister.ToString();
+                    break;
+                case "√":
+                    state.XRegister = Math.Sqrt(state.XRegister);
+                    state.OperationLog = operationLog + state.XRegister.ToString();
+                    break;
             }
-
         }
     }
 }
