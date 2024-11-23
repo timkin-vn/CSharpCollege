@@ -1,0 +1,13 @@
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\AlarmClock\AlarmClock\bin\Debug\AlarmClock.exe.config
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\AlarmClock\AlarmClock\bin\Debug\AlarmClock.exe
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\AlarmClock\AlarmClock\bin\Debug\AlarmClock.pdb
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\AlarmClock\AlarmClock\obj\Debug\AlarmClock.csproj.AssemblyReference.cache
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\AlarmClock\AlarmClock\obj\Debug\AlarmClock.ClockForm.resources
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\AlarmClock\AlarmClock\obj\Debug\AlarmClock.Forms.AboutForm.resources
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\AlarmClock\AlarmClock\obj\Debug\AlarmClock.Forms.AwakeForm.resources
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\AlarmClock\AlarmClock\obj\Debug\AlarmClock.Forms.SettingsForm.resources
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\AlarmClock\AlarmClock\obj\Debug\AlarmClock.Properties.Resources.resources
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\AlarmClock\AlarmClock\obj\Debug\AlarmClock.csproj.GenerateResource.cache
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\AlarmClock\AlarmClock\obj\Debug\AlarmClock.csproj.CoreCompileInputs.cache
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\AlarmClock\AlarmClock\obj\Debug\AlarmClock.exe
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\AlarmClock\AlarmClock\obj\Debug\AlarmClock.pdb
