@@ -1,0 +1,13 @@
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\Calculator\Calculator\bin\Debug\Calculator.exe.config
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\Calculator\Calculator\bin\Debug\Calculator.exe
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\Calculator\Calculator\bin\Debug\Calculator.pdb
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\Calculator\Calculator\bin\Debug\Calculator.Business.dll
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\Calculator\Calculator\bin\Debug\Calculator.Business.pdb
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\Calculator\Calculator\obj\Debug\Calculator.csproj.AssemblyReference.cache
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\Calculator\Calculator\obj\Debug\Calculator.CalculatorForm.resources
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\Calculator\Calculator\obj\Debug\Calculator.Properties.Resources.resources
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\Calculator\Calculator\obj\Debug\Calculator.csproj.GenerateResource.cache
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\Calculator\Calculator\obj\Debug\Calculator.csproj.CoreCompileInputs.cache
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\Calculator\Calculator\obj\Debug\Calculator.csproj.CopyComplete
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\Calculator\Calculator\obj\Debug\Calculator.exe
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\Calculator\Calculator\obj\Debug\Calculator.pdb
