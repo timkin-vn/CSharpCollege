@@ -1,0 +1,6 @@
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\Calculator.Wpf\Calculator.Business\bin\Debug\Calculator.Business.dll
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\Calculator.Wpf\Calculator.Business\bin\Debug\Calculator.Business.pdb
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\Calculator.Wpf\Calculator.Business\obj\Debug\Calculator.Business.csproj.AssemblyReference.cache
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\Calculator.Wpf\Calculator.Business\obj\Debug\Calculator.Business.csproj.CoreCompileInputs.cache
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\Calculator.Wpf\Calculator.Business\obj\Debug\Calculator.Business.dll
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\Calculator.Wpf\Calculator.Business\obj\Debug\Calculator.Business.pdb
