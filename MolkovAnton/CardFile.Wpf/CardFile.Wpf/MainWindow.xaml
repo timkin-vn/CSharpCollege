@@ -1,0 +1,36 @@
+﻿<Window x:Class="CardFile.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CardFile.Wpf" xmlns:viewmodels="clr-namespace:CardFile.Wpf.ViewModels"
+        mc:Ignorable="d"
+        Title="Картотека" Height="450" Width="800">
+    <Window.DataContext>
+        <viewmodels:CardFileViewModel />
+    </Window.DataContext>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <DataGrid Grid.Row="0" Margin="5" ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" AutoGenerateColumns="False"
+                  IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserSortColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ФИО" Binding="{Binding Fio}" />
+                <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDateText}" />
+                <DataGridTextColumn Header="Зарплата" Binding="{Binding PaymentAmountText}" />
+                <DataGridTextColumn Header="Количество детей" Binding="{Binding ChildrenCount}" />
+                <DataGridTextColumn Header="Лицензия" Binding="{Binding License}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
+            <Button Content="Добавить" Margin="5" Padding="5" Click="AddButton_Click" />
+            <Button Content="Изменить" Margin="5" Padding="5" IsEnabled="{Binding IsEditButtonEnabled}" Click="EditButton_Click" />
+            <Button Content="Удалить" Margin="5" Padding="5" IsEnabled="{Binding IsEditButtonEnabled}" Click="DeleteButton_Click" />
+        </StackPanel>
+    </Grid>
+</Window>
