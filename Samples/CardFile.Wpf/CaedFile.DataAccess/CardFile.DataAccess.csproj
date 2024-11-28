@@ -43,6 +43,9 @@
   <ItemGroup>
     <Compile Include="DataCollection\CardCollection.cs" />
     <Compile Include="Dtos\CardDto.cs" />
+    <Compile Include="FileDataAccess\FileDataService.cs" />
+    <Compile Include="FileDataAccess\FileSavers\IFileSaver.cs" />
+    <Compile Include="FileDataAccess\FileSavers\TextFileSaver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

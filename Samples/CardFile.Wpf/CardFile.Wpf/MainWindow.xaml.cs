@@ -1,5 +1,6 @@
 ﻿using CardFile.Wpf.View;
 using CardFile.Wpf.ViewModels;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,6 +68,43 @@ namespace CardFile.Wpf
             if (!ViewModel.DeleteSelected())
             {
                 MessageBox.Show("Не удалось удалить запись", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void OpenFile_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SaveFile_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(ViewModel.FileName))
+            {
+                DoSaveAs();
+            }
+            else
+            {
+                ViewModel.SaveToFile();
+            }
+        }
+
+        private void SaveFileAs_Click(object sender, RoutedEventArgs e)
+        {
+            DoSaveAs();
+        }
+
+        private void DoSaveAs()
+        {
+            var saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Текстовые файлы|*.txt|Все файлы|*.*";
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                ViewModel.SaveToFileAs(saveFileDialog.FileName);
             }
         }
     }

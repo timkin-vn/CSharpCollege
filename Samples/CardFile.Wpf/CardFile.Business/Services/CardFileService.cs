@@ -1,6 +1,7 @@
 ﻿using CardFile.Business.Entities;
 using CardFile.DataAccess.DataCollection;
 using CardFile.DataAccess.Dtos;
+using CardFile.DataAccess.FileDataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,6 +50,12 @@ namespace CardFile.Business.Services
         public bool Delete(int id)
         {
             return _dataService.Delete(id);
+        }
+
+        public void SaveToFile(string fileName)
+        {
+            var fileDataService = new FileDataService();
+            fileDataService.SaveToFile(fileName, _dataService);
         }
 
         private Card FromDto(CardDto dto)
