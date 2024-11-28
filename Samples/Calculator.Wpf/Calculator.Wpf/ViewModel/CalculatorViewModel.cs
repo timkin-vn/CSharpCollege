@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace Calculator.Wpf.ViewModel
 {
@@ -55,6 +56,23 @@ namespace Calculator.Wpf.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        public void FactorialButton()
+        {
+            _service.FactorialFun(_state);
+            DisplayResult();
+        }
+
+        public void square_Button()
+        {
+            _service.SquareFun(_state);
+            DisplayResult();
+        }
+
+        public void Ln()
+        {
+            _service.Lnn(_state);
+            DisplayResult();
+        }
         private void DisplayResult()
         {
             DisplayOutput = _state.XRegister.ToString();

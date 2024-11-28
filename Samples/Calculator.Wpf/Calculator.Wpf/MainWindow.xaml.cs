@@ -50,10 +50,39 @@ namespace Calculator.Wpf
                 ViewModel.InsertOperation(opCode);
             }
         }
+        private void FactorialButton(object sender, EventArgs e)
+        {
+            ViewModel.FactorialButton();
+            var button = (Button)sender;
+            if (button.Content is string opCode)
+            {
+                ViewModel.InsertOperation(opCode);
+            }
+        }
 
+        private void square_Button_Click(object sender, EventArgs e)
+        {
+            ViewModel.square_Button();
+            var button = (Button)sender;
+            if (button.Content is string opCode)
+            {
+                ViewModel.InsertOperation(opCode);
+            }
+
+        }
+        public void Ln(object sender, EventArgs e)
+        {
+            ViewModel.Ln();
+            var button = (Button)sender;
+            if (button.Content is string opCode)
+            {
+                ViewModel.InsertOperation(opCode);
+            }
+        }
         private void ClearOperationLog_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.ClearOperationLog();
         }
+        
     }
 }

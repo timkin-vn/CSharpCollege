@@ -9,7 +9,7 @@
     <Window.DataContext>
         <viewmodel:CalculatorViewModel />
     </Window.DataContext>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -74,6 +74,12 @@
 
         <Button Grid.Row="3" Grid.Column="5" Content="/" FontSize="36" Margin="5" Click="OperationButton_Click" />
 
-        <Button Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" Content="=" FontSize="36" Margin="5" Click="OperationButton_Click" />
+        <Button Grid.Row="4" Grid.Column="5" Content="=" FontSize="36" Margin="5,5,5,5" Click="OperationButton_Click" />
+
+        <Button Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" Content="x*2" FontSize="36" Margin="5" Click="square_Button_Click" />
+
+        <Button Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="1" Content="ln" FontSize="36" Margin="21,5,44,5" Click="Ln" />
+
+        <Button Grid.Row="4" Grid.Column="2" Content="x!" FontSize="36" Margin="5,5,55,5" Click="FactorialButton" />
     </Grid>
 </Window>

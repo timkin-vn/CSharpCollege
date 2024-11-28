@@ -22,6 +22,24 @@ namespace Calculator.Business.Services
             state.NeedClear = false;
         }
 
+        public void Lnn(CalculatorState state)
+        {
+            state.XRegister = Math.Log(state.XRegister);
+        }
+        public void SquareFun(CalculatorState state)
+        {
+            state.XRegister = Math.Pow(state.XRegister, 2);
+        }
+        public void FactorialFun(CalculatorState state)
+        {
+            int count = 1;
+            for (int i = 1; i <= state.XRegister; i++)
+            {
+                count *= i;
+            }
+            state.XRegister = count;
+        }
+
         public void Clear(CalculatorState state)
         {
             state.XRegister = 0;
@@ -57,6 +75,23 @@ namespace Calculator.Business.Services
                     break;
                 case "*":
                     state.XRegister *= state.YRegister;
+                    state.OperationLog = operationLog + state.XRegister.ToString();
+                    break;
+                case "x*2":
+                    state.XRegister = Math.Pow(state.XRegister, 2);
+                    state.OperationLog = operationLog + state.XRegister.ToString();
+                    break;
+                case "ln":
+                    state.XRegister = Math.Log(state.XRegister);
+                    state.OperationLog = operationLog + state.XRegister.ToString();
+                    break;
+                case "x!":
+                    int count = 1;
+                    for (int i = 1; i <= state.XRegister; i++)
+                    {
+                        count *= i;
+                    }
+                    state.XRegister = count;
                     state.OperationLog = operationLog + state.XRegister.ToString();
                     break;
                 case "/":
