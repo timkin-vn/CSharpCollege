@@ -1,4 +1,6 @@
 ﻿using CardFile.Business.Entities;
+using CardFile.Business.Infrastructure;
+using CardFile.Common.Infrastructure;
 using CardFile.DataAccess.DataCollection;
 using CardFile.DataAccess.Dtos;
 using CardFile.DataAccess.FileDataAccess;
@@ -13,6 +15,11 @@ namespace CardFile.Business.Services
     public class CardFileService
     {
         private readonly CardCollection _dataService = new CardCollection();
+
+        public CardFileService()
+        {
+            MapperInitialize.Initialize();
+        }
 
         public Card Get(int id)
         {
@@ -58,32 +65,40 @@ namespace CardFile.Business.Services
             fileDataService.SaveToFile(fileName, _dataService);
         }
 
+        public void OpenFile(string fileName)
+        {
+            var fileDataService = new FileDataService();
+            fileDataService.OpenFile(fileName, _dataService);
+        }
+
         private Card FromDto(CardDto dto)
         {
-            return new Card
-            {
-                Id = dto.Id,
-                FirstName = dto.FirstName,
-                MiddleName = dto.MiddleName,
-                LastName = dto.LastName,
-                BirthDate = dto.BirthDate,
-                PaymentAmount = dto.PaymentAmount,
-                ChildrenCount = dto.ChildrenCount,
-            };
+            return Mapping.Mapper.Map<Card>(dto);
+            //return new Card
+            //{
+            //    Id = dto.Id,
+            //    FirstName = dto.FirstName,
+            //    MiddleName = dto.MiddleName,
+            //    LastName = dto.LastName,
+            //    BirthDate = dto.BirthDate,
+            //    PaymentAmount = dto.PaymentAmount,
+            //    ChildrenCount = dto.ChildrenCount,
+            //};
         }
 
         private CardDto ToDto(Card card)
         {
-            return new CardDto
-            {
-                Id = card.Id,
-                FirstName = card.FirstName,
-                MiddleName = card.MiddleName,
-                LastName = card.LastName,
-                BirthDate = card.BirthDate,
-                PaymentAmount = card.PaymentAmount,
-                ChildrenCount = card.ChildrenCount,
-            };
+            return Mapping.Mapper.Map<CardDto>(card);
+            //return new CardDto
+            //{
+            //    Id = card.Id,
+            //    FirstName = card.FirstName,
+            //    MiddleName = card.MiddleName,
+            //    LastName = card.LastName,
+            //    BirthDate = card.BirthDate,
+            //    PaymentAmount = card.PaymentAmount,
+            //    ChildrenCount = card.ChildrenCount,
+            //};
         }
     }
 }

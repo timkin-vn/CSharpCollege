@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CardFile.Wpf" xmlns:viewmodels="clr-namespace:CardFile.Wpf.ViewModels"
         mc:Ignorable="d"
-        Title="{Binding WindowHeader}" Height="450" Width="800">
+        Title="{Binding WindowHeader}" Height="450" Width="800" Initialized="Window_Initialized">
     <Window.DataContext>
         <viewmodels:CardFileViewModel />
     </Window.DataContext>
@@ -38,7 +38,11 @@
             </DataGrid>
         
             <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
-                <Button Content="Добавить" Margin="5" Padding="5" Click="AddButton_Click" />
+                <Button Margin="5" Padding="5" Click="AddButton_Click">
+                    <Button.Content>
+                        Добавить
+                    </Button.Content>
+                </Button>
                 <Button Content="Изменить" Margin="5" Padding="5" IsEnabled="{Binding IsEditButtonEnabled}" Click="EditButton_Click" />
                 <Button Content="Удалить" Margin="5" Padding="5" IsEnabled="{Binding IsEditButtonEnabled}" Click="DeleteButton_Click" />
             </StackPanel>

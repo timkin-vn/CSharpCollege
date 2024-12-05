@@ -1,4 +1,5 @@
 ﻿using CardFile.DataAccess.Dtos;
+using CardFile.DataAccess.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,7 +55,12 @@ namespace CardFile.DataAccess.DataCollection
             },
         };
 
-        private int _currentId = 5;
+        internal int CurrentId = 5;
+
+        public CardCollection()
+        {
+            MapperInitialize.Initialize();
+        }
 
         public IEnumerable<CardDto> GetAll()
         {
@@ -88,7 +94,7 @@ namespace CardFile.DataAccess.DataCollection
             if (card.Id == 0)
             {
                 var newCard = card.Clone();
-                newCard.Id = _currentId++;
+                newCard.Id = CurrentId++;
                 _cards.Add(newCard);
                 return newCard.Id;
             }
@@ -114,6 +120,20 @@ namespace CardFile.DataAccess.DataCollection
 
             _cards.Remove(existingCard);
             return true;
+        }
+
+        internal void ReplaceCollection(IEnumerable<CardDto> collection)
+        {
+            _cards.Clear();
+            _cards.AddRange(collection);
+            CurrentId = _cards.Max(c => c.Id) + 1;
+        }
+
+        internal void ReplaceCollection(IEnumerable<CardDto> collection, int currentId)
+        {
+            _cards.Clear();
+            _cards.AddRange(collection);
+            CurrentId = currentId;
         }
     }
 }

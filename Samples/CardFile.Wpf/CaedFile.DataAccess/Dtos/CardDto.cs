@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CardFile.Common.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,26 +25,28 @@ namespace CardFile.DataAccess.Dtos
 
         public CardDto Clone()
         {
-            return new CardDto
-            {
-                Id = Id,
-                FirstName = FirstName,
-                MiddleName = MiddleName,
-                LastName = LastName,
-                BirthDate = BirthDate,
-                PaymentAmount = PaymentAmount,
-                ChildrenCount = ChildrenCount,
-            };
+            return Mapping.Mapper.Map<CardDto>(this);
+            //return new CardDto
+            //{
+            //    Id = Id,
+            //    FirstName = FirstName,
+            //    MiddleName = MiddleName,
+            //    LastName = LastName,
+            //    BirthDate = BirthDate,
+            //    PaymentAmount = PaymentAmount,
+            //    ChildrenCount = ChildrenCount,
+            //};
         }
 
         public void Update(CardDto newCard)
         {
-            FirstName = newCard.FirstName;
-            MiddleName = newCard.MiddleName;
-            LastName = newCard.LastName;
-            BirthDate = newCard.BirthDate;
-            PaymentAmount = newCard.PaymentAmount;
-            ChildrenCount = newCard.ChildrenCount;
+            Mapping.Mapper.Map(newCard, this);
+            //FirstName = newCard.FirstName;
+            //MiddleName = newCard.MiddleName;
+            //LastName = newCard.LastName;
+            //BirthDate = newCard.BirthDate;
+            //PaymentAmount = newCard.PaymentAmount;
+            //ChildrenCount = newCard.ChildrenCount;
         }
     }
 }

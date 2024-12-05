@@ -1,5 +1,7 @@
 ﻿using CardFile.Business.Entities;
 using CardFile.Business.Services;
+using CardFile.Common.Infrastructure;
+using CardFile.Wpf.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -51,6 +53,12 @@ namespace CardFile.Wpf.ViewModels
 
         public CardFileViewModel()
         {
+            MapperInitialize.Initialize();
+        }
+
+        public void Initialized()
+        {
+            Mapping.Initialize();
             ShowAll();
         }
 
@@ -115,32 +123,41 @@ namespace CardFile.Wpf.ViewModels
             _service.SaveToFile(FileName);
         }
 
+        public void OpenFile(string fileName)
+        {
+            _service.OpenFile(fileName);
+            FileName = fileName;
+            ShowAll();
+        }
+
         private CardViewModel ToViewModel(Card card)
         {
-            return new CardViewModel
-            {
-                Id = card.Id,
-                FirstName = card.FirstName,
-                MiddleName = card.MiddleName,
-                LastName = card.LastName,
-                BirthDate = card.BirthDate,
-                PaymentAmount = card.PaymentAmount,
-                ChildrenCount = card.ChildrenCount,
-            };
+            return Mapping.Mapper.Map<CardViewModel>(card);
+            //return new CardViewModel
+            //{
+            //    Id = card.Id,
+            //    FirstName = card.FirstName,
+            //    MiddleName = card.MiddleName,
+            //    LastName = card.LastName,
+            //    BirthDate = card.BirthDate,
+            //    PaymentAmount = card.PaymentAmount,
+            //    ChildrenCount = card.ChildrenCount,
+            //};
         }
 
         private Card FromViewModel(CardViewModel card)
         {
-            return new Card
-            {
-                Id = card.Id,
-                FirstName = card.FirstName,
-                MiddleName = card.MiddleName,
-                LastName = card.LastName,
-                BirthDate = card.BirthDate,
-                PaymentAmount = card.PaymentAmount,
-                ChildrenCount = card.ChildrenCount,
-            };
+            return Mapping.Mapper.Map<Card>(card);
+            //return new Card
+            //{
+            //    Id = card.Id,
+            //    FirstName = card.FirstName,
+            //    MiddleName = card.MiddleName,
+            //    LastName = card.LastName,
+            //    BirthDate = card.BirthDate,
+            //    PaymentAmount = card.PaymentAmount,
+            //    ChildrenCount = card.ChildrenCount,
+            //};
         }
 
         private void ShowAll()

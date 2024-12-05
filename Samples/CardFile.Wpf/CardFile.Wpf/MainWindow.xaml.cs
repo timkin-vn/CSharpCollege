@@ -78,7 +78,19 @@ namespace CardFile.Wpf
 
         private void OpenFile_Click(object sender, RoutedEventArgs e)
         {
-
+            var openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Текстовые файлы|*.txt|Двоичные файлы|*.cardbin|Файлы XML|*.xml|Файлы JSON|*.json|ZIP-архив|*.zip|Все файлы|*.*";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                try
+                {
+                    ViewModel.OpenFile(openFileDialog.FileName);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
 
         private void SaveFile_Click(object sender, RoutedEventArgs e)
@@ -101,11 +113,16 @@ namespace CardFile.Wpf
         private void DoSaveAs()
         {
             var saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "Текстовые файлы|*.txt|Все файлы|*.*";
+            saveFileDialog.Filter = "Текстовые файлы|*.txt|Двоичные файлы|*.cardbin|Файлы XML|*.xml|Файлы JSON|*.json|ZIP-архив|*.zip|Все файлы|*.*";
             if (saveFileDialog.ShowDialog() == true)
             {
                 ViewModel.SaveToFileAs(saveFileDialog.FileName);
             }
+        }
+
+        private void Window_Initialized(object sender, EventArgs e)
+        {
+            ViewModel.Initialized();
         }
     }
 }
