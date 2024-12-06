@@ -1,6 +1,9 @@
 ﻿using CardFile.Business.Entities;
+using CardFile.Business.Infrastructure;
+using CardFile.Common.Infrastructure;
 using CardFile.DataAccess.DataCollection;
 using CardFile.DataAccess.Dtos;
+using CardFile.DataAccess.FileDataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +15,11 @@ namespace CardFile.Business.Services
     public class CardFileService
     {
         private readonly CardCollection _dataService = new CardCollection();
+
+        public CardFileService()
+        {
+            MapperInitialize.Initialize();
+        }
 
         public Card Get(int id)
         {
@@ -51,9 +59,22 @@ namespace CardFile.Business.Services
             return _dataService.Delete(id);
         }
 
+        public void SaveToFile(string fileName)
+        {
+            var fileDataService = new FileDataService();
+            fileDataService.SaveToFile(fileName, _dataService);
+        }
+
+        public void OpenFile(string fileName)
+        {
+            var fileDataService = new FileDataService();
+            fileDataService.OpenFile(fileName, _dataService);
+        }
+
         private Card FromDto(CardDto dto)
         {
-            return new Card
+            return Mapping.Mapper.Map<Card>(dto);
+            /* return new Card
             {
                 Id = dto.Id,
                 FirstName = dto.FirstName,
@@ -65,24 +86,25 @@ namespace CardFile.Business.Services
                 LicenseNumber = dto.LicenseNumber,
                 LicenseName = dto.LinceseName,
                 IssuedLicense = dto.IssuedLicense
-            };
+            };*/
         }
 
         private CardDto ToDto(Card card)
         {
-            return new CardDto
-            {
-                Id = card.Id,
-                FirstName = card.FirstName,
-                MiddleName = card.MiddleName,
-                LastName = card.LastName,
-                BirthDate = card.BirthDate,
-                PaymentAmount = card.PaymentAmount,
-                ChildrenCount = card.ChildrenCount,
-                LicenseNumber = card.LicenseNumber,
-                LinceseName = card.LicenseName,
-                IssuedLicense = card.IssuedLicense
-            };
+            return Mapping.Mapper.Map<CardDto>(card);
+            /* return new CardDto
+             {
+                 Id = card.Id,
+                 FirstName = card.FirstName,
+                 MiddleName = card.MiddleName,
+                 LastName = card.LastName,
+                 BirthDate = card.BirthDate,
+                 PaymentAmount = card.PaymentAmount,
+                 ChildrenCount = card.ChildrenCount,
+                 LicenseNumber = card.LicenseNumber,
+                 LinceseName = card.LicenseName,
+                 IssuedLicense = card.IssuedLicense
+             };*/
         }
     }
 }

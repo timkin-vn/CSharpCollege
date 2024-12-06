@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
-namespace CardFile.Business.Entities
+namespace CardFile.DataAccess.FileDataAccess.StorageEntities
 {
-    public class Card
+    [Serializable]
+    public class XmlCard
     {
+        [XmlAttribute("Id")]
         public int Id { get; set; }
 
         public string FirstName { get; set; }
@@ -16,6 +19,14 @@ namespace CardFile.Business.Entities
 
         public string LastName { get; set; }
 
+        [XmlElement("BirthDate")]
+        public long BirthDateTicks
+        {
+            get => BirthDate.Ticks;
+            set => BirthDate = new DateTime(value);
+        }
+
+        [XmlIgnore]
         public DateTime BirthDate { get; set; }
 
         public decimal PaymentAmount { get; set; }

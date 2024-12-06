@@ -1,4 +1,5 @@
 ﻿using CardFile.DataAccess.Dtos;
+using CardFile.DataAccess.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,8 +22,8 @@ namespace CardFile.DataAccess.DataCollection
                 BirthDate = new DateTime(1984, 11, 15),
                 PaymentAmount = 125000m,
                 ChildrenCount = 2,
-                LicenseNumber = "011-313-131",
-                LinceseName = "AFG",
+                LicenseNumber = "123-456-789",
+                LicenseName = "EDU_01",
                 IssuedLicense = "Рогов В.П"
             },
             new CardDto
@@ -34,8 +35,8 @@ namespace CardFile.DataAccess.DataCollection
                 BirthDate = new DateTime(1995, 7, 18),
                 PaymentAmount = 100000m,
                 ChildrenCount = 1,
-                LicenseNumber = "959-319-391",
-                LinceseName = "AFG",
+                LicenseNumber = "987-654-321",
+                LicenseName = "GOV_01",
                 IssuedLicense = "Шилов А.А"
             },
             new CardDto
@@ -47,8 +48,8 @@ namespace CardFile.DataAccess.DataCollection
                 BirthDate = new DateTime(1979, 3, 21),
                 PaymentAmount = 150000m,
                 ChildrenCount = 3,
-                LicenseNumber = "582-429-491",
-                LinceseName = "AFG",
+                LicenseNumber = "456-123-789",
+                LicenseName = "TRNS_01",
                 IssuedLicense = "Стрелкова Б.Я"
             },
             new CardDto
@@ -60,13 +61,18 @@ namespace CardFile.DataAccess.DataCollection
                 BirthDate = new DateTime(1989, 5, 8),
                 PaymentAmount = 150000m,
                 ChildrenCount = 3,
-                LicenseNumber = "581-319-491",
-                LinceseName = "AFG",
+                LicenseNumber = "321-654-987",
+                LicenseName = "SEC_01",
                 IssuedLicense = "Чёрнова И.С"
             },
         };
 
-        private int _currentId = 5;
+        internal int CurrentId = 5;
+
+        public CardCollection()
+        {
+            MapperInitialize.Initialize();
+        }
 
         public IEnumerable<CardDto> GetAll()
         {
@@ -100,7 +106,7 @@ namespace CardFile.DataAccess.DataCollection
             if (card.Id == 0)
             {
                 var newCard = card.Clone();
-                newCard.Id = _currentId++;
+                newCard.Id = CurrentId++;
                 _cards.Add(newCard);
                 return newCard.Id;
             }
@@ -126,6 +132,20 @@ namespace CardFile.DataAccess.DataCollection
 
             _cards.Remove(existingCard);
             return true;
+        }
+
+        internal void ReplaceCollection(IEnumerable<CardDto> collection)
+        {
+            _cards.Clear();
+            _cards.AddRange(collection);
+            CurrentId = _cards.Max(c => c.Id) + 1;
+        }
+
+        internal void ReplaceCollection(IEnumerable<CardDto> collection, int currentId)
+        {
+            _cards.Clear();
+            _cards.AddRange(collection);
+            CurrentId = currentId;
         }
     }
 }

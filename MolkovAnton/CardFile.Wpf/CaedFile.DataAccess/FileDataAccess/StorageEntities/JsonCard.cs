@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace CardFile.Business.Entities
+namespace CardFile.DataAccess.FileDataAccess.StorageEntities
 {
-    public class Card
+    [Serializable]
+    public class JsonCard
     {
         public int Id { get; set; }
 
@@ -16,6 +18,14 @@ namespace CardFile.Business.Entities
 
         public string LastName { get; set; }
 
+        [JsonPropertyName("BirthDate")]
+        public long BirthDateTicks
+        {
+            get => BirthDate.Ticks;
+            set => BirthDate = new DateTime(value);
+        }
+
+        [JsonIgnore]
         public DateTime BirthDate { get; set; }
 
         public decimal PaymentAmount { get; set; }

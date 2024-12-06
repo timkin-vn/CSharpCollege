@@ -64,8 +64,6 @@ namespace CardFile.Wpf.ViewModels
                 OnPropertyChanged(nameof(IssuedLicense));
             }
         }
-
-
         public string FirstName
         {
             get => _firstName;
@@ -98,6 +96,7 @@ namespace CardFile.Wpf.ViewModels
                 OnPropertyChanged(nameof(LastName));
             }
         }
+
         public DateTime BirthDate
         {
             get => _birthDate;

@@ -1,5 +1,6 @@
 ﻿using CardFile.Wpf.View;
 using CardFile.Wpf.ViewModels;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,6 +69,60 @@ namespace CardFile.Wpf
             {
                 MessageBox.Show("Не удалось удалить запись", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void OpenFile_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Текстовые файлы|*.txt|Двоичные файлы|*.cardbin|Файлы XML|*.xml|Файлы JSON|*.json|ZIP-архив|*.zip|Все файлы|*.*";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                try
+                {
+                    ViewModel.OpenFile(openFileDialog.FileName);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private void SaveFile_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(ViewModel.FileName))
+            {
+                DoSaveAs();
+            }
+            else
+            {
+                ViewModel.SaveToFile();
+            }
+        }
+
+        private void SaveFileAs_Click(object sender, RoutedEventArgs e)
+        {
+            DoSaveAs();
+        }
+
+        private void DoSaveAs()
+        {
+            var saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Текстовые файлы|*.txt|Двоичные файлы|*.cardbin|Файлы XML|*.xml|Файлы JSON|*.json|ZIP-архив|*.zip|Все файлы|*.*";
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                ViewModel.SaveToFileAs(saveFileDialog.FileName);
+            }
+        }
+
+        private void Window_Initialized(object sender, EventArgs e)
+        {
+            ViewModel.Initialized();
         }
     }
 }

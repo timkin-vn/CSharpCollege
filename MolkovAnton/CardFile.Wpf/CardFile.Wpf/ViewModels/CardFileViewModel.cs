@@ -1,9 +1,12 @@
 ﻿using CardFile.Business.Entities;
 using CardFile.Business.Services;
+using CardFile.Common.Infrastructure;
+using CardFile.Wpf.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +18,8 @@ namespace CardFile.Wpf.ViewModels
         private readonly CardFileService _service = new CardFileService();
 
         private CardViewModel _selectedCard;
+
+        private string _fileName;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -32,8 +37,28 @@ namespace CardFile.Wpf.ViewModels
 
         public bool IsEditButtonEnabled => SelectedCard != null;
 
+        public string FileName 
+        { 
+            get => _fileName; 
+            set
+            {
+                _fileName = value;
+                OnPropertyChanged(nameof(WindowHeader));
+            }
+        }
+
+        public string WindowHeader => string.IsNullOrEmpty(FileName) ?
+            "Картотека" :
+            $"Картотека: {Path.GetFileName(FileName)}";
+
         public CardFileViewModel()
         {
+            MapperInitialize.Initialize();
+        }
+
+        public void Initialized()
+        {
+            Mapping.Initialize();
             ShowAll();
         }
 
@@ -82,38 +107,57 @@ namespace CardFile.Wpf.ViewModels
             return true;
         }
 
+        public void SaveToFileAs(string fileName)
+        {
+            FileName = fileName;
+            SaveToFileImplementation();
+        }
+
+        public void SaveToFile()
+        {
+            SaveToFileImplementation();
+        }
+
+        private void SaveToFileImplementation()
+        {
+            _service.SaveToFile(FileName);
+        }
+
+        public void OpenFile(string fileName)
+        {
+            _service.OpenFile(fileName);
+            FileName = fileName;
+            ShowAll();
+        }
+
         private CardViewModel ToViewModel(Card card)
         {
-            return new CardViewModel
-            {
-                Id = card.Id,
-                FirstName = card.FirstName,
-                MiddleName = card.MiddleName,
-                LastName = card.LastName,
-                BirthDate = card.BirthDate,
-                PaymentAmount = card.PaymentAmount,
-                ChildrenCount = card.ChildrenCount,
-                LicenseNumber = card.LicenseNumber,
-                LicenseName = card.LicenseName,
-                IssuedLicense = card.IssuedLicense,
-            };
+            return Mapping.Mapper.Map<CardViewModel>(card);
+            //return new CardViewModel
+            //{
+            //    Id = card.Id,
+            //    FirstName = card.FirstName,
+            //    MiddleName = card.MiddleName,
+            //    LastName = card.LastName,
+            //    BirthDate = card.BirthDate,
+            //    PaymentAmount = card.PaymentAmount,
+            //    ChildrenCount = card.ChildrenCount,
+            //};
         }
 
         private Card FromViewModel(CardViewModel card)
         {
-            return new Card
-            {
-                Id = card.Id,
-                FirstName = card.FirstName,
-                MiddleName = card.MiddleName,
-                LastName = card.LastName,
-                BirthDate = card.BirthDate,
-                PaymentAmount = card.PaymentAmount,
-                ChildrenCount = card.ChildrenCount,
-                LicenseNumber = card.LicenseNumber,
-                LicenseName = card.LicenseName,
-                IssuedLicense = card.IssuedLicense,
-            };
+            return Mapping.Mapper.Map<Card>(card);
+            //return new Card
+            //{
+            //    Id = card.Id,
+            //    FirstName = card.FirstName,
+            //    MiddleName = card.MiddleName,
+            //    LastName = card.LastName,
+            //    BirthDate = card.BirthDate,
+            //    PaymentAmount = card.PaymentAmount,
+            //    ChildrenCount = card.ChildrenCount,
+            //};
         }
 
         private void ShowAll()
