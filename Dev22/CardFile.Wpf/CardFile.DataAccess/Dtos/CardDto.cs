@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CardFile.Common.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,30 +29,32 @@ namespace CardFile.DataAccess.Dtos
 
         public CardDto Clone()
         {
-            return new CardDto
-            {
-                Id = Id,
-                FirstName = FirstName,
-                LastName = LastName,
-                MiddleName = MiddleName,
-                BirthDate = BirthDate,
-                Department = Department,
-                Position = Position,
-                SubordinatesCount = SubordinatesCount,
-                PaymentAmount = PaymentAmount,
-            };
+            return Mapping.Mapper.Map<CardDto>(this);
+            //return new CardDto
+            //{
+            //    Id = Id,
+            //    FirstName = FirstName,
+            //    LastName = LastName,
+            //    MiddleName = MiddleName,
+            //    BirthDate = BirthDate,
+            //    Department = Department,
+            //    Position = Position,
+            //    SubordinatesCount = SubordinatesCount,
+            //    PaymentAmount = PaymentAmount,
+            //};
         }
 
         public void Update(CardDto from)
         {
-            FirstName = from.FirstName;
-            LastName = from.LastName;
-            MiddleName = from.MiddleName;
-            BirthDate = from.BirthDate;
-            Department = from.Department;
-            Position = from.Position;
-            SubordinatesCount = from.SubordinatesCount;
-            PaymentAmount = from.PaymentAmount;
+            Mapping.Mapper.Map(from, this);
+            //FirstName = from.FirstName;
+            //LastName = from.LastName;
+            //MiddleName = from.MiddleName;
+            //BirthDate = from.BirthDate;
+            //Department = from.Department;
+            //Position = from.Position;
+            //SubordinatesCount = from.SubordinatesCount;
+            //PaymentAmount = from.PaymentAmount;
         }
     }
 }

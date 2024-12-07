@@ -1,4 +1,5 @@
 ﻿using CardFile.DataAccess.Dtos;
+using CardFile.DataAccess.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace CardFile.DataAccess.DataCollection
     {
         private readonly List<CardDto> _cards = new List<CardDto>();
 
-        private int _nextId = 5;
+        internal int NextId = 5;
 
         public CardFileDataCollection() 
         {
@@ -63,6 +64,8 @@ namespace CardFile.DataAccess.DataCollection
                 SubordinatesCount = 3,
                 PaymentAmount = 150000m,
             });
+
+            MapperRegistrator.Register();
         }
 
         public IEnumerable<CardDto> GetAll()
@@ -95,7 +98,7 @@ namespace CardFile.DataAccess.DataCollection
             }
 
             var newRecord = dto.Clone();
-            newRecord.Id = _nextId++;
+            newRecord.Id = NextId++;
             _cards.Add(newRecord);
             return newRecord.Id;
         }
@@ -125,6 +128,20 @@ namespace CardFile.DataAccess.DataCollection
 
             _cards.Remove(existingRecord);
             return true;
+        }
+
+        internal void ReplaceAll(IEnumerable<CardDto> collection)
+        {
+            _cards.Clear();
+            _cards.AddRange(collection.Select(c => c.Clone()));
+            NextId = _cards.Max(c => c.Id) + 1;
+        }
+
+        internal void ReplaceAll(IEnumerable<CardDto> collection, int nextId)
+        {
+            _cards.Clear();
+            _cards.AddRange(collection.Select(c => c.Clone()));
+            NextId = nextId;
         }
     }
 }
