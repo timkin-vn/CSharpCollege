@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CardFile.Wpf.ViewModels
 {
-    internal class CardViewModel : INotifyPropertyChanged
+    public class CardViewModel : INotifyPropertyChanged
     {
         private string _name;
 

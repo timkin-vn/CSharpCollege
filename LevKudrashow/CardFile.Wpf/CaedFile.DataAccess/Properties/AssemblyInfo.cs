@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("CardFile.Business")]
+[assembly: AssemblyTitle("CaedFile.DataAccess")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("CardFile.Business")]
+[assembly: AssemblyProduct("CaedFile.DataAccess")]
 [assembly: AssemblyCopyright("Copyright ©  2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("cfaf3f52-e8a8-4345-8eff-fa03e83eb991")]
+[assembly: Guid("0db14748-f6e3-47f8-9e21-529282bee77d")]
 
 // Version information for an assembly consists of the following four values:
 //

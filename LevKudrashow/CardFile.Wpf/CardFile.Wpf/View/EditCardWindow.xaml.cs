@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace CardFile.Wpf.Views
+namespace CardFile.Wpf.View
 {
     /// <summary>
     /// Interaction logic for EditCardWindow.xaml

@@ -1,5 +1,6 @@
-﻿using CardFile.Wpf.ViewModels;
-using CardFile.Wpf.Views;
+﻿using CardFile.Wpf.View;
+using CardFile.Wpf.ViewModels;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,31 +30,99 @@ namespace CardFile.Wpf
             InitializeComponent();
         }
 
-        private void AddCardButton_Click(object sender, RoutedEventArgs e)
+        private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            var editWindow = new EditCardWindow();
-            var cardViewModel = ViewModel.GetNewCardViewModel();
-            editWindow.ViewModel.CopyFrom(cardViewModel);
-            if (editWindow.ShowDialog() ?? false)
+            var window = new EditCardWindow();
+            var cardViewModel = ViewModel.GetNewCard();
+            window.ViewModel.CopyFrom(cardViewModel);
+            if (window.ShowDialog() ?? false)
             {
-                ViewModel.Save(editWindow.ViewModel);
+                if (!ViewModel.Save(window.ViewModel))
+                {
+                    MessageBox.Show("Не удалось сохранить запись", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
-        private void EditCardButton_Click(object sender, RoutedEventArgs e)
+        private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            var editWindow = new EditCardWindow();
-            var cardViewModel = ViewModel.GetSelectedCardViewModel();
-            editWindow.ViewModel.CopyFrom(cardViewModel);
-            if (editWindow.ShowDialog() ?? false)
+            var cardViewModel = ViewModel.GetSelectedCard();
+            if (cardViewModel == null)
             {
-                ViewModel.Save(editWindow.ViewModel);
+                return;
+            }
+
+            var window = new EditCardWindow();
+            window.ViewModel.CopyFrom(cardViewModel);
+            if (window.ShowDialog() ?? false)
+            {
+                if (!ViewModel.Save(window.ViewModel))
+                {
+                    MessageBox.Show("Не удалось сохранить запись", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
-        private void DeleteCardButton_Click(object sender, RoutedEventArgs e)
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.DeleteSelectedCard();
+            if (!ViewModel.DeleteSelected())
+            {
+                MessageBox.Show("Не удалось удалить запись", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void OpenFile_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Текстовые файлы|*.txt|Двоичные файлы|*.cardbin|Файлы XML|*.xml|Файлы JSON|*.json|ZIP-архив|*.zip|Все файлы|*.*";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                try
+                {
+                    ViewModel.OpenFile(openFileDialog.FileName);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private void SaveFile_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(ViewModel.FileName))
+            {
+                DoSaveAs();
+            }
+            else
+            {
+                ViewModel.SaveToFile();
+            }
+        }
+
+        private void SaveFileAs_Click(object sender, RoutedEventArgs e)
+        {
+            DoSaveAs();
+        }
+
+        private void DoSaveAs()
+        {
+            var saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Текстовые файлы|*.txt|Двоичные файлы|*.cardbin|Файлы XML|*.xml|Файлы JSON|*.json|ZIP-архив|*.zip|Все файлы|*.*";
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                ViewModel.SaveToFileAs(saveFileDialog.FileName);
+            }
+        }
+
+        private void Window_Initialized(object sender, EventArgs e)
+        {
+            ViewModel.Initialized();
         }
     }
 }

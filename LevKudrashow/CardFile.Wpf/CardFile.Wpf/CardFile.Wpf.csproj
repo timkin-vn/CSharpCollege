@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B9F699CD-F73D-4AF2-A7FE-D1A8E6D9293F}</ProjectGuid>
+    <ProjectGuid>{243F6653-8636-4733-8C7C-187342E3A23F}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>CardFile.Wpf</RootNamespace>
     <AssemblyName>CardFile.Wpf</AssemblyName>
@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=10.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.10.1.1\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -55,9 +58,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Infrastructure\MapperInitialize.cs" />
     <Compile Include="ViewModels\CardFileViewModel.cs" />
     <Compile Include="ViewModels\CardViewModel.cs" />
-    <Compile Include="Views\EditCardWindow.xaml.cs">
+    <Compile Include="View\EditCardWindow.xaml.cs">
       <DependentUpon>EditCardWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
@@ -72,7 +76,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\EditCardWindow.xaml">
+    <Page Include="View\EditCardWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -95,6 +99,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -105,8 +110,12 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CardFile.Business\CardFile.Business.csproj">
-      <Project>{b7fbdc4e-9bec-4e2a-995c-74331aed5367}</Project>
+      <Project>{CFAF3F52-E8A8-4345-8EFF-FA03E83EB991}</Project>
       <Name>CardFile.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CardFile.Common\CardFile.Common.csproj">
+      <Project>{C0CC2350-98AD-495B-A6D2-65675041CD98}</Project>
+      <Name>CardFile.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

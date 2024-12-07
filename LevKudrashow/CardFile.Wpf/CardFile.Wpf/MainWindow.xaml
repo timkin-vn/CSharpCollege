@@ -5,33 +5,49 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CardFile.Wpf" xmlns:viewmodels="clr-namespace:CardFile.Wpf.ViewModels"
         mc:Ignorable="d"
-        Title="Картотека" Height="450" Width="1000">
+        Title="{Binding WindowHeader}" Height="450" Width="800" Initialized="Window_Initialized">
     <Window.DataContext>
         <viewmodels:CardFileViewModel />
     </Window.DataContext>
-    
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
 
-        <DataGrid Grid.Row="0" Margin="5" ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" AutoGenerateColumns="False"
-                  IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserSortColumns="False">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Название" Binding="{Binding Name}" />
-                <DataGridTextColumn Header="Описание" Binding="{Binding Description}" />
-                <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" />
-                <DataGridTextColumn Header="Рейтинг" Binding="{Binding Rating}" />
-                <DataGridTextColumn Header="Количество отзывов" Binding="{Binding CounterReviews}" />
-                <DataGridTextColumn Header="Статус" Binding="{Binding Status}" />
-            </DataGrid.Columns>
-        </DataGrid>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_Файл">
+                <MenuItem Header="_Открыть..." Click="OpenFile_Click" />
+                <MenuItem Header="_Сохранить" Click="SaveFile_Click" />
+                <MenuItem Header="_Сохранить как..." Click="SaveFileAs_Click" />
+                <Separator />
+                <MenuItem Header="В_ыход" Click="ExitMenuItem_Click"  />
+            </MenuItem>
+        </Menu>
+        
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Добавить" Margin="5" Padding="5" Click="AddCardButton_Click" />
-            <Button Content="Изменить" Margin="5" Padding="5" IsEnabled="{Binding IsEditButtonEnabled}" Click="EditCardButton_Click" />
-            <Button Content="Удалить" Margin="5" Padding="5" IsEnabled="{Binding IsEditButtonEnabled}" Click="DeleteCardButton_Click" />
-        </StackPanel>
-    </Grid>
+            <DataGrid Grid.Row="0" Margin="5" ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" AutoGenerateColumns="False"
+          IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserSortColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Название" Binding="{Binding Name}" />
+                    <DataGridTextColumn Header="Описание" Binding="{Binding Description}" />
+                    <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" />
+                    <DataGridTextColumn Header="Рейтинг" Binding="{Binding Rating}" />
+                    <DataGridTextColumn Header="Количество отзывов" Binding="{Binding CounterReviews}" />
+                    <DataGridTextColumn Header="Статус" Binding="{Binding Status}" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
+                <Button Margin="5" Padding="5" Click="AddButton_Click">
+                    <Button.Content>
+                        Добавить
+                    </Button.Content>
+                </Button>
+                <Button Content="Изменить" Margin="5" Padding="5" IsEnabled="{Binding IsEditButtonEnabled}" Click="EditButton_Click" />
+                <Button Content="Удалить" Margin="5" Padding="5" IsEnabled="{Binding IsEditButtonEnabled}" Click="DeleteButton_Click" />
+            </StackPanel>
+        </Grid>
+    </DockPanel>
 </Window>

@@ -1,21 +1,19 @@
 ﻿using CardFile.DataAccess.Dtos;
+using CardFile.DataAccess.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace CardFile.DataAccess.DataCollection
 {
-    public class CardFileDataCollection
+    public class CardCollection
     {
-        private readonly List<CardDto> _cards = new List<CardDto>();
-
-        private int _nextId = 4;
-
-        public CardFileDataCollection()
+        private List<CardDto> _cards = new List<CardDto>
         {
-            _cards.Add(new CardDto
+            new CardDto
             {
                 Id = 1,
                 Name = "Сбер",
@@ -27,8 +25,8 @@ namespace CardFile.DataAccess.DataCollection
                 Rating = 4.5,
                 CounterReviews = 139,
                 Status = "Закрыт по причине ремонта"
-            });
-            _cards.Add(new CardDto
+            },
+            new CardDto
             {
                 Id = 2,
                 Name = "Птичье молоко",
@@ -40,8 +38,8 @@ namespace CardFile.DataAccess.DataCollection
                 Rating = 4.3,
                 CounterReviews = 177,
                 Status = "Работает"
-            });
-            _cards.Add(new CardDto
+            },
+            new CardDto
             {
                 Id = 3,
                 Name = "Максавит",
@@ -53,12 +51,19 @@ namespace CardFile.DataAccess.DataCollection
                 Rating = 4.7,
                 CounterReviews = 53,
                 Status = "Работает"
-            });
+            }
+        };
+
+        internal int CurrentId = 4;
+
+        public CardCollection()
+        {
+            MapperInitialize.Initialize();
         }
 
         public IEnumerable<CardDto> GetAll()
         {
-            return _cards.Select(c => c.Clone()).ToList();
+            return _cards.Select(c => c.Clone());
         }
 
         public CardDto Get(int id)
@@ -66,56 +71,68 @@ namespace CardFile.DataAccess.DataCollection
             return _cards.FirstOrDefault(c => c.Id == id)?.Clone();
         }
 
-        public bool Update(CardDto dto)
+        public bool Update(CardDto card)
         {
-            var existingRecord = _cards.FirstOrDefault(c => c.Id == dto.Id);
-            if (existingRecord == null)
+            if (card.Id == 0)
             {
                 return false;
             }
 
-            existingRecord.Update(dto);
+            var existingCard = _cards.FirstOrDefault(c => c.Id == card.Id);
+            if (existingCard == null)
+            {
+                return false;
+            }
+
+            existingCard.Update(card);
             return true;
         }
 
-        public int Insert(CardDto dto)
+        public int Save(CardDto card)
         {
-            if (dto.Id > 0)
+            if (card.Id == 0)
+            {
+                var newCard = card.Clone();
+                newCard.Id = CurrentId++;
+                _cards.Add(newCard);
+                return newCard.Id;
+            }
+
+            var existingCard = _cards.FirstOrDefault(c => c.Id == card.Id);
+            if (existingCard == null)
             {
                 return -1;
             }
 
-            var newRecord = dto.Clone();
-            newRecord.Id = _nextId++;
-            _cards.Add(newRecord);
-            return newRecord.Id;
-        }
-
-        public int Save(CardDto dto)
-        {
-            if (dto.Id == 0)
-            {
-                return Insert(dto);
-            }
-
-            if (Update(dto))
-            {
-                return dto.Id;
-            }
-
-            return -1;
+            existingCard.Update(card);
+            return card.Id;
         }
 
         public bool Delete(int id)
         {
-            var existingRecord = _cards.FirstOrDefault(c => c.Id == id);
-            if (existingRecord == null)
+            var existingCard = _cards.FirstOrDefault(c => c.Id == id);
+
+            if (existingCard == null)
             {
                 return false;
             }
 
-            _cards.Remove(existingRecord);
+            _cards.Remove(existingCard);
             return true;
+        }
+
+        internal void ReplaceCollection(IEnumerable<CardDto> collection)
+        {
+            _cards.Clear();
+            _cards.AddRange(collection);
+            CurrentId = _cards.Max(c => c.Id) + 1;
+        }
+
+        internal void ReplaceCollection(IEnumerable<CardDto> collection, int currentId)
+        {
+            _cards.Clear();
+            _cards.AddRange(collection);
+            CurrentId = currentId;
         }
     }
 }
