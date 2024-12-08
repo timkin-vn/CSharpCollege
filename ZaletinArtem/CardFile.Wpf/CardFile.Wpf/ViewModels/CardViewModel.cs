@@ -3,11 +3,11 @@ using System.ComponentModel;
 
 namespace CardFile.Wpf.ViewModels
 {
-    internal class CardViewModel : INotifyPropertyChanged
+    public class CardViewModel : INotifyPropertyChanged
     {
         private string _title;
         private string _author;
-        private DateTime _publicationDate;
+        private DateTime _publicationDate = DateTime.Now;
         private string _genre;
         private int _pageCount;
         private decimal _price;
@@ -74,27 +74,20 @@ namespace CardFile.Wpf.ViewModels
             }
         }
 
-        public void CopyFrom(CardViewModel model)
+        public void CopyFrom(CardViewModel source)
         {
-            Id = model.Id;
-            Title = model.Title;
-            Author = model.Author;
-            PublicationDate = model.PublicationDate;
-            Genre = model.Genre;
-            Price = model.Price;
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+
+            Id = source.Id;
+            Title = source.Title;
+            Author = source.Author;
+            PublicationDate = source.PublicationDate;
+            Genre = source.Genre;
+            PageCount = source.PageCount;
+            Price = source.Price;
         }
 
-        public CardViewModel GetNewCardViewModel()
-        {
-            return new CardViewModel
-            {
-                Title = string.Empty,
-                Author = string.Empty,
-                PublicationDate = DateTime.Now,
-                Genre = string.Empty,
-                Price = 0
-            };
-        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

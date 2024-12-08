@@ -5,11 +5,11 @@ namespace CardFile.DataAccess.Dtos
     public class CardDto
     {
         public int Id { get; set; }
-        public string Title { get; set; } 
-        public string Author { get; set; } 
-        public DateTime PublicationDate { get; set; } 
+        public string Title { get; set; }
+        public string Author { get; set; }
+        public DateTime PublicationDate { get; set; }
         public string Genre { get; set; }
-        public int PageCount { get; set; } 
+        public int PageCount { get; set; }
         public decimal Price { get; set; }
 
         public CardDto Clone()
@@ -26,14 +26,14 @@ namespace CardFile.DataAccess.Dtos
             };
         }
 
-        public void Update(CardDto from)
+        public void Update(CardDto newCard)
         {
-            Title = from.Title;
-            Author = from.Author;
-            PublicationDate = from.PublicationDate;
-            Genre = from.Genre;
-            PageCount = from.PageCount;
-            Price = from.Price;
+            Title = newCard.Title;
+            Author = newCard.Author;
+            PublicationDate = newCard.PublicationDate;
+            Genre = newCard.Genre;
+            PageCount = newCard.PageCount;
+            Price = newCard.Price;
         }
     }
 }
