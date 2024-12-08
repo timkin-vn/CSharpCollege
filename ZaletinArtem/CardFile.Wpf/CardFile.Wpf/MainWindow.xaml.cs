@@ -5,62 +5,54 @@ using System.Windows;
 
 namespace CardFile.Wpf
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        internal CardFileViewModel ViewModel => (CardFileViewModel)DataContext;
-
         public MainWindow()
         {
             InitializeComponent();
+            DataContextChanged += (s, e) =>
+            {
+                Console.WriteLine($"DataContext установлен: {DataContext != null}");
+            };
+            DataContext = new CardFileViewModel();
         }
 
         private void AddCardButton_Click(object sender, RoutedEventArgs e)
         {
             var editWindow = new EditCardWindow();
-            var cardViewModel = ViewModel.GetNewCardViewModel();
+            var newCardViewModel = new CardViewModel();
+            editWindow.DataContext = newCardViewModel;
 
-            if (cardViewModel == null)
+            if (editWindow.ShowDialog() == true)
             {
-                throw new NullReferenceException("GetNewCardViewModel вернул null.");
-            }
-
-            editWindow.DataContext = cardViewModel;
-
-            if (editWindow.ViewModel == null)
-            {
-                throw new NullReferenceException("ViewModel в EditCardWindow равно null.");
-            }
-
-            // Копируем данные
-            editWindow.ViewModel.CopyFrom(cardViewModel);
-
-            // Отображаем окно
-            if (editWindow.ShowDialog() ?? false)
-            {
-                ViewModel.Save(editWindow.ViewModel);
+                var mainViewModel = DataContext as CardFileViewModel;
+                mainViewModel?.AddCard(newCardViewModel);
             }
         }
 
-
         private void EditCardButton_Click(object sender, RoutedEventArgs e)
         {
-            var editWindow = new EditCardWindow();
-            var cardViewModel = ViewModel.GetNewCardViewModel();
-            editWindow.DataContext = cardViewModel;
-            editWindow.ViewModel.CopyFrom(cardViewModel);
-            if (editWindow.ShowDialog() ?? false)
-            {
-                ViewModel.Save(editWindow.ViewModel);
-            }
+            var mainViewModel = DataContext as CardFileViewModel;
+            if (mainViewModel?.SelectedCard == null)
+                return;
 
+            var editWindow = new EditCardWindow();
+            var selectedCardViewModel = mainViewModel.SelectedCard;
+            editWindow.DataContext = selectedCardViewModel;
+
+            if (editWindow.ShowDialog() == true)
+            {
+                mainViewModel.UpdateCard(selectedCardViewModel);
+            }
         }
 
         private void DeleteCardButton_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.DeleteSelectedCard();
+            var mainViewModel = DataContext as CardFileViewModel;
+            if (mainViewModel?.SelectedCard == null)
+                return;
+
+            mainViewModel.RemoveCard(mainViewModel.SelectedCard);
         }
     }
 }

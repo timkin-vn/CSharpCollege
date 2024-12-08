@@ -7,123 +7,83 @@ using System.Linq;
 
 namespace CardFile.Wpf.ViewModels
 {
-    internal class CardFileViewModel : INotifyPropertyChanged
+    public class CardFileViewModel : INotifyPropertyChanged
     {
-        private readonly CardFileDataService _service = new CardFileDataService();
-
         private CardViewModel _selectedCard;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public ObservableCollection<CardViewModel> Cards { get; set; }
 
-        public ObservableCollection<CardViewModel> Cards { get; set; } = new ObservableCollection<CardViewModel>();
-
-        public CardViewModel SelectedCard 
-        { 
-            get => _selectedCard; 
+        public CardViewModel SelectedCard
+        {
+            get => _selectedCard;
             set
             {
                 _selectedCard = value;
-                OnPropertyChanged(nameof(IsEditButtonEnabled));
+                OnPropertyChanged(nameof(SelectedCard));
             }
         }
-
-        public bool IsEditButtonEnabled => SelectedCard != null;
 
         public CardFileViewModel()
         {
-            ShowAll();
-        }
-
-        public CardViewModel GetNewCardViewModel()
-        {
-            return new CardViewModel
+            Cards = new ObservableCollection<CardViewModel>
             {
-                Title = string.Empty,
-                Author = string.Empty,
-                PublicationDate = DateTime.Now,
-                Genre = string.Empty,
-                Price = 0
+                new CardViewModel
+                {
+                    Id = 1,
+                    Title = "Война и мир",
+                    Author = "Лев Толстой",
+                    PublicationDate = new DateTime(1869, 1, 1),
+                    Genre = "Роман",
+                    PageCount = 1225,
+                    Price = 500m
+                },
+                new CardViewModel
+                {
+                    Id = 2,
+                    Title = "Преступление и наказание",
+                    Author = "Федор Достоевский",
+                    PublicationDate = new DateTime(1866, 1, 1),
+                    Genre = "Роман",
+                    PageCount = 671,
+                    Price = 450m
+                },
+                new CardViewModel
+                {
+                    Id = 3,
+                    Title = "Мастер и Маргарита",
+                    Author = "Михаил Булгаков",
+                    PublicationDate = new DateTime(1967, 1, 1),
+                    Genre = "Фантастика",
+                    PageCount = 470,
+                    Price = 600m
+                }
             };
         }
 
-
-        public CardViewModel GetSelectedCardViewModel()
+        public void AddCard(CardViewModel card)
         {
-            return SelectedCard;
+            if (card != null)
+                Cards.Add(card);
         }
 
-        public void DeleteSelectedCard()
+        public void UpdateCard(CardViewModel updatedCard)
         {
-            if (SelectedCard == null)
-            {
-                return;
-            }
+            if (updatedCard == null || SelectedCard == null) return;
 
-            _service.Delete(SelectedCard.Id);
-            ShowAll();
+            var index = Cards.IndexOf(SelectedCard);
+            if (index >= 0)
+                Cards[index] = updatedCard;
         }
 
-        public void Save(CardViewModel cardViewModel)
+        public void RemoveCard(CardViewModel card)
         {
-            var card = FromViewModel(cardViewModel);
-            card = _service.Save(card);
-            var cardId = card?.Id ?? 0;
-            ShowAll();
-
-            if (cardId <= 0)
-            {
-                return;
-            }
-
-            var selectedCardViewModel = Cards.FirstOrDefault(c => c.Id == cardId);
-            if (selectedCardViewModel == null)
-            {
-                return;
-            }
-
-            SelectedCard = selectedCardViewModel;
-            OnPropertyChanged(nameof(SelectedCard));
+            if (card != null)
+                Cards.Remove(card);
         }
 
-        private void ShowAll()
-        {
-            Cards.Clear();
+        public event PropertyChangedEventHandler PropertyChanged;
 
-            foreach (var card in _service.GetAll())
-            {
-                Cards.Add(ToViewModel(card));
-            }
-        }
-
-        private CardViewModel ToViewModel(Card card)
-        {
-            return new CardViewModel
-            {
-                Id = card.Id,
-                Title = card.Title,
-                Author = card.Author,
-                PublicationDate = card.PublicationDate,
-                Genre = card.Genre,
-                PageCount = card.PageCount,
-                Price = card.Price
-            };
-        }
-
-        private Card FromViewModel(CardViewModel viewModel)
-        {
-            return new Card
-            {
-                Id = viewModel.Id,
-                Title = viewModel.Title,
-                Author = viewModel.Author,
-                PublicationDate = viewModel.PublicationDate,
-                Genre = viewModel.Genre,
-                PageCount = viewModel.PageCount,
-                Price = viewModel.Price
-            };
-        }
-
-        private void OnPropertyChanged(string  propertyName)
+        protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
