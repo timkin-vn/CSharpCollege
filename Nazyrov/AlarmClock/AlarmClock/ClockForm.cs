@@ -60,5 +60,12 @@ namespace AlarmClock
             form.Settings = _settings;
             form.ShowDialog();
         }
+
+      
+
+        private void TimerOn_Click(object sender, EventArgs e)
+        {
+            new TimerForm().ShowDialog();  
+        }
     }
 }
