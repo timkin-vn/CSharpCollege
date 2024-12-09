@@ -1,89 +1,163 @@
 ﻿using CardFile.Business.Entities;
 using CardFile.Business.Services;
-using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.IO;
+using Newtonsoft.Json;
+using System.Xml;
+using CardFile.DataAccess.Dtos;
+using System.Collections.Generic;
 
 namespace CardFile.Wpf.ViewModels
 {
-    public class CardFileViewModel : INotifyPropertyChanged
+    internal class CardFileViewModel : INotifyPropertyChanged
     {
+        private readonly CardFileDataService _service = new CardFileDataService();
+
         private CardViewModel _selectedCard;
-
-        public ObservableCollection<CardViewModel> Cards { get; set; }
-
-        public CardViewModel SelectedCard
-        {
-            get => _selectedCard;
-            set
-            {
-                _selectedCard = value;
-                OnPropertyChanged(nameof(SelectedCard));
-            }
-        }
-
-        public CardFileViewModel()
-        {
-            Cards = new ObservableCollection<CardViewModel>
-            {
-                new CardViewModel
-                {
-                    Id = 1,
-                    Title = "Война и мир",
-                    Author = "Лев Толстой",
-                    PublicationDate = new DateTime(1869, 1, 1),
-                    Genre = "Роман",
-                    PageCount = 1225,
-                    Price = 500m
-                },
-                new CardViewModel
-                {
-                    Id = 2,
-                    Title = "Преступление и наказание",
-                    Author = "Федор Достоевский",
-                    PublicationDate = new DateTime(1866, 1, 1),
-                    Genre = "Роман",
-                    PageCount = 671,
-                    Price = 450m
-                },
-                new CardViewModel
-                {
-                    Id = 3,
-                    Title = "Мастер и Маргарита",
-                    Author = "Михаил Булгаков",
-                    PublicationDate = new DateTime(1967, 1, 1),
-                    Genre = "Фантастика",
-                    PageCount = 470,
-                    Price = 600m
-                }
-            };
-        }
-
-        public void AddCard(CardViewModel card)
-        {
-            if (card != null)
-                Cards.Add(card);
-        }
-
-        public void UpdateCard(CardViewModel updatedCard)
-        {
-            if (updatedCard == null || SelectedCard == null) return;
-
-            var index = Cards.IndexOf(SelectedCard);
-            if (index >= 0)
-                Cards[index] = updatedCard;
-        }
-
-        public void RemoveCard(CardViewModel card)
-        {
-            if (card != null)
-                Cards.Remove(card);
-        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged(string propertyName)
+        public ObservableCollection<CardViewModel> Cards { get; set; } = new ObservableCollection<CardViewModel>();
+
+        public CardViewModel SelectedCard 
+        { 
+            get => _selectedCard; 
+            set
+            {
+                _selectedCard = value;
+                OnPropertyChanged(nameof(IsEditButtonEnabled));
+            }
+        }
+
+        public bool IsEditButtonEnabled => SelectedCard != null;
+
+        public CardFileViewModel()
+        {
+            ShowAll();
+        }
+
+        public CardViewModel GetNewCardViewModel()
+        {
+            return new CardViewModel();
+        }
+
+        public CardViewModel GetSelectedCardViewModel()
+        {
+            return SelectedCard;
+        }
+
+        public void DeleteSelectedCard()
+        {
+            if (SelectedCard == null)
+            {
+                return;
+            }
+
+            _service.Delete(SelectedCard.Id);
+            ShowAll();
+        }
+
+        public void Save(CardViewModel cardViewModel)
+        {
+            var card = FromViewModel(cardViewModel);
+            card = _service.Save(card);
+            var cardId = card?.Id ?? 0;
+            ShowAll();
+
+            if (cardId <= 0)
+            {
+                return;
+            }
+
+            var selectedCardViewModel = Cards.FirstOrDefault(c => c.Id == cardId);
+            if (selectedCardViewModel == null)
+            {
+                return;
+            }
+
+            SelectedCard = selectedCardViewModel;
+            OnPropertyChanged(nameof(SelectedCard));
+        }
+
+        private void ShowAll()
+        {
+            Cards.Clear();
+
+            foreach (var card in _service.GetAll())
+            {
+                Cards.Add(ToViewModel(card));
+            }
+        }
+
+        private CardViewModel ToViewModel(Card card)
+        {
+            return new CardViewModel
+            {
+                Id = card.Id,
+                Title = card.Title,
+                Author = card.Author,
+                PublicationDate = card.PublicationDate,
+                Genre = card.Genre,
+                PageCount = card.PageCount,
+                Price = card.Price,
+            };
+        }
+
+        private Card FromViewModel(CardViewModel cardViewModel)
+        {
+            return new Card
+            {
+                Id = cardViewModel.Id,
+                Title = cardViewModel.Title,
+                Author = cardViewModel.Author,
+                PublicationDate = cardViewModel.PublicationDate,
+                Genre = cardViewModel.Genre,
+                PageCount = cardViewModel.PageCount,
+                Price = cardViewModel.Price,
+            };
+        }
+        public void SaveToFile(string filePath)
+        {
+            var cardList = Cards.Select(card => new CardDto
+            {
+                Id = card.Id,
+                Title = card.Title,
+                Author = card.Author,
+                PublicationDate = card.PublicationDate,
+                Genre = card.Genre,
+                PageCount = card.PageCount,
+                Price = card.Price
+            }).ToList();
+
+            var json = JsonConvert.SerializeObject(cardList, Newtonsoft.Json.Formatting.Indented);
+            File.WriteAllText(filePath, json);
+        }
+        public void LoadFromFile(string filePath)
+        {
+            if (!File.Exists(filePath)) return;
+
+            var json = File.ReadAllText(filePath);
+            var cardList = JsonConvert.DeserializeObject<List<CardDto>>(json);
+
+            Cards.Clear();
+            foreach (var cardDto in cardList)
+            {
+                Cards.Add(new CardViewModel
+                {
+                    Id = cardDto.Id,
+                    Title = cardDto.Title,
+                    Author = cardDto.Author,
+                    PublicationDate = cardDto.PublicationDate,
+                    Genre = cardDto.Genre,
+                    PageCount = cardDto.PageCount,
+                    Price = cardDto.Price
+                });
+            }
+        }
+
+        private void OnPropertyChanged(string  propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

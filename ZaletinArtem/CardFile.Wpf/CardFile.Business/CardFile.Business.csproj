@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CFAF3F52-E8A8-4345-8EFF-FA03E83EB991}</ProjectGuid>
+    <ProjectGuid>{B7FBDC4E-9BEC-4E2A-995C-74331AED5367}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CardFile.Business</RootNamespace>
@@ -43,12 +43,11 @@
   <ItemGroup>
     <Compile Include="Entities\Card.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\CardFileService.cs" />
+    <Compile Include="Services\CardFileDataService.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\CardFile.DataAccess\CardFile.DataAccess.csproj">
-      <Project>{0DB14748-F6E3-47F8-9E21-529282BEE77D}</Project>
+      <Project>{CA50A959-CB71-4A70-876C-1302AC689959}</Project>
       <Name>CardFile.DataAccess</Name>
     </ProjectReference>
   </ItemGroup>
