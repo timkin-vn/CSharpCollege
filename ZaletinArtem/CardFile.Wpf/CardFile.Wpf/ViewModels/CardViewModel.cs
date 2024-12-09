@@ -74,24 +74,22 @@ namespace CardFile.Wpf.ViewModels
             }
         }
 
-        public void CopyFrom(CardViewModel source)
-        {
-            if (source == null)
-                throw new ArgumentNullException(nameof(source));
-
-            Id = source.Id;
-            Title = source.Title;
-            Author = source.Author;
-            PublicationDate = source.PublicationDate;
-            Genre = source.Genre;
-            PageCount = source.PageCount;
-            Price = source.Price;
-        }
-
-
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void OnPropertyChanged(string propertyName) =>
+        public void CopyFrom(CardViewModel model)
+        {
+            Id = model.Id;
+            Title = model.Title;
+            Author = model.Author;
+            PublicationDate = model.PublicationDate;
+            Genre = model.Genre;
+            PageCount = model.PageCount;
+            Price = model.Price;
+        }
+
+        private void OnPropertyChanged(string propertyName)
+        {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

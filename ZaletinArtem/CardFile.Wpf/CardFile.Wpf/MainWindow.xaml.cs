@@ -1,58 +1,91 @@
 ﻿using CardFile.Wpf.ViewModels;
 using CardFile.Wpf.Views;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
 namespace CardFile.Wpf
 {
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
     public partial class MainWindow : Window
     {
+        internal CardFileViewModel ViewModel => (CardFileViewModel)DataContext;
+
         public MainWindow()
         {
             InitializeComponent();
-            DataContextChanged += (s, e) =>
-            {
-                Console.WriteLine($"DataContext установлен: {DataContext != null}");
-            };
-            DataContext = new CardFileViewModel();
+
+            var viewModel = new CardFileViewModel();
+            DataContext = viewModel;
         }
 
         private void AddCardButton_Click(object sender, RoutedEventArgs e)
         {
             var editWindow = new EditCardWindow();
-            var newCardViewModel = new CardViewModel();
-            editWindow.DataContext = newCardViewModel;
-
-            if (editWindow.ShowDialog() == true)
+            var cardViewModel = ViewModel.GetNewCardViewModel();
+            editWindow.ViewModel.CopyFrom(cardViewModel);
+            if (editWindow.ShowDialog() ?? false)
             {
-                var mainViewModel = DataContext as CardFileViewModel;
-                mainViewModel?.AddCard(newCardViewModel);
+                ViewModel.Save(editWindow.ViewModel);
             }
         }
 
         private void EditCardButton_Click(object sender, RoutedEventArgs e)
         {
-            var mainViewModel = DataContext as CardFileViewModel;
-            if (mainViewModel?.SelectedCard == null)
-                return;
-
             var editWindow = new EditCardWindow();
-            var selectedCardViewModel = mainViewModel.SelectedCard;
-            editWindow.DataContext = selectedCardViewModel;
-
-            if (editWindow.ShowDialog() == true)
+            var cardViewModel = ViewModel.GetSelectedCardViewModel();
+            editWindow.ViewModel.CopyFrom(cardViewModel);
+            if (editWindow.ShowDialog() ?? false)
             {
-                mainViewModel.UpdateCard(selectedCardViewModel);
+                ViewModel.Save(editWindow.ViewModel);
             }
         }
 
         private void DeleteCardButton_Click(object sender, RoutedEventArgs e)
         {
-            var mainViewModel = DataContext as CardFileViewModel;
-            if (mainViewModel?.SelectedCard == null)
-                return;
-
-            mainViewModel.RemoveCard(mainViewModel.SelectedCard);
+            ViewModel.DeleteSelectedCard();
         }
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            var saveFileDialog = new Microsoft.Win32.SaveFileDialog
+            {
+                Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*",
+                DefaultExt = ".json"
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                ViewModel.SaveToFile(saveFileDialog.FileName);
+                MessageBox.Show("Данные успешно сохранены!", "Сохранение", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+        private void LoadButton_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new Microsoft.Win32.OpenFileDialog
+            {
+                Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*",
+                DefaultExt = ".json"
+            };
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                ViewModel.LoadFromFile(openFileDialog.FileName);
+                MessageBox.Show("Данные успешно загружены!", "Загрузка", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
     }
 }

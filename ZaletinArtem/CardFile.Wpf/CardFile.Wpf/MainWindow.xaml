@@ -137,6 +137,8 @@
             <Button Content="Добавить" Width="100" Height="40" Margin="10" Style="{StaticResource ModernButtonStyle}" Click="AddCardButton_Click" />
             <Button Content="Изменить" Width="100" Height="40" Margin="10" Style="{StaticResource ModernButtonStyle}" IsEnabled="{Binding SelectedCard}" Click="EditCardButton_Click" />
             <Button Content="Удалить" Width="100" Height="40" Margin="10" Style="{StaticResource ModernButtonStyle}" IsEnabled="{Binding SelectedCard}" Click="DeleteCardButton_Click" />
+            <Button Content="Сохранить" Width="100" Height="40" Margin="10" Style="{StaticResource ModernButtonStyle}" Click="SaveButton_Click" />
+            <Button Content="Загрузить" Width="100" Height="40" Margin="10" Style="{StaticResource ModernButtonStyle}" Click="LoadButton_Click" />
         </StackPanel>
     </Grid>
 </Window>

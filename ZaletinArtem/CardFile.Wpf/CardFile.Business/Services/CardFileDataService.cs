@@ -1,8 +1,12 @@
 ﻿using CardFile.Business.Entities;
 using CardFile.DataAccess.DataCollection;
 using CardFile.DataAccess.Dtos;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace CardFile.Business.Services
 {
@@ -47,7 +51,7 @@ namespace CardFile.Business.Services
                 PublicationDate = dto.PublicationDate,
                 Genre = dto.Genre,
                 PageCount = dto.PageCount,
-                Price = dto.Price
+                Price = dto.Price,
             };
         }
 
@@ -61,7 +65,7 @@ namespace CardFile.Business.Services
                 PublicationDate = card.PublicationDate,
                 Genre = card.Genre,
                 PageCount = card.PageCount,
-                Price = card.Price
+                Price = card.Price,
             };
         }
     }

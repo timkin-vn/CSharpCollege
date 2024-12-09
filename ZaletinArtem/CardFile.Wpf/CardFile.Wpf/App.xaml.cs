@@ -13,5 +13,15 @@ namespace CardFile.Wpf
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnExit(ExitEventArgs e)
+        {
+            base.OnExit(e);
+
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            if (mainWindow?.ViewModel != null)
+            {
+                mainWindow.ViewModel.SaveToFile("cards.json");
+            }
+        }
     }
 }
