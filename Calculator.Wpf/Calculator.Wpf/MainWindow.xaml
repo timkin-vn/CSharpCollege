@@ -78,7 +78,6 @@
         <Button Grid.Row="2" Grid.Column="6" Content="√" FontSize="36" Margin="0,5,148,5" Click="SquareRootButton_Click" />
         <Button Grid.Row="4" Grid.Column="6" Content="%" FontSize="36" Margin="0,5,148,5" Click="PercentageButton_Click" />
         <Button Grid.Row="4" Grid.Column="1" Content="M+" FontSize="36" Margin="5,5,5,5" Click="MemoryAddButton_Click" />
-        <Button Grid.Row="4" Grid.Column="2" Content="M-" FontSize="36" Margin="5,5,5,5" Click="MemorySubtractButton_Click" />
         <Button Grid.Row="1" Grid.Column="6" Content="MR" FontSize="36" Margin="0,5,148,5" Click="MemoryRecallButton_Click" />
         <Button Grid.Row="3" Grid.Column="6" Content="MC" FontSize="36" Margin="0,5,148,5" Click="MemoryClearButton_Click" />
     </Grid>
