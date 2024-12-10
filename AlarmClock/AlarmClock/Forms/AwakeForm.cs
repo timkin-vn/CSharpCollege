@@ -53,5 +53,13 @@ namespace AlarmClock.Forms
             AwakeTimer.Enabled = true;
             AwakePictureBox.Image = Properties.Resources.Image1;
         }
+
+        private void SnoozeButton_Click(object sender, EventArgs e)
+        {
+            Settings.AlarmTime = Settings.AlarmTime.AddMinutes(5);
+            Settings.IsAlarmActive = false; 
+            MessageBox.Show("Alarm snoozed for 5 minutes.");
+            Hide();
+        }
     }
 }

@@ -16,7 +16,6 @@ namespace AlarmClock
     public partial class ClockForm : Form
     {
         private AlarmSettings _settings = new AlarmSettings();
-
         private AwakeForm _awakeForm = null;
 
         public ClockForm()
@@ -44,6 +43,27 @@ namespace AlarmClock
             }
         }
 
+        private void SnoozeButton_Click(object sender, EventArgs e)
+        {
+            if (_settings.IsAlarmActive)
+            {
+                _settings.AlarmTime = _settings.AlarmTime.AddMinutes(5);
+                MessageBox.Show("Alarm snoozed for 5 minutes.");
+            }
+        }
+        private void ChangeSoundButton_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Filter = "MP3 files (*.MP3)|*.MP3";
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    _settings.AlarmSoundFilePath = openFileDialog.FileName;
+                    MessageBox.Show("Alarm sound changed.");
+                }
+            }
+        }
+
         private void AboutButton_Click(object sender, EventArgs e)
         {
             new AboutForm().ShowDialog();
@@ -60,13 +80,5 @@ namespace AlarmClock
             form.Settings = _settings;
             form.ShowDialog();
         }
-        private void btnOpenStopwatch_Click(object sender, EventArgs e)
-        {
-            StopwatchForm stopwatchForm = new StopwatchForm();
-            stopwatchForm.Show();
-            this.Hide(); // Скрыть текущую форму, если нужно
-        }
-
-
     }
 }
