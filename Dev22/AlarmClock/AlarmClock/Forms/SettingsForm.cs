@@ -81,9 +81,9 @@ namespace AlarmClock.Forms
                 AlarmTimeTextBox.Text = "0";
             }
 
-            if (num1 == 1 && num4 > 4)
+            if (num1 == 1 && num4 > 3)
             {
-                textBox1.Text = "4";
+                textBox1.Text = "3";
             }
         }
 
@@ -101,9 +101,9 @@ namespace AlarmClock.Forms
                 AlarmTimeTextBox.Text = "2";
             }
 
-            if (num2 == 0 && num4 > 4)
+            if (num2 == 0 && num4 > 3)
             {
-                textBox1.Text = "4";
+                textBox1.Text = "3";
             }
         }
 
