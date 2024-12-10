@@ -184,7 +184,7 @@ namespace AlarmClock.Forms
             {
                 textBox1.Text = (num4 + 1).ToString();
             }
-            else if (num1 == 2 && num4 < 4)
+            else if (num1 == 2 && num4 < 3)
             {
                 textBox1.Text = (num4 + 1).ToString();
             }
@@ -205,7 +205,7 @@ namespace AlarmClock.Forms
             }
             else if (num1==2)
             {
-                textBox1.Text = "4";
+                textBox1.Text = "3";
             }
             else
             {
