@@ -66,6 +66,14 @@ namespace Calculator.Business.Services
                     }
 
                     break;
+
+                case "^":
+                    state.XRegister = Math.Pow(state.YRegister, state.XRegister);
+                    break;
+
+                case "%":
+                    state.XRegister = state.YRegister * (state.XRegister / 100);
+                    break;
             }
         }
     }
