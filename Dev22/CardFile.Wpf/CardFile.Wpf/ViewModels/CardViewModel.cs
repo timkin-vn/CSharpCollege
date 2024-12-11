@@ -9,126 +9,95 @@ namespace CardFile.Wpf.ViewModels
 {
     internal class CardViewModel : INotifyPropertyChanged
     {
-        private string _firstName;
+        private string _title;
 
-        private string _lastName;
+        private DateTime _exp = new DateTime(2000, 1, 1);
 
-        private string _middleName;
+        private string _fabricator;
 
-        private DateTime _birthDate = new DateTime(2000, 1, 1);
+        private string _section;
 
-        private string _department;
+        private int _count;
 
-        private string _position;
-
-        private int _subordinatesCount;
-
-        private decimal _paymentAmount;
+        private decimal _price;
 
         public int Id { get; set; }
 
-        public string Fio => $"{LastName} {FirstName} {MiddleName}";
-
-        public string FirstName
+        public string Title
         {
-            get => _firstName;
+            get => _title;
             set
             {
-                _firstName = value;
-                OnPropertyChanged(nameof(Fio));
-                OnPropertyChanged(nameof(FirstName));
+                _title = value;
+                OnPropertyChanged(nameof(Title));
             }
         }
 
-        public string LastName
+        public DateTime EXP
         {
-            get => _lastName;
+            get => _exp;
             set
             {
-                _lastName = value;
-                OnPropertyChanged(nameof(Fio));
-                OnPropertyChanged(nameof(LastName));
+                _exp = value;
+                OnPropertyChanged(nameof(EXP));
             }
         }
 
-        public string MiddleName
+        public string EXPText => EXP.ToShortDateString();
+
+        public string Fabricator
         {
-            get => _middleName;
+            get => _fabricator;
             set
             {
-                _middleName = value;
-                OnPropertyChanged(nameof(Fio));
-                OnPropertyChanged(nameof(MiddleName));
+                _fabricator = value;
+                OnPropertyChanged(nameof(Fabricator));
             }
         }
 
-        public DateTime BirthDate
+        public string Section
         {
-            get => _birthDate;
+            get => _section;
             set
             {
-                _birthDate = value;
-                OnPropertyChanged(nameof(BirthDate));
+                _section = value;
+                OnPropertyChanged(nameof(Section));
             }
         }
 
-        public string BirthDateText => BirthDate.ToShortDateString();
-
-        public string Department
+        public int Count
         {
-            get => _department;
+            get => _count;
             set
             {
-                _department = value;
-                OnPropertyChanged(nameof(Department));
+                _count = value;
+                OnPropertyChanged(nameof(Count));
             }
         }
 
-        public string Position
+        public decimal Price
         {
-            get => _position;
+            get => _price;
             set
             {
-                _position = value;
-                OnPropertyChanged(nameof(Position));
+                _price = value;
+                OnPropertyChanged(nameof(Price));
             }
         }
 
-        public int SubordinatesCount
-        {
-            get => _subordinatesCount;
-            set
-            {
-                _subordinatesCount = value;
-                OnPropertyChanged(nameof(SubordinatesCount));
-            }
-        }
-
-        public decimal PaymentAmount
-        {
-            get => _paymentAmount;
-            set
-            {
-                _paymentAmount = value;
-                OnPropertyChanged(nameof(PaymentAmount));
-            }
-        }
-
-        public string PaymentAmountText => $"{PaymentAmount:#,##0.00} р.";
+        public string PriceText => $"{Price:#,##0.00} р.";
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void CopyFrom(CardViewModel model)
         {
             Id = model.Id;
-            FirstName = model.FirstName;
-            LastName = model.LastName;
-            MiddleName = model.MiddleName;
-            BirthDate = model.BirthDate;
-            Department = model.Department;
-            Position = model.Position;
-            SubordinatesCount = model.SubordinatesCount;
-            PaymentAmount = model.PaymentAmount;
+            Title = model.Title;
+            EXP = model.EXP;
+            Fabricator = model.Fabricator;
+            Section = model.Section;
+            Count = model.Count;
+            Price = model.Price;
         }
 
         private void OnPropertyChanged(string propertyName)

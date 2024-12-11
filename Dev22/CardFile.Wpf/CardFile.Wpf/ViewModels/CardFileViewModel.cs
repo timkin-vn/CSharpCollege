@@ -47,8 +47,8 @@ namespace CardFile.Wpf.ViewModels
         }
 
         public string WindowTitle => string.IsNullOrEmpty(FileName) ?
-            "Картотека" :
-            $"{Path.GetFileName(FileName)} - Картотека";
+            "Картотека товаров" :
+            $"{Path.GetFileName(FileName)} - Картотека товаров";
 
         public CardViewModel GetNewCardViewModel()
         {

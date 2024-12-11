@@ -28,7 +28,7 @@ namespace CardFile.DataAccess.FileDataAccess.FileSavers
                         }
 
                         var lineParts = nextLine.Split(';');
-                        if (lineParts.Length != 9)
+                        if (lineParts.Length != 7)
                         {
                             throw new Exception($"В строке файла {fileName} неверное количество записей");
                         }
@@ -43,32 +43,30 @@ namespace CardFile.DataAccess.FileDataAccess.FileSavers
                             throw new Exception($"В строке файла {fileName} неверное значение Id");
                         }
 
-                        newRecord.FirstName = lineParts[1];
-                        newRecord.MiddleName = lineParts[2];
-                        newRecord.LastName = lineParts[3];
-                        if (DateTime.TryParse(lineParts[4], out var birthDate))
+                        newRecord.Title = lineParts[1];
+                        if (DateTime.TryParse(lineParts[2], out var exp))
                         {
-                            newRecord.BirthDate = birthDate;
+                            newRecord.EXP = exp;
                         }
                         else
                         {
                             throw new Exception($"В строке файла {fileName} неверное значение BirthDate");
                         }
 
-                        if (decimal.TryParse(lineParts[5], out var paymentAmount))
+                        if (decimal.TryParse(lineParts[3], out var price))
                         {
-                            newRecord.PaymentAmount = paymentAmount;
+                            newRecord.Price = price;
                         }
                         else
                         {
                             throw new Exception($"В строке файла {fileName} неверное значение PaymentAmount");
                         }
 
-                        newRecord.Department = lineParts[6];
-                        newRecord.Position = lineParts[7];
-                        if (int.TryParse(lineParts[8], out var subordinatesCount))
+                        newRecord.Fabricator = lineParts[4];
+                        newRecord.Section = lineParts[5];
+                        if (int.TryParse(lineParts[6], out var subordinatesCount))
                         {
-                            newRecord.SubordinatesCount = subordinatesCount;
+                            newRecord.Count = subordinatesCount;
                         }
                         else
                         {
@@ -91,9 +89,9 @@ namespace CardFile.DataAccess.FileDataAccess.FileSavers
                 {
                     foreach (var item in collection.GetAll())
                     {
-                        writer.WriteLine($"{item.Id};{item.FirstName};{item.MiddleName};{item.LastName};" +
-                            $"{item.BirthDate.ToShortDateString()};{item.PaymentAmount};{item.Department};" +
-                            $"{item.Position};{item.SubordinatesCount}");
+                        writer.WriteLine($"{item.Id};{item.Title};" +
+                            $"{item.EXP.ToShortDateString()};{item.Price};{item.Fabricator};" +
+                            $"{item.Section};{item.Count}");
                     }
                 }
             }
