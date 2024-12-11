@@ -28,28 +28,25 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Row="0" Grid.Column="0" Text="ФИО:" Margin="5" />
-        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Fio}" Margin="5" />
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Название:" Margin="5" VerticalAlignment="Center" />
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Title}" Margin="5" />
 
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="Фамилия:" Margin="5" VerticalAlignment="Center" />
-        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding LastName}" Margin="5" />
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Срок годности:" Margin="5" VerticalAlignment="Center" />
+        <DatePicker Grid.Row="2" Grid.Column="1" Margin="5" SelectedDate="{Binding EXP}" />
 
-        <TextBlock Grid.Row="2" Grid.Column="0" Text="Имя:" Margin="5" VerticalAlignment="Center" />
-        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding FirstName}" Margin="5" />
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Производитель:" Margin="5" VerticalAlignment="Center" />
+        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Fabricator}" Margin="5" />
 
-        <TextBlock Grid.Row="3" Grid.Column="0" Text="Отчество:" Margin="5" VerticalAlignment="Center" />
-        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding MiddleName}" Margin="5" />
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="Отдел:" Margin="5" VerticalAlignment="Center" />
+        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Section}" Margin="5" />
 
-        <TextBlock Grid.Row="4" Grid.Column="0" Text="Дата рождения:" Margin="5" VerticalAlignment="Center" />
-        <DatePicker Grid.Row="4" Grid.Column="1" Margin="5" SelectedDate="{Binding BirthDate}" />
+        <TextBlock Grid.Row="5" Grid.Column="0" Text="Количество:" Margin="5" VerticalAlignment="Center" />
+        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Count}" Margin="5" />
 
-        <TextBlock Grid.Row="5" Grid.Column="0" Text="Зарплата:" Margin="5" VerticalAlignment="Center" />
-        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding PaymentAmount}" Margin="5" />
-
-        <TextBlock Grid.Row="6" Grid.Column="0" Text="Количество детей:" Margin="5" VerticalAlignment="Center" />
-        <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding ChildrenCount}" Margin="5" />
-
-        <StackPanel Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
+        <TextBlock Grid.Row="6" Grid.Column="0" Text="Цена:" Margin="5" VerticalAlignment="Center" />
+        <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Price}" Margin="5" />
+        
+        <StackPanel Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="OK" Margin="5" Padding="5" Click="OkButton_Click" />
             <Button Content="Отмена" Margin="5" Padding="5" Click="CancelButton_Click" />
         </StackPanel>

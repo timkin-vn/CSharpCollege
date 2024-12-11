@@ -13,24 +13,26 @@ namespace CardFile.DataAccess.FileDataAccess.StorageEntities
         [XmlAttribute("Id")]
         public int Id { get; set; }
 
-        public string FirstName { get; set; }
+        public string Title { get; set; }
+        
 
-        public string MiddleName { get; set; }
 
-        public string LastName { get; set; }
-
-        [XmlElement("BirthDate")]
-        public long BirthDateTicks
+        [XmlElement("EXP")]
+        public long EXPTicks
         {
-            get => BirthDate.Ticks;
-            set => BirthDate = new DateTime(value);
+            get => EXP.Ticks;
+            set => EXP = new DateTime(value);
         }
 
         [XmlIgnore]
-        public DateTime BirthDate { get; set; }
+        public DateTime EXP { get; set; }
 
-        public decimal PaymentAmount { get; set; }
+        public string Fabricator { get; set; }
 
-        public int ChildrenCount { get; set; }
+        public string Section { get; set; }
+
+        public int Count { get; set; }
+        
+        public decimal Price { get; set; }
     }
 }

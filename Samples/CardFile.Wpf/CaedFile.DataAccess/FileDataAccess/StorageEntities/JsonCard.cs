@@ -12,24 +12,24 @@ namespace CardFile.DataAccess.FileDataAccess.StorageEntities
     {
         public int Id { get; set; }
 
-        public string FirstName { get; set; }
+        public string Title { get; set; }
+        
 
-        public string MiddleName { get; set; }
 
-        public string LastName { get; set; }
-
-        [JsonPropertyName("BirthDate")]
-        public long BirthDateTicks
+        [JsonPropertyName("EXP")]
+        public long EXPTicks
         {
-            get => BirthDate.Ticks;
-            set => BirthDate = new DateTime(value);
+            get => EXP.Ticks;
+            set => EXP = new DateTime(value);
         }
 
         [JsonIgnore]
-        public DateTime BirthDate { get; set; }
+        public DateTime EXP { get; set; }
 
-        public decimal PaymentAmount { get; set; }
+        public string Fabricator { get; set; }
+        public string Section { get; set; }
 
-        public int ChildrenCount { get; set; }
+        public int Count { get; set; }
+        public decimal Price { get; set; }
     }
 }
