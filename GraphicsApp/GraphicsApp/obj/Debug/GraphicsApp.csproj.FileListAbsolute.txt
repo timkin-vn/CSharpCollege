@@ -1,0 +1,10 @@
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\GraphicsApp\GraphicsApp\bin\Debug\GraphicsApp.exe.config
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\GraphicsApp\GraphicsApp\bin\Debug\GraphicsApp.exe
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\GraphicsApp\GraphicsApp\bin\Debug\GraphicsApp.pdb
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\GraphicsApp\GraphicsApp\obj\Debug\GraphicsApp.csproj.AssemblyReference.cache
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\GraphicsApp\GraphicsApp\obj\Debug\GraphicsApp.PictureForm.resources
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\GraphicsApp\GraphicsApp\obj\Debug\GraphicsApp.Properties.Resources.resources
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\GraphicsApp\GraphicsApp\obj\Debug\GraphicsApp.csproj.GenerateResource.cache
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\GraphicsApp\GraphicsApp\obj\Debug\GraphicsApp.csproj.CoreCompileInputs.cache
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\GraphicsApp\GraphicsApp\obj\Debug\GraphicsApp.exe
+C:\Users\artem\Downloads\CSharpCollege-master\CSharpCollege-master\Samples\GraphicsApp\GraphicsApp\obj\Debug\GraphicsApp.pdb
