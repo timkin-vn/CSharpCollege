@@ -16,7 +16,6 @@ namespace AlarmClock
     public partial class ClockForm : Form
     {
         private AlarmSettings _settings = new AlarmSettings();
-
         private AwakeForm _awakeForm = null;
 
         public ClockForm()
@@ -27,6 +26,8 @@ namespace AlarmClock
         private void ClockTimer_Tick(object sender, EventArgs e)
         {
             DisplayLabel.Text = DateTime.Now.ToLongTimeString();
+            DateLabel.Text = DateTime.Now.ToLongDateString(); 
+
             if (_settings.IsAlarmActive && DateTime.Now.TimeOfDay >= _settings.AlarmTime.TimeOfDay)
             {
                 if (_awakeForm == null || _awakeForm.IsDisposed)
@@ -59,6 +60,11 @@ namespace AlarmClock
             var form = new SettingsForm();
             form.Settings = _settings;
             form.ShowDialog();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
