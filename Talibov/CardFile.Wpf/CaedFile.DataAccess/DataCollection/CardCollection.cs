@@ -16,40 +16,40 @@ namespace CardFile.DataAccess.DataCollection
             new CardDto
             {
                 Id = 1,
-                Name = "Сбер",
+                Name = "Альфа банк",
                 Description = "Банковское отделение",
-                Street = "Березовская улица",
-                House = "95",
+                Street = "Улица Бринского",
+                House = "97",
                 City = "Нижний Новгород",
                 MailIndex = 603157,
-                Rating = 4.5,
+                Rating = 5,
                 CounterReviews = 139,
-                Status = "Закрыт по причине ремонта"
+                Status = "Закрыт по техническим причинам"
             },
             new CardDto
             {
                 Id = 2,
-                Name = "Птичье молоко",
-                Description = "Кафе, ресторан, банкетный зал",
-                Street = "Юбилейный бульвар",
-                House = "30Б",
+                Name = "Кроконт",
+                Description = "Магнит",
+                Street = "Улица Есенина",
+                House = "2",
                 City = "Нижний Новгород",
                 MailIndex = 603037,
-                Rating = 4.3,
+                Rating = 4.4,
                 CounterReviews = 177,
                 Status = "Работает"
             },
             new CardDto
             {
                 Id = 3,
-                Name = "Максавит",
+                Name = "Аптека.ру",
                 Description = "Аптека",
-                Street = "улица Культуры",
-                House = "14",
+                Street = "улица Бринского",
+                House = "2",
                 City = "Нижний Новгород",
                 MailIndex = 123456,
-                Rating = 4.7,
-                CounterReviews = 53,
+                Rating = 4.2,
+                CounterReviews = 67,
                 Status = "Работает"
             }
         };
