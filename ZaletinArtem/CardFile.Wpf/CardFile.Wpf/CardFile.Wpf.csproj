@@ -35,8 +35,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="AutoMapper, Version=10.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.10.1.1\lib\net461\AutoMapper.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -58,6 +58,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Infrastructure\MapperRegistrator.cs" />
     <Compile Include="ViewModels\CardFileViewModel.cs" />
     <Compile Include="ViewModels\CardViewModel.cs" />
     <Compile Include="Views\EditCardWindow.xaml.cs">
@@ -111,6 +112,10 @@
     <ProjectReference Include="..\CardFile.Business\CardFile.Business.csproj">
       <Project>{b7fbdc4e-9bec-4e2a-995c-74331aed5367}</Project>
       <Name>CardFile.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CardFile.Common\CardFile.Common.csproj">
+      <Project>{2EE9C92B-9616-447A-AC71-B698C450CF9A}</Project>
+      <Name>CardFile.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\CardFile.DataAccess\CardFile.DataAccess.csproj">
       <Project>{CA50A959-CB71-4A70-876C-1302AC689959}</Project>

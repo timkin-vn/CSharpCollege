@@ -1,5 +1,7 @@
-﻿using CardFile.Wpf.ViewModels;
+﻿using CardFile.Wpf.Infrastructure;
+using CardFile.Wpf.ViewModels;
 using CardFile.Wpf.Views;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,13 +25,15 @@ namespace CardFile.Wpf
     public partial class MainWindow : Window
     {
         internal CardFileViewModel ViewModel => (CardFileViewModel)DataContext;
+        private readonly CardFileViewModel _viewModel;
 
         public MainWindow()
         {
+            MapperRegistrator.Register();
             InitializeComponent();
-
-            var viewModel = new CardFileViewModel();
-            DataContext = viewModel;
+            _viewModel = new CardFileViewModel();
+            DataContext = _viewModel;
+            _viewModel.LoadCards();
         }
 
         private void AddCardButton_Click(object sender, RoutedEventArgs e)
@@ -58,34 +62,64 @@ namespace CardFile.Wpf
         {
             ViewModel.DeleteSelectedCard();
         }
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
-        {
-            var saveFileDialog = new Microsoft.Win32.SaveFileDialog
-            {
-                Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*",
-                DefaultExt = ".json"
-            };
 
+        private void FileExitMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void FileOpenMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Текстовый файл|*.txt|Двоичный файл|*.cardbin|Файл XML|*.xml|Файлы JSON|*.json|ZIP-архивы|*.zip|Все файлы|*.*";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                try
+                {
+                    ViewModel.OpenFromFile(openFileDialog.FileName);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private void FileSaveMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(ViewModel.FileName))
+            {
+                ViewModel.SaveToFile();
+            }
+            else
+            {
+                DoSaveAs();
+            }
+        }
+
+        private void FileSaveAsMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            DoSaveAs();
+        }
+
+        private void DoSaveAs()
+        {
+            var saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Текстовый файл|*.txt|Двоичный файл|*.cardbin|Файл XML|*.xml|Файлы JSON|*.json|ZIP-архивы|*.zip|Все файлы|*.*";
             if (saveFileDialog.ShowDialog() == true)
             {
                 ViewModel.SaveToFile(saveFileDialog.FileName);
-                MessageBox.Show("Данные успешно сохранены!", "Сохранение", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
-        private void LoadButton_Click(object sender, RoutedEventArgs e)
+
+        private void Window_Initialized(object sender, EventArgs e)
         {
-            var openFileDialog = new Microsoft.Win32.OpenFileDialog
-            {
-                Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*",
-                DefaultExt = ".json"
-            };
-
-            if (openFileDialog.ShowDialog() == true)
-            {
-                ViewModel.LoadFromFile(openFileDialog.FileName);
-                MessageBox.Show("Данные успешно загружены!", "Загрузка", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
+            ViewModel.Initialized();
         }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            ViewModel.Loaded();
+        }
     }
 }

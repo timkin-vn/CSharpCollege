@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardFile.Business", "CardFi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardFile.DataAccess", "CardFile.DataAccess\CardFile.DataAccess.csproj", "{CA50A959-CB71-4A70-876C-1302AC689959}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardFile.Common", "CardFile.Common\CardFile.Common.csproj", "{2EE9C92B-9616-447A-AC71-B698C450CF9A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{CA50A959-CB71-4A70-876C-1302AC689959}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA50A959-CB71-4A70-876C-1302AC689959}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA50A959-CB71-4A70-876C-1302AC689959}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EE9C92B-9616-447A-AC71-B698C450CF9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EE9C92B-9616-447A-AC71-B698C450CF9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EE9C92B-9616-447A-AC71-B698C450CF9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EE9C92B-9616-447A-AC71-B698C450CF9A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

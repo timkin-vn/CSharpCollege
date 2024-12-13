@@ -1,4 +1,9 @@
-﻿using System;
+﻿using CardFile.Common.Infrastructure;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace CardFile.DataAccess.Dtos
 {
@@ -14,26 +19,13 @@ namespace CardFile.DataAccess.Dtos
 
         public CardDto Clone()
         {
-            return new CardDto
-            {
-                Id = Id,
-                Title = Title,
-                Author = Author,
-                PublicationDate = PublicationDate,
-                Genre = Genre,
-                PageCount = PageCount,
-                Price = Price
-            };
+            return Mapping.Mapper.Map<CardDto>(this);
         }
 
-        public void Update(CardDto newCard)
+        public void Update(CardDto from)
         {
-            Title = newCard.Title;
-            Author = newCard.Author;
-            PublicationDate = newCard.PublicationDate;
-            Genre = newCard.Genre;
-            PageCount = newCard.PageCount;
-            Price = newCard.Price;
+            Mapping.Mapper.Map(from, this);
+
         }
     }
 }

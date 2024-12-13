@@ -1,21 +1,27 @@
 ﻿using CardFile.Business.Entities;
 using CardFile.Business.Services;
+using CardFile.Common.Infrastructure;
+using CardFile.DataAccess.DataCollection;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.IO;
-using Newtonsoft.Json;
-using System.Xml;
-using CardFile.DataAccess.Dtos;
-using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
 
 namespace CardFile.Wpf.ViewModels
 {
     internal class CardFileViewModel : INotifyPropertyChanged
     {
+        private readonly CardFileDataCollection _dataCollection = new CardFileDataCollection();
         private readonly CardFileDataService _service = new CardFileDataService();
 
         private CardViewModel _selectedCard;
+
+        private string _fileName;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -33,10 +39,19 @@ namespace CardFile.Wpf.ViewModels
 
         public bool IsEditButtonEnabled => SelectedCard != null;
 
-        public CardFileViewModel()
+        public string FileName
         {
-            ShowAll();
+            get => _fileName;
+            set
+            {
+                _fileName = value;
+                OnPropertyChanged(nameof(WindowTitle));
+            }
         }
+
+        public string WindowTitle => string.IsNullOrEmpty(FileName) ?
+            "Картотека" :
+            $"{Path.GetFileName(FileName)} - Картотека";
 
         public CardViewModel GetNewCardViewModel()
         {
@@ -59,6 +74,30 @@ namespace CardFile.Wpf.ViewModels
             ShowAll();
         }
 
+        public void LoadCards()
+        {
+            Cards.Clear();
+            var allCards = _dataCollection.GetAll().ToList();
+            if (!allCards.Any())
+            {
+                MessageBox.Show("Коллекция пуста!");
+                return;
+            }
+
+            foreach (var card in allCards)
+            {
+                Cards.Add(new CardViewModel
+                {
+                    Id = card.Id,
+                    Title = card.Title,
+                    Author = card.Author,
+                    PublicationDate = card.PublicationDate,
+                    Genre = card.Genre,
+                    PageCount = card.PageCount,
+                    Price = card.Price
+                });
+            }
+        }
         public void Save(CardViewModel cardViewModel)
         {
             var card = FromViewModel(cardViewModel);
@@ -81,6 +120,39 @@ namespace CardFile.Wpf.ViewModels
             OnPropertyChanged(nameof(SelectedCard));
         }
 
+        public void SaveToFile(string fileName)
+        {
+            FileName = fileName;
+            SaveImplementation();
+        }
+
+        public void SaveToFile()
+        {
+            SaveImplementation();
+        }
+
+        public void OpenFromFile(string fileName)
+        {
+            _service.OpenFromFile(fileName);
+            FileName = fileName;
+            ShowAll();
+        }
+
+        public void Initialized()
+        {
+            Mapping.Initialize();
+        }
+
+        public void Loaded()
+        {
+            ShowAll();
+        }
+
+        private void SaveImplementation()
+        {
+            _service.SaveToFile(FileName);
+        }
+
         private void ShowAll()
         {
             Cards.Clear();
@@ -93,68 +165,12 @@ namespace CardFile.Wpf.ViewModels
 
         private CardViewModel ToViewModel(Card card)
         {
-            return new CardViewModel
-            {
-                Id = card.Id,
-                Title = card.Title,
-                Author = card.Author,
-                PublicationDate = card.PublicationDate,
-                Genre = card.Genre,
-                PageCount = card.PageCount,
-                Price = card.Price,
-            };
+            return Mapping.Mapper.Map<CardViewModel>(card);
         }
 
         private Card FromViewModel(CardViewModel cardViewModel)
         {
-            return new Card
-            {
-                Id = cardViewModel.Id,
-                Title = cardViewModel.Title,
-                Author = cardViewModel.Author,
-                PublicationDate = cardViewModel.PublicationDate,
-                Genre = cardViewModel.Genre,
-                PageCount = cardViewModel.PageCount,
-                Price = cardViewModel.Price,
-            };
-        }
-        public void SaveToFile(string filePath)
-        {
-            var cardList = Cards.Select(card => new CardDto
-            {
-                Id = card.Id,
-                Title = card.Title,
-                Author = card.Author,
-                PublicationDate = card.PublicationDate,
-                Genre = card.Genre,
-                PageCount = card.PageCount,
-                Price = card.Price
-            }).ToList();
-
-            var json = JsonConvert.SerializeObject(cardList, Newtonsoft.Json.Formatting.Indented);
-            File.WriteAllText(filePath, json);
-        }
-        public void LoadFromFile(string filePath)
-        {
-            if (!File.Exists(filePath)) return;
-
-            var json = File.ReadAllText(filePath);
-            var cardList = JsonConvert.DeserializeObject<List<CardDto>>(json);
-
-            Cards.Clear();
-            foreach (var cardDto in cardList)
-            {
-                Cards.Add(new CardViewModel
-                {
-                    Id = cardDto.Id,
-                    Title = cardDto.Title,
-                    Author = cardDto.Author,
-                    PublicationDate = cardDto.PublicationDate,
-                    Genre = cardDto.Genre,
-                    PageCount = cardDto.PageCount,
-                    Price = cardDto.Price
-                });
-            }
+            return Mapping.Mapper.Map<Card>(cardViewModel);
         }
 
         private void OnPropertyChanged(string  propertyName)
