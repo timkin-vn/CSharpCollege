@@ -28,20 +28,23 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Row="0" Grid.Column="0" Text="Группа:" Margin="5" />
-        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Fio}" Margin="5" />
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Машина:" Margin="5" />
+        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Car}" Margin="5" />
 
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="Номер курса:" Margin="5" VerticalAlignment="Center" />
-        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding CourseNumber}" Margin="5" />
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Производитель:" Margin="5" VerticalAlignment="Center" />
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Manufacturer}" Margin="5" />
 
-        <TextBlock Grid.Row="3" Grid.Column="0" Text="ФИО куратора группы:" Margin="5" VerticalAlignment="Center" />
-        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Tutor}" Margin="5" />
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Моделль:" Margin="5" VerticalAlignment="Center" />
+        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Model}" Margin="5" />
 
-        <TextBlock Grid.Row="4" Grid.Column="0" Text="Специальная программа:" Margin="5" VerticalAlignment="Center" />
-        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding SpecialProgram}" Margin="5" />
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="Дата покупки:" Margin="5" VerticalAlignment="Center" />
+        <DatePicker Grid.Row="4" Grid.Column="1" Margin="5" SelectedDate="{Binding DatePurchase}" />
 
-        <TextBlock Grid.Row="5" Grid.Column="0" Text="Количество студентов в группе:" Margin="5" VerticalAlignment="Center" />
-        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding NumberStudents}" Margin="5" />
+        <TextBlock Grid.Row="5" Grid.Column="0" Text="Цена:" Margin="5" VerticalAlignment="Center" />
+        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Price}" Margin="5" />
+
+        <TextBlock Grid.Row="6" Grid.Column="0" Text="Пробег(km):" Margin="5" VerticalAlignment="Center" />
+        <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Mileage}" Margin="5" />
 
         <StackPanel Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="OK" Margin="5" Padding="5" Click="OkButton_Click" />

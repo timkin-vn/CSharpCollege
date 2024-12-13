@@ -13,12 +13,22 @@ namespace CardFile.DataAccess.FileDataAccess.StorageEntities
         [XmlAttribute("Id")]
         public int Id { get; set; }
 
-        public string CourseNumber { get; set; }
+        public string Model { get; set; }
 
-        public string Tutor { get; set; }
+        public string Manufacturer { get; set; }
 
-        public string SpecialProgram { get; set; }
+        [XmlElement("DatePurchase")]
+        public long DatePurchaseTicks
+        {
+            get => DatePurchase.Ticks;
+            set => DatePurchase = new DateTime(value);
+        }
 
-        public int NumberStudents { get; set; }
+        [XmlIgnore]
+        public DateTime DatePurchase { get; set; }
+
+        public decimal Price { get; set; }
+
+        public int Mileage { get; set; }
     }
 }

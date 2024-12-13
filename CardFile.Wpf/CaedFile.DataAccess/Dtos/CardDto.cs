@@ -11,22 +11,38 @@ namespace CardFile.DataAccess.Dtos
     {
         public int Id { get; set; }
 
-        public string Tutor { get; set; }
+        public string Model { get; set; }
 
-        public string CourseNumber { get; set; }
+        public string Manufacturer { get; set; }
 
-        public string SpecialProgram { get; set; } //Специальная программа(типо усиленная группа)
+        public DateTime DatePurchase { get; set; }
 
-        public int NumberStudents { get; set; }
+        public decimal Price { get; set; }
+
+        public int Mileage { get; set; }
 
         public CardDto Clone()
         {
             return Mapping.Mapper.Map<CardDto>(this);
+            //return new CardDto
+            //{
+            //    Id = Id,
+            //    Model = Model,
+            //    Manufacturer = Manufacturer,
+            //    DatePurchase = DatePurchase,
+            //    Price = Price,
+            //    Mileage = Mileage,
+            //};
         }
 
         public void Update(CardDto newCard)
         {
             Mapping.Mapper.Map(newCard, this);
+            //Model = newCard.Model;
+            //Manufacturer = newCard.Manufacturer;
+            //Manufacturer = newCard.Manufacturer;
+            //Price = newCard.Price;
+            //Mileage = newCard.Mileage;
         }
     }
 }

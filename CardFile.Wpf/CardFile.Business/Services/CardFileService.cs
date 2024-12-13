@@ -74,11 +74,29 @@ namespace CardFile.Business.Services
         private Card FromDto(CardDto dto)
         {
             return Mapping.Mapper.Map<Card>(dto);
+            //return new Card
+            //{
+            //    Id = dto.Id,
+            //    Model = dto.Model,
+            //    Manufacturer = dto.Manufacturer,
+            //    DatePurchase = dto.DatePurchase,
+            //    Price = dto.Price,
+            //    Mileage = dto.Mileage,
+            //};
         }
 
         private CardDto ToDto(Card card)
         {
             return Mapping.Mapper.Map<CardDto>(card);
+            //return new CardDto
+            //{
+            //    Id = card.Id,
+            //    Model = card.Model,
+            //    Manufacturer = card.Manufacturer,
+            //    DatePurchase = card.DatePurchase,
+            //    Price = card.Price,
+            //    Mileage = card.Mileage,
+            //};
         }
     }
 }

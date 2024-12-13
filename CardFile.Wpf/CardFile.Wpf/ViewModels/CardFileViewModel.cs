@@ -133,11 +133,29 @@ namespace CardFile.Wpf.ViewModels
         private CardViewModel ToViewModel(Card card)
         {
             return Mapping.Mapper.Map<CardViewModel>(card);
+            //return new CardViewModel
+            //{
+            //    Id = card.Id,
+            //    Model = card.Model,
+            //    Manufacturer = card.Manufacturer,
+            //    DatePurchase = card.DatePurchase,
+            //    Price = card.Price,
+            //    Mileage = card.Mileage,
+            //};
         }
 
         private Card FromViewModel(CardViewModel card)
         {
             return Mapping.Mapper.Map<Card>(card);
+            //return new Card
+            //{
+            //    Id = card.Id,
+            //    Model = card.Model,
+            //    Manufacturer = card.Manufacturer,
+            //    DatePurchase = card.DatePurchase,
+            //    Price = card.Price,
+            //    Mileage = card.Mileage,
+            //};
         }
 
         private void ShowAll()

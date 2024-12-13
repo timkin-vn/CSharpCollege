@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.Remoting.Lifetime;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,56 +10,74 @@ namespace CardFile.Wpf.ViewModels
 {
     public class CardViewModel : INotifyPropertyChanged
     {
+        private string _manufacturer;
 
-        private string _CourseNumber;
+        private string _model;
 
-        private string _Tutor;
+        private DateTime _datePurchase = new DateTime(2000, 6, 15);
 
-        private string _SpecialProgram;
-    
-        private int _NumberStudents;
+        private decimal _price;
+
+        private int _mileage;
 
         public int Id { get; set; }
 
-        public string Fio => $"{CourseNumber}";
+        public string Car => $"{Manufacturer} {Model}";
 
-        public string Tutor
+        public string Manufacturer
         {
-            get => _Tutor;
+            get => _manufacturer;
             set
             {
-                _Tutor = value;
-                OnPropertyChanged(nameof(Tutor));
-            }
-        }
-        public string SpecialProgram
-        {
-            get => _SpecialProgram;
-            set
-            {
-                _SpecialProgram = value;
-                OnPropertyChanged(nameof(SpecialProgram));
-            }
-        }
-        public string CourseNumber
-        {
-            get => _CourseNumber;
-            set
-            {
-                _CourseNumber = value;
-                OnPropertyChanged(nameof(Fio));
-                OnPropertyChanged(nameof(CourseNumber));
+                _manufacturer = value;
+                OnPropertyChanged(nameof(Car));
+                OnPropertyChanged(nameof(Manufacturer));
             }
         }
 
-       
-        public int NumberStudents
+        public string Model
         {
-            get => _NumberStudents;
+            get => _model;
             set
             {
-                _NumberStudents = value;
-                OnPropertyChanged(nameof(NumberStudents));
+                _model = value;
+                OnPropertyChanged(nameof(Car));
+                OnPropertyChanged(nameof(Model));
+            }
+        }
+
+        public DateTime DatePurchase
+        {
+            get => _datePurchase;
+            set
+            {
+                _datePurchase = value;
+                OnPropertyChanged(nameof(DatePurchase));
+            }
+        }
+
+
+        public string DatePurchaseText => DatePurchase.ToShortDateString();
+
+        public decimal Price
+        {
+            get => _price;
+            set
+            {
+                _price = value;
+                OnPropertyChanged(nameof(Price));
+            }
+        }
+
+        public string PriceText => Price.ToString("#,##0.00 р\\.");
+
+        public int Mileage
+        {
+            get => _mileage;
+            set
+            {
+                _mileage = value;
+                OnPropertyChanged(nameof(Mileage));
             }
         }
 
@@ -67,10 +86,11 @@ namespace CardFile.Wpf.ViewModels
         public void CopyFrom(CardViewModel model)
         {
             Id = model.Id;
-            Tutor = model.Tutor;
-            CourseNumber = model.CourseNumber;
-            SpecialProgram = model.SpecialProgram;
-            NumberStudents = model.NumberStudents;
+            Manufacturer = model.Manufacturer;
+            Model = model.Model;
+            DatePurchase = model.DatePurchase;
+            Price = model.Price;
+            Mileage = model.Mileage;
         }
 
         private void OnPropertyChanged(string propertyName)

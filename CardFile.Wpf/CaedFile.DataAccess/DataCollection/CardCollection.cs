@@ -2,7 +2,6 @@
 using CardFile.DataAccess.Infrastructure;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlTypes;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -17,34 +16,38 @@ namespace CardFile.DataAccess.DataCollection
             new CardDto
             {
                 Id = 1,
-                CourseNumber = "1",
-                Tutor = "Бывалова Р.И.",
-                SpecialProgram="Нет",
-                NumberStudents = 13,
+                Manufacturer = "Lada",
+                Model = "Granta",
+                DatePurchase = new DateTime(2017, 11, 15),
+                Price = 125000m,
+                Mileage = 80000,
             },
             new CardDto
             {
                 Id = 2,
-                Tutor = "Быков Ф.В.",
-                CourseNumber = "2",
-                SpecialProgram="Нет",
-                NumberStudents = 18,
+                Manufacturer = "Skoda",
+                Model = "Octavia",
+                DatePurchase = new DateTime(2006, 7, 18),
+                Price = 100000m,
+                Mileage = 260000,
             },
             new CardDto
             {
                 Id = 3,
-                Tutor = "Петров П.С.",
-                CourseNumber = "3",
-                SpecialProgram="Да",
-                NumberStudents = 10,
+                Manufacturer = "Ford",
+                Model = "Focus",
+                DatePurchase = new DateTime(2008, 3, 21),
+                Price = 150000m,
+                Mileage = 168000,
             },
             new CardDto
             {
                 Id = 4,
-                Tutor = "Романов А.О.",
-                CourseNumber = "4",
-                SpecialProgram="Нет",
-                NumberStudents = 15,
+                Manufacturer = "Reno",
+                Model = "Logan",
+                DatePurchase = new DateTime(2020, 5, 8),
+                Price = 150000m,
+                Mileage = 400000,
             },
         };
 

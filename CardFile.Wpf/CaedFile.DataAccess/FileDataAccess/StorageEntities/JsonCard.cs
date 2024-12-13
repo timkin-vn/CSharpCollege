@@ -12,12 +12,22 @@ namespace CardFile.DataAccess.FileDataAccess.StorageEntities
     {
         public int Id { get; set; }
 
-        public string CourseNumber { get; set; }
+        public string Model { get; set; }
 
-        public string Tutor { get; set; }
+        public string Manufacturer { get; set; }
 
-        public string BadSpecialProgramClass { get; set; }
+        [JsonPropertyName("DatePurchase")]
+        public long DatePurchaseTicks
+        {
+            get => DatePurchase.Ticks;
+            set => DatePurchase = new DateTime(value);
+        }
 
-        public int NumberStudents { get; set; }
+        [JsonIgnore]
+        public DateTime DatePurchase { get; set; }
+
+        public decimal Price { get; set; }
+
+        public int Mileage { get; set; }
     }
 }

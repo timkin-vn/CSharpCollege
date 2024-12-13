@@ -26,10 +26,14 @@ namespace CardFile.DataAccess.FileDataAccess.FileSavers
                         try
                         {
                             newRecord.Id = reader.ReadInt32();
-                            newRecord.Tutor = reader.ReadString();
-                            newRecord.CourseNumber = reader.ReadString();
-                            newRecord.SpecialProgram = reader.ReadString();
-                            newRecord.NumberStudents = reader.ReadInt32();
+                            newRecord.Model = reader.ReadString();
+                            newRecord.Manufacturer = reader.ReadString();
+
+                            var ticks = reader.ReadInt64();
+                            newRecord.DatePurchase = new DateTime(ticks);
+
+                            newRecord.Price = reader.ReadDecimal();
+                            newRecord.Mileage = reader.ReadInt32();
                         }
                         catch
                         {
@@ -53,10 +57,11 @@ namespace CardFile.DataAccess.FileDataAccess.FileSavers
                     foreach (var item in collection.GetAll())
                     {
                         writer.Write(item.Id);
-                        writer.Write(item.Tutor);
-                        writer.Write(item.CourseNumber);
-                        writer.Write(item.SpecialProgram);
-                        writer.Write(item.NumberStudents);
+                        writer.Write(item.Model);
+                        writer.Write(item.Manufacturer);
+                        writer.Write(item.DatePurchase.Ticks);
+                        writer.Write(item.Price);
+                        writer.Write(item.Mileage);
                     }
                 }
             }

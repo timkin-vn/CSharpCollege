@@ -27,13 +27,13 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <DataGrid Grid.Row="0" Margin="0,0,10,10" ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" AutoGenerateColumns="False"
-                      IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserSortColumns="False" SelectionChanged="DataGrid_SelectionChanged">
+            <DataGrid Grid.Row="0" Margin="5" ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" AutoGenerateColumns="False"
+                      IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserSortColumns="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Группа" Binding="{Binding Fio}" />
-                    <DataGridTextColumn Header="ФИО куратора группы" Binding="{Binding Tutor}" />
-                    <DataGridTextColumn Header="Специальная программа" Binding="{Binding SpecialProgram}" />
-                    <DataGridTextColumn Header="Количество студентов в группе" Binding="{Binding NumberStudents}" />
+                    <DataGridTextColumn Header="Машина" Binding="{Binding Car}" />
+                    <DataGridTextColumn Header="Дата покупки" Binding="{Binding DatePurchaseText}" />
+                    <DataGridTextColumn Header="Цена" Binding="{Binding PriceText}" />
+                    <DataGridTextColumn Header="Прогбег(km)" Binding="{Binding Mileage}" />
                 </DataGrid.Columns>
             </DataGrid>
         

@@ -22,6 +22,15 @@ namespace CardFile.DataAccess.FileDataAccess.StorageEntities
         {
             Cards.Clear();
             Cards.AddRange(collection.GetAll().Select(c => Mapping.Mapper.Map<JsonCard>(c)
+            //new JsonCard
+            //{
+            //    Id = c.Id,
+            //    Model = c.Model,
+            //    Manufacturer = c.Manufacturer,
+            //    DatePurchase = c.DatePurchase,
+            //    Price = c.Price,
+            //    Mileage = c.Mileage,
+            //}
             ));
 
             CurrentId = collection.CurrentId;
@@ -30,6 +39,15 @@ namespace CardFile.DataAccess.FileDataAccess.StorageEntities
         public void SaveToCollection(CardCollection collection)
         {
             collection.ReplaceCollection(Cards.Select(c => Mapping.Mapper.Map<CardDto>(c)
+            //new Dtos.CardDto
+            //{
+            //    Id = c.Id,
+            //    Model = c.Model,
+            //    Manufacturer = c.Manufacturer,
+            //    DatePurchase = c.DatePurchase,
+            //    Price = c.Price,
+            //    Mileage = c.Mileage,
+            //}
             ), CurrentId);
         }
     }

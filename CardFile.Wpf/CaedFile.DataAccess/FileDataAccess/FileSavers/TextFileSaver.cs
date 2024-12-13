@@ -43,13 +43,30 @@ namespace CardFile.DataAccess.FileDataAccess.FileSavers
                             throw new Exception($"Неверный формат файла {fileName}");
                         }
 
-                        newRecord.CourseNumber = lineSegments[1];
-                        newRecord.Tutor = lineSegments[3];
-                        newRecord.SpecialProgram = lineSegments[4];
+                        newRecord.Model = lineSegments[1];
+                        newRecord.Manufacturer = lineSegments[2];
 
-                        if (int.TryParse(lineSegments[5], out var NumberStudents))
+                        if (DateTime.TryParse(lineSegments[3], out var datePurchase))
                         {
-                            newRecord.NumberStudents = NumberStudents;
+                            newRecord.DatePurchase = datePurchase;
+                        }
+                        else
+                        {
+                            throw new Exception($"Неверный формат файла {fileName}");
+                        }
+
+                        if (decimal.TryParse(lineSegments[4], out var price))
+                        {
+                            newRecord.Price = price;
+                        }
+                        else
+                        {
+                            throw new Exception($"Неверный формат файла {fileName}");
+                        }
+
+                        if (int.TryParse(lineSegments[5], out var mileage))
+                        {
+                            newRecord.Mileage = mileage;
                         }
                         else
                         {
@@ -72,8 +89,8 @@ namespace CardFile.DataAccess.FileDataAccess.FileSavers
                 {
                     foreach (var item in collection.GetAll())
                     {
-                        writer.WriteLine($"{item.Id};{item.CourseNumber};{item.Tutor};" +
-                            $"{item.SpecialProgram};{item.NumberStudents}");
+                        writer.WriteLine($"{item.Id};{item.Model};{item.Manufacturer};" +
+                            $"{item.DatePurchase.ToShortDateString()};{item.Price};{item.Mileage}");
                     }
                 }
             }

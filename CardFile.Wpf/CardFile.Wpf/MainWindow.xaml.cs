@@ -124,10 +124,5 @@ namespace CardFile.Wpf
         {
             ViewModel.Initialized();
         }
-
-        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
     }
 }
