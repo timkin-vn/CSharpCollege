@@ -1,15 +1,25 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace CardFile.Wpf.ViewModels
 {
-    public class CardViewModel : INotifyPropertyChanged
+    internal class CardViewModel : INotifyPropertyChanged
     {
         private string _title;
+
         private string _author;
-        private DateTime _publicationDate = DateTime.Now;
+
+        private DateTime _publicationDate = new DateTime(2000, 1, 1);
+
         private string _genre;
+
         private int _pageCount;
+
         private decimal _price;
 
         public int Id { get; set; }
@@ -44,6 +54,8 @@ namespace CardFile.Wpf.ViewModels
             }
         }
 
+        public string PublicationDateText => PublicationDate.ToShortDateString();
+
         public string Genre
         {
             get => _genre;
@@ -73,6 +85,8 @@ namespace CardFile.Wpf.ViewModels
                 OnPropertyChanged(nameof(Price));
             }
         }
+
+        public string PriceText => $"{Price:#,##0.00} р.";
 
         public event PropertyChangedEventHandler PropertyChanged;
 

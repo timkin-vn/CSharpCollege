@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CardFile.Common.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,15 +14,11 @@ namespace CardFile.Wpf
     /// </summary>
     public partial class App : Application
     {
-        protected override void OnExit(ExitEventArgs e)
+        protected override void OnStartup(StartupEventArgs e)
         {
-            base.OnExit(e);
+            base.OnStartup(e);
 
-            var mainWindow = Application.Current.MainWindow as MainWindow;
-            if (mainWindow?.ViewModel != null)
-            {
-                mainWindow.ViewModel.SaveToFile("cards.json");
-            }
+            Mapping.Initialize();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CardFile.DataAccess.Dtos;
+using CardFile.DataAccess.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,20 +12,10 @@ namespace CardFile.DataAccess.DataCollection
     {
         private readonly List<CardDto> _cards = new List<CardDto>();
 
-        private int _nextId = 5;
+        internal int NextId = 5;
 
         public CardFileDataCollection() 
         {
-            _cards.Add(new CardDto
-            {
-                Id = 2,
-                Title = "Преступление и наказание",
-                Author = "Фёдр Достоевский",
-                PublicationDate = new DateTime(1866, 1, 1),
-                Genre = "Роман",
-                PageCount = 671,
-                Price = 450m,
-            });
             _cards.Add(new CardDto
             {
                 Id = 1,
@@ -33,8 +24,40 @@ namespace CardFile.DataAccess.DataCollection
                 PublicationDate = new DateTime(1869, 1, 1),
                 Genre = "Роман",
                 PageCount = 1225,
-                Price = 500,
+                Price = 500m
             });
+            _cards.Add(new CardDto
+            {
+                Id = 2,
+                Title = "Преступление и наказание",
+                Author = "Фёдор Достоевский",
+                PublicationDate = new DateTime(1866, 1, 1),
+                Genre = "Роман",
+                PageCount = 671,
+                Price = 450m
+            });
+            _cards.Add(new CardDto
+            {
+                Id = 3,
+                Title = "Мастер и Маргарита",
+                Author = "Михаил Булгаков",
+                PublicationDate = new DateTime(1966, 1, 1),
+                Genre = "Фантастика",
+                PageCount = 470,
+                Price = 400m
+            });
+            _cards.Add(new CardDto
+            {
+                Id = 4,
+                Title = "Анна Каренина",
+                Author = "Лев Толстой",
+                PublicationDate = new DateTime(1878, 1, 1),
+                Genre = "Роман",
+                PageCount = 864,
+                Price = 550m
+            });
+
+            MapperRegistrator.Register();
         }
 
         public IEnumerable<CardDto> GetAll()
@@ -67,7 +90,7 @@ namespace CardFile.DataAccess.DataCollection
             }
 
             var newRecord = dto.Clone();
-            newRecord.Id = _nextId++;
+            newRecord.Id = NextId++;
             _cards.Add(newRecord);
             return newRecord.Id;
         }
@@ -97,6 +120,20 @@ namespace CardFile.DataAccess.DataCollection
 
             _cards.Remove(existingRecord);
             return true;
+        }
+
+        internal void ReplaceAll(IEnumerable<CardDto> collection)
+        {
+            _cards.Clear();
+            _cards.AddRange(collection.Select(c => c.Clone()));
+            NextId = _cards.Max(c => c.Id) + 1;
+        }
+
+        internal void ReplaceAll(IEnumerable<CardDto> collection, int nextId)
+        {
+            _cards.Clear();
+            _cards.AddRange(collection.Select(c => c.Clone()));
+            NextId = nextId;
         }
     }
 }
