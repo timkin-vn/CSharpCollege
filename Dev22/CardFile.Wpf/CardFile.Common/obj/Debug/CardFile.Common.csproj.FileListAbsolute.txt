@@ -1,0 +1,9 @@
+C:\Users\Я\Downloads\CSharpCollege-master (2)\CSharpCollege-master\Dev22\CardFile.Wpf\CardFile.Common\bin\Debug\CardFile.Common.dll
+C:\Users\Я\Downloads\CSharpCollege-master (2)\CSharpCollege-master\Dev22\CardFile.Wpf\CardFile.Common\bin\Debug\CardFile.Common.pdb
+C:\Users\Я\Downloads\CSharpCollege-master (2)\CSharpCollege-master\Dev22\CardFile.Wpf\CardFile.Common\bin\Debug\AutoMapper.dll
+C:\Users\Я\Downloads\CSharpCollege-master (2)\CSharpCollege-master\Dev22\CardFile.Wpf\CardFile.Common\bin\Debug\AutoMapper.xml
+C:\Users\Я\Downloads\CSharpCollege-master (2)\CSharpCollege-master\Dev22\CardFile.Wpf\CardFile.Common\obj\Debug\CardFile.Common.csproj.AssemblyReference.cache
+C:\Users\Я\Downloads\CSharpCollege-master (2)\CSharpCollege-master\Dev22\CardFile.Wpf\CardFile.Common\obj\Debug\CardFile.Common.csproj.CoreCompileInputs.cache
+C:\Users\Я\Downloads\CSharpCollege-master (2)\CSharpCollege-master\Dev22\CardFile.Wpf\CardFile.Common\obj\Debug\CardFile.Common.csproj.CopyComplete
+C:\Users\Я\Downloads\CSharpCollege-master (2)\CSharpCollege-master\Dev22\CardFile.Wpf\CardFile.Common\obj\Debug\CardFile.Common.dll
+C:\Users\Я\Downloads\CSharpCollege-master (2)\CSharpCollege-master\Dev22\CardFile.Wpf\CardFile.Common\obj\Debug\CardFile.Common.pdb
