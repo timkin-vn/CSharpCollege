@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Calculator.Business.Models
+namespace Calculator.Business.Entites
 {
     public class CalculatorState
     {
@@ -12,8 +12,8 @@ namespace Calculator.Business.Models
 
         public double YRegister { get; set; }
 
-        public string OpCodeRegister { get; set; }
+        public string OpCode { get; set; }
 
-        public bool NeedClear { get; set; }
+        public bool NeedClearX { get; set; }
     }
 }

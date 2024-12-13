@@ -1,5 +1,4 @@
-﻿using Calculator.Business.Models;
-using Microsoft.SqlServer.Server;
+﻿using Calculator.Business.Entites;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,16 +9,16 @@ namespace Calculator.Business.Services
 {
     public class CalculatorService
     {
-        public void InsertDigit(CalculatorState state, string digitString)
+        public void InsertDigit(CalculatorState state, string digitText)
         {
-            var digit = byte.Parse(digitString);
-            if (state.NeedClear)
+            var digit = byte.Parse(digitText);
+            if (state.NeedClearX)
             {
                 state.XRegister = 0;
             }
 
             state.XRegister = state.XRegister * 10 + digit;
-            state.NeedClear = false;
+            state.NeedClearX = false;
         }
 
         public void Clear(CalculatorState state)
@@ -27,12 +26,12 @@ namespace Calculator.Business.Services
             state.XRegister = 0;
         }
 
-        public void PressOperation(CalculatorState state, string opCode)
+        public void InsertOperation(CalculatorState state, string opCode)
         {
-            MakeOperation(state, state.OpCodeRegister);
+            PerformOperation(state, state.OpCode);
             MoveXToY(state);
-            state.OpCodeRegister = opCode;
-            state.NeedClear = true;
+            state.OpCode = opCode;
+            state.NeedClearX = true;
         }
 
         private void MoveXToY(CalculatorState state)
@@ -40,27 +39,32 @@ namespace Calculator.Business.Services
             state.YRegister = state.XRegister;
         }
 
-        private void MakeOperation(CalculatorState state, string opCode)
+        private void PerformOperation(CalculatorState state, string opCode)
         {
             switch (opCode)
             {
                 case "+":
                     state.XRegister += state.YRegister;
                     break;
+
                 case "-":
                     state.XRegister = state.YRegister - state.XRegister;
                     break;
+
                 case "*":
                     state.XRegister *= state.YRegister;
                     break;
+
                 case "/":
                     if (state.XRegister == 0)
                     {
                         state.XRegister = double.NaN;
-                        break;
+                    }
+                    else
+                    {
+                        state.XRegister = state.YRegister / state.XRegister;
                     }
 
-                    state.XRegister = state.YRegister / state.XRegister;
                     break;
             }
         }
