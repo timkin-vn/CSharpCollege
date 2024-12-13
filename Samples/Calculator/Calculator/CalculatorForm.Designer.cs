@@ -46,6 +46,7 @@
             this.ClearButton = new System.Windows.Forms.Button();
             this.EqualButton = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // DisplayLabel
@@ -238,19 +239,32 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(93, 337);
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button1.Location = new System.Drawing.Point(174, 337);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(156, 74);
+            this.button1.Size = new System.Drawing.Size(75, 74);
             this.button1.TabIndex = 17;
-            this.button1.Text = "открыть журнал";
+            this.button1.Text = "√";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.OperationButton_Click);
+            // 
+            // button2
+            // 
+            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button2.Location = new System.Drawing.Point(93, 337);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 74);
+            this.button2.TabIndex = 18;
+            this.button2.Text = "^";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.OperationButton_Click);
             // 
             // CalculatorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(449, 426);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.EqualButton);
             this.Controls.Add(this.ClearButton);
@@ -297,6 +311,7 @@
         private System.Windows.Forms.Button ClearButton;
         private System.Windows.Forms.Button EqualButton;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
     }
 }
 

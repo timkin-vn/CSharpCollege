@@ -64,7 +64,14 @@ namespace Calculator.Business.Services
                     {
                         state.XRegister = state.YRegister / state.XRegister;
                     }
+                    break;
 
+                case "^":
+                    state.XRegister = state.YRegister * state.YRegister;
+                    break;
+
+                case "√":
+                    state.XRegister = Math.Sqrt(state.YRegister);
                     break;
             }
         }
