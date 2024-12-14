@@ -43,48 +43,30 @@ namespace GraphicsApp.Models
 
             paintManager.DrawEllipse(mainPen, LegBrush, new MathRectangle { Left = 1, Right = 5, Bottom = 5, Top = 9, });
                    
-                        paintManager.DrawPolygon(MуfnPen, LsetyBrush,
-                new[]
-                {
-                    new MathPoint{X = 12, Y=  7,},
-                    new MathPoint{X = 12, Y= 6,}, 
-                    new MathPoint{X = 14, Y= 6,},
-                    
-                    
-                });  
-            
-            paintManager.DrawPolygon(MуfnPen, LsetyBrush,
-                new[]
-                {
-                    new MathPoint{X = 12, Y=  7,},
-                    new MathPoint{X = 12, Y= 6,}, 
-                    new MathPoint{X = 14, Y= 6,},
-                    
-                    
-                });
+                        
             
             paintManager.DrawPolygon(WindunPen, LegBrush,
                 new[]
                 {
-                    new MathPoint{X = -19, Y=  6.1,},
-                    new MathPoint{X = -15, Y= 9,},
-                    new MathPoint{X = -13, Y= 6.1,},
+                    new MathPoint{X = -18, Y=  6.1,},
+                    new MathPoint{X = -16.5, Y= 9,},
+                    new MathPoint{X = -15, Y= 6.1,},
                     
                 }); 
             paintManager.DrawPolygon(WindunPen, LegBrush,
                 new[]
                 {
-                    new MathPoint{X = -12, Y=  4,},
-                    new MathPoint{X = -9, Y= 6,},
-                    new MathPoint{X = -5, Y= 4,},
+                    new MathPoint{X = -11, Y=  4,},
+                    new MathPoint{X = -9.5, Y= 6,},
+                    new MathPoint{X = -8, Y= 4,},
                     
                 }); 
             paintManager.DrawPolygon(WindunPen, LegBrush,
                 new[]
                 {
                     new MathPoint{X = 15, Y=  5,},
-                    new MathPoint{X = 17, Y= 9,},
-                    new MathPoint{X = 20, Y= 5,},
+                    new MathPoint{X = 17, Y= 8,},
+                    new MathPoint{X = 19, Y= 5,},
                     
                 });
         }
