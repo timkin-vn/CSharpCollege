@@ -32,7 +32,7 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="ФИО" Binding="{Binding Fio}" />   
                     <DataGridTextColumn Header="Класс" Binding="{Binding Class}" />
-                    <DataGridTextColumn Header="Коррекционный класс" Binding="{Binding Correctional_class_Text}" />
+                    
                     
                     <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDateText}" />
                     <DataGridTextColumn Header="Зарплата" Binding="{Binding PaymentAmountText}" />

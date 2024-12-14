@@ -22,7 +22,7 @@ namespace CardFile.Wpf.ViewModels
         private decimal _paymentAmount;
 
         private int _childrenCountClass;
-        private bool _correctional_class;
+        
         public int Id { get; set; }
 
         public string Fio => $"{LastName} {FirstName} {MiddleName}";
@@ -37,28 +37,9 @@ namespace CardFile.Wpf.ViewModels
                 OnPropertyChanged(nameof(FirstName));
             }
         } 
-        public bool Correctional_class
-        {
-            get => _correctional_class;
-            set
-            {
-                _correctional_class = value;
-              
-                OnPropertyChanged(nameof(Correctional_class));
-            }
-        }
-        public string  Correctional_class_YEs_NO(bool correctional_class)
-        {
-            if (correctional_class == false)
-            {
-                return "нет";
-            }
-            else 
-            { 
-                return "да";
-            }
-        }
-        public string Correctional_class_Text => Correctional_class_YEs_NO(Correctional_class);    
+        
+        
+           
 
         public string MiddleName
         {
@@ -150,7 +131,7 @@ namespace CardFile.Wpf.ViewModels
             BirthDate = model.BirthDate;
             PaymentAmount = model.PaymentAmount;
             ChildrenCountClass = model.ChildrenCountClass;
-            Correctional_class= model.Correctional_class;
+            
         }
 
         private void OnPropertyChanged(string propertyName)

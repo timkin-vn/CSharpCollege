@@ -43,18 +43,7 @@ namespace CardFile.Wpf.View
         {
             DialogResult = false;
         }
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (Yes_no.SelectedIndex == 0)
-            {
-                    ViewModel.Correctional_class = true;
-            }
-            else { ViewModel.Correctional_class = false; }
-        }
-
-
-
-
+        
 
 
 

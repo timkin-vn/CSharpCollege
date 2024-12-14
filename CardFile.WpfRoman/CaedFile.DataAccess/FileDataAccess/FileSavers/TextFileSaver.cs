@@ -78,14 +78,7 @@ namespace CardFile.DataAccess.FileDataAccess.FileSavers
                         {
                             newRecord.NumberClass = numberClass;
                         }
-                        else
-                        {
-                            throw new Exception($"Неверный формат файла {fileName}");
-                        } 
-                        if (bool.TryParse(lineSegments[9], out var correct))
-                        {
-                            newRecord.Correctional_class = correct;
-                        }
+                        
                         else
                         {
                             throw new Exception($"Неверный формат файла {fileName}");
@@ -110,7 +103,7 @@ namespace CardFile.DataAccess.FileDataAccess.FileSavers
                         writer.WriteLine($"{item.Id};{item.FirstName};{item.MiddleName};{item.LastName};" +
                             $"{item.BirthDate.ToShortDateString()};{item.PaymentAmount};{item.ChildrenCountClass};" +
                             $"{item.NameClass};" +
-                            $"{item.NumberClass};{item.Correctional_class}");
+                            $"{item.NumberClass};");
                     }
                 }
             }

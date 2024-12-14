@@ -60,18 +60,14 @@
     <TextBox Grid.Row="6" Grid.Column="1" Margin="5" Text="{Binding FirstName}" />
 
         <TextBlock Grid.Row="7" Grid.Column="0" Text="Отчество :" Margin="5" VerticalAlignment="Center" />
-        <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding MiddleName}" Margin="5" />
+        <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding MiddleName}" Margin="5" />   
+        <TextBlock Grid.Row="8" Grid.Column="0" Text="ЗП:" Margin="5" VerticalAlignment="Center" />
+        <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding PaymentAmount}" Margin="5" />
 
-        <TextBlock Grid.Row="8" Grid.Column="0" Text="Дата рождения :" Margin="5" VerticalAlignment="Center" />
-        <DatePicker Grid.Row="8" Grid.Column="1" SelectedDate="{Binding BirthDate}" Margin="5" />
-    <TextBlock Grid.Row="9" Grid.Column="0" Text="Количества учеников   :" Margin="5" VerticalAlignment="Center" />
-    <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding ChildrenCountClass}" Margin="5" />
-        <TextBlock Grid.Row="10" Grid.Column="0" Text=" Коррекционный класс  :" Margin="5" VerticalAlignment="Center" />
-        <ComboBox Grid.Row="10" Grid.Column="1" Name="Yes_no" SelectionChanged="ComboBox_SelectionChanged">
-            <ComboBoxItem Content="Да"/>
-            <ComboBoxItem Content="Нет"/>
-            
-        </ComboBox>
+        <TextBlock Grid.Row="9" Grid.Column="0" Text="Дата рождения :" Margin="5" VerticalAlignment="Center" />
+        <DatePicker Grid.Row="9" Grid.Column="1" SelectedDate="{Binding BirthDate}" Margin="5" />
+    <TextBlock Grid.Row="10" Grid.Column="0" Text="Количество учеников   :" Margin="5" VerticalAlignment="Center" />
+    <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding ChildrenCountClass}" Margin="5" />
 
         <StackPanel Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
         <Button Content="OK" Margin="5" Padding="5" Click="OkButton_Click" />
