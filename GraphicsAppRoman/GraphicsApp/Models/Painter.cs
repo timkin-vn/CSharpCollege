@@ -33,7 +33,6 @@ namespace GraphicsApp.Models
             paintManager.DrawRectangle(mainPen, bodyBrush, new MathRectangle { Left = -18, Right = -15,  Bottom = -4,Top = 6, });  
             paintManager.DrawRectangleGrad(mainPen, Color.DarkGreen,Color.DarkSalmon, new MathRectangle { Left = -19, Right = 20,  Bottom = -7,Top = -4, });   
             paintManager.DrawRectangle(mainPen, bodyBrush, new MathRectangle { Left = -11, Right = -8,  Bottom = -4,Top = 4, });  
-            paintManager.DrawRectangle(NOvePen, GetBrush, new MathRectangle { Left = 10, Right = 12,  Bottom = -4,Top =5, }); 
             paintManager.DrawRectangle(mainPen, bodyBrush, new MathRectangle { Left = 15, Right = 19,  Bottom = -4,Top =5, });
             paintManager.DrawRectangle(MafnPen, LuctyBrush, new MathRectangle { Left = 16, Right = 18, Bottom = -1, Top = 3, });
             paintManager.DrawRectangle(MafnPen, LuctyBrush, new MathRectangle { Left = 16, Right = 18, Bottom = -1, Top = 1, });
@@ -42,44 +41,18 @@ namespace GraphicsApp.Models
             paintManager.DrawRectangle(MafnPen, LuctyBrush, new MathRectangle { Left = -17, Right = -16, Bottom = -3.7, Top = 1, });
             paintManager.DrawRectangle(MafnPen, LuctyBrush, new MathRectangle { Left = -17, Right = -16, Bottom = 1, Top = 3, });
 
-            paintManager.DrawEllipse(mainPen, LegBrush, new MathRectangle { Left = 1, Right = 5, Bottom = 5, Top = 9, })
-                ;paintManager.DrawEllipse(mainPen, LegBrush, new MathRectangle { Left = 3, Right = 7, Bottom = -4, Top = -2, });   
-            paintManager.DrawPolygon(WindunPen, LegBrush,
-                new[]
-                {
-                    new MathPoint{X = 10, Y=  7,},
-                    new MathPoint{X = 10, Y= 5,},
-                    
-                    
-                });  
-            paintManager.DrawPolygon(MуfnPen, LsetyBrush,
-                new[]
-                {
-                    new MathPoint{X = 10, Y=  7,},
-                    new MathPoint{X = 10, Y= 6,}, 
-                    new MathPoint{X = 9, Y= 6,},
-                    
-                    
-                });  
-            paintManager.DrawPolygon(MуfnPen, LsetyBrush,
-                new[]
-                {
-                    new MathPoint{X = 12, Y=  7,},
-                    new MathPoint{X = 12, Y= 6,}, 
-                    new MathPoint{X = 14, Y= 6,},
-                    
-                    
-                });  
-            paintManager.DrawPolygon(MуfnPen, LsetyBrush,
-                new[]
-                {
+            paintManager.DrawEllipse(mainPen, LegBrush, new MathRectangle { Left = 1, Right = 5, Bottom = 5, Top = 9, });
                    
-                    new MathPoint{X = 1, Y= -2,}, 
-                    new MathPoint{X = 2, Y= -3,},
-                     new MathPoint{X = 3, Y=  -1,},
-
-
-                });
+                        paintManager.DrawPolygon(MуfnPen, LsetyBrush,
+                new[]
+                {
+                    new MathPoint{X = 12, Y=  7,},
+                    new MathPoint{X = 12, Y= 6,}, 
+                    new MathPoint{X = 14, Y= 6,},
+                    
+                    
+                });  
+            
             paintManager.DrawPolygon(MуfnPen, LsetyBrush,
                 new[]
                 {
@@ -89,14 +62,7 @@ namespace GraphicsApp.Models
                     
                     
                 });
-            paintManager.DrawPolygon(WindunPen, LegBrush,
-                new[]
-                {
-                    new MathPoint{X = 12, Y=  7,},
-                    new MathPoint{X = 12, Y= 5,},
-                    
-                    
-                }); 
+            
             paintManager.DrawPolygon(WindunPen, LegBrush,
                 new[]
                 {
