@@ -1,44 +1,46 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace AlarmClock.Forms
 {
     public partial class StopwatchForm : Form
     {
-        private DateTime starttime;
-        private DateTime pauseTime;
+        private TimeSpan elapsedTime;
+        private DateTime startTime;
+        private bool isRunning;
+
         public StopwatchForm()
         {
             InitializeComponent();
+            elapsedTime = TimeSpan.Zero;
+            isRunning = false;
         }
 
         private void StopwatchTimer_Tick(object sender, EventArgs e)
         {
-            DateTime time = new DateTime(0, 0);
-            time=time.Add(DateTime.Now.Subtract(starttime));
-            DisplayLabel.Text = time.ToString("mm:ss:ff");
+            if (isRunning)
+            {
+                elapsedTime = DateTime.Now - startTime;
+                DisplayLabel.Text = elapsedTime.ToString(@"mm\:ss\.ff");
+            }
         }
 
         private void StartButton_Click(object sender, EventArgs e)
         {
-            starttime = DateTime.Now;
-            DisplayLabel.Text = (starttime - DateTime.Now.TimeOfDay).ToString("HH:mm:ss");
-            StopwatchTimer.Start();
+            if (!isRunning)
+            {
+                startTime = DateTime.Now - elapsedTime;
+                StopwatchTimer.Start();
+                isRunning = true;
+            }
         }
 
         private void ResetButton_Click(object sender, EventArgs e)
         {
-            starttime = new DateTime(0, 0);
             StopwatchTimer.Stop();
-            DisplayLabel.Text = starttime.ToString("HH:mm:ss");
+            elapsedTime = TimeSpan.Zero;
+            DisplayLabel.Text = "00:00:00";
+            isRunning = false;
         }
 
         private void ExitButton_Click(object sender, EventArgs e)
@@ -48,14 +50,17 @@ namespace AlarmClock.Forms
 
         private void PauseButton_Click(object sender, EventArgs e)
         {
-            if (StopwatchTimer.Enabled)
+            if (isRunning)
             {
-                pauseTime = DateTime.Now;
                 StopwatchTimer.Stop();
-                return;
+                isRunning = false;
             }
-            starttime = starttime.Add(DateTime.Now.Subtract(pauseTime));
-            StopwatchTimer.Start();
+            else
+            {
+                startTime = DateTime.Now - elapsedTime;
+                StopwatchTimer.Start();
+                isRunning = true;
+            }
         }
     }
 }

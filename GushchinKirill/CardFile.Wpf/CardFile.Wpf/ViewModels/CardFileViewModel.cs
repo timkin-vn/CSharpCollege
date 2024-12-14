@@ -48,7 +48,7 @@ namespace CardFile.Wpf.ViewModels
         }
 
         public string WindowHeader => string.IsNullOrEmpty(FileName) ?
-            "Картотека" :
+            "Места для туристов" :
             $"Картотека: {Path.GetFileName(FileName)}";
 
         public CardFileViewModel()

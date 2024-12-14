@@ -22,7 +22,7 @@ namespace CardFile.DataAccess.DataCollection
                 House = "7Б",
                 City = "Нижний Новгород",
                 MailIndex = 603035,
-                Rating = 4.8,
+                Rating = 4.8,   
                 CounterReviews = 11780,
                 Status = "Открыт"
             },
