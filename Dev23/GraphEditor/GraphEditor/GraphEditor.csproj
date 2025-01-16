@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{48F6D009-6B41-42D1-AC3C-973C3837C03B}</ProjectGuid>
+    <ProjectGuid>{A7B312FB-5643-45F5-9D85-5ACF9C7EF08E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>GraphEditor</RootNamespace>
     <AssemblyName>GraphEditor</AssemblyName>
@@ -52,9 +52,13 @@
     <Compile Include="GraphEditorForm.Designer.cs">
       <DependentUpon>GraphEditorForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="PresenterServices\Painter.cs" />
+    <Compile Include="PresenterServices\VisualService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\Painter.cs" />
+    <Compile Include="ViewModels\MarkerViewModel.cs" />
+    <Compile Include="ViewModels\PictureViewModel.cs" />
+    <Compile Include="ViewModels\RectangleViewModel.cs" />
     <EmbeddedResource Include="GraphEditorForm.resx">
       <DependentUpon>GraphEditorForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -81,13 +85,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\toolStripButton1.Image.png" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\GraphEditor.Business\GraphEditor.Business.csproj">
-      <Project>{5C1CEE00-4350-457F-BAD8-AAE3CF63E135}</Project>
+      <Project>{345EF022-260F-435C-B3C3-33031C7380A8}</Project>
       <Name>GraphEditor.Business</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

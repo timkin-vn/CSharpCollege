@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,20 +8,16 @@ namespace GraphEditor.Business.Models
 {
     public class PictureModel
     {
-        internal Point Diff { get; set; }
+        internal int Dx;
 
-        private List<RectangleModel> _rectangles = new List<RectangleModel>();
+        internal int Dy;
 
-        public IEnumerable<RectangleModel> Rectangles => _rectangles;
+        internal List<RectangleModel> RectangleList = new List<RectangleModel>();
 
-        public RectangleModel SelectedRectangle { get; private set; }
+        public IEnumerable<RectangleModel> Rectangles => RectangleList;
 
-        public EditMode EditMode { get; set; }
+        public RectangleModel SelectedRectangle { get; internal set; }
 
-        public void AddNewRectangle(RectangleModel rectangle)
-        {
-            _rectangles.Add(rectangle);
-            SelectedRectangle = rectangle;
-        }
+        public PictureMode Mode { get; internal set; }
     }
 }

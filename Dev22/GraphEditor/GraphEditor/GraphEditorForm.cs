@@ -1,5 +1,4 @@
-﻿using GraphEditor.Business.Services;
-using GraphEditor.Services;
+﻿using GraphEditor.PresenterServices;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,50 +13,130 @@ namespace GraphEditor
 {
     public partial class GraphEditorForm : Form
     {
-        private GraphEditorService _service = new GraphEditorService();
+        private VisualService _service = new VisualService();
 
-        private bool _isMouseDown;
+        private bool _isMousePressed;
 
         public GraphEditorForm()
         {
             InitializeComponent();
         }
 
-        private void CreateButton_Click(object sender, EventArgs e)
-        {
-            CreateButton.Checked = !CreateButton.Checked;
-        }
-
         private void GraphEditorForm_MouseDown(object sender, MouseEventArgs e)
         {
-            _isMouseDown = true;
-            if (CreateButton.Checked)
+            if (e.Button == MouseButtons.Left)
             {
-                _service.SetCreateMode(e.Location);
-                CreateButton.Checked = false;
+                _isMousePressed = true;
+                _service.MouseDown(e.Location);
+                Refresh();
             }
         }
 
         private void GraphEditorForm_MouseMove(object sender, MouseEventArgs e)
         {
-            if (_isMouseDown)
+            Cursor = _service.GetCursor(e.Location);
+
+            if (_isMousePressed)
             {
-                _service.SetNewLocation(e.Location);
+                _service.MouseMove(e.Location);
                 Refresh();
             }
         }
 
         private void GraphEditorForm_MouseUp(object sender, MouseEventArgs e)
         {
-            _service.ResetMode();
-            _isMouseDown = false;
-            Refresh();
+            if (_isMousePressed)
+            {
+                _service.MouseUp();
+                _isMousePressed = false;
+                ResetInterface();
+                Refresh();
+            }
         }
 
         private void GraphEditorForm_Paint(object sender, PaintEventArgs e)
         {
-            var painter = new Painter();
-            painter.Paint(e.Graphics, _service, true);
+            _service.Paint(e.Graphics);
+        }
+
+        private void CreateRectangleToolButton_Click(object sender, EventArgs e)
+        {
+            _service.CreateMode = !_service.CreateMode;
+            ResetInterface();
+        }
+
+        private void ResetInterface()
+        {
+            CreateRectangleToolButton.Checked = _service.CreateMode;
+            DeleteToolButton.Enabled = _service.DeleteButtonEnabled;
+            FillToolMenuItem.Enabled = _service.DeleteButtonEnabled;
+            ForwardToolMenuItem.Enabled = _service.DeleteButtonEnabled;
+        }
+
+        private void DeleteToolButton_Click(object sender, EventArgs e)
+        {
+            _service.Delete();
+            ResetInterface();
+            Refresh();
+        }
+
+        private void GraphEditorForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+            {
+                _service.Delete();
+                ResetInterface();
+                Refresh();
+            }
+        }
+
+        private void FillToolMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog.Color = _service.GetSelectedFillColor();
+            if (ColorDialog.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            _service.SetSelectedFillColor(ColorDialog.Color);
+            Refresh();
+        }
+
+        private void ForwardToolMenuItem_Click(object sender, EventArgs e)
+        {
+            _service.MoveForward();
+            Refresh();
+        }
+
+        private void ExitMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void FileOpenMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FileSaveMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FileSaveAsMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ExportMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveDialog.Filter = "Файлы png|*.png";
+            if (SaveDialog.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            _service.Export(SaveDialog.FileName, ClientRectangle, BackColor);
         }
     }
 }

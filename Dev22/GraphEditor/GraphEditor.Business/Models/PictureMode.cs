@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace GraphEditor.Business.Models
 {
-    public enum EditMode
+    public enum PictureMode
     {
         None,
         Creating,
         Moving,
-        ResizeR,
-        ResizeL,
-        ResizeT,
-        ResizeB,
-        ResizeTR,
-        ResizeBR,
         ResizeTL,
+        ResizeT,
+        ResizeTR,
+        ResizeR,
+        ResizeBR,
+        ResizeB,
         ResizeBL,
+        ResizeL,
     }
 }

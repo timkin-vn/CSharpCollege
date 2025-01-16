@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5C1CEE00-4350-457F-BAD8-AAE3CF63E135}</ProjectGuid>
+    <ProjectGuid>{345EF022-260F-435C-B3C3-33031C7380A8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GraphEditor.Business</RootNamespace>
@@ -34,7 +34,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,12 +42,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\EditMode.cs" />
     <Compile Include="Models\Marker.cs" />
+    <Compile Include="Models\PictureCursor.cs" />
+    <Compile Include="Models\PictureMode.cs" />
     <Compile Include="Models\PictureModel.cs" />
+    <Compile Include="Models\PointModel.cs" />
     <Compile Include="Models\RectangleModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\GraphEditorService.cs" />
+    <Compile Include="Services\PictureService.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
