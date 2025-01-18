@@ -71,6 +71,7 @@ namespace GraphEditor
             DeleteToolButton.Enabled = _service.DeleteButtonEnabled;
             FillToolMenuItem.Enabled = _service.DeleteButtonEnabled;
             ForwardToolMenuItem.Enabled = _service.DeleteButtonEnabled;
+            Text = string.IsNullOrEmpty(_service.FileName) ? "Графический редактор" : $"Графический редактор - {_service.FileName}";
         }
 
         private void DeleteToolButton_Click(object sender, EventArgs e)
@@ -115,17 +116,29 @@ namespace GraphEditor
 
         private void FileOpenMenuItem_Click(object sender, EventArgs e)
         {
+            OpenDialog.Filter = "Файлы картинок|*.pict";
+            if (OpenDialog.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
 
+            _service.Open(OpenDialog.FileName);
+            Refresh();
         }
 
         private void FileSaveMenuItem_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(_service.FileName))
+            {
+                SaveAs();
+            }
 
+            _service.Save();
         }
 
         private void FileSaveAsMenuItem_Click(object sender, EventArgs e)
         {
-
+            SaveAs();
         }
 
         private void ExportMenuItem_Click(object sender, EventArgs e)
@@ -137,6 +150,18 @@ namespace GraphEditor
             }
 
             _service.Export(SaveDialog.FileName, ClientRectangle, BackColor);
+        }
+
+        private void SaveAs()
+        {
+            SaveDialog.Filter = "Файлы картинок|*.pict";
+            if (SaveDialog.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            _service.Save(SaveDialog.FileName);
+            ResetInterface();
         }
     }
 }

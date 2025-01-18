@@ -34,9 +34,9 @@
             this.DeleteToolButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.FillToolMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ColorDialog = new System.Windows.Forms.ColorDialog();
             this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
             this.ForwardToolMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ColorDialog = new System.Windows.Forms.ColorDialog();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.FileOpenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,6 +46,7 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.ExitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveDialog = new System.Windows.Forms.SaveFileDialog();
+            this.OpenDialog = new System.Windows.Forms.OpenFileDialog();
             this.toolStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -228,6 +229,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem ExitMenuItem;
         private System.Windows.Forms.SaveFileDialog SaveDialog;
+        private System.Windows.Forms.OpenFileDialog OpenDialog;
     }
 }
 

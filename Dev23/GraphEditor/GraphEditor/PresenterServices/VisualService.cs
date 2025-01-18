@@ -23,6 +23,8 @@ namespace GraphEditor.PresenterServices
 
         public bool DeleteButtonEnabled => _businessService.PictureModel.SelectedRectangle != null;
 
+        public string FileName { get; set; }
+
         public void MouseDown(Point location)
         {
             if (CreateMode)
@@ -128,6 +130,24 @@ namespace GraphEditor.PresenterServices
 
                 bmp.Save(fileName, ImageFormat.Png);
             }
+        }
+
+        public void Save(string fileName)
+        {
+            FileName = fileName;
+            _businessService.Save(FileName);
+        }
+
+        public void Save()
+        {
+            Save(FileName);
+        }
+
+        public void Open(string fileName)
+        {
+            FileName = fileName;
+            _businessService.Open(FileName);
+            _viewModel = FromModel(_businessService.PictureModel);
         }
 
         public PointModel ToModel(Point p)

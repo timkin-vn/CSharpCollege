@@ -107,5 +107,17 @@ namespace GraphEditor.Business.Services
             _model.RectangleList[index] = _model.RectangleList[index + 1];
             _model.RectangleList[index + 1] = r;
         }
+
+        public void Save(string fileName)
+        {
+            var fileService = new FileService();
+            fileService.SaveFile(fileName, _model);
+        }
+
+        public void Open(string fileName)
+        {
+            var fileService = new FileService();
+            _model = fileService.OpenFile(fileName);
+        }
     }
 }

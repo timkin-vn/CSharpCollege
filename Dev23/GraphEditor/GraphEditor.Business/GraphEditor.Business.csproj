@@ -34,6 +34,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,6 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\File\XmlColorModel.cs" />
+    <Compile Include="Models\File\XmlPictureModel.cs" />
+    <Compile Include="Models\File\XmlRectangleModel.cs" />
     <Compile Include="Models\Marker.cs" />
     <Compile Include="Models\PictureCursor.cs" />
     <Compile Include="Models\PictureMode.cs" />
@@ -49,6 +53,7 @@
     <Compile Include="Models\PointModel.cs" />
     <Compile Include="Models\RectangleModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\FileService.cs" />
     <Compile Include="Services\PictureService.cs" />
   </ItemGroup>
   <ItemGroup />
