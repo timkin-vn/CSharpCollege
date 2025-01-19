@@ -4,13 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CardFile.Wpf.View" xmlns:viewmodels="clr-namespace:CardFile.Wpf.ViewModels"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="Правка карточки" Height="300" Width="400" MinHeight="300" MinWidth="400" MaxHeight="300" MaxWidth="400">
+        Title="Правка карточки" Height="383" Width="411" MinHeight="340" MinWidth="400" MaxHeight="300" MaxWidth="400">
     <Window.DataContext>
         <viewmodels:CardViewModel />
     </Window.DataContext>
-    
-    <Grid>
+
+    <Grid Margin="0,0,0,22">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -21,7 +22,8 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="27" />
+            <RowDefinition Height="0"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -29,39 +31,43 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Row="0" Grid.Column="0" Text="Назваение" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
-        <TextBox Grid.Row="0" Grid.Column="1" Margin="5" Text="{Binding Name}" AllowDrop="True" Focusable="True" />
+        <TextBlock Grid.Column="0" Text="Название" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" Height="16" Width="53" />
+        <TextBox Grid.Row="0" Grid.Column="1" Margin="5,5,5,5" Text="{Binding Name}" AllowDrop="True" Focusable="True" />
 
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="Описание" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
-        <TextBox Grid.Row="1" Grid.Column="1" Margin="5" Text="{Binding Description}" />
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Описание" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" Height="16" Width="55" />
+        <TextBox Grid.Row="1" Grid.Column="1" Margin="5,5,5,5" Text="{Binding Description}" />
 
-        <TextBlock Grid.Row="2" Grid.Column="0" Text="Адрес" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
-        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Address}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="267"/>
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Адрес" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" Height="16" Width="33" />
+        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Address}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="267" Height="16"/>
 
-        <TextBlock Grid.Row="3" Grid.Column="0" Text="Улица" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
-        <TextBox Grid.Row="3" Grid.Column="1" Margin="5" Text="{Binding Street}" />
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Улица" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" Height="16" Width="33" />
+        <TextBox Grid.Row="3" Grid.Column="1" Margin="5,5,5,5" Text="{Binding Street}" />
 
-        <TextBlock Grid.Row="4" Grid.Column="0" Text="Дом" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
-        <TextBox Grid.Row="4" Grid.Column="1" Margin="5" Text="{Binding House}" />
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="Дом" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" Height="16" Width="24" />
+        <TextBox Grid.Row="4" Grid.Column="1" Margin="5,5,5,5" Text="{Binding House}" />
 
-        <TextBlock Grid.Row="5" Grid.Column="0" Text="Город" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
-        <TextBox Grid.Row="5" Grid.Column="1" Margin="5" Text="{Binding City}" />
+        <TextBlock Grid.Row="5" Grid.Column="0" Text="Город" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" Height="16" Width="33" />
+        <TextBox Grid.Row="5" Grid.Column="1" Margin="5,5,5,5" Text="{Binding City}" />
 
-        <TextBlock Grid.Row="6" Grid.Column="0" Text="Почтовый индекс" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
-        <TextBox Grid.Row="6" Grid.Column="1" Margin="5" Text="{Binding MailIndex}" />
+        <TextBlock Grid.Row="6" Grid.Column="0" Text="Почтовый индекс" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" Height="16" Width="98" />
+        <TextBox Grid.Row="6" Grid.Column="1" Margin="5,5,5,5" Text="{Binding MailIndex}" />
 
-        <TextBlock Grid.Row="7" Grid.Column="0" Text="Рейтинг" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
-        <TextBox Grid.Row="7" Grid.Column="1" Margin="5" Text="{Binding Rating}" />
+        <TextBlock Grid.Row="7" Grid.Column="0" Text="Рейтинг" Margin="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" Height="16" Width="43" />
+        <TextBox Grid.Row="7" Grid.Column="1" Margin="5,5,5,5" Text="{Binding Rating}" />
 
-        <TextBlock Grid.Row="8" Grid.Column="0" Text="Количество отзывов" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
-        <TextBox Grid.Row="8" Grid.Column="1" Margin="5" Text="{Binding CounterReviews}" />
+        <TextBlock Grid.Row="8" Text="Количество отзывов" VerticalAlignment="Center" HorizontalAlignment="Center" Height="16" Width="113" />
+        <TextBox Grid.Row="8" Grid.Column="1" Margin="5,5,5,5" Text="{Binding CounterReviews}" />
 
-        <TextBlock Grid.Row="9" Grid.Column="0" Text="Статус" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
-        <TextBox Grid.Row="9" Grid.Column="1" Margin="5" Text="{Binding Status}" />
+        <TextBlock Grid.Row="8" Grid.Column="0" Text="Статус" Margin="6,44,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="27" Width="42" Grid.RowSpan="2" />
 
-        <StackPanel Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="OK" Margin="5" Padding="5" Click="OkButton_Click" />
-            <Button Content="Отмена" Margin="5" Padding="5" Click="CancelButton_Click" />
+        <StackPanel Grid.Row="8" Orientation="Horizontal" HorizontalAlignment="Left" Margin="47,34,0,-6" Grid.ColumnSpan="2" Grid.RowSpan="3" Width="343">
+            <Button Content="OK" Margin="5" Padding="3" Click="OkButton_Click" Height="23" Width="26" />
+            <Button Content="Отмена" Padding="1" Click="CancelButton_Click" Width="50" Height="23" />
+            <ComboBox SelectedItem="{Binding Status}" Width="257" Height="29">
+                <sys:String>Работает</sys:String>
+                <sys:String>Закрыт</sys:String>
+                <sys:String>Закрыт по техническим причинам</sys:String>
+            </ComboBox>
         </StackPanel>
     </Grid>
 </Window>

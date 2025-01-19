@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A4DB4524-02C4-44C3-AB11-279CBF397259}</ProjectGuid>
+    <ProjectGuid>{A7B312FB-5643-45F5-9D85-5ACF9C7EF08E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Calculator</RootNamespace>
-    <AssemblyName>Calculator</AssemblyName>
+    <RootNamespace>GraphEditor</RootNamespace>
+    <AssemblyName>GraphEditor</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -46,16 +46,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CalculatorForm.cs">
+    <Compile Include="GraphEditorForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CalculatorForm.Designer.cs">
-      <DependentUpon>CalculatorForm.cs</DependentUpon>
+    <Compile Include="GraphEditorForm.Designer.cs">
+      <DependentUpon>GraphEditorForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="PresenterServices\Painter.cs" />
+    <Compile Include="PresenterServices\VisualService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="CalculatorForm.resx">
-      <DependentUpon>CalculatorForm.cs</DependentUpon>
+    <Compile Include="ViewModels\MarkerViewModel.cs" />
+    <Compile Include="ViewModels\PictureViewModel.cs" />
+    <Compile Include="ViewModels\RectangleViewModel.cs" />
+    <EmbeddedResource Include="GraphEditorForm.resx">
+      <DependentUpon>GraphEditorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -80,10 +85,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Calculator.Business\Calculator.Business.csproj">
-      <Project>{4174e586-3b9e-4534-9ef9-0da9ff21aa6e}</Project>
-      <Name>Calculator.Business</Name>
+    <ProjectReference Include="..\GraphEditor.Business\GraphEditor.Business.csproj">
+      <Project>{345EF022-260F-435C-B3C3-33031C7380A8}</Project>
+      <Name>GraphEditor.Business</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

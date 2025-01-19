@@ -1,4 +1,4 @@
-﻿using Calculator.Business.Entites;
+﻿using Calculator.Business.Models;
 using Calculator.Business.Services;
 using System;
 using System.Collections.Generic;
@@ -14,11 +14,10 @@ namespace Calculator
 {
     public partial class CalculatorForm : Form
     {
-        private CalculatorService _service = new CalculatorService();
+        private Business.Models.CalculatorContext _state = new Business.Models.CalculatorContext();
 
-        private CalculatorState _state = new CalculatorState();
+        private Business.Services.CalculatorLogic _service = new Business.Services.CalculatorLogic();
 
-        private bool num=false;
         public CalculatorForm()
         {
             InitializeComponent();
@@ -26,45 +25,55 @@ namespace Calculator
 
         private void DigitButton_Click(object sender, EventArgs e)
         {
-            var senderButton = (Button)sender;
-            var digitText = senderButton.Text;
-
-            _service.InsertDigit(_state, digitText);
-            if (num) 
-            {
-                DisplayLabel.Text = DisplayLabel.Text.ToString()+ digitText.ToString();
-                return;
-            }
+            var button = (Button)sender;
+            var digit = button.Text;
+            _service.InsertDigit(_state, digit);
             DisplayLabel.Text = _state.XRegister.ToString();
-            num = true;
+        }
+
+        private void CalculatorForm_Load(object sender, EventArgs e)
+        {
+            DisplayLabel.Text = _state.XRegister.ToString();
         }
 
         private void ClearButton_Click(object sender, EventArgs e)
         {
             _service.Clear(_state);
-            DisplayLabel.Text = "";
+            DisplayLabel.Text = _state.XRegister.ToString();
         }
 
         private void OperationButton_Click(object sender, EventArgs e)
         {
-            var senderButton = (Button)sender;
-            var opCode = senderButton.Text;
-            num= true;
-            _service.InsertOperation(_state, opCode);
-
-            if (opCode == "=")
-            {
-                listBox1.Items.Add(DisplayLabel.Text + '=' + _state.XRegister);
-                DisplayLabel.Text = _state.XRegister.ToString();
-                num=false;
-                return;
-            }
-            DisplayLabel.Text = DisplayLabel.Text.ToString() + opCode.ToString();
+            var button = (Button)sender;
+            var opCode = button.Text;
+            _service.PressOperation(_state, opCode);
+            DisplayLabel.Text = _state.XRegister.ToString();
         }
 
-        private void ListClearButton_Click(object sender, EventArgs e)
+       
+
+        private void SinButton_Click(object sender, EventArgs e)
         {
-            listBox1.Items.Clear();
+            var button = (Button)sender;
+            var opCode = button.Text;
+            _service.Sin_Operation(_state);
+            DisplayLabel.Text = _state.XRegister.ToString();
+        }
+
+        private void CosButton_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            var opCode = button.Text;
+            _service.Cos_Operation(_state);
+            DisplayLabel.Text = _state.XRegister.ToString();
+        }
+
+        private void Neg_PostButton_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            var opCode = button.Text;
+            _service.Negativ_and_Positiv_Operation(_state);
+            DisplayLabel.Text = _state.XRegister.ToString();
         }
     }
 }
