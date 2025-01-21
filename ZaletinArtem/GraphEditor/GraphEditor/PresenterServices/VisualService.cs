@@ -1,9 +1,14 @@
 ﻿using GraphEditor.Business.Models;
 using GraphEditor.Business.Services;
 using GraphEditor.ViewModels;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GraphEditor.PresenterServices
@@ -112,10 +117,21 @@ namespace GraphEditor.PresenterServices
             _businessService.MoveForward();
             _viewModel = FromModel(_businessService.PictureModel);
         }
-
         public void MoveBackward()
         {
             _businessService.MoveBackward();
+            _viewModel = FromModel(_businessService.PictureModel);
+        }
+
+        public void BringToFront()
+        {
+            _businessService.BringToFront();
+            _viewModel = FromModel(_businessService.PictureModel);
+        }
+
+        public void SendToBack()
+        {
+            _businessService.SendToBack();
             _viewModel = FromModel(_businessService.PictureModel);
         }
 
@@ -213,7 +229,6 @@ namespace GraphEditor.PresenterServices
                     Rectangle = FromModel(r),
                     FillColor = r.FillColor,
                     DrawColor = r.DrawColor,
-                    Layer = r.Layer,
                 }).ToList(),
                 Markers = pic.SelectedRectangle == null ?
                     Enumerable.Empty<MarkerViewModel>() :

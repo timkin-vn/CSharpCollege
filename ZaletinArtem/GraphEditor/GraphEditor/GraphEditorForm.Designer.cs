@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace GraphEditor
+﻿namespace GraphEditor
 {
     partial class GraphEditorForm
     {
@@ -38,6 +36,9 @@ namespace GraphEditor
             this.FillToolMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
             this.ForwardToolMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.BackwardToolMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.BringToFrontToolMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SendToBackToolMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ColorDialog = new System.Windows.Forms.ColorDialog();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -109,7 +110,11 @@ namespace GraphEditor
             // 
             this.toolStripSplitButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripSplitButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ForwardToolMenuItem});
+                    this.ForwardToolMenuItem,
+                    this.BackwardToolMenuItem,
+                    this.BringToFrontToolMenuItem,
+                    this.SendToBackToolMenuItem
+                });
             this.toolStripSplitButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSplitButton1.Image")));
             this.toolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripSplitButton1.Name = "toolStripSplitButton1";
@@ -123,6 +128,30 @@ namespace GraphEditor
             this.ForwardToolMenuItem.Size = new System.Drawing.Size(180, 22);
             this.ForwardToolMenuItem.Text = "Ближе";
             this.ForwardToolMenuItem.Click += new System.EventHandler(this.ForwardToolMenuItem_Click);
+            // 
+            // BackwardToolMenuItem
+            // 
+            this.ForwardToolMenuItem.Enabled = false;
+            this.BackwardToolMenuItem.Name = "BackwardToolMenuItem";
+            this.BackwardToolMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.BackwardToolMenuItem.Text = "Дальше";
+            this.BackwardToolMenuItem.Click += new System.EventHandler(this.BackwardToolMenuItem_Click);
+            // 
+            // BringToFrontToolMenuItem
+            // 
+            this.ForwardToolMenuItem.Enabled = false;
+            this.BringToFrontToolMenuItem.Name = "BringToFrontToolMenuItem";
+            this.BringToFrontToolMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.BringToFrontToolMenuItem.Text = "На передний план";
+            this.BringToFrontToolMenuItem.Click += new System.EventHandler(this.BringToFrontToolMenuItem_Click);
+            // 
+            // SendToBackToolMenuItem
+            // 
+            this.ForwardToolMenuItem.Enabled = false;
+            this.SendToBackToolMenuItem.Name = "SendToBackToolMenuItem";
+            this.SendToBackToolMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.SendToBackToolMenuItem.Text = "На задний план";
+            this.SendToBackToolMenuItem.Click += new System.EventHandler(this.SendToBackToolMenuItem_Click);
             // 
             // menuStrip1
             // 
@@ -210,48 +239,6 @@ namespace GraphEditor
             this.ResumeLayout(false);
             this.PerformLayout();
 
-
-            this.buttonMoveForward = new System.Windows.Forms.Button();
-            this.buttonMoveBackward = new System.Windows.Forms.Button();
-
-            // 
-            // buttonMoveForward
-            // 
-            this.buttonMoveForward.Location = new System.Drawing.Point(12, 400);
-            this.buttonMoveForward.Name = "buttonMoveForward";
-            this.buttonMoveForward.Size = new System.Drawing.Size(100, 23);
-            this.buttonMoveForward.TabIndex = 1;
-            this.buttonMoveForward.Text = "Ближе";
-            this.buttonMoveForward.UseVisualStyleBackColor = true;
-            this.buttonMoveForward.Click += new System.EventHandler(this.buttonMoveForward_Click);
-
-            // 
-            // buttonMoveBackward
-            // 
-            this.buttonMoveBackward.Location = new System.Drawing.Point(120, 400);
-            this.buttonMoveBackward.Name = "buttonMoveBackward";
-            this.buttonMoveBackward.Size = new System.Drawing.Size(100, 23);
-            this.buttonMoveBackward.TabIndex = 2;
-            this.buttonMoveBackward.Text = "Дальше";
-            this.buttonMoveBackward.UseVisualStyleBackColor = true;
-            this.buttonMoveBackward.Click += new System.EventHandler(this.buttonMoveBackward_Click);
-
-            // Добавить кнопки в форму
-            this.Controls.Add(this.buttonMoveForward);
-            this.Controls.Add(this.buttonMoveBackward);
-
-        }
-
-        private void buttonMoveForward_Click(object sender, EventArgs e)
-        {
-            _service.MoveForward();
-            Refresh();
-        }
-
-        private void buttonMoveBackward_Click(object sender, EventArgs e)
-        {
-            _service.MoveBackward();
-            Refresh();
         }
 
         #endregion
@@ -264,6 +251,9 @@ namespace GraphEditor
         private System.Windows.Forms.ColorDialog ColorDialog;
         private System.Windows.Forms.ToolStripSplitButton toolStripSplitButton1;
         private System.Windows.Forms.ToolStripMenuItem ForwardToolMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem BackwardToolMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem BringToFrontToolMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem SendToBackToolMenuItem;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem файлToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem FileOpenMenuItem;
@@ -274,8 +264,6 @@ namespace GraphEditor
         private System.Windows.Forms.ToolStripMenuItem ExitMenuItem;
         private System.Windows.Forms.SaveFileDialog SaveDialog;
         private System.Windows.Forms.OpenFileDialog OpenDialog;
-        private System.Windows.Forms.Button buttonMoveForward;
-        private System.Windows.Forms.Button buttonMoveBackward;
     }
 }
 

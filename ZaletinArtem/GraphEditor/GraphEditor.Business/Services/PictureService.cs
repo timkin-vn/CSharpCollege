@@ -1,6 +1,11 @@
 ﻿using GraphEditor.Business.Models;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace GraphEditor.Business.Services
 {
@@ -98,25 +103,37 @@ namespace GraphEditor.Business.Services
                 return;
             }
 
-            _model.SelectedRectangle.Layer++;
-            _model.RectangleList = _model.RectangleList.OrderBy(r => r.Layer).ToList();
+            var r = _model.RectangleList[index];
+            _model.RectangleList[index] = _model.RectangleList[index + 1];
+            _model.RectangleList[index + 1] = r;
         }
 
         public void MoveBackward()
         {
-            if (_model.SelectedRectangle == null)
-            {
-                return;
-            }
-
+            if (_model.SelectedRectangle == null) return;
             var index = _model.RectangleList.IndexOf(_model.SelectedRectangle);
-            if (index == 0)
+            if (index > 0)
             {
-                return;
+                var temp = _model.RectangleList[index];
+                _model.RectangleList[index] = _model.RectangleList[index - 1];
+                _model.RectangleList[index - 1] = temp;
             }
+        }
 
-            _model.SelectedRectangle.Layer--;
-            _model.RectangleList = _model.RectangleList.OrderBy(r => r.Layer).ToList();
+        public void BringToFront()
+        {
+            if (_model.SelectedRectangle == null) return;
+            var rect = _model.SelectedRectangle;
+            _model.RectangleList.Remove(rect);
+            _model.RectangleList.Add(rect);
+        }
+
+        public void SendToBack()
+        {
+            if (_model.SelectedRectangle == null) return;
+            var rect = _model.SelectedRectangle;
+            _model.RectangleList.Remove(rect);
+            _model.RectangleList.Insert(0, rect);
         }
 
         public void Save(string fileName)

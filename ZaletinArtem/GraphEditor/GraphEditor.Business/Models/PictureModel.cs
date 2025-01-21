@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace GraphEditor.Business.Models
 {
@@ -11,11 +14,10 @@ namespace GraphEditor.Business.Models
 
         internal List<RectangleModel> RectangleList = new List<RectangleModel>();
 
-        public IEnumerable<RectangleModel> Rectangles => RectangleList.OrderBy(r => r.Layer);
+        public IEnumerable<RectangleModel> Rectangles => RectangleList;
 
         public RectangleModel SelectedRectangle { get; internal set; }
 
         public PictureMode Mode { get; internal set; }
     }
-
 }

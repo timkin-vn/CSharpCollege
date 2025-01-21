@@ -1,6 +1,10 @@
 ﻿using GraphEditor.ViewModels;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace GraphEditor.PresenterServices
 {
@@ -15,7 +19,7 @@ namespace GraphEditor.PresenterServices
 
             Pen pen;
             Brush brush;
-            foreach (var rect in picture.Rectangles.OrderBy(r => r.Layer))
+            foreach (var rect in picture.Rectangles)
             {
                 pen = new Pen(rect.DrawColor, 3);
                 brush = new SolidBrush(rect.FillColor);
@@ -25,7 +29,7 @@ namespace GraphEditor.PresenterServices
 
             if (interactiveMode)
             {
-                // Draw markers
+                // Нарисовать маркеры
                 var activeBrush = Brushes.Black;
                 var inactiveBrush = Brushes.White;
                 pen = Pens.Black;
