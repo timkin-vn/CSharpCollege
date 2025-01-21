@@ -108,6 +108,23 @@ namespace GraphEditor
             _service.MoveForward();
             Refresh();
         }
+        private void BackwardToolMenuItem_Click(object sender, EventArgs e)
+        {
+            _service.MoveBackward();
+            Refresh();
+        }
+
+        private void BringToFrontToolMenuItem_Click(object sender, EventArgs e)
+        {
+            _service.BringToFront();
+            Refresh();
+        }
+
+        private void SendToBackToolMenuItem_Click(object sender, EventArgs e)
+        {
+            _service.SendToBack();
+            Refresh();
+        }
 
         private void ExitMenuItem_Click(object sender, EventArgs e)
         {
