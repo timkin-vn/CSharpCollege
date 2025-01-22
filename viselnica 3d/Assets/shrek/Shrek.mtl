@@ -1,0 +1,132 @@
+# Blender 4.0.2 MTL File: 'shrek super slam'd.blend'
+# www.blender.org
+
+newmtl Tex_0043_0_dds
+Ns 224.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd shrek_ear.png
+
+newmtl shrek_eye
+Ns 224.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd shrek_eye.png
+
+newmtl shrek_fringe
+Ns 224.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+illum 2
+map_Kd shrek_fringe.png
+map_d shrek_fringe.png
+
+newmtl shrek_hand
+Ns 224.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd shrek_hand.png
+
+newmtl shrek_head
+Ns 224.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd shrek_head.png
+
+newmtl shrek_insidemouth
+Ns 224.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd shrek_insidemouth.png
+
+newmtl shrek_palm
+Ns 224.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd shrek_palm.png
+
+newmtl shrek_shirtback
+Ns 224.999985
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd shrek_shirtback.png
+map_Ks shrek_shirtback_a.png
+
+newmtl shrek_shirtfront
+Ns 224.999985
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd shrek_shirtfront.png
+map_Ks shrek_shirtfront_a.png
+
+newmtl shrek_shoes
+Ns 224.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd shrek_shoes.png
+
+newmtl shrek_sleeve
+Ns 224.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd shrek_sleeve.png
+
+newmtl shrek_tights
+Ns 224.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd shrek_tights.png
+
+newmtl shrek_tooth
+Ns 224.999985
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd shrek_tooth.png
