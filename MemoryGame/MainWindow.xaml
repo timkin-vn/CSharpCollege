@@ -1,0 +1,9 @@
+﻿<Window x:Class="MemoryGame.MainWindow" 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Memory Game" Height="350" Width="525">
+    <Grid x:Name="MainGrid">
+       
+    </Grid>
+</Window>
+
