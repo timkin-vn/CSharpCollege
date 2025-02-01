@@ -1,0 +1,6 @@
+C:\Users\Рома\Desktop\GraphEditor\GraphEditor.Business\bin\Debug\GraphEditor.Business.dll
+C:\Users\Рома\Desktop\GraphEditor\GraphEditor.Business\bin\Debug\GraphEditor.Business.pdb
+C:\Users\Рома\Desktop\GraphEditor\GraphEditor.Business\obj\Debug\GraphEditor.Business.csproj.AssemblyReference.cache
+C:\Users\Рома\Desktop\GraphEditor\GraphEditor.Business\obj\Debug\GraphEditor.Business.csproj.CoreCompileInputs.cache
+C:\Users\Рома\Desktop\GraphEditor\GraphEditor.Business\obj\Debug\GraphEditor.Business.dll
+C:\Users\Рома\Desktop\GraphEditor\GraphEditor.Business\obj\Debug\GraphEditor.Business.pdb
