@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FifteenGame.Business.Services
@@ -11,28 +12,35 @@ namespace FifteenGame.Business.Services
     public class GameService
     {
         
-
         public void Initialize(GameModel model)
         {
-            
+
+
+
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model), "Модель не может быть null.");
+            }
+
             var units = new List<GameModel>
             {
+                new GameModel(" ", 0, 0, 0, 0, GameModel.UnitType.None),     //Nothing
                 new GameModel("Д", 100, 20, 0, 1, GameModel.UnitType.Dragon),  // Дракон
                 new GameModel("М", 80, 10, 0, 3, GameModel.UnitType.Medic),    // Медик
                 new GameModel("Р", 120, 25, 0, 5, GameModel.UnitType.Knight),  // Рыцарь
                 new GameModel("К", 150, 15, 0, 7, GameModel.UnitType.King),    // Король
-                new GameModel("Б", 500, 40, 6, 2, GameModel.UnitType.Boss)     // Босс
+                new GameModel("Б", 500, 40, 4, 2, GameModel.UnitType.Boss)     // Босс
             };
+
+
             
-            
-            var count = 0;
             
 
             for (int row = 0; row < GameModel.RowCount; row++)
             { 
                 for (int column = 0; column < GameModel.ColumnCount; column++)
                 {
-                    model[row, column] = count++;
+                    model[row, column] = null ;
                 }
             }
 
@@ -137,12 +145,7 @@ namespace FifteenGame.Business.Services
         {
             Initialize(model);
 
-            var rnd = new Random();
-            for (int i = 0; i < 1000; i++)
-            {
-                var nextMove = (MoveDirection)(rnd.Next(4) + 1);
-                MakeMove(model, nextMove);
-            }
+            
         }
     }
 }

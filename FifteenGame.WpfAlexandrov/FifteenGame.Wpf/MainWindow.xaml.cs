@@ -2,6 +2,7 @@
 using FifteenGame.Wpf.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,51 +30,35 @@ namespace FifteenGame.Wpf
         private GameModel selectedUnit;
         private Button[,] gridButtons;
         private const int ROWS = 8;
-        private const int COLS = 10;
-
+        private const int COLS = 8;
+        private GameModel model;
         public MainWindow()
         {
+
             InitializeComponent();
-            InitializeGame();
+            units = new List<GameModel>();
+            boss = new GameModel("Б", 500, 40, 4, 2, GameModel.UnitType.Boss);
+            gridButtons = new Button[ROWS, COLS];
+            CreateGameBoard();
+            model = new GameModel(" ", 0, 0, 0, 0, GameModel.UnitType.None); 
+            Initialize(model);
+            ShowPossibleMoves(model);
+            
         }
-
-        private void InitializeGame()
-        {
-            var units = new List<GameModel>
-            {
-                new GameModel("Д", 100, 20, 0, 1, UnitType.Dragon),  // Дракон
-                new GameModel("М", 80, 10, 0, 3, UnitType.Medic),    // Медик
-                new GameModel("Р", 120, 25, 0, 5, UnitType.Knight),  // Рыцарь
-                new GameModel("К", 150, 15, 0, 7, UnitType.King),    // Король
-                new GameModel("Б", 500, 40, 6, 2, UnitType.Boss)     // Босс
-            };
-        }
-
-        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (sender is Grid grid && grid.DataContext is GameModel unit)
-            {
-                
-                if (DataContext is MainWindowViewModel viewModel)
-                {
-                    
-                    viewModel.SelectUnit(unit);
-                }
-            }
-        }
-
         private void CreateGameBoard()
         {
+            
+
             for (int y = 0; y < ROWS; y++)
             {
                 for (int x = 0; x < COLS; x++)
                 {
                     var button = new Button
                     {
-                        Width = 50,
-                        Height = 50,
-                        Margin = new Thickness(1),
-                        Content = "",
+                        Width = 10,
+                        Height = 10,
+                        Background = new SolidColorBrush(Colors.Black),
+                        Content = "hi",
                         Tag = new Point(x, y)
                     };
 
@@ -85,14 +70,95 @@ namespace FifteenGame.Wpf
 
             UpdateGameBoard();
         }
+        public void Initialize(GameModel model)
+        {
+
+
+
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model), "Модель не может быть null.");
+            }
+
+            var units = new List<GameModel>
+            {
+                new GameModel(" ", 0, 0, 0, 0, GameModel.UnitType.None),     //Nothing
+                new GameModel("Д", 100, 20, 0, 1, GameModel.UnitType.Dragon),  // Дракон
+                new GameModel("М", 80, 10, 0, 3, GameModel.UnitType.Medic),    // Медик
+                new GameModel("Р", 120, 25, 0, 5, GameModel.UnitType.Knight),  // Рыцарь
+                new GameModel("К", 150, 15, 0, 7, GameModel.UnitType.King),    // Король
+                new GameModel("Б", 500, 40, 4, 2, GameModel.UnitType.Boss)     // Босс
+            };
+
+
+
+
+
+            for (int row = 0; row < GameModel.RowCount; row++)
+            {
+                for (int column = 0; column < GameModel.ColumnCount; column++)
+                {
+                    model[row, column] = new GameModel(" ", 0, 0, 0, 0, GameModel.UnitType.None);
+                }
+            }
+
+            foreach (var unit in units)
+            {
+                model[unit.X, unit.Y] = unit;
+
+
+                if (unit.Type == GameModel.UnitType.Boss)
+                {
+                    for (int i = 0; i < unit.Height; i++)
+                    {
+                        for (int j = 0; j < unit.Width; j++)
+                        {
+                            model[unit.X + i, unit.Y + j] = unit;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            
+            if (sender is Grid grid && grid.DataContext is GameModel unit) 
+            {
+               
+                var clickedUnit = units.FirstOrDefault(u => u.X == unit.X && u.Y == unit.Y); 
+                if (clickedUnit != null)
+                {
+                    MessageBox.Show("Hello");
+                    if (selectedUnit != null)
+                        selectedUnit.IsSelected = false; 
+
+                    clickedUnit.IsSelected = true; 
+                    selectedUnit = clickedUnit; 
+                    ShowPossibleMoves(clickedUnit); 
+                    UpdateGameBoard(); 
+                }
+            }
+        }
+
+
 
         private void UpdateGameBoard()
         {
+            var units = new List<GameModel>
+            {
+                new GameModel(" ", 0, 0, 0, 0, GameModel.UnitType.None),     //Nothing
+                new GameModel("Д", 100, 20, 0, 1, GameModel.UnitType.Dragon),  // Дракон
+                new GameModel("М", 80, 10, 0, 3, GameModel.UnitType.Medic),    // Медик
+                new GameModel("Р", 120, 25, 0, 5, GameModel.UnitType.Knight),  // Рыцарь
+                new GameModel("К", 150, 15, 0, 7, GameModel.UnitType.King),    // Король
+                new GameModel("Б", 500, 40, 4, 2, GameModel.UnitType.Boss)     // Босс
+            };
             for (int y = 0; y < ROWS; y++)
             {
                 for (int x = 0; x < COLS; x++)
                 {
-                    gridButtons[y, x].Content = "";
+                    gridButtons[y, x].Content = " ";
                     gridButtons[y, x].Background = Brushes.LightGray;
                 }
             }
@@ -109,28 +175,32 @@ namespace FifteenGame.Wpf
                 }
             }
 
-            for (int y = 2; y <= 5; y++)
-            {
-                for (int x = 7; x <= 8; x++)
-                {
-                    gridButtons[y, x].Content = boss.Symbol;
-                    gridButtons[y, x].Background = Brushes.LightPink;
-                }
-            }
+            
         }
 
         private void ShowPossibleMoves(GameModel gameModel)
         {
+            for (int y = 0; y < ROWS; y++)
+            {
+                for (int x = 0; x < COLS; x++)
+                {
+                    UpdateGameBoard();
+                }
+            }
+
             for (int dy = -1; dy <= 1; dy++)
             {
                 for (int dx = -1; dx <= 1; dx++)
                 {
-                    int newX = gameModel.X + dx;
-                    int newY = gameModel.Y + dy;
-
-                    if (IsValidMove(newX, newY))
+                    if (Math.Abs(dx) + Math.Abs(dy) == 1)
                     {
-                        gridButtons[newY, newX].Background = Brushes.LightBlue;
+                        int newX = gameModel.X + dx;
+                        int newY = gameModel.Y + dy;
+
+                        if (IsValidMove(newX, newY))
+                        {
+                            gridButtons[newY, newX].Background = Brushes.LightBlue;
+                        }
                     }
                 }
             }
@@ -142,8 +212,6 @@ namespace FifteenGame.Wpf
             if (x < 0 || x >= COLS || y < 0 || y >= ROWS)
                 return false;
 
-            if (units.Any(u => u.X == x && u.Y == y))
-                return false;
 
             if (x >= 7 && x <= 8 && y >= 2 && y <= 5)
                 return false;
@@ -162,24 +230,27 @@ namespace FifteenGame.Wpf
             {
                 if (IsValidMove(x, y))
                 {
+                    // Перемещаем юнита
                     selectedUnit.X = x;
                     selectedUnit.Y = y;
-                    selectedUnit.IsSelected = false;
-                    selectedUnit = null;
-                    UpdateGameBoard();
+                    selectedUnit.IsSelected = false; 
+                    selectedUnit = null; 
+                    UpdateGameBoard(); 
                 }
                 return;
             }
 
+           
             var clickedUnit = units.FirstOrDefault(u => u.X == x && u.Y == y);
             if (clickedUnit != null)
             {
                 if (selectedUnit != null)
                     selectedUnit.IsSelected = false;
 
-                clickedUnit.IsSelected = true;
-                selectedUnit = clickedUnit;
-                UpdateGameBoard();
+                clickedUnit.IsSelected = true; 
+                selectedUnit = clickedUnit; 
+                ShowPossibleMoves(clickedUnit); 
+                UpdateGameBoard(); 
             }
         }
     }

@@ -9,7 +9,7 @@
     <Window.DataContext>
         <viewmodels:MainWindowViewModel />
     </Window.DataContext>
-    
+
     <Grid x:Name="GameBoard">
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -58,6 +58,7 @@
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
 
+        
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Grid MouseDown="Grid_MouseDown" Tag="{Binding Direction}">

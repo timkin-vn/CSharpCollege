@@ -13,7 +13,7 @@ namespace FifteenGame.Business.Models
 
         public const int ColumnCount = 8;
 
-        public const int FreeCellValue = -1;
+        
         public int X { get; set; }
         public int Y { get; set; }
         private GameModel[,] _cells = new GameModel[RowCount, ColumnCount];
@@ -24,8 +24,24 @@ namespace FifteenGame.Business.Models
         public bool IsSelected { get; set; }
         public GameModel this[int row, int column]
         {
-            get => _cells[row, column];
-            set => _cells[row, column] = value;
+            get
+            {
+                // Проверяем, что индексы находятся в пределах допустимого диапазона
+                if (row < 0 || row >= RowCount || column < 0 || column >= ColumnCount)
+                {
+                    throw new IndexOutOfRangeException($"Индексы ({row}, {column}) находятся вне границ массива.");
+                }
+                return _cells[row, column];
+            }
+            set
+            {
+                // Проверяем, что индексы находятся в пределах допустимого диапазона
+                if (row < 0 || row >= RowCount || column < 0 || column >= ColumnCount)
+                {
+                    throw new IndexOutOfRangeException($"Индексы ({row}, {column}) находятся вне границ массива.");
+                }
+                _cells[row, column] = value;
+            }
         }
 
         public int FreeCellRow { get; internal set; }
@@ -48,6 +64,22 @@ namespace FifteenGame.Business.Models
 
         public GameModel(string symbol, int hp, int attack, int x, int y, UnitType type)
         {
+            // Проверка на null для символа
+            if (string.IsNullOrEmpty(symbol))
+            {
+                throw new ArgumentException("Символ не может быть null или пустым.", nameof(symbol));
+            }
+
+            // Проверка на допустимость значений
+            if (hp < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(hp), "Здоровье не может быть отрицательным.");
+            }
+
+            if (attack < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(attack), "Атака не может быть отрицательной.");
+            }
             Symbol = symbol;
             Hp = hp;
             Attack = attack;
@@ -62,12 +94,16 @@ namespace FifteenGame.Business.Models
                 Width = 2;
                 Height = 4;
             }
+            else
+            {
+                Width = 1; // Устанавливаем значения по умолчанию для других типов
+                Height = 1;
+            }
         }
+        
+        
 
-        public static implicit operator GameModel(int v)
-        {
-            return v;
-        }
-    }
+        
+}
    
 }

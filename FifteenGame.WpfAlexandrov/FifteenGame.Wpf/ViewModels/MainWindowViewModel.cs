@@ -33,7 +33,7 @@ namespace FifteenGame.Wpf.ViewModels
 
         private GameService _service = new GameService();
        
-        private GameModel _model;
+        private GameModel _model = new GameModel(" ", 0, 0, 0,0,GameModel.UnitType.None);
 
         public ObservableCollection<CellViewModel> Cells { get; set; } = new ObservableCollection<CellViewModel>();
 
@@ -132,7 +132,18 @@ namespace FifteenGame.Wpf.ViewModels
                             Num = model[row, column],
                             Direction = direction
                         });
+                    }else if (model[row, column] == null)
+                    {
+                        
+                        Cells.Add(new CellViewModel
+                        {
+                            Row = row,
+                            Column = column,
+                            Num = new GameModel(" ", 0, 0, row, column, GameModel.UnitType.None), // Или любое другое значение по умолчанию
+                            Direction = MoveDirection.None
+                        });
                     }
+
                 }
             }
         }
