@@ -23,14 +23,14 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <ItemsControl Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Cells}">
+        <ItemsControl Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Cells}" x:Name="myItemsControl">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid>
                         <Grid.Background>
                             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                <GradientStop Color="Black"/>
-                                <GradientStop Color="#FFED1F1F" Offset="1"/>
+                                <GradientStop Color="#FF6915D2"/>
+                                <GradientStop Color="#FFF3F3F3" Offset="1"/>
                             </LinearGradientBrush>
                         </Grid.Background>
                         <Grid.RowDefinitions>
@@ -58,15 +58,16 @@
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
 
-        
+            
             <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Grid MouseDown="Grid_MouseDown" Tag="{Binding Direction}">
-                        <Rectangle Margin="5" Stroke="Brown" StrokeThickness="3" RadiusX="10" RadiusY="10" Fill="LightBlue" />
+                <DataTemplate x:Name="myDataTemplate">
+                    <Grid x:Name="myGrid" MouseDown="Grid_MouseDown">
+                        <Rectangle Margin="5" Stroke="#FFD81B1B" StrokeThickness="3" RadiusX="10" RadiusY="10" Fill="LightBlue" Name="gridUnits" DataContext="{Binding Num}"/>
                         <TextBlock Text="{Binding Num.Symbol}" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
+        
 
             <ItemsControl.ItemContainerStyle>
                 <Style TargetType="ContentPresenter">
