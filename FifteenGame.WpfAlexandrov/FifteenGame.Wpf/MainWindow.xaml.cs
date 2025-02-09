@@ -75,28 +75,33 @@ namespace FifteenGame.Wpf
                 new CellViewModel { Num =  new GameModel("Б", 500, 40, 4, 2, GameModel.UnitType.Boss), Row = 0, Column = 0 },
             };
             itemsControl.ItemsSource = items;
-            
-            
 
-            
+
+
+
             foreach (var unit in units)
             {
-                Initialize(unit);
+                var grid = new Grid();
+                grid.Tag = unit; 
+                
+                                                  
                 
             }
 
-           
-        
-        
-            
+
+
+
+
         }
         private void GridMouse_Down(object sender, MouseEventArgs e)
         {
-            var tag = (MoveDirection)((FrameworkElement)sender).Tag;
-            foreach (GameModel unit in units) { 
+            var grid = (FrameworkElement)sender;
+            GameModel tag = grid.Tag as GameModel;
 
-                ViewModel.MakeMove(tag);
-            
+            if (tag != null)
+            {
+                
+                ViewModel.MakeMove(model, tag.X, tag.Y, tag); 
             }
         }
         private void GameFinished()

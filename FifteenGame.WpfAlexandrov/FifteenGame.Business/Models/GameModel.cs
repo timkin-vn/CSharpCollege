@@ -26,7 +26,7 @@ namespace FifteenGame.Business.Models
         {
             get
             {
-                // Проверяем, что индексы находятся в пределах допустимого диапазона
+                
                 if (row < 0 || row >= RowCount || column < 0 || column >= ColumnCount)
                 {
                     throw new IndexOutOfRangeException($"Индексы ({row}, {column}) находятся вне границ массива.");
@@ -35,7 +35,7 @@ namespace FifteenGame.Business.Models
             }
             set
             {
-                // Проверяем, что индексы находятся в пределах допустимого диапазона
+               
                 if (row < 0 || row >= RowCount || column < 0 || column >= ColumnCount)
                 {
                     throw new IndexOutOfRangeException($"Индексы ({row}, {column}) находятся вне границ массива.");
@@ -64,13 +64,13 @@ namespace FifteenGame.Business.Models
 
         public GameModel(string symbol, int hp, int attack, int x, int y, UnitType type)
         {
-            // Проверка на null для символа
+            
             if (string.IsNullOrEmpty(symbol))
             {
                 throw new ArgumentException("Символ не может быть null или пустым.", nameof(symbol));
             }
 
-            // Проверка на допустимость значений
+            
             if (hp < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(hp), "Здоровье не может быть отрицательным.");

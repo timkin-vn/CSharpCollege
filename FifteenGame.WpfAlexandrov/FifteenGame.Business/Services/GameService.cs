@@ -11,7 +11,10 @@ namespace FifteenGame.Business.Services
 {
     public class GameService
     {
-        
+        public GameModel SelectedUnit;
+
+        private bool isUnitSelected = false; 
+        public GameModel selectedUnit;
         public void Initialize(GameModel model)
         {
 
@@ -92,55 +95,71 @@ namespace FifteenGame.Business.Services
             return true;
         }
 
-        public bool MakeMove(GameModel model, MoveDirection direction)
+        public bool MakeMove(GameModel model, int targetRow, int targetColumn, GameModel selectedUnit)
         {
-            switch (direction)
+            if (!isUnitSelected)
             {
-                case MoveDirection.XLeft:
-                    if (model.FreeCellColumn == GameModel.ColumnCount - 1)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow, model.FreeCellColumn + 1];
-                    model[model.FreeCellRow, model.FreeCellColumn + 1] = null;
-                    model.FreeCellColumn++;
-                    return true;
-
-                case MoveDirection.XRight:
-                    if (model.FreeCellColumn == 0)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow, model.FreeCellColumn - 1];
-                    model[model.FreeCellRow, model.FreeCellColumn - 1] = null;
-                    model.FreeCellColumn--;
-                    return true;
-
-                case MoveDirection.YUp:
-                    if (model.FreeCellRow == GameModel.RowCount - 1)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow + 1, model.FreeCellColumn];
-                    model[model.FreeCellRow + 1, model.FreeCellColumn] = null;
-                    model.FreeCellRow++;
-                    return true;
-
-                case MoveDirection.YDown:
-                    if (model.FreeCellRow == 0)
-                    {
-                        return false;
-                    }
-
-                    return true;
+                
+                HighlightAdjacentCells(model);
+                SelectedUnit = selectedUnit; 
+                isUnitSelected = true;
+                return false; 
             }
+            else
+            {
+                
+                if (IsAdjacent(SelectedUnit.X, SelectedUnit.Y, targetRow, targetColumn))
+                {
+                    
+                    var targetUnit = model[targetRow, targetColumn]; 
 
-            return false;
+                    
+                    model[targetRow, targetColumn] = SelectedUnit; 
+                    model[SelectedUnit.X, SelectedUnit.Y] = targetUnit;
+
+                    
+                    if (targetUnit != null)
+                    {
+                        targetUnit.X = SelectedUnit.X; 
+                        targetUnit.Y = SelectedUnit.Y;
+                    }
+
+                    SelectedUnit.X = targetRow; 
+                    SelectedUnit.Y = targetColumn;
+
+                    isUnitSelected = false; 
+                    return true; 
+                }
+                else
+                {
+                    Console.WriteLine($"Клетка ({targetRow}, {targetColumn}) не соседняя с ({SelectedUnit.X}, {SelectedUnit.Y})");
+                }
+            }
+            return false; 
+        }
+        private bool IsAdjacent(int unitRow, int unitColumn, int targetRow, int targetColumn)
+        {
+            
+            return (Math.Abs(unitRow - targetRow) == 1 && unitColumn == targetColumn) ||
+                   (Math.Abs(unitColumn - targetColumn) == 1 && unitRow == targetRow);
+        }
+        private void HighlightAdjacentCells(GameModel model)
+        {
+           
+            int row = model.FreeCellRow;
+            int column = model.FreeCellColumn;
+
+            
+            if (row > 0) HighlightCell(row - 1, column); 
+            if (row < GameModel.RowCount - 1) HighlightCell(row + 1, column); 
+            if (column > 0) HighlightCell(row, column - 1); 
+            if (column < GameModel.ColumnCount - 1) HighlightCell(row, column + 1); 
         }
 
+        private void HighlightCell(int row, int column)
+        {
+            
+        }
         public void Shuffle(GameModel model)
         {
             Initialize(model);
