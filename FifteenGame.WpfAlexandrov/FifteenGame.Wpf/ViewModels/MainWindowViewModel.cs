@@ -64,9 +64,25 @@ namespace FifteenGame.Wpf.ViewModels
             }
         }
 
-        
+        public void MakeMove(MoveDirection direction)
+        {
+            _service.MakeMove(_model, direction);
+            FromModel(_model);
+            /*if (_service.IsGameOver(_model))
+            {
+                gameFinishedAction();
+            }*/
+        }
 
-        
+        public List<GameModel> units = new List<GameModel>
+            {
+                new GameModel(" ", 0, 0, 0, 0, GameModel.UnitType.None),
+                new GameModel("Д", 100, 20, 0, 1, GameModel.UnitType.Dragon), // Дракон
+                new GameModel("М", 80, 10, 0, 3, GameModel.UnitType.Medic), // Медик
+                new GameModel("Р", 120, 25, 0, 5, GameModel.UnitType.Knight), // Рыцарь
+                new GameModel("К", 150, 15, 0, 7, GameModel.UnitType.King), // Король
+                new GameModel("Б", 500, 40, 4, 2, GameModel.UnitType.Boss) // Босс
+            };
 
         public void Initialize()
         {
@@ -74,78 +90,81 @@ namespace FifteenGame.Wpf.ViewModels
             FromModel(_model);
         }
 
-        private void FromModel(GameModel model)
+        public void FromModel(GameModel model)
         {
-            Cells.Clear();
-            for (int row = 0; row < GameModel.RowCount; row++)
-            {
-                for (int column = 0; column < GameModel.ColumnCount; column++)
+            
+            
+                for (int row = 0; row < GameModel.RowCount; row++)
                 {
-                    if (model[row, column] != null)
+                    for (int column = 0; column < GameModel.ColumnCount; column++)
                     {
-                        var direction = MoveDirection.None;
-                        if (row == model.FreeCellRow)
+                        if (model[row, column] != null)
                         {
-                            if (column == model.FreeCellColumn - 1)
+                            var direction = MoveDirection.None;
+                            if (row == model.FreeCellRow)
                             {
-                                direction = MoveDirection.XRight;
+                                if (column == model.FreeCellColumn - 1)
+                                {
+                                    direction = MoveDirection.XRight;
+                                }
+                                else if (column == model.FreeCellColumn + 1)
+                                {
+                                    direction = MoveDirection.XLeft;
+                                }
                             }
-                            else if (column == model.FreeCellColumn + 1)
+                            else if (column == model.FreeCellColumn)
                             {
-                                direction = MoveDirection.XLeft;
+                                if (row == model.FreeCellRow - 1)
+                                {
+                                    direction = MoveDirection.YDown;
+                                }
+                                else if (row == model.FreeCellRow + 1)
+                                {
+                                    direction = MoveDirection.YUp;
+                                }
                             }
+                            else if (Math.Abs(row - model.FreeCellRow) == 1 && Math.Abs(column - model.FreeCellColumn) == 1)
+                            {
+                                if (row < model.FreeCellRow && column < model.FreeCellColumn)
+                                {
+                                    direction = MoveDirection.DiagonalDownRight;
+                                }
+                                else if (row < model.FreeCellRow && column > model.FreeCellColumn)
+                                {
+                                    direction = MoveDirection.DiagonalDownLeft;
+                                }
+                                else if (row > model.FreeCellRow && column < model.FreeCellColumn)
+                                {
+                                    direction = MoveDirection.DiagonalUpRight;
+                                }
+                                else if (row > model.FreeCellRow && column > model.FreeCellColumn)
+                                {
+                                    direction = MoveDirection.DiagonalUpLeft;
+                                }
+                            }
+                            Cells.Add(new CellViewModel
+                            {
+                                Row = row,
+                                Column = column,
+                                Num = model[row, column],
+                                Direction = direction
+                            });
                         }
-                        else if (column == model.FreeCellColumn)
+                        else if (model[row, column] == null)
                         {
-                            if (row == model.FreeCellRow - 1)
-                            {
-                                direction = MoveDirection.YDown;
-                            }
-                            else if (row == model.FreeCellRow + 1)
-                            {
-                                direction = MoveDirection.YUp;
-                            }
-                        }
-                        else if (Math.Abs(row - model.FreeCellRow) == 1 && Math.Abs(column - model.FreeCellColumn) == 1)
-                        {
-                            if (row < model.FreeCellRow && column < model.FreeCellColumn)
-                            {
-                                direction = MoveDirection.DiagonalDownRight;
-                            }
-                            else if (row < model.FreeCellRow && column > model.FreeCellColumn)
-                            {
-                                direction = MoveDirection.DiagonalDownLeft;
-                            }
-                            else if (row > model.FreeCellRow && column < model.FreeCellColumn)
-                            {
-                                direction = MoveDirection.DiagonalUpRight;
-                            }
-                            else if (row > model.FreeCellRow && column > model.FreeCellColumn)
-                            {
-                                direction = MoveDirection.DiagonalUpLeft;
-                            }
-                        }
-                        Cells.Add(new CellViewModel
-                        {
-                            Row = row,
-                            Column = column,
-                            Num = model[row, column],
-                            Direction = direction
-                        });
-                    }else if (model[row, column] == null)
-                    {
-                        
-                        Cells.Add(new CellViewModel
-                        {
-                            Row = row,
-                            Column = column,
-                            Num = new GameModel(" ", 0, 0, row, column, GameModel.UnitType.None), // Или любое другое значение по умолчанию
-                            Direction = MoveDirection.None
-                        });
-                    }
 
+                            Cells.Add(new CellViewModel
+                            {
+                                Row = row,
+                                Column = column,
+                                Num = new GameModel(" ", 0, 0, row, column, GameModel.UnitType.None), // Или любое другое значение по умолчанию
+                                Direction = MoveDirection.None
+                            });
+                        }
+
+                    }
                 }
-            }
+            
         }
         public void SelectUnit(GameModel unit)
         {

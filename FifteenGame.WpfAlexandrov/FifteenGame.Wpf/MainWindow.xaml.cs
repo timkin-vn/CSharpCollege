@@ -1,4 +1,5 @@
 ﻿using FifteenGame.Business.Models;
+using FifteenGame.Business.Services;
 using FifteenGame.Wpf.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,15 @@ namespace FifteenGame.Wpf
     public partial class MainWindow : Window
     {
         private MoveDirection moveDirection;
-        private List<GameModel> units;
+        private List<GameModel> units = new List<GameModel>
+        {
+                        new GameModel(" ", 0, 0, 0, 0, GameModel.UnitType.None),
+                        new GameModel("Д", 100, 20, 0, 1, GameModel.UnitType.Dragon), // Дракон
+                        new GameModel("М", 80, 10, 0, 3, GameModel.UnitType.Medic), // Медик
+                        new GameModel("Р", 120, 25, 0, 5, GameModel.UnitType.Knight), // Рыцарь
+                        new GameModel("К", 150, 15, 0, 7, GameModel.UnitType.King), // Король
+                        new GameModel("Б", 500, 40, 4, 2, GameModel.UnitType.Boss) // Босс
+        };
         private GameModel boss;
         private GameModel selectedUnit;
         private ItemsControl itemsControl;
@@ -35,6 +44,11 @@ namespace FifteenGame.Wpf
         private const int COLS = 8;
         private GameModel model;
         private ObservableCollection<CellViewModel> items;
+        private GameService gameService;
+
+        public MainWindowViewModel ViewModel => (MainWindowViewModel)DataContext;
+
+
 
         public MainWindow()
         {
@@ -43,15 +57,11 @@ namespace FifteenGame.Wpf
             
 
 
-            var myGrid = this.FindName("myGrid") as Grid;
-            if (myGrid == null)
-            {
-                MessageBox.Show("Ошибка: myGrid не найден. Проверьте, что он существует в XAML.");
-                return; 
-            }
-            InitializeGridButtons();
+            
+            
             itemsControl = new ItemsControl();
 
+            
             
 
 
@@ -65,21 +75,14 @@ namespace FifteenGame.Wpf
                 new CellViewModel { Num =  new GameModel("Б", 500, 40, 4, 2, GameModel.UnitType.Boss), Row = 0, Column = 0 },
             };
             itemsControl.ItemsSource = items;
-            CreateGameBoard();
-            var units = new List<GameModel>
-            {
-                new GameModel(" ", 0, 0, 0, 0, GameModel.UnitType.None),
-                new GameModel("Д", 100, 20, 0, 1, GameModel.UnitType.Dragon), // Дракон
-                new GameModel("М", 80, 10, 0, 3, GameModel.UnitType.Medic), // Медик
-                new GameModel("Р", 120, 25, 0, 5, GameModel.UnitType.Knight), // Рыцарь
-                new GameModel("К", 150, 15, 0, 7, GameModel.UnitType.King), // Король
-                new GameModel("Б", 500, 40, 4, 2, GameModel.UnitType.Boss) // Босс
-            };
+            
+            
 
             
             foreach (var unit in units)
             {
-                Initialize(unit); 
+                Initialize(unit);
+                
             }
 
            
@@ -87,9 +90,25 @@ namespace FifteenGame.Wpf
         
             
         }
+        private void GridMouse_Down(object sender, MouseEventArgs e)
+        {
+            var tag = (MoveDirection)((FrameworkElement)sender).Tag;
+            foreach (GameModel unit in units) { 
 
-
-        private void InitializeGridButtons()
+                ViewModel.MakeMove(tag);
+            
+            }
+        }
+        private void GameFinished()
+        {
+            if (MessageBox.Show("Игра окончена. Повторить?", "Поздравляем!", MessageBoxButton.YesNo, MessageBoxImage.Information) ==
+                MessageBoxResult.Yes)
+            {
+                ViewModel.Initialize();
+            }
+            
+        }
+        /*private void InitializeGridButtons()
         {
             gridButtons = new Grid[ROWS, COLS]; 
 
@@ -117,7 +136,7 @@ namespace FifteenGame.Wpf
                     gridButtons[row, column] = rectangle; 
                 }
             }
-        }
+        }*/
 
 
 
@@ -134,15 +153,7 @@ namespace FifteenGame.Wpf
                 throw new ArgumentNullException(nameof(model), "Модель не может быть null.");
             }
 
-            var units = new List<GameModel>
-            {
-                new GameModel(" ", 0, 0, 0, 0, GameModel.UnitType.None),     //Nothing
-                new GameModel("Д", 100, 20, 0, 1, GameModel.UnitType.Dragon),  // Дракон
-                new GameModel("М", 80, 10, 0, 3, GameModel.UnitType.Medic),    // Медик
-                new GameModel("Р", 120, 25, 0, 5, GameModel.UnitType.Knight),  // Рыцарь
-                new GameModel("К", 150, 15, 0, 7, GameModel.UnitType.King),    // Король
-                new GameModel("Б", 500, 40, 4, 2, GameModel.UnitType.Boss)     // Босс
-            };
+
 
 
 
@@ -174,123 +185,6 @@ namespace FifteenGame.Wpf
             }
         }
 
-        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (sender is Grid rectangle)
-            {
-                
-                var cellViewModel = rectangle.DataContext as CellViewModel;
-
-                
-                if (cellViewModel == null)
-                {
-                    MessageBox.Show("Ошибка: DataContext не установлен или не является CellViewModel.");
-                    return; 
-                }
-
-                
-                GameModel unit = cellViewModel.Num;
-                if (unit != null)
-                {
-                    MessageBox.Show($"Вы нажали на юнит: {unit.Symbol}");
-                    ShowPossibleMoves(unit);
-                }
-                else
-                {
-                    MessageBox.Show("Ошибка: Юнит не инициализирован.");
-                }
-            }
-        }
-
-
-
-
-
-        private void UpdateGameBoard()
-        {
-            foreach (var unit in units)
-            {
-                var button = gridButtons[unit.Y, unit.X];
-                button.DataContext = unit;
-                button.Width = 500;
-            }
-        }
-
-
-
-
-        private bool IsValidMove(int x, int y)
-        {
-
-            if (x < 0 || x >= COLS || y < 0 || y >= ROWS)
-                return false;
-
-
-            return true;
-        }
-
-        private void ShowPossibleMoves(GameModel unit)
-        {
-            
-            
-            for (int dy = -1; dy <= 1; dy++)
-            {
-                for (int dx = -1; dx <= 1; dx++)
-                {
-                    int newX = unit.X + dx;
-                    int newY = unit.Y + dy;
-
-                    if (IsValidMove(newX, newY))
-                    {
-                        
-                        gridButtons[newY, newX].Visibility = (Visibility)Opacity; ; 
-
-                       
-                        gridButtons[newY, newX].MouseDown += (s, e) =>
-                        {
-                            
-                            unit.X = newX;
-                            unit.Y = newY;
-
-                            
-                            UpdateGameBoard();
-                        };
-                    }
-                }
-            }
-        }
-
-        private void CreateGameBoard()
-        {
-
-            for (int row = 0; row < ROWS; row++)
-            {
-                for (int column = 0; column < COLS; column++)
-                {
-                    var gridButtons = new Grid
-                    {
-                        Width = 50,
-                        Height = 50,
-                    };
-
-                    
-                    for (int x = 0; x < items.Count; x++)
-                    {
-                        var unit = items[x].Num;
-                        if (unit.Symbol != " ") 
-                        {
-                            gridButtons.DataContext = unit; 
-                        }
-
-                        gridButtons.MouseDown += Grid_MouseDown; 
-
-                    }
-                }
-            }
-
-
-
-
-        }
+        
     }
 }
