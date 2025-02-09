@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FifteenGame.Wpf.Properties
+namespace game.Properties
 {
 
 

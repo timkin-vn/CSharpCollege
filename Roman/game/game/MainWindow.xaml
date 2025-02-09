@@ -1,0 +1,27 @@
+﻿<Window x:Class="game.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Tic-Tac-Toe" Height="350" Width="350">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Button x:Name="Button00" Grid.Row="0" Grid.Column="0" Click="Button_Click"/>
+        <Button x:Name="Button01" Grid.Row="0" Grid.Column="1" Click="Button_Click"/>
+        <Button x:Name="Button02" Grid.Row="0" Grid.Column="2" Click="Button_Click"/>
+        <Button x:Name="Button10" Grid.Row="1" Grid.Column="0" Click="Button_Click"/>
+        <Button x:Name="Button11" Grid.Row="1" Grid.Column="1" Click="Button_Click"/>
+        <Button x:Name="Button12" Grid.Row="1" Grid.Column="2" Click="Button_Click"/>
+        <Button x:Name="Button20" Grid.Row="2" Grid.Column="0" Click="Button_Click"/>
+        <Button x:Name="Button21" Grid.Row="2" Grid.Column="1" Click="Button_Click"/>
+        <Button x:Name="Button22" Grid.Row="2" Grid.Column="2" Click="Button_Click"/>
+    </Grid>
+</Window>
