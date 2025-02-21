@@ -49,7 +49,8 @@ namespace FifteenGame.Business.Services
                 return false;
             }
 
-            else if (model.Fistbuuton == model.Secondbuuton && model.FisrsbuutonRowCol[0] != model.SecondbuutonRowCol[0])
+            else if (model.Fistbuuton == model.Secondbuuton && (model.FisrsbuutonRowCol[0] != model.SecondbuutonRowCol[0]
+                || model.FisrsbuutonRowCol[1] != model.SecondbuutonRowCol[1]) )
             {
                 countPar++;
 

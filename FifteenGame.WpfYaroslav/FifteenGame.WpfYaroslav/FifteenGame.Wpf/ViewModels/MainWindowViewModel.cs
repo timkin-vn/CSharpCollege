@@ -92,7 +92,7 @@ namespace FifteenGame.Wpf.ViewModels
                 for (int column = 0; column < GameModel.ColumnCount; column++)
                 {
                     
-                    
+                   
 
                     Cells.Add(item: new CellViewModel
                     {
