@@ -48,8 +48,8 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Grid MouseDown="Grid_MouseDown" Tag="{Binding ColumnRow}">
-                        <Rectangle Margin="5" Stroke="{Binding ColorButtonPen}" StrokeThickness="3" RadiusX="10" RadiusY="10" Fill="{Binding ColorButton}" />
-                        <TextBlock Text="{Binding ColorText}" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <Rectangle Margin="5" Stroke="{Binding ColorButtonPen}" StrokeThickness="3" RadiusX="10" RadiusY="10" Fill="{Binding BruhButon}" />
+                        <TextBlock Text="{Binding TextButoon}" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

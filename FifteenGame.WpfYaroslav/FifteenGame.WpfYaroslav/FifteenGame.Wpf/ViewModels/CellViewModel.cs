@@ -26,17 +26,7 @@ namespace FifteenGame.Wpf.ViewModels
 
 
 
-        private string _colorButton = "MediumOrchid"; // Устанавливаем базовый цвет
 
-        public string ColorButton
-        {
-            get => _colorButton;
-            set
-            {
-                _colorButton = value;
-                OnPropertyChanged(nameof(ColorButton));
-            }
-        }  
         public string ColorText
         {
             get => _colorText;
@@ -46,7 +36,8 @@ namespace FifteenGame.Wpf.ViewModels
                 OnPropertyChanged(nameof(ColorText));
             }
         }
-
+        public  string TextButoon => IsFaceUp ? ColorText : "Secret";
+        public string BruhButon => IsFaceUp ? ColorText : "Gray";
         public bool IsFaceUp
         {
             get => _isSelected;
@@ -55,7 +46,9 @@ namespace FifteenGame.Wpf.ViewModels
                 _isSelected = value;
                 OnPropertyChanged(nameof(IsFaceUp));
                 // Изменяем цвет кнопки при выделении
-                OnPropertyChanged(nameof(ColorButtonPen));
+                OnPropertyChanged(nameof(ColorButtonPen)); 
+                OnPropertyChanged(nameof(TextButoon));
+                OnPropertyChanged(nameof(BruhButon));
 
             }
         }

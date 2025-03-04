@@ -89,7 +89,11 @@ namespace FifteenGame.Business.Services
         public bool IsGameOver(GameModel model)
         {
             if (countPar == 8)
-            { 
+            {
+                model.SecondbuutonRowCol[0]= 4; 
+                model.SecondbuutonRowCol[1]= 4; 
+                model.FisrsbuutonRowCol[0]= 4; 
+                model.FisrsbuutonRowCol[1]= 4;
                 countPar = 0;
                 return true; 
             }

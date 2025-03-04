@@ -15,9 +15,6 @@ namespace FifteenGame.Wpf.ViewModels
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Windows;
-    // создание тега где будет находитс две знааени col и row
-    // сделать скрытие сли они совпали 
-    //
     public class MainWindowViewModel : INotifyPropertyChanged
     {
 
@@ -45,7 +42,11 @@ namespace FifteenGame.Wpf.ViewModels
                 _model.FisrsbuutonRowCol = colrow;
                 _model.Fistbuuton = _model[colrow[0], colrow[1]];
                 countbuttonclick++;
-                
+                if (_service.CheckMatch(_model))
+                {
+                    FromModel(_model);
+                }
+
             }
             else if (countbuttonclick == 1)
             {
@@ -91,19 +92,38 @@ namespace FifteenGame.Wpf.ViewModels
             {
                 for (int column = 0; column < GameModel.ColumnCount; column++)
                 {
-                    
-                   
 
-                    Cells.Add(item: new CellViewModel
+                    if ((row == model.FisrsbuutonRowCol[0]&& column == model.FisrsbuutonRowCol[1])
+                        || (row == model.SecondbuutonRowCol[0] && column == model.SecondbuutonRowCol[1]))
                     {
-                        Row = row,
-                        ColumnRow = new int[] { row, column },
-                        Column = column,
-                        ColorText = model[row, column],
-                        ColorButton = model[row, column],
-                        IsFaceUp  = true,
-                        
-                    });
+                        Cells.Add(item: new CellViewModel
+                        {
+                            Row = row,
+                            ColumnRow = new int[] { row, column },
+                            Column = column,
+                            ColorText = model[row, column],
+
+                            IsFaceUp = true,
+
+                        });
+                    }
+                    else if (model.Fistbuuton ==String.Empty|| model.Secondbuuton == String.Empty  || model[row, column] == "")
+                    {
+                        continue;
+                    }
+
+                    else {
+                        Cells.Add(item: new CellViewModel
+                        {
+                            Row = row,
+                            ColumnRow = new int[] { row, column },
+                            Column = column,
+                            ColorText = model[row, column],
+
+                            IsFaceUp = false,
+
+                        });
+                    }
                 }
             }
         }
