@@ -1,0 +1,52 @@
+﻿@model FifteenGame.Web.Models.GameViewModel
+
+@{
+    ViewBag.Title = "2048 Game";
+}
+
+<h2>2048</h2>
+
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <div class="alert alert-info">@ViewBag.Message</div>
+}
+
+<table class="table table-bordered text-center" style="width: 400px; height: 400px; font-size: 24px;">
+    @for (int row = 0; row < Model.RowCount; row++)
+    {
+        <tr>
+            @for (int col = 0; col < Model.ColumnCount; col++)
+            {
+                var cell = Model.Cells[row, col];
+                <td class="cell" style="background-color: @cell.BackgroundColor;">
+                    @cell.Text
+                </td>
+            }
+        </tr>
+    }
+</table>
+
+<div style="display: flex; flex-direction: column; align-items: center;">
+    <button class="btn btn-primary move-btn" data-direction="Up">⬆</button>
+    <div>
+        <button class="btn btn-primary move-btn" data-direction="Left">⬅</button>
+        <button class="btn btn-primary move-btn" data-direction="Down">⬇</button>
+        <button class="btn btn-primary move-btn" data-direction="Right">➡</button>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll(".move-btn").forEach(button => {
+        button.addEventListener("click", function () {
+            const direction = this.getAttribute("data-direction");
+            window.location.href = "@Url.Action("PressButton", "Game")?directionText=" + direction;
+        });
+    });
+
+    document.addEventListener("keydown", function (e) {
+        const keyMap = { "ArrowUp": "Up", "ArrowDown": "Down", "ArrowLeft": "Left", "ArrowRight": "Right" };
+        if (keyMap[e.key]) {
+            window.location.href = "@Url.Action("PressButton", "Game")?directionText=" + keyMap[e.key];
+        }
+    });
+</script>
