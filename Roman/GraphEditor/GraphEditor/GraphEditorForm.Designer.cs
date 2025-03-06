@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GraphEditorForm));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.CreateRectangleToolButton = new System.Windows.Forms.ToolStripButton();
             this.DeleteToolButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.FillToolMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,8 +47,8 @@
             this.ExitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveDialog = new System.Windows.Forms.SaveFileDialog();
             this.OpenDialog = new System.Windows.Forms.OpenFileDialog();
-            this.CreateRectangleToolButton = new System.Windows.Forms.ToolStripButton();
-            this.fon = new System.Windows.Forms.ToolStripButton();
+            this.button1 = new System.Windows.Forms.Button();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -59,12 +60,22 @@
             this.DeleteToolButton,
             this.toolStripDropDownButton1,
             this.toolStripSplitButton1,
-            this.fon});
+            this.toolStripButton1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(800, 25);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
+            // 
+            // CreateRectangleToolButton
+            // 
+            this.CreateRectangleToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.CreateRectangleToolButton.Image = ((System.Drawing.Image)(resources.GetObject("CreateRectangleToolButton.Image")));
+            this.CreateRectangleToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.CreateRectangleToolButton.Name = "CreateRectangleToolButton";
+            this.CreateRectangleToolButton.Size = new System.Drawing.Size(54, 22);
+            this.CreateRectangleToolButton.Text = "Создать";
+            this.CreateRectangleToolButton.Click += new System.EventHandler(this.CreateRectangleToolButton_Click);
             // 
             // DeleteToolButton
             // 
@@ -110,7 +121,7 @@
             // 
             this.ForwardToolMenuItem.Enabled = false;
             this.ForwardToolMenuItem.Name = "ForwardToolMenuItem";
-            this.ForwardToolMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ForwardToolMenuItem.Size = new System.Drawing.Size(110, 22);
             this.ForwardToolMenuItem.Text = "Ближе";
             this.ForwardToolMenuItem.Click += new System.EventHandler(this.ForwardToolMenuItem_Click);
             // 
@@ -140,75 +151,74 @@
             // FileOpenMenuItem
             // 
             this.FileOpenMenuItem.Name = "FileOpenMenuItem";
-            this.FileOpenMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.FileOpenMenuItem.Size = new System.Drawing.Size(163, 22);
             this.FileOpenMenuItem.Text = "Открыть...";
             this.FileOpenMenuItem.Click += new System.EventHandler(this.FileOpenMenuItem_Click);
             // 
             // FileSaveMenuItem
             // 
             this.FileSaveMenuItem.Name = "FileSaveMenuItem";
-            this.FileSaveMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.FileSaveMenuItem.Size = new System.Drawing.Size(163, 22);
             this.FileSaveMenuItem.Text = "Сохранить";
             this.FileSaveMenuItem.Click += new System.EventHandler(this.FileSaveMenuItem_Click);
             // 
             // FileSaveAsMenuItem
             // 
             this.FileSaveAsMenuItem.Name = "FileSaveAsMenuItem";
-            this.FileSaveAsMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.FileSaveAsMenuItem.Size = new System.Drawing.Size(163, 22);
             this.FileSaveAsMenuItem.Text = "Сохранить как...";
             this.FileSaveAsMenuItem.Click += new System.EventHandler(this.FileSaveAsMenuItem_Click);
             // 
             // ExportMenuItem
             // 
             this.ExportMenuItem.Name = "ExportMenuItem";
-            this.ExportMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ExportMenuItem.Size = new System.Drawing.Size(163, 22);
             this.ExportMenuItem.Text = "Экспорт...";
             this.ExportMenuItem.Click += new System.EventHandler(this.ExportMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(160, 6);
             // 
             // ExitMenuItem
             // 
             this.ExitMenuItem.Name = "ExitMenuItem";
-            this.ExitMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ExitMenuItem.Size = new System.Drawing.Size(163, 22);
             this.ExitMenuItem.Text = "Выход";
             this.ExitMenuItem.Click += new System.EventHandler(this.ExitMenuItem_Click);
             // 
-            // CreateRectangleToolButton
+            // button1
             // 
-            this.CreateRectangleToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.CreateRectangleToolButton.Image = ((System.Drawing.Image)(resources.GetObject("CreateRectangleToolButton.Image")));
-            this.CreateRectangleToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.CreateRectangleToolButton.Name = "CreateRectangleToolButton";
-            this.CreateRectangleToolButton.Size = new System.Drawing.Size(54, 22);
-            this.CreateRectangleToolButton.Text = "Создать";
-            this.CreateRectangleToolButton.Click += new System.EventHandler(this.CreateRectangleToolButton_Click);
+            this.button1.Location = new System.Drawing.Point(235, 26);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(104, 23);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "окно срисовки";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // fon
+            // toolStripButton1
             // 
-            this.fon.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.fon.Image = ((System.Drawing.Image)(resources.GetObject("fon.Image")));
-            this.fon.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.fon.Name = "fon";
-            this.fon.Size = new System.Drawing.Size(98, 22);
-            this.fon.Text = "изменить фон";
-            this.fon.Click += new System.EventHandler(this.fon_Click);
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton1.Text = "toolStripButton1";
             // 
             // GraphEditorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip1);
             this.DoubleBuffered = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "GraphEditorForm";
             this.Text = "Графический редактор";
-            this.Load += new System.EventHandler(this.GraphEditorForm_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.GraphEditorForm_Paint);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GraphEditorForm_KeyDown);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GraphEditorForm_MouseDown);
@@ -226,6 +236,7 @@
         #endregion
 
         private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton CreateRectangleToolButton;
         private System.Windows.Forms.ToolStripButton DeleteToolButton;
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
         private System.Windows.Forms.ToolStripMenuItem FillToolMenuItem;
@@ -242,8 +253,8 @@
         private System.Windows.Forms.ToolStripMenuItem ExitMenuItem;
         private System.Windows.Forms.SaveFileDialog SaveDialog;
         private System.Windows.Forms.OpenFileDialog OpenDialog;
-        private System.Windows.Forms.ToolStripButton CreateRectangleToolButton;
-        private System.Windows.Forms.ToolStripButton fon;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
     }
 }
 

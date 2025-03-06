@@ -120,6 +120,4 @@ namespace GraphEditor.Business.Services
             _model = fileService.OpenFile(fileName);
         }
     }
-
-
 }

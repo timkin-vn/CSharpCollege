@@ -14,16 +14,12 @@ namespace GraphEditor
     public partial class GraphEditorForm : Form
     {
         private VisualService _service = new VisualService();
-        private BackgroundManager _backgroundManager;
-
 
         private bool _isMousePressed;
 
         public GraphEditorForm()
         {
             InitializeComponent();
-            _backgroundManager = new BackgroundManager(this);
-
         }
 
         private void GraphEditorForm_MouseDown(object sender, MouseEventArgs e)
@@ -60,8 +56,6 @@ namespace GraphEditor
 
         private void GraphEditorForm_Paint(object sender, PaintEventArgs e)
         {
-            _service.Paint(e.Graphics);
-            _backgroundManager.DrawBackground(e.Graphics);
             _service.Paint(e.Graphics);
         }
 
@@ -170,17 +164,24 @@ namespace GraphEditor
             ResetInterface();
         }
 
-        private void GraphEditorForm_Load(object sender, EventArgs e)
+
+
+        private void toolStripButton1_Click_1(object sender, EventArgs e)
         {
 
+           
         }
 
-        private void fon_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            _backgroundManager.LoadBackground();
-            Refresh(); // Перерисовка формы
-            
 
+            //это моя кнопка
+
+            // Создание новой формы
+            NewForm newForm = new NewForm();
+
+            // Открытие формы
+            newForm.Show();
 
 
         }

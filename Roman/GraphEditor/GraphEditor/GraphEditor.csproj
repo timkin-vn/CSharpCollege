@@ -52,6 +52,9 @@
     <Compile Include="GraphEditorForm.Designer.cs">
       <DependentUpon>GraphEditorForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="NewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="PresenterServices\Painter.cs" />
     <Compile Include="PresenterServices\VisualService.cs" />
     <Compile Include="Program.cs" />
