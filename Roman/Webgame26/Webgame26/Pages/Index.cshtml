@@ -1,0 +1,63 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Крестики-нолики";
+}
+
+<h2 class="text-center">Игра Крестики-нолики</h2>
+
+<div class="container text-center">
+    <div class="board">
+        <form method="post">
+            <table class="table table-bordered mx-auto">
+                @for (int i = 0; i < 3; i++)
+                {
+                    <tr>
+                        @for (int j = 0; j < 3; j++)
+                        {
+                            int index = i * 3 + j;
+                            <td>
+                                <button type="submit" name="cell" value="@index"
+                                        class="cell btn btn-light"
+                                @(Model.Board[index] != "" ? "disabled" : "")>
+                                    @Model.Board[index]
+                                </button>
+                            </td>
+                        }
+                    </tr>
+                }
+            </table>
+        </form>
+    </div>
+
+    @if (Model.GameOver)
+    {
+        <div class="mt-3">
+            <h3>@Model.GameResult</h3>
+            <form method="post">
+                <button type="submit" asp-page-handler="Reset" class="btn btn-primary">Начать заново</button>
+            </form>
+        </div>
+    }
+</div>
+
+<style>
+    .board {
+        margin-top: 20px;
+    }
+
+    .table {
+        width: 300px;
+        height: 300px;
+    }
+
+    .cell {
+        width: 100px;
+        height: 100px;
+        font-size: 2rem;
+    }
+
+    h3 {
+        margin-top: 15px;
+    }
+</style>
