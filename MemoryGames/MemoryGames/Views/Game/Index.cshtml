@@ -1,0 +1,67 @@
+﻿@model List<MemoryGames.Model.Card>
+
+@{
+    ViewBag.Title = "Memory Game";
+}
+
+<h2>Memory Game</h2>
+
+<div class="game-board">
+    @foreach (var card in Model)
+    {
+        string flippedClass = card.IsFlipped ? "flipped" : ""; 
+        string matchedClass = card.IsMatched ? "matched" : ""; 
+        <div class="card-container">
+            <div class="card @flippedClass @matchedClass" data-card-id="@card.Id">
+                <div class="card-front">
+                    <img src="@Url.Content("~/Images/" + card.ImagePath)" alt="Card Image" />
+                </div>
+                <div class="card-back">
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<link href="~/Content/StyleSheet.css" rel="stylesheet" />
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $(".card").click(function () {
+                var cardId = $(this).data("card-id");
+                var cardElement = $(this);
+
+                $.ajax({
+                    url: '@Url.Action("FlipCard", "Game")',
+                    type: 'POST',
+                    data: { id: cardId },
+                    success: function (data) {
+                        $(".card").each(function () {
+                            var currentCardId = $(this).data("card-id");
+                            var updatedCard = data.find(c => c.Id == currentCardId);
+
+                            if (updatedCard) {
+                                if (updatedCard.IsFlipped) {
+                                    $(this).addClass("flipped");
+                                } else {
+                                    $(this).removeClass("flipped");
+                                }
+
+                                if (updatedCard.IsMatched) {
+                                    $(this).addClass("matched"); 
+                                } else {
+                                    $(this).removeClass("matched");
+                                }
+                            }
+                        });
+
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error flipping card:", error);
+                    }
+                });
+            });
+        });
+    </script>
+}
