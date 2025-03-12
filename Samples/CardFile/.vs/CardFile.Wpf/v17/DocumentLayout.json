@@ -1,0 +1,41 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Dima\\Documents\\CSharpCollege\\Samples\\CardFile.Wpf\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{243F6653-8636-4733-8C7C-187342E3A23F}|CardFile.Wpf\\CardFile.Wpf.csproj|c:\\users\\dima\\documents\\csharpcollege\\samples\\cardfile.wpf\\cardfile.wpf\\viewmodels\\cardviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{243F6653-8636-4733-8C7C-187342E3A23F}|CardFile.Wpf\\CardFile.Wpf.csproj|solutionrelative:cardfile.wpf\\viewmodels\\cardviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CardViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Dima\\Documents\\CSharpCollege\\Samples\\CardFile.Wpf\\CardFile.Wpf\\ViewModels\\CardViewModel.cs",
+              "RelativeDocumentMoniker": "CardFile.Wpf\\ViewModels\\CardViewModel.cs",
+              "ToolTip": "C:\\Users\\Dima\\Documents\\CSharpCollege\\Samples\\CardFile.Wpf\\CardFile.Wpf\\ViewModels\\CardViewModel.cs",
+              "RelativeToolTip": "CardFile.Wpf\\ViewModels\\CardViewModel.cs",
+              "ViewState": "AgIAAHUAAAAAAAAAAAAiwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-06T18:04:42.431Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Dima\\Documents\\CSharpCollege\\Samples\\Calculator\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A4DB4524-02C4-44C3-AB11-279CBF397259}|Calculator\\Calculator.csproj|c:\\users\\dima\\documents\\csharpcollege\\samples\\calculator\\calculator\\calculatorform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A4DB4524-02C4-44C3-AB11-279CBF397259}|Calculator\\Calculator.csproj|solutionrelative:calculator\\calculatorform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A4DB4524-02C4-44C3-AB11-279CBF397259}|Calculator\\Calculator.csproj|C:\\Users\\Dima\\Documents\\CSharpCollege\\Samples\\Calculator\\calculator\\calculatorform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{A4DB4524-02C4-44C3-AB11-279CBF397259}|Calculator\\Calculator.csproj|solutionrelative:calculator\\calculatorform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4174E586-3B9E-4534-9EF9-0DA9FF21AA6E}|Calculator.Business\\Calculator.Business.csproj|C:\\Users\\Dima\\Documents\\CSharpCollege\\Samples\\Calculator\\calculator.business\\services\\calculatorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4174E586-3B9E-4534-9EF9-0DA9FF21AA6E}|Calculator.Business\\Calculator.Business.csproj|solutionrelative:calculator.business\\services\\calculatorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4174E586-3B9E-4534-9EF9-0DA9FF21AA6E}|Calculator.Business\\Calculator.Business.csproj|C:\\Users\\Dima\\Documents\\CSharpCollege\\Samples\\Calculator\\Calculator.Business\\Models\\CalculatorState.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4174E586-3B9E-4534-9EF9-0DA9FF21AA6E}|Calculator.Business\\Calculator.Business.csproj|solutionrelative:Calculator.Business\\Models\\CalculatorState.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A4DB4524-02C4-44C3-AB11-279CBF397259}|Calculator\\Calculator.csproj|C:\\Users\\Dima\\Documents\\CSharpCollege\\Samples\\Calculator\\Calculator\\CalculatorForm.Designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A4DB4524-02C4-44C3-AB11-279CBF397259}|Calculator\\Calculator.csproj|solutionrelative:Calculator\\CalculatorForm.Designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A4DB4524-02C4-44C3-AB11-279CBF397259}|Calculator\\Calculator.csproj|C:\\Users\\Dima\\Documents\\CSharpCollege\\Samples\\Calculator\\calculator\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A4DB4524-02C4-44C3-AB11-279CBF397259}|Calculator\\Calculator.csproj|solutionrelative:calculator\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Dima\\Documents\\CSharpCollege\\Samples\\Calculator\\Calculator\\Program.cs",
+              "RelativeDocumentMoniker": "Calculator\\Program.cs",
+              "ToolTip": "C:\\Users\\Dima\\Documents\\CSharpCollege\\Samples\\Calculator\\Calculator\\Program.cs",
+              "RelativeToolTip": "Calculator\\Program.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-28T07:22:00.647Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CalculatorForm.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\Dima\\Documents\\CSharpCollege\\Samples\\Calculator\\Calculator\\CalculatorForm.Designer.cs",
+              "RelativeDocumentMoniker": "Calculator\\CalculatorForm.Designer.cs",
+              "ToolTip": "C:\\Users\\Dima\\Documents\\CSharpCollege\\Samples\\Calculator\\Calculator\\CalculatorForm.Designer.cs",
+              "RelativeToolTip": "Calculator\\CalculatorForm.Designer.cs",
+              "ViewState": "AgIAADsBAAAAAAAAAAAYwE4BAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-22T07:39:03.223Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CalculatorState.cs",
+              "DocumentMoniker": "C:\\Users\\Dima\\Documents\\CSharpCollege\\Samples\\Calculator\\Calculator.Business\\Models\\CalculatorState.cs",
+              "RelativeDocumentMoniker": "Calculator.Business\\Models\\CalculatorState.cs",
+              "ToolTip": "C:\\Users\\Dima\\Documents\\CSharpCollege\\Samples\\Calculator\\Calculator.Business\\Models\\CalculatorState.cs",
+              "RelativeToolTip": "Calculator.Business\\Models\\CalculatorState.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-22T07:35:30.615Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CalculatorService.cs",
+              "DocumentMoniker": "C:\\Users\\Dima\\Documents\\CSharpCollege\\Samples\\Calculator\\Calculator.Business\\Services\\CalculatorService.cs",
+              "RelativeDocumentMoniker": "Calculator.Business\\Services\\CalculatorService.cs",
+              "ToolTip": "C:\\Users\\Dima\\Documents\\CSharpCollege\\Samples\\Calculator\\Calculator.Business\\Services\\CalculatorService.cs",
+              "RelativeToolTip": "Calculator.Business\\Services\\CalculatorService.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAA8AAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-22T07:34:05.217Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CalculatorForm.cs",
+              "DocumentMoniker": "C:\\Users\\Dima\\Documents\\CSharpCollege\\Samples\\Calculator\\Calculator\\CalculatorForm.cs",
+              "RelativeDocumentMoniker": "Calculator\\CalculatorForm.cs",
+              "ToolTip": "C:\\Users\\Dima\\Documents\\CSharpCollege\\Samples\\Calculator\\Calculator\\CalculatorForm.cs",
+              "RelativeToolTip": "Calculator\\CalculatorForm.cs",
+              "ViewState": "AgIAACwAAAAAAAAAAAA1wDkAAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-22T07:30:59.728Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CalculatorForm.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\Dima\\Documents\\CSharpCollege\\Samples\\Calculator\\Calculator\\CalculatorForm.cs",
+              "RelativeDocumentMoniker": "Calculator\\CalculatorForm.cs",
+              "ToolTip": "C:\\Users\\Dima\\Documents\\CSharpCollege\\Samples\\Calculator\\Calculator\\CalculatorForm.cs [Design]",
+              "RelativeToolTip": "Calculator\\CalculatorForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-22T07:29:35.753Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

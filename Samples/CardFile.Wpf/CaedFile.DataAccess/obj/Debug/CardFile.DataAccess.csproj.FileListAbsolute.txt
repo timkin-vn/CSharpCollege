@@ -1,0 +1,10 @@
+C:\Users\Dima\Desktop\CardFile.Wpf\CaedFile.DataAccess\bin\Debug\CardFile.DataAccess.dll
+C:\Users\Dima\Desktop\CardFile.Wpf\CaedFile.DataAccess\bin\Debug\CardFile.DataAccess.pdb
+C:\Users\Dima\Desktop\CardFile.Wpf\CaedFile.DataAccess\obj\Debug\CardFile.DataAccess.csproj.AssemblyReference.cache
+C:\Users\Dima\Desktop\CardFile.Wpf\CaedFile.DataAccess\obj\Debug\CardFile.DataAccess.csproj.CoreCompileInputs.cache
+C:\Users\Dima\Desktop\CardFile.Wpf\CaedFile.DataAccess\obj\Debug\CardFile.DataAccess.dll
+C:\Users\Dima\Desktop\CardFile.Wpf\CaedFile.DataAccess\obj\Debug\CardFile.DataAccess.pdb
+C:\Users\Dima\Documents\CSharpCollege\Samples\CardFile.Wpf\CaedFile.DataAccess\obj\Debug\CardFile.DataAccess.csproj.AssemblyReference.cache
+C:\Users\Dima\Documents\CSharpCollege\Samples\CardFile.Wpf\CaedFile.DataAccess\obj\Debug\CardFile.DataAccess.csproj.CoreCompileInputs.cache
+C:\Users\Dima\Documents\CSharpCollege\Samples\CardFile.Wpf\CaedFile.DataAccess\obj\Debug\CardFile.DataAccess.dll
+C:\Users\Dima\Documents\CSharpCollege\Samples\CardFile.Wpf\CaedFile.DataAccess\obj\Debug\CardFile.DataAccess.pdb

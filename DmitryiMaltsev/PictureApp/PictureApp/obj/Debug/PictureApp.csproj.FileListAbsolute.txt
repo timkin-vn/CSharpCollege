@@ -1,0 +1,10 @@
+C:\Users\Dima\Documents\CSharpCollege\DmitryiMaltsev\PictureApp\PictureApp\bin\Debug\PictureApp.exe.config
+C:\Users\Dima\Documents\CSharpCollege\DmitryiMaltsev\PictureApp\PictureApp\bin\Debug\PictureApp.exe
+C:\Users\Dima\Documents\CSharpCollege\DmitryiMaltsev\PictureApp\PictureApp\bin\Debug\PictureApp.pdb
+C:\Users\Dima\Documents\CSharpCollege\DmitryiMaltsev\PictureApp\PictureApp\obj\Debug\PictureApp.csproj.AssemblyReference.cache
+C:\Users\Dima\Documents\CSharpCollege\DmitryiMaltsev\PictureApp\PictureApp\obj\Debug\PictureApp.PictureForm.resources
+C:\Users\Dima\Documents\CSharpCollege\DmitryiMaltsev\PictureApp\PictureApp\obj\Debug\PictureApp.Properties.Resources.resources
+C:\Users\Dima\Documents\CSharpCollege\DmitryiMaltsev\PictureApp\PictureApp\obj\Debug\PictureApp.csproj.GenerateResource.cache
+C:\Users\Dima\Documents\CSharpCollege\DmitryiMaltsev\PictureApp\PictureApp\obj\Debug\PictureApp.csproj.CoreCompileInputs.cache
+C:\Users\Dima\Documents\CSharpCollege\DmitryiMaltsev\PictureApp\PictureApp\obj\Debug\PictureApp.exe
+C:\Users\Dima\Documents\CSharpCollege\DmitryiMaltsev\PictureApp\PictureApp\obj\Debug\PictureApp.pdb

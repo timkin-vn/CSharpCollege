@@ -1,0 +1,6 @@
+C:\Users\Dima\Documents\CSharpCollege\Samples\Calculator\Calculator.Business\bin\Debug\Calculator.Business.dll
+C:\Users\Dima\Documents\CSharpCollege\Samples\Calculator\Calculator.Business\bin\Debug\Calculator.Business.pdb
+C:\Users\Dima\Documents\CSharpCollege\Samples\Calculator\Calculator.Business\obj\Debug\Calculator.Business.csproj.AssemblyReference.cache
+C:\Users\Dima\Documents\CSharpCollege\Samples\Calculator\Calculator.Business\obj\Debug\Calculator.Business.csproj.CoreCompileInputs.cache
+C:\Users\Dima\Documents\CSharpCollege\Samples\Calculator\Calculator.Business\obj\Debug\Calculator.Business.dll
+C:\Users\Dima\Documents\CSharpCollege\Samples\Calculator\Calculator.Business\obj\Debug\Calculator.Business.pdb

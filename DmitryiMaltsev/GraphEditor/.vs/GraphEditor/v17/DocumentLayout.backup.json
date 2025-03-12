@@ -1,0 +1,145 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Dima\\Desktop\\GraphEditor\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A7B312FB-5643-45F5-9D85-5ACF9C7EF08E}|GraphEditor\\GraphEditor.csproj|c:\\users\\dima\\desktop\\grapheditor\\grapheditor\\grapheditorform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{A7B312FB-5643-45F5-9D85-5ACF9C7EF08E}|GraphEditor\\GraphEditor.csproj|solutionrelative:grapheditor\\grapheditorform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A7B312FB-5643-45F5-9D85-5ACF9C7EF08E}|GraphEditor\\GraphEditor.csproj|C:\\Users\\Dima\\Desktop\\GraphEditor\\grapheditor\\grapheditorform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A7B312FB-5643-45F5-9D85-5ACF9C7EF08E}|GraphEditor\\GraphEditor.csproj|solutionrelative:grapheditor\\grapheditorform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{345EF022-260F-435C-B3C3-33031C7380A8}|GraphEditor.Business\\GraphEditor.Business.csproj|C:\\Users\\Dima\\Desktop\\GraphEditor\\grapheditor.business\\services\\pictureservice.cs||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{345EF022-260F-435C-B3C3-33031C7380A8}|GraphEditor.Business\\GraphEditor.Business.csproj|solutionrelative:grapheditor.business\\services\\pictureservice.cs||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A7B312FB-5643-45F5-9D85-5ACF9C7EF08E}|GraphEditor\\GraphEditor.csproj|C:\\Users\\Dima\\Desktop\\GraphEditor\\grapheditor\\presenterservices\\visualservice.cs||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A7B312FB-5643-45F5-9D85-5ACF9C7EF08E}|GraphEditor\\GraphEditor.csproj|solutionrelative:grapheditor\\presenterservices\\visualservice.cs||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A7B312FB-5643-45F5-9D85-5ACF9C7EF08E}|GraphEditor\\GraphEditor.csproj|C:\\Users\\Dima\\Desktop\\GraphEditor\\grapheditor\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A7B312FB-5643-45F5-9D85-5ACF9C7EF08E}|GraphEditor\\GraphEditor.csproj|solutionrelative:grapheditor\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 14,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:132:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:134:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:135:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:136:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:137:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:138:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "VisualService.cs",
+              "DocumentMoniker": "C:\\Users\\Dima\\Desktop\\GraphEditor\\GraphEditor\\PresenterServices\\VisualService.cs",
+              "RelativeDocumentMoniker": "GraphEditor\\PresenterServices\\VisualService.cs",
+              "ToolTip": "C:\\Users\\Dima\\Desktop\\GraphEditor\\GraphEditor\\PresenterServices\\VisualService.cs",
+              "RelativeToolTip": "GraphEditor\\PresenterServices\\VisualService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-12T05:43:48.488Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "PictureService.cs",
+              "DocumentMoniker": "C:\\Users\\Dima\\Desktop\\GraphEditor\\GraphEditor.Business\\Services\\PictureService.cs",
+              "RelativeDocumentMoniker": "GraphEditor.Business\\Services\\PictureService.cs",
+              "ToolTip": "C:\\Users\\Dima\\Desktop\\GraphEditor\\GraphEditor.Business\\Services\\PictureService.cs",
+              "RelativeToolTip": "GraphEditor.Business\\Services\\PictureService.cs",
+              "ViewState": "AgIAAHAAAAAAAAAAAAArwIQAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-12T05:43:14.56Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "GraphEditorForm.cs",
+              "DocumentMoniker": "C:\\Users\\Dima\\Desktop\\GraphEditor\\GraphEditor\\GraphEditorForm.cs",
+              "RelativeDocumentMoniker": "GraphEditor\\GraphEditorForm.cs",
+              "ToolTip": "C:\\Users\\Dima\\Desktop\\GraphEditor\\GraphEditor\\GraphEditorForm.cs",
+              "RelativeToolTip": "GraphEditor\\GraphEditorForm.cs",
+              "ViewState": "AgIAAGwAAAAAAAAAAAArwHcAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-12T05:40:52.77Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "GraphEditorForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "DocumentMoniker": "C:\\Users\\Dima\\Desktop\\GraphEditor\\GraphEditor\\GraphEditorForm.cs",
+              "RelativeDocumentMoniker": "GraphEditor\\GraphEditorForm.cs",
+              "ToolTip": "C:\\Users\\Dima\\Desktop\\GraphEditor\\GraphEditor\\GraphEditorForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "RelativeToolTip": "GraphEditor\\GraphEditorForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-12T05:39:50.14Z",
+              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Dima\\Desktop\\GraphEditor\\GraphEditor\\Program.cs",
+              "RelativeDocumentMoniker": "GraphEditor\\Program.cs",
+              "ToolTip": "C:\\Users\\Dima\\Desktop\\GraphEditor\\GraphEditor\\Program.cs",
+              "RelativeToolTip": "GraphEditor\\Program.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAkAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-12T05:39:43.981Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

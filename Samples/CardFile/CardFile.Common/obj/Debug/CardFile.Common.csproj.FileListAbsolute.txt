@@ -1,0 +1,9 @@
+C:\Users\Dima\Desktop\CardFile\CardFile.Common\bin\Debug\CardFile.Common.dll
+C:\Users\Dima\Desktop\CardFile\CardFile.Common\bin\Debug\CardFile.Common.pdb
+C:\Users\Dima\Desktop\CardFile\CardFile.Common\bin\Debug\AutoMapper.dll
+C:\Users\Dima\Desktop\CardFile\CardFile.Common\bin\Debug\AutoMapper.xml
+C:\Users\Dima\Desktop\CardFile\CardFile.Common\obj\Debug\CardFile.Common.csproj.AssemblyReference.cache
+C:\Users\Dima\Desktop\CardFile\CardFile.Common\obj\Debug\CardFile.Common.csproj.CoreCompileInputs.cache
+C:\Users\Dima\Desktop\CardFile\CardFile.Common\obj\Debug\CardFile.C61ACAD1.Up2Date
+C:\Users\Dima\Desktop\CardFile\CardFile.Common\obj\Debug\CardFile.Common.dll
+C:\Users\Dima\Desktop\CardFile\CardFile.Common\obj\Debug\CardFile.Common.pdb

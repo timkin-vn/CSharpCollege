@@ -1,0 +1,14 @@
+C:\Users\Dima\Documents\CSharpCollege\DmitryiMaltsev\AlarmClock\AlarmClock\bin\Debug\AlarmClock.exe.config
+C:\Users\Dima\Documents\CSharpCollege\DmitryiMaltsev\AlarmClock\AlarmClock\bin\Debug\AlarmClock.exe
+C:\Users\Dima\Documents\CSharpCollege\DmitryiMaltsev\AlarmClock\AlarmClock\bin\Debug\AlarmClock.pdb
+C:\Users\Dima\Documents\CSharpCollege\DmitryiMaltsev\AlarmClock\AlarmClock\obj\Debug\AlarmClock.csproj.AssemblyReference.cache
+C:\Users\Dima\Documents\CSharpCollege\DmitryiMaltsev\AlarmClock\AlarmClock\obj\Debug\AlarmClock.ClockForm.resources
+C:\Users\Dima\Documents\CSharpCollege\DmitryiMaltsev\AlarmClock\AlarmClock\obj\Debug\AlarmClock.Forms.AboutForm.resources
+C:\Users\Dima\Documents\CSharpCollege\DmitryiMaltsev\AlarmClock\AlarmClock\obj\Debug\AlarmClock.Forms.AwakeForm.resources
+C:\Users\Dima\Documents\CSharpCollege\DmitryiMaltsev\AlarmClock\AlarmClock\obj\Debug\AlarmClock.Forms.SettingsForm.resources
+C:\Users\Dima\Documents\CSharpCollege\DmitryiMaltsev\AlarmClock\AlarmClock\obj\Debug\AlarmClock.Properties.Resources.resources
+C:\Users\Dima\Documents\CSharpCollege\DmitryiMaltsev\AlarmClock\AlarmClock\obj\Debug\AlarmClock.csproj.GenerateResource.cache
+C:\Users\Dima\Documents\CSharpCollege\DmitryiMaltsev\AlarmClock\AlarmClock\obj\Debug\AlarmClock.csproj.CoreCompileInputs.cache
+C:\Users\Dima\Documents\CSharpCollege\DmitryiMaltsev\AlarmClock\AlarmClock\obj\Debug\AlarmClock.exe
+C:\Users\Dima\Documents\CSharpCollege\DmitryiMaltsev\AlarmClock\AlarmClock\obj\Debug\AlarmClock.pdb
+C:\Users\Dima\Documents\CSharpCollege\DmitryiMaltsev\AlarmClock\AlarmClock\obj\Debug\AlarmClock.Forms.EditForm.resources

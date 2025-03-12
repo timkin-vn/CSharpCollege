@@ -1,0 +1,152 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Dima\\Documents\\CSharpCollege\\DmitryiMaltsev\\AlarmClock\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{AA58C401-73D6-41B8-8A00-DB35E544F7F3}|AlarmClock\\AlarmClock.csproj|c:\\users\\dima\\documents\\csharpcollege\\dmitryimaltsev\\alarmclock\\alarmclock\\clockform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA58C401-73D6-41B8-8A00-DB35E544F7F3}|AlarmClock\\AlarmClock.csproj|solutionrelative:alarmclock\\clockform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA58C401-73D6-41B8-8A00-DB35E544F7F3}|AlarmClock\\AlarmClock.csproj|C:\\Users\\Dima\\Documents\\CSharpCollege\\DmitryiMaltsev\\AlarmClock\\alarmclock\\models\\alarmtime.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA58C401-73D6-41B8-8A00-DB35E544F7F3}|AlarmClock\\AlarmClock.csproj|solutionrelative:alarmclock\\models\\alarmtime.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA58C401-73D6-41B8-8A00-DB35E544F7F3}|AlarmClock\\AlarmClock.csproj|C:\\Users\\Dima\\Documents\\CSharpCollege\\DmitryiMaltsev\\AlarmClock\\alarmclock\\models\\alarmsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA58C401-73D6-41B8-8A00-DB35E544F7F3}|AlarmClock\\AlarmClock.csproj|solutionrelative:alarmclock\\models\\alarmsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA58C401-73D6-41B8-8A00-DB35E544F7F3}|AlarmClock\\AlarmClock.csproj|C:\\Users\\Dima\\Documents\\CSharpCollege\\DmitryiMaltsev\\AlarmClock\\alarmclock\\forms\\settingsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA58C401-73D6-41B8-8A00-DB35E544F7F3}|AlarmClock\\AlarmClock.csproj|solutionrelative:alarmclock\\forms\\settingsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA58C401-73D6-41B8-8A00-DB35E544F7F3}|AlarmClock\\AlarmClock.csproj|C:\\Users\\Dima\\Documents\\CSharpCollege\\DmitryiMaltsev\\AlarmClock\\alarmclock\\forms\\editform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA58C401-73D6-41B8-8A00-DB35E544F7F3}|AlarmClock\\AlarmClock.csproj|solutionrelative:alarmclock\\forms\\editform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA58C401-73D6-41B8-8A00-DB35E544F7F3}|AlarmClock\\AlarmClock.csproj|C:\\Users\\Dima\\Documents\\CSharpCollege\\DmitryiMaltsev\\AlarmClock\\alarmclock\\forms\\editform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{AA58C401-73D6-41B8-8A00-DB35E544F7F3}|AlarmClock\\AlarmClock.csproj|solutionrelative:alarmclock\\forms\\editform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA58C401-73D6-41B8-8A00-DB35E544F7F3}|AlarmClock\\AlarmClock.csproj|C:\\Users\\Dima\\Documents\\CSharpCollege\\DmitryiMaltsev\\AlarmClock\\alarmclock\\clockform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{AA58C401-73D6-41B8-8A00-DB35E544F7F3}|AlarmClock\\AlarmClock.csproj|solutionrelative:alarmclock\\clockform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA58C401-73D6-41B8-8A00-DB35E544F7F3}|AlarmClock\\AlarmClock.csproj|C:\\Users\\Dima\\Documents\\CSharpCollege\\DmitryiMaltsev\\AlarmClock\\alarmclock\\forms\\settingsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{AA58C401-73D6-41B8-8A00-DB35E544F7F3}|AlarmClock\\AlarmClock.csproj|solutionrelative:alarmclock\\forms\\settingsform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "EditForm.cs",
+              "DocumentMoniker": "C:\\Users\\Dima\\Documents\\CSharpCollege\\DmitryiMaltsev\\AlarmClock\\AlarmClock\\Forms\\EditForm.cs",
+              "RelativeDocumentMoniker": "AlarmClock\\Forms\\EditForm.cs",
+              "ToolTip": "C:\\Users\\Dima\\Documents\\CSharpCollege\\DmitryiMaltsev\\AlarmClock\\AlarmClock\\Forms\\EditForm.cs",
+              "RelativeToolTip": "AlarmClock\\Forms\\EditForm.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABkAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-22T05:21:22.767Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ClockForm.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\Dima\\Documents\\CSharpCollege\\DmitryiMaltsev\\AlarmClock\\AlarmClock\\ClockForm.cs",
+              "RelativeDocumentMoniker": "AlarmClock\\ClockForm.cs",
+              "ToolTip": "C:\\Users\\Dima\\Documents\\CSharpCollege\\DmitryiMaltsev\\AlarmClock\\AlarmClock\\ClockForm.cs [Design]",
+              "RelativeToolTip": "AlarmClock\\ClockForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-22T06:27:39.199Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ClockForm.cs",
+              "DocumentMoniker": "C:\\Users\\Dima\\Documents\\CSharpCollege\\DmitryiMaltsev\\AlarmClock\\AlarmClock\\ClockForm.cs",
+              "RelativeDocumentMoniker": "AlarmClock\\ClockForm.cs",
+              "ToolTip": "C:\\Users\\Dima\\Documents\\CSharpCollege\\DmitryiMaltsev\\AlarmClock\\AlarmClock\\ClockForm.cs",
+              "RelativeToolTip": "AlarmClock\\ClockForm.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAlwAoAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-16T19:20:12.204Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AlarmSettings.cs",
+              "DocumentMoniker": "C:\\Users\\Dima\\Documents\\CSharpCollege\\DmitryiMaltsev\\AlarmClock\\AlarmClock\\Models\\AlarmSettings.cs",
+              "RelativeDocumentMoniker": "AlarmClock\\Models\\AlarmSettings.cs",
+              "ToolTip": "C:\\Users\\Dima\\Documents\\CSharpCollege\\DmitryiMaltsev\\AlarmClock\\AlarmClock\\Models\\AlarmSettings.cs",
+              "RelativeToolTip": "AlarmClock\\Models\\AlarmSettings.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-24T06:17:22.763Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "SettingsForm.cs",
+              "DocumentMoniker": "C:\\Users\\Dima\\Documents\\CSharpCollege\\DmitryiMaltsev\\AlarmClock\\AlarmClock\\Forms\\SettingsForm.cs",
+              "RelativeDocumentMoniker": "AlarmClock\\Forms\\SettingsForm.cs",
+              "ToolTip": "C:\\Users\\Dima\\Documents\\CSharpCollege\\DmitryiMaltsev\\AlarmClock\\AlarmClock\\Forms\\SettingsForm.cs",
+              "RelativeToolTip": "AlarmClock\\Forms\\SettingsForm.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-22T05:28:12.438Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "EditForm.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\Dima\\Documents\\CSharpCollege\\DmitryiMaltsev\\AlarmClock\\AlarmClock\\Forms\\EditForm.cs",
+              "RelativeDocumentMoniker": "AlarmClock\\Forms\\EditForm.cs",
+              "ToolTip": "C:\\Users\\Dima\\Documents\\CSharpCollege\\DmitryiMaltsev\\AlarmClock\\AlarmClock\\Forms\\EditForm.cs [Design]",
+              "RelativeToolTip": "AlarmClock\\Forms\\EditForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-22T05:24:34.422Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AlarmTime.cs",
+              "DocumentMoniker": "C:\\Users\\Dima\\Documents\\CSharpCollege\\DmitryiMaltsev\\AlarmClock\\AlarmClock\\Models\\AlarmTime.cs",
+              "RelativeDocumentMoniker": "AlarmClock\\Models\\AlarmTime.cs",
+              "ToolTip": "C:\\Users\\Dima\\Documents\\CSharpCollege\\DmitryiMaltsev\\AlarmClock\\AlarmClock\\Models\\AlarmTime.cs",
+              "RelativeToolTip": "AlarmClock\\Models\\AlarmTime.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA4AAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-17T06:03:53.836Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "SettingsForm.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\Dima\\Documents\\CSharpCollege\\DmitryiMaltsev\\AlarmClock\\AlarmClock\\Forms\\SettingsForm.cs",
+              "RelativeDocumentMoniker": "AlarmClock\\Forms\\SettingsForm.cs",
+              "ToolTip": "C:\\Users\\Dima\\Documents\\CSharpCollege\\DmitryiMaltsev\\AlarmClock\\AlarmClock\\Forms\\SettingsForm.cs [Design]",
+              "RelativeToolTip": "AlarmClock\\Forms\\SettingsForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-22T05:51:13.691Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

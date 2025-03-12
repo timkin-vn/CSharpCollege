@@ -1,0 +1,9 @@
+C:\Users\Dima\Desktop\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.Business.dll
+C:\Users\Dima\Desktop\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.Business.pdb
+C:\Users\Dima\Desktop\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.DataAccess.dll
+C:\Users\Dima\Desktop\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.DataAccess.pdb
+C:\Users\Dima\Desktop\CardFile.Wpf\CardFile.Business\obj\Debug\CardFile.Business.csproj.AssemblyReference.cache
+C:\Users\Dima\Desktop\CardFile.Wpf\CardFile.Business\obj\Debug\CardFile.Business.csproj.CoreCompileInputs.cache
+C:\Users\Dima\Desktop\CardFile.Wpf\CardFile.Business\obj\Debug\CardFile.C5365084.Up2Date
+C:\Users\Dima\Desktop\CardFile.Wpf\CardFile.Business\obj\Debug\CardFile.Business.dll
+C:\Users\Dima\Desktop\CardFile.Wpf\CardFile.Business\obj\Debug\CardFile.Business.pdb
