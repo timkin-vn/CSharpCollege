@@ -21,9 +21,31 @@ namespace MemoryGame
         private readonly GameController _controller;
         private Dictionary<int, Button> _cardButtons = new Dictionary<int, Button>();
         private DispatcherTimer _flipBackTimer;
+        private DatabaseService _databaseService;
+        private string _loggedInUsername;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            // Строка подключения к вашей базе данных PostgreSQL
+            string connectionString = "Host=localhost;Database=MemoryGame;Username=postgres;Password=1234"; // Замените на ваши данные
+
+            _databaseService = new DatabaseService(connectionString);
+
+            // Отображаем окно логина
+            LoginWindow loginWindow = new LoginWindow(_databaseService);
+            if (loginWindow.ShowDialog() == true) // ShowDialog is important, it blocks until the window closes
+            {
+                _loggedInUsername = loginWindow.LoggedInUsername; // Get the username from the LoginWindow
+                UsernameLabel.Content = $"Logged in as: {_loggedInUsername}";
+            }
+            else
+            {
+                // If the user cancels the login, close the application
+                Application.Current.Shutdown();
+                return; // Exit the constructor to prevent game from starting
+            }
 
             _controller = new GameController(new GameModel(2, 3));
             _controller.GameModel.CardsUpdated += OnCardsUpdated;
