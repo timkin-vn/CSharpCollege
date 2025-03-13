@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.34031.81
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mineswepperWPF", "mineswepperWPF\mineswepperWPF.csproj", "{1F22E26D-BB1F-4B62-BFF5-A4702FBA2DFC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MIneSweepper.Bisiness", "MIneSweepper.Bisiness\MIneSweepper.Bisiness.csproj", "{0356969B-4395-4481-8142-E9AFF31406B0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1F22E26D-BB1F-4B62-BFF5-A4702FBA2DFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F22E26D-BB1F-4B62-BFF5-A4702FBA2DFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F22E26D-BB1F-4B62-BFF5-A4702FBA2DFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F22E26D-BB1F-4B62-BFF5-A4702FBA2DFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0356969B-4395-4481-8142-E9AFF31406B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0356969B-4395-4481-8142-E9AFF31406B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0356969B-4395-4481-8142-E9AFF31406B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0356969B-4395-4481-8142-E9AFF31406B0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DA99061C-6E12-431F-8E4B-3B632AD992EF}
+	EndGlobalSection
+EndGlobal
