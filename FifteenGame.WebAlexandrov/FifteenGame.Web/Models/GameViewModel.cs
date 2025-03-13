@@ -22,6 +22,7 @@ namespace FifteenGame.Web.Models
         public GameViewModel() { }
         public UnitType Type { get; set; }
 
-
+        public int SelectedUnitX { get; set; } 
+        public int SelectedUnitY { get; set; }
     }
 }

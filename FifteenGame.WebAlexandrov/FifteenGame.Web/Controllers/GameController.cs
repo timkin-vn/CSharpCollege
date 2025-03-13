@@ -17,7 +17,7 @@ namespace FifteenGame.Web.Controllers
         private readonly GameService _service;
         private GameModel _model;
         public CellViewModel[,] CellsArray { get; set; }
-
+        private (int X, int Y)? _selectedUnit;
         public GameController()
         {
             _service = new GameService();
@@ -38,23 +38,54 @@ namespace FifteenGame.Web.Controllers
         {
             var model = GetModel();
 
-            if (Enum.TryParse<MoveDirection>(directionText, out var moveDirection))
+            if (_selectedUnit == null)
             {
                 
-                if (_service.MakeMove(model, X, Y, model))
-                {
-                    SaveModel(model); 
+                _selectedUnit = (X, Y);
+                
+                var viewModel = FromModel(model);
+                viewModel.SelectedUnitX = X;
+                viewModel.SelectedUnitY = Y;
+                return View("Index", viewModel); 
+            }
+            else
+            {
+                
+                var selectedX = _selectedUnit.Value.X;
+                var selectedY = _selectedUnit.Value.Y;
 
-                    if (_service.IsGameOver(model))
+                
+                if (IsAdjacent(selectedX, selectedY, X, Y))
+                {
+                    
+                    if (_service.MakeMove(model, X, Y, model))
                     {
-                        ViewBag.IsGameOver = true; 
+                        SaveModel(model); 
+
+                       
+                        _selectedUnit = null;
+
+                        
+                        if (_service.IsGameOver(model))
+                        {
+                            ViewBag.IsGameOver = true;
+                        }
                     }
                 }
+                else
+                {
+                    
+                    _selectedUnit = (X, Y);
+                }
+                Console.WriteLine($"Selected: ({selectedX}, {selectedY}), Target: ({X}, {Y})");
             }
 
             return View("Index", FromModel(model));
         }
-
+        private bool IsAdjacent(int x1, int y1, int x2, int y2)
+        {
+            return (Math.Abs(x1 - x2) == 1 && y1 == y2) || (Math.Abs(y1 - y2) == 1 && x1 == x2);
+        }
         private GameModel GetModel()
         {
             if (Session.IsNewSession)

@@ -26,43 +26,47 @@
 
                 @for (int column = 0; column < Model.ColumnCount; column++)
                 {
+                    
                     if (Model.Cells[row, column].IsEmpty)
                     {
                         <div class="col-2">
                         </div>
-
                         continue;
                     }
 
+                    
+                    var isSelected = (Model.SelectedUnitX == row && Model.SelectedUnitY == column);
+
+                   
                     if (isGameOver || Model.Cells[row, column].Direction == FifteenGame.Business.Models.MoveDirection.None)
                     {
-                        @*<div class="col-2 d-grid p-2">
-                            <div class="btn btn-success fs-3">@Model.Cells[row, column].Text</div>
-                        </div>*@
-                        
-                    <div class="col-2 d-grid p-2 text-center">
-                        <a href="@Url.Action("PressButton", "Game", new { directionText = Model.Cells[row, column].Text, X = row, Y = column  })">
-                            <span class="unit-name" style="width: 150px; height: 150px; display: block; margin: auto;">
-                                @Model.Cells[row, column].Type.ToString()
-
-                            </span>
-                        </a>
-                    </div>
-
+                        <div class="col-2 d-grid p-2 text-center @(isSelected ? "selected" : "")">
+                            
+                            <a href="@Url.Action("PressButton", "Game", new { directionText = Model.Cells[row, column].Type.ToString(), X = row, Y = column })">
+                                <span class="unit-name" style="width: 150px; height: 150px; display: block; margin: auto;">
+                                    @Model.Cells[row, column].Type.ToString()
+                                </span>
+                            </a>
+                        </div>
                         continue;
                     }
 
-                    <div class="col-2 d-grid p-2">
-                        <a href="@Url.Action("PressButton", "Game", new { directionText = Model.Cells[row, column].Text, X = row, Y = column  })">
+                    <div class="col-2 d-grid p-2 @(isSelected ? "selected" : "")">
+                        
+                        <a href="@Url.Action("PressButton", "Game", new { directionText = Model.Cells[row, column].Type.ToString(), X = row, Y = column })">
                             <span class="unit-name" style="width: 150px; height: 150px; display: block; margin: auto;">
                                 @Model.Cells[row, column].Type.ToString()
                             </span>
                         </a>
-                        @*@Html.ActionLink(Model.Cells[row, column].Text, "PressButton", "Game",
-                            new { directionText = Model.Cells[row, column].DirectionText }, new { @class = "btn btn-success fs-3" })*@
                     </div>
                 }
             </div>
         }
     </div>
+
+    <style>
+        .selected {
+            background-color: yellow;
+        }
+    </style>
 </main>

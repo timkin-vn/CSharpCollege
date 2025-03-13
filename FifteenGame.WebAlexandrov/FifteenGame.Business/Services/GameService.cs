@@ -93,53 +93,33 @@ namespace FifteenGame.Business.Services
             return true;
         }
 
-        public bool MakeMove(GameModel model, int targetRow, int targetColumn, GameModel selectedUnit)
+        public bool MakeMove(GameModel model, int targetX, int targetY, GameModel currentModel)
         {
-            if (!isUnitSelected)
+            
+            var selectedX = model.FreeCellRow;
+            var selectedY = model.FreeCellColumn;
+
+            
+            if (IsAdjacent(selectedX, selectedY, targetX, targetY))
             {
+                
+                var temp = model[targetX, targetY];
+                model[targetX, targetY] = model[selectedX, selectedY]; 
+                model[selectedX, selectedY] = temp; 
 
-                HighlightAdjacentCells(model);
-                SelectedUnit = selectedUnit;
-                isUnitSelected = true;
-                return false;
+                model.FreeCellRow = targetX;
+                model.FreeCellColumn = targetY;
+
+                return true; 
             }
-            else
-            {
 
-                if (IsAdjacent(SelectedUnit.X, SelectedUnit.Y, targetRow, targetColumn))
-                {
-
-                    var targetUnit = model[targetRow, targetColumn];
-
-
-                    model[targetRow, targetColumn] = SelectedUnit;
-                    model[SelectedUnit.X, SelectedUnit.Y] = targetUnit;
-
-
-                    if (targetUnit != null)
-                    {
-                        targetUnit.X = SelectedUnit.X;
-                        targetUnit.Y = SelectedUnit.Y;
-                    }
-
-                    SelectedUnit.X = targetRow;
-                    SelectedUnit.Y = targetColumn;
-
-                    isUnitSelected = false;
-                    return true;
-                }
-                else
-                {
-                    Console.WriteLine($"Клетка ({targetRow}, {targetColumn}) не соседняя с ({SelectedUnit.X}, {SelectedUnit.Y})");
-                }
-            }
-            return false;
+            return false; 
         }
-        private bool IsAdjacent(int unitRow, int unitColumn, int targetRow, int targetColumn)
-        {
 
-            return (Math.Abs(unitRow - targetRow) == 1 && unitColumn == targetColumn) ||
-                   (Math.Abs(unitColumn - targetColumn) == 1 && unitRow == targetRow);
+        private bool IsAdjacent(int x1, int y1, int x2, int y2)
+        {
+            
+            return (Math.Abs(x1 - x2) == 1 && y1 == y2) || (Math.Abs(y1 - y2) == 1 && x1 == x2);
         }
         private void HighlightAdjacentCells(GameModel model)
         {
