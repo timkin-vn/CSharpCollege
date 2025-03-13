@@ -1,60 +1,67 @@
 ﻿using FifteenGame.Business.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
+using System;
 
 namespace FifteenGame.Business.Services
 {
     public class GameService
     {
-        private static readonly Random _random = new Random();
-        private static readonly string _letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        private string _targetWord;
+        private readonly Random _random = new Random();
 
-        public void Initialize(GameModel model)
+        public (int row, int col) GetBotMove(GameModel model)
         {
-            model.SelectedCells.Clear();
-            for (int row = 0; row < GameModel.RowCount; row++)
+            for (int row = 0; row < GameModel.Size; row++)
             {
-                for (int column = 0; column < GameModel.ColumnCount; column++)
+                for (int col = 0; col < GameModel.Size; col++)
                 {
-                    model[row, column] = _letters[_random.Next(_letters.Length)];
+                    if (model.Board[row, col] == GameModel.EmptyCell)
+                    {
+                        model.Board[row, col] = GameModel.Bot;
+                        if (model.CheckWin(GameModel.Bot))
+                        {
+                            model.Board[row, col] = GameModel.EmptyCell;
+                            return (row, col);
+                        }
+                        model.Board[row, col] = GameModel.EmptyCell;
+                    }
                 }
             }
 
-            _targetWord = GenerateTargetWord();
-        }
-
-        public bool IsGameOver(GameModel model)
-        {
-            var selectedLetters = model.SelectedCells.Select(cell => model[cell.Item1, cell.Item2]).ToList();
-            return string.Join("", selectedLetters) == _targetWord;
-        }
-
-        public void SelectLetter(GameModel model, int row, int column)
-        {
-            if (model.SelectedCells.Count == 0 ||
-                model.SelectedCells.Last().Item1 == row ||
-                model.SelectedCells.Last().Item2 == column)
+            for (int row = 0; row < GameModel.Size; row++)
             {
-                model.SelectedCells.Add((row, column));
+                for (int col = 0; col < GameModel.Size; col++)
+                {
+                    if (model.Board[row, col] == GameModel.EmptyCell)
+                    {
+                        model.Board[row, col] = GameModel.Player;
+                        if (model.CheckWin(GameModel.Player))
+                        {
+                            model.Board[row, col] = GameModel.EmptyCell;
+                            return (row, col);
+                        }
+                        model.Board[row, col] = GameModel.EmptyCell;
+                    }
+                }
             }
-        }
 
-        public string GetTargetWord()
-        {
-            return _targetWord;
-        }
-
-        private string GenerateTargetWord()
-        {
-            var wordLength = _random.Next(3, 8);
-            var word = new char[wordLength];
-            for (int i = 0; i < wordLength; i++)
+            List<(int row, int col)> emptyCells = new List<(int row, int col)>();
+            for (int row = 0; row < GameModel.Size; row++)
             {
-                word[i] = _letters[_random.Next(_letters.Length)];
+                for (int col = 0; col < GameModel.Size; col++)
+                {
+                    if (model.Board[row, col] == GameModel.EmptyCell)
+                    {
+                        emptyCells.Add((row, col));
+                    }
+                }
             }
-            return new string(word);
+
+            if (emptyCells.Count > 0)
+            {
+                int index = _random.Next(emptyCells.Count);
+                return emptyCells[index];
+            }
+            return (-1, -1);
         }
     }
 }

@@ -8,10 +8,8 @@ namespace FifteenGame.Web.Models
 {
     public class CellViewModel
     {
-        public char Letter { get; set; }
+        public string NumText { get; set; }
 
-        public string LetterText => Letter.ToString();
-
-        public bool IsSelected { get; set; }
+        public bool IsEmpty { get; set; }
     }
 }

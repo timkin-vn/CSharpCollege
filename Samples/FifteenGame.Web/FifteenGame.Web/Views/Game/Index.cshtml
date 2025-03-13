@@ -1,56 +1,39 @@
 ﻿@model FifteenGame.Web.Models.GameViewModel
 
 @{
-    ViewBag.Title = "Игра 15";
-    bool isGameOver = (bool?)ViewBag.IsGameOver ?? false;
+    ViewBag.Title = "Крестики-нолики";
+    bool isGameOver = (bool?)ViewBag.GameOver ?? false;
+    string winner = ViewBag.Winner ?? "Ничья";
 }
 
 <main>
-    <h2>Игра 15</h2>
+    <h2>Крестики-нолики</h2>
 
     @if (isGameOver)
     {
-        <h2 class="text-danger">Поздравляем! Игра завершена.</h2>
-        <div>@Html.ActionLink("Начать заново", "Index", "Game", new { }, new { @class = "btn btn-primary fs-3", })</div>
+        <h2 class="text-danger">Игра завершена! Победитель: @winner</h2>
+        <div>@Html.ActionLink("Начать заново", "Index", "Game", new { }, new { @class = "btn btn-primary fs-3" })</div>
     }
 
     <div class="container text-center">
         @for (int row = 0; row < Model.RowCount; row++)
         {
             <div class="row">
-                <div class="col col-2">
-                </div>
-
                 @for (int column = 0; column < Model.ColumnCount; column++)
                 {
-                    if (Model.Cells[row, column].IsEmpty)
-                    {
-                        <div class="col col-2">
-                        </div>
-
-                        continue;
-                    }
-
-                    if (isGameOver || Model.Cells[row, column].Direction == FifteenGame.Business.Models.MoveDirection.None)
-                    {
-                        <div class="col col-2 d-grid gap-2 p-2">
-                            @*<div class="btn btn-secondary fs-3">@Model.Cells[row, column].NumText</div>*@
-
+                    <div class="col col-2 d-grid gap-2 p-2">
+                        @if (Model.Cells[row, column].IsEmpty && !isGameOver)
+                        {
+                            <a href="@Url.Action("MakeMove", new { row = row, col = column })">
+                                <img src="@Url.Content("~/Content/Images/empty.png")"
+                                     style="width: 150px; height: 150px; margin: auto; display: block;" />
+                            </a>
+                        }
+                        else
+                        {
                             <img src="@Url.Content($"~/Content/Images/{Model.Cells[row, column].NumText}.png")"
                                  style="width: 150px; height: 150px; margin: auto; display: block;" />
-                        </div>
-
-                        continue;
-                    }
-
-                    <div class="col-2 d-grid gap-2 p-2">
-                        @*@Html.ActionLink(Model.Cells[row, column].NumText, "PressButton",
-                            new { directionText = Model.Cells[row, column].DirectionText, }, new { @class = "btn btn-secondary fs-3" })*@
-
-                        <a href="@Url.Action("PressButton", new { directionText = Model.Cells[row, column].DirectionText, })">
-                            <img src="@Url.Content($"~/Content/Images/{Model.Cells[row, column].NumText}.png")"
-                                 style="width: 150px; height: 150px; margin: auto; display: block;" />
-                        </a>
+                        }
                     </div>
                 }
             </div>
