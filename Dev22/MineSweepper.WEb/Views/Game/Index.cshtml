@@ -1,0 +1,82 @@
+﻿@model FifteenGame.Web.Models.GameViewModel
+
+@{
+    ViewBag.Title = "Сапер";
+    var isGameOver = (bool?)ViewBag.IsGameOver ?? false;
+}
+
+<main>
+    <h2>Сапер</h2>
+
+    @if (isGameOver)
+    {
+        <h2 class="text-danger">Поздравляем! Игра завершена.</h2>
+
+        <div>
+            @Html.ActionLink("Повторить", "Index", "Game", new { }, new { @class = "btn btn-success" })
+        </div>
+    }
+
+    <div class="container text-center">
+        @for (int row = 0; row < Model.RowCount; row++)
+        {
+            <div class="row p-1">
+                @for (int column = 0; column < Model.ColumnCount; column++)
+                {
+                    var cell = Model.Cells[row, column];
+                    var cellImage = "";
+
+                    if (cell.IsRevealed)
+                    {
+                        if (cell.IsMine)
+                        {
+                            cellImage = Url.Content("~/Content/cellImage/mine.png");
+                        }
+                        else if (cell.Num >= 0)
+                        {
+                            cellImage = Url.Content($"~/Content/cellImage/{cell.Num}.png");
+                        }
+
+                    }
+                    else
+                    {
+                        cellImage = Url.Content("~/Content/cellImage/freeCell.png");
+                    }
+                    <div class="col-1">
+                        <div class="cell @cellImage"
+                             onclick="location.href='@Url.Action("PressButton", "Game", new { row = row, column = column })'">
+                            <img src="@cellImage"
+                                 style="width: 60px; height: 60px; display: block; margin: auto; " />
+                        </div>
+                    </div>
+                }
+            </div>
+            }
+        }
+    </div>
+</main>
+
+<style>
+    .cell {
+        width: 70px;
+        height: 70px;
+        border: 1px solid #ccc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    .cell-hidden {
+        background-color: #f0f0f0;
+    }
+
+    .cell-revealed {
+        background-color: #fff;
+    }
+
+        .cell-revealed:hover {
+            background-color: #e0e0e0;
+        }
+</style>
