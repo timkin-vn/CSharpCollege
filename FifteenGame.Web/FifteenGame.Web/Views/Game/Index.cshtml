@@ -1,0 +1,66 @@
+﻿@model FifteenGame.Web.Models.GameViewModel
+
+@{
+    ViewBag.Title = "Найди одинаковые машины ";
+    bool isGameOver = (bool?)ViewBag.IsGameOver ?? false;
+}
+
+<main>
+    <h2>Найди одинаковые машины </h2>
+
+    @if (isGameOver)
+    {
+        <h2 class="text-danger">Поздравляем! Игра завершена.</h2>
+        <div>@Html.ActionLink("Начать заново", "Index", "Game", new { }, new { @class = "btn btn-primary fs-3", })</div>
+    }
+
+    <div class="container text-center">
+        @for (int row = 0; row < Model.RowCount; row++)
+        {
+            <div class="row">
+                <div class="col col-2">
+                </div>
+
+                @for (int column = 0; column < Model.ColumnCount; column++)
+                {
+
+                    if (Model.Cells[row, column].CarText == string.Empty)
+                    {
+                        <div class="col col-2 d-grid gap-2 p-2">
+
+                        </div>
+                        continue;
+                    }
+                    else if (isGameOver)
+                    {
+                        <div class="col col-2 d-grid gap-2 p-2">
+                            <div class="btn btn-secondary fs-3">@Model.Cells[row, column].TextButton</div>
+
+
+                        </div>
+
+                        continue;
+                    }
+                    else if (Model.Cells[row, column].IsMakeUp == true)
+                    {
+                        <div class="col col-2 d-grid gap-2 p-2">
+                            <div class="btn btn-success fs-3">@Model.Cells[row, column].TextButton</div>
+
+
+                        </div>
+
+                        continue;
+                    }
+                    
+
+                    <div class="col-2 d-grid gap-2 p-2">
+                        @Html.ActionLink(Model.Cells[row, column].TextButton, "PressButton",
+                            new { colum = Model.Cells[row, column].Column, row = Model.Cells[row, column].Row }, new { @class = "btn btn-danger fs-3" })
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</main>
+
+
