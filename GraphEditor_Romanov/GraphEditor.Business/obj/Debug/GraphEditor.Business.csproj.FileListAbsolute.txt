@@ -1,0 +1,12 @@
+C:\Users\пан4лайнер\Desktop\GraphEditor_Yaroslav_Reksi\GraphEditor.Business\bin\Debug\GraphEditor.Business.dll
+C:\Users\пан4лайнер\Desktop\GraphEditor_Yaroslav_Reksi\GraphEditor.Business\bin\Debug\GraphEditor.Business.pdb
+C:\Users\пан4лайнер\Desktop\GraphEditor_Yaroslav_Reksi\GraphEditor.Business\obj\Debug\GraphEditor.Business.csproj.AssemblyReference.cache
+C:\Users\пан4лайнер\Desktop\GraphEditor_Yaroslav_Reksi\GraphEditor.Business\obj\Debug\GraphEditor.Business.csproj.CoreCompileInputs.cache
+C:\Users\пан4лайнер\Desktop\GraphEditor_Yaroslav_Reksi\GraphEditor.Business\obj\Debug\GraphEditor.Business.dll
+C:\Users\пан4лайнер\Desktop\GraphEditor_Yaroslav_Reksi\GraphEditor.Business\obj\Debug\GraphEditor.Business.pdb
+C:\Users\пан4лайнер\Desktop\GraphEditor_Romanov\GraphEditor.Business\bin\Debug\GraphEditor.Business.dll
+C:\Users\пан4лайнер\Desktop\GraphEditor_Romanov\GraphEditor.Business\bin\Debug\GraphEditor.Business.pdb
+C:\Users\пан4лайнер\Desktop\GraphEditor_Romanov\GraphEditor.Business\obj\Debug\GraphEditor.Business.csproj.AssemblyReference.cache
+C:\Users\пан4лайнер\Desktop\GraphEditor_Romanov\GraphEditor.Business\obj\Debug\GraphEditor.Business.csproj.CoreCompileInputs.cache
+C:\Users\пан4лайнер\Desktop\GraphEditor_Romanov\GraphEditor.Business\obj\Debug\GraphEditor.Business.dll
+C:\Users\пан4лайнер\Desktop\GraphEditor_Romanov\GraphEditor.Business\obj\Debug\GraphEditor.Business.pdb
