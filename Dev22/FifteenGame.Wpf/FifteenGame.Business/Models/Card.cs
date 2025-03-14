@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace FifteenGame.Business.Models
 {
-    public enum MoveDirection
+    public class Card
     {
-        None,
-        Left,
-        Right,
-        Up,
-        Down,
+        public string ColorName { get; set; }
+        public string ColorValue { get; set; }
+        public bool IsMatched { get; set; }
     }
 }

@@ -97,9 +97,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FifteenGame.Business\FifteenGame.Business.csproj">
+    <ProjectReference Include="..\FifteenGame.Business\Repa.Business.csproj">
       <Project>{31478FA4-97D5-44FB-8239-D55A6FC77500}</Project>
-      <Name>FifteenGame.Business</Name>
+      <Name>Repa.Business</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

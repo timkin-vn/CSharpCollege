@@ -7,31 +7,46 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace FifteenGame.Wpf.ViewModels
 {
+    using FifteenGame.Business;
+    using System.Collections.ObjectModel;
+    using System.ComponentModel;
+    using System.Windows;
     public class MainWindowViewModel : INotifyPropertyChanged
     {
-        private GameService _service = new GameService();
 
+        private GameService _service = new GameService();
         private GameModel _model = new GameModel();
 
+        public int countbuttonclick = 0;
+                                                          
+        
+
+        
         public ObservableCollection<CellViewModel> Cells { get; set; } = new ObservableCollection<CellViewModel>();
 
         public MainWindowViewModel()
         {
             Initialize();
+
+
         }
 
-        public void MakeMove(MoveDirection direction, Action gameFinishedAction)
+        public void MakeMove(int[] colrow, Action gameFinishedAction)
         {
-            _service.MakeMove(_model, direction);
+            _service.Search_for_parents(_model, colrow);
+
             FromModel(_model);
             if (_service.IsGameOver(_model))
             {
-                gameFinishedAction();
+                gameFinishedAction?.Invoke();
             }
+
         }
+                
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -42,7 +57,7 @@ namespace FifteenGame.Wpf.ViewModels
 
         public void Initialize()
         {
-            _service.Shuffle(_model);
+            _service.Initialize(_model);
             FromModel(_model);
         }
 
@@ -53,42 +68,41 @@ namespace FifteenGame.Wpf.ViewModels
             {
                 for (int column = 0; column < GameModel.ColumnCount; column++)
                 {
-                    if (model[row,column] != GameModel.FreeCellValue)
-                    {
-                        var direction = MoveDirection.None;
-                        if (row == model.FreeCellRow)
-                        {
-                            if (column == model.FreeCellColumn - 1)
-                            {
-                                direction = MoveDirection.Right;
-                            }
-                            else if (column == model.FreeCellColumn + 1)
-                            {
-                                direction = MoveDirection.Left;
-                            }
-                        }
-                        else if (column == model.FreeCellColumn)
-                        {
-                            if (row == model.FreeCellRow - 1)
-                            {
-                                direction = MoveDirection.Down;
-                            }
-                            else if (row == model.FreeCellRow + 1)
-                            {
-                                direction = MoveDirection.Up;
-                            }
-                        }
 
-                        Cells.Add(new CellViewModel
+                    if ((row == model.OneRowCol[0]&& column == model.OneRowCol[1])
+                        || (row == model.TwoRowCol[0] && column == model.TwoRowCol[1]))
+                    {
+                        Cells.Add(item: new CellViewModel
                         {
                             Row = row,
+                            ColumnRow = new int[] { row, column },
                             Column = column,
-                            Num = model[row, column],
-                            Direction = direction
+                            AnimalText = model[row, column],
+
+                            IsFaceUp = true,
+
+                        });
+                    }
+                    else if (model.Twobuuton ==String.Empty|| model.Onebuuton == String.Empty  || model[row, column] == "")
+                    {
+                        continue;
+                    }
+
+                    else {
+                        Cells.Add(item: new CellViewModel
+                        {
+                            Row = row,
+                            ColumnRow = new int[] { row, column },
+                            Column = column,
+                            AnimalText = model[row, column],
+
+                            IsFaceUp = false,
+
                         });
                     }
                 }
             }
         }
     }
+   
 }

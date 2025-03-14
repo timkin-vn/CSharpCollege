@@ -21,7 +21,7 @@ namespace FifteenGame.Wpf
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
-    {
+    {  
         public MainWindowViewModel ViewModel => (MainWindowViewModel)DataContext;
 
         public MainWindow()
@@ -29,11 +29,13 @@ namespace FifteenGame.Wpf
             InitializeComponent();
         }
 
-        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            var tag = (MoveDirection)((FrameworkElement)sender).Tag;
+       
+
+       private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+       {
+            var tag = (int[])((FrameworkElement)sender).Tag;
             ViewModel.MakeMove(tag, GameFinished);
-        }
+       }
 
         private void GameFinished()
         {
@@ -41,6 +43,7 @@ namespace FifteenGame.Wpf
                 MessageBoxResult.Yes)
             {
                 ViewModel.Initialize();
+                
             }
         }
     }

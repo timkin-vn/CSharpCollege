@@ -2,127 +2,135 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace FifteenGame.Business.Services
 {
+
     public class GameService
-    {
+    { int countFamili = 0;
         public void Initialize(GameModel model)
         {
-            int value = 1;
+            string[] cardAnimal = { "C#", "Python", "C++", "Java", "Rust", "JavaScript", "Pascal", "GoLang" };
+            Random random = new Random();
+
+
+            List<string> cardAmimalPairs = new List<string>();
+
+            foreach (var color in cardAnimal)
+            {
+                cardAmimalPairs.Add(color);
+                cardAmimalPairs.Add(color);
+            }
+
+
+
+            cardAmimalPairs = cardAmimalPairs.OrderBy(x => random.Next()).ToList();
+
+
             for (int row = 0; row < GameModel.RowCount; row++)
             {
                 for (int column = 0; column < GameModel.ColumnCount; column++)
                 {
-                    model[row, column] = value++;
+                    model[row, column] = cardAmimalPairs[row * GameModel.ColumnCount + column];
+
                 }
+
+            }
+        }
+
+
+        public bool Search_for_parents(GameModel model, int[] colrow)
+        {
+
+            if (model.Fisra == 0)
+            {
+                model.OneRowCol = colrow;
+                model.Onebuuton = model[colrow[0], colrow[1]];
+                model.Fisra++;
+                
+
+
+            }
+            else if (model.Fisra == 1)
+            {
+                model.Twobuuton = model[colrow[0], colrow[1]];
+                model.TwoRowCol = colrow;
+
+
+
+                model.Fisra = 0;
+                
+
+            }
+            if (model.Onebuuton == null || model.Twobuuton == null)
+            {
+                    return false;
+            }
+            else if (model.Onebuuton == model.Twobuuton && (model.OneRowCol[0] != model.TwoRowCol[0]
+                    || model.OneRowCol[1] != model.TwoRowCol[1]))
+            {
+                countFamili++;
+
+                for (int row = 0; row < GameModel.RowCount; row++)
+                {
+                    for (int column = 0; column < GameModel.ColumnCount; column++)
+                    {
+                        if ((row == model.OneRowCol[0] &&
+                            column == model.OneRowCol[1]) || (row == model.TwoRowCol[0] &&
+                            column == model.TwoRowCol[1]))
+                        {
+
+                            model[row, column] = "";
+
+
+                        }
+                        else
+                        {
+                            model[row, column] = model[row, column];
+                        }
+
+                    }
+
+
+                }
+                model.TwoRowCol[0] = 4;
+                model.TwoRowCol[1] = 4;
+                model.OneRowCol[0] = 4;
+                model.OneRowCol[1] = 4;
+
+                return true;
+            }
+            else
+            {
+                return false;
             }
 
-            model[GameModel.RowCount - 1, GameModel.ColumnCount - 1] = GameModel.FreeCellValue;
-            model.FreeCellRow = GameModel.RowCount - 1;
-            model.FreeCellColumn = GameModel.ColumnCount - 1;
-        }
+
+
+
+        }  
+
+        
 
         public bool IsGameOver(GameModel model)
         {
-            int freeCellRow = model.FreeCellRow;
-            if (freeCellRow != GameModel.RowCount - 1)
+            if (countFamili == 8)
             {
-                return false;
+                model.TwoRowCol[0] = 4;
+                model.TwoRowCol[1] = 4;
+                model.OneRowCol[0] = 4;
+                model.OneRowCol[1] = 4;
+                countFamili = 0;
+                return true; 
             }
 
-            int freeCellColumn = model.FreeCellColumn;
-            if (freeCellColumn != GameModel.ColumnCount - 1)
-            {
-                return false;
-            }
-
-            int value = 1;
-            for (int row = 0; row < GameModel.RowCount; row++)
-            {
-                for (int column = 0; column < GameModel.ColumnCount; column++)
-                {
-                    if (row == freeCellRow && column == freeCellColumn)
-                    {
-                        if (model[row, column] != GameModel.FreeCellValue)
-                        {
-                            return false;
-                        }
-                    }
-                    else if (model[row, column] != value++)
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
-        }
-
-        public bool MakeMove(GameModel model, MoveDirection direction)
-        {
-            switch (direction)
-            {
-                case MoveDirection.Left:
-                    if (model.FreeCellColumn == GameModel.ColumnCount - 1)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow, model.FreeCellColumn + 1];
-                    model[model.FreeCellRow, model.FreeCellColumn + 1] = GameModel.FreeCellValue;
-                    model.FreeCellColumn++;
-                    return true;
-
-                case MoveDirection.Right:
-                    if (model.FreeCellColumn == 0)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow, model.FreeCellColumn - 1];
-                    model[model.FreeCellRow, model.FreeCellColumn - 1] = GameModel.FreeCellValue;
-                    model.FreeCellColumn--;
-                    return true;
-
-                case MoveDirection.Up:
-                    if (model.FreeCellRow == GameModel.RowCount - 1)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow + 1, model.FreeCellColumn];
-                    model[model.FreeCellRow + 1, model.FreeCellColumn] = GameModel.FreeCellValue;
-                    model.FreeCellRow++;
-                    return true;
-
-                case MoveDirection.Down:
-                    if (model.FreeCellRow == 0)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow - 1, model.FreeCellColumn];
-                    model[model.FreeCellRow - 1, model.FreeCellColumn] = GameModel.FreeCellValue;
-                    model.FreeCellRow--;
-                    return true;
-            }
 
             return false;
         }
 
-        public void Shuffle(GameModel model)
-        {
-            Initialize(model);
-
-            var rnd = new Random();
-            for (int i = 0; i < 1000; i++)
-            {
-                var nextMove = (MoveDirection)(rnd.Next(4) + 1);
-                MakeMove(model, nextMove);
-            }
-        }
+      
     }
 }
