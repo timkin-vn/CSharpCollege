@@ -104,17 +104,41 @@ namespace GraphEditor.PresenterServices
             }
 
             return rect.FillColor;
+        } 
+        public Color GetSelectedDrawColor()
+        {
+            var rect = _businessService.PictureModel.SelectedRectangle;
+            if (rect == null)
+            {
+                return Color.OldLace;
+            }
+
+            return rect.DrawColor;
         }
 
         public void SetSelectedFillColor(Color color)
         {
             _businessService.SetSelectedFillColor(color);
+            _viewModel.FillColor_New = color;
+            _viewModel.IsNewFillColor = true;
+            _viewModel = FromModel(_businessService.PictureModel);
+        }
+        public void SetSelectedDrawColor(Color color)
+        {
+            _businessService.SetSelectedDrawColor(color);
+            _viewModel.DrawColor_New = color;
+            _viewModel.IsNewDrawColor = true;
             _viewModel = FromModel(_businessService.PictureModel);
         }
 
         public void MoveForward()
         {
             _businessService.MoveForward();
+            _viewModel = FromModel(_businessService.PictureModel);
+        }
+        public void MoveFurther()
+        {
+            _businessService.MoveFurther();
             _viewModel = FromModel(_businessService.PictureModel);
         }
 
@@ -204,9 +228,10 @@ namespace GraphEditor.PresenterServices
         }
 
         public PictureViewModel FromModel(PictureModel pic)
-        {
+        {   
+            
             return new PictureViewModel
-            {
+            {  
                 Rectangles = pic.Rectangles.Select(r => new RectangleViewModel
                 {
                     Rectangle = FromModel(r),

@@ -102,10 +102,26 @@ namespace GraphEditor
             _service.SetSelectedFillColor(ColorDialog.Color);
             Refresh();
         }
+        private void DrawToolMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog.Color = _service.GetSelectedDrawColor();
+            if (ColorDialog.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            _service.SetSelectedDrawColor(ColorDialog.Color);
+            Refresh();
+        }
 
         private void ForwardToolMenuItem_Click(object sender, EventArgs e)
         {
             _service.MoveForward();
+            Refresh();
+        }
+        private void FurtherToolMenuItem_Click(object sender, EventArgs e)
+        {
+            _service.MoveFurther();
             Refresh();
         }
 
@@ -163,5 +179,7 @@ namespace GraphEditor
             _service.Save(SaveDialog.FileName);
             ResetInterface();
         }
+
+        
     }
 }

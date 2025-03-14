@@ -17,7 +17,8 @@ namespace GraphEditor.Business.Services
 
         public void CreateRectangle(PointModel location)
         {
-            var newRectangle = new RectangleModel { Point1 = location, Point2 = location, };
+            var newRectangle = new RectangleModel { Point1 = location, Point2 = location };
+        
             _model.RectangleList.Add(newRectangle);
             _model.SelectedRectangle = newRectangle;
             _model.Mode = PictureMode.Creating;
@@ -86,7 +87,18 @@ namespace GraphEditor.Business.Services
         {
             if (_model.SelectedRectangle != null)
             {
-                _model.SelectedRectangle.FillColor = color;
+                _model.SelectedRectangle.FillColor = color;  
+                
+                _model.IsNewFillColor = true;
+                
+            }
+        }   
+        public void SetSelectedDrawColor(Color color)
+        {
+            if (_model.SelectedRectangle != null)
+            {
+                _model.SelectedRectangle.DrawColor = color;
+                _model.IsNewDrawColor = true;
             }
         }
 
@@ -106,6 +118,23 @@ namespace GraphEditor.Business.Services
             var r = _model.RectangleList[index];
             _model.RectangleList[index] = _model.RectangleList[index + 1];
             _model.RectangleList[index + 1] = r;
+        }  
+        public void MoveFurther()
+        {
+            if (_model.SelectedRectangle == null)
+            {
+                return;
+            }
+
+            var index = _model.RectangleList.IndexOf(_model.SelectedRectangle);
+            if (index == 0 || index<0)
+            {
+                return;
+            }
+
+            var r = _model.RectangleList[index];
+            _model.RectangleList[index] = _model.RectangleList[index - 1];
+            _model.RectangleList[index - 1] = r;
         }
 
         public void Save(string fileName)

@@ -19,12 +19,45 @@ namespace GraphEditor.PresenterServices
 
             Pen pen;
             Brush brush;
-            foreach (var rect in picture.Rectangles)
+            if (picture.IsNewDrawColor)
             {
-                pen = new Pen(rect.DrawColor, 3);
-                brush = new SolidBrush(rect.FillColor);
-                g.FillRectangle(brush, rect.Rectangle);
-                g.DrawRectangle(pen, rect.Rectangle);
+                foreach (var rect in picture.Rectangles)
+                {
+                    pen = new Pen(picture.DrawColor_New, 3);
+                    brush = new SolidBrush(rect.FillColor);
+                    g.FillRectangle(brush, rect.Rectangle);
+                    g.DrawRectangle(pen, rect.Rectangle);
+                }
+            }
+            else if (picture.IsNewFillColor)
+            {
+                foreach (var rect in picture.Rectangles)
+                {
+                    pen = new Pen(rect.DrawColor, 3);
+                    brush = new SolidBrush(picture.FillColor_New);
+                    g.FillRectangle(brush, rect.Rectangle);
+                    g.DrawRectangle(pen, rect.Rectangle);
+                }
+            }
+            else if (picture.IsNewFillColor && picture.IsNewDrawColor)
+            {
+                foreach (var rect in picture.Rectangles)
+                {
+                    pen = new Pen(picture.DrawColor_New, 3);
+                    brush = new SolidBrush(picture.FillColor_New);
+                    g.FillRectangle(brush, rect.Rectangle);
+                    g.DrawRectangle(pen, rect.Rectangle);
+                }
+            }
+            else
+            {
+                foreach (var rect in picture.Rectangles)
+                {
+                    pen = new Pen(rect.DrawColor, 3);
+                    brush = new SolidBrush(rect.FillColor);
+                    g.FillRectangle(brush, rect.Rectangle);
+                    g.DrawRectangle(pen, rect.Rectangle);
+                }
             }
 
             if (interactiveMode)

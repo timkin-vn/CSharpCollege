@@ -96,12 +96,12 @@ namespace GraphEditor.Business.Models
                 Cursor = PictureCursor.SizeWE,
             },
         };
-
+       
         public Color FillColor { get; set; } = Color.Yellow;
 
         public Color DrawColor { get; set; } = Color.Blue;
 
-        public RectangleModel() { }
+        public RectangleModel() { }  
 
         public RectangleModel(int left, int top, int width, int height)
         {
