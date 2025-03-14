@@ -46,5 +46,35 @@ namespace Calculator
             _service.InsertOperation(_state, opCode);
             DisplayLabel.Text = _state.XRegister.ToString();
         }
+
+        private void SquareButton_Click(object sender, EventArgs e)
+        {
+            _service.Square(_state);
+            DisplayLabel.Text = _state.XRegister.ToString();
+        }
+
+        private void ExponentButton_Click(object sender, EventArgs e)
+        {
+            _service.PrepareForExponentiation(_state);
+            DisplayLabel.Text = _state.XRegister.ToString();
+        }
+
+        private void SquareRootButton_Click(object sender, EventArgs e)
+        {
+            _service.SquareRoot(_state);
+            DisplayLabel.Text = _state.XRegister.ToString();
+        }
+
+        private void BackspaceButton_Click(object sender, EventArgs e)
+        {
+            _service.Backspace(_state);
+            DisplayLabel.Text = _state.XRegister.ToString();
+        }
+
+        private void DecimalButton_Click(object sender, EventArgs e)
+        {
+            _service.InsertDecimal(_state);
+            DisplayLabel.Text = _state.XRegister.ToString();
+        }
     }
 }

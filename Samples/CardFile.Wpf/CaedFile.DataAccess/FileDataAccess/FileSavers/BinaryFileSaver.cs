@@ -26,15 +26,18 @@ namespace CardFile.DataAccess.FileDataAccess.FileSavers
                         try
                         {
                             newRecord.Id = reader.ReadInt32();
-                            newRecord.FirstName = reader.ReadString();
-                            newRecord.MiddleName = reader.ReadString();
-                            newRecord.LastName = reader.ReadString();
+                            newRecord.Title = reader.ReadString();
+                            
 
                             var ticks = reader.ReadInt64();
-                            newRecord.BirthDate = new DateTime(ticks);
+                            newRecord.EXP = new DateTime(ticks);
 
-                            newRecord.PaymentAmount = reader.ReadDecimal();
-                            newRecord.ChildrenCount = reader.ReadInt32();
+                            newRecord.Fabricator = reader.ReadString();
+                            newRecord.Section = reader.ReadString();
+                            
+                            newRecord.Count = reader.ReadInt32();
+                            
+                            newRecord.Price = reader.ReadDecimal();
                         }
                         catch
                         {
@@ -58,12 +61,12 @@ namespace CardFile.DataAccess.FileDataAccess.FileSavers
                     foreach (var item in collection.GetAll())
                     {
                         writer.Write(item.Id);
-                        writer.Write(item.FirstName);
-                        writer.Write(item.MiddleName);
-                        writer.Write(item.LastName);
-                        writer.Write(item.BirthDate.Ticks);
-                        writer.Write(item.PaymentAmount);
-                        writer.Write(item.ChildrenCount);
+                        writer.Write(item.Title);
+                        writer.Write(item.EXP.Ticks);
+                        writer.Write(item.Fabricator);
+                        writer.Write(item.Section);
+                        writer.Write(item.Count);
+                        writer.Write(item.Price);
                     }
                 }
             }

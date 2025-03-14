@@ -43,37 +43,38 @@ namespace CardFile.DataAccess.FileDataAccess.FileSavers
                             throw new Exception($"Неверный формат файла {fileName}");
                         }
 
-                        newRecord.FirstName = lineSegments[1];
-                        newRecord.MiddleName = lineSegments[2];
-                        newRecord.LastName = lineSegments[3];
+                        newRecord.Title = lineSegments[1];
+                        
 
-                        if (DateTime.TryParse(lineSegments[4], out var birthDate))
+                        if (DateTime.TryParse(lineSegments[2], out var exp))
                         {
-                            newRecord.BirthDate = birthDate;
+                            newRecord.EXP = exp;
                         }
                         else
                         {
                             throw new Exception($"Неверный формат файла {fileName}");
                         }
 
-                        if (decimal.TryParse(lineSegments[5], out var paymentAmount))
+                        newRecord.Fabricator = lineSegments[3];
+                        newRecord.Section = lineSegments[4];
+
+                        if (int.TryParse(lineSegments[5], out var count))
                         {
-                            newRecord.PaymentAmount = paymentAmount;
+                            newRecord.Count = count;
                         }
                         else
                         {
                             throw new Exception($"Неверный формат файла {fileName}");
                         }
 
-                        if (int.TryParse(lineSegments[6], out var childrenCount))
+                        if (decimal.TryParse(lineSegments[6], out var price))
                         {
-                            newRecord.ChildrenCount = childrenCount;
+                            newRecord.Price = price;
                         }
                         else
                         {
                             throw new Exception($"Неверный формат файла {fileName}");
                         }
-
                         records.Add(newRecord);
                     }
                 }
@@ -90,8 +91,8 @@ namespace CardFile.DataAccess.FileDataAccess.FileSavers
                 {
                     foreach (var item in collection.GetAll())
                     {
-                        writer.WriteLine($"{item.Id};{item.FirstName};{item.MiddleName};{item.LastName};" +
-                            $"{item.BirthDate.ToShortDateString()};{item.PaymentAmount};{item.ChildrenCount}");
+                        writer.WriteLine($"{item.Id};{item.Title};" +
+                            $"{item.EXP.ToShortDateString()};{item.Fabricator};{item.Section};{item.Count};{item.Price}");
                     }
                 }
             }

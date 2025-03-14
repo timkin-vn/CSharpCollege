@@ -28,21 +28,21 @@
             </Grid.RowDefinitions>
 
             <DataGrid Grid.Row="0" Margin="5" ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" AutoGenerateColumns="False"
-                      IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserSortColumns="False">
+                      IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserSortColumns="False" Background="White" BorderBrush="#FF353535" Foreground="Black">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ФИО" Binding="{Binding Fio}" />
-                    <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDateText}" />
-                    <DataGridTextColumn Header="Подразделение" Binding="{Binding Department}" />
-                    <DataGridTextColumn Header="Должность" Binding="{Binding Position}" />
-                    <DataGridTextColumn Header="Подчиненные" Binding="{Binding SubordinatesCount}" />
-                    <DataGridTextColumn Header="Оклад" Binding="{Binding PaymentAmountText}" />
+                    <DataGridTextColumn Header="Название" Binding="{Binding Title}" />
+                    <DataGridTextColumn Header="Срок годности" Binding="{Binding EXP}" />
+                    <DataGridTextColumn Header="Производитель" Binding="{Binding Fabricator}" />
+                    <DataGridTextColumn Header="Отдел" Binding="{Binding Section}" />
+                    <DataGridTextColumn Header="Количество" Binding="{Binding Count}" />
+                    <DataGridTextColumn Header="Цена" Binding="{Binding Price}" />
                 </DataGrid.Columns>
             </DataGrid>
 
-            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Добавить" Margin="5" Padding="5" Click="AddCardButton_Click" />
-                <Button Content="Изменить" Margin="5" Padding="5" IsEnabled="{Binding IsEditButtonEnabled}" Click="EditCardButton_Click" />
-                <Button Content="Удалить" Margin="5" Padding="5" IsEnabled="{Binding IsEditButtonEnabled}" Click="DeleteCardButton_Click" />
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Добавить" Margin="10, 5" Padding="10, 5" Click="AddCardButton_Click" />
+                <Button Content="Изменить" Margin="10, 5" Padding="10, 5" IsEnabled="{Binding IsEditButtonEnabled}" Click="EditCardButton_Click" />
+                <Button Content="Удалить" Margin="10, 5" Padding="10, 5" IsEnabled="{Binding IsEditButtonEnabled}" Click="DeleteCardButton_Click" />
             </StackPanel>
         </Grid>
     </DockPanel>

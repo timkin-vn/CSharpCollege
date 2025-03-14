@@ -34,6 +34,7 @@
             this.SettingsButton = new System.Windows.Forms.Button();
             this.ExitButton = new System.Windows.Forms.Button();
             this.AlarmTimer = new System.Windows.Forms.Timer(this.components);
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // DisplayLabel
@@ -85,11 +86,23 @@
             this.AlarmTimer.Interval = 1000;
             this.AlarmTimer.Tick += new System.EventHandler(this.AlarmTimer_Tick);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+            this.label1.Location = new System.Drawing.Point(9, 99);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(201, 24);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Будильник выключен";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
+            // 
             // ClockForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(379, 111);
+            this.ClientSize = new System.Drawing.Size(379, 131);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.ExitButton);
             this.Controls.Add(this.SettingsButton);
             this.Controls.Add(this.AboutButton);
@@ -99,16 +112,18 @@
             this.Name = "ClockForm";
             this.Text = "Будильник";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
-
         private System.Windows.Forms.Label DisplayLabel;
         private System.Windows.Forms.Button AboutButton;
         private System.Windows.Forms.Button SettingsButton;
         private System.Windows.Forms.Button ExitButton;
         private System.Windows.Forms.Timer AlarmTimer;
+        private System.Windows.Forms.Label label1;
+        
     }
 }
 

@@ -117,5 +117,10 @@ namespace CardFile.Wpf
         {
             ViewModel.Loaded();
         }
+
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

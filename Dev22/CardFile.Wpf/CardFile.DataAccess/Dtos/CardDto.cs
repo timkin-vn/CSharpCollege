@@ -11,21 +11,17 @@ namespace CardFile.DataAccess.Dtos
     {
         public int Id { get; set; }
 
-        public string FirstName { get; set; }
+        public string Title { get; set; }
 
-        public string LastName { get; set; }
+        public DateTime EXP { get; set; }
 
-        public string MiddleName { get; set; }
+        public string Fabricator { get; set; }
 
-        public DateTime BirthDate { get; set; }
+        public string Section { get; set; }
 
-        public string Department { get; set; }
+        public int Count { get; set; }
 
-        public string Position { get; set; }
-
-        public int SubordinatesCount { get; set; }
-
-        public decimal PaymentAmount { get; set; }
+        public decimal Price { get; set; }
 
         public CardDto Clone()
         {

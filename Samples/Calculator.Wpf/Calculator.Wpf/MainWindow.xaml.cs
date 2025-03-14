@@ -55,5 +55,31 @@ namespace Calculator.Wpf
         {
             ViewModel.ClearOperationLog();
         }
+
+        private void BackspaceButton_Click(object sender, RoutedEventArgs e)
+        {
+            ((CalculatorViewModel)DataContext).Backspace();
+        }
+
+        private void SquareButton_Click(object sender, RoutedEventArgs e)
+        {
+            ((CalculatorViewModel)DataContext).Square();
+        }
+
+        private void ExponentiateButton_Click(object sender, RoutedEventArgs e)
+        {
+            ((CalculatorViewModel)DataContext).Exponentiate();
+        }
+
+        private void SquareRootButton_Click(object sender, RoutedEventArgs e)
+        {
+            ((CalculatorViewModel)DataContext).SquareRoot();
+        }
+
+        private void DecimalButton_Click(object sender, RoutedEventArgs e)
+        {
+            ((CalculatorViewModel)DataContext).InsertDecimal();
+        }
+
     }
 }

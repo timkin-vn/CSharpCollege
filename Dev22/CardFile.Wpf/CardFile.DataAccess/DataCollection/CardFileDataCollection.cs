@@ -19,50 +19,42 @@ namespace CardFile.DataAccess.DataCollection
             _cards.Add(new CardDto
             {
                 Id = 1,
-                FirstName = "Андрей",
-                MiddleName = "Геннадьевич",
-                LastName = "Захаров",
-                BirthDate = new DateTime(1985, 11, 7),
-                Department = "Отдел разработки",
-                Position = "Руководитель проекта",
-                SubordinatesCount = 8,
-                PaymentAmount = 250000m,
+                Title = "Макароны Спагетти Makfa",
+                EXP = new DateTime(2026, 11, 7),
+                Fabricator = "Makfa",
+                Section = "Бакалея",
+                Count = 8,
+                Price = 79m,
             });
             _cards.Add(new CardDto
             {
                 Id = 2,
-                FirstName = "Нина",
-                MiddleName = "Аркадьевна",
-                LastName = "Шевченко",
-                BirthDate = new DateTime(1990, 8, 21),
-                Department = "Отдел тестирования",
-                Position = "Старший тестировщик",
-                SubordinatesCount = 4,
-                PaymentAmount = 200000m,
+                Title = "Батон Сормовский в нарезке",
+                EXP = new DateTime(2024, 12, 15),
+                Fabricator = "Сормовский хлеб",
+                Section = "Хлеб и выпечка",
+                Count = 15,
+                Price = 30m,
             });
             _cards.Add(new CardDto
             {
                 Id = 3,
-                FirstName = "Виктор",
-                MiddleName = "Петрович",
-                LastName = "Васильев",
-                BirthDate = new DateTime(2001, 3, 11),
-                Department = "Отдел разработки",
-                Position = "Ведущий разработчик",
-                SubordinatesCount = 2,
-                PaymentAmount = 300000m,
+                Title = "Молоко 2,5% пастеризованное",
+                EXP = new DateTime(2024, 12, 19),
+                Fabricator = "Княгинино",
+                Section = "Молочная продукция",
+                Count = 6,
+                Price = 52m,
             });
             _cards.Add(new CardDto
             {
                 Id = 4,
-                FirstName = "Ольга",
-                MiddleName = "Владимировна",
-                LastName = "Меднис",
-                BirthDate = new DateTime(1981, 9, 2),
-                Department = "Бухгалтерия",
-                Position = "Главный бухгалтер",
-                SubordinatesCount = 3,
-                PaymentAmount = 150000m,
+                Title = "Пирожное песочное глазированное",
+                EXP = new DateTime(2024, 12, 29),
+                Fabricator = "Сормовский хлеб",
+                Section = "Хлеб и выпечка",
+                Count = 5,
+                Price = 37m,
             });
 
             MapperRegistrator.Register();

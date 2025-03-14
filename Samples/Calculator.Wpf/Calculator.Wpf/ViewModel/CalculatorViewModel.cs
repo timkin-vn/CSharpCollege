@@ -60,5 +60,37 @@ namespace Calculator.Wpf.ViewModel
             DisplayOutput = _state.XRegister.ToString();
             OnPropertyChanged(nameof(DisplayOutput));
         }
+
+        public void Backspace()
+        {
+            _service.Backspace(_state);
+            DisplayResult();
+        }
+
+        public void Square()
+        {
+            _service.Square(_state);
+            DisplayResult();
+        }
+
+        public void Exponentiate()
+        {
+            _service.PrepareForExponentiation(_state);
+            DisplayResult();
+        }
+
+        public void SquareRoot()
+        {
+            _service.SquareRoot(_state);
+            DisplayResult();
+        }
+
+        public void InsertDecimal()
+        {
+            _service.InsertDecimal(_state);
+            DisplayResult();
+        }
+
+
     }
 }
