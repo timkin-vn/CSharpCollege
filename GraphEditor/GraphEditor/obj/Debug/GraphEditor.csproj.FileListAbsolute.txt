@@ -1,0 +1,13 @@
+C:\Users\plato\Downloads\GraphEditor\GraphEditor\bin\Debug\GraphEditor.exe.config
+C:\Users\plato\Downloads\GraphEditor\GraphEditor\bin\Debug\GraphEditor.exe
+C:\Users\plato\Downloads\GraphEditor\GraphEditor\bin\Debug\GraphEditor.pdb
+C:\Users\plato\Downloads\GraphEditor\GraphEditor\bin\Debug\GraphEditor.Business.dll
+C:\Users\plato\Downloads\GraphEditor\GraphEditor\bin\Debug\GraphEditor.Business.pdb
+C:\Users\plato\Downloads\GraphEditor\GraphEditor\obj\Debug\GraphEditor.csproj.AssemblyReference.cache
+C:\Users\plato\Downloads\GraphEditor\GraphEditor\obj\Debug\GraphEditor.GraphEditorForm.resources
+C:\Users\plato\Downloads\GraphEditor\GraphEditor\obj\Debug\GraphEditor.Properties.Resources.resources
+C:\Users\plato\Downloads\GraphEditor\GraphEditor\obj\Debug\GraphEditor.csproj.GenerateResource.cache
+C:\Users\plato\Downloads\GraphEditor\GraphEditor\obj\Debug\GraphEditor.csproj.CoreCompileInputs.cache
+C:\Users\plato\Downloads\GraphEditor\GraphEditor\obj\Debug\GraphEdi.B75FE3B2.Up2Date
+C:\Users\plato\Downloads\GraphEditor\GraphEditor\obj\Debug\GraphEditor.exe
+C:\Users\plato\Downloads\GraphEditor\GraphEditor\obj\Debug\GraphEditor.pdb
