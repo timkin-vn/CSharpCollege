@@ -249,9 +249,9 @@
     <Content Include="Scripts\jquery-3.7.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FifteenGame.Business\FifteenGame.Business.csproj">
+    <ProjectReference Include="..\FifteenGame.Business\Repa.Business.csproj">
       <Project>{31478fa4-97d5-44fb-8239-d55a6fc77500}</Project>
-      <Name>FifteenGame.Business</Name>
+      <Name>Repa.Business</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

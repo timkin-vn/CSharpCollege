@@ -1,21 +1,82 @@
 ﻿using FifteenGame.Business.Models;
+using FifteenGame.Business.Services;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
-using System.Web;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace FifteenGame.Web.Models
+
+namespace FifteenGame.Wpf.ViewModels
 {
-    public class CellViewModel
+    public class CellViewModel : INotifyPropertyChanged
     {
-        public int Num { get; set; }
+        
+        private bool _isSelected;
+        public string _animalText; 
+        
 
-        public string Text => Num.ToString();
+        public int Row { get; set; }
 
-        public MoveDirection Direction { get; set; }
+        public int Column { get; set; }
 
-        public string DirectionText => Direction.ToString();
+        public int[] ColumnRow { get; set; }
 
-        public bool IsEmpty { get; set; }
+
+
+
+        public string Text
+        {
+            get => _animalText;
+            set
+            {
+                _animalText = value;
+                OnPropertyChanged(nameof(Text));
+            }
+        }
+        public  string TextButoon => IsFaceUp ? Text : "Programming\nLanguage";
+        public string BruhButon => IsFaceUp ? "BlanchedAlmond" : "Tomato";
+        public bool IsFaceUp
+        {
+            get => _isSelected;
+            set
+            {
+                _isSelected = value;
+                OnPropertyChanged(nameof(IsFaceUp));
+                // Изменяем цвет кнопки при выделении
+                OnPropertyChanged(nameof(ColorButtonPen)); 
+                OnPropertyChanged(nameof(TextButoon));
+                OnPropertyChanged(nameof(BruhButon));
+
+            }
+        }
+        public string _сolorButtonPen = "DarkRed"; // Начальный цвет границы
+
+        public string ColorButtonPen => IsFaceUp ? "Olive" : _сolorButtonPen;
+        
+
+        // Метод для проверки совпадения
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+
+        
+
+        public void MoveRight()
+        {
+            if (Column >= 3)
+            {
+                return;
+            }
+
+            Column++;
+            OnPropertyChanged(nameof(Column));
+        }
+        
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }
