@@ -1,0 +1,138 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\ptroq\\CSharpCollege-master\\Dev22\\FifteenGame.Wpf\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{9ACB9997-98BE-4C41-B78E-8DCD689CA06A}|FifteenGame.Wpf\\FifteenGame.Wpf.csproj|c:\\ptroq\\csharpcollege-master\\dev22\\fifteengame.wpf\\fifteengame.wpf\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9ACB9997-98BE-4C41-B78E-8DCD689CA06A}|FifteenGame.Wpf\\FifteenGame.Wpf.csproj|solutionrelative:fifteengame.wpf\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ACB9997-98BE-4C41-B78E-8DCD689CA06A}|FifteenGame.Wpf\\FifteenGame.Wpf.csproj|c:\\ptroq\\csharpcollege-master\\dev22\\fifteengame.wpf\\fifteengame.wpf\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{9ACB9997-98BE-4C41-B78E-8DCD689CA06A}|FifteenGame.Wpf\\FifteenGame.Wpf.csproj|solutionrelative:fifteengame.wpf\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ACB9997-98BE-4C41-B78E-8DCD689CA06A}|FifteenGame.Wpf\\FifteenGame.Wpf.csproj|c:\\ptroq\\csharpcollege-master\\dev22\\fifteengame.wpf\\fifteengame.wpf\\viewmodels\\mainwindowviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9ACB9997-98BE-4C41-B78E-8DCD689CA06A}|FifteenGame.Wpf\\FifteenGame.Wpf.csproj|solutionrelative:fifteengame.wpf\\viewmodels\\mainwindowviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ACB9997-98BE-4C41-B78E-8DCD689CA06A}|FifteenGame.Wpf\\FifteenGame.Wpf.csproj|c:\\ptroq\\csharpcollege-master\\dev22\\fifteengame.wpf\\fifteengame.wpf\\viewmodels\\cellviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9ACB9997-98BE-4C41-B78E-8DCD689CA06A}|FifteenGame.Wpf\\FifteenGame.Wpf.csproj|solutionrelative:fifteengame.wpf\\viewmodels\\cellviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31478FA4-97D5-44FB-8239-D55A6FC77500}|FifteenGame.Business\\FifteenGame.Business.csproj|c:\\ptroq\\csharpcollege-master\\dev22\\fifteengame.wpf\\fifteengame.business\\services\\gameservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31478FA4-97D5-44FB-8239-D55A6FC77500}|FifteenGame.Business\\FifteenGame.Business.csproj|solutionrelative:fifteengame.business\\services\\gameservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31478FA4-97D5-44FB-8239-D55A6FC77500}|FifteenGame.Business\\FifteenGame.Business.csproj|c:\\ptroq\\csharpcollege-master\\dev22\\fifteengame.wpf\\fifteengame.business\\models\\gamemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31478FA4-97D5-44FB-8239-D55A6FC77500}|FifteenGame.Business\\FifteenGame.Business.csproj|solutionrelative:fifteengame.business\\models\\gamemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31478FA4-97D5-44FB-8239-D55A6FC77500}|FifteenGame.Business\\FifteenGame.Business.csproj|c:\\ptroq\\csharpcollege-master\\dev22\\fifteengame.wpf\\fifteengame.business\\models\\movedirection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31478FA4-97D5-44FB-8239-D55A6FC77500}|FifteenGame.Business\\FifteenGame.Business.csproj|solutionrelative:fifteengame.business\\models\\movedirection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "GameService.cs",
+              "DocumentMoniker": "C:\\ptroq\\CSharpCollege-master\\Dev22\\FifteenGame.Wpf\\FifteenGame.Business\\Services\\GameService.cs",
+              "RelativeDocumentMoniker": "FifteenGame.Business\\Services\\GameService.cs",
+              "ToolTip": "C:\\ptroq\\CSharpCollege-master\\Dev22\\FifteenGame.Wpf\\FifteenGame.Business\\Services\\GameService.cs*",
+              "RelativeToolTip": "FifteenGame.Business\\Services\\GameService.cs*",
+              "ViewState": "AgIAACkAAAAAAAAAAAAcwFwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-13T11:23:15.395Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "MoveDirection.cs",
+              "DocumentMoniker": "C:\\ptroq\\CSharpCollege-master\\Dev22\\FifteenGame.Wpf\\FifteenGame.Business\\Models\\MoveDirection.cs",
+              "RelativeDocumentMoniker": "FifteenGame.Business\\Models\\MoveDirection.cs",
+              "ToolTip": "C:\\ptroq\\CSharpCollege-master\\Dev22\\FifteenGame.Wpf\\FifteenGame.Business\\Models\\MoveDirection.cs",
+              "RelativeToolTip": "FifteenGame.Business\\Models\\MoveDirection.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-13T11:31:46.673Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\ptroq\\CSharpCollege-master\\Dev22\\FifteenGame.Wpf\\FifteenGame.Wpf\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "FifteenGame.Wpf\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\ptroq\\CSharpCollege-master\\Dev22\\FifteenGame.Wpf\\FifteenGame.Wpf\\MainWindow.xaml.cs*",
+              "RelativeToolTip": "FifteenGame.Wpf\\MainWindow.xaml.cs*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-13T11:23:46.5Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\ptroq\\CSharpCollege-master\\Dev22\\FifteenGame.Wpf\\FifteenGame.Wpf\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "FifteenGame.Wpf\\MainWindow.xaml",
+              "ToolTip": "C:\\ptroq\\CSharpCollege-master\\Dev22\\FifteenGame.Wpf\\FifteenGame.Wpf\\MainWindow.xaml*",
+              "RelativeToolTip": "FifteenGame.Wpf\\MainWindow.xaml*",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-03-13T11:37:08.013Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MainWindowViewModel.cs",
+              "DocumentMoniker": "C:\\ptroq\\CSharpCollege-master\\Dev22\\FifteenGame.Wpf\\FifteenGame.Wpf\\ViewModels\\MainWindowViewModel.cs",
+              "RelativeDocumentMoniker": "FifteenGame.Wpf\\ViewModels\\MainWindowViewModel.cs",
+              "ToolTip": "C:\\ptroq\\CSharpCollege-master\\Dev22\\FifteenGame.Wpf\\FifteenGame.Wpf\\ViewModels\\MainWindowViewModel.cs*",
+              "RelativeToolTip": "FifteenGame.Wpf\\ViewModels\\MainWindowViewModel.cs*",
+              "ViewState": "AgIAAB8AAAAAAAAAAAA0wFIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-13T11:23:26.752Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CellViewModel.cs",
+              "DocumentMoniker": "C:\\ptroq\\CSharpCollege-master\\Dev22\\FifteenGame.Wpf\\FifteenGame.Wpf\\ViewModels\\CellViewModel.cs",
+              "RelativeDocumentMoniker": "FifteenGame.Wpf\\ViewModels\\CellViewModel.cs",
+              "ToolTip": "C:\\ptroq\\CSharpCollege-master\\Dev22\\FifteenGame.Wpf\\FifteenGame.Wpf\\ViewModels\\CellViewModel.cs*",
+              "RelativeToolTip": "FifteenGame.Wpf\\ViewModels\\CellViewModel.cs*",
+              "ViewState": "AgIAADAAAAAAAAAAAAAcwGMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-13T11:23:20.196Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "GameModel.cs",
+              "DocumentMoniker": "C:\\ptroq\\CSharpCollege-master\\Dev22\\FifteenGame.Wpf\\FifteenGame.Business\\Models\\GameModel.cs",
+              "RelativeDocumentMoniker": "FifteenGame.Business\\Models\\GameModel.cs",
+              "ToolTip": "C:\\ptroq\\CSharpCollege-master\\Dev22\\FifteenGame.Wpf\\FifteenGame.Business\\Models\\GameModel.cs*",
+              "RelativeToolTip": "FifteenGame.Business\\Models\\GameModel.cs*",
+              "ViewState": "AgIAAFEAAAAAAAAAAAAqwHMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-13T11:21:25.549Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
