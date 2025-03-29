@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Hello.Types;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
@@ -17,7 +19,16 @@ namespace Hello
 
             //Arrays();
 
-            Arrays2d();
+            //Arrays2d();
+
+            //PersonUsage();
+
+            //ReferenceTypes();
+            //ValueTypes();
+
+            Lists();
+
+            Dictionaries();
 
             Console.ReadKey();
         }
@@ -126,6 +137,118 @@ namespace Hello
             }
 
             Console.WriteLine();
+        }
+
+        private static void PersonUsage()
+        {
+            var person = new Person
+            {
+                Name = "Nick",
+                BirthYear = 2005,
+            };
+
+            Console.WriteLine(person.PrintString);
+
+            var person2 = new Person("Ann", 25);
+            person2.PrintOut();
+        }
+
+        private static void ReferenceTypes()
+        {
+            var person = new Person
+            {
+                Name = "Nick",
+                BirthYear = 2005,
+            };
+
+            var person2 = person;
+
+            Console.Write("Person 1: ");
+            Console.WriteLine(person.PrintString);
+
+            Console.Write("Person 2: ");
+            Console.WriteLine(person2.PrintString);
+
+            person.Name = "Paul";
+
+            Console.Write("Person 1: ");
+            Console.WriteLine(person.PrintString);
+
+            Console.Write("Person 2: ");
+            Console.WriteLine(person2.PrintString);
+        }
+
+        private static void ValueTypes()
+        {
+            var person = new PersonStruct
+            {
+                Name = "Nick",
+                BirthYear = 2005,
+            };
+
+            var person2 = person;
+
+            Console.Write("Person 1: ");
+            Console.WriteLine(person.PrintString);
+
+            Console.Write("Person 2: ");
+            Console.WriteLine(person2.PrintString);
+
+            person.Name = "Paul";
+
+            Console.Write("Person 1: ");
+            Console.WriteLine(person.PrintString);
+
+            Console.Write("Person 2: ");
+            Console.WriteLine(person2.PrintString);
+        }
+
+        private static void Lists()
+        {
+            var newList = new List<int>();
+            for (int i = 0; i < 10; i++)
+            {
+                newList.Add(i);
+            }
+
+            //for (int i = 0; i < newList.Count; i++)
+            //{
+            //    Console.Write($"{newList[i]} ");
+            //}
+
+            //foreach (var item in newList)
+            //{
+            //    Console.Write($"{item}, ");
+            //}
+
+            Console.WriteLine(string.Join(", ", newList));
+        }
+
+        private static void Dictionaries()
+        {
+            var newDict = new Dictionary<string, int>();
+            var rnd = new Random();
+
+            for (int i = 0; i < 10; i++)
+            {
+                newDict[rnd.Next(100).ToString()] = rnd.Next(100);
+            }
+
+            foreach (var kvp in newDict)
+            {
+                Console.WriteLine($"Ключ {kvp.Key}, значение {kvp.Value}");
+            }
+
+            Console.Write("Введите значение ключа: ");
+            var keyInput = Console.ReadLine();
+            if (newDict.TryGetValue(keyInput, out var value))
+            {
+                Console.WriteLine($"Значение = {value}");
+            }
+            else
+            {
+                Console.WriteLine("Такого ключа нет");
+            }
         }
     }
 }
