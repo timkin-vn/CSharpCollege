@@ -1,4 +1,5 @@
 ﻿using AlarmClock.Forms;
+using AlarmClock.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,9 +14,13 @@ namespace AlarmClock
 {
     public partial class ClockForm : Form
     {
+        private ClockSettings _settings = new ClockSettings();
+
         public ClockForm()
         {
             InitializeComponent();
+            var initialTime = _settings.AlarmTime;
+            _settings.AlarmTime = new TimeSpan(initialTime.Hours, initialTime.Minutes, 0);
         }
 
         private void ExitButton_Click(object sender, EventArgs e)
@@ -32,6 +37,24 @@ namespace AlarmClock
         {
             var aboutForm = new AboutForm();
             aboutForm.ShowDialog();
+        }
+
+        private void SettingsButton_Click(object sender, EventArgs e)
+        {
+            var settingsForm = new SettingsForm();
+            settingsForm.Settings = _settings;
+
+            if (settingsForm.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            UpdateView();
+        }
+
+        private void UpdateView()
+        {
+            Text = _settings.IsAlarmActive ? "Будильник (ожидание)" : "Будильник";
         }
     }
 }
