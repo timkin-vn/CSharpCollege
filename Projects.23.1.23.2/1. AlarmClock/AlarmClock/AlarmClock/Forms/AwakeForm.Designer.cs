@@ -28,9 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.AwakeButton = new System.Windows.Forms.Button();
             this.AwakeMessage = new System.Windows.Forms.Label();
             this.AwakePictureBox = new System.Windows.Forms.PictureBox();
+            this.AwakeTimer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.AwakePictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -42,6 +44,7 @@
             this.AwakeButton.TabIndex = 0;
             this.AwakeButton.Text = "Я проснулся";
             this.AwakeButton.UseVisualStyleBackColor = true;
+            this.AwakeButton.Click += new System.EventHandler(this.AwakeButton_Click);
             // 
             // AwakeMessage
             // 
@@ -58,8 +61,15 @@
             this.AwakePictureBox.Location = new System.Drawing.Point(12, 72);
             this.AwakePictureBox.Name = "AwakePictureBox";
             this.AwakePictureBox.Size = new System.Drawing.Size(394, 326);
+            this.AwakePictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.AwakePictureBox.TabIndex = 2;
             this.AwakePictureBox.TabStop = false;
+            // 
+            // AwakeTimer
+            // 
+            this.AwakeTimer.Enabled = true;
+            this.AwakeTimer.Interval = 5000;
+            this.AwakeTimer.Tick += new System.EventHandler(this.AwakeTimer_Tick);
             // 
             // AwakeForm
             // 
@@ -75,6 +85,7 @@
             this.MinimizeBox = false;
             this.Name = "AwakeForm";
             this.Text = "Просыпайся!";
+            this.Load += new System.EventHandler(this.AwakeForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.AwakePictureBox)).EndInit();
             this.ResumeLayout(false);
 
@@ -85,5 +96,6 @@
         private System.Windows.Forms.Button AwakeButton;
         private System.Windows.Forms.Label AwakeMessage;
         private System.Windows.Forms.PictureBox AwakePictureBox;
+        private System.Windows.Forms.Timer AwakeTimer;
     }
 }
