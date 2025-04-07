@@ -16,46 +16,49 @@ namespace AlarmClock.Forms
     {
         private const string ImageFolderName = "Images";
 
-        private List<string> _fileNames = new List<string>();
+        private int _imageIndex;
 
-        private int _imageIndex = 0;
+        private List<string> _imageFileNames = new List<string>();
 
-        public AlarmSettings Settings { get; set; }
+        internal ClockSettings Settings { get; set; }
 
         public AwakeForm()
         {
             InitializeComponent();
         }
 
+        private void AwakeForm_Load(object sender, EventArgs e)
+        {
+            AwakeMessage.Text = Settings.AlarmMessage;
+            InitializeImages();
+        }
+
         private void AwakeButton_Click(object sender, EventArgs e)
         {
             Settings.IsAlarmActive = false;
-            Close();
-        }
+            Settings.IsAwakeActivated = false;
 
-        private void AwakeForm_Load(object sender, EventArgs e)
-        {
-            AwakeMessageLabel.Text = Settings.AlarmMessage;
-            InitializeImages();
+            DialogResult = DialogResult.OK;
         }
 
         private void AwakeTimer_Tick(object sender, EventArgs e)
         {
             _imageIndex++;
-            if (_imageIndex >= _fileNames.Count)
+            if (_imageIndex >= _imageFileNames.Count)
             {
                 _imageIndex = 0;
             }
 
-            AwakePictureBox.Load(_fileNames[_imageIndex]);
+            AwakePictureBox.Load(_imageFileNames[_imageIndex]);
         }
 
         private void InitializeImages()
         {
             _imageIndex = 0;
-            _fileNames.Clear();
-            _fileNames.AddRange(Directory.EnumerateFiles(ImageFolderName));
-            AwakePictureBox.Load(_fileNames[_imageIndex]);
+            _imageFileNames.Clear();
+            _imageFileNames.AddRange(Directory.EnumerateFiles(ImageFolderName));
+
+            AwakePictureBox.Load(_imageFileNames[_imageIndex]);
         }
     }
 }

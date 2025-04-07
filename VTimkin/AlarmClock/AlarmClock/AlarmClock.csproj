@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1EECC246-8A00-4F89-BE46-C48250F87E81}</ProjectGuid>
+    <ProjectGuid>{7798BBB8-AE34-4B44-A9D3-8C3160A7AF33}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>AlarmClock</RootNamespace>
     <AssemblyName>AlarmClock</AssemblyName>
@@ -70,7 +70,7 @@
     <Compile Include="Forms\SettingsForm.Designer.cs">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\AlarmSettings.cs" />
+    <Compile Include="Models\ClockSettings.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ClockForm.resx">
@@ -107,7 +107,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Content Include="Images\Image1.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

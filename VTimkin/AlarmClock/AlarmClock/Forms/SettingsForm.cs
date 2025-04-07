@@ -13,35 +13,40 @@ namespace AlarmClock.Forms
 {
     public partial class SettingsForm : Form
     {
-        public AlarmSettings Settings { get; set; }
+        internal ClockSettings Settings { get; set; }
 
         public SettingsForm()
         {
             InitializeComponent();
         }
 
+        private void SettingsForm_Load(object sender, EventArgs e)
+        {
+            AlarmTimeTextBox.Text = Settings.AlarmTime.ToString("h\\:mm");
+
+            AlarmMessageTextBox.Text = Settings.AlarmMessage;
+
+            IsAlarmActiveCheckBox.Checked = Settings.IsAlarmActive;
+
+            IsSoundActiveCheckBox.Checked = Settings.IsSoundActive;
+        }
+
         private void OkButton_Click(object sender, EventArgs e)
         {
-            if (!DateTime.TryParse(AlarmTimeTextBox.Text, out var alarmTime))
+            if (!TimeSpan.TryParse(AlarmTimeTextBox.Text, out var alarmTime))
             {
-                MessageBox.Show("Неверно задано время срабатывания", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Неверно указано время срабатывания!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                AlarmTimeTextBox.Focus();
+                AlarmTimeTextBox.SelectAll();
                 return;
             }
 
-            Settings.AlarmTime = alarmTime;
+            Settings.AlarmTime = new TimeSpan(alarmTime.Hours, alarmTime.Minutes, 0);
             Settings.AlarmMessage = AlarmMessageTextBox.Text;
             Settings.IsAlarmActive = IsAlarmActiveCheckBox.Checked;
             Settings.IsSoundActive = IsSoundActiveCheckBox.Checked;
 
             DialogResult = DialogResult.OK;
-        }
-
-        private void SettingsForm_Load(object sender, EventArgs e)
-        {
-            AlarmTimeTextBox.Text = Settings.AlarmTime.ToString("H:mm");
-            AlarmMessageTextBox.Text = Settings.AlarmMessage;
-            IsAlarmActiveCheckBox.Checked = Settings.IsAlarmActive;
-            IsSoundActiveCheckBox.Checked = Settings.IsSoundActive;
         }
     }
 }
