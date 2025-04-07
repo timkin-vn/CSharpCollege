@@ -23,11 +23,8 @@ namespace AlarmClock.Forms
         private void SettingsForm_Load(object sender, EventArgs e)
         {
             AlarmTimeTextBox.Text = Settings.AlarmTime.ToString("h\\:mm");
-
             AlarmMessageTextBox.Text = Settings.AlarmMessage;
-
             IsAlarmActiveCheckBox.Checked = Settings.IsAlarmActive;
-
             IsSoundActiveCheckBox.Checked = Settings.IsSoundActive;
         }
 

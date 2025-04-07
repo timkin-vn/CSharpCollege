@@ -37,13 +37,13 @@ namespace AlarmClock.Forms
         {
             Settings.IsAlarmActive = false;
             Settings.IsAwakeActivated = false;
-
             DialogResult = DialogResult.OK;
         }
 
         private void AwakeTimer_Tick(object sender, EventArgs e)
         {
             _imageIndex++;
+
             if (_imageIndex >= _imageFileNames.Count)
             {
                 _imageIndex = 0;
@@ -57,7 +57,6 @@ namespace AlarmClock.Forms
             _imageIndex = 0;
             _imageFileNames.Clear();
             _imageFileNames.AddRange(Directory.EnumerateFiles(ImageFolderName));
-
             AwakePictureBox.Load(_imageFileNames[_imageIndex]);
         }
     }
