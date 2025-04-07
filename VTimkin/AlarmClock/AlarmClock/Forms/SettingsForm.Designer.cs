@@ -36,6 +36,7 @@
             this.IsSoundActiveCheckBox = new System.Windows.Forms.CheckBox();
             this.OkButton = new System.Windows.Forms.Button();
             this.CancelButton = new System.Windows.Forms.Button();
+            this.ChooseSoundButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -62,6 +63,7 @@
             this.AlarmTimeTextBox.Name = "AlarmTimeTextBox";
             this.AlarmTimeTextBox.Size = new System.Drawing.Size(100, 20);
             this.AlarmTimeTextBox.TabIndex = 2;
+            this.AlarmTimeTextBox.TextChanged += new System.EventHandler(this.AlarmTimeTextBox_TextChanged);
             // 
             // AlarmMessageTextBox
             // 
@@ -92,7 +94,7 @@
             // 
             // OkButton
             // 
-            this.OkButton.Location = new System.Drawing.Point(81, 117);
+            this.OkButton.Location = new System.Drawing.Point(15, 192);
             this.OkButton.Name = "OkButton";
             this.OkButton.Size = new System.Drawing.Size(75, 23);
             this.OkButton.TabIndex = 6;
@@ -103,18 +105,30 @@
             // CancelButton
             // 
             this.CancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelButton.Location = new System.Drawing.Point(162, 117);
+            this.CancelButton.Location = new System.Drawing.Point(162, 192);
             this.CancelButton.Name = "CancelButton";
             this.CancelButton.Size = new System.Drawing.Size(75, 23);
             this.CancelButton.TabIndex = 7;
             this.CancelButton.Text = "Отмена";
             this.CancelButton.UseVisualStyleBackColor = true;
             // 
+            // ChooseSoundButton
+            // 
+            this.ChooseSoundButton.Location = new System.Drawing.Point(15, 150);
+            this.ChooseSoundButton.Name = "ChooseSoundButton";
+            this.ChooseSoundButton.Size = new System.Drawing.Size(222, 23);
+            this.ChooseSoundButton.TabIndex = 8;
+            this.ChooseSoundButton.Text = "Выбрать звук";
+            this.ChooseSoundButton.UseVisualStyleBackColor = true;
+            this.ChooseSoundButton.Click += new System.EventHandler(this.ChooseSoundButton_Click_1);
+            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(256, 153);
+            this.BackColor = System.Drawing.SystemColors.Control;
+            this.ClientSize = new System.Drawing.Size(256, 227);
+            this.Controls.Add(this.ChooseSoundButton);
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.OkButton);
             this.Controls.Add(this.IsSoundActiveCheckBox);
@@ -142,5 +156,6 @@
         private System.Windows.Forms.CheckBox IsSoundActiveCheckBox;
         private System.Windows.Forms.Button OkButton;
         private System.Windows.Forms.Button CancelButton;
+        private System.Windows.Forms.Button ChooseSoundButton;
     }
 }

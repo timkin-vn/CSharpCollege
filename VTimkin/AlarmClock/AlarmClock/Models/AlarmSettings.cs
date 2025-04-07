@@ -16,5 +16,7 @@ namespace AlarmClock.Models
 
         public bool IsSoundActive { get; set; }
 
+        public string SoundFilePath { get; set; }
+
     }
 }

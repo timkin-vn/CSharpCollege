@@ -40,13 +40,14 @@
             // 
             this.DisplayLabel.BackColor = System.Drawing.Color.Black;
             this.DisplayLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.DisplayLabel.ForeColor = System.Drawing.Color.GreenYellow;
+            this.DisplayLabel.ForeColor = System.Drawing.Color.Yellow;
             this.DisplayLabel.Location = new System.Drawing.Point(13, 13);
             this.DisplayLabel.Name = "DisplayLabel";
             this.DisplayLabel.Size = new System.Drawing.Size(293, 83);
             this.DisplayLabel.TabIndex = 0;
             this.DisplayLabel.Text = "00:00:00";
             this.DisplayLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.DisplayLabel.Click += new System.EventHandler(this.DisplayLabel_Click);
             // 
             // AboutButton
             // 
@@ -108,6 +109,7 @@
         private System.Windows.Forms.Button AboutButton;
         private System.Windows.Forms.Button SettingsButton;
         private System.Windows.Forms.Button ExitButton;
+        private System.Windows.Forms.Button ExitButton1;
         private System.Windows.Forms.Timer ClockTimer;
     }
 }

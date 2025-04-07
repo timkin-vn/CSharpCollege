@@ -43,5 +43,25 @@ namespace AlarmClock.Forms
             IsAlarmActiveCheckBox.Checked = Settings.IsAlarmActive;
             IsSoundActiveCheckBox.Checked = Settings.IsSoundActive;
         }
+
+        private void AlarmTimeTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ChooseSoundButton_Click_1(object sender, EventArgs e)
+        {
+            using (var ofd = new OpenFileDialog())
+            {
+                ofd.Filter = "WAV файлы (*.wav)|*.wav";
+                ofd.Title = "Выберите звуковой файл для будильника";
+
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    Settings.SoundFilePath = ofd.FileName;
+                    MessageBox.Show("Звук выбран: " + ofd.FileName, "Успешно", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
     }
 }
