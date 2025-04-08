@@ -37,7 +37,6 @@ namespace AlarmClock.Forms
         {
             Settings.IsAwakeActivated = false;
             Settings.IsAlarmActive = false;
-
             DialogResult = DialogResult.OK;
         }
 
@@ -57,7 +56,6 @@ namespace AlarmClock.Forms
             _imageIndex = 0;
             _fileNames.Clear();
             _fileNames.AddRange(Directory.EnumerateFiles(ImageFolderName));
-
             AwakePicture.Load(_fileNames[_imageIndex]);
         }
     }
