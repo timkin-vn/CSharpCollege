@@ -56,7 +56,7 @@
             this.SettingsButton.Name = "SettingsButton";
             this.SettingsButton.Size = new System.Drawing.Size(86, 23);
             this.SettingsButton.TabIndex = 1;
-            this.SettingsButton.Text = "Настроить";
+            this.SettingsButton.Text = "Будильник";
             this.SettingsButton.UseVisualStyleBackColor = true;
             this.SettingsButton.Click += new System.EventHandler(this.SettingsButton_Click);
             // 
@@ -68,6 +68,7 @@
             this.SoundSettingsButton.TabIndex = 2;
             this.SoundSettingsButton.Text = "Мелодия";
             this.SoundSettingsButton.UseVisualStyleBackColor = true;
+            this.SoundSettingsButton.Click += new System.EventHandler(this.SoundSettingsButton_Click);
             // 
             // ExitButton
             // 

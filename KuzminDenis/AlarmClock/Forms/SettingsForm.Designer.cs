@@ -40,7 +40,9 @@
             // 
             // label1
             // 
+            this.label1.BackColor = System.Drawing.Color.Black;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.ForeColor = System.Drawing.Color.Lime;
             this.label1.Location = new System.Drawing.Point(12, 31);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(171, 23);
@@ -50,7 +52,9 @@
             // 
             // label2
             // 
+            this.label2.BackColor = System.Drawing.Color.Black;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label2.ForeColor = System.Drawing.Color.Lime;
             this.label2.Location = new System.Drawing.Point(15, 61);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(223, 23);
@@ -75,6 +79,7 @@
             // IsAlarmOnCheckBox
             // 
             this.IsAlarmOnCheckBox.AutoSize = true;
+            this.IsAlarmOnCheckBox.ForeColor = System.Drawing.Color.Lime;
             this.IsAlarmOnCheckBox.Location = new System.Drawing.Point(18, 106);
             this.IsAlarmOnCheckBox.Name = "IsAlarmOnCheckBox";
             this.IsAlarmOnCheckBox.Size = new System.Drawing.Size(131, 17);
@@ -85,6 +90,7 @@
             // IsSoundOnCheckBox
             // 
             this.IsSoundOnCheckBox.AutoSize = true;
+            this.IsSoundOnCheckBox.ForeColor = System.Drawing.Color.Lime;
             this.IsSoundOnCheckBox.Location = new System.Drawing.Point(18, 129);
             this.IsSoundOnCheckBox.Name = "IsSoundOnCheckBox";
             this.IsSoundOnCheckBox.Size = new System.Drawing.Size(163, 17);
@@ -117,6 +123,7 @@
             this.AcceptButton = this.OKButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.GrayText;
             this.CancelButton = this.cancelButton;
             this.ClientSize = new System.Drawing.Size(466, 161);
             this.Controls.Add(this.cancelButton);

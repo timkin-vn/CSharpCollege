@@ -10,11 +10,14 @@ using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WMPLib;
 
 namespace AlarmClock
 {
     public partial class ClockForm1 : Form
     {
+        private WMPLib.WindowsMediaPlayer _mediaPlayer;
+
         private ClockSettings _settings = new ClockSettings();
 
         public ClockForm1()
@@ -52,7 +55,31 @@ namespace AlarmClock
 
             if(_settings.IsSoundON && _settings.IsAwakeActivated)
             {
-                SystemSounds.Beep.Play();
+                PlaySelectedSound();
+            }
+        }
+
+        private void PlaySelectedSound()
+        {
+            if (string.IsNullOrEmpty(_settings.SelectedSoundPath)) return;
+
+            try
+            {
+                if (_mediaPlayer == null)
+                {
+                    _mediaPlayer = new WMPLib.WindowsMediaPlayer();
+                    _mediaPlayer.URL = _settings.SelectedSoundPath;
+                    _mediaPlayer.settings.volume = 100;
+                    _mediaPlayer.controls.play();
+                }
+                else if (_mediaPlayer.playState != WMPLib.WMPPlayState.wmppsPlaying)
+                {
+                    _mediaPlayer.controls.play();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка воспроизведения: {ex.Message}");
             }
         }
 
@@ -60,6 +87,16 @@ namespace AlarmClock
         {
             ((Form)sender).FormClosed -= AwakeForm_FormClosed;
             UpdateView();
+            StopSound();
+        }
+
+        private void StopSound()
+        {
+            if (_mediaPlayer != null)
+            {
+                _mediaPlayer.controls.stop();
+                _mediaPlayer = null;
+            }
         }
 
         private void AboutButton_Click(object sender, EventArgs e)
@@ -83,6 +120,13 @@ namespace AlarmClock
         private void UpdateView()
         {
             Text = _settings.IsAlarmON ? $"Будильник сработает в { _settings.AlarmTime}"  : "Будильник";
+        }
+
+        private void SoundSettingsButton_Click(object sender, EventArgs e)
+        {
+            var soundSettingsForm = new SoundSettingsForm();
+            soundSettingsForm.Settings = _settings;
+            soundSettingsForm.ShowDialog();
         }
     }
 }

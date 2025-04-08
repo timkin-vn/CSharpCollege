@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AlarmClock.Models
 {
-    internal class ClockSettings
+    public class ClockSettings
     {
         /// <summary>
         /// Сообщение при срабатывании
@@ -32,6 +32,9 @@ namespace AlarmClock.Models
         /// Произошло ли срабатывание
         /// </summary>
         public bool IsAwakeActivated { get; set; }
+
+        public string SelectedSoundPath { get; set; }
+        public List<string> CustomSounds { get; set; } = new List<string>();
 
     }
 }
