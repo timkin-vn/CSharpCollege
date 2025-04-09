@@ -1,0 +1,14 @@
+C:\Users\Azerty\source\repos\WindowsFormsApp2\WindowsFormsApp2\bin\Debug\WindowsFormsApp2.exe.config
+C:\Users\Azerty\source\repos\WindowsFormsApp2\WindowsFormsApp2\bin\Debug\WindowsFormsApp2.exe
+C:\Users\Azerty\source\repos\WindowsFormsApp2\WindowsFormsApp2\bin\Debug\WindowsFormsApp2.pdb
+C:\Users\Azerty\source\repos\WindowsFormsApp2\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.csproj.AssemblyReference.cache
+C:\Users\Azerty\source\repos\WindowsFormsApp2\WindowsFormsApp2\obj\Debug\AlarmClock.ClockForm.resources
+C:\Users\Azerty\source\repos\WindowsFormsApp2\WindowsFormsApp2\obj\Debug\AlarmClock.Forms.AboutForm.resources
+C:\Users\Azerty\source\repos\WindowsFormsApp2\WindowsFormsApp2\obj\Debug\AlarmClock.Forms.AwakeForm.resources
+C:\Users\Azerty\source\repos\WindowsFormsApp2\WindowsFormsApp2\obj\Debug\AlarmClock.Forms.SettingsForm.resources
+C:\Users\Azerty\source\repos\WindowsFormsApp2\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.Properties.Resources.resources
+C:\Users\Azerty\source\repos\WindowsFormsApp2\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.csproj.GenerateResource.cache
+C:\Users\Azerty\source\repos\WindowsFormsApp2\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.csproj.CoreCompileInputs.cache
+C:\Users\Azerty\source\repos\WindowsFormsApp2\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.exe
+C:\Users\Azerty\source\repos\WindowsFormsApp2\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.pdb
+C:\Users\Azerty\source\repos\WindowsFormsApp2\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.Properties1.Resources.resources
