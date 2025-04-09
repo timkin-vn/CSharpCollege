@@ -35,7 +35,7 @@ namespace AlarmClock.Forms
 
             endTime = DateTime.Now.Add(duration);
             isTimerRunning = true;
-            CoutdownTimerTimer.Interval = 100; // можно даже 100мс — точно и плавно
+            CoutdownTimerTimer.Interval = 100;
             CoutdownTimerTimer.Tick -= CoutdownTimerTimer_Tick;
             CoutdownTimerTimer.Tick += CoutdownTimerTimer_Tick;
             CoutdownTimerTimer.Start();
