@@ -60,5 +60,10 @@ namespace AlarmClock.Forms
 
             AwakePictureBox.Load(_imageFileNames[_imageIndex]);
         }
+
+        private void AwakePictureBox_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -38,9 +38,10 @@
             // 
             // AwakeButton
             // 
-            this.AwakeButton.Location = new System.Drawing.Point(113, 415);
+            this.AwakeButton.Location = new System.Drawing.Point(142, 401);
+            this.AwakeButton.Margin = new System.Windows.Forms.Padding(4);
             this.AwakeButton.Name = "AwakeButton";
-            this.AwakeButton.Size = new System.Drawing.Size(107, 23);
+            this.AwakeButton.Size = new System.Drawing.Size(143, 28);
             this.AwakeButton.TabIndex = 0;
             this.AwakeButton.Text = "Я проснулся";
             this.AwakeButton.UseVisualStyleBackColor = true;
@@ -48,19 +49,21 @@
             // 
             // AwakeLabel
             // 
-            this.AwakeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.AwakeLabel.Location = new System.Drawing.Point(12, 9);
+            this.AwakeLabel.Font = new System.Drawing.Font("Times New Roman", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.AwakeLabel.Location = new System.Drawing.Point(13, -1);
+            this.AwakeLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.AwakeLabel.Name = "AwakeLabel";
-            this.AwakeLabel.Size = new System.Drawing.Size(307, 75);
+            this.AwakeLabel.Size = new System.Drawing.Size(409, 92);
             this.AwakeLabel.TabIndex = 1;
-            this.AwakeLabel.Text = "Просыпайся!";
+            this.AwakeLabel.Text = "Доброго времени суток!";
             this.AwakeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // AwakePicture
             // 
-            this.AwakePicture.Location = new System.Drawing.Point(12, 87);
+            this.AwakePicture.Location = new System.Drawing.Point(29, 78);
+            this.AwakePicture.Margin = new System.Windows.Forms.Padding(4);
             this.AwakePicture.Name = "AwakePicture";
-            this.AwakePicture.Size = new System.Drawing.Size(307, 322);
+            this.AwakePicture.Size = new System.Drawing.Size(378, 299);
             this.AwakePicture.TabIndex = 2;
             this.AwakePicture.TabStop = false;
             // 
@@ -72,18 +75,22 @@
             // 
             // AwakeForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(331, 450);
+            this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
+            this.ClientSize = new System.Drawing.Size(439, 490);
             this.ControlBox = false;
             this.Controls.Add(this.AwakePicture);
             this.Controls.Add(this.AwakeLabel);
             this.Controls.Add(this.AwakeButton);
+            this.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "AwakeForm";
-            this.Text = "Просыпайся!";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "Срабатывание будильника";
             this.Load += new System.EventHandler(this.AwakeForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.AwakePicture)).EndInit();
             this.ResumeLayout(false);

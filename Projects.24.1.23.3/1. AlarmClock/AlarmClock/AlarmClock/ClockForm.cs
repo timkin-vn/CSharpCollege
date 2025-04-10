@@ -83,5 +83,29 @@ namespace AlarmClock
         {
             Text = _settings.IsAlarmActive ? "Будильник (ожидание)" : "Будильник";
         }
+
+        private void DisplayLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
+        {
+
+        }
+
+        private void Second_Click(object sender, EventArgs e)
+        {
+            var secondomer = new Secundomer();
+            secondomer.ShowDialog();
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var analogHours = new AnalogHour();
+            analogHours.ShowDialog(); 
+        }
     }
 }
+
