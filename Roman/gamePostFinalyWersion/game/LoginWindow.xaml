@@ -1,0 +1,26 @@
+<Window x:Class="game.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Вход в игру" Height="200" Width="300"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <TextBlock Text="Введите ваше имя:" 
+                   Margin="0,0,0,10"/>
+        
+        <TextBox x:Name="PlayerNameTextBox" 
+                 Grid.Row="1" 
+                 Margin="0,0,0,20"/>
+        
+        <Button Content="Начать игру" 
+                Grid.Row="2" 
+                Height="30" 
+                Width="120"
+                Click="StartGameButton_Click"/>
+    </Grid>
+</Window>
