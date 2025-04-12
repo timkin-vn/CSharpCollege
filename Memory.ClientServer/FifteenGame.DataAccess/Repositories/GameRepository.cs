@@ -24,9 +24,12 @@ select
     g.""UserId"",
     g.""MoveCount"",
     g.""GameBegin"",
+    g.""CountPar"" ,
     c.""Row"",
     c.""Column"",
     c.""Value""
+    
+    
 from 
     ""Games"" g
     join ""Cells"" c on g.""Id"" = c.""GameId""
@@ -55,13 +58,14 @@ where
                                 result.UserId = reader.GetInt32(1);
                                 result.MoveCount = reader.GetInt32(2);
                                 result.GameStart = reader.GetDateTime(3);
+                                result.CountPar =reader.GetInt32(4);
 
                                
                             }
 
-                            var rowVal = reader.GetInt32(4);
-                            var columnVal = reader.GetInt32(5);
-                            var value = reader.GetString(6);
+                            var rowVal = reader.GetInt32(5);
+                            var columnVal = reader.GetInt32(6);
+                            var value = reader.GetString(7);
 
                             result.Cells[rowVal, columnVal] = value;
                         }
@@ -80,6 +84,7 @@ select
     g.""UserId"",
     g.""MoveCount"",
     g.""GameBegin"",
+    g.""CountPar"",
     c.""Row"",
     c.""Column"",
     c.""Value""  
@@ -120,13 +125,14 @@ order by
                                 gameDto.UserId = reader.GetInt32(1);
                                 gameDto.MoveCount = reader.GetInt32(2);
                                 gameDto.GameStart = reader.GetDateTime(3);
+                                gameDto.CountPar = reader.GetInt32(4);
 
                                
                             }
 
-                            var rowVal = reader.GetInt32(4);
-                            var columnVal = reader.GetInt32(5);
-                            var value = reader.GetString(6);
+                            var rowVal = reader.GetInt32(5);
+                            var columnVal = reader.GetInt32(6);
+                            var value = reader.GetString(7);
 
                             gameDto.Cells[rowVal, columnVal] = value;
                         }
@@ -184,8 +190,8 @@ where ""Id"" = @gameId
         private int Create(GameDto gameDto)
         {
             var insertGameQuery = @"
-insert into ""Games"" (""UserId"", ""MoveCount"", ""GameBegin"")
-values (@userId, @moveCount, @gameBegin)
+insert into ""Games"" (""UserId"", ""MoveCount"", ""GameBegin"",""CountPar"")
+values (@userId, @moveCount, @gameBegin,@countPar)
 returning ""Id""
 ";
 
@@ -205,7 +211,7 @@ values (@gameId, @row, @column, @value)
                     command.Parameters.AddWithValue("userId", gameDto.UserId);
                     command.Parameters.AddWithValue("moveCount", gameDto.MoveCount);
                     command.Parameters.AddWithValue("gameBegin", gameDto.GameStart);
-
+                    command.Parameters.AddWithValue("countPar", gameDto.CountPar);
                     var insertResult = command.ExecuteScalar();
                     gameId = (int)insertResult;
                 }
@@ -239,7 +245,8 @@ values (@gameId, @row, @column, @value)
             var updateGameQuery = @"
 update ""Games""
 set
-    ""MoveCount"" = @moveCount
+    ""MoveCount"" = @moveCount ,
+    ""CountPar"" = @countPar 
 where
     ""Id"" = @gameId
 ";
@@ -264,6 +271,7 @@ values (@gameId, @row, @column, @value)
                     command.CommandType = System.Data.CommandType.Text;
                     command.Parameters.AddWithValue("gameId", gameId);
                     command.Parameters.AddWithValue("moveCount", gameDto.MoveCount);
+                    command.Parameters.AddWithValue("countPar", gameDto.CountPar);
 
                     var insertResult = command.ExecuteNonQuery();
                 }

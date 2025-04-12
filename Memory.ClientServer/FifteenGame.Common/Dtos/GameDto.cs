@@ -15,6 +15,7 @@ namespace FifteenGame.Common.Dtos
 
         public string[,] Cells { get; } = new string[Constants.RowCount, Constants.ColumnCount];
 
+        public int CountPar {  get; set; }
         public int MoveCount { get; set; }
 
         public DateTime GameStart { get; set; }

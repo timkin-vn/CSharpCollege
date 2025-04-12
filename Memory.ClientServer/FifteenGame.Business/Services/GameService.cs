@@ -6,16 +6,21 @@ using FifteenGame.Common.Services;
 using FifteenGame.DataAccess.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace FifteenGame.Business.Services
-{
+{ 
     public class GameService : IGameService
-    {
+    { public static Random random1 = new Random ();
+        static int valuefistrow = random1.Next(0, 3);
+        static int valuefirscolumn = random1.Next(0, 3);
+        static int valuesecondrow = random1.Next(0, 3);
+        static int valuesecondcolumn = random1.Next(0, 3);
         private readonly IGameRepository _gameRepository;
-        int countPar=0;
+        
         public GameService()
         {
             _gameRepository = new GameRepository();
@@ -41,6 +46,7 @@ namespace FifteenGame.Business.Services
                 UserId = userId,
                 GameStart = DateTime.Now,
                 MoveCount = 0,
+                CountPar = 0,
             };
 
             Initialize(game);
@@ -83,10 +89,10 @@ namespace FifteenGame.Business.Services
 
         public bool IsGameOver(GameModel model)
         {
-            if (countPar == 8)
+            if (model.CountPar == 8)
             {
-               
-                countPar = 0;
+
+                model.CountPar = 0;
                 return true;
             }
 
@@ -107,16 +113,16 @@ namespace FifteenGame.Business.Services
 
             if (model[FisrsbuutonRowCol[0], FisrsbuutonRowCol[1]] == null || model[SecondbuutonRowCol[0], SecondbuutonRowCol[1]] == null)
             {
-                
+
 
                 return false;
             }
 
-            else if (model[FisrsbuutonRowCol[0], FisrsbuutonRowCol[1]] == model[SecondbuutonRowCol[0], SecondbuutonRowCol[1]] && (FisrsbuutonRowCol[0] != SecondbuutonRowCol[0]
+            if (model[FisrsbuutonRowCol[0], FisrsbuutonRowCol[1]] == model[SecondbuutonRowCol[0], SecondbuutonRowCol[1]] && (FisrsbuutonRowCol[0] != SecondbuutonRowCol[0]
                 || FisrsbuutonRowCol[1] != SecondbuutonRowCol[1]))
             {
                 
-                countPar++;
+                model.CountPar++;
 
                 for (int row = 0; row < Constants.RowCount; row++)
                 {
@@ -139,6 +145,17 @@ namespace FifteenGame.Business.Services
                     }
 
                 }
+                if ((valuefistrow != FisrsbuutonRowCol[0] &&
+                            valuefirscolumn != FisrsbuutonRowCol[1]) && (valuesecondrow != SecondbuutonRowCol[0] &&
+                            valuesecondcolumn != SecondbuutonRowCol[1])){
+                    FisrsbuutonRowCol[0] =valuefistrow ;
+                    FisrsbuutonRowCol[1] = valuefirscolumn;
+                    SecondbuutonRowCol[0] =valuesecondrow ;
+                    SecondbuutonRowCol[1] = valuesecondcolumn;
+
+                }
+                
+             
 
                 return true;
             }
@@ -174,6 +191,7 @@ namespace FifteenGame.Business.Services
                 UserId = dto.UserId,
                 MoveCount = dto.MoveCount,
                 GameStart = dto.GameStart,
+                CountPar = dto.CountPar,
             };
 
             for (int row = 0; row < Constants.RowCount; row++)
@@ -181,10 +199,7 @@ namespace FifteenGame.Business.Services
                 for (int column = 0; column < Constants.ColumnCount; column++)
                 {
                     result[row, column] = dto.Cells[row, column];
-                    if (result[row, column] == "")
-                    {
-                        continue;
-                    }
+                    
                 }
             }
 
@@ -199,6 +214,7 @@ namespace FifteenGame.Business.Services
                 UserId = game.UserId,
                 MoveCount = game.MoveCount,
                 GameStart = game.GameStart,
+                CountPar = game.CountPar,
             };
 
             for (int row = 0; row < Constants.RowCount; row++)

@@ -18,7 +18,7 @@ namespace FifteenGame.Common.BusinessModels
         }
 
        
-
+        public int CountPar {  get; set; }
         public int MoveCount { get; set; }
 
         public DateTime GameStart { get; set; }

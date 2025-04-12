@@ -13,7 +13,7 @@ namespace FifteenGame.Common.BusinessDtos
         public int UserId { get; set; }
 
        
-
+        public int CountPar {  get; set; }
         public int MoveCount { get; set; }
 
         public DateTime GameStart { get; set; }

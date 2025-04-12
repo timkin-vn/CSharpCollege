@@ -72,6 +72,7 @@ namespace FifteenGame.ClientProxy.Services
                 UserId = game.UserId,
                 GameStart = game.GameStart,
                 MoveCount = game.MoveCount,
+                CountPar  = game.CountPar,
                 
             };
 

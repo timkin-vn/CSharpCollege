@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FifteenGame.Wpf" xmlns:viewmodels="clr-namespace:FifteenGame.Wpf.ViewModels"
         mc:Ignorable="d"
-        Title="Игра 15" Height="550" Width="800" Loaded="Window_Loaded">
+        Title="Мемори" Height="550" Width="800" Loaded="Window_Loaded">
     <Window.DataContext>
         <viewmodels:MainWindowViewModel />
     </Window.DataContext>
@@ -26,6 +26,7 @@
         <Grid Grid.Row="0" Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" /> 
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
@@ -37,6 +38,12 @@
             <StackPanel Grid.Row="1" Orientation="Horizontal">
                 <TextBlock Text="Число ходов:" FontSize="18" Margin="5" />
                 <TextBlock Text="{Binding MoveCountText}" FontSize="18" Margin="5" />
+                
+            </StackPanel>  
+            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                <TextBlock Text="Число пар:" FontSize="18" Margin="5" />
+                <TextBlock Text="{Binding CountParText}" FontSize="18" Margin="5" />
+                
             </StackPanel>
         </Grid>
 

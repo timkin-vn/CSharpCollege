@@ -6,7 +6,7 @@ using Ninject;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-
+                                 
 namespace FifteenGame.Wpf.ViewModels
 {
     public class MainWindowViewModel : INotifyPropertyChanged
@@ -16,14 +16,20 @@ namespace FifteenGame.Wpf.ViewModels
         private GameModel _model = new GameModel();
 
         private UserModel _userModel;
+        public  static Random random = new Random();
 
         public ObservableCollection<CellViewModel> Cells { get; set; } = new ObservableCollection<CellViewModel>();
 
         public string UserName => _userModel?.Name ?? "<нет>";
 
         public string MoveCountText => (_model?.MoveCount ?? 0).ToString();
+        public string CountParText=> (_model?.CountPar ?? 0).ToString();
         int countbuttonclick = 0;
-        int[] FisrsbuutonRowCol = { 0, 0 }, SecondbuutonRowCol = { 0, 0 };
+        static int valuefistrow = random.Next(0, 3);    
+        static int valuefirscolumn = random.Next(0, 3);     
+        static int valuesecondrow = random.Next(0, 3);     
+        static int valuesecondcolumn = random.Next(0, 3);
+        int[] FisrsbuutonRowCol = { valuefistrow, valuefirscolumn }, SecondbuutonRowCol = { valuesecondrow, valuesecondcolumn };
         public MainWindowViewModel()
         {
             _service = NinjectKernel.Instance.Get<IGameService>();
@@ -108,7 +114,7 @@ namespace FifteenGame.Wpf.ViewModels
 
                         });
                     }
-                    else if (model[FisrsbuutonRowCol[0], FisrsbuutonRowCol[1]] == String.Empty || model[SecondbuutonRowCol[0], SecondbuutonRowCol[1]] == String.Empty || model[row, column] == "")
+                    else if (model[row, column] == "")
                     {
                         continue;
                     }
@@ -129,6 +135,7 @@ namespace FifteenGame.Wpf.ViewModels
                 }
 
                 OnPropertyChanged(nameof(MoveCountText));
+                OnPropertyChanged(nameof(CountParText));
             }
         }
     }

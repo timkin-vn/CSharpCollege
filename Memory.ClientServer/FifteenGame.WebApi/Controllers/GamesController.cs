@@ -77,6 +77,7 @@ namespace FifteenGame.WebApi.Controllers
                 UserId = game.UserId,
                 MoveCount = game.MoveCount,
                 GameStart = game.GameStart,
+                CountPar = game.CountPar,
                 Cells = new List<string>(),
             };
 
