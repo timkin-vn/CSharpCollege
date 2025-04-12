@@ -78,8 +78,8 @@
 
             <ItemsControl.ItemTemplate>
                 <DataTemplate x:Name="myDataTemplate">
-                    <Grid x:Name="myGrid" MouseDown="Grid_MouseDown" Tag="{Binding Num}">
-                        <Rectangle Margin="5" Stroke="#FFD81B1B" StrokeThickness="3" RadiusX="10" RadiusY="10" Fill="LightBlue" Name="gridUnits" DataContext="{Binding Num}"/>
+                    <Grid x:Name="myGrid" MouseDown="Grid_MouseDown">
+                        <Rectangle Margin="5" Stroke="#FFD81B1B" StrokeThickness="3" RadiusX="10" RadiusY="10" Fill="LightBlue" Name="gridUnits"/>
                         <TextBlock Text="{Binding Num.Symbol}" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Grid>
                 </DataTemplate>

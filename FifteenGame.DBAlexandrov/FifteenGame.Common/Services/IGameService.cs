@@ -13,7 +13,7 @@ namespace FifteenGame.Common.Services
 
         GameModel GetByGameId(int gameId);
 
-        GameModel MakeMove(int gameId,int X, int Y, Units model, MoveDirection direction);
+        GameModel MakeMove(int gameId, int X, int Y, Units[,]model, MoveDirection direction);
 
         bool IsGameOver(int gameId);
 

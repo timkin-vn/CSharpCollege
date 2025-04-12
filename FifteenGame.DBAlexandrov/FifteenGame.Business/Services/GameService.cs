@@ -134,34 +134,43 @@ namespace FifteenGame.Business.Services
         {
             if (!isUnitSelected)
             {
-
-                HighlightAdjacentCells(model);
-                SelectedUnit = selectedUnit;
-                isUnitSelected = true;
-                
-
-                return false;
+                // Если юнит не выбран, выбираем его
+                if (selectedUnit != null && selectedUnit.Type != Units.UnitType.None)
+                {
+                    SelectedUnit = selectedUnit;
+                    isUnitSelected = true;
+                    return false;
+                }
             }
             else
             {
+                // Если юнит уже выбран, пытаемся его переместить
                 if (IsAdjacent(SelectedUnit.X, SelectedUnit.Y, targetRow, targetColumn))
                 {
-                    if (model[targetRow, targetColumn] != null)
-                    {
-                        model[targetRow, targetColumn] = model[SelectedUnit.X, SelectedUnit.Y];
-                    }
+                    // Меняем местами значения в модели
+                    var tempValue = model[targetRow, targetColumn];
+                    model[targetRow, targetColumn] = model[SelectedUnit.X, SelectedUnit.Y];
+                    model[SelectedUnit.X, SelectedUnit.Y] = tempValue;
+                    
+                    // Обновляем позиции юнитов
+                    SelectedUnit.X = targetRow;
+                    SelectedUnit.Y = targetColumn;
+                    
                     isUnitSelected = false;
+                    SelectedUnit = null;
                     return true;
                 }
                 else
                 {
-                    Console.WriteLine($"Клетка ({targetRow}, {targetColumn}) не соседняя с ({SelectedUnit.X}, {SelectedUnit.Y})");
+                    // Если клетка не соседняя, отменяем выбор
+                    isUnitSelected = false;
+                    SelectedUnit = null;
                 }
             }
             return false;
         }
 
-        public GameModel MakeMove(int gameId,int X,int Y, Units model, MoveDirection direction)
+        public GameModel MakeMove(int gameId,int X,int Y, Units[,] model, MoveDirection direction)
         {
             var gameDto = _gameRepository.GetByGameId(gameId);
             var gameModel = FromDto(gameDto);
@@ -173,7 +182,9 @@ namespace FifteenGame.Business.Services
                 {
                     if (gameModel[row, column] != Constants.FreeCellValue)
                     {
-                        model[row, column] = units_[gameModel[row, column]];
+                        // Используем остаток от деления, чтобы получить индекс в пределах списка юнитов
+                        int unitIndex = (gameModel[row, column] - 1) % units_.Count;
+                        model[row, column] = units_[unitIndex];
                     }
                     else
                     {
@@ -182,7 +193,7 @@ namespace FifteenGame.Business.Services
                 }
             }
 
-            MakeMove1(gameModel, X, Y, model);
+            MakeMove1(gameModel, X, Y, model[X, Y]);
             _gameRepository.Save(ToDto(gameModel));
             return gameModel;
         }
