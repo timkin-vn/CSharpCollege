@@ -58,6 +58,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Painter.cs" />
+    <Compile Include="Services\PictureBuilder.cs" />
     <Compile Include="Services\Scaler.cs" />
     <EmbeddedResource Include="DrawingForm.resx">
       <DependentUpon>DrawingForm.cs</DependentUpon>
