@@ -12,30 +12,91 @@ namespace Drawing.Services
     {
         private Scaler _scaler = new Scaler();
 
+        private PictureBuilder _builder = new PictureBuilder();
+
+        private Graphics _graphics;
+
         public void Initialize(Rectangle targetRectangle)
         {
-            _scaler.Initialize(targetRectangle, new RectangleModel { X = -2, Width = 5, Y = -1, Height = 5, });
+            _scaler.Initialize(targetRectangle, _builder.PictureBounds);
         }
 
         public void Paint(Graphics g)
         {
-            var pen = new Pen(Color.DarkGreen, 3);
-            var brush = Brushes.LightGoldenrodYellow;
+            _graphics = g;
+            _builder.BuildPicture(this);
+            _graphics = null;
+        }
 
-            var headRect = _scaler.Scale(new RectangleModel { X = 0, Y = 2, Width = 1, Height = 1, });
+        public void DrawEllipse(Brush brush, Pen pen, RectangleModel rectModel)
+        {
+            var rect = _scaler.Scale(rectModel);
 
-            g.FillEllipse(brush, headRect);
-            g.DrawEllipse(pen, headRect);
+            if (brush != null)
+            {
+                _graphics.FillEllipse(brush, rect);
+            }
 
-            var bodyRect = _scaler.Scale(new RectangleModel { X = 0, Y = 1, Width = 1, Height = 1, });
+            if (pen != null)
+            {
+                _graphics.DrawEllipse(pen, rect);
+            }
+        }
 
-            g.FillRectangle(brush, bodyRect);
-            g.DrawRectangle(pen, bodyRect);
+        public void DrawRectangle(Brush brush, Pen pen, RectangleModel rectModel)
+        {
+            var rect = _scaler.Scale(rectModel);
 
-            var point1 = _scaler.Scale(new PointModel { X = 0, Y = 2, });
-            var point2 = _scaler.Scale(new PointModel { X = -1, Y = 1, });
+            if (brush != null)
+            {
+                _graphics.FillRectangle(brush, rect);
+            }
 
-            g.DrawLine(pen, point1, point2);
+            if (pen != null)
+            {
+                _graphics.DrawRectangle(pen, rect);
+            }
+        }
+
+        public void DrawLine(Pen pen, PointModel pointModel1, PointModel pointModel2)
+        {
+            var point1 = _scaler.Scale(pointModel1);
+            var point2 = _scaler.Scale(pointModel2);
+
+            if (pen != null)
+            {
+                _graphics.DrawLine(pen, point1, point2);
+            }
+        }
+
+        public void DrawPie(Brush brush, Pen pen, RectangleModel rectModel, float startAngle, float sweepAngle)
+        {
+            var rect = _scaler.Scale(rectModel);
+
+            if (brush != null)
+            {
+                _graphics.FillPie(brush, rect, startAngle, sweepAngle);
+            }
+
+            if (pen != null)
+            {
+                _graphics.DrawPie(pen, rect, startAngle, sweepAngle);
+            }
+        }
+
+        public void DrawPolygon(Brush brush, Pen pen, PointModel[] pointModels)
+        {
+            var points = pointModels.Select(pt => _scaler.Scale(pt)).ToArray();
+
+            if (brush != null)
+            {
+                _graphics.FillPolygon(brush, points);
+            }
+
+            if (pen != null)
+            {
+                _graphics.DrawPolygon(pen, points);
+            }
         }
     }
 }
