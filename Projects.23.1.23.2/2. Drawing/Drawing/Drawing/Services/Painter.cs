@@ -21,6 +21,7 @@ namespace Drawing.Services
             Scaler = new Scaler();
             Scaler.TargetBounds = bounds;
             Scaler.SourceBounds = PictureBuilder.SourceBounds;
+            Scaler.Initialize();
         }
 
         public void Paint(Graphics g)
