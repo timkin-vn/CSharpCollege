@@ -1,0 +1,12 @@
+C:\Users\PC\OneDrive\Рабочий стол\FifteenGame.WpfYaroslav\FifteenGame.WpfYaroslav\FifteenGame.Business\bin\Debug\FifteenGame.Business.dll
+C:\Users\PC\OneDrive\Рабочий стол\FifteenGame.WpfYaroslav\FifteenGame.WpfYaroslav\FifteenGame.Business\bin\Debug\FifteenGame.Business.pdb
+C:\Users\PC\OneDrive\Рабочий стол\FifteenGame.WpfYaroslav\FifteenGame.WpfYaroslav\FifteenGame.Business\obj\Debug\ColorSp.Business.csproj.AssemblyReference.cache
+C:\Users\PC\OneDrive\Рабочий стол\FifteenGame.WpfYaroslav\FifteenGame.WpfYaroslav\FifteenGame.Business\obj\Debug\ColorSp.Business.csproj.CoreCompileInputs.cache
+C:\Users\PC\OneDrive\Рабочий стол\FifteenGame.WpfYaroslav\FifteenGame.WpfYaroslav\FifteenGame.Business\obj\Debug\FifteenGame.Business.dll
+C:\Users\PC\OneDrive\Рабочий стол\FifteenGame.WpfYaroslav\FifteenGame.WpfYaroslav\FifteenGame.Business\obj\Debug\FifteenGame.Business.pdb
+C:\Users\plato\Downloads\Telegram Desktop\platon\platon\FifteenGame.Business\bin\Debug\FifteenGame.Business.dll
+C:\Users\plato\Downloads\Telegram Desktop\platon\platon\FifteenGame.Business\bin\Debug\FifteenGame.Business.pdb
+C:\Users\plato\Downloads\Telegram Desktop\platon\platon\FifteenGame.Business\obj\Debug\ColorSp.Business.csproj.AssemblyReference.cache
+C:\Users\plato\Downloads\Telegram Desktop\platon\platon\FifteenGame.Business\obj\Debug\ColorSp.Business.csproj.CoreCompileInputs.cache
+C:\Users\plato\Downloads\Telegram Desktop\platon\platon\FifteenGame.Business\obj\Debug\FifteenGame.Business.dll
+C:\Users\plato\Downloads\Telegram Desktop\platon\platon\FifteenGame.Business\obj\Debug\FifteenGame.Business.pdb
