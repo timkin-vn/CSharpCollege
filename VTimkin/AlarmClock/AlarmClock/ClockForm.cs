@@ -42,5 +42,17 @@ namespace AlarmClock
             form.Settings = _settings;
             form.ShowDialog();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnOpenStopwatch_Click(object sender, EventArgs e)
+{
+    StopwatchForm stopwatchForm = new StopwatchForm();
+    stopwatchForm.Show();
+    this.Hide(); // Скрыть текущую форму, если нужно
+}
     }
 }

@@ -34,6 +34,7 @@
             this.SettingsButton = new System.Windows.Forms.Button();
             this.ExitButton = new System.Windows.Forms.Button();
             this.ClockTimer = new System.Windows.Forms.Timer(this.components);
+            this.btnOpenStopwatch = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // DisplayLabel
@@ -84,11 +85,22 @@
             this.ClockTimer.Interval = 1000;
             this.ClockTimer.Tick += new System.EventHandler(this.ClockTimer_Tick);
             // 
+            // btnOpenStopwatch
+            // 
+            this.btnOpenStopwatch.Location = new System.Drawing.Point(12, 99);
+            this.btnOpenStopwatch.Name = "btnOpenStopwatch";
+            this.btnOpenStopwatch.Size = new System.Drawing.Size(294, 23);
+            this.btnOpenStopwatch.TabIndex = 4;
+            this.btnOpenStopwatch.Text = "Секундомер";
+            this.btnOpenStopwatch.UseVisualStyleBackColor = true;
+            this.btnOpenStopwatch.Click += new System.EventHandler(this.btnOpenStopwatch_Click);
+            // 
             // ClockForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(441, 111);
+            this.ClientSize = new System.Drawing.Size(441, 130);
+            this.Controls.Add(this.btnOpenStopwatch);
             this.Controls.Add(this.ExitButton);
             this.Controls.Add(this.SettingsButton);
             this.Controls.Add(this.AboutButton);
@@ -109,6 +121,7 @@
         private System.Windows.Forms.Button SettingsButton;
         private System.Windows.Forms.Button ExitButton;
         private System.Windows.Forms.Timer ClockTimer;
+        private System.Windows.Forms.Button btnOpenStopwatch;
     }
 }
 
