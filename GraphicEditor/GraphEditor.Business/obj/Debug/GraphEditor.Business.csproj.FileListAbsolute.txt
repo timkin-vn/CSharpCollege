@@ -1,0 +1,6 @@
+C:\Users\plato\Downloads\Telegram Desktop\веб\GraphEditor\GraphEditor.Business\bin\Debug\GraphEditor.Business.dll
+C:\Users\plato\Downloads\Telegram Desktop\веб\GraphEditor\GraphEditor.Business\bin\Debug\GraphEditor.Business.pdb
+C:\Users\plato\Downloads\Telegram Desktop\веб\GraphEditor\GraphEditor.Business\obj\Debug\GraphEditor.Business.csproj.AssemblyReference.cache
+C:\Users\plato\Downloads\Telegram Desktop\веб\GraphEditor\GraphEditor.Business\obj\Debug\GraphEditor.Business.csproj.CoreCompileInputs.cache
+C:\Users\plato\Downloads\Telegram Desktop\веб\GraphEditor\GraphEditor.Business\obj\Debug\GraphEditor.Business.dll
+C:\Users\plato\Downloads\Telegram Desktop\веб\GraphEditor\GraphEditor.Business\obj\Debug\GraphEditor.Business.pdb
