@@ -1,0 +1,86 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\seq\\Pictures\\CSharpCollege-GushchinKirill\\dDBNMemory.ClientServer\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E397ED18-0FD1-4A53-A9D9-984C9381234D}|FifteenGame.DataAccess\\Memory.DataAccess.csproj|c:\\users\\seq\\pictures\\csharpcollege-gushchinkirill\\ddbnmemory.clientserver\\fifteengame.dataaccess\\repositories\\gamerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E397ED18-0FD1-4A53-A9D9-984C9381234D}|FifteenGame.DataAccess\\Memory.DataAccess.csproj|solutionrelative:fifteengame.dataaccess\\repositories\\gamerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7E866578-1812-4C28-A639-527D728083CC}|FifteenGame.WebApi\\Memory.WebApi.csproj|C:\\Users\\seq\\Pictures\\CSharpCollege-GushchinKirill\\dDBNMemory.ClientServer\\fifteengame.webapi\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7E866578-1812-4C28-A639-527D728083CC}|FifteenGame.WebApi\\Memory.WebApi.csproj|solutionrelative:fifteengame.webapi\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7E866578-1812-4C28-A639-527D728083CC}|FifteenGame.WebApi\\Memory.WebApi.csproj|C:\\Users\\seq\\Pictures\\CSharpCollege-GushchinKirill\\dDBNMemory.ClientServer\\fifteengame.webapi\\scripts\\modernizr-2.8.3.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{7E866578-1812-4C28-A639-527D728083CC}|FifteenGame.WebApi\\Memory.WebApi.csproj|solutionrelative:fifteengame.webapi\\scripts\\modernizr-2.8.3.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7E866578-1812-4C28-A639-527D728083CC}|FifteenGame.WebApi\\Memory.WebApi.csproj|C:\\Users\\seq\\Pictures\\CSharpCollege-GushchinKirill\\dDBNMemory.ClientServer\\fifteengame.webapi\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{7E866578-1812-4C28-A639-527D728083CC}|FifteenGame.WebApi\\Memory.WebApi.csproj|solutionrelative:fifteengame.webapi\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "GameRepository.cs",
+              "DocumentMoniker": "C:\\Users\\seq\\Pictures\\CSharpCollege-GushchinKirill\\dDBNMemory.ClientServer\\FifteenGame.DataAccess\\Repositories\\GameRepository.cs",
+              "RelativeDocumentMoniker": "FifteenGame.DataAccess\\Repositories\\GameRepository.cs",
+              "ToolTip": "C:\\Users\\seq\\Pictures\\CSharpCollege-GushchinKirill\\dDBNMemory.ClientServer\\FifteenGame.DataAccess\\Repositories\\GameRepository.cs",
+              "RelativeToolTip": "FifteenGame.DataAccess\\Repositories\\GameRepository.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAACcAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-22T17:06:06.937Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "modernizr-2.8.3.js",
+              "DocumentMoniker": "C:\\Users\\seq\\Pictures\\CSharpCollege-GushchinKirill\\dDBNMemory.ClientServer\\FifteenGame.WebApi\\Scripts\\modernizr-2.8.3.js",
+              "RelativeDocumentMoniker": "FifteenGame.WebApi\\Scripts\\modernizr-2.8.3.js",
+              "ToolTip": "C:\\Users\\seq\\Pictures\\CSharpCollege-GushchinKirill\\dDBNMemory.ClientServer\\FifteenGame.WebApi\\Scripts\\modernizr-2.8.3.js",
+              "RelativeToolTip": "FifteenGame.WebApi\\Scripts\\modernizr-2.8.3.js",
+              "ViewState": "AgIAAN8BAAAAAAAAAAAAAOUBAABPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-04-22T15:56:41.25Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Web.config",
+              "DocumentMoniker": "C:\\Users\\seq\\Pictures\\CSharpCollege-GushchinKirill\\dDBNMemory.ClientServer\\FifteenGame.WebApi\\Web.config",
+              "RelativeDocumentMoniker": "FifteenGame.WebApi\\Web.config",
+              "ToolTip": "C:\\Users\\seq\\Pictures\\CSharpCollege-GushchinKirill\\dDBNMemory.ClientServer\\FifteenGame.WebApi\\Web.config",
+              "RelativeToolTip": "FifteenGame.WebApi\\Web.config",
+              "ViewState": "AgIAAFAAAAAAAAAAAAAawHwAAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2025-04-22T15:55:12.444Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UsersController.cs",
+              "DocumentMoniker": "C:\\Users\\seq\\Pictures\\CSharpCollege-GushchinKirill\\dDBNMemory.ClientServer\\FifteenGame.WebApi\\Controllers\\UsersController.cs",
+              "RelativeDocumentMoniker": "FifteenGame.WebApi\\Controllers\\UsersController.cs",
+              "ToolTip": "C:\\Users\\seq\\Pictures\\CSharpCollege-GushchinKirill\\dDBNMemory.ClientServer\\FifteenGame.WebApi\\Controllers\\UsersController.cs",
+              "RelativeToolTip": "FifteenGame.WebApi\\Controllers\\UsersController.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABUAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-22T15:35:18.235Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

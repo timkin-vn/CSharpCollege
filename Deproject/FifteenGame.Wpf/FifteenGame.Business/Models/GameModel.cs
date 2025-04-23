@@ -47,7 +47,7 @@ namespace FifteenGame.Models
                 int row = _random.Next(_rows);
                 int col = _random.Next(_columns);
 
-                // Не ставим мину на первую открытую ячейку и вокруг неё
+                // не ставим мину на первую открытую ячейку и вокруг неё
                 if (Math.Abs(row - firstRow) <= 1 && Math.Abs(col - firstCol) <= 1)
                     continue;
 

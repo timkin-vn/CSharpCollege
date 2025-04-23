@@ -1,0 +1,21 @@
+﻿  client.cpp
+C:\CSharpCollege\Deproject\Project1\Project1\client.cpp(45,49): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\CSharpCollege\Deproject\Project1\Project1\client.cpp(58,61): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+  server.cpp
+C:\CSharpCollege\Deproject\Project1\Project1\server.cpp(158,55): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\CSharpCollege\Deproject\Project1\Project1\server.cpp(169,55): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\CSharpCollege\Deproject\Project1\Project1\server.cpp(182,61): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\CSharpCollege\Deproject\Project1\Project1\server.cpp(186,63): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\CSharpCollege\Deproject\Project1\Project1\server.cpp(189,73): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\CSharpCollege\Deproject\Project1\Project1\server.cpp(196,61): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\CSharpCollege\Deproject\Project1\Project1\server.cpp(201,63): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\CSharpCollege\Deproject\Project1\Project1\server.cpp(204,93): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\CSharpCollege\Deproject\Project1\Project1\server.cpp(204,99): error C2143: синтаксическая ошибка: отсутствие ")" перед ";"
+C:\CSharpCollege\Deproject\Project1\Project1\server.cpp(204,17): error C2660: send: функция не принимает 1 аргументов
+      C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um\winsock2.h(2083,1):
+       см. объявление "send"
+      C:\CSharpCollege\Deproject\Project1\Project1\server.cpp(204,17):
+      при попытке сопоставить список аргументов "(SOCKET)"
+  
+C:\CSharpCollege\Deproject\Project1\Project1\server.cpp(210,55): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+  Создание кода...

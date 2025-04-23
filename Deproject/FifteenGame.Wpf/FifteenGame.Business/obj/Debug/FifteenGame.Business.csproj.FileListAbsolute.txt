@@ -4,3 +4,9 @@ C:\ptroq\CSharpCollege-master\Dev22\FifteenGame.Wpf\FifteenGame.Business\bin\Deb
 C:\ptroq\CSharpCollege-master\Dev22\FifteenGame.Wpf\FifteenGame.Business\bin\Debug\FifteenGame.Business.pdb
 C:\ptroq\CSharpCollege-master\Dev22\FifteenGame.Wpf\FifteenGame.Business\obj\Debug\FifteenGame.Business.dll
 C:\ptroq\CSharpCollege-master\Dev22\FifteenGame.Wpf\FifteenGame.Business\obj\Debug\FifteenGame.Business.pdb
+C:\CSharpCollege\Deproject\FifteenGame.Wpf\FifteenGame.Business\bin\Debug\FifteenGame.Business.dll
+C:\CSharpCollege\Deproject\FifteenGame.Wpf\FifteenGame.Business\bin\Debug\FifteenGame.Business.pdb
+C:\CSharpCollege\Deproject\FifteenGame.Wpf\FifteenGame.Business\obj\Debug\FifteenGame.Business.csproj.AssemblyReference.cache
+C:\CSharpCollege\Deproject\FifteenGame.Wpf\FifteenGame.Business\obj\Debug\FifteenGame.Business.csproj.CoreCompileInputs.cache
+C:\CSharpCollege\Deproject\FifteenGame.Wpf\FifteenGame.Business\obj\Debug\FifteenGame.Business.dll
+C:\CSharpCollege\Deproject\FifteenGame.Wpf\FifteenGame.Business\obj\Debug\FifteenGame.Business.pdb
