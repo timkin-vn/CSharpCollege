@@ -97,6 +97,7 @@ namespace Drawing.Services
                 painter.DrawEllipse(wheelBrush, mainPen, smallCircleRect);
             }
             mainPen = new Pen(Color.Black, 3);
+
             //заднее колесо
             rect = new RectangleModel { X = -3, Y = 0.6, Width = 1.8, Height = 1.8 };
             painter.DrawEllipse(wheelBrush, mainPen, rect);
