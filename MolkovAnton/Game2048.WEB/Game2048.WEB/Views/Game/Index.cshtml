@@ -1,0 +1,48 @@
+﻿@model Game2048.WEB.Models.GameViewModel
+@using Game2048.Business.Models
+
+@{
+    ViewBag.Title = "Игра 2048";
+}
+
+<main>
+    <h2>Игра 2048</h2>
+
+    @if (ViewBag.GameStatus == GameStatus.Won)
+    {
+        <h2 class="text-success">Вы смогли завершить игру!!!</h2>
+        <div>
+            @Html.ActionLink("Начать заново", "NewGame", "Game", null, new { @class = "btn btn-primary fs-3" })
+        </div>
+    }
+    else if (ViewBag.GameStatus == GameStatus.Lost)
+    {
+        <h2 class="text-danger">Игра окончена!</h2>
+        <div>
+            @Html.ActionLink("Начать заново", "NewGame", "Game", null, new { @class = "btn btn-primary fs-3" })
+        </div>
+    }
+
+    <div class="container text-center mt-4">
+        <div class="row justify-content-center">
+            <div class="col-auto">
+                <div class="d-grid gap-1" style="display: grid; grid-template-columns: repeat(4, 100px); grid-template-rows: repeat(4, 100px); gap: 10px;">
+                    @foreach (var cell in Model.Cells)
+                    {
+                        <div class="@cell.ShowValue d-flex align-items-center justify-content-center border rounded"
+                             style="width: 100px; height: 100px; font-size: 24px;">
+                            @(cell.Value == 0 ? "" : cell.Value.ToString())
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            @Html.ActionLink("Вверх", "Move", "Game", new { direction = "Up" }, new { @class = "btn btn-secondary me-2" })
+            @Html.ActionLink("Влево", "Move", "Game", new { direction = "Left" }, new { @class = "btn btn-secondary me-2" })
+            @Html.ActionLink("Вниз", "Move", "Game", new { direction = "Down" }, new { @class = "btn btn-secondary me-2" })
+            @Html.ActionLink("Вправо", "Move", "Game", new { direction = "Right" }, new { @class = "btn btn-secondary me-2" })
+        </div>
+    </div>
+</main>
