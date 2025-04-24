@@ -180,7 +180,8 @@ namespace Drawing.Services
             };
             //склоны корпуса
             painter.DrawPolygon(sweeperBrush, mainPen, sweeperPoints);
-            startPoint = new PointModel { X = 12, Y = 2.2 };
+
+            /*startPoint = new PointModel { X = 12, Y = 2.2 };
             endPoint = new PointModel { X = 11.4, Y = 2.8 };
             painter.DrawLine(linePen, startPoint, endPoint);
 
@@ -198,7 +199,7 @@ namespace Drawing.Services
 
             startPoint = new PointModel { X = 11.4, Y = 2.8 };
             endPoint = new PointModel { X = -3, Y = 2.8 };
-            painter.DrawLine(linePen, startPoint, endPoint);
+            painter.DrawLine(linePen, startPoint, endPoint);*/
 
             startPoint = new PointModel { X = 11.35, Y = 2.72 };
             endPoint = new PointModel { X = -2.95, Y = 2.72 };
@@ -206,14 +207,6 @@ namespace Drawing.Services
 
             startPoint = new PointModel { X = -1.2, Y = 1 };
             endPoint = new PointModel { X = 9, Y = 1 };
-            painter.DrawLine(linePen, startPoint, endPoint);
-
-            startPoint = new PointModel { X = 12, Y = 2.2 };
-            endPoint = new PointModel { X = 9, Y = 1 };
-            painter.DrawLine(linePen, startPoint, endPoint);
-
-            startPoint = new PointModel { X = -3.85, Y = 2.26 };
-            endPoint = new PointModel { X = -1.2, Y = 1 };
             painter.DrawLine(linePen, startPoint, endPoint);
         }
         private void DrawTanks(Painter painter) 
