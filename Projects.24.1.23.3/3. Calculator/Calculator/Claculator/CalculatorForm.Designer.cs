@@ -234,7 +234,7 @@
             this.EqualButton.TabIndex = 16;
             this.EqualButton.Text = "=";
             this.EqualButton.UseVisualStyleBackColor = true;
-            this.EqualButton.Click += new System.EventHandler(this.EqualButton_Click);
+            this.EqualButton.Click += new System.EventHandler(this.OperationButton_Click);
             // 
             // XToYButton
             // 
