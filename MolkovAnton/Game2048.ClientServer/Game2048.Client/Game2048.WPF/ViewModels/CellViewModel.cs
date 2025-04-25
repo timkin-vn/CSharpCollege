@@ -21,18 +21,7 @@ namespace Game2048.WPF.ViewModels
         public MoveDirection Direction { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        public void MoveRight()
-        {
-            if (Column >= 3)
-            {
-                return;
-            }
-
-            Column++;
-            OnPropertyChanged(nameof(Column));
-        }
-
+        
         private void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
