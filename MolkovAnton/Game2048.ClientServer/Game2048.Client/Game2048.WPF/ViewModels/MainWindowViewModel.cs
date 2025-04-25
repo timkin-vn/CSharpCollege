@@ -71,14 +71,14 @@ namespace Game2048.WPF.ViewModels
                 for (int column = 0; column < Constants.ColumnCount; column++)
                 {
                     int value = model[row, column];
-                    if (value != 0) // Пустые клетки не отображаем
+                    if (value != 0) 
                     {
                         Cells.Add(new CellViewModel
                         {
                             Row = row,
                             Column = column,
                             Num = value,
-                            Direction = MoveDirection.None // Не требуется для 2048
+                            Direction = MoveDirection.None 
                         });
                     }
                 }
