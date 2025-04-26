@@ -1,0 +1,81 @@
+﻿<Window x:Class="FifteenGame.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FifteenGame.Wpf"
+        xmlns:viewmodels="clr-namespace:FifteenGame.Wpf.ViewModels"
+        mc:Ignorable="d"
+        Title="2048" Height="550" Width="800" Loaded="Window_Loaded">
+    <Window.DataContext>
+        <viewmodels:MainWindowViewModel />
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Row="2" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                <TextBlock Text="Игрок:" FontSize="18" Margin="5" />
+                <TextBlock Text="{Binding UserName}" FontSize="18" Margin="5" />
+            </StackPanel>
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <TextBlock Text="Число ходов:" FontSize="18" Margin="5" />
+                <TextBlock Text="{Binding MoveCountText}" FontSize="18" Margin="5" />
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Column="1" Grid.Row="1"
+              HorizontalAlignment="Center" VerticalAlignment="Top"
+              Width="420" Height="420">
+            <ItemsControl ItemsSource="{Binding Cells}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Rows="4" Columns="4"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="5"
+                                BorderBrush="Gray"
+                                BorderThickness="3"
+                                CornerRadius="10"
+                                Background="{Binding TileColor}"
+                                Width="90" Height="90">
+                            <TextBlock FontSize="28"
+                                       FontWeight="Bold"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Foreground="Black">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Text" Value="{Binding Number}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Number}" Value="0">
+                                                <Setter Property="Text" Value=""/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+    </Grid>
+</Window>

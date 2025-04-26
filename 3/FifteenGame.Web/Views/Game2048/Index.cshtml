@@ -1,0 +1,37 @@
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Game 2048";
+    var grid = ViewBag.Grid as int[,];
+    var score = ViewBag.Score ?? 0;
+}
+
+<h2 style="text-align: center;">Game 2048</h2>
+<h4 style="text-align: center;">Score: @score</h4>
+
+<div style="display: flex; justify-content: center;">
+    <div style="display: grid; grid-template-columns: repeat(4, 80px); gap: 10px;">
+        @for (int i = 0; i < 4; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                <div style="width: 80px; height: 80px; background-color: lightblue; text-align: center; line-height: 80px; font-weight: bold; font-size: 20px;">
+                    @(grid[i, j] == 0 ? "" : grid[i, j].ToString())
+                </div>
+            }
+        }
+    </div>
+</div>
+
+
+<form method="post" action="/Game2048/Move" style="margin-top: 30px; text-align: center;">
+    <button name="direction" value="up">up</button><br />
+    <button name="direction" value="left">left</button>
+    <button name="direction" value="right">right</button><br />
+    <button name="direction" value="down">down</button>
+</form>
+
+
+<form method="post" action="/Game2048/Reset" style="text-align: center; margin-top: 10px;">
+    <button>new game</button>
+</form>
