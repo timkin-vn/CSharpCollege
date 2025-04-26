@@ -1,0 +1,40 @@
+﻿<Window x:Class="wpf_sahur.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:wpf_sahur"
+        mc:Ignorable="d"
+        Title="sahur1" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="{Binding StatusMessage}"
+                 FontSize="20"
+                 HorizontalAlignment="Center"
+                 Margin="10"/>
+
+        <UniformGrid Grid.Row="1" Rows="3" Columns="3" Margin="20">
+            <Button Command="{Binding CellClickCommand}" CommandParameter="0" Content="{Binding Board[0]}" FontSize="40"/>
+            <Button Command="{Binding CellClickCommand}" CommandParameter="1" Content="{Binding Board[1]}" FontSize="40"/>
+            <Button Command="{Binding CellClickCommand}" CommandParameter="2" Content="{Binding Board[2]}" FontSize="40"/>
+            <Button Command="{Binding CellClickCommand}" CommandParameter="3" Content="{Binding Board[3]}" FontSize="40"/>
+            <Button Command="{Binding CellClickCommand}" CommandParameter="4" Content="{Binding Board[4]}" FontSize="40"/>
+            <Button Command="{Binding CellClickCommand}" CommandParameter="5" Content="{Binding Board[5]}" FontSize="40"/>
+            <Button Command="{Binding CellClickCommand}" CommandParameter="6" Content="{Binding Board[6]}" FontSize="40"/>
+            <Button Command="{Binding CellClickCommand}" CommandParameter="7" Content="{Binding Board[7]}" FontSize="40"/>
+            <Button Command="{Binding CellClickCommand}" CommandParameter="8" Content="{Binding Board[8]}" FontSize="40"/>
+        </UniformGrid>
+
+        <Button Grid.Row="2"
+                Content="Новая игра"
+                Command="{Binding ResetGameCommand}"
+                Margin="10"
+                Padding="10,5"
+                FontSize="16"/>
+    </Grid>
+</Window>

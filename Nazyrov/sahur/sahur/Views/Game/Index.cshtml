@@ -1,0 +1,84 @@
+﻿@{
+    ViewData["Title"] = "TICTACTOE";
+    
+}
+<h2>Крестики-нолики</h2>@{
+    var username = Context.Session.GetString("Username");
+}
+<p>Hello, my dear, @username!</p>
+<div id="game-board" style="display: grid; grid-template-columns: repeat(3, 100px); grid-gap: 5px; margin-bottom: 15px;">
+    @for (int i = 0; i < 9; i++)
+    {
+        <button class="cell" style="width: 100px; height: 100px; font-size: 40px; cursor: pointer;" data-cell-index="@i"></button>
+    }
+</div><p id="game-status" style="font-weight: bold;"></p>
+<button id="restart-button" style="margin-top: 10px;">RESTART</button>
+<a href="/Account/Logout" style="display: block; margin-top: 20px;">EXIT</a>
+<script>
+    (() => {
+        const board = Array(9).fill(null);
+        let currentPlayer = 'X';
+        const cells = document.querySelectorAll('.cell');
+        const status = document.getElementById('game-status');
+        const restartButton = document.getElementById('restart-button');
+
+        const winningCombinations = [
+            [0,1,2], [3,4,5], [6,7,8], 
+            [0,3,6], [1,4,7], [2,5,8], 
+            [0,4,8], [2,4,6]           
+        ];
+
+        function checkWin(player) {
+            return winningCombinations.some(combination =>
+                combination.every(index => board[index] === player)
+            );
+        }
+
+        function checkDraw() {
+            return board.every(cell => cell !== null);
+        }
+
+        function updateStatus(message) {
+            status.textContent = message;
+        }
+
+        function handleCellClick(e) {
+            const index = parseInt(e.target.getAttribute('data-cell-index'));
+            if (board[index] !== null) return;
+
+            board[index] = currentPlayer;
+            e.target.textContent = currentPlayer;
+            e.target.disabled = true;
+
+            if (checkWin(currentPlayer)) {
+                updateStatus(`WINNER: "${currentPlayer}"`);
+                endGame();
+            } else if (checkDraw()) {
+                updateStatus("NOBODY WIN!");
+                endGame();
+            } else {
+                currentPlayer = (currentPlayer === 'X') ? 'O' : 'X';
+                updateStatus(`PLAYER MOVE: "${currentPlayer}"`);
+            }
+        }
+
+        function endGame() {
+            cells.forEach(cell => cell.disabled = true);
+        }
+
+        function restartGame() {
+            board.fill(null);
+            cells.forEach(cell => {
+                cell.textContent = '';
+                cell.disabled = false;
+            });
+            currentPlayer = 'X';
+            updateStatus(`PLAYER MOVE: "${currentPlayer}"`);
+        }
+
+        cells.forEach(cell => cell.addEventListener('click', handleCellClick));
+        restartButton.addEventListener('click', restartGame);
+
+        updateStatus(`PLAYER MOVE: "${currentPlayer}"`);
+    })();
+</script>
