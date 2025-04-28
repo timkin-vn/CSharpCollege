@@ -17,7 +17,13 @@ namespace Calculator.Business.Services
                 return;
             }
 
+            if (state.IsClearNeeded)
+            {
+                state.RegisterX = 0;
+            }
+
             state.RegisterX = state.RegisterX * 10 + digit;
+            state.IsClearNeeded = false;
         }
 
         public void Clear(CalculatorState state)
@@ -54,13 +60,16 @@ namespace Calculator.Business.Services
 
         public void PressOperation(CalculatorState state, string operationCode)
         {
+            CompleteOperation(state, state.OperationCode);
             MoveXToY(state);
             state.OperationCode = operationCode;
+            state.IsClearNeeded = true;
         }
 
         public void PressEqual(CalculatorState state)
         {
             CompleteOperation(state, state.OperationCode);
+            state.IsClearNeeded = true;
         }
     }
 }

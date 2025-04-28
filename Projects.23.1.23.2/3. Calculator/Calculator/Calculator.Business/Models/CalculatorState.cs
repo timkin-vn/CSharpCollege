@@ -13,5 +13,7 @@ namespace Calculator.Business.Models
         public double RegisterY { get; set; }
 
         public string OperationCode { get; set; }
+
+        public bool IsClearNeeded { get; set; }
     }
 }
