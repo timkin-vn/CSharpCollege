@@ -29,6 +29,8 @@ namespace AlarmClock.Forms
             IsAlarmActiveCheckBox.Checked = Settings.IsAlarmActive;
 
             IsSoundActiveCheckBox.Checked = Settings.IsSoundActive;
+
+            DarkModeCheckBox.Checked = Settings.DarkMode;
         }
 
         private void OkButton_Click(object sender, EventArgs e)
@@ -36,8 +38,6 @@ namespace AlarmClock.Forms
             if (!TimeSpan.TryParse(AlarmTimeTextBox.Text, out var alarmTime))
             {
                 MessageBox.Show("Неверно указано время срабатывания!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                AlarmTimeTextBox.Focus();
-                AlarmTimeTextBox.SelectAll();
                 return;
             }
 
@@ -45,6 +45,7 @@ namespace AlarmClock.Forms
             Settings.AlarmMessage = AlarmMessageTextBox.Text;
             Settings.IsAlarmActive = IsAlarmActiveCheckBox.Checked;
             Settings.IsSoundActive = IsSoundActiveCheckBox.Checked;
+            Settings.DarkMode = DarkModeCheckBox.Checked;
 
             DialogResult = DialogResult.OK;
         }

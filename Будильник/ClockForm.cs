@@ -15,7 +15,8 @@ namespace AlarmClock
 {
     public partial class ClockForm : Form
     {
-        private ClockSettings _settings = new ClockSettings();
+        private const string SettingsFile = "settings.xml";
+        private readonly ClockSettings _settings;
 
         private int _emojiCounter = 0;
         private readonly string[] _clockEmojis = { "🕐", "🕑", "🕒", "🕓", "🕔", "🕕", "🕖", "🕗", "🕘", "🕙", "🕚", "🕛" };
@@ -24,10 +25,13 @@ namespace AlarmClock
         {
             InitializeComponent();
 
+            _settings = ClockSettings.LoadFromFile(SettingsFile);
+
+            ApplyTheme();
+
             Bitmap bmp = new Bitmap("Images/Часы.png");
             this.Icon = Icon.FromHandle(bmp.GetHicon());
 
-            // Таймер для анимации (обновление каждую секунду)
             var animationTimer = new Timer { Interval = 1000 };
             animationTimer.Tick += Timer_TickHandler;
             animationTimer.Start();
@@ -86,24 +90,43 @@ namespace AlarmClock
             aboutForm.ShowDialog();
         }
 
+        private void ApplyTheme()
+        {
+            var backColor = _settings.DarkMode ? Color.FromArgb(40, 40, 40) : SystemColors.Control;
+            var foreColor = _settings.DarkMode ? Color.White : SystemColors.ControlText;
+
+            this.BackColor = backColor;
+            this.ForeColor = foreColor;
+
+            foreach (Control control in this.Controls)
+            {
+                control.BackColor = backColor;
+                control.ForeColor = foreColor;
+
+                if (control is Button btn)
+                {
+                    btn.FlatStyle = _settings.DarkMode ? FlatStyle.Flat : FlatStyle.Standard;
+                    btn.BackColor = _settings.DarkMode ? Color.FromArgb(80, 80, 80) : SystemColors.Control;
+                }
+            }
+        }
+
         private void SettingsButton_Click(object sender, EventArgs e)
         {
-            var settingsForm = new SettingsForm();
-            settingsForm.Settings = _settings;
+            var settingsForm = new SettingsForm { Settings = _settings };
 
-            if (settingsForm.ShowDialog() != DialogResult.OK)
+            if (settingsForm.ShowDialog() == DialogResult.OK)
             {
-                return;
+                _settings.SaveToFile(SettingsFile);
+                ApplyTheme();
+                UpdateView();
             }
-
-            UpdateView();
         }
 
         private void UpdateView()
         {
             if (_settings.IsAlarmActive)
             {
-                // Переключаемся на следующий эмодзи
                 _emojiCounter = (_emojiCounter + 1) % _clockEmojis.Length;
                 Text = "Будильник" + _clockEmojis[_emojiCounter];
             }

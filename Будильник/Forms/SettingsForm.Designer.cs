@@ -34,6 +34,7 @@
             this.AlarmMessageTextBox = new System.Windows.Forms.TextBox();
             this.IsAlarmActiveCheckBox = new System.Windows.Forms.CheckBox();
             this.IsSoundActiveCheckBox = new System.Windows.Forms.CheckBox();
+            this.DarkModeCheckBox = new System.Windows.Forms.CheckBox();
             this.OkButton = new System.Windows.Forms.Button();
             this.CancelBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -90,6 +91,16 @@
             this.IsSoundActiveCheckBox.Text = "Звуковой сигнал включен";
             this.IsSoundActiveCheckBox.UseVisualStyleBackColor = true;
             // 
+            // DarkModeCheckBox
+            // 
+            this.DarkModeCheckBox.AutoSize = true;
+            this.DarkModeCheckBox.Location = new System.Drawing.Point(12, 120);
+            this.DarkModeCheckBox.Name = "DarkModeCheckBox";
+            this.DarkModeCheckBox.Size = new System.Drawing.Size(87, 17);
+            this.DarkModeCheckBox.TabIndex = 8;
+            this.DarkModeCheckBox.Text = "Тёмная тема";
+            this.DarkModeCheckBox.UseVisualStyleBackColor = true;
+            // 
             // OkButton
             // 
             this.OkButton.Location = new System.Drawing.Point(260, 124);
@@ -119,6 +130,7 @@
             this.ClientSize = new System.Drawing.Size(428, 159);
             this.Controls.Add(this.CancelBtn);
             this.Controls.Add(this.OkButton);
+            this.Controls.Add(this.DarkModeCheckBox);
             this.Controls.Add(this.IsSoundActiveCheckBox);
             this.Controls.Add(this.IsAlarmActiveCheckBox);
             this.Controls.Add(this.AlarmMessageTextBox);
@@ -144,6 +156,7 @@
         private System.Windows.Forms.TextBox AlarmMessageTextBox;
         private System.Windows.Forms.CheckBox IsAlarmActiveCheckBox;
         private System.Windows.Forms.CheckBox IsSoundActiveCheckBox;
+        private System.Windows.Forms.CheckBox DarkModeCheckBox;
         private System.Windows.Forms.Button OkButton;
         private System.Windows.Forms.Button CancelBtn;
     }
