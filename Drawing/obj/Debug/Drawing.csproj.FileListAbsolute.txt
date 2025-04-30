@@ -1,0 +1,10 @@
+C:\Users\Пользователь\Desktop\ffff\Drawing\bin\Debug\Drawing.exe.config
+C:\Users\Пользователь\Desktop\ffff\Drawing\bin\Debug\Drawing.exe
+C:\Users\Пользователь\Desktop\ffff\Drawing\bin\Debug\Drawing.pdb
+C:\Users\Пользователь\Desktop\ffff\Drawing\obj\Debug\Drawing.csproj.AssemblyReference.cache
+C:\Users\Пользователь\Desktop\ffff\Drawing\obj\Debug\Drawing.DrawingForm.resources
+C:\Users\Пользователь\Desktop\ffff\Drawing\obj\Debug\Drawing.Properties.Resources.resources
+C:\Users\Пользователь\Desktop\ffff\Drawing\obj\Debug\Drawing.csproj.GenerateResource.cache
+C:\Users\Пользователь\Desktop\ffff\Drawing\obj\Debug\Drawing.csproj.CoreCompileInputs.cache
+C:\Users\Пользователь\Desktop\ffff\Drawing\obj\Debug\Drawing.exe
+C:\Users\Пользователь\Desktop\ffff\Drawing\obj\Debug\Drawing.pdb
