@@ -25,41 +25,25 @@ namespace Drawing.Services
             var customColor = Color.FromArgb(120, 80, 200);
             var customPen = new Pen(customColor, 2);
 
-            // Основная часть ракеты (корпус)
+            // Основная часть ракеты 
             var rocketBody = new RectangleModel { X = 1, Y = 0, Width = 3, Height = 8 };
             painter.DrawRectangle(bodyBrush, mainPen, rocketBody);
-
-            // Носовая часть ракеты
             var noseCone = new RectangleModel { X = 1, Y = -2, Width = 3, Height = 2 };
             painter.DrawPie(bodyBrush, mainPen, noseCone, 0, -180);
-
-            // Окно кабины
             var window = new RectangleModel { X = 2, Y = 1, Width = 1, Height = 1 };
             painter.DrawEllipse(windowBrush, thickBluePen, window);
-
-            // Стабилизаторы (крылья)
             var leftWing = new RectangleModel { X = -1, Y = 2, Width = 2, Height = 1 };
             painter.DrawRectangle(bodyBrush, mainPen, leftWing);
-
             var rightWing = new RectangleModel { X = 4, Y = 2, Width = 2, Height = 1 };
             painter.DrawRectangle(bodyBrush, mainPen, rightWing);
-
-            // Двигатель (основание)
             var engine = new RectangleModel { X = 1.5, Y = 8, Width = 2, Height = 1 };
             painter.DrawRectangle(bodyBrush, mainPen, engine);
-
-            // Пламя
             var flame = new RectangleModel { X = 1.5, Y = 7.5, Width = 2, Height = 3 };
             painter.DrawPie(flameBrush, thinRedPen, flame, 180, 180);
-
-            // Детали корпуса (полосы)
             var stripe1 = new RectangleModel { X = 1, Y = 3, Width = 3, Height = 0.2 };
             painter.DrawRectangle(Brushes.Blue, mainPen, stripe1);
-
             var stripe2 = new RectangleModel { X = 1, Y = 5, Width = 3, Height = 0.2 };
             painter.DrawRectangle(Brushes.Red, mainPen, stripe2);
-
-            // Антенна
             var antenna = new RectangleModel { X = 2.5, Y = -2, Width = 0.1, Height = 1 };
             var start = new PointModel { X = antenna.X + antenna.Width / 2, Y = antenna.Y + antenna.Height };
             var end = new PointModel { X = antenna.X + antenna.Width / 2, Y = antenna.Y };
