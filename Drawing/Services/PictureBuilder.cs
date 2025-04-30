@@ -25,7 +25,6 @@ namespace Drawing.Services
             var customColor = Color.FromArgb(120, 80, 200);
             var customPen = new Pen(customColor, 2);
 
-            // Основная часть ракеты 
             var rocketBody = new RectangleModel { X = 1, Y = 0, Width = 3, Height = 8 };
             painter.DrawRectangle(bodyBrush, mainPen, rocketBody);
             var noseCone = new RectangleModel { X = 1, Y = -2, Width = 3, Height = 2 };
