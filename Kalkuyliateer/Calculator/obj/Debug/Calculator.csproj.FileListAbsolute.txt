@@ -1,0 +1,52 @@
+C:\Users\Екатерина Пчелкина\Desktop\3. Calculator\Calculator\Calculator\bin\Debug\Calculator.exe.config
+C:\Users\Екатерина Пчелкина\Desktop\3. Calculator\Calculator\Calculator\bin\Debug\Calculator.exe
+C:\Users\Екатерина Пчелкина\Desktop\3. Calculator\Calculator\Calculator\bin\Debug\Calculator.pdb
+C:\Users\Екатерина Пчелкина\Desktop\3. Calculator\Calculator\Calculator\bin\Debug\Calculator.Business.dll
+C:\Users\Екатерина Пчелкина\Desktop\3. Calculator\Calculator\Calculator\bin\Debug\Calculator.Business.pdb
+C:\Users\Екатерина Пчелкина\Desktop\3. Calculator\Calculator\Calculator\obj\Debug\Calculator.csproj.AssemblyReference.cache
+C:\Users\Екатерина Пчелкина\Desktop\3. Calculator\Calculator\Calculator\obj\Debug\Calculator.CalculatorForm.resources
+C:\Users\Екатерина Пчелкина\Desktop\3. Calculator\Calculator\Calculator\obj\Debug\Calculator.Properties.Resources.resources
+C:\Users\Екатерина Пчелкина\Desktop\3. Calculator\Calculator\Calculator\obj\Debug\Calculator.csproj.GenerateResource.cache
+C:\Users\Екатерина Пчелкина\Desktop\3. Calculator\Calculator\Calculator\obj\Debug\Calculator.csproj.CoreCompileInputs.cache
+C:\Users\Екатерина Пчелкина\Desktop\3. Calculator\Calculator\Calculator\obj\Debug\Calculator.csproj.Up2Date
+C:\Users\Екатерина Пчелкина\Desktop\3. Calculator\Calculator\Calculator\obj\Debug\Calculator.exe
+C:\Users\Екатерина Пчелкина\Desktop\3. Calculator\Calculator\Calculator\obj\Debug\Calculator.pdb
+D:\программирование\C#\Calculator\Calculator\bin\Debug\Calculator.exe.config
+D:\программирование\C#\Calculator\Calculator\bin\Debug\Calculator.exe
+D:\программирование\C#\Calculator\Calculator\bin\Debug\Calculator.pdb
+D:\программирование\C#\Calculator\Calculator\bin\Debug\Calculator.Business.dll
+D:\программирование\C#\Calculator\Calculator\bin\Debug\Calculator.Business.pdb
+D:\программирование\C#\Calculator\Calculator\obj\Debug\Calculator.csproj.AssemblyReference.cache
+D:\программирование\C#\Calculator\Calculator\obj\Debug\Calculator.CalculatorForm.resources
+D:\программирование\C#\Calculator\Calculator\obj\Debug\Calculator.Properties.Resources.resources
+D:\программирование\C#\Calculator\Calculator\obj\Debug\Calculator.csproj.GenerateResource.cache
+D:\программирование\C#\Calculator\Calculator\obj\Debug\Calculator.csproj.CoreCompileInputs.cache
+D:\программирование\C#\Calculator\Calculator\obj\Debug\Calculator.csproj.Up2Date
+D:\программирование\C#\Calculator\Calculator\obj\Debug\Calculator.exe
+D:\программирование\C#\Calculator\Calculator\obj\Debug\Calculator.pdb
+D:\программирование\C#\CalculatorProject\Calculator\bin\Debug\Calculator.exe.config
+D:\программирование\C#\CalculatorProject\Calculator\bin\Debug\Calculator.exe
+D:\программирование\C#\CalculatorProject\Calculator\bin\Debug\Calculator.pdb
+D:\программирование\C#\CalculatorProject\Calculator\bin\Debug\Calculator.Business.dll
+D:\программирование\C#\CalculatorProject\Calculator\bin\Debug\Calculator.Business.pdb
+D:\программирование\C#\CalculatorProject\Calculator\obj\Debug\Calculator.csproj.AssemblyReference.cache
+D:\программирование\C#\CalculatorProject\Calculator\obj\Debug\Calculator.CalculatorForm.resources
+D:\программирование\C#\CalculatorProject\Calculator\obj\Debug\Calculator.Properties.Resources.resources
+D:\программирование\C#\CalculatorProject\Calculator\obj\Debug\Calculator.csproj.GenerateResource.cache
+D:\программирование\C#\CalculatorProject\Calculator\obj\Debug\Calculator.csproj.CoreCompileInputs.cache
+D:\программирование\C#\CalculatorProject\Calculator\obj\Debug\Calculator.csproj.Up2Date
+D:\программирование\C#\CalculatorProject\Calculator\obj\Debug\Calculator.exe
+D:\программирование\C#\CalculatorProject\Calculator\obj\Debug\Calculator.pdb
+D:\Рабочий стол\CalculatorProject\Calculator\obj\Debug\Calculator.csproj.AssemblyReference.cache
+D:\Рабочий стол\CalculatorProject\Calculator\obj\Debug\Calculator.CalculatorForm.resources
+D:\Рабочий стол\CalculatorProject\Calculator\obj\Debug\Calculator.Properties.Resources.resources
+D:\Рабочий стол\CalculatorProject\Calculator\obj\Debug\Calculator.csproj.GenerateResource.cache
+D:\Рабочий стол\CalculatorProject\Calculator\obj\Debug\Calculator.csproj.CoreCompileInputs.cache
+D:\Рабочий стол\CalculatorProject\Calculator\obj\Debug\Calculator.exe
+D:\Рабочий стол\CalculatorProject\Calculator\obj\Debug\Calculator.pdb
+D:\Рабочий стол\CalculatorProject\Calculator\bin\Debug\Calculator.exe.config
+D:\Рабочий стол\CalculatorProject\Calculator\bin\Debug\Calculator.exe
+D:\Рабочий стол\CalculatorProject\Calculator\bin\Debug\Calculator.pdb
+D:\Рабочий стол\CalculatorProject\Calculator\bin\Debug\Calculator.Business.dll
+D:\Рабочий стол\CalculatorProject\Calculator\bin\Debug\Calculator.Business.pdb
+D:\Рабочий стол\CalculatorProject\Calculator\obj\Debug\Calculator.csproj.Up2Date

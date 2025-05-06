@@ -1,0 +1,24 @@
+C:\Users\Екатерина Пчелкина\Desktop\3. Calculator\Calculator\Calculator.Business\bin\Debug\Calculator.Business.dll
+C:\Users\Екатерина Пчелкина\Desktop\3. Calculator\Calculator\Calculator.Business\bin\Debug\Calculator.Business.pdb
+C:\Users\Екатерина Пчелкина\Desktop\3. Calculator\Calculator\Calculator.Business\obj\Debug\Calculator.Business.csproj.AssemblyReference.cache
+C:\Users\Екатерина Пчелкина\Desktop\3. Calculator\Calculator\Calculator.Business\obj\Debug\Calculator.Business.csproj.CoreCompileInputs.cache
+C:\Users\Екатерина Пчелкина\Desktop\3. Calculator\Calculator\Calculator.Business\obj\Debug\Calculator.Business.dll
+C:\Users\Екатерина Пчелкина\Desktop\3. Calculator\Calculator\Calculator.Business\obj\Debug\Calculator.Business.pdb
+D:\программирование\C#\Calculator\Calculator.Business\bin\Debug\Calculator.Business.dll
+D:\программирование\C#\Calculator\Calculator.Business\bin\Debug\Calculator.Business.pdb
+D:\программирование\C#\Calculator\Calculator.Business\obj\Debug\Calculator.Business.csproj.AssemblyReference.cache
+D:\программирование\C#\Calculator\Calculator.Business\obj\Debug\Calculator.Business.csproj.CoreCompileInputs.cache
+D:\программирование\C#\Calculator\Calculator.Business\obj\Debug\Calculator.Business.dll
+D:\программирование\C#\Calculator\Calculator.Business\obj\Debug\Calculator.Business.pdb
+D:\программирование\C#\CalculatorProject\Calculator.Business\bin\Debug\Calculator.Business.dll
+D:\программирование\C#\CalculatorProject\Calculator.Business\bin\Debug\Calculator.Business.pdb
+D:\программирование\C#\CalculatorProject\Calculator.Business\obj\Debug\Calculator.Business.csproj.AssemblyReference.cache
+D:\программирование\C#\CalculatorProject\Calculator.Business\obj\Debug\Calculator.Business.csproj.CoreCompileInputs.cache
+D:\программирование\C#\CalculatorProject\Calculator.Business\obj\Debug\Calculator.Business.dll
+D:\программирование\C#\CalculatorProject\Calculator.Business\obj\Debug\Calculator.Business.pdb
+D:\Рабочий стол\CalculatorProject\Calculator.Business\bin\Debug\Calculator.Business.dll
+D:\Рабочий стол\CalculatorProject\Calculator.Business\bin\Debug\Calculator.Business.pdb
+D:\Рабочий стол\CalculatorProject\Calculator.Business\obj\Debug\Calculator.Business.csproj.AssemblyReference.cache
+D:\Рабочий стол\CalculatorProject\Calculator.Business\obj\Debug\Calculator.Business.csproj.CoreCompileInputs.cache
+D:\Рабочий стол\CalculatorProject\Calculator.Business\obj\Debug\Calculator.Business.dll
+D:\Рабочий стол\CalculatorProject\Calculator.Business\obj\Debug\Calculator.Business.pdb
