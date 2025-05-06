@@ -1,5 +1,6 @@
 ﻿using Calculator.Business.Models;
 using Calculator.Business.Services;
+using Calculator.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,6 +22,19 @@ namespace Calculator
         public CalculatorForm()
         {
             InitializeComponent();
+            InitializeTheme();
+        }
+
+        private void InitializeTheme()
+        {
+            if (ThemeManager.IsSystemThemeDark())
+            {
+                ThemeManager.ApplyDarkTheme(this);
+            }
+            else
+            {
+                ThemeManager.ApplyLightTheme(this);
+            }
         }
 
         private void DigitButton_Click(object sender, EventArgs e)
