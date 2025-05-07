@@ -22,13 +22,25 @@ namespace Calculator.Business.Services
                 state.RegisterX = 0;
             }
 
-            state.RegisterX = state.RegisterX * 10 + digit;
-            state.IsClearNeeded = false;
+            if (state.IsFloat)
+            {
+                state.RegisterX = state.RegisterX + digit / state.bonus;
+                state.bonus *= 10.0;
+                state.IsClearNeeded = false;
+            }
+
+            else
+            {
+                state.RegisterX = state.RegisterX * 10 + digit;
+                state.IsClearNeeded = false;
+            }
         }
 
         public void Clear(CalculatorState state)
         {
             state.RegisterX = 0;
+            state.RegisterY = 0;
+            state.IsFloat = false;
         }
 
         public void MoveXToY(CalculatorState state)
@@ -62,6 +74,7 @@ namespace Calculator.Business.Services
         {
             CompleteOperation(state, state.OperationCode);
             MoveXToY(state);
+            state.bonus = 10.0;
             state.OperationCode = operationCode;
             state.IsClearNeeded = true;
         }

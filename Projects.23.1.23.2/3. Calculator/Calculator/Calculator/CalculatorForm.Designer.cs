@@ -45,14 +45,15 @@
             this.DivideButton = new System.Windows.Forms.Button();
             this.MultiplyButton = new System.Windows.Forms.Button();
             this.EqualButton = new System.Windows.Forms.Button();
-            this.XToYButton = new System.Windows.Forms.Button();
+            this.FloatButton = new System.Windows.Forms.Button();
+            this.ProcentButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // DisplayLabel
             // 
-            this.DisplayLabel.BackColor = System.Drawing.Color.Black;
+            this.DisplayLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.DisplayLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.DisplayLabel.ForeColor = System.Drawing.Color.LightGoldenrodYellow;
+            this.DisplayLabel.ForeColor = System.Drawing.Color.GreenYellow;
             this.DisplayLabel.Location = new System.Drawing.Point(12, 9);
             this.DisplayLabel.Name = "DisplayLabel";
             this.DisplayLabel.Size = new System.Drawing.Size(434, 52);
@@ -236,24 +237,36 @@
             this.EqualButton.UseVisualStyleBackColor = true;
             this.EqualButton.Click += new System.EventHandler(this.OperationButton_Click);
             // 
-            // XToYButton
+            // FloatButton
             // 
-            this.XToYButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.XToYButton.Location = new System.Drawing.Point(175, 262);
-            this.XToYButton.Name = "XToYButton";
-            this.XToYButton.Size = new System.Drawing.Size(109, 57);
-            this.XToYButton.TabIndex = 17;
-            this.XToYButton.Text = "X->Y";
-            this.XToYButton.UseVisualStyleBackColor = true;
-            this.XToYButton.Visible = false;
-            this.XToYButton.Click += new System.EventHandler(this.XToYButton_Click);
+            this.FloatButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F);
+            this.FloatButton.Location = new System.Drawing.Point(94, 262);
+            this.FloatButton.Name = "FloatButton";
+            this.FloatButton.Size = new System.Drawing.Size(75, 57);
+            this.FloatButton.TabIndex = 18;
+            this.FloatButton.Text = ",";
+            this.FloatButton.UseVisualStyleBackColor = true;
+            this.FloatButton.Click += new System.EventHandler(this.FloatButton_Click);
+            // 
+            // ProcentButton
+            // 
+            this.ProcentButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F);
+            this.ProcentButton.Location = new System.Drawing.Point(175, 262);
+            this.ProcentButton.Name = "ProcentButton";
+            this.ProcentButton.Size = new System.Drawing.Size(75, 57);
+            this.ProcentButton.TabIndex = 19;
+            this.ProcentButton.Text = "%";
+            this.ProcentButton.UseVisualStyleBackColor = true;
+            this.ProcentButton.Click += new System.EventHandler(this.button1_Click);
             // 
             // CalculatorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Info;
             this.ClientSize = new System.Drawing.Size(458, 331);
-            this.Controls.Add(this.XToYButton);
+            this.Controls.Add(this.ProcentButton);
+            this.Controls.Add(this.FloatButton);
             this.Controls.Add(this.EqualButton);
             this.Controls.Add(this.MultiplyButton);
             this.Controls.Add(this.DivideButton);
@@ -271,10 +284,12 @@
             this.Controls.Add(this.Digit8Button);
             this.Controls.Add(this.Digit7Button);
             this.Controls.Add(this.DisplayLabel);
+            this.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "CalculatorForm";
             this.Text = "Калькулятор";
+            this.Load += new System.EventHandler(this.CalculatorForm_Load);
             this.ResumeLayout(false);
 
         }
@@ -298,7 +313,8 @@
         private System.Windows.Forms.Button DivideButton;
         private System.Windows.Forms.Button MultiplyButton;
         private System.Windows.Forms.Button EqualButton;
-        private System.Windows.Forms.Button XToYButton;
+        private System.Windows.Forms.Button FloatButton;
+        private System.Windows.Forms.Button ProcentButton;
     }
 }
 

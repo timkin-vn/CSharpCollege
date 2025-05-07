@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -48,6 +49,8 @@ namespace Calculator
 
         private void OperationButton_Click(object sender, EventArgs e)
         {
+            _state.bonus = 10.0;
+            _state.IsFloat = false;
             var operationCode = ((Button)sender).Text;
             _service.PressOperation(_state, operationCode);
             ShowResult();
@@ -56,6 +59,24 @@ namespace Calculator
         private void EqualButton_Click(object sender, EventArgs e)
         {
             _service.PressEqual(_state);
+            ShowResult();
+        }
+
+        private void CalculatorForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FloatButton_Click(object sender, EventArgs e)
+        {
+            _state.IsFloat = true;
+            _state.bonus = 10.0;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            _state.RegisterY = _state.RegisterY > 0 ? _state.RegisterY : 1;
+            _state.RegisterX = _state.RegisterY / 100 * _state.RegisterX;
             ShowResult();
         }
     }
