@@ -101,7 +101,7 @@ namespace Calculator.Business.Services
             }
             else
             {
-                state.RegisterX = double.NaN; // или обработка ошибки
+                state.RegisterX = double.NaN;
             }
         }
 
