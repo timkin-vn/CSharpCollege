@@ -1,0 +1,190 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\ptroq\\CSharpCollege-master\\Dev22\\FifteenGame.Web\\WebApplication1\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{358CE667-D2BE-45F2-94E2-B4ED2D87FCEB}|WebApplication1\\WebApplication1.csproj|c:\\ptroq\\csharpcollege-master\\dev22\\fifteengame.web\\webapplication1\\webapplication1\\views\\game\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{358CE667-D2BE-45F2-94E2-B4ED2D87FCEB}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\views\\game\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{358CE667-D2BE-45F2-94E2-B4ED2D87FCEB}|WebApplication1\\WebApplication1.csproj|c:\\ptroq\\csharpcollege-master\\dev22\\fifteengame.web\\webapplication1\\webapplication1\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{358CE667-D2BE-45F2-94E2-B4ED2D87FCEB}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{358CE667-D2BE-45F2-94E2-B4ED2D87FCEB}|WebApplication1\\WebApplication1.csproj|c:\\ptroq\\csharpcollege-master\\dev22\\fifteengame.web\\webapplication1\\webapplication1\\views\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{358CE667-D2BE-45F2-94E2-B4ED2D87FCEB}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\views\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{358CE667-D2BE-45F2-94E2-B4ED2D87FCEB}|WebApplication1\\WebApplication1.csproj|c:\\ptroq\\csharpcollege-master\\dev22\\fifteengame.web\\webapplication1\\webapplication1\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{358CE667-D2BE-45F2-94E2-B4ED2D87FCEB}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{358CE667-D2BE-45F2-94E2-B4ED2D87FCEB}|WebApplication1\\WebApplication1.csproj|c:\\ptroq\\csharpcollege-master\\dev22\\fifteengame.web\\webapplication1\\webapplication1\\controllers\\gamecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{358CE667-D2BE-45F2-94E2-B4ED2D87FCEB}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\controllers\\gamecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{358CE667-D2BE-45F2-94E2-B4ED2D87FCEB}|WebApplication1\\WebApplication1.csproj|c:\\ptroq\\csharpcollege-master\\dev22\\fifteengame.web\\webapplication1\\webapplication1\\models\\gameviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{358CE667-D2BE-45F2-94E2-B4ED2D87FCEB}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\models\\gameviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{358CE667-D2BE-45F2-94E2-B4ED2D87FCEB}|WebApplication1\\WebApplication1.csproj|c:\\ptroq\\csharpcollege-master\\dev22\\fifteengame.web\\webapplication1\\webapplication1\\models\\cellviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{358CE667-D2BE-45F2-94E2-B4ED2D87FCEB}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\models\\cellviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{358CE667-D2BE-45F2-94E2-B4ED2D87FCEB}|WebApplication1\\WebApplication1.csproj|c:\\ptroq\\csharpcollege-master\\dev22\\fifteengame.web\\webapplication1\\webapplication1\\services\\gameservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{358CE667-D2BE-45F2-94E2-B4ED2D87FCEB}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\services\\gameservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{358CE667-D2BE-45F2-94E2-B4ED2D87FCEB}|WebApplication1\\WebApplication1.csproj|c:\\ptroq\\csharpcollege-master\\dev22\\fifteengame.web\\webapplication1\\webapplication1\\models\\gamemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{358CE667-D2BE-45F2-94E2-B4ED2D87FCEB}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\models\\gamemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{358CE667-D2BE-45F2-94E2-B4ED2D87FCEB}|WebApplication1\\WebApplication1.csproj|c:\\ptroq\\csharpcollege-master\\dev22\\fifteengame.web\\webapplication1\\webapplication1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{358CE667-D2BE-45F2-94E2-B4ED2D87FCEB}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\ptroq\\CSharpCollege-master\\Dev22\\FifteenGame.Web\\WebApplication1\\WebApplication1\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "WebApplication1\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\ptroq\\CSharpCollege-master\\Dev22\\FifteenGame.Web\\WebApplication1\\WebApplication1\\Properties\\launchSettings.json",
+              "RelativeToolTip": "WebApplication1\\Properties\\launchSettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-03-13T12:11:37.916Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "_ViewStart.cshtml",
+              "DocumentMoniker": "C:\\ptroq\\CSharpCollege-master\\Dev22\\FifteenGame.Web\\WebApplication1\\WebApplication1\\Views\\_ViewStart.cshtml",
+              "RelativeDocumentMoniker": "WebApplication1\\Views\\_ViewStart.cshtml",
+              "ToolTip": "C:\\ptroq\\CSharpCollege-master\\Dev22\\FifteenGame.Web\\WebApplication1\\WebApplication1\\Views\\_ViewStart.cshtml",
+              "RelativeToolTip": "WebApplication1\\Views\\_ViewStart.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-03-13T12:09:28.712Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\ptroq\\CSharpCollege-master\\Dev22\\FifteenGame.Web\\WebApplication1\\WebApplication1\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "WebApplication1\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\ptroq\\CSharpCollege-master\\Dev22\\FifteenGame.Web\\WebApplication1\\WebApplication1\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "WebApplication1\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-03-13T12:09:14.407Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\ptroq\\CSharpCollege-master\\Dev22\\FifteenGame.Web\\WebApplication1\\WebApplication1\\Views\\Game\\Index.cshtml",
+              "RelativeDocumentMoniker": "WebApplication1\\Views\\Game\\Index.cshtml",
+              "ToolTip": "C:\\ptroq\\CSharpCollege-master\\Dev22\\FifteenGame.Web\\WebApplication1\\WebApplication1\\Views\\Game\\Index.cshtml*",
+              "RelativeToolTip": "WebApplication1\\Views\\Game\\Index.cshtml*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-03-13T12:08:45.491Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "GameController.cs",
+              "DocumentMoniker": "C:\\ptroq\\CSharpCollege-master\\Dev22\\FifteenGame.Web\\WebApplication1\\WebApplication1\\Controllers\\GameController.cs",
+              "RelativeDocumentMoniker": "WebApplication1\\Controllers\\GameController.cs",
+              "ToolTip": "C:\\ptroq\\CSharpCollege-master\\Dev22\\FifteenGame.Web\\WebApplication1\\WebApplication1\\Controllers\\GameController.cs",
+              "RelativeToolTip": "WebApplication1\\Controllers\\GameController.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAAAUwE8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-13T12:07:55.043Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "GameViewModel.cs",
+              "DocumentMoniker": "C:\\ptroq\\CSharpCollege-master\\Dev22\\FifteenGame.Web\\WebApplication1\\WebApplication1\\Models\\GameViewModel.cs",
+              "RelativeDocumentMoniker": "WebApplication1\\Models\\GameViewModel.cs",
+              "ToolTip": "C:\\ptroq\\CSharpCollege-master\\Dev22\\FifteenGame.Web\\WebApplication1\\WebApplication1\\Models\\GameViewModel.cs",
+              "RelativeToolTip": "WebApplication1\\Models\\GameViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-13T12:07:37.212Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "CellViewModel.cs",
+              "DocumentMoniker": "C:\\ptroq\\CSharpCollege-master\\Dev22\\FifteenGame.Web\\WebApplication1\\WebApplication1\\Models\\CellViewModel.cs",
+              "RelativeDocumentMoniker": "WebApplication1\\Models\\CellViewModel.cs",
+              "ToolTip": "C:\\ptroq\\CSharpCollege-master\\Dev22\\FifteenGame.Web\\WebApplication1\\WebApplication1\\Models\\CellViewModel.cs",
+              "RelativeToolTip": "WebApplication1\\Models\\CellViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-13T12:07:22.563Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "GameService.cs",
+              "DocumentMoniker": "C:\\ptroq\\CSharpCollege-master\\Dev22\\FifteenGame.Web\\WebApplication1\\WebApplication1\\Services\\GameService.cs",
+              "RelativeDocumentMoniker": "WebApplication1\\Services\\GameService.cs",
+              "ToolTip": "C:\\ptroq\\CSharpCollege-master\\Dev22\\FifteenGame.Web\\WebApplication1\\WebApplication1\\Services\\GameService.cs",
+              "RelativeToolTip": "WebApplication1\\Services\\GameService.cs",
+              "ViewState": "AgIAACkAAAAAAAAAAADwv1cAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-13T12:07:06.949Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "GameModel.cs",
+              "DocumentMoniker": "C:\\ptroq\\CSharpCollege-master\\Dev22\\FifteenGame.Web\\WebApplication1\\WebApplication1\\Models\\GameModel.cs",
+              "RelativeDocumentMoniker": "WebApplication1\\Models\\GameModel.cs",
+              "ToolTip": "C:\\ptroq\\CSharpCollege-master\\Dev22\\FifteenGame.Web\\WebApplication1\\WebApplication1\\Models\\GameModel.cs",
+              "RelativeToolTip": "WebApplication1\\Models\\GameModel.cs",
+              "ViewState": "AgIAAEEAAAAAAAAAAADwv28AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-13T12:06:41.422Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\ptroq\\CSharpCollege-master\\Dev22\\FifteenGame.Web\\WebApplication1\\WebApplication1\\Program.cs",
+              "RelativeDocumentMoniker": "WebApplication1\\Program.cs",
+              "ToolTip": "C:\\ptroq\\CSharpCollege-master\\Dev22\\FifteenGame.Web\\WebApplication1\\WebApplication1\\Program.cs",
+              "RelativeToolTip": "WebApplication1\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-13T12:05:56.344Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
