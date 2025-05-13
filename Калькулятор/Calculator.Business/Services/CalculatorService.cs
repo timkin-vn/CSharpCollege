@@ -44,15 +44,15 @@ namespace Calculator.Business.Services
                     state.RegisterX = state.RegisterY + state.RegisterX;
                     break;
 
-                case "-":
+                case "—":
                     state.RegisterX = state.RegisterY - state.RegisterX;
                     break;
 
-                case "*":
+                case "×":
                     state.RegisterX = state.RegisterY * state.RegisterX;
                     break;
 
-                case "/":
+                case "÷":
                     state.RegisterX = state.RegisterY / state.RegisterX;
                     break;
             }
@@ -70,6 +70,26 @@ namespace Calculator.Business.Services
         {
             CompleteOperation(state, state.OperationCode);
             state.IsClearNeeded = true;
+        }
+
+        public void Percent(CalculatorState state)
+        {
+            state.RegisterX = state.RegisterY / state.RegisterX;
+        }
+
+        public void Square(CalculatorState state)
+        {
+            state.RegisterX = Math.Pow(state.RegisterX, 2);
+        }
+
+        public void Sqrt(CalculatorState state)
+        {
+            state.RegisterX = Math.Sqrt(state.RegisterX);
+        }
+
+        public void RemoveLastDigit(CalculatorState state)
+        {
+            state.RegisterX = (int)(state.RegisterX / 10);
         }
     }
 }

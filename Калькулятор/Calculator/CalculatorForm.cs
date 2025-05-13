@@ -72,5 +72,29 @@ namespace Calculator
             _service.PressEqual(_state);
             ShowResult();
         }
+
+        private void PercentButton_Click(object sender, EventArgs e)
+        {
+            _service.Percent(_state);
+            ShowResult();
+        }
+
+        private void SquareButton_Click(object sender, EventArgs e)
+        {
+            _service.Square(_state);
+            ShowResult();
+        }
+
+        private void SqrtButton_Click(object sender, EventArgs e)
+        {
+            _service.Sqrt(_state);
+            ShowResult();
+        }
+
+        private void BackspaceButton_Click(object sender, EventArgs e)
+        {
+            _service.RemoveLastDigit(_state);
+            ShowResult();
+        }
     }
 }
