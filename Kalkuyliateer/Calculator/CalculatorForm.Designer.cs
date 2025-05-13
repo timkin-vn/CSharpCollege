@@ -46,14 +46,10 @@
             this.MultiplyButton = new System.Windows.Forms.Button();
             this.EqualButton = new System.Windows.Forms.Button();
             this.XToYButton = new System.Windows.Forms.Button();
-            this.sinusButton = new System.Windows.Forms.Button();
-            this.cosinusButton = new System.Windows.Forms.Button();
-            this.tangensButton = new System.Windows.Forms.Button();
             this.updateButton = new System.Windows.Forms.Button();
             this.percentButton = new System.Windows.Forms.Button();
-            this.logarifmButton = new System.Windows.Forms.Button();
-            this.sqrtButton = new System.Windows.Forms.Button();
             this.degreeButton = new System.Windows.Forms.Button();
+            this.sqrtButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // DisplayLabel
@@ -63,7 +59,7 @@
             this.DisplayLabel.ForeColor = System.Drawing.Color.LightGoldenrodYellow;
             this.DisplayLabel.Location = new System.Drawing.Point(12, 9);
             this.DisplayLabel.Name = "DisplayLabel";
-            this.DisplayLabel.Size = new System.Drawing.Size(446, 52);
+            this.DisplayLabel.Size = new System.Drawing.Size(363, 52);
             this.DisplayLabel.TabIndex = 0;
             this.DisplayLabel.Text = "0";
             this.DisplayLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -192,7 +188,7 @@
             // SubtractButton
             // 
             this.SubtractButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.SubtractButton.Location = new System.Drawing.Point(303, 136);
+            this.SubtractButton.Location = new System.Drawing.Point(309, 136);
             this.SubtractButton.Name = "SubtractButton";
             this.SubtractButton.Size = new System.Drawing.Size(66, 57);
             this.SubtractButton.TabIndex = 12;
@@ -203,7 +199,7 @@
             // AddButton
             // 
             this.AddButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.AddButton.Location = new System.Drawing.Point(303, 73);
+            this.AddButton.Location = new System.Drawing.Point(309, 73);
             this.AddButton.Name = "AddButton";
             this.AddButton.Size = new System.Drawing.Size(66, 57);
             this.AddButton.TabIndex = 13;
@@ -225,7 +221,7 @@
             // MultiplyButton
             // 
             this.MultiplyButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.MultiplyButton.Location = new System.Drawing.Point(303, 199);
+            this.MultiplyButton.Location = new System.Drawing.Point(309, 199);
             this.MultiplyButton.Name = "MultiplyButton";
             this.MultiplyButton.Size = new System.Drawing.Size(66, 57);
             this.MultiplyButton.TabIndex = 15;
@@ -236,7 +232,7 @@
             // EqualButton
             // 
             this.EqualButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.EqualButton.Location = new System.Drawing.Point(303, 262);
+            this.EqualButton.Location = new System.Drawing.Point(309, 262);
             this.EqualButton.Name = "EqualButton";
             this.EqualButton.Size = new System.Drawing.Size(65, 57);
             this.EqualButton.TabIndex = 16;
@@ -255,39 +251,6 @@
             this.XToYButton.UseVisualStyleBackColor = true;
             this.XToYButton.Visible = false;
             this.XToYButton.Click += new System.EventHandler(this.XToYButton_Click);
-            // 
-            // sinusButton
-            // 
-            this.sinusButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.sinusButton.Location = new System.Drawing.Point(226, 260);
-            this.sinusButton.Name = "sinusButton";
-            this.sinusButton.Size = new System.Drawing.Size(71, 59);
-            this.sinusButton.TabIndex = 22;
-            this.sinusButton.Text = "sin";
-            this.sinusButton.UseVisualStyleBackColor = true;
-            this.sinusButton.Click += new System.EventHandler(this.sinusButton_Click);
-            // 
-            // cosinusButton
-            // 
-            this.cosinusButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.cosinusButton.Location = new System.Drawing.Point(375, 199);
-            this.cosinusButton.Name = "cosinusButton";
-            this.cosinusButton.Size = new System.Drawing.Size(83, 57);
-            this.cosinusButton.TabIndex = 23;
-            this.cosinusButton.Text = "cos";
-            this.cosinusButton.UseVisualStyleBackColor = true;
-            this.cosinusButton.Click += new System.EventHandler(this.cosinusButton_Click);
-            // 
-            // tangensButton
-            // 
-            this.tangensButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.tangensButton.Location = new System.Drawing.Point(84, 262);
-            this.tangensButton.Name = "tangensButton";
-            this.tangensButton.Size = new System.Drawing.Size(65, 57);
-            this.tangensButton.TabIndex = 24;
-            this.tangensButton.Text = "tg";
-            this.tangensButton.UseVisualStyleBackColor = true;
-            this.tangensButton.Click += new System.EventHandler(this.tangensButton_Click);
             // 
             // updateButton
             // 
@@ -311,53 +274,38 @@
             this.percentButton.UseVisualStyleBackColor = true;
             this.percentButton.Click += new System.EventHandler(this.percentButton_Click);
             // 
-            // logarifmButton
-            // 
-            this.logarifmButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.logarifmButton.Location = new System.Drawing.Point(375, 73);
-            this.logarifmButton.Name = "logarifmButton";
-            this.logarifmButton.Size = new System.Drawing.Size(83, 57);
-            this.logarifmButton.TabIndex = 29;
-            this.logarifmButton.Text = "log";
-            this.logarifmButton.UseVisualStyleBackColor = true;
-            this.logarifmButton.Click += new System.EventHandler(this.logarifmButton_Click);
-            // 
-            // sqrtButton
-            // 
-            this.sqrtButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.sqrtButton.Location = new System.Drawing.Point(375, 269);
-            this.sqrtButton.Name = "sqrtButton";
-            this.sqrtButton.Size = new System.Drawing.Size(83, 50);
-            this.sqrtButton.TabIndex = 30;
-            this.sqrtButton.Text = "sqrt";
-            this.sqrtButton.UseVisualStyleBackColor = true;
-            this.sqrtButton.Click += new System.EventHandler(this.sqrtButton_Click);
-            // 
             // degreeButton
             // 
             this.degreeButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.degreeButton.Location = new System.Drawing.Point(375, 136);
+            this.degreeButton.Location = new System.Drawing.Point(232, 262);
             this.degreeButton.Name = "degreeButton";
-            this.degreeButton.Size = new System.Drawing.Size(83, 57);
+            this.degreeButton.Size = new System.Drawing.Size(71, 57);
             this.degreeButton.TabIndex = 31;
             this.degreeButton.Text = "x^2";
             this.degreeButton.UseVisualStyleBackColor = true;
             this.degreeButton.Click += new System.EventHandler(this.degreeButton_Click);
+            // 
+            // sqrtButton
+            // 
+            this.sqrtButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.sqrtButton.Location = new System.Drawing.Point(84, 262);
+            this.sqrtButton.Name = "sqrtButton";
+            this.sqrtButton.Size = new System.Drawing.Size(65, 54);
+            this.sqrtButton.TabIndex = 30;
+            this.sqrtButton.Text = "sqrt";
+            this.sqrtButton.UseVisualStyleBackColor = true;
+            this.sqrtButton.Click += new System.EventHandler(this.sqrtButton_Click);
             // 
             // CalculatorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DimGray;
-            this.ClientSize = new System.Drawing.Size(464, 328);
+            this.ClientSize = new System.Drawing.Size(385, 328);
             this.Controls.Add(this.degreeButton);
             this.Controls.Add(this.sqrtButton);
-            this.Controls.Add(this.logarifmButton);
             this.Controls.Add(this.percentButton);
             this.Controls.Add(this.updateButton);
-            this.Controls.Add(this.tangensButton);
-            this.Controls.Add(this.cosinusButton);
-            this.Controls.Add(this.sinusButton);
             this.Controls.Add(this.XToYButton);
             this.Controls.Add(this.EqualButton);
             this.Controls.Add(this.MultiplyButton);
@@ -407,14 +355,10 @@
         private System.Windows.Forms.Button MultiplyButton;
         private System.Windows.Forms.Button EqualButton;
         private System.Windows.Forms.Button XToYButton;
-        private System.Windows.Forms.Button sinusButton;
-        private System.Windows.Forms.Button cosinusButton;
-        private System.Windows.Forms.Button tangensButton;
         private System.Windows.Forms.Button updateButton;
         private System.Windows.Forms.Button percentButton;
-        private System.Windows.Forms.Button logarifmButton;
-        private System.Windows.Forms.Button sqrtButton;
         private System.Windows.Forms.Button degreeButton;
+        private System.Windows.Forms.Button sqrtButton;
     }
 }
 

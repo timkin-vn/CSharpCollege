@@ -50,3 +50,16 @@ D:\Рабочий стол\CalculatorProject\Calculator\bin\Debug\Calculator.pdb
 D:\Рабочий стол\CalculatorProject\Calculator\bin\Debug\Calculator.Business.dll
 D:\Рабочий стол\CalculatorProject\Calculator\bin\Debug\Calculator.Business.pdb
 D:\Рабочий стол\CalculatorProject\Calculator\obj\Debug\Calculator.csproj.Up2Date
+D:\Рабочий стол\Kalkuyliateer\Calculator\obj\Debug\Calculator.csproj.AssemblyReference.cache
+D:\Рабочий стол\Kalkuyliateer\Calculator\obj\Debug\Calculator.CalculatorForm.resources
+D:\Рабочий стол\Kalkuyliateer\Calculator\obj\Debug\Calculator.Properties.Resources.resources
+D:\Рабочий стол\Kalkuyliateer\Calculator\obj\Debug\Calculator.csproj.GenerateResource.cache
+D:\Рабочий стол\Kalkuyliateer\Calculator\obj\Debug\Calculator.csproj.CoreCompileInputs.cache
+D:\Рабочий стол\Kalkuyliateer\Calculator\obj\Debug\Calculator.exe
+D:\Рабочий стол\Kalkuyliateer\Calculator\obj\Debug\Calculator.pdb
+D:\Рабочий стол\Kalkuyliateer\Calculator\bin\Debug\Calculator.exe.config
+D:\Рабочий стол\Kalkuyliateer\Calculator\bin\Debug\Calculator.exe
+D:\Рабочий стол\Kalkuyliateer\Calculator\bin\Debug\Calculator.pdb
+D:\Рабочий стол\Kalkuyliateer\Calculator\bin\Debug\Calculator.Business.dll
+D:\Рабочий стол\Kalkuyliateer\Calculator\bin\Debug\Calculator.Business.pdb
+D:\Рабочий стол\Kalkuyliateer\Calculator\obj\Debug\Calculator.csproj.Up2Date

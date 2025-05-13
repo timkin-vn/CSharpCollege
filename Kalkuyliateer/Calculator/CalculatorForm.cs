@@ -68,23 +68,7 @@ namespace Calculator
             ShowResult();
         }
 
-        private void sinusButton_Click(object sender, EventArgs e)
-        {
-            _service.PressSin(_state);
-            ShowResult();
-        }
-
-        private void logarifmButton_Click(object sender, EventArgs e)
-        {
-            _service.PressLog(_state);
-            ShowResult();
-        }
-
-        private void cosinusButton_Click(object sender, EventArgs e)
-        {
-            _service.PressCos(_state);
-            ShowResult();
-        }
+        
 
         private void sqrtButton_Click(object sender, EventArgs e)
         {
@@ -92,18 +76,7 @@ namespace Calculator
             ShowResult();
         }
 
-        private void tangensButton_Click(object sender, EventArgs e)
-        {
-            _service.PressTan(_state);
-            ShowResult();
-        }
-
-        private void degreeButton_Click(object sender, EventArgs e)
-        {
-            _service.PressDegree(_state);
-            ShowResult();
-        }
-
+       
         private void updateButton_Click(object sender, EventArgs e)
         {
             _service.PressUpdateSign(_state);
@@ -119,6 +92,12 @@ namespace Calculator
         private void CalculatorForm_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void degreeButton_Click(object sender, EventArgs e)
+        {
+            _service.PressDegree(_state);
+            ShowResult() ;
         }
     }
 }

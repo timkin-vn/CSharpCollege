@@ -22,3 +22,9 @@ D:\Рабочий стол\CalculatorProject\Calculator.Business\obj\Debug\Calcu
 D:\Рабочий стол\CalculatorProject\Calculator.Business\obj\Debug\Calculator.Business.csproj.CoreCompileInputs.cache
 D:\Рабочий стол\CalculatorProject\Calculator.Business\obj\Debug\Calculator.Business.dll
 D:\Рабочий стол\CalculatorProject\Calculator.Business\obj\Debug\Calculator.Business.pdb
+D:\Рабочий стол\Kalkuyliateer\Calculator.Business\bin\Debug\Calculator.Business.dll
+D:\Рабочий стол\Kalkuyliateer\Calculator.Business\bin\Debug\Calculator.Business.pdb
+D:\Рабочий стол\Kalkuyliateer\Calculator.Business\obj\Debug\Calculator.Business.csproj.AssemblyReference.cache
+D:\Рабочий стол\Kalkuyliateer\Calculator.Business\obj\Debug\Calculator.Business.csproj.CoreCompileInputs.cache
+D:\Рабочий стол\Kalkuyliateer\Calculator.Business\obj\Debug\Calculator.Business.dll
+D:\Рабочий стол\Kalkuyliateer\Calculator.Business\obj\Debug\Calculator.Business.pdb

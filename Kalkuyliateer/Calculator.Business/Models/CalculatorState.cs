@@ -16,6 +16,6 @@ namespace Calculator.Business.Models
 
         public bool IsClearNeeded { get; set; }
         public string ErrorMessage { get; set; }
-        public List<string> History { get; set; } = new List<string>();
+        
     }
 }

@@ -114,58 +114,8 @@ namespace Calculator.Business.Services
             state.IsClearNeeded = true;
         }
 
-        public void PressSin(CalculatorState state)
-        {
-            double originalValue = state.RegisterX;
-
-            state.RegisterX = Math.Sin(originalValue * Math.PI / 180);
-            state.IsClearNeeded = true;
             
-        }
-        public void PressCos(CalculatorState state)
-        {
-            double originalValue = state.RegisterX;
-
-            state.RegisterX = Math.Cos(originalValue * Math.PI / 180);
-            state.IsClearNeeded = true;
-            
-        }
-
-        public void PressLog(CalculatorState state)
-        {
-            double originalValue = state.RegisterX;
-
-            if (originalValue <= 0)
-            {
-                state.ErrorMessage = "Ошибка!";
-                state.IsClearNeeded = true;
-            }
-            else
-            {
-                state.RegisterX = Math.Log(originalValue);
-                state.IsClearNeeded = true;
-                
-            }
-        }
-
-        public void PressTan(CalculatorState state)
-        {
-            double originalValue = state.RegisterX;
-
-            if (Math.Cos(originalValue * Math.PI / 180) == 0)
-            {
-                state.ErrorMessage = "Ошибка!";
-                state.IsClearNeeded = true;
-            }
-            else
-            {
-                state.RegisterX = Math.Tan(originalValue * Math.PI / 180);
-                state.IsClearNeeded = true;
-
-                
-            }
-        }
-
+        
         public void PressPercent(CalculatorState state)
         {
             double originalValue = state.RegisterX;
@@ -201,16 +151,14 @@ namespace Calculator.Business.Services
                 
             }
         }
-
         public void PressDegree(CalculatorState state)
         {
             double originalValue = state.RegisterX;
 
             state.RegisterX = Math.Pow(originalValue, 2);
             state.IsClearNeeded = true;
-            
+
         }
 
-        
     }
 }
