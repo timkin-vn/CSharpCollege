@@ -25,7 +25,16 @@ namespace Drawing.Services
             var DarkRoseLeaf = Brushes.DarkRed;
             var ShadowRoseLeaf = Brushes.Black;
             var GreenRoseLeaf = Brushes.DarkGreen;
+            var SkyBrush = Brushes.Blue;
 
+            var Sky = new[]
+            {
+                new PointModel { X = -100, Y = 100, },
+                new PointModel { X = -100, Y = -100, },
+                new PointModel { X = 100, Y = -100, },
+                new PointModel { X = 100, Y = 100, },
+            };
+            painter.DrawPolygon(SkyBrush, mainPen, Sky);
 
             var LeafPoints3 = new[]
             {
