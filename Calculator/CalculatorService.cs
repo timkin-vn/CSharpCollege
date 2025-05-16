@@ -1,9 +1,4 @@
 ﻿using Calculator.Business.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Calculator.Business.Services
 {
@@ -12,17 +7,15 @@ namespace Calculator.Business.Services
         public void PressDigit(CalculatorState state, string digitText)
         {
             if (!byte.TryParse(digitText, out var digit))
-            {
                 return;
-            }
 
             if (state.NeedClearX)
             {
                 state.RegisterX = 0;
+                state.NeedClearX = false;
             }
 
             state.RegisterX = state.RegisterX * 10 + digit;
-            state.NeedClearX = false;
         }
 
         public void Clear(CalculatorState state)
@@ -40,21 +33,10 @@ namespace Calculator.Business.Services
         {
             switch (operation)
             {
-                case "+":
-                    state.RegisterX = state.RegisterY + state.RegisterX;
-                    break;
-
-                case "-":
-                    state.RegisterX = state.RegisterY - state.RegisterX;
-                    break;
-
-                case "*":
-                    state.RegisterX = state.RegisterY * state.RegisterX;
-                    break;
-
-                case "/":
-                    state.RegisterX = state.RegisterY / state.RegisterX;
-                    break;
+                case "+": state.RegisterX = state.RegisterY + state.RegisterX; break;
+                case "-": state.RegisterX = state.RegisterY - state.RegisterX; break;
+                case "*": state.RegisterX = state.RegisterY * state.RegisterX; break;
+                case "/": state.RegisterX = state.RegisterY / state.RegisterX; break;
             }
         }
 
