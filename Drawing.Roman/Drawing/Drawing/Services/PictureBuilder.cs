@@ -181,7 +181,7 @@ namespace Drawing.Services
             //склоны корпуса
             painter.DrawPolygon(sweeperBrush, mainPen, sweeperPoints);
 
-            /*startPoint = new PointModel { X = 12, Y = 2.2 };
+            startPoint = new PointModel { X = 12, Y = 2.2 };
             endPoint = new PointModel { X = 11.4, Y = 2.8 };
             painter.DrawLine(linePen, startPoint, endPoint);
 
@@ -199,7 +199,7 @@ namespace Drawing.Services
 
             startPoint = new PointModel { X = 11.4, Y = 2.8 };
             endPoint = new PointModel { X = -3, Y = 2.8 };
-            painter.DrawLine(linePen, startPoint, endPoint);*/
+            painter.DrawLine(linePen, startPoint, endPoint);
 
             startPoint = new PointModel { X = 11.35, Y = 2.72 };
             endPoint = new PointModel { X = -2.95, Y = 2.72 };
@@ -266,7 +266,7 @@ namespace Drawing.Services
             endPoint = new PointModel { X = 3, Y = 6.5 };
             painter.DrawLine(linePen, startPoint, endPoint);
 
-            //свт
+            //ствол
             startPoint = new PointModel { X = 8.9, Y = 5.2 };
             endPoint = new PointModel { X = 9.5, Y = 5.2 };
             painter.DrawLine(linePen, startPoint, endPoint);
