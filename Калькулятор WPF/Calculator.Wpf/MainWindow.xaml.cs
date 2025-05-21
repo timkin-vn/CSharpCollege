@@ -44,5 +44,25 @@ namespace Calculator.Wpf
             var operationCode = (string)((Button)sender).Content;
             ViewModel.PressOperation(operationCode);
         }
+
+        private void BackspaceButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.PressBackspace();
+        }
+
+        private void PercentButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.PressPercent();
+        }
+
+        private void SquareButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.PressSquare();
+        }
+
+        private void SqrtButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.PressSqrt();
+        }
     }
 }

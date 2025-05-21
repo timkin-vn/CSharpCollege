@@ -37,6 +37,30 @@ namespace Calculator.Wpf.ViewModels
             OnPropertyChanged(nameof(DisplayValue));
         }
 
+        public void PressBackspace()
+        {
+            _service.RemoveLastDigit(_state);
+            OnPropertyChanged(nameof(DisplayValue));
+        }
+
+        public void PressPercent()
+        {
+            _service.Percent(_state);
+            OnPropertyChanged(nameof(DisplayValue));
+        }
+
+        public void PressSquare()
+        {
+            _service.Square(_state);
+            OnPropertyChanged(nameof(DisplayValue));
+        }
+
+        public void PressSqrt()
+        {
+            _service.Sqrt(_state);
+            OnPropertyChanged(nameof(DisplayValue));
+        }
+
         private void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
