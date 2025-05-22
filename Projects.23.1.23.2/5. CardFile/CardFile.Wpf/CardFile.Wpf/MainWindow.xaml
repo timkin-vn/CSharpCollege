@@ -1,0 +1,38 @@
+﻿<Window x:Class="CardFile.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CardFile.Wpf" xmlns:viewmodels="clr-namespace:CardFile.Wpf.ViewModels"
+        mc:Ignorable="d"
+        Title="Картотека" Height="450" Width="800" MinHeight="250" MinWidth="300" Loaded="Window_Loaded">
+    <Window.DataContext>
+        <viewmodels:MainWindowViewModel />
+    </Window.DataContext>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <DataGrid Grid.Row="0" Margin="5" ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" AutoGenerateColumns="False"
+                  IsReadOnly="True" CanUserAddRows="False" SelectionMode="Single" SelectionChanged="Cards_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ФИО" Binding="{Binding Fio}" />
+                <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDate}" />
+                <DataGridTextColumn Header="Подразделение" Binding="{Binding Department}" />
+                <DataGridTextColumn Header="Должность" Binding="{Binding Position}" />
+                <DataGridTextColumn Header="Дата трудоустройства" Binding="{Binding EmploymentDate}" />
+                <DataGridTextColumn Header="Дата увольнения" Binding="{Binding DismissalDate}" />
+                <DataGridTextColumn Header="Сумма оклада" Binding="{Binding Salary}" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Создать" VerticalAlignment="Center" Margin="5" Padding="5" Click="CreateButton_Click" />
+            <Button Content="Изменить" IsEnabled="{Binding IsEditEnabled}" VerticalAlignment="Center" Margin="5" Padding="5" Click="EditButton_Click" />
+            <Button Content="Удалить" IsEnabled="{Binding IsDeleteEnabled}" VerticalAlignment="Center" Margin="5" Padding="5" Click="DeleteButton_Click" />
+        </StackPanel>
+    </Grid>
+</Window>
