@@ -10,7 +10,7 @@ namespace Calculator.Business.Services
     public class CalculatorService
     {
 
-        
+
         public void PressDigit(CalculatorState state, string digitText)
         {
             if (!byte.TryParse(digitText, out var digit))
@@ -58,7 +58,7 @@ namespace Calculator.Business.Services
                 case "/":
                     state.RegisterX = state.RegisterY / state.RegisterX;
                     break;
-                
+
 
             }
         }
@@ -110,7 +110,7 @@ namespace Calculator.Business.Services
                 }
             }
 
-            
+
         }
 
 
@@ -125,13 +125,13 @@ namespace Calculator.Business.Services
 
         public void Log(CalculatorState state)
         {
-            
-            
+
+
             double originalValue = state.RegisterX;
             state.RegisterX = Math.Log(originalValue);
-                
 
-            
+
+
         }
 
         public void Tan(CalculatorState state)
@@ -154,18 +154,18 @@ namespace Calculator.Business.Services
             {
                 case "+":
                 case "-":
-                    
+
                     state.RegisterX = state.RegisterY * (state.RegisterX / 100);
                     break;
 
                 case "*":
                 case "/":
-                   
+
                     state.RegisterX /= 100;
                     break;
 
                 default:
-                    
+
                     state.RegisterX /= 100;
                     break;
             }
@@ -176,12 +176,12 @@ namespace Calculator.Business.Services
         {
             double originalValue = state.RegisterX;
 
-            
-                state.RegisterX = Math.Sqrt(originalValue);
-                
+
+            state.RegisterX = Math.Sqrt(originalValue);
 
 
-            
+
+
         }
 
         public void Degree(CalculatorState state)
@@ -189,13 +189,13 @@ namespace Calculator.Business.Services
             double originalValue = state.RegisterX;
 
             state.RegisterX = Math.Pow(originalValue, 2);
-            
+
 
         }
 
         public void change()
         {
-            if(Radiance == true)
+            if (Radiance == true)
             {
                 Radiance = false;
 
@@ -205,9 +205,17 @@ namespace Calculator.Business.Services
                 Radiance = true;
             }
         }
+
+
+        public void SignChange(CalculatorState state)
+        {
+            double originalValue = state.RegisterX;
+
+            state.RegisterX = -originalValue;
+        }
+
+
     }
-
-
 }
 
 

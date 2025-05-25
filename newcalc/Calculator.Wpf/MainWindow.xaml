@@ -80,15 +80,17 @@
 
         <Button Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="1" Content="sin" FontSize="36" Margin="5" Click="SinBUttonClick" />
         
-        <Button Grid.Row="5" Grid.Column="0" Content="tg" FontSize="36" Margin="5" Click="TgButton" />
+        <Button Grid.Row="5" Grid.Column="0" Content="tg" FontSize="36" Margin="5" Click="TgButton"  />
 
-        <Button Grid.Row="5" Grid.Column="1" Content="log" FontSize="36" Margin="5" Click="LogButton" />
+        <Button Grid.Row="5" Grid.Column="1" Content="log" FontSize="36" Margin="5" Click="LogButton"   />
+
+        <Button Grid.Row="5" Grid.Column="2" Content="+/-" FontSize="36" Margin="5" Click="ChangeSign"   />
 
         <Button Grid.Row="5" Grid.Column="3" Content="    ²" FontSize="36" Margin="5" Click="DegreeButton" />
 
 
 
 
-        <Button Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" Content="=" FontSize="36" Margin="5" Click="OperationButton_Click" />
+        <Button Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" Grid.RowSpan="2" Content="=" FontSize="50" Margin="5" Click="OperationButton_Click" />
     </Grid>
 </Window>

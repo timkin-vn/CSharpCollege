@@ -98,5 +98,10 @@ namespace Calculator.Wpf
         {
             ViewModel.PressDegree();
         }
+
+        private void ChangeSign(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ChangeSign();
+        }
     }
 }

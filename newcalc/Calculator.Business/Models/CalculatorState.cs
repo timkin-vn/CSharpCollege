@@ -16,6 +16,6 @@ namespace Calculator.Business.Models
 
         public bool NeedClearX { get; set; }
 
-        public bool IsRadiansMode { get; set; }
+        public string ErrorMessage { get; set; }
     }
 }

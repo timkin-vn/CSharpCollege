@@ -113,6 +113,13 @@ namespace Calculator.Wpf.ViewModels
             OnPropertyChanged(nameof(DisplayValue));
         }
 
+        public void ChangeSign()
+        {
+            _service.SignChange(_state);
+
+            OnPropertyChanged(nameof(DisplayValue));
+        }
+
 
 
 
