@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -96,7 +96,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Calculator.Business\Calculator.Business.csproj">
+    <ProjectReference Include="..\..\..\..\Рабочий стол\Calculator.Business\Calculator.Business.csproj">
       <Project>{71d7411d-6fd0-454b-8c27-7695349fbd2e}</Project>
       <Name>Calculator.Business</Name>
     </ProjectReference>
