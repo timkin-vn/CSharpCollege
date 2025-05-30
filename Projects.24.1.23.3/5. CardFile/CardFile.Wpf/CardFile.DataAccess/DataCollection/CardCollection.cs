@@ -1,4 +1,5 @@
 ﻿using CardFile.DataAccess.Dtos;
+using CardFile.DataAccess.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,6 +68,8 @@ namespace CardFile.DataAccess.DataCollection
                 DismissalDate = new DateTime(2023, 3, 18),
                 Salary = 150000m,
             });
+
+            InitializeMapper.Register();
         }
 
         public IEnumerable<CardDto> GetAll()
@@ -89,6 +92,7 @@ namespace CardFile.DataAccess.DataCollection
                 var newCard = card.Clone();
                 var id = NextId++;
                 newCard.Id = id;
+                _cards.Add(newCard);
                 return id;
             }
 
@@ -112,6 +116,20 @@ namespace CardFile.DataAccess.DataCollection
             }
 
             return false;
+        }
+
+        internal void ReplaceAll(IEnumerable<CardDto> newCollection)
+        {
+            _cards.Clear();
+            _cards.AddRange(newCollection);
+            NextId = _cards.Max(c => c.Id) + 1;
+        }
+
+        internal void ReplaceAll(IEnumerable<CardDto> newCollection, int nextId)
+        {
+            _cards.Clear();
+            _cards.AddRange(newCollection);
+            NextId = nextId;
         }
     }
 }

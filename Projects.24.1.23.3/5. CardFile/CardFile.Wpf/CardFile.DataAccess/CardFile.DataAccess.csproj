@@ -31,6 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=10.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.10.1.1\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,7 +49,27 @@
   <ItemGroup>
     <Compile Include="DataCollection\CardCollection.cs" />
     <Compile Include="Dtos\CardDto.cs" />
+    <Compile Include="FileDataAccess\DataEntites\JsonCard.cs" />
+    <Compile Include="FileDataAccess\DataEntites\JsonCardCollection.cs" />
+    <Compile Include="FileDataAccess\DataEntites\XmlCard.cs" />
+    <Compile Include="FileDataAccess\DataEntites\XmlCardCollection.cs" />
+    <Compile Include="FileDataAccess\FileDataService.cs" />
+    <Compile Include="FileDataAccess\FileSavers\BinaryFileSaver.cs" />
+    <Compile Include="FileDataAccess\FileSavers\IFileSaver.cs" />
+    <Compile Include="FileDataAccess\FileSavers\JsonFileSaver.cs" />
+    <Compile Include="FileDataAccess\FileSavers\TextFileSaver.cs" />
+    <Compile Include="FileDataAccess\FileSavers\XmlFileSaver.cs" />
+    <Compile Include="Infrastructure\InitializeMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CardFile.Common\CardFile.Common.csproj">
+      <Project>{43E4B93E-2E67-4829-9CDB-BC26097436AB}</Project>
+      <Name>CardFile.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

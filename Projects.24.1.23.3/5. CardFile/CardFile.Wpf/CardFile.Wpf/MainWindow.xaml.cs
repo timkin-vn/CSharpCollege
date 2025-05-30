@@ -1,5 +1,6 @@
 ﻿using CardFile.Wpf.ViewModels;
 using CardFile.Wpf.Views;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,6 +72,69 @@ namespace CardFile.Wpf
         private void CardsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ViewModel.SelectionChanged();
+        }
+
+        private void FileOpen_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new OpenFileDialog();
+            dialog.Filter = "Текстовые файлы|*.txt|Двоичные файлы|*.cardbin|Файлы XML|*.cardxml|Файлы JSON|*.cardjson|Все файлы|*.*";
+
+            if (dialog.ShowDialog() == true)
+            {
+                try
+                {
+                    ViewModel.OpenFromFile(dialog.FileName);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private void FileSave_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(ViewModel.FileName))
+            {
+                DoSaveAs();
+            }
+            else
+            {
+                ViewModel.SaveToFile();
+            }
+        }
+
+        private void FileSaveAs_Click(object sender, RoutedEventArgs e)
+        {
+            DoSaveAs();
+        }
+
+        private void DoSaveAs()
+        {
+            var dialog = new SaveFileDialog();
+            dialog.Filter = "Текстовые файлы|*.txt|Двоичные файлы|*.cardbin|Файлы XML|*.cardxml|Файлы JSON|*.cardjson|Все файлы|*.*";
+
+            if (dialog.ShowDialog() == true)
+            {
+                try
+                {
+                    ViewModel.SaveToFile(dialog.FileName);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private void FileExit_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void Window_Initialized(object sender, EventArgs e)
+        {
+            ViewModel.Initialized();
         }
     }
 }

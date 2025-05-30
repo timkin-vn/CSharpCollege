@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CardFile.Common.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -66,17 +67,19 @@ namespace CardFile.Wpf.ViewModels
 
         public void LoadViewModel(CardViewModel model)
         {
-            Id = model.Id;
-            FirstName = model.FirstName;
-            MiddleName = model.MiddleName;
-            LastName = model.LastName;
-            BirthDate = model.BirthDate;
-            Department = model.Department;
-            Position = model.Position;
-            EmploymentDate = model.EmploymentDate;
-            DismissalDate = model.DismissalDate;
+            Mapping.Mapper.Map(model, this);
+            //Id = model.Id;
+            //FirstName = model.FirstName;
+            //MiddleName = model.MiddleName;
+            //LastName = model.LastName;
+            //BirthDate = model.BirthDate;
+            //Department = model.Department;
+            //Position = model.Position;
+            //EmploymentDate = model.EmploymentDate;
+            //DismissalDate = model.DismissalDate;
+            //Salary = model.Salary;
+
             IsWorkingTillNow = !model.DismissalDate.HasValue;
-            Salary = model.Salary;
 
             UpdateAll();
         }
