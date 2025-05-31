@@ -39,6 +39,11 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Compression.4.3.0\lib\net46\System.IO.Compression.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -59,6 +64,7 @@
     <Compile Include="FileDataAccess\FileSavers\JsonFileSaver.cs" />
     <Compile Include="FileDataAccess\FileSavers\TextFileSaver.cs" />
     <Compile Include="FileDataAccess\FileSavers\XmlFileSaver.cs" />
+    <Compile Include="FileDataAccess\FileSavers\ZipFileSaver.cs" />
     <Compile Include="Infrastructure\MapperRegistrator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

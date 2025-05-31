@@ -1,5 +1,6 @@
 ﻿using CardFile.Common.Infrastructure;
 using CardFile.DataAccess.DataCollection;
+using CardFile.DataAccess.Dtos;
 using CardFile.DataAccess.FileDataAccess.Entites;
 using Newtonsoft.Json;
 using System;
@@ -8,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace CardFile.DataAccess.FileDataAccess.FileSavers
 {
@@ -15,7 +17,19 @@ namespace CardFile.DataAccess.FileDataAccess.FileSavers
     {
         public void OpenFile(string fileName, CardCollection collection)
         {
-            throw new NotImplementedException();
+            using (var fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+            {
+                using (var reader = new StreamReader(fs))
+                {
+                    using (var jsonReader = new JsonTextReader(reader))
+                    {
+                        var serializer = new JsonSerializer();
+                        var jsonCollection = serializer.Deserialize<JsonCardCollection>(jsonReader);
+
+                        collection.ReplaceAll(Mapping.Mapper.Map<List<CardDto>>(jsonCollection.Cards), jsonCollection.CurrentId);
+                    }
+                }
+            }
         }
 
         public void SaveFile(string fileName, CardCollection collection)

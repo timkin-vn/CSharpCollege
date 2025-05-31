@@ -77,7 +77,7 @@ namespace CardFile.Wpf
         private void FileOpen_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new OpenFileDialog();
-            dialog.Filter = "Текстовые файлы|*.txt|Двоичные файлы|*.cardbin|Файлы XML|*.cardxml|Файлы JSON|*.cardjson|Все файлы|*.*";
+            dialog.Filter = "Текстовые файлы|*.txt|Двоичные файлы|*.cardbin|Файлы XML|*.cardxml|Файлы JSON|*.cardjson|Файлы ZIP|*.cardzip|Все файлы|*.*";
 
             if (dialog.ShowDialog() == true)
             {
@@ -112,7 +112,7 @@ namespace CardFile.Wpf
         private void DoSaveAs()
         {
             var dialog = new SaveFileDialog();
-            dialog.Filter = "Текстовые файлы|*.txt|Двоичные файлы|*.cardbin|Файлы XML|*.cardxml|Файлы JSON|*.cardjson|Все файлы|*.*";
+            dialog.Filter = "Текстовые файлы|*.txt|Двоичные файлы|*.cardbin|Файлы XML|*.cardxml|Файлы JSON|*.cardjson|Файлы ZIP|*.cardzip|Все файлы|*.*";
 
             if (dialog.ShowDialog() == true)
             {

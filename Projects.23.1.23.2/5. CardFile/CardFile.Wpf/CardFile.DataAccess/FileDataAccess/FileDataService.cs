@@ -39,6 +39,9 @@ namespace CardFile.DataAccess.FileDataAccess
                 case ".cardjson":
                     return new JsonFileSaver();
 
+                case ".cardzip":
+                    return new ZipFileSaver();
+
                 default:
                     throw new Exception("Неверное расширение имени файла");
             }
