@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CardFile.Wpf.Views" xmlns:viewmodels="clr-namespace:CardFile.Wpf.ViewModels"
         mc:Ignorable="d"
-        Title="Правка карточки" Height="350" Width="420" MinHeight="350" MinWidth="420" MaxHeight="350" MaxWidth="420" ResizeMode="NoResize">
+        Title="Правка карточки" Height="400" Width="380" MinHeight="400" MinWidth="380" MaxHeight="400" MaxWidth="380" ResizeMode="NoResize">
     <Window.DataContext>
         <viewmodels:CardViewModel />
     </Window.DataContext>
@@ -16,6 +16,7 @@
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -58,18 +59,17 @@
 
         <TextBlock Grid.Row="7" Grid.Column="0" Text="Дата увольнения:" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
 
-        <StackPanel Grid.Row="7" Grid.Column="1" Orientation="Horizontal">
-            <DatePicker SelectedDate="{Binding DismissalDate}" IsEnabled="{Binding IsDismissalDateEnabled}" Margin="5" VerticalAlignment="Center" />
-            <CheckBox VerticalAlignment="Center" Margin="5" IsChecked="{Binding WorksTillNow}" Checked="WokrsTillNow_Checked" Unchecked="WorksTillNow_Unchecked">
-                <TextBlock Text="До сих пор работает" />
-            </CheckBox>
-        </StackPanel>
+        <DatePicker Grid.Row="7" Grid.Column="1" SelectedDate="{Binding DismissalDate}" IsEnabled="{Binding IsDismissalDateEnabled}" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" Width="140" />
 
-        <TextBlock Grid.Row="8" Grid.Column="0" Text="Оклад:" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
+        <CheckBox Grid.Row="8" Grid.Column="1" VerticalAlignment="Center" Margin="5" IsChecked="{Binding WorksTillNow}" Checked="WokrsTillNow_Checked" Unchecked="WorksTillNow_Unchecked">
+            <TextBlock Text="До сих пор работает" />
+        </CheckBox>
 
-        <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding Salary}" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" Width="200" />
+        <TextBlock Grid.Row="9" Grid.Column="0" Text="Оклад:" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
 
-        <StackPanel Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+        <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding Salary}" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" Width="200" />
+
+        <StackPanel Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
             <Button Content="OK" Margin="5" Padding="5" Click="OkButton_Click" />
             <Button Content="Отмена" Margin="5" Padding="5" Click="CancelButton_Click" />
         </StackPanel>

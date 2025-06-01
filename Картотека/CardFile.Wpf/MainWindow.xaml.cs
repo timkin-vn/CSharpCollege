@@ -33,6 +33,24 @@ namespace CardFile.Wpf
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             ViewModel.Loaded();
+
+            ViewModel.SearchColumns.Clear();
+
+            foreach (var col in CardsDataGrid.Columns.OfType<DataGridTextColumn>())
+            {
+                if (col.Binding is Binding b && b.Path.Path is string path && !string.IsNullOrWhiteSpace(path))
+                {
+                    if (col.Header?.ToString() is string header && !string.IsNullOrWhiteSpace(header))
+                    {
+                        ViewModel.SearchColumns.Add(new KeyValuePair<string, string>(header, path));
+                    }
+                }
+            }
+
+            if (ViewModel.SearchColumns.Any())
+            {
+                ViewModel.SelectedSearchColumn = ViewModel.SearchColumns.First().Value;
+            }
         }
 
         private void CreateButton_Click(object sender, RoutedEventArgs e)

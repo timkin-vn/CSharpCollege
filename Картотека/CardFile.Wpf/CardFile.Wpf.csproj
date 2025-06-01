@@ -118,6 +118,10 @@
       <Project>{0B385089-425E-4E38-8273-D54CECDD8C27}</Project>
       <Name>CardFile.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CardFile.DataAccess\CardFile.DataAccess.csproj">
+      <Project>{e4dc5025-6e73-4bf3-a45e-0e7786eec5f3}</Project>
+      <Name>CardFile.DataAccess</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

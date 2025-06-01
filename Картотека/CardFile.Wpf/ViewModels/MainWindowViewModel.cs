@@ -5,11 +5,13 @@ using CardFile.Wpf.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Security;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using System.Windows.Diagnostics;
 
 namespace CardFile.Wpf.ViewModels
@@ -30,9 +32,63 @@ namespace CardFile.Wpf.ViewModels
 
         public string WindowTitle => string.IsNullOrEmpty(FileName) ? "Картотека" : $"Картотека: {Path.GetFileName(FileName)}";
 
+        public ObservableCollection<KeyValuePair<string, string>> SearchColumns { get; }
+            = new ObservableCollection<KeyValuePair<string, string>>();
+
+        private string _selectedSearchColumn = string.Empty;
+        public string SelectedSearchColumn
+        {
+            get => _selectedSearchColumn;
+            set
+            {
+                if (_selectedSearchColumn == value)
+                {
+                    return;
+                }
+                _selectedSearchColumn = value;
+                OnPropertyChanged(nameof(SelectedSearchColumn));
+                CardsView.Refresh();
+            }
+        }
+
+        private string _searchText = string.Empty;
+        public string SearchText
+        {
+            get => _searchText;
+            set
+            {
+                if (_searchText == value)
+                {
+                    return;
+                }
+                _searchText = value;
+                OnPropertyChanged(nameof(SearchText));
+                CardsView.Refresh();
+            }
+        }
+
+        private readonly ICollectionView CardsView;
+
+        private bool FilterCards(object obj)
+        {
+            if (obj is CardViewModel cvm)
+            {
+                if (string.IsNullOrWhiteSpace(SearchText)) return true;
+
+                var text = SearchText.Trim().ToLower();
+                var propInfo = typeof(CardViewModel).GetProperty(SelectedSearchColumn);
+                var value = propInfo?.GetValue(cvm)?.ToString()?.ToLower() ?? string.Empty;
+
+                return value.Contains(text);
+            }
+            return false;
+        }
+
         public MainWindowViewModel()
         {
             MapperRegistrator.Register();
+            CardsView = CollectionViewSource.GetDefaultView(Cards);
+            CardsView.Filter = FilterCards;
         }
 
         public void Initialized()

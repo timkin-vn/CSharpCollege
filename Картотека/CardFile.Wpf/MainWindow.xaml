@@ -27,24 +27,36 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <DataGrid Grid.Row="0" Margin="5" ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" AutoGenerateColumns="False"
+            <DataGrid x:Name="CardsDataGrid" Grid.Row="0" Margin="5" ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" AutoGenerateColumns="False"
                       IsReadOnly="True" CanUserAddRows="False" SelectionMode="Single" SelectionChanged="Cards_SelectionChanged">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ФИО" Binding="{Binding Fio}" />
+                    <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" />
+                    <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}" />
+                    <DataGridTextColumn Header="Отчество" Binding="{Binding MiddleName}" />
                     <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDateText}" />
                     <DataGridTextColumn Header="Подразделение" Binding="{Binding Department}" />
                     <DataGridTextColumn Header="Должность" Binding="{Binding Position}" />
                     <DataGridTextColumn Header="Дата трудоустройства" Binding="{Binding EmploymentDateText}" />
                     <DataGridTextColumn Header="Дата увольнения" Binding="{Binding DismissalDateText}" />
-                    <DataGridTextColumn Header="Сумма оклада" Binding="{Binding Salary}" />
+                    <DataGridTextColumn Header="Оклад" Binding="{Binding Salary}" />
                 </DataGrid.Columns>
             </DataGrid>
 
-            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Создать" VerticalAlignment="Center" Margin="5" Padding="5" Click="CreateButton_Click" />
-                <Button Content="Изменить" IsEnabled="{Binding IsEditEnabled}" VerticalAlignment="Center" Margin="5" Padding="5" Click="EditButton_Click" />
-                <Button Content="Удалить" IsEnabled="{Binding IsDeleteEnabled}" VerticalAlignment="Center" Margin="5" Padding="5" Click="DeleteButton_Click" />
-            </StackPanel>
+            <Grid Grid.Row="1" HorizontalAlignment="Stretch" Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <ComboBox Grid.Column="0" ItemsSource="{Binding SearchColumns}" DisplayMemberPath="Key" SelectedValuePath="Value" SelectedValue="{Binding SelectedSearchColumn}" Height="30" Margin="5" Padding="5" />
+                <TextBox Grid.Column="1" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Margin="5" Padding="5" />
+                <Button Content="Создать" Grid.Column="2" VerticalAlignment="Center" Margin="5" Padding="5" Click="CreateButton_Click" />
+                <Button Content="Изменить" Grid.Column="3" IsEnabled="{Binding IsEditEnabled}" VerticalAlignment="Center" Margin="5" Padding="5" Click="EditButton_Click" />
+                <Button Content="Удалить" Grid.Column="4" IsEnabled="{Binding IsDeleteEnabled}" VerticalAlignment="Center" Margin="5" Padding="5" Click="DeleteButton_Click" />
+            </Grid>
         </Grid>
     </DockPanel>
 </Window>
