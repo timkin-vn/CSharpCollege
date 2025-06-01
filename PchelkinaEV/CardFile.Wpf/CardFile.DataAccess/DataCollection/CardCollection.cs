@@ -1,4 +1,5 @@
 ﻿using CardFile.DataAccess.Dtos;
+using CardFile.DataAccess.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,6 +68,11 @@ namespace CardFile.DataAccess.DataCollection
 
         internal int CurrentId = 5;
 
+        public CardCollection()
+        {
+            MapperRegistrator.Register();
+        }
+
         public IEnumerable<CardDto> GetAll()
         {
             //var result = new List<CardDto>();
@@ -113,6 +119,20 @@ namespace CardFile.DataAccess.DataCollection
 
             _cards.RemoveAt(index);
             return true;
+        }
+
+        internal void ReplaceAll(IEnumerable<CardDto> source)
+        {
+            _cards.Clear();
+            _cards.AddRange(source);
+            CurrentId = _cards.Max(c => c.Id) + 1;
+        }
+
+        internal void ReplaceAll(IEnumerable<CardDto> source, int currentId)
+        {
+            _cards.Clear();
+            _cards.AddRange(source);
+            CurrentId = currentId;
         }
     }
 }

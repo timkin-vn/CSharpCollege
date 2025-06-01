@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CardFile.Common.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,6 +33,8 @@ namespace CardFile.Wpf.ViewModels
         /// </summary>
         public DateTime BirthDate { get; set; }
 
+        public string BirthDateText => BirthDate.ToShortDateString();
+
         /// <summary>
         /// Подразделение
         /// </summary>
@@ -47,10 +50,14 @@ namespace CardFile.Wpf.ViewModels
         /// </summary>
         public DateTime EmploymentDate { get; set; }
 
+        public string EmploymentDateText => EmploymentDate.ToShortDateString();
+
         /// <summary>
         /// Дата увольнения
         /// </summary>
         public DateTime? DismissalDate { get; set; }
+
+        public string DismissalDateText => DismissalDate?.ToShortDateString();
 
         /// <summary>
         /// Сумма оклада
@@ -63,17 +70,18 @@ namespace CardFile.Wpf.ViewModels
 
         public void LoadFromViewModel(CardViewModel viewModel)
         {
-            Id = viewModel.Id;
-            FirstName = viewModel.FirstName;
-            MiddleName = viewModel.MiddleName;
-            LastName = viewModel.LastName;
-            BirthDate = viewModel.BirthDate;
-            Department = viewModel.Department;
-            Position = viewModel.Position;
-            EmploymentDate = viewModel.EmploymentDate;
-            DismissalDate = viewModel.DismissalDate;
+            Mapping.Mapper.Map(viewModel, this);
+            //Id = viewModel.Id;
+            //FirstName = viewModel.FirstName;
+            //MiddleName = viewModel.MiddleName;
+            //LastName = viewModel.LastName;
+            //BirthDate = viewModel.BirthDate;
+            //Department = viewModel.Department;
+            //Position = viewModel.Position;
+            //EmploymentDate = viewModel.EmploymentDate;
+            //DismissalDate = viewModel.DismissalDate;
             WorksTillNow = !viewModel.DismissalDate.HasValue;
-            Salary = viewModel.Salary;
+            //Salary = viewModel.Salary;
 
             UpdateAll();
         }
@@ -102,10 +110,13 @@ namespace CardFile.Wpf.ViewModels
             OnPropertyChanged(nameof(LastName));
             OnPropertyChanged(nameof(Fio));
             OnPropertyChanged(nameof(BirthDate));
+            OnPropertyChanged(nameof(BirthDateText));
             OnPropertyChanged(nameof(Department));
             OnPropertyChanged(nameof(Position));
             OnPropertyChanged(nameof(EmploymentDate));
             OnPropertyChanged(nameof(DismissalDate));
+            OnPropertyChanged(nameof(EmploymentDateText));
+            OnPropertyChanged(nameof(DismissalDateText));
             OnPropertyChanged(nameof(Salary));
             OnPropertyChanged(nameof(WorksTillNow));
             OnPropertyChanged(nameof(IsDismissalDateEnabled));

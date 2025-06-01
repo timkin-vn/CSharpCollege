@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E4DC5025-6E73-4BF3-A45E-0E7786EEC5F3}</ProjectGuid>
+    <ProjectGuid>{0B385089-425E-4E38-8273-D54CECDD8C27}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CardFile.DataAccess</RootNamespace>
-    <AssemblyName>CardFile.DataAccess</AssemblyName>
+    <RootNamespace>CardFile.Common</RootNamespace>
+    <AssemblyName>CardFile.Common</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -34,9 +34,6 @@
     <Reference Include="AutoMapper, Version=10.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.10.1.1\lib\net461\AutoMapper.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -47,29 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataCollection\CardCollection.cs" />
-    <Compile Include="Dtos\CardDto.cs" />
-    <Compile Include="FileDataAccess\Entites\JsonCard.cs" />
-    <Compile Include="FileDataAccess\Entites\JsonCardCollection.cs" />
-    <Compile Include="FileDataAccess\Entites\XmlCard.cs" />
-    <Compile Include="FileDataAccess\Entites\XmlCardCollection.cs" />
-    <Compile Include="FileDataAccess\FileDataService.cs" />
-    <Compile Include="FileDataAccess\FileSavers\BinaryFileSaver.cs" />
-    <Compile Include="FileDataAccess\FileSavers\IFileSaver.cs" />
-    <Compile Include="FileDataAccess\FileSavers\JsonFileSaver.cs" />
-    <Compile Include="FileDataAccess\FileSavers\TextFileSaver.cs" />
-    <Compile Include="FileDataAccess\FileSavers\XmlFileSaver.cs" />
-    <Compile Include="Infrastructure\MapperRegistrator.cs" />
+    <Compile Include="Infrastructure\Mapping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CardFile.Common\CardFile.Common.csproj">
-      <Project>{0B385089-425E-4E38-8273-D54CECDD8C27}</Project>
-      <Name>CardFile.Common</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
