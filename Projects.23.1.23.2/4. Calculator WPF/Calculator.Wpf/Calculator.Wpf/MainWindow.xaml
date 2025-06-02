@@ -61,5 +61,7 @@
         <Button Grid.Row="4" Grid.Column="0" Content="0" FontSize="36" Margin="5" Click="DigitButton_Click" />
 
         <Button Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" Content="=" FontSize="36" Margin="5" Click="OperationButton_Click" />
+        <Button Grid.Column="1" Content="%" HorizontalAlignment="Center" Grid.Row="4" VerticalAlignment="Center" Height="80" Width="135" FontSize="36" Click="Procent_Click" RenderTransformOrigin="0.49,0.554"/>
+        <Button Grid.Column="2" Content="," HorizontalAlignment="Center" Grid.Row="4" VerticalAlignment="Center" RenderTransformOrigin="0.216,0.301" Height="80" Width="135" FontSize="36" Click="Button_Click"/>
     </Grid>
 </Window>

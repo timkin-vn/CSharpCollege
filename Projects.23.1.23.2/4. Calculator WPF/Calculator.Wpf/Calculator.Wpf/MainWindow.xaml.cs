@@ -44,5 +44,15 @@ namespace Calculator.Wpf
             var operationCode = (string)((Button)sender).Content;
             ViewModel.PressOperation(operationCode);
         }
+
+        private void Procent_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.PressProcent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.PressFloat();
+        }
     }
 }
