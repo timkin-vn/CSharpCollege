@@ -1,9 +1,0 @@
-C:\Users\shabl\source\repos\5. CardFile\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.Business.dll
-C:\Users\shabl\source\repos\5. CardFile\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.Business.pdb
-C:\Users\shabl\source\repos\5. CardFile\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.DataAccess.dll
-C:\Users\shabl\source\repos\5. CardFile\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.DataAccess.pdb
-C:\Users\shabl\source\repos\5. CardFile\CardFile.Wpf\CardFile.Business\obj\Debug\CardFile.Business.csproj.AssemblyReference.cache
-C:\Users\shabl\source\repos\5. CardFile\CardFile.Wpf\CardFile.Business\obj\Debug\CardFile.Business.csproj.CoreCompileInputs.cache
-C:\Users\shabl\source\repos\5. CardFile\CardFile.Wpf\CardFile.Business\obj\Debug\CardFile.C5365084.Up2Date
-C:\Users\shabl\source\repos\5. CardFile\CardFile.Wpf\CardFile.Business\obj\Debug\CardFile.Business.dll
-C:\Users\shabl\source\repos\5. CardFile\CardFile.Wpf\CardFile.Business\obj\Debug\CardFile.Business.pdb

@@ -1,6 +1,0 @@
-C:\Users\shabl\source\repos\5. CardFile\CardFile.Wpf\CardFile.DataAccess\bin\Debug\CardFile.DataAccess.dll
-C:\Users\shabl\source\repos\5. CardFile\CardFile.Wpf\CardFile.DataAccess\bin\Debug\CardFile.DataAccess.pdb
-C:\Users\shabl\source\repos\5. CardFile\CardFile.Wpf\CardFile.DataAccess\obj\Debug\CardFile.DataAccess.csproj.AssemblyReference.cache
-C:\Users\shabl\source\repos\5. CardFile\CardFile.Wpf\CardFile.DataAccess\obj\Debug\CardFile.DataAccess.csproj.CoreCompileInputs.cache
-C:\Users\shabl\source\repos\5. CardFile\CardFile.Wpf\CardFile.DataAccess\obj\Debug\CardFile.DataAccess.dll
-C:\Users\shabl\source\repos\5. CardFile\CardFile.Wpf\CardFile.DataAccess\obj\Debug\CardFile.DataAccess.pdb
