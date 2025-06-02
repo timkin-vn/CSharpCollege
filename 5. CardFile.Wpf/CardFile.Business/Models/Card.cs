@@ -10,13 +10,13 @@ namespace CardFile.Business.Models
     {
         public int Id { get; set; }
 
-        public string Brand { get; set; }          // Марка авто
-        public string Model { get; set; }          // Модель авто
-        public int Year { get; set; }              // Год выпуска
-        public string Vin { get; set; }            // VIN-номер
-        public string Color { get; set; }          // Цвет авто
-        public decimal Price { get; set; }         // Цена
-        public DateTime ArrivalDate { get; set; }  // Дата поступления в салон
-        public DateTime? SaleDate { get; set; }    // Дата продажи (nullable)
+        public string Brand { get; set; }         
+        public string Model { get; set; }          
+        public int Year { get; set; }             
+        public string Vin { get; set; }          
+        public string Color { get; set; }         
+        public decimal Price { get; set; }        
+        public DateTime ArrivalDate { get; set; } 
+        public DateTime? SaleDate { get; set; }
     }
 }
