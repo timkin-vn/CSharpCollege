@@ -1,302 +1,456 @@
-﻿namespace Claculator
-{
-    partial class CalculatorForm
-    {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
+﻿namespace Calculator {
+    partial class CalculatorForm {
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
+        protected override void Dispose(bool disposing) {
+            if (disposing && (components != null)) {
                 components.Dispose();
             }
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
+        private void InitializeComponent() {
+            DisplayLabel = new Label();
+            ExpressionLabel = new Label();
+            Digit7Button = new RoundedButton();
+            Digit8Button = new RoundedButton();
+            Digit9Button = new RoundedButton();
+            Digit4Button = new RoundedButton();
+            Digit5Button = new RoundedButton();
+            Digit6Button = new RoundedButton();
+            Digit1Button = new RoundedButton();
+            Digit2Button = new RoundedButton();
+            Digit3Button = new RoundedButton();
+            Digit0Button = new RoundedButton();
+            ClearButton = new RoundedButton();
+            SubtractButton = new RoundedButton();
+            AddButton = new RoundedButton();
+            DivideButton = new RoundedButton();
+            MultiplyButton = new RoundedButton();
+            EqualButton = new RoundedButton();
+            SineButton = new RoundedButton();
+            TrigMenuButton = new RoundedButton();
+            MemoryStoreButton = new RoundedButton();
+            MemoryRecallButton = new RoundedButton();
+            DecimalButton = new RoundedButton();
+            ChangeSignButton = new RoundedButton();
+            SquareButton = new RoundedButton();
+            SquareRootButton = new RoundedButton();
+            PercentButton = new RoundedButton();
+            SuspendLayout();
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
-            this.DisplayLabel = new System.Windows.Forms.Label();
-            this.Digit7Button = new System.Windows.Forms.Button();
-            this.Digit8Button = new System.Windows.Forms.Button();
-            this.Digit9Button = new System.Windows.Forms.Button();
-            this.Digit4Button = new System.Windows.Forms.Button();
-            this.Digit5Button = new System.Windows.Forms.Button();
-            this.Digit6Button = new System.Windows.Forms.Button();
-            this.Digit1Button = new System.Windows.Forms.Button();
-            this.Digit2Button = new System.Windows.Forms.Button();
-            this.Digit3Button = new System.Windows.Forms.Button();
-            this.Digit0Button = new System.Windows.Forms.Button();
-            this.ClearButton = new System.Windows.Forms.Button();
-            this.SubtractButton = new System.Windows.Forms.Button();
-            this.AddButton = new System.Windows.Forms.Button();
-            this.DivideButton = new System.Windows.Forms.Button();
-            this.MultiplyButton = new System.Windows.Forms.Button();
-            this.EqualButton = new System.Windows.Forms.Button();
-            this.XToYButton = new System.Windows.Forms.Button();
-            this.SuspendLayout();
-            // 
-            // DisplayLabel
-            // 
-            this.DisplayLabel.BackColor = System.Drawing.Color.Black;
-            this.DisplayLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.DisplayLabel.ForeColor = System.Drawing.Color.GreenYellow;
-            this.DisplayLabel.Location = new System.Drawing.Point(12, 9);
-            this.DisplayLabel.Name = "DisplayLabel";
-            this.DisplayLabel.Size = new System.Drawing.Size(471, 56);
-            this.DisplayLabel.TabIndex = 0;
-            this.DisplayLabel.Text = "0";
-            this.DisplayLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // Digit7Button
-            // 
-            this.Digit7Button.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Digit7Button.Location = new System.Drawing.Point(12, 93);
-            this.Digit7Button.Name = "Digit7Button";
-            this.Digit7Button.Size = new System.Drawing.Size(75, 71);
-            this.Digit7Button.TabIndex = 1;
-            this.Digit7Button.Text = "7";
-            this.Digit7Button.UseVisualStyleBackColor = true;
-            this.Digit7Button.Click += new System.EventHandler(this.DigitButton_Click);
-            // 
-            // Digit8Button
-            // 
-            this.Digit8Button.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Digit8Button.Location = new System.Drawing.Point(93, 93);
-            this.Digit8Button.Name = "Digit8Button";
-            this.Digit8Button.Size = new System.Drawing.Size(75, 71);
-            this.Digit8Button.TabIndex = 2;
-            this.Digit8Button.Text = "8";
-            this.Digit8Button.UseVisualStyleBackColor = true;
-            this.Digit8Button.Click += new System.EventHandler(this.DigitButton_Click);
-            // 
-            // Digit9Button
-            // 
-            this.Digit9Button.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Digit9Button.Location = new System.Drawing.Point(174, 93);
-            this.Digit9Button.Name = "Digit9Button";
-            this.Digit9Button.Size = new System.Drawing.Size(75, 71);
-            this.Digit9Button.TabIndex = 3;
-            this.Digit9Button.Text = "9";
-            this.Digit9Button.UseVisualStyleBackColor = true;
-            this.Digit9Button.Click += new System.EventHandler(this.DigitButton_Click);
-            // 
-            // Digit4Button
-            // 
-            this.Digit4Button.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Digit4Button.Location = new System.Drawing.Point(12, 170);
-            this.Digit4Button.Name = "Digit4Button";
-            this.Digit4Button.Size = new System.Drawing.Size(75, 71);
-            this.Digit4Button.TabIndex = 4;
-            this.Digit4Button.Text = "4";
-            this.Digit4Button.UseVisualStyleBackColor = true;
-            this.Digit4Button.Click += new System.EventHandler(this.DigitButton_Click);
-            // 
-            // Digit5Button
-            // 
-            this.Digit5Button.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Digit5Button.Location = new System.Drawing.Point(93, 170);
-            this.Digit5Button.Name = "Digit5Button";
-            this.Digit5Button.Size = new System.Drawing.Size(75, 71);
-            this.Digit5Button.TabIndex = 5;
-            this.Digit5Button.Text = "5";
-            this.Digit5Button.UseVisualStyleBackColor = true;
-            this.Digit5Button.Click += new System.EventHandler(this.DigitButton_Click);
-            // 
-            // Digit6Button
-            // 
-            this.Digit6Button.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Digit6Button.Location = new System.Drawing.Point(174, 170);
-            this.Digit6Button.Name = "Digit6Button";
-            this.Digit6Button.Size = new System.Drawing.Size(75, 71);
-            this.Digit6Button.TabIndex = 6;
-            this.Digit6Button.Text = "6";
-            this.Digit6Button.UseVisualStyleBackColor = true;
-            this.Digit6Button.Click += new System.EventHandler(this.DigitButton_Click);
-            // 
-            // Digit1Button
-            // 
-            this.Digit1Button.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Digit1Button.Location = new System.Drawing.Point(12, 247);
-            this.Digit1Button.Name = "Digit1Button";
-            this.Digit1Button.Size = new System.Drawing.Size(75, 71);
-            this.Digit1Button.TabIndex = 7;
-            this.Digit1Button.Text = "1";
-            this.Digit1Button.UseVisualStyleBackColor = true;
-            this.Digit1Button.Click += new System.EventHandler(this.DigitButton_Click);
-            // 
-            // Digit2Button
-            // 
-            this.Digit2Button.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Digit2Button.Location = new System.Drawing.Point(93, 247);
-            this.Digit2Button.Name = "Digit2Button";
-            this.Digit2Button.Size = new System.Drawing.Size(75, 71);
-            this.Digit2Button.TabIndex = 8;
-            this.Digit2Button.Text = "2";
-            this.Digit2Button.UseVisualStyleBackColor = true;
-            this.Digit2Button.Click += new System.EventHandler(this.DigitButton_Click);
-            // 
-            // Digit3Button
-            // 
-            this.Digit3Button.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Digit3Button.Location = new System.Drawing.Point(174, 247);
-            this.Digit3Button.Name = "Digit3Button";
-            this.Digit3Button.Size = new System.Drawing.Size(75, 71);
-            this.Digit3Button.TabIndex = 9;
-            this.Digit3Button.Text = "3";
-            this.Digit3Button.UseVisualStyleBackColor = true;
-            this.Digit3Button.Click += new System.EventHandler(this.DigitButton_Click);
-            // 
-            // Digit0Button
-            // 
-            this.Digit0Button.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Digit0Button.Location = new System.Drawing.Point(12, 324);
-            this.Digit0Button.Name = "Digit0Button";
-            this.Digit0Button.Size = new System.Drawing.Size(75, 71);
-            this.Digit0Button.TabIndex = 10;
-            this.Digit0Button.Text = "0";
-            this.Digit0Button.UseVisualStyleBackColor = true;
-            this.Digit0Button.Click += new System.EventHandler(this.DigitButton_Click);
-            // 
-            // ClearButton
-            // 
-            this.ClearButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ClearButton.Location = new System.Drawing.Point(327, 93);
-            this.ClearButton.Name = "ClearButton";
-            this.ClearButton.Size = new System.Drawing.Size(156, 71);
-            this.ClearButton.TabIndex = 11;
-            this.ClearButton.Text = "C";
-            this.ClearButton.UseVisualStyleBackColor = true;
-            this.ClearButton.Click += new System.EventHandler(this.ClearButton_Click);
-            // 
-            // SubtractButton
-            // 
-            this.SubtractButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.SubtractButton.Location = new System.Drawing.Point(408, 170);
-            this.SubtractButton.Name = "SubtractButton";
-            this.SubtractButton.Size = new System.Drawing.Size(75, 71);
-            this.SubtractButton.TabIndex = 12;
-            this.SubtractButton.Text = "-";
-            this.SubtractButton.UseVisualStyleBackColor = true;
-            this.SubtractButton.Click += new System.EventHandler(this.OperationButton_Click);
-            // 
-            // AddButton
-            // 
-            this.AddButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.AddButton.Location = new System.Drawing.Point(327, 170);
-            this.AddButton.Name = "AddButton";
-            this.AddButton.Size = new System.Drawing.Size(75, 71);
-            this.AddButton.TabIndex = 13;
-            this.AddButton.Text = "+";
-            this.AddButton.UseVisualStyleBackColor = true;
-            this.AddButton.Click += new System.EventHandler(this.OperationButton_Click);
-            // 
-            // DivideButton
-            // 
-            this.DivideButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.DivideButton.Location = new System.Drawing.Point(408, 247);
-            this.DivideButton.Name = "DivideButton";
-            this.DivideButton.Size = new System.Drawing.Size(75, 71);
-            this.DivideButton.TabIndex = 14;
-            this.DivideButton.Text = "/";
-            this.DivideButton.UseVisualStyleBackColor = true;
-            this.DivideButton.Click += new System.EventHandler(this.OperationButton_Click);
-            // 
-            // MultiplyButton
-            // 
-            this.MultiplyButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.MultiplyButton.Location = new System.Drawing.Point(327, 247);
-            this.MultiplyButton.Name = "MultiplyButton";
-            this.MultiplyButton.Size = new System.Drawing.Size(75, 71);
-            this.MultiplyButton.TabIndex = 15;
-            this.MultiplyButton.Text = "*";
-            this.MultiplyButton.UseVisualStyleBackColor = true;
-            this.MultiplyButton.Click += new System.EventHandler(this.OperationButton_Click);
-            // 
-            // EqualButton
-            // 
-            this.EqualButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.EqualButton.Location = new System.Drawing.Point(327, 324);
-            this.EqualButton.Name = "EqualButton";
-            this.EqualButton.Size = new System.Drawing.Size(156, 71);
-            this.EqualButton.TabIndex = 16;
-            this.EqualButton.Text = "=";
-            this.EqualButton.UseVisualStyleBackColor = true;
-            this.EqualButton.Click += new System.EventHandler(this.OperationButton_Click);
-            // 
-            // XToYButton
-            // 
-            this.XToYButton.Location = new System.Drawing.Point(174, 325);
-            this.XToYButton.Name = "XToYButton";
-            this.XToYButton.Size = new System.Drawing.Size(75, 23);
-            this.XToYButton.TabIndex = 17;
-            this.XToYButton.Text = "X -> Y";
-            this.XToYButton.UseVisualStyleBackColor = true;
-            this.XToYButton.Visible = false;
-            this.XToYButton.Click += new System.EventHandler(this.XToYButton_Click);
-            // 
-            // CalculatorForm
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(497, 407);
-            this.Controls.Add(this.XToYButton);
-            this.Controls.Add(this.EqualButton);
-            this.Controls.Add(this.MultiplyButton);
-            this.Controls.Add(this.DivideButton);
-            this.Controls.Add(this.AddButton);
-            this.Controls.Add(this.SubtractButton);
-            this.Controls.Add(this.ClearButton);
-            this.Controls.Add(this.Digit0Button);
-            this.Controls.Add(this.Digit3Button);
-            this.Controls.Add(this.Digit2Button);
-            this.Controls.Add(this.Digit1Button);
-            this.Controls.Add(this.Digit6Button);
-            this.Controls.Add(this.Digit5Button);
-            this.Controls.Add(this.Digit4Button);
-            this.Controls.Add(this.Digit9Button);
-            this.Controls.Add(this.Digit8Button);
-            this.Controls.Add(this.Digit7Button);
-            this.Controls.Add(this.DisplayLabel);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
-            this.Name = "CalculatorForm";
-            this.Text = "Калькулятор";
-            this.ResumeLayout(false);
+            DisplayLabel.BackColor = Color.FromArgb(100, 40, 40, 40);
+            DisplayLabel.BorderStyle = BorderStyle.FixedSingle;
+            DisplayLabel.Font = new Font("Segoe UI", 24F, FontStyle.Bold);
+            DisplayLabel.ForeColor = Color.White;
+            DisplayLabel.Location = new Point(16, 69);
+            DisplayLabel.Margin = new Padding(4, 0, 4, 0);
+            DisplayLabel.Name = "DisplayLabel";
+            DisplayLabel.Size = new Size(681, 91);
+            DisplayLabel.TabIndex = 1;
+            DisplayLabel.Text = "0";
+            DisplayLabel.TextAlign = ContentAlignment.MiddleRight;
 
+            ExpressionLabel.BackColor = Color.FromArgb(100, 40, 40, 40);
+            ExpressionLabel.BorderStyle = BorderStyle.FixedSingle;
+            ExpressionLabel.Font = new Font("Segoe UI", 12F);
+            ExpressionLabel.ForeColor = Color.FromArgb(220, 220, 220);
+            ExpressionLabel.Location = new Point(16, 15);
+            ExpressionLabel.Margin = new Padding(4, 0, 4, 0);
+            ExpressionLabel.Name = "ExpressionLabel";
+            ExpressionLabel.Size = new Size(681, 45);
+            ExpressionLabel.TabIndex = 0;
+            ExpressionLabel.TextAlign = ContentAlignment.MiddleRight;
+
+            Digit7Button.BackColor = Color.FromArgb(50, 50, 50);
+            Digit7Button.FlatStyle = FlatStyle.Flat;
+            Digit7Button.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            Digit7Button.ForeColor = Color.White;
+            Digit7Button.Location = new Point(16, 177);
+            Digit7Button.Margin = new Padding(4, 5, 4, 5);
+            Digit7Button.Name = "Digit7Button";
+            Digit7Button.Size = new Size(107, 123);
+            Digit7Button.TabIndex = 2;
+            Digit7Button.Text = "7";
+            Digit7Button.UseVisualStyleBackColor = false;
+            Digit7Button.Click += DigitButton_Click;
+
+            Digit8Button.BackColor = Color.FromArgb(50, 50, 50);
+            Digit8Button.FlatStyle = FlatStyle.Flat;
+            Digit8Button.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            Digit8Button.ForeColor = Color.White;
+            Digit8Button.Location = new Point(131, 177);
+            Digit8Button.Margin = new Padding(4, 5, 4, 5);
+            Digit8Button.Name = "Digit8Button";
+            Digit8Button.Size = new Size(107, 123);
+            Digit8Button.TabIndex = 3;
+            Digit8Button.Text = "8";
+            Digit8Button.UseVisualStyleBackColor = false;
+            Digit8Button.Click += DigitButton_Click;
+
+            Digit9Button.BackColor = Color.FromArgb(50, 50, 50);
+            Digit9Button.FlatStyle = FlatStyle.Flat;
+            Digit9Button.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            Digit9Button.ForeColor = Color.White;
+            Digit9Button.Location = new Point(245, 177);
+            Digit9Button.Margin = new Padding(4, 5, 4, 5);
+            Digit9Button.Name = "Digit9Button";
+            Digit9Button.Size = new Size(107, 123);
+            Digit9Button.TabIndex = 4;
+            Digit9Button.Text = "9";
+            Digit9Button.UseVisualStyleBackColor = false;
+            Digit9Button.Click += DigitButton_Click;
+
+            Digit4Button.BackColor = Color.FromArgb(50, 50, 50);
+            Digit4Button.FlatStyle = FlatStyle.Flat;
+            Digit4Button.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            Digit4Button.ForeColor = Color.White;
+            Digit4Button.Location = new Point(16, 309);
+            Digit4Button.Margin = new Padding(4, 5, 4, 5);
+            Digit4Button.Name = "Digit4Button";
+            Digit4Button.Size = new Size(107, 123);
+            Digit4Button.TabIndex = 5;
+            Digit4Button.Text = "4";
+            Digit4Button.UseVisualStyleBackColor = false;
+            Digit4Button.Click += DigitButton_Click;
+
+            Digit5Button.BackColor = Color.FromArgb(50, 50, 50);
+            Digit5Button.FlatStyle = FlatStyle.Flat;
+            Digit5Button.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            Digit5Button.ForeColor = Color.White;
+            Digit5Button.Location = new Point(131, 309);
+            Digit5Button.Margin = new Padding(4, 5, 4, 5);
+            Digit5Button.Name = "Digit5Button";
+            Digit5Button.Size = new Size(107, 123);
+            Digit5Button.TabIndex = 6;
+            Digit5Button.Text = "5";
+            Digit5Button.UseVisualStyleBackColor = false;
+            Digit5Button.Click += DigitButton_Click;
+
+            Digit6Button.BackColor = Color.FromArgb(50, 50, 50);
+            Digit6Button.FlatStyle = FlatStyle.Flat;
+            Digit6Button.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            Digit6Button.ForeColor = Color.White;
+            Digit6Button.Location = new Point(245, 309);
+            Digit6Button.Margin = new Padding(4, 5, 4, 5);
+            Digit6Button.Name = "Digit6Button";
+            Digit6Button.Size = new Size(107, 123);
+            Digit6Button.TabIndex = 7;
+            Digit6Button.Text = "6";
+            Digit6Button.UseVisualStyleBackColor = false;
+            Digit6Button.Click += DigitButton_Click;
+
+            Digit1Button.BackColor = Color.FromArgb(50, 50, 50);
+            Digit1Button.FlatStyle = FlatStyle.Flat;
+            Digit1Button.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            Digit1Button.ForeColor = Color.White;
+            Digit1Button.Location = new Point(16, 442);
+            Digit1Button.Margin = new Padding(4, 5, 4, 5);
+            Digit1Button.Name = "Digit1Button";
+            Digit1Button.Size = new Size(107, 123);
+            Digit1Button.TabIndex = 8;
+            Digit1Button.Text = "1";
+            Digit1Button.UseVisualStyleBackColor = false;
+            Digit1Button.Click += DigitButton_Click;
+
+            Digit2Button.BackColor = Color.FromArgb(50, 50, 50);
+            Digit2Button.FlatStyle = FlatStyle.Flat;
+            Digit2Button.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            Digit2Button.ForeColor = Color.White;
+            Digit2Button.Location = new Point(131, 442);
+            Digit2Button.Margin = new Padding(4, 5, 4, 5);
+            Digit2Button.Name = "Digit2Button";
+            Digit2Button.Size = new Size(107, 123);
+            Digit2Button.TabIndex = 9;
+            Digit2Button.Text = "2";
+            Digit2Button.UseVisualStyleBackColor = false;
+            Digit2Button.Click += DigitButton_Click;
+
+            Digit3Button.BackColor = Color.FromArgb(50, 50, 50);
+            Digit3Button.FlatStyle = FlatStyle.Flat;
+            Digit3Button.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            Digit3Button.ForeColor = Color.White;
+            Digit3Button.Location = new Point(245, 442);
+            Digit3Button.Margin = new Padding(4, 5, 4, 5);
+            Digit3Button.Name = "Digit3Button";
+            Digit3Button.Size = new Size(107, 123);
+            Digit3Button.TabIndex = 10;
+            Digit3Button.Text = "3";
+            Digit3Button.UseVisualStyleBackColor = false;
+            Digit3Button.Click += DigitButton_Click;
+
+            Digit0Button.BackColor = Color.FromArgb(50, 50, 50);
+            Digit0Button.FlatStyle = FlatStyle.Flat;
+            Digit0Button.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            Digit0Button.ForeColor = Color.White;
+            Digit0Button.Location = new Point(16, 574);
+            Digit0Button.Margin = new Padding(4, 5, 4, 5);
+            Digit0Button.Name = "Digit0Button";
+            Digit0Button.Size = new Size(107, 123);
+            Digit0Button.TabIndex = 11;
+            Digit0Button.Text = "0";
+            Digit0Button.UseVisualStyleBackColor = false;
+            Digit0Button.Click += DigitButton_Click;
+
+            ClearButton.BackColor = Color.FromArgb(200, 50, 50);
+            ClearButton.FlatStyle = FlatStyle.Flat;
+            ClearButton.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            ClearButton.ForeColor = Color.White;
+            ClearButton.Location = new Point(360, 177);
+            ClearButton.Margin = new Padding(4, 5, 4, 5);
+            ClearButton.Name = "ClearButton";
+            ClearButton.Size = new Size(107, 123);
+            ClearButton.TabIndex = 12;
+            ClearButton.Text = "C";
+            ClearButton.UseVisualStyleBackColor = false;
+            ClearButton.Click += ClearButton_Click;
+
+            SubtractButton.BackColor = Color.FromArgb(70, 70, 70);
+            SubtractButton.FlatStyle = FlatStyle.Flat;
+            SubtractButton.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            SubtractButton.ForeColor = Color.White;
+            SubtractButton.Location = new Point(475, 309);
+            SubtractButton.Margin = new Padding(4, 5, 4, 5);
+            SubtractButton.Name = "SubtractButton";
+            SubtractButton.Size = new Size(107, 123);
+            SubtractButton.TabIndex = 13;
+            SubtractButton.Text = "-";
+            SubtractButton.UseVisualStyleBackColor = false;
+            SubtractButton.Click += OperationButton_Click;
+
+            AddButton.BackColor = Color.FromArgb(70, 70, 70);
+            AddButton.FlatStyle = FlatStyle.Flat;
+            AddButton.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            AddButton.ForeColor = Color.White;
+            AddButton.Location = new Point(475, 177);
+            AddButton.Margin = new Padding(4, 5, 4, 5);
+            AddButton.Name = "AddButton";
+            AddButton.Size = new Size(107, 123);
+            AddButton.TabIndex = 14;
+            AddButton.Text = "+";
+            AddButton.UseVisualStyleBackColor = false;
+            AddButton.Click += OperationButton_Click;
+
+            DivideButton.BackColor = Color.FromArgb(70, 70, 70);
+            DivideButton.FlatStyle = FlatStyle.Flat;
+            DivideButton.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            DivideButton.ForeColor = Color.White;
+            DivideButton.Location = new Point(475, 442);
+            DivideButton.Margin = new Padding(4, 5, 4, 5);
+            DivideButton.Name = "DivideButton";
+            DivideButton.Size = new Size(107, 123);
+            DivideButton.TabIndex = 15;
+            DivideButton.Text = "/";
+            DivideButton.UseVisualStyleBackColor = false;
+            DivideButton.Click += OperationButton_Click;
+
+            MultiplyButton.BackColor = Color.FromArgb(70, 70, 70);
+            MultiplyButton.FlatStyle = FlatStyle.Flat;
+            MultiplyButton.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            MultiplyButton.ForeColor = Color.White;
+            MultiplyButton.Location = new Point(475, 574);
+            MultiplyButton.Margin = new Padding(4, 5, 4, 5);
+            MultiplyButton.Name = "MultiplyButton";
+            MultiplyButton.Size = new Size(107, 123);
+            MultiplyButton.TabIndex = 16;
+            MultiplyButton.Text = "*";
+            MultiplyButton.UseVisualStyleBackColor = false;
+            MultiplyButton.Click += OperationButton_Click;
+
+            EqualButton.BackColor = Color.FromArgb(0, 120, 215);
+            EqualButton.FlatStyle = FlatStyle.Flat;
+            EqualButton.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            EqualButton.ForeColor = Color.White;
+            EqualButton.Location = new Point(360, 574);
+            EqualButton.Margin = new Padding(4, 5, 4, 5);
+            EqualButton.Name = "EqualButton";
+            EqualButton.Size = new Size(107, 123);
+            EqualButton.TabIndex = 17;
+            EqualButton.Text = "=";
+            EqualButton.UseVisualStyleBackColor = false;
+            EqualButton.Click += EqualButton_Click;
+
+            SineButton.BackColor = Color.FromArgb(0, 150, 136);
+            SineButton.FlatStyle = FlatStyle.Flat;
+            SineButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            SineButton.ForeColor = Color.White;
+            SineButton.Location = new Point(360, 442);
+            SineButton.Margin = new Padding(4, 5, 4, 5);
+            SineButton.Name = "SineButton";
+            SineButton.Size = new Size(107, 123);
+            SineButton.TabIndex = 19;
+            SineButton.Text = "sin";
+            SineButton.UseVisualStyleBackColor = false;
+            SineButton.Click += FunctionButton_Click;
+
+            TrigMenuButton.BackColor = Color.FromArgb(100, 100, 100);
+            TrigMenuButton.FlatStyle = FlatStyle.Flat;
+            TrigMenuButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            TrigMenuButton.ForeColor = Color.White;
+            TrigMenuButton.Location = new Point(427, 442);
+            TrigMenuButton.Margin = new Padding(4, 5, 4, 5);
+            TrigMenuButton.Name = "TrigMenuButton";
+            TrigMenuButton.Size = new Size(40, 46);
+            TrigMenuButton.TabIndex = 20;
+            TrigMenuButton.Text = "▼";
+            TrigMenuButton.UseVisualStyleBackColor = false;
+            TrigMenuButton.Click += TrigMenuButton_Click;
+
+            MemoryStoreButton.BackColor = Color.FromArgb(0, 150, 136);
+            MemoryStoreButton.FlatStyle = FlatStyle.Flat;
+            MemoryStoreButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            MemoryStoreButton.ForeColor = Color.White;
+            MemoryStoreButton.Location = new Point(590, 575);
+            MemoryStoreButton.Margin = new Padding(4, 5, 4, 5);
+            MemoryStoreButton.Name = "MemoryStoreButton";
+            MemoryStoreButton.Size = new Size(107, 122);
+            MemoryStoreButton.TabIndex = 21;
+            MemoryStoreButton.Text = "MS";
+            MemoryStoreButton.UseVisualStyleBackColor = false;
+            MemoryStoreButton.Click += FunctionButton_Click;
+
+            MemoryRecallButton.BackColor = Color.FromArgb(0, 150, 136);
+            MemoryRecallButton.FlatStyle = FlatStyle.Flat;
+            MemoryRecallButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            MemoryRecallButton.ForeColor = Color.White;
+            MemoryRecallButton.Location = new Point(590, 442);
+            MemoryRecallButton.Margin = new Padding(4, 5, 4, 5);
+            MemoryRecallButton.Name = "MemoryRecallButton";
+            MemoryRecallButton.Size = new Size(107, 123);
+            MemoryRecallButton.TabIndex = 22;
+            MemoryRecallButton.Text = "MR";
+            MemoryRecallButton.UseVisualStyleBackColor = false;
+            MemoryRecallButton.Click += FunctionButton_Click;
+
+            DecimalButton.BackColor = Color.FromArgb(50, 50, 50);
+            DecimalButton.FlatStyle = FlatStyle.Flat;
+            DecimalButton.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            DecimalButton.ForeColor = Color.White;
+            DecimalButton.Location = new Point(131, 574);
+            DecimalButton.Margin = new Padding(4, 5, 4, 5);
+            DecimalButton.Name = "DecimalButton";
+            DecimalButton.Size = new Size(107, 123);
+            DecimalButton.TabIndex = 23;
+            DecimalButton.Text = ".";
+            DecimalButton.UseVisualStyleBackColor = false;
+            DecimalButton.Click += FunctionButton_Click;
+
+            ChangeSignButton.BackColor = Color.FromArgb(0, 150, 136);
+            ChangeSignButton.FlatStyle = FlatStyle.Flat;
+            ChangeSignButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            ChangeSignButton.ForeColor = Color.White;
+            ChangeSignButton.Location = new Point(246, 575);
+            ChangeSignButton.Margin = new Padding(4, 5, 4, 5);
+            ChangeSignButton.Name = "ChangeSignButton";
+            ChangeSignButton.Size = new Size(107, 122);
+            ChangeSignButton.TabIndex = 24;
+            ChangeSignButton.Text = "+/-";
+            ChangeSignButton.UseVisualStyleBackColor = false;
+            ChangeSignButton.Click += FunctionButton_Click;
+
+            SquareButton.BackColor = Color.FromArgb(0, 150, 136);
+            SquareButton.FlatStyle = FlatStyle.Flat;
+            SquareButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            SquareButton.ForeColor = Color.White;
+            SquareButton.Location = new Point(360, 309);
+            SquareButton.Margin = new Padding(4, 5, 4, 5);
+            SquareButton.Name = "SquareButton";
+            SquareButton.Size = new Size(107, 123);
+            SquareButton.TabIndex = 25;
+            SquareButton.Text = "x²";
+            SquareButton.UseVisualStyleBackColor = false;
+            SquareButton.Click += FunctionButton_Click;
+
+            SquareRootButton.BackColor = Color.FromArgb(0, 150, 136);
+            SquareRootButton.FlatStyle = FlatStyle.Flat;
+            SquareRootButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            SquareRootButton.ForeColor = Color.White;
+            SquareRootButton.Location = new Point(590, 177);
+            SquareRootButton.Margin = new Padding(4, 5, 4, 5);
+            SquareRootButton.Name = "SquareRootButton";
+            SquareRootButton.Size = new Size(107, 123);
+            SquareRootButton.TabIndex = 26;
+            SquareRootButton.Text = "√";
+            SquareRootButton.UseVisualStyleBackColor = false;
+            SquareRootButton.Click += FunctionButton_Click;
+
+            PercentButton.BackColor = Color.FromArgb(0, 150, 136);
+            PercentButton.FlatStyle = FlatStyle.Flat;
+            PercentButton.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            PercentButton.ForeColor = Color.White;
+            PercentButton.Location = new Point(590, 310);
+            PercentButton.Margin = new Padding(4, 5, 4, 5);
+            PercentButton.Name = "PercentButton";
+            PercentButton.Size = new Size(107, 122);
+            PercentButton.TabIndex = 27;
+            PercentButton.Text = "%";
+            PercentButton.UseVisualStyleBackColor = false;
+            PercentButton.Click += FunctionButton_Click;
+
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(724, 715);
+            Controls.Add(PercentButton);
+            Controls.Add(SquareRootButton);
+            Controls.Add(SquareButton);
+            Controls.Add(ChangeSignButton);
+            Controls.Add(DecimalButton);
+            Controls.Add(MemoryRecallButton);
+            Controls.Add(MemoryStoreButton);
+            Controls.Add(TrigMenuButton);
+            Controls.Add(SineButton);
+            Controls.Add(EqualButton);
+            Controls.Add(MultiplyButton);
+            Controls.Add(DivideButton);
+            Controls.Add(AddButton);
+            Controls.Add(SubtractButton);
+            Controls.Add(ClearButton);
+            Controls.Add(Digit0Button);
+            Controls.Add(Digit3Button);
+            Controls.Add(Digit2Button);
+            Controls.Add(Digit1Button);
+            Controls.Add(Digit6Button);
+            Controls.Add(Digit5Button);
+            Controls.Add(Digit4Button);
+            Controls.Add(Digit9Button);
+            Controls.Add(Digit8Button);
+            Controls.Add(Digit7Button);
+            Controls.Add(DisplayLabel);
+            Controls.Add(ExpressionLabel);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            Margin = new Padding(4, 5, 4, 5);
+            MaximizeBox = false;
+            Name = "CalculatorForm";
+            Text = "Calculator";
+            ResumeLayout(false);
         }
 
-        #endregion
-
-        private System.Windows.Forms.Label DisplayLabel;
-        private System.Windows.Forms.Button Digit7Button;
-        private System.Windows.Forms.Button Digit8Button;
-        private System.Windows.Forms.Button Digit9Button;
-        private System.Windows.Forms.Button Digit4Button;
-        private System.Windows.Forms.Button Digit5Button;
-        private System.Windows.Forms.Button Digit6Button;
-        private System.Windows.Forms.Button Digit1Button;
-        private System.Windows.Forms.Button Digit2Button;
-        private System.Windows.Forms.Button Digit3Button;
-        private System.Windows.Forms.Button Digit0Button;
-        private System.Windows.Forms.Button ClearButton;
-        private System.Windows.Forms.Button SubtractButton;
-        private System.Windows.Forms.Button AddButton;
-        private System.Windows.Forms.Button DivideButton;
-        private System.Windows.Forms.Button MultiplyButton;
-        private System.Windows.Forms.Button EqualButton;
-        private System.Windows.Forms.Button XToYButton;
+        public System.Windows.Forms.Label DisplayLabel;
+        public System.Windows.Forms.Label ExpressionLabel;
+        public RoundedButton Digit7Button;
+        public RoundedButton Digit8Button;
+        public RoundedButton Digit9Button;
+        public RoundedButton Digit4Button;
+        public RoundedButton Digit5Button;
+        public RoundedButton Digit6Button;
+        public RoundedButton Digit1Button;
+        public RoundedButton Digit2Button;
+        public RoundedButton Digit3Button;
+        public RoundedButton Digit0Button;
+        public RoundedButton ClearButton;
+        public RoundedButton SubtractButton;
+        public RoundedButton AddButton;
+        public RoundedButton DivideButton;
+        public RoundedButton MultiplyButton;
+        public RoundedButton EqualButton;
+        public RoundedButton SineButton;
+        public RoundedButton TrigMenuButton;
+        public RoundedButton MemoryStoreButton;
+        public RoundedButton MemoryRecallButton;
+        public RoundedButton DecimalButton;
+        public RoundedButton ChangeSignButton;
+        public RoundedButton SquareButton;
+        public RoundedButton SquareRootButton;
+        public RoundedButton PercentButton;
     }
 }
