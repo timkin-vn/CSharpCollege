@@ -1,0 +1,8 @@
+     // Освобождение ресурсов
+     olive.Dispose();
+     darkGreen.Dispose();
+     green.Dispose();
+     gray.Dispose();
+     lightGray.Dispose();
+     black.Dispose();
+     outline.Dispose();
