@@ -325,7 +325,7 @@
             this.button2.TabIndex = 40;
             this.button2.Text = "√";
             this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.Sqrt);
+            this.button2.Click += new System.EventHandler(this.SquareRoot_Click);
             // 
             // button3
             // 
@@ -339,7 +339,7 @@
             this.button3.TabIndex = 41;
             this.button3.Text = "x² ";
             this.button3.UseVisualStyleBackColor = false;
-            this.button3.Click += new System.EventHandler(this.inPow);
+            this.button3.Click += new System.EventHandler(this.Square_Click);
             // 
             // button4
             // 
@@ -353,7 +353,7 @@
             this.button4.TabIndex = 42;
             this.button4.Text = "1/x";
             this.button4.UseVisualStyleBackColor = false;
-            this.button4.Click += new System.EventHandler(this.oneToNum);
+            this.button4.Click += new System.EventHandler(this.Inverse_Click);
             // 
             // CalculatorFormDarkTheme
             // 

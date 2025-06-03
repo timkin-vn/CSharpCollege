@@ -98,7 +98,5 @@ namespace Calculator.Business.Services
             state.NeedClearX = true; 
         }
 
-
-
     }
 }

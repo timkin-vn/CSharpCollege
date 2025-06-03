@@ -70,36 +70,28 @@ namespace Claculator
             _service.MoveXToY(_state);
         }
 
-        private void Sqrt(object sender, EventArgs e)
+        private void Square_Click(object sender, EventArgs e)
         {
-            double dn, res;
-
-
-            dn = Convert.ToDouble(DisplayLabel.Text);
-            res = Math.Sqrt(dn);
-            DisplayLabel.Text = res.ToString();
+            _service.Square(_state);
+            ShowResult();
         }
 
-        private void inPow(object sender, EventArgs e)
+        private void SquareRoot_Click(object sender, EventArgs e)
         {
-            double dn, res;
-
-
-            dn = Convert.ToDouble(DisplayLabel.Text);
-            res = Math.Pow(dn, 2);
-            DisplayLabel.Text = res.ToString();
+            _service.SquareRoot(_state);
+            ShowResult();
         }
 
-        private void oneToNum(object sender, EventArgs e)
+
+        private void Inverse_Click(object sender, EventArgs e)
         {
-            double dn, res;
-
-
-            dn = Convert.ToDouble(DisplayLabel.Text);
-            res = 1 / dn;
-            DisplayLabel.Text = res.ToString();
+            _service.Inverse(_state);
+            ShowResult();
         }
 
-      
+        private void ShowResult()
+        {
+            DisplayLabel.Text = _state.RegisterX.ToString();
+        }
     }
 }

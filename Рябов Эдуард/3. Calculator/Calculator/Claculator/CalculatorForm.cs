@@ -54,6 +54,27 @@ namespace Claculator
             _service.MoveXToY(_state);
         }
 
+        private void Square_Click(object sender, EventArgs e)
+        {
+            _service.Square(_state);
+            ShowResult();
+        }
+
+        private void SquareRoot_Click(object sender, EventArgs e)
+        {
+            _service.SquareRoot(_state);
+            ShowResult();
+        }
+        
+        
+        private void Inverse_Click(object sender, EventArgs e)
+        {
+            _service.Inverse(_state);
+            ShowResult();
+        }
+
+
+
         private void ShowResult()
         {
             DisplayLabel.Text = _state.RegisterX.ToString();
@@ -66,36 +87,39 @@ namespace Claculator
             Hide();
         }
 
-        private void Sqrt(object sender, EventArgs e)
-        {
-            double dn, res;
 
 
-            dn = Convert.ToDouble(DisplayLabel.Text);
-            res = Math.Sqrt(dn);
-            DisplayLabel.Text = res.ToString();
-        }
-
-        private void inPow(object sender, EventArgs e)
-        {
-            double dn, res;
+        //private void Sqrt(object sender, EventArgs e)
+        //{
+        //    double dn, res;
 
 
-            dn = Convert.ToDouble(DisplayLabel.Text);
-            res = Math.Pow(dn,2);
-            DisplayLabel.Text = res.ToString();
-        }
+        //    dn = Convert.ToDouble(DisplayLabel.Text);
+        //    res = Math.Sqrt(dn);
+        //    DisplayLabel.Text = res.ToString();
+        //}
 
-        private void oneToNum(object sender, EventArgs e)
-        {
-            double dn, res;
+        //private void inPow(object sender, EventArgs e)
+        //{
+        //    double dn, res;
 
 
-            dn = Convert.ToDouble(DisplayLabel.Text);
-            res = 1 / dn;
-            DisplayLabel.Text = res.ToString();
-        }
+        //    dn = Convert.ToDouble(DisplayLabel.Text);
+        //    res = Math.Pow(dn, 2);
+        //    DisplayLabel.Text = res.ToString();
+        //}
 
-        
+        //private void oneToNum(object sender, EventArgs e)
+        //{
+        //    double dn, res;
+
+
+        //    dn = Convert.ToDouble(DisplayLabel.Text);
+        //    res = 1 / dn;
+        //    DisplayLabel.Text = res.ToString();
+        //}
+
+
+
     }
 }
