@@ -1,0 +1,57 @@
+﻿<Window x:Class="CardFile.Wpf.Views.EditCardWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CardFile.Wpf.Views" xmlns:viewmodels="clr-namespace:CardFile.Wpf.ViewModels"
+        mc:Ignorable="d"
+        Title="Правка карточки" Height="195" Width="297" MinHeight="350" MinWidth="420" MaxHeight="350" MaxWidth="420" ResizeMode="NoResize">
+    <Window.DataContext>
+        <viewmodels:CardViewModel />
+    </Window.DataContext>
+    <Grid Margin="0,0,0,-139">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Название:" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
+
+        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Name}" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" Width="200" />
+
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Дата привоза:" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
+
+        <DatePicker Grid.Row="3" Grid.Column="1" SelectedDate="{Binding DeliverDate}" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
+
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="Срок годности:" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
+
+        <DatePicker Grid.Row="4" Grid.Column="1" SelectedDate="{Binding ExpirationDate}" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
+
+        <TextBlock Grid.Row="5" Grid.Column="0" Text="Кол-во товара:" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
+
+        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Count}" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" Width="200" />
+
+        <TextBlock Grid.Row="6" Grid.Column="0" Text="Рейтинг товара:" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
+
+        <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Rating}" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" Width="200" />
+
+
+        <StackPanel Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+            <Button Content="OK" Margin="5" Padding="5" Click="OkButton_Click" />
+            <Button Content="Отмена" Margin="5" Padding="5" Click="CancelButton_Click" />
+        </StackPanel>
+    </Grid>
+</Window>
