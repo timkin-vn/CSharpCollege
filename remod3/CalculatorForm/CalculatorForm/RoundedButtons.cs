@@ -64,9 +64,9 @@ namespace Calculator {
                 BackColor = Color.FromArgb(200, 50, 50);
             else if ("+-*/".Contains(Text))
                 BackColor = Color.FromArgb(70, 70, 70);
-            else if ("√x²%MSMR+/-".Contains(Text) || this == (Parent as CalculatorForm)?.SineButton)
+            else if ("√x²%MSMR+/-".Contains(Text) || this == (Parent as CalculatorForm.CalculatorForm)?.SineButton)
                 BackColor = Color.FromArgb(0, 150, 136);
-            else if (this == (Parent as CalculatorForm)?.TrigMenuButton)
+            else if (this == (Parent as CalculatorForm.CalculatorForm)?.TrigMenuButton)
                 BackColor = Color.FromArgb(100, 100, 100);
             else
                 BackColor = Color.FromArgb(50, 50, 50);

@@ -1,13 +1,9 @@
-﻿using Calculator.Business.Models;
+﻿using System.Drawing.Drawing2D;
 using Calculator.Business.Services;
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
+using CalculatorForm.Calculator.Business.Models;
 
-namespace Calculator {
-    public partial class CalculatorForm : Form {
+namespace CalculatorForm {
+    public sealed partial class CalculatorForm : Form {
         private readonly CalculatorState _state = new CalculatorState();
         private readonly CalculatorService _service = new CalculatorService();
 
@@ -19,22 +15,20 @@ namespace Calculator {
         }
 
         protected override void OnPaintBackground(PaintEventArgs e) {
-            using (LinearGradientBrush brush = new LinearGradientBrush(
+            using var brush = new LinearGradientBrush(
                 this.ClientRectangle,
                 Color.FromArgb(30, 30, 30),
                 Color.FromArgb(10, 10, 10),
-                90F)) {
-                e.Graphics.FillRectangle(brush, this.ClientRectangle);
-            }
+                90F);
+            e.Graphics.FillRectangle(brush, this.ClientRectangle);
         }
 
-        private void CalculatorForm_KeyDown(object sender, KeyEventArgs e) {
-            if (e.KeyCode == Keys.Escape) {
-                _service.Clear(_state);
-                SineButton.Text = "sin";
-                ShowResult();
-                e.Handled = true;
-            }
+        private void CalculatorForm_KeyDown(object? sender, KeyEventArgs e) {
+            if (e.KeyCode != Keys.Escape) return;
+            CalculatorService.Clear(_state);
+            SineButton.Text = @"sin";
+            ShowResult();
+            e.Handled = true;
         }
 
         private void DigitButton_Click(object sender, EventArgs e) {
@@ -44,8 +38,8 @@ namespace Calculator {
         }
 
         private void ClearButton_Click(object sender, EventArgs e) {
-            _service.Clear(_state);
-            SineButton.Text = "sin";
+            CalculatorService.Clear(_state);
+            SineButton.Text = @"sin";
             ShowResult();
         }
 
@@ -56,7 +50,7 @@ namespace Calculator {
         }
 
         private void EqualButton_Click(object sender, EventArgs e) {
-            _service.PressEqual(_state);
+            CalculatorService.PressEqual(_state);
             ShowResult();
         }
 
@@ -65,7 +59,7 @@ namespace Calculator {
 
             switch (function) {
                 case "√":
-                    _service.SquareRoot(_state);
+                    CalculatorService.SquareRoot(_state);
                     break;
                 case "sin":
                 case "cos":
@@ -75,25 +69,25 @@ namespace Calculator {
                 case "arccos":
                 case "arctan":
                 case "arccot":
-                    _service.ComputeTrigFunction(_state);
+                    CalculatorService.ComputeTrigFunction(_state);
                     break;
                 case "x²":
-                    _service.Square(_state);
+                    CalculatorService.Square(_state);
                     break;
                 case "%":
-                    _service.Percent(_state);
+                    CalculatorService.Percent(_state);
                     break;
                 case "+/-":
-                    _service.ChangeSign(_state);
+                    CalculatorService.ChangeSign(_state);
                     break;
                 case ".":
-                    _service.AddDecimal(_state);
+                    CalculatorService.AddDecimal(_state);
                     break;
                 case "MS":
-                    _service.MemoryStore(_state);
+                    CalculatorService.MemoryStore(_state);
                     break;
                 case "MR":
-                    _service.MemoryRecall(_state);
+                    CalculatorService.MemoryRecall(_state);
                     break;
             }
 
@@ -105,14 +99,14 @@ namespace Calculator {
             trigMenu.BackColor = Color.FromArgb(40, 40, 40);
             trigMenu.ForeColor = Color.White;
             trigMenu.Font = new Font("Segoe UI", 10F);
-            trigMenu.Items.Add("sin").Click += (s, ev) => SetTrigFunction("sin");
-            trigMenu.Items.Add("cos").Click += (s, ev) => SetTrigFunction("cos");
-            trigMenu.Items.Add("tan").Click += (s, ev) => SetTrigFunction("tan");
-            trigMenu.Items.Add("cot").Click += (s, ev) => SetTrigFunction("cot");
-            trigMenu.Items.Add("arcsin").Click += (s, ev) => SetTrigFunction("arcsin");
-            trigMenu.Items.Add("arccos").Click += (s, ev) => SetTrigFunction("arccos");
-            trigMenu.Items.Add("arctan").Click += (s, ev) => SetTrigFunction("arctan");
-            trigMenu.Items.Add("arccot").Click += (s, ev) => SetTrigFunction("arccot");
+            trigMenu.Items.Add("sin").Click += (_, _) => SetTrigFunction("sin");
+            trigMenu.Items.Add("cos").Click += (_, _) => SetTrigFunction("cos");
+            trigMenu.Items.Add("tan").Click += (_, _) => SetTrigFunction("tan");
+            trigMenu.Items.Add("cot").Click += (_, _) => SetTrigFunction("cot");
+            trigMenu.Items.Add("arcsin").Click += (_, _) => SetTrigFunction("arcsin");
+            trigMenu.Items.Add("arccos").Click += (_, _) => SetTrigFunction("arccos");
+            trigMenu.Items.Add("arctan").Click += (_, _) => SetTrigFunction("arctan");
+            trigMenu.Items.Add("arccot").Click += (_, _) => SetTrigFunction("arccot");
             trigMenu.Show(TrigMenuButton, new Point(0, TrigMenuButton.Height));
         }
 

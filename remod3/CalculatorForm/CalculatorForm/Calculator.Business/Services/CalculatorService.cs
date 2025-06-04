@@ -1,5 +1,6 @@
-﻿using Calculator.Business.Models;
-using System;
+﻿using System;
+using System.Globalization;
+using CalculatorForm.Calculator.Business.Models;
 
 namespace Calculator.Business.Services {
     public class CalculatorService {
@@ -14,7 +15,7 @@ namespace Calculator.Business.Services {
             UpdateExpression(state);
         }
 
-        public void Clear(CalculatorState state) {
+        public static void Clear(CalculatorState state) {
             state.RegisterX = 0;
             state.RegisterY = 0;
             state.Operation = string.Empty;
@@ -26,7 +27,7 @@ namespace Calculator.Business.Services {
         }
 
 
-        public void CompleteOperation(CalculatorState state, string operation) {
+        private static void CompleteOperation(CalculatorState state, string operation) {
             switch (operation) {
                 case "+":
                     state.RegisterX = state.RegisterY + state.RegisterX;
@@ -51,32 +52,39 @@ namespace Calculator.Business.Services {
                 state.RegisterX = double.Parse(state.CurrentInput);
                 state.CurrentInput = "";
             }
-            CompleteOperation(state, state.Operation);
-            state.RegisterY = state.RegisterX;
+
+            if (state.Operation != null) {
+                CompleteOperation(state, state.Operation);
+                state.RegisterY = state.RegisterX;
+            }
+
             state.Operation = operation;
             state.NeedClearX = true;
             UpdateExpression(state);
         }
 
-        public void PressEqual(CalculatorState state) {
+        public static void PressEqual(CalculatorState state) {
             if (!string.IsNullOrEmpty(state.CurrentInput)) {
                 state.RegisterX = double.Parse(state.CurrentInput);
                 state.CurrentInput = "";
             }
-            double previousX = state.RegisterX;
-            CompleteOperation(state, state.Operation);
-            state.Expression = $"{state.RegisterY} {state.Operation} {previousX} = {state.RegisterX}";
+            var previousX = state.RegisterX;
+            if (state.Operation != null) {
+                CompleteOperation(state, state.Operation);
+                state.Expression = $"{state.RegisterY} {state.Operation} {previousX} = {state.RegisterX}";
+            }
+
             state.NeedClearX = true;
         }
 
-        public void ComputeTrigFunction(CalculatorState state) {
+        public static void ComputeTrigFunction(CalculatorState state) {
             if (!string.IsNullOrEmpty(state.CurrentInput)) {
                 state.RegisterX = double.Parse(state.CurrentInput);
                 state.CurrentInput = "";
             }
-            double input = state.RegisterX;
+            var input = state.RegisterX;
             double result = 0;
-            bool isValid = true;
+            var isValid = true;
 
             switch (state.SelectedFunction) {
                 case "sin":
@@ -143,13 +151,13 @@ namespace Calculator.Business.Services {
             state.NeedClearX = true;
         }
 
-        public void SquareRoot(CalculatorState state) {
+        public static void SquareRoot(CalculatorState state) {
             if (!string.IsNullOrEmpty(state.CurrentInput)) {
                 state.RegisterX = double.Parse(state.CurrentInput);
                 state.CurrentInput = "";
             }
             if (state.RegisterX >= 0) {
-                double input = state.RegisterX;
+                var input = state.RegisterX;
                 state.RegisterX = Math.Sqrt(state.RegisterX);
                 state.Expression = $"√({input}) = {state.RegisterX}";
             }
@@ -160,40 +168,40 @@ namespace Calculator.Business.Services {
             state.NeedClearX = true;
         }
 
-        public void Square(CalculatorState state) {
+        public static void Square(CalculatorState state) {
             if (!string.IsNullOrEmpty(state.CurrentInput)) {
                 state.RegisterX = double.Parse(state.CurrentInput);
                 state.CurrentInput = "";
             }
-            double input = state.RegisterX;
+            var input = state.RegisterX;
             state.RegisterX = Math.Pow(state.RegisterX, 2);
             state.Expression = $"({input})² = {state.RegisterX}";
             state.NeedClearX = true;
         }
 
-        public void Percent(CalculatorState state) {
+        public static void Percent(CalculatorState state) {
             if (!string.IsNullOrEmpty(state.CurrentInput)) {
                 state.RegisterX = double.Parse(state.CurrentInput);
                 state.CurrentInput = "";
             }
-            double input = state.RegisterX;
+            var input = state.RegisterX;
             state.RegisterX = state.RegisterY * state.RegisterX / 100;
             state.Expression = $"{state.RegisterY} * {input}% = {state.RegisterX}";
             state.NeedClearX = true;
         }
 
-        public void ChangeSign(CalculatorState state) {
+        public static void ChangeSign(CalculatorState state) {
             if (!string.IsNullOrEmpty(state.CurrentInput)) {
                 state.RegisterX = double.Parse(state.CurrentInput);
                 state.CurrentInput = "";
             }
-            double input = state.RegisterX;
+            var input = state.RegisterX;
             state.RegisterX = -state.RegisterX;
             state.Expression = $"-({input}) = {state.RegisterX}";
             state.NeedClearX = true;
         }
 
-        public void AddDecimal(CalculatorState state) {
+        public static void AddDecimal(CalculatorState state) {
             if (state.NeedClearX) {
                 state.CurrentInput = "0.";
                 state.NeedClearX = false;
@@ -204,7 +212,7 @@ namespace Calculator.Business.Services {
             UpdateExpression(state);
         }
 
-        public void MemoryStore(CalculatorState state) {
+        public static void MemoryStore(CalculatorState state) {
             if (!string.IsNullOrEmpty(state.CurrentInput)) {
                 state.RegisterX = double.Parse(state.CurrentInput);
             }
@@ -213,17 +221,17 @@ namespace Calculator.Business.Services {
             state.NeedClearX = true;
         }
 
-        public void MemoryRecall(CalculatorState state) {
+        public static void MemoryRecall(CalculatorState state) {
             state.RegisterX = state.Memory;
-            state.CurrentInput = state.Memory.ToString();
+            state.CurrentInput = state.Memory.ToString(CultureInfo.InvariantCulture);
             state.Expression = $"MR = {state.Memory}";
             state.NeedClearX = true;
         }
 
-        private void UpdateExpression(CalculatorState state) {
-            string yPart = (!string.IsNullOrEmpty(state.Operation) && state.RegisterY != 0) ? state.RegisterY.ToString() : "";
-            string opPart = state.Operation;
-            string inputPart = state.CurrentInput;
+        private static void UpdateExpression(CalculatorState state) {
+            var yPart = (!string.IsNullOrEmpty(state.Operation) && state.RegisterY != 0) ? state.RegisterY.ToString(CultureInfo.InvariantCulture) : "";
+            var opPart = state.Operation;
+            var inputPart = state.CurrentInput;
 
             if (string.IsNullOrEmpty(yPart) && string.IsNullOrEmpty(opPart) && string.IsNullOrEmpty(inputPart)) {
                 state.Expression = "";

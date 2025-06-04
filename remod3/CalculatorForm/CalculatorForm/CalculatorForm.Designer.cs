@@ -1,5 +1,7 @@
-﻿namespace Calculator {
-    partial class CalculatorForm {
+﻿using Calculator;
+
+namespace CalculatorForm {
+    sealed partial class CalculatorForm {
         private System.ComponentModel.IContainer components = null;
 
         protected override void Dispose(bool disposing) {
