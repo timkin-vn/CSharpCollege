@@ -1,0 +1,21 @@
+C:\Users\glebk\OneDrive\Desktop\иван\2. Drawing\Drawing\Drawing\bin\Debug\Drawing.exe.config
+C:\Users\glebk\OneDrive\Desktop\иван\2. Drawing\Drawing\Drawing\bin\Debug\Drawing.exe
+C:\Users\glebk\OneDrive\Desktop\иван\2. Drawing\Drawing\Drawing\bin\Debug\Drawing.pdb
+C:\Users\glebk\OneDrive\Desktop\иван\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.csproj.AssemblyReference.cache
+C:\Users\glebk\OneDrive\Desktop\иван\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.DrawingForm.resources
+C:\Users\glebk\OneDrive\Desktop\иван\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.Properties.Resources.resources
+C:\Users\glebk\OneDrive\Desktop\иван\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.csproj.GenerateResource.cache
+C:\Users\glebk\OneDrive\Desktop\иван\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.csproj.CoreCompileInputs.cache
+C:\Users\glebk\OneDrive\Desktop\иван\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.exe
+C:\Users\glebk\OneDrive\Desktop\иван\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.pdb
+C:\Users\glebk\OneDrive\Desktop\иван\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.exe.config
+C:\Users\seraf\Desktop\Новая сжатая ZIP-папка\2. Drawing\Drawing\Drawing\bin\Debug\Drawing.exe.config
+C:\Users\seraf\Desktop\Новая сжатая ZIP-папка\2. Drawing\Drawing\Drawing\bin\Debug\Drawing.exe
+C:\Users\seraf\Desktop\Новая сжатая ZIP-папка\2. Drawing\Drawing\Drawing\bin\Debug\Drawing.pdb
+C:\Users\seraf\Desktop\Новая сжатая ZIP-папка\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.csproj.AssemblyReference.cache
+C:\Users\seraf\Desktop\Новая сжатая ZIP-папка\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.DrawingForm.resources
+C:\Users\seraf\Desktop\Новая сжатая ZIP-папка\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.Properties.Resources.resources
+C:\Users\seraf\Desktop\Новая сжатая ZIP-папка\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.csproj.GenerateResource.cache
+C:\Users\seraf\Desktop\Новая сжатая ZIP-папка\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.csproj.CoreCompileInputs.cache
+C:\Users\seraf\Desktop\Новая сжатая ZIP-папка\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.exe
+C:\Users\seraf\Desktop\Новая сжатая ZIP-папка\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.pdb
