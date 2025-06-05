@@ -1,0 +1,22 @@
+C:\Users\glebk\OneDrive\Desktop\Projects.24.1.23.3\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.csproj.AssemblyReference.cache
+C:\Users\glebk\OneDrive\Desktop\Projects.24.1.23.3\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.DrawingForm.resources
+C:\Users\glebk\OneDrive\Desktop\Projects.24.1.23.3\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.Properties.Resources.resources
+C:\Users\glebk\OneDrive\Desktop\Projects.24.1.23.3\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.csproj.GenerateResource.cache
+C:\Users\glebk\OneDrive\Desktop\Projects.24.1.23.3\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.csproj.CoreCompileInputs.cache
+C:\Users\glebk\OneDrive\Desktop\Projects.24.1.23.3\2. Drawing\Drawing\Drawing\bin\Debug\Drawing.exe.config
+C:\Users\glebk\OneDrive\Desktop\Projects.24.1.23.3\2. Drawing\Drawing\Drawing\bin\Debug\Drawing.exe
+C:\Users\glebk\OneDrive\Desktop\Projects.24.1.23.3\2. Drawing\Drawing\Drawing\bin\Debug\Drawing.pdb
+C:\Users\glebk\OneDrive\Desktop\Projects.24.1.23.3\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.exe
+C:\Users\glebk\OneDrive\Desktop\Projects.24.1.23.3\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.pdb
+C:\Users\glebk\OneDrive\Desktop\Projects.24.1.23.3\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.exe.config
+C:\Users\glebk\OneDrive\Desktop\Новая папка (13)\Drawing\obj\Debug\Drawing.csproj.AssemblyReference.cache
+C:\Users\glebk\OneDrive\Desktop\Новая папка (13)\Drawing\obj\Debug\Drawing.exe.config
+C:\Users\glebk\OneDrive\Desktop\Новая папка (13)\Drawing\obj\Debug\Drawing.exe
+C:\Users\glebk\OneDrive\Desktop\Новая папка (13)\Drawing\obj\Debug\Drawing.pdb
+C:\Users\glebk\OneDrive\Desktop\Новая папка (14)\Новая папка (13)\Drawing\obj\Debug\Drawing.csproj.AssemblyReference.cache
+C:\Users\glebk\OneDrive\Desktop\Новая папка (14)\Новая папка (13)\Drawing\obj\Debug\Drawing.exe.config
+C:\Users\glebk\OneDrive\Desktop\Новая папка (14)\Новая папка (13)\Drawing\obj\Debug\Drawing.exe
+C:\Users\glebk\OneDrive\Desktop\Новая папка (14)\Новая папка (13)\Drawing\obj\Debug\Drawing.pdb
+C:\Users\glebk\OneDrive\Desktop\Новая папка (14)\Новая папка (13)\Drawing\obj\Debug\Drawing.Properties.Resources.resources
+C:\Users\glebk\OneDrive\Desktop\Новая папка (14)\Новая папка (13)\Drawing\obj\Debug\Drawing.csproj.GenerateResource.cache
+C:\Users\glebk\OneDrive\Desktop\Новая папка (14)\Новая папка (13)\Drawing\obj\Debug\Drawing.csproj.CoreCompileInputs.cache

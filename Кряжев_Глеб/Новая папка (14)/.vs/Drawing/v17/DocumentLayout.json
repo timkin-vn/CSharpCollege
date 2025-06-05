@@ -1,0 +1,85 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\glebk\\OneDrive\\Desktop\\\u041D\u043E\u0432\u0430\u044F \u043F\u0430\u043F\u043A\u0430 (14)\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{268BEC95-5691-452E-A7E7-1E0A21E640FD}|Drawing\\Drawing.csproj|c:\\users\\glebk\\onedrive\\desktop\\\u043D\u043E\u0432\u0430\u044F \u043F\u0430\u043F\u043A\u0430 (14)\\drawing\\\u0442\u0430\u043D\u043A \u0435\u043F\u0442\u0430.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{268BEC95-5691-452E-A7E7-1E0A21E640FD}|Drawing\\Drawing.csproj|solutionrelative:drawing\\\u0442\u0430\u043D\u043A \u0435\u043F\u0442\u0430.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{268BEC95-5691-452E-A7E7-1E0A21E640FD}|Drawing\\Drawing.csproj|C:\\Users\\glebk\\OneDrive\\Desktop\\\u041D\u043E\u0432\u0430\u044F \u043F\u0430\u043F\u043A\u0430 (14)\\drawing\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{268BEC95-5691-452E-A7E7-1E0A21E640FD}|Drawing\\Drawing.csproj|solutionrelative:drawing\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{268BEC95-5691-452E-A7E7-1E0A21E640FD}|Drawing\\Drawing.csproj|C:\\Users\\glebk\\OneDrive\\Desktop\\\u041D\u043E\u0432\u0430\u044F \u043F\u0430\u043F\u043A\u0430 (14)\\drawing\\\u0442\u0430\u043D\u043A \u0435\u043F\u0442\u0430.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{268BEC95-5691-452E-A7E7-1E0A21E640FD}|Drawing\\Drawing.csproj|solutionrelative:drawing\\\u0442\u0430\u043D\u043A \u0435\u043F\u0442\u0430.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{268BEC95-5691-452E-A7E7-1E0A21E640FD}|Drawing\\Drawing.csproj|C:\\Users\\glebk\\OneDrive\\Desktop\\\u041D\u043E\u0432\u0430\u044F \u043F\u0430\u043F\u043A\u0430 (14)\\drawing\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{268BEC95-5691-452E-A7E7-1E0A21E640FD}|Drawing\\Drawing.csproj|solutionrelative:drawing\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "\u0442\u0430\u043D\u043A \u0435\u043F\u0442\u0430.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "DocumentMoniker": "C:\\Users\\glebk\\OneDrive\\Desktop\\\u041D\u043E\u0432\u0430\u044F \u043F\u0430\u043F\u043A\u0430 (14)\\Drawing\\\u0442\u0430\u043D\u043A \u0435\u043F\u0442\u0430.cs",
+              "RelativeDocumentMoniker": "Drawing\\\u0442\u0430\u043D\u043A \u0435\u043F\u0442\u0430.cs",
+              "ToolTip": "C:\\Users\\glebk\\OneDrive\\Desktop\\\u041D\u043E\u0432\u0430\u044F \u043F\u0430\u043F\u043A\u0430 (14)\\Drawing\\\u0442\u0430\u043D\u043A \u0435\u043F\u0442\u0430.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "RelativeToolTip": "Drawing\\\u0442\u0430\u043D\u043A \u0435\u043F\u0442\u0430.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-29T21:05:11.552Z",
+              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "\u0442\u0430\u043D\u043A \u0435\u043F\u0442\u0430.cs",
+              "DocumentMoniker": "C:\\Users\\glebk\\OneDrive\\Desktop\\\u041D\u043E\u0432\u0430\u044F \u043F\u0430\u043F\u043A\u0430 (14)\\Drawing\\\u0442\u0430\u043D\u043A \u0435\u043F\u0442\u0430.cs",
+              "RelativeDocumentMoniker": "Drawing\\\u0442\u0430\u043D\u043A \u0435\u043F\u0442\u0430.cs",
+              "ToolTip": "C:\\Users\\glebk\\OneDrive\\Desktop\\\u041D\u043E\u0432\u0430\u044F \u043F\u0430\u043F\u043A\u0430 (14)\\Drawing\\\u0442\u0430\u043D\u043A \u0435\u043F\u0442\u0430.cs",
+              "RelativeToolTip": "Drawing\\\u0442\u0430\u043D\u043A \u0435\u043F\u0442\u0430.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAYwBMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-29T21:05:08.391Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\glebk\\OneDrive\\Desktop\\\u041D\u043E\u0432\u0430\u044F \u043F\u0430\u043F\u043A\u0430 (14)\\Drawing\\Program.cs",
+              "RelativeDocumentMoniker": "Drawing\\Program.cs",
+              "ToolTip": "C:\\Users\\glebk\\OneDrive\\Desktop\\\u041D\u043E\u0432\u0430\u044F \u043F\u0430\u043F\u043A\u0430 (14)\\Drawing\\Program.cs",
+              "RelativeToolTip": "Drawing\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-29T20:56:29.654Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "App.config",
+              "DocumentMoniker": "C:\\Users\\glebk\\OneDrive\\Desktop\\\u041D\u043E\u0432\u0430\u044F \u043F\u0430\u043F\u043A\u0430 (14)\\Drawing\\App.config",
+              "RelativeDocumentMoniker": "Drawing\\App.config",
+              "ToolTip": "C:\\Users\\glebk\\OneDrive\\Desktop\\\u041D\u043E\u0432\u0430\u044F \u043F\u0430\u043F\u043A\u0430 (14)\\Drawing\\App.config",
+              "RelativeToolTip": "Drawing\\App.config",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2025-05-29T20:56:23.762Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
