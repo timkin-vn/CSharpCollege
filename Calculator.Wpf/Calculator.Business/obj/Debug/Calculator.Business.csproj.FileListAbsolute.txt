@@ -1,0 +1,12 @@
+C:\Users\sasha\Desktop\CSharpCollege-DenisovRoman\Calculator.Wpf\Calculator.Business\bin\Debug\Calculator.Business.dll
+C:\Users\sasha\Desktop\CSharpCollege-DenisovRoman\Calculator.Wpf\Calculator.Business\bin\Debug\Calculator.Business.pdb
+C:\Users\sasha\Desktop\CSharpCollege-DenisovRoman\Calculator.Wpf\Calculator.Business\obj\Debug\Calculator.Business.csproj.AssemblyReference.cache
+C:\Users\sasha\Desktop\CSharpCollege-DenisovRoman\Calculator.Wpf\Calculator.Business\obj\Debug\Calculator.Business.csproj.CoreCompileInputs.cache
+C:\Users\sasha\Desktop\CSharpCollege-DenisovRoman\Calculator.Wpf\Calculator.Business\obj\Debug\Calculator.Business.dll
+C:\Users\sasha\Desktop\CSharpCollege-DenisovRoman\Calculator.Wpf\Calculator.Business\obj\Debug\Calculator.Business.pdb
+C:\Users\sasha\Desktop\Calculator.Wpf — копия\Calculator.Business\bin\Debug\Calculator.Business.dll
+C:\Users\sasha\Desktop\Calculator.Wpf — копия\Calculator.Business\bin\Debug\Calculator.Business.pdb
+C:\Users\sasha\Desktop\Calculator.Wpf — копия\Calculator.Business\obj\Debug\Calculator.Business.csproj.AssemblyReference.cache
+C:\Users\sasha\Desktop\Calculator.Wpf — копия\Calculator.Business\obj\Debug\Calculator.Business.csproj.CoreCompileInputs.cache
+C:\Users\sasha\Desktop\Calculator.Wpf — копия\Calculator.Business\obj\Debug\Calculator.Business.dll
+C:\Users\sasha\Desktop\Calculator.Wpf — копия\Calculator.Business\obj\Debug\Calculator.Business.pdb
