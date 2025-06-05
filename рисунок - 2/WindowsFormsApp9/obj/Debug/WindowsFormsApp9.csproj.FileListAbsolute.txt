@@ -1,0 +1,10 @@
+C:\Users\Fr1zer0k\Desktop\WindowsFormsApp9\obj\Debug\WindowsFormsApp9.csproj.AssemblyReference.cache
+C:\Users\Fr1zer0k\Desktop\WindowsFormsApp9\obj\Debug\DrawingProject.DrawingForm.resources
+C:\Users\Fr1zer0k\Desktop\WindowsFormsApp9\obj\Debug\WindowsFormsApp9.csproj.GenerateResource.cache
+C:\Users\Fr1zer0k\Desktop\WindowsFormsApp9\bin\Debug\WindowsFormsApp9.exe.config
+C:\Users\Fr1zer0k\Desktop\WindowsFormsApp9\bin\Debug\WindowsFormsApp9.exe
+C:\Users\Fr1zer0k\Desktop\WindowsFormsApp9\bin\Debug\WindowsFormsApp9.pdb
+C:\Users\Fr1zer0k\Desktop\WindowsFormsApp9\obj\Debug\WindowsFormsApp9.Properties.Resources.resources
+C:\Users\Fr1zer0k\Desktop\WindowsFormsApp9\obj\Debug\WindowsFormsApp9.csproj.CoreCompileInputs.cache
+C:\Users\Fr1zer0k\Desktop\WindowsFormsApp9\obj\Debug\WindowsFormsApp9.exe
+C:\Users\Fr1zer0k\Desktop\WindowsFormsApp9\obj\Debug\WindowsFormsApp9.pdb
