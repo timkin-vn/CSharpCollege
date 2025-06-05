@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CardFile.Wpf.Views" xmlns:viewmodels="clr-namespace:CardFile.Wpf.ViewModels"
         mc:Ignorable="d"
-        Title="Правка карточки" Height="350" Width="420" MinHeight="350" MinWidth="420" MaxHeight="350" MaxWidth="420" ResizeMode="NoResize">
+        Title="Правка карточки" Height="350" Width="450" MinHeight="350" MinWidth="420" MaxHeight="350" MaxWidth="450" ResizeMode="NoResize">
     <Window.DataContext>
         <viewmodels:CardViewModel/>
     </Window.DataContext>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
@@ -39,7 +39,7 @@
 
         <TextBlock Grid.Row="2" Grid.RowSpan="2" Grid.Column="0" Text="Описание:" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
 
-        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Description}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="200" Height="40" />
+        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Description}" VerticalAlignment="Center" HorizontalAlignment="Left" Width="200" Height="40" Margin="5,0,0,0" />
 
         <TextBlock Grid.Row="4" Grid.Column="0" Text="Размер порции (г)" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left" />
 
