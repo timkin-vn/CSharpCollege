@@ -62,7 +62,7 @@ namespace CardFile.DataAccess.FileDataAccess.FileSavers
                         {
                             throw new Exception($"В строке файла {fileName} неверное значение Price");
                         }
-
+                        
                         records.Add(newRecord);
                     }
 

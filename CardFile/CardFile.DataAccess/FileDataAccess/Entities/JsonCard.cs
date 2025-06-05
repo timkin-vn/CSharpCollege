@@ -16,5 +16,9 @@ namespace CardFile.DataAccess.FileDataAccess.Entites
         public string Description { get; set; }
         public int PortionSize { get; set; }
         public double Price { get; set; }
+        public bool IsAvaliableNow { get; set; }
+        public bool SeasonDish {  get; set; }
+        public bool IsVegan { get; set; }
+        public bool IsSpicy { get; set; }
     }
 }

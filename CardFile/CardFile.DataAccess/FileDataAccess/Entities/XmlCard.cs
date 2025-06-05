@@ -28,6 +28,17 @@ namespace CardFile.DataAccess.FileDataAccess.Entites
 
         [XmlAttribute("Price")]
         public double Price { get; set; }
-        
+
+        [XmlAttribute("IsAvaliableNow")]
+        public bool IsAvaliableNow { get; set; }
+
+        [XmlAttribute("SeasonDish")]
+        public bool SeasonDish { get; set; }
+
+        [XmlAttribute("IsVegan")]
+        public bool IsVegan { get; set; }
+
+        [XmlAttribute("IsSpicy")]
+        public bool IsSpicy { get; set; }
     }
 }
