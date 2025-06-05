@@ -1,0 +1,22 @@
+C:\Users\glebk\OneDrive\Desktop\иван\2. Drawing\Drawing\Drawing\bin\Debug\Drawing.exe.config
+C:\Users\glebk\OneDrive\Desktop\иван\2. Drawing\Drawing\Drawing\bin\Debug\Drawing.exe
+C:\Users\glebk\OneDrive\Desktop\иван\2. Drawing\Drawing\Drawing\bin\Debug\Drawing.pdb
+C:\Users\glebk\OneDrive\Desktop\иван\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.csproj.AssemblyReference.cache
+C:\Users\glebk\OneDrive\Desktop\иван\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.DrawingForm.resources
+C:\Users\glebk\OneDrive\Desktop\иван\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.Properties.Resources.resources
+C:\Users\glebk\OneDrive\Desktop\иван\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.csproj.GenerateResource.cache
+C:\Users\glebk\OneDrive\Desktop\иван\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.csproj.CoreCompileInputs.cache
+C:\Users\glebk\OneDrive\Desktop\иван\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.exe
+C:\Users\glebk\OneDrive\Desktop\иван\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.pdb
+C:\Users\glebk\OneDrive\Desktop\иван\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.exe.config
+C:\Users\This is Earth\Desktop\иван\2. Drawing\Drawing\Drawing\bin\Debug\Drawing.exe.config
+C:\Users\This is Earth\Desktop\иван\2. Drawing\Drawing\Drawing\bin\Debug\Drawing.exe
+C:\Users\This is Earth\Desktop\иван\2. Drawing\Drawing\Drawing\bin\Debug\Drawing.pdb
+C:\Users\This is Earth\Desktop\иван\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.csproj.AssemblyReference.cache
+C:\Users\This is Earth\Desktop\иван\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.exe.config
+C:\Users\This is Earth\Desktop\иван\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.DrawingForm.resources
+C:\Users\This is Earth\Desktop\иван\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.Properties.Resources.resources
+C:\Users\This is Earth\Desktop\иван\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.csproj.GenerateResource.cache
+C:\Users\This is Earth\Desktop\иван\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.csproj.CoreCompileInputs.cache
+C:\Users\This is Earth\Desktop\иван\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.exe
+C:\Users\This is Earth\Desktop\иван\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.pdb

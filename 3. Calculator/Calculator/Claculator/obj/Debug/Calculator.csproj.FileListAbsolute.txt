@@ -1,0 +1,14 @@
+C:\Users\glebk\OneDrive\Desktop\иван\3. Calculator\Calculator\Claculator\bin\Debug\Claculator.exe.config
+C:\Users\glebk\OneDrive\Desktop\иван\3. Calculator\Calculator\Claculator\bin\Debug\Claculator.exe
+C:\Users\glebk\OneDrive\Desktop\иван\3. Calculator\Calculator\Claculator\bin\Debug\Claculator.pdb
+C:\Users\glebk\OneDrive\Desktop\иван\3. Calculator\Calculator\Claculator\bin\Debug\Calculator.Business.dll
+C:\Users\glebk\OneDrive\Desktop\иван\3. Calculator\Calculator\Claculator\bin\Debug\Calculator.Business.pdb
+C:\Users\glebk\OneDrive\Desktop\иван\3. Calculator\Calculator\Claculator\obj\Debug\Calculator.csproj.AssemblyReference.cache
+C:\Users\glebk\OneDrive\Desktop\иван\3. Calculator\Calculator\Claculator\obj\Debug\Claculator.CalculatorForm.resources
+C:\Users\glebk\OneDrive\Desktop\иван\3. Calculator\Calculator\Claculator\obj\Debug\Claculator.Properties.Resources.resources
+C:\Users\glebk\OneDrive\Desktop\иван\3. Calculator\Calculator\Claculator\obj\Debug\Calculator.csproj.GenerateResource.cache
+C:\Users\glebk\OneDrive\Desktop\иван\3. Calculator\Calculator\Claculator\obj\Debug\Calculator.csproj.CoreCompileInputs.cache
+C:\Users\glebk\OneDrive\Desktop\иван\3. Calculator\Calculator\Claculator\obj\Debug\Calculator.csproj.Up2Date
+C:\Users\glebk\OneDrive\Desktop\иван\3. Calculator\Calculator\Claculator\obj\Debug\Claculator.exe
+C:\Users\glebk\OneDrive\Desktop\иван\3. Calculator\Calculator\Claculator\obj\Debug\Claculator.pdb
+C:\Users\glebk\OneDrive\Desktop\иван\3. Calculator\Calculator\Claculator\obj\Debug\Claculator.exe.config
