@@ -1,0 +1,89 @@
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.csproj.AssemblyReference.cache
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Wpf\obj\Debug\MainWindow.g.cs
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Wpf\obj\Debug\Views\EditCardWindow.g.cs
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Wpf\obj\Debug\App.g.cs
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Wpf\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf_MarkupCompile.cache
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf_MarkupCompile.lref
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.exe
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.pdb
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.Wpf.exe.config
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.Wpf.exe
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.Wpf.pdb
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Wpf\bin\Debug\AutoMapper.dll
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.Business.dll
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.Common.dll
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.DataAccess.dll
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Wpf\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.Business.pdb
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.Common.pdb
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Wpf\bin\Debug\AutoMapper.xml
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.DataAccess.pdb
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Wpf\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Wpf\obj\Debug\MainWindow.baml
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Wpf\obj\Debug\Views\EditCardWindow.baml
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.g.resources
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.Properties.Resources.resources
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.csproj.GenerateResource.cache
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.csproj.CoreCompileInputs.cache
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.5F5EAEEE.Up2Date
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Wpf\obj\Debug\App.baml
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.Wpf.exe.config
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.Wpf.exe
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.Wpf.pdb
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\AutoMapper.dll
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.Business.dll
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.Common.dll
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.DataAccess.dll
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.Business.pdb
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.Common.pdb
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\AutoMapper.xml
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.DataAccess.pdb
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.csproj.AssemblyReference.cache
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\MainWindow.g.cs
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\Views\EditCardWindow.g.cs
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\App.g.cs
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf_MarkupCompile.cache
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf_MarkupCompile.lref
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\App.baml
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\MainWindow.baml
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\Views\EditCardWindow.baml
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.g.resources
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.Properties.Resources.resources
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.csproj.GenerateResource.cache
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.csproj.CoreCompileInputs.cache
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.5F5EAEEE.Up2Date
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.exe
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.pdb
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.Wpf.exe.config
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.Wpf.exe
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.Wpf.pdb
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\AutoMapper.dll
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.Business.dll
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.Common.dll
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.DataAccess.dll
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.Business.pdb
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.Common.pdb
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\AutoMapper.xml
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.DataAccess.pdb
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.csproj.AssemblyReference.cache
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\MainWindow.g.cs
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\Views\EditCardWindow.g.cs
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\App.g.cs
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf_MarkupCompile.cache
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf_MarkupCompile.lref
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\MainWindow.baml
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\Views\EditCardWindow.baml
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.g.resources
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.Properties.Resources.resources
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.csproj.GenerateResource.cache
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.csproj.CoreCompileInputs.cache
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.5F5EAEEE.Up2Date
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.exe
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.pdb
