@@ -1,56 +1,11 @@
-﻿using CardFile.Common.Infrastructure;
-using CardFile.DataAccess.DataCollection;
-using CardFile.DataAccess.Dtos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
+﻿using System.Collections.Generic;
 
-namespace CardFile.DataAccess.FileDataAccess.StorageEntities
+namespace CardFile.DataAccess.FileDataAccess.Entites
 {
-    [Serializable]
-    public class JsonCardCollection
+    internal class JsonCardCollection
     {
         public int CurrentId { get; set; }
 
         public List<JsonCard> Cards { get; set; } = new List<JsonCard>();
-
-        public void FillFromCollection(CardProductsCollection collection)
-        {
-            Cards.Clear();
-            Cards.AddRange(collection.GetAll().Select(c => Mapping.Mapper.Map<JsonCard>(c)
-            //new JsonCard
-            //{
-            //    Id = c.Id,
-            //    FirstName = c.FirstName,
-            //    MiddleName = c.MiddleName,
-            //    LastName = c.LastName,
-            //    BirthDate = c.BirthDate,
-            //    PaymentAmount = c.PaymentAmount,
-            //    ChildrenCount = c.ChildrenCount,
-            //}
-            ));
-
-            CurrentId = collection.CurrentId;
-        }
-
-        public void SaveToCollection(CardProductsCollection collection)
-        {
-            collection.ReplaceCollection(Cards.Select(c => Mapping.Mapper.Map<CardProductsDto>(c)
-            //new Dtos.CardDto
-            //{
-            //    Id = c.Id,
-            //    FirstName = c.FirstName,
-            //    MiddleName = c.MiddleName,
-            //    LastName = c.LastName,
-            //    BirthDate = c.BirthDate,
-            //    PaymentAmount = c.PaymentAmount,
-            //    ChildrenCount = c.ChildrenCount,
-            //}
-            ), CurrentId);
-        }
     }
 }
