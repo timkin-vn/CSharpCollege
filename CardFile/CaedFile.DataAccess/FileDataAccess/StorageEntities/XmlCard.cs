@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System;
 using System.Xml.Serialization;
 
-namespace CardFile.DataAccess.FileDataAccess.StorageEntities
+namespace CardFile.DataAccess.FileDataAccess.Entites
 {
     [Serializable]
     public class XmlCard
@@ -13,37 +9,76 @@ namespace CardFile.DataAccess.FileDataAccess.StorageEntities
         [XmlAttribute("Id")]
         public int Id { get; set; }
 
-        public string NameProducts { get; set; }
+        /// <summary>
+        /// Номер машины
+        /// </summary>
+        [XmlAttribute("LicensePlate")]
+        public string LicensePlate { get; set; }
 
-        public string TypeProducts { get; set; }
+        /// <summary>
+        /// Владелец
+        /// </summary>
+        [XmlAttribute("OwnerName")]
+        public string OwnerName { get; set; }
 
+        /// <summary>
+        /// Тип транспорта
+        /// </summary>
+        [XmlAttribute("VehicleType")]
+        public string VehicleType { get; set; }
 
+        /// <summary>
+        /// Дата въезда
+        /// </summary>
+        [XmlIgnore]
+        public DateTime EntryDate { get; set; }
 
-        [XmlElement("DateManufacture")]
-        public long DateManufactureTicks
+        [XmlAttribute("EntryDate")]
+        public string EntryDateXml
         {
-            get => DateManufacture.Ticks;
-            set => DateManufacture = new DateTime(value);
+            get => EntryDate.ToShortDateString();
+            set => EntryDate = DateTime.Parse(value);
         }
 
+        /// <summary>
+        /// Дата выезда
+        /// </summary>
         [XmlIgnore]
-        public DateTime DateManufacture { get; set; }
-        [XmlElement("DateExpiration")]
-        public long DateExpirationTicks
+        public DateTime? ExitDate { get; set; }
+
+        [XmlAttribute("ExitDate")]
+        public string ExitDateXml
         {
-            get => DateExpiration.Ticks;
-            set => DateExpiration = new DateTime(value);
+            get => ExitDate.HasValue ? ExitDate.Value.ToShortDateString() : "-";
+            set
+            {
+                if (value == "-")
+                {
+                    ExitDate = null;
+                }
+                else
+                {
+                    ExitDate = DateTime.Parse(value);
+                }
+            }
         }
 
-        [XmlIgnore]
-        public DateTime DateExpiration { get; set; }
+        /// <summary>
+        /// Стоимость в час
+        /// </summary>
+        [XmlAttribute("HourlyRate")]
+        public decimal HourlyRate { get; set; }
 
-        public int CountProducts { get; set; }
+        /// <summary>
+        /// Статус оплаты
+        /// </summary>
+        [XmlAttribute("IsPaid")]
+        public bool IsPaid { get; set; }
 
-        public decimal PriceOneProducts { get; set; }
-
-        public string SectionProducts { get; set; }
-
-        public string ShirtProducts { get; set; }
+        /// <summary>
+        /// Парковочное место
+        /// </summary>
+        [XmlAttribute("ParkingSpot")]
+        public int ParkingSpot { get; set; }
     }
 }
