@@ -1,4 +1,4 @@
-﻿using CardFile.DataAccess.DataCollection;
+using CardFile.DataAccess.DataCollection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +9,8 @@ namespace CardFile.DataAccess.FileDataAccess.FileSavers
 {
     internal interface IFileSaver
     {
-        void Save(string fileName, CardProductsCollection collection);
+        void SaveFile(string fileName, CardCollection collection);
 
-        void Open(string fileName, CardProductsCollection collection);
+        void OpenFile(string fileName, CardCollection collection);
     }
 }
