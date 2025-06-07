@@ -1,48 +1,76 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
+using System;
 
-namespace CardFile.DataAccess.FileDataAccess.StorageEntities
+namespace CardFile.DataAccess.FileDataAccess.Entites
 {
-    [Serializable]
-    public class JsonCard
+    internal class JsonCard
     {
         public int Id { get; set; }
 
-        public string NameProducts { get; set; }
+        /// <summary>
+        /// Номер машины
+        /// </summary>
+        public string LicensePlate { get; set; }
 
-        public string TypeProducts { get; set; }
+        /// <summary>
+        /// Владелец
+        /// </summary>
+        public string OwnerName { get; set; }
 
+        /// <summary>
+        /// Тип транспорта
+        /// </summary>
+        public string VehicleType { get; set; }
 
+        /// <summary>
+        /// Дата въезда
+        /// </summary>
+        [JsonIgnore]
+        public DateTime EntryDate { get; set; }
 
-        [JsonPropertyName("DateManufacture")]
-        public long DateManufactureTicks
+        [JsonProperty("EntryDate")]
+        public string EntryDateXml
         {
-            get => DateManufacture.Ticks;
-            set => DateManufacture = new DateTime(value);
+            get => EntryDate.ToShortDateString();
+            set => EntryDate = DateTime.Parse(value);
         }
 
+        /// <summary>
+        /// Дата выезда
+        /// </summary>
         [JsonIgnore]
-        public DateTime DateManufacture { get; set; }
-        [JsonPropertyName("DateExpiration")]
-        public long DateExpirationTicks
+        public DateTime? ExitDate { get; set; }
+
+        [JsonProperty("ExitDate")]
+        public string ExitDateXml
         {
-            get => DateExpiration.Ticks;
-            set => DateExpiration = new DateTime(value);
+            get => ExitDate.HasValue ? ExitDate.Value.ToShortDateString() : "-";
+            set
+            {
+                if (value == "-")
+                {
+                    ExitDate = null;
+                }
+                else
+                {
+                    ExitDate = DateTime.Parse(value);
+                }
+            }
         }
 
-        [JsonIgnore]
-        public DateTime DateExpiration { get; set; }
+        /// <summary>
+        /// Стоимость в час
+        /// </summary>
+        public decimal HourlyRate { get; set; }
 
-        public int CountProducts { get; set; }
+        /// <summary>
+        /// Статус оплаты
+        /// </summary>
+        public bool IsPaid { get; set; }
 
-        public decimal PriceOneProducts { get; set; }
-
-        public string SectionProducts { get; set; }
-
-        public string ShirtProducts { get; set; }
+        /// <summary>
+        /// Парковочное место
+        /// </summary>
+        public int ParkingSpot { get; set; }
     }
 }
