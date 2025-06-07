@@ -1,4 +1,4 @@
-﻿using AlarmClock.Models;
+using AlarmClock.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,28 +18,27 @@ namespace AlarmClock.Forms
 
         private List<string> _fileNames = new List<string>();
 
-        private int _imageIndex = 0;
+        private int _imageIndex;
 
-        public AlarmSettings Settings { get; set; }
+        internal AlarmSettings Settings { get; set; }
 
         public AwakeForm()
         {
             InitializeComponent();
         }
 
-        private void AwakeButton_Click(object sender, EventArgs e)
-        {
-            Settings.IsAlarmActive = false;
-            Close();
-                  
-
-        }
-
         private void AwakeForm_Load(object sender, EventArgs e)
         {
-            AwakeMessageLabel.Text = Settings.AlarmMessage;
-          TextTime.Text =Settings.AlarmTime.ToShortTimeString();
+            AwakeLabel.Text = Settings.AlarmMessage;
             InitializeImages();
+        }
+
+        private void AwakeButton_Click(object sender, EventArgs e)
+        {
+            Settings.IsAwakeActivated = false;
+            Settings.IsAlarmActive = false;
+
+            DialogResult = DialogResult.OK;
         }
 
         private void AwakeTimer_Tick(object sender, EventArgs e)
@@ -50,7 +49,7 @@ namespace AlarmClock.Forms
                 _imageIndex = 0;
             }
 
-            AwakePictureBox.Load(_fileNames[_imageIndex]);
+            AwakePicture.Load(_fileNames[_imageIndex]);
         }
 
         private void InitializeImages()
@@ -58,22 +57,8 @@ namespace AlarmClock.Forms
             _imageIndex = 0;
             _fileNames.Clear();
             _fileNames.AddRange(Directory.EnumerateFiles(ImageFolderName));
-            AwakePictureBox.Load(_fileNames[_imageIndex]);
-        }
 
-        private void AwakeMessageLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void AwakePictureBox_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void TextTime_Click(object sender, EventArgs e)
-        {
-
+            AwakePicture.Load(_fileNames[_imageIndex]);
         }
     }
 }
