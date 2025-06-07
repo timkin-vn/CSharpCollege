@@ -1,112 +1,109 @@
-﻿using CardFile.DataAccess.DataCollection;
+using CardFile.DataAccess.DataCollection;
 using CardFile.DataAccess.Dtos;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace CardFile.DataAccess.FileDataAccess.FileSavers
 {
     internal class TextFileSaver : IFileSaver
     {
-        public void OpenFile(string fileName, CardCollection collection)
+        public void Open(string fileName, CardProductsCollection collection)
         {
+            var records = new List<CardProductsDto>();
+
             using (var fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
             {
                 using (var reader = new StreamReader(fs))
                 {
-                    var records = new List<CardDto>();
-
-                    while (!reader.EndOfStream) // Исправлено: убраны скобки
+                    while (!reader.EndOfStream)
                     {
-                        var nextLine = reader.ReadLine();
-                        if (string.IsNullOrEmpty(nextLine))
+                        var inputLine = reader.ReadLine();
+                        if (string.IsNullOrEmpty(inputLine))
                         {
                             continue;
                         }
 
-                        var lineParts = nextLine.Split('*');
-                        if (lineParts.Length != 9)
+                        var lineSegments = inputLine.Split(';');
+                        if (lineSegments.Length != 9)
                         {
-                            throw new Exception($"В строке выполняется некорректное количество записей");
+                            throw new Exception($"Неверный формат файла {fileName}");
                         }
 
-                        var newRecord = new CardDto();
-                        if (int.TryParse(lineParts[0], out var id))
+                        var newRecord = new CardProductsDto();
+                        if (int.TryParse(lineSegments[0], out var id))
                         {
                             newRecord.Id = id;
                         }
-                        newRecord.LicensePlate = lineParts[1];
-                        newRecord.OwnerName = lineParts[2];
-                        newRecord.VehicleType = lineParts[3];
-
-                        if (DateTime.TryParse(lineParts[4], out var entryDate))
+                        else
                         {
-                            newRecord.EntryDate = entryDate;
+                            throw new Exception($"Неверный формат файла {fileName}");
+                        }
+
+                        newRecord.NameProducts = lineSegments[1];
+                        newRecord.TypeProducts = lineSegments[2];
+
+
+                        if (DateTime.TryParse(lineSegments[3], out var manuftDate))
+                        {
+                            newRecord.DateManufacture = manuftDate;
                         }
                         else
                         {
-                            throw new Exception($"В строке {fileName} неверное значение EntryDate");
+                            throw new Exception($"Неверный формат файла {fileName}");
                         }
-
-                        if (lineParts[5] == "-")
+                        if (DateTime.TryParse(lineSegments[4], out var dateExp))
                         {
-                            newRecord.ExitDate = null;
-                        }
-                        else if (DateTime.TryParse(lineParts[5], out var exitDate))
-                        {
-                            newRecord.ExitDate = exitDate;
+                            newRecord.DateExpiration = dateExp;
                         }
                         else
                         {
-                            throw new Exception($"В строке {fileName} неверное значение ExitDate");
+                            throw new Exception($"Неверный формат файла {fileName}");
                         }
 
-                        if (decimal.TryParse(lineParts[6], out var hourlyRate))
+                        if (int.TryParse(lineSegments[5], out var countproduct))
                         {
-                            newRecord.HourlyRate = hourlyRate;
+                            newRecord.CountProducts = countproduct;
                         }
                         else
                         {
-                            throw new Exception($"В строке {fileName} неверное значение HourlyRate");
+                            throw new Exception($"Неверный формат файла {fileName}");
                         }
 
-                        if (bool.TryParse(lineParts[7], out var isPaid))
+                        if (decimal.TryParse(lineSegments[6], out var priceoneproducts))
                         {
-                            newRecord.IsPaid = isPaid;
+                            newRecord.PriceOneProducts = priceoneproducts;
                         }
                         else
                         {
-                            throw new Exception($"В строке {fileName} неверное значение IsPaid");
+                            throw new Exception($"Неверный формат файла {fileName}");
                         }
 
-                        if (int.TryParse(lineParts[8], out var parkingSpot))
-                        {
-                            newRecord.ParkingSpot = parkingSpot;
-                        }
-                        else
-                        {
-                            throw new Exception($"В строке {fileName} неверное значение ParkingSpot");
-                        }
+                        newRecord.SectionProducts = lineSegments[7];
+                        newRecord.ShirtProducts = lineSegments[8];
 
                         records.Add(newRecord);
                     }
-
-                    collection.ReplaceAll(records);
                 }
             }
+
+            collection.ReplaceCollection(records);
         }
 
-        public void SaveFile(string fileName, CardCollection collection)
+        public void Save(string fileName, CardProductsCollection collection)
         {
-            using (var fs = new FileStream(fileName, FileMode.Create))
+            using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
             {
                 using (var writer = new StreamWriter(fs))
                 {
                     foreach (var item in collection.GetAll())
                     {
-                        writer.WriteLine($"{item.Id}*{item.LicensePlate}*{item.OwnerName}*{item.VehicleType}*" +
-                            $"{item.EntryDate.ToShortDateString()}*{item.ExitDate?.ToShortDateString() ?? "-"}*" +
-                            $"{item.HourlyRate}*{item.IsPaid}*{item.ParkingSpot}");
+                        writer.WriteLine($"{item.Id};{item.NameProducts};{item.TypeProducts};{item.DateManufacture.ToShortDateString()};" +
+                            $"{item.DateExpiration.ToShortDateString()};{item.CountProducts};{item.PriceOneProducts};" +
+                            $"{item.SectionProducts}-{item.ShirtProducts};");
                     }
                 }
             }
