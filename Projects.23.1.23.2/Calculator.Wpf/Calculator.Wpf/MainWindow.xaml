@@ -1,0 +1,184 @@
+﻿<!-- File: Calculator.Wpf/MainWindow.xaml -->
+<Window x:Class="Calculator.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewmodel="clr-namespace:Calculator.Wpf.ViewModel"
+        mc:Ignorable="d"
+        Title="Калькулятор" Height="600" Width="400" MinHeight="500" MinWidth="350"
+        Background="#1E1E1E">
+
+    <Window.DataContext>
+        <viewmodel:CalculatorViewModel />
+    </Window.DataContext>
+
+    <Window.Resources>
+        <!-- Базовый стиль для всех кнопок -->
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="28"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="12">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Opacity" Value="0.85"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Opacity" Value="0.7"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Стиль для кнопок цифр и десятичной точки -->
+        <Style x:Key="DigitButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="#333333"/>
+            <Setter Property="FontSize" Value="32"/>
+        </Style>
+
+        <!-- Стиль для кнопок операций (+, -, *, /) -->
+        <Style x:Key="OperationButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="#FF9500"/>
+            <Setter Property="FontSize" Value="32"/>
+        </Style>
+
+        <!-- Стиль для кнопок очистки и специальных функций (AC, +/-, %) -->
+        <Style x:Key="ClearSpecialButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="#666666"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="24"/>
+        </Style>
+
+        <!-- Стиль для кнопки "=" -->
+        <Style x:Key="EqualsButtonStyle" TargetType="Button" BasedOn="{StaticResource OperationButtonStyle}">
+            <Setter Property="Background" Value="#007AFF"/>
+        </Style>
+
+        <!-- Стиль для научных кнопок -->
+        <Style x:Key="ScientificButtonStyle" TargetType="Button" BasedOn="{StaticResource ClearSpecialButtonStyle}">
+            <Setter Property="Background" Value="#4A4A4A"/>
+            <!-- Темно-серый, немного отличается от ClearSpecial -->
+            <Setter Property="FontSize" Value="24"/>
+        </Style>
+
+        <!-- Стиль для кнопки "Очистить лог" -->
+        <Style x:Key="LogClearButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="#4A4A4A"/>
+            <Setter Property="Foreground" Value="#E0E0E0"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Margin" Value="5 0 5 5"/>
+        </Style>
+
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Экран вывода калькулятора -->
+        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Background="#000000" Margin="10" CornerRadius="10">
+            <TextBlock Text="{Binding DisplayOutput}" FontSize="64" Foreground="#E0E0E0" TextAlignment="Right" VerticalAlignment="Center" Margin="15"
+                       TextTrimming="CharacterEllipsis" />
+        </Border>
+
+        <!-- Сетка для кнопок калькулятора -->
+        <Grid Grid.Row="1" Grid.Column="0" Margin="10 0 10 10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <!-- Добавлена еще одна строка для кнопки "=" -->
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Первый ряд: AC, x², √x, |x| -->
+            <Button Grid.Row="0" Grid.Column="0" Style="{StaticResource ClearSpecialButtonStyle}" Content="AC" Command="{Binding ClearCommand}" />
+            <Button Grid.Row="0" Grid.Column="1" Style="{StaticResource ScientificButtonStyle}" Content="x²" Command="{Binding SquareCommand}" />
+            <Button Grid.Row="0" Grid.Column="2" Style="{StaticResource ScientificButtonStyle}" Content="√x" Command="{Binding SquareRootCommand}" />
+            <Button Grid.Row="0" Grid.Column="3" Style="{StaticResource ScientificButtonStyle}" Content="|x|" Command="{Binding AbsoluteValueCommand}" />
+
+
+            <!-- Второй ряд: +/-, %, ln, logXY -->
+            <Button Grid.Row="1" Grid.Column="0" Style="{StaticResource ClearSpecialButtonStyle}" Content="+/-" Command="{Binding NegateCommand}" />
+            <Button Grid.Row="1" Grid.Column="1" Style="{StaticResource ClearSpecialButtonStyle}" Content="%" Command="{Binding PercentCommand}" />
+            <Button Grid.Row="1" Grid.Column="2" Style="{StaticResource ScientificButtonStyle}" Content="ln" Command="{Binding LnCommand}" />
+            <Button Grid.Row="1" Grid.Column="3" Style="{StaticResource ScientificButtonStyle}" Content="logXY" Command="{Binding LogXYCommand}" />
+
+            <!-- Третий ряд: 7, 8, 9, Деление -->
+            <Button Grid.Row="2" Grid.Column="0" Style="{StaticResource DigitButtonStyle}" Content="7" Command="{Binding DigitCommand}" CommandParameter="7" />
+            <Button Grid.Row="2" Grid.Column="1" Style="{StaticResource DigitButtonStyle}" Content="8" Command="{Binding DigitCommand}" CommandParameter="8" />
+            <Button Grid.Row="2" Grid.Column="2" Style="{StaticResource DigitButtonStyle}" Content="9" Command="{Binding DigitCommand}" CommandParameter="9" />
+            <Button Grid.Row="2" Grid.Column="3" Style="{StaticResource OperationButtonStyle}" Content="÷" Command="{Binding OperationCommand}" CommandParameter="/" />
+
+            <!-- Четвертый ряд: 4, 5, 6, Умножение -->
+            <Button Grid.Row="3" Grid.Column="0" Style="{StaticResource DigitButtonStyle}" Content="4" Command="{Binding DigitCommand}" CommandParameter="4" />
+            <Button Grid.Row="3" Grid.Column="1" Style="{StaticResource DigitButtonStyle}" Content="5" Command="{Binding DigitCommand}" CommandParameter="5" />
+            <Button Grid.Row="3" Grid.Column="2" Style="{StaticResource DigitButtonStyle}" Content="6" Command="{Binding DigitCommand}" CommandParameter="6" />
+            <Button Grid.Row="3" Grid.Column="3" Style="{StaticResource OperationButtonStyle}" Content="×" Command="{Binding OperationCommand}" CommandParameter="*" />
+
+            <!-- Пятый ряд: 1, 2, 3, Вычитание -->
+            <Button Grid.Row="4" Grid.Column="0" Style="{StaticResource DigitButtonStyle}" Content="1" Command="{Binding DigitCommand}" CommandParameter="1" />
+            <Button Grid.Row="4" Grid.Column="1" Style="{StaticResource DigitButtonStyle}" Content="2" Command="{Binding DigitCommand}" CommandParameter="2" />
+            <Button Grid.Row="4" Grid.Column="2" Style="{StaticResource DigitButtonStyle}" Content="3" Command="{Binding DigitCommand}" CommandParameter="3" />
+            <Button Grid.Row="4" Grid.Column="3" Style="{StaticResource OperationButtonStyle}" Content="-" Command="{Binding OperationCommand}" CommandParameter="-" />
+
+            <!-- Шестой ряд: 0, Десятичная точка, Сложение -->
+            <Button Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource DigitButtonStyle}" Content="0" Command="{Binding DigitCommand}" CommandParameter="0" />
+            <Button Grid.Row="5" Grid.Column="2" Style="{StaticResource DigitButtonStyle}" Content="." Command="{Binding DecimalCommand}" />
+            <Button Grid.Row="5" Grid.Column="3" Style="{StaticResource OperationButtonStyle}" Content="+" Command="{Binding OperationCommand}" CommandParameter="+" />
+
+            <!-- Седьмой ряд: Равно - теперь в отдельной строке -->
+            <Button Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="4" Style="{StaticResource EqualsButtonStyle}" Content="=" Command="{Binding EqualsCommand}" />
+
+        </Grid>
+
+        <!-- Область лога операций -->
+        <Grid Grid.Row="1" Grid.Column="1" Margin="0 0 10 10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0" Background="#282C34" CornerRadius="10" Margin="5">
+                <ListBox Background="Transparent" BorderBrush="Transparent" Foreground="#61AFEF" ItemsSource="{Binding OperationLog}"
+                         VerticalContentAlignment="Bottom" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" FontSize="14" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Border>
+
+            <Button Grid.Row="1" Style="{StaticResource LogClearButtonStyle}" Content="Очистить лог" Command="{Binding ClearLogCommand}" />
+        </Grid>
+    </Grid>
+</Window>
