@@ -35,7 +35,10 @@
             this.IsAlarmActiveCheckBox = new System.Windows.Forms.CheckBox();
             this.IsSoundActiveCheckBox = new System.Windows.Forms.CheckBox();
             this.OkButton = new System.Windows.Forms.Button();
-            this.CancelButton = new System.Windows.Forms.Button();
+            this.CancelBtn = new System.Windows.Forms.Button();
+            this.SavedList = new System.Windows.Forms.ListBox();
+            this.btnsave = new System.Windows.Forms.Button();
+            this.clearbtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -52,28 +55,28 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(12, 41);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(124, 13);
+            this.label2.Size = new System.Drawing.Size(165, 13);
             this.label2.TabIndex = 1;
-            this.label2.Text = "Тесктовое сообщение:";
+            this.label2.Text = "Сообщение при срабатывании:";
             // 
             // AlarmTimeTextBox
             // 
-            this.AlarmTimeTextBox.Location = new System.Drawing.Point(142, 12);
+            this.AlarmTimeTextBox.Location = new System.Drawing.Point(183, 12);
             this.AlarmTimeTextBox.Name = "AlarmTimeTextBox";
             this.AlarmTimeTextBox.Size = new System.Drawing.Size(100, 20);
             this.AlarmTimeTextBox.TabIndex = 2;
             // 
             // AlarmMessageTextBox
             // 
-            this.AlarmMessageTextBox.Location = new System.Drawing.Point(142, 38);
+            this.AlarmMessageTextBox.Location = new System.Drawing.Point(183, 38);
             this.AlarmMessageTextBox.Name = "AlarmMessageTextBox";
-            this.AlarmMessageTextBox.Size = new System.Drawing.Size(293, 20);
+            this.AlarmMessageTextBox.Size = new System.Drawing.Size(198, 20);
             this.AlarmMessageTextBox.TabIndex = 3;
             // 
             // IsAlarmActiveCheckBox
             // 
             this.IsAlarmActiveCheckBox.AutoSize = true;
-            this.IsAlarmActiveCheckBox.Location = new System.Drawing.Point(15, 70);
+            this.IsAlarmActiveCheckBox.Location = new System.Drawing.Point(12, 75);
             this.IsAlarmActiveCheckBox.Name = "IsAlarmActiveCheckBox";
             this.IsAlarmActiveCheckBox.Size = new System.Drawing.Size(126, 17);
             this.IsAlarmActiveCheckBox.TabIndex = 4;
@@ -83,7 +86,7 @@
             // IsSoundActiveCheckBox
             // 
             this.IsSoundActiveCheckBox.AutoSize = true;
-            this.IsSoundActiveCheckBox.Location = new System.Drawing.Point(15, 93);
+            this.IsSoundActiveCheckBox.Location = new System.Drawing.Point(12, 98);
             this.IsSoundActiveCheckBox.Name = "IsSoundActiveCheckBox";
             this.IsSoundActiveCheckBox.Size = new System.Drawing.Size(158, 17);
             this.IsSoundActiveCheckBox.TabIndex = 5;
@@ -92,30 +95,64 @@
             // 
             // OkButton
             // 
-            this.OkButton.Location = new System.Drawing.Point(279, 133);
+            this.OkButton.Location = new System.Drawing.Point(225, 132);
             this.OkButton.Name = "OkButton";
             this.OkButton.Size = new System.Drawing.Size(75, 23);
             this.OkButton.TabIndex = 6;
-            this.OkButton.Text = "ОК";
+            this.OkButton.Text = "OK";
             this.OkButton.UseVisualStyleBackColor = true;
             this.OkButton.Click += new System.EventHandler(this.OkButton_Click);
             // 
-            // CancelButton
+            // CancelBtn
             // 
-            this.CancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelButton.Location = new System.Drawing.Point(360, 133);
-            this.CancelButton.Name = "CancelButton";
-            this.CancelButton.Size = new System.Drawing.Size(75, 23);
-            this.CancelButton.TabIndex = 7;
-            this.CancelButton.Text = "Отмена";
-            this.CancelButton.UseVisualStyleBackColor = true;
+            this.CancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.CancelBtn.Location = new System.Drawing.Point(306, 132);
+            this.CancelBtn.Name = "CancelBtn";
+            this.CancelBtn.Size = new System.Drawing.Size(75, 23);
+            this.CancelBtn.TabIndex = 7;
+            this.CancelBtn.Text = "Отмена";
+            this.CancelBtn.UseVisualStyleBackColor = true;
+            // 
+            // SavedList
+            // 
+            this.SavedList.FormattingEnabled = true;
+            this.SavedList.Location = new System.Drawing.Point(183, 60);
+            this.SavedList.Name = "SavedList";
+            this.SavedList.Size = new System.Drawing.Size(198, 56);
+            this.SavedList.TabIndex = 8;
+            this.SavedList.SelectedIndexChanged += new System.EventHandler(this.SavedList_SelectedIndexChanged);
+            // 
+            // btnsave
+            // 
+            this.btnsave.Location = new System.Drawing.Point(144, 132);
+            this.btnsave.Name = "btnsave";
+            this.btnsave.Size = new System.Drawing.Size(75, 23);
+            this.btnsave.TabIndex = 9;
+            this.btnsave.Text = "Save";
+            this.btnsave.UseVisualStyleBackColor = true;
+            this.btnsave.Click += new System.EventHandler(this.btnsave_Click);
+            // 
+            // clearbtn
+            // 
+            this.clearbtn.Location = new System.Drawing.Point(63, 132);
+            this.clearbtn.Name = "clearbtn";
+            this.clearbtn.Size = new System.Drawing.Size(75, 23);
+            this.clearbtn.TabIndex = 10;
+            this.clearbtn.Text = "Clear";
+            this.clearbtn.UseVisualStyleBackColor = true;
+            this.clearbtn.Click += new System.EventHandler(this.clearbtn_Click);
             // 
             // SettingsForm
             // 
+            this.AcceptButton = this.OkButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(447, 168);
-            this.Controls.Add(this.CancelButton);
+            this.CancelButton = this.CancelBtn;
+            this.ClientSize = new System.Drawing.Size(393, 167);
+            this.Controls.Add(this.clearbtn);
+            this.Controls.Add(this.btnsave);
+            this.Controls.Add(this.SavedList);
+            this.Controls.Add(this.CancelBtn);
             this.Controls.Add(this.OkButton);
             this.Controls.Add(this.IsSoundActiveCheckBox);
             this.Controls.Add(this.IsAlarmActiveCheckBox);
@@ -125,6 +162,7 @@
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "SettingsForm";
             this.Text = "Настройки будильника";
             this.Load += new System.EventHandler(this.SettingsForm_Load);
@@ -142,6 +180,9 @@
         private System.Windows.Forms.CheckBox IsAlarmActiveCheckBox;
         private System.Windows.Forms.CheckBox IsSoundActiveCheckBox;
         private System.Windows.Forms.Button OkButton;
-        private System.Windows.Forms.Button CancelButton;
+        private System.Windows.Forms.Button CancelBtn;
+        private System.Windows.Forms.ListBox SavedList;
+        private System.Windows.Forms.Button btnsave;
+        private System.Windows.Forms.Button clearbtn;
     }
 }
