@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,24 +15,6 @@ namespace AlarmClock.Forms
         public AboutForm()
         {
             InitializeComponent();
-        }
-
-       
-
-        private void ConfirmButton_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void AboutForm_Load(object sender, EventArgs e)
-        {
-
-
         }
     }
 }
