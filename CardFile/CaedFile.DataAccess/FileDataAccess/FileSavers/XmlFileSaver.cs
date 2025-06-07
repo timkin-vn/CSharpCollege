@@ -1,19 +1,17 @@
-﻿using CardFile.DataAccess.DataCollection;
+using CardFile.Common.Infrastructure;
+using CardFile.DataAccess.DataCollection;
 using CardFile.DataAccess.Dtos;
-using CardFile.DataAccess.FileDataAccess.StorageEntities;
+using CardFile.DataAccess.FileDataAccess.Entites;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace CardFile.DataAccess.FileDataAccess.FileSavers
 {
     internal class XmlFileSaver : IFileSaver
     {
-        public void Open(string fileName, CardProductsCollection collection)
+        public void OpenFile(string fileName, CardCollection collection)
         {
             using (var fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
             {
@@ -21,20 +19,21 @@ namespace CardFile.DataAccess.FileDataAccess.FileSavers
                 {
                     var serializer = new XmlSerializer(typeof(XmlCardCollection));
                     var xmlCollection = (XmlCardCollection)serializer.Deserialize(reader);
-                    xmlCollection.SaveToCollection(collection);
+
+                    collection.ReplaceAll(Mapping.Mapper.Map<List<CardDto>>(xmlCollection.Cards), xmlCollection.CurrentId);
                 }
             }
         }
 
-        public void Save(string fileName, CardProductsCollection collection)
+        public void SaveFile(string fileName, CardCollection collection)
         {
+            var xmlCollection = new XmlCardCollection { CurrentId = collection.CurrentId };
+            xmlCollection.Cards.AddRange(Mapping.Mapper.Map<List<XmlCard>>(collection.GetAll()));
+
             using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
             {
                 using (var writer = new StreamWriter(fs))
                 {
-                    var xmlCollection = new XmlCardCollection();
-                    xmlCollection.FillFromCollection(collection);
-
                     var serializer = new XmlSerializer(typeof(XmlCardCollection));
                     serializer.Serialize(writer, xmlCollection);
                 }
