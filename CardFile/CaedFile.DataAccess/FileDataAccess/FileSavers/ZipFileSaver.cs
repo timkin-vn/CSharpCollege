@@ -1,52 +1,59 @@
-﻿using CardFile.DataAccess.DataCollection;
-using CardFile.DataAccess.FileDataAccess.StorageEntities;
+using CardFile.Common.Infrastructure;
+using CardFile.DataAccess.DataCollection;
+using CardFile.DataAccess.Dtos;
+using CardFile.DataAccess.FileDataAccess.Entites;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace CardFile.DataAccess.FileDataAccess.FileSavers
 {
     internal class ZipFileSaver : IFileSaver
     {
-        public void Open(string fileName, CardProductsCollection collection)
+        public void OpenFile(string fileName, CardCollection collection)
         {
             using (var fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
             {
                 using (var archive = new ZipArchive(fs, ZipArchiveMode.Read))
                 {
-                    var entry = archive.GetEntry(Path.GetFileNameWithoutExtension(fileName) + ".xml");
-                    using (var entryStream = entry.Open())
+                    try
                     {
-                        using (var reader = new StreamReader(entryStream))
+                        var entry = archive.GetEntry(Path.GetFileNameWithoutExtension(fileName) + ".xml");
+                        using (var es = entry.Open())
                         {
-                            var serializer = new XmlSerializer(typeof(XmlCardCollection));
-                            var xmlCollection = (XmlCardCollection)serializer.Deserialize(reader);
-                            xmlCollection.SaveToCollection(collection);
+                            using (var reader = new StreamReader(es))
+                            {
+                                var serializer = new XmlSerializer(typeof(XmlCardCollection));
+                                var xmlCollection = (XmlCardCollection)serializer.Deserialize(reader);
+
+                                collection.ReplaceAll(Mapping.Mapper.Map<List<CardDto>>(xmlCollection.Cards), xmlCollection.CurrentId);
+                            }
                         }
+                    }
+                    catch
+                    {
+                        throw new Exception("Неверный формат файла");
                     }
                 }
             }
         }
 
-        public void Save(string fileName, CardProductsCollection collection)
+        public void SaveFile(string fileName, CardCollection collection)
         {
+            var xmlCollection = new XmlCardCollection { CurrentId = collection.CurrentId };
+            xmlCollection.Cards.AddRange(Mapping.Mapper.Map<List<XmlCard>>(collection.GetAll()));
+
             using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
             {
                 using (var archive = new ZipArchive(fs, ZipArchiveMode.Create))
                 {
                     var entry = archive.CreateEntry(Path.GetFileNameWithoutExtension(fileName) + ".xml");
-                    using (var entryStream = entry.Open())
+                    using (var es = entry.Open())
                     {
-                        using (var writer = new StreamWriter(entryStream))
+                        using (var writer = new StreamWriter(es))
                         {
-                            var xmlCollection = new XmlCardCollection();
-                            xmlCollection.FillFromCollection(collection);
-
                             var serializer = new XmlSerializer(typeof(XmlCardCollection));
                             serializer.Serialize(writer, xmlCollection);
                         }
