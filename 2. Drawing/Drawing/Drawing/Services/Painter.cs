@@ -1,4 +1,4 @@
-﻿using Drawing.Models;
+using Drawing.Models;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -10,97 +10,92 @@ namespace Drawing.Services
 {
     internal class Painter
     {
-        public Scaler Scaler { get; set; }
+        private Scaler _scaler = new Scaler();
 
-        public PictureBuilder PictureBuilder { get; set; } = new PictureBuilder();
+        private PictureBuilder _builder = new PictureBuilder();
 
-        private Graphics _g;
+        private Graphics _graphics;
 
-        public void Initialize(Rectangle bounds)
+        public void Initialize(Rectangle targetRectangle)
         {
-            Scaler = new Scaler();
-            Scaler.TargetBounds = bounds;
-            Scaler.SourceBounds = PictureBuilder.SourceBounds;
-            Scaler.Initialize();
+            _scaler.Initialize(targetRectangle, _builder.PictureBounds);
         }
 
         public void Paint(Graphics g)
         {
-            _g = g;
-
-            PictureBuilder.DrawPicture(this);
-
-            _g = null;
+            _graphics = g;
+            _builder.BuildPicture(this);
+            _graphics = null;
         }
 
-        public void DrawEllipse(Brush brush, Pen pen, RectangleModel rectangleModel)
+        public void DrawEllipse(Brush brush, Pen pen, RectangleModel rectModel)
         {
-            var rectangle = Scaler.Scale(rectangleModel);
+            var rect = _scaler.Scale(rectModel);
 
             if (brush != null)
             {
-                _g.FillEllipse(brush, rectangle);
+                _graphics.FillEllipse(brush, rect);
             }
 
             if (pen != null)
             {
-                _g.DrawEllipse(pen, rectangle);
+                _graphics.DrawEllipse(pen, rect);
             }
         }
 
-        public void DrawRectangle(Brush brush, Pen pen, RectangleModel rectangleModel)
+        public void DrawRectangle(Brush brush, Pen pen, RectangleModel rectModel)
         {
-            var rectangle = Scaler.Scale(rectangleModel);
+            var rect = _scaler.Scale(rectModel);
 
             if (brush != null)
             {
-                _g.FillRectangle(brush, rectangle);
+                _graphics.FillRectangle(brush, rect);
             }
 
             if (pen != null)
             {
-                _g.DrawRectangle(pen, rectangle);
+                _graphics.DrawRectangle(pen, rect);
             }
         }
 
-        public void DrawLine(Pen pen, PointModel point1, PointModel point2)
+        public void DrawLine(Pen pen, PointModel pointModel1, PointModel pointModel2)
         {
-            var pt1 = Scaler.Scale(point1);
-            var pt2 = Scaler.Scale(point2);
+            var point1 = _scaler.Scale(pointModel1);
+            var point2 = _scaler.Scale(pointModel2);
 
             if (pen != null)
             {
-                _g.DrawLine(pen, pt1, pt2);
+                _graphics.DrawLine(pen, point1, point2);
             }
         }
 
-        public void DrawPie(Brush brush, Pen pen, RectangleModel rectangleModel, int startAngle, int sweepAngle)
+        public void DrawPie(Brush brush, Pen pen, RectangleModel rectModel, float startAngle, float sweepAngle)
         {
-            var rectangle = Scaler.Scale(rectangleModel);
+            var rect = _scaler.Scale(rectModel);
 
             if (brush != null)
             {
-                _g.FillPie(brush, rectangle, startAngle, sweepAngle);
+                _graphics.FillPie(brush, rect, startAngle, sweepAngle);
             }
 
             if (pen != null)
             {
-                _g.DrawPie(pen, rectangle, startAngle, sweepAngle);
+                _graphics.DrawPie(pen, rect, startAngle, sweepAngle);
             }
         }
 
-        public void DrawPolygon(Brush brush, Pen pen, PointModel[] points)
+        public void DrawPolygon(Brush brush, Pen pen, PointModel[] pointModels)
         {
-            var pts = points.Select(p => Scaler.Scale(p)).ToArray();
+            var points = pointModels.Select(pt => _scaler.Scale(pt)).ToArray();
 
             if (brush != null)
             {
-                _g.FillPolygon(brush, pts);
+                _graphics.FillPolygon(brush, points);
             }
 
             if (pen != null)
             {
-                _g.DrawPolygon(pen, pts);
+                _graphics.DrawPolygon(pen, points);
             }
         }
     }
