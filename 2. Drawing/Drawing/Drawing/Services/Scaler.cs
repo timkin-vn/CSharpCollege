@@ -10,44 +10,35 @@ namespace Drawing.Services
 {
     internal class Scaler
     {
-        public Rectangle TargetBounds { get; set; }
+        public Rectangle TargetRectangle { get; set; }
 
-        public RectangleModel SourceBounds { get; set; }
+        public RectangleModel SourceRectangle { get; set; }
 
-        public void Initialize()
+        public void Initialize(Rectangle targetRectangle, RectangleModel sourceRectangle)
         {
-            if (TargetBounds.Width * SourceBounds.Height > SourceBounds.Width * TargetBounds.Height)
-            {
-                var newWidth = TargetBounds.Width * SourceBounds.Height / TargetBounds.Height;
-                SourceBounds.X -= (newWidth - SourceBounds.Width) / 2;
-                SourceBounds.Width = newWidth;
-            }
-            else
-            {
-                var newHeight = TargetBounds.Height * SourceBounds.Width / TargetBounds.Width;
-                SourceBounds.Y -= (newHeight - SourceBounds.Height) / 2;
-                SourceBounds.Height = newHeight;
-            }
+            TargetRectangle = targetRectangle;
+            SourceRectangle = sourceRectangle;
+            Rescale();
         }
 
         public int ScaleX(double x)
         {
-            return (int)((x - SourceBounds.Left) * TargetBounds.Width / SourceBounds.Width);
+            return (int)((x - SourceRectangle.Left) * TargetRectangle.Width / SourceRectangle.Width);
         }
 
         public int ScaleY(double y)
         {
-            return (int)((SourceBounds.Top - y) *  TargetBounds.Height / SourceBounds.Height);
+            return (int)((SourceRectangle.Top - y) * TargetRectangle.Height / SourceRectangle.Height);
         }
 
         public int ScaleWidth(double width)
         {
-            return (int)(width * TargetBounds.Width / SourceBounds.Width);
+            return (int)(width * TargetRectangle.Width / SourceRectangle.Width);
         }
 
-        public int ScaleHeight(double height)
+        public int ScaleHeigth(double  heigth)
         {
-            return (int)(height * TargetBounds.Height / SourceBounds.Height);
+            return (int)(heigth * TargetRectangle.Height / SourceRectangle.Height);
         }
 
         public Point Scale(PointModel point)
@@ -59,15 +50,33 @@ namespace Drawing.Services
             };
         }
 
-        public Rectangle Scale(RectangleModel point)
+        public Rectangle Scale(RectangleModel rect)
         {
             return new Rectangle
             {
-                X = ScaleX(point.X),
-                Y = ScaleY(point.Top),
-                Width = ScaleWidth(point.Width),
-                Height = ScaleHeight(point.Height),
+                X = ScaleX(rect.X),
+                Y = ScaleY(rect.Top),
+                Width = ScaleWidth(rect.Width),
+                Height = ScaleHeigth(rect.Height),
             };
+        }
+
+        private void Rescale()
+        {
+            if (TargetRectangle.Width * SourceRectangle.Height > SourceRectangle.Width * TargetRectangle.Height)
+            {
+                // Добавки слева и справа
+                var newWidth = TargetRectangle.Width * SourceRectangle.Height / TargetRectangle.Height;
+                SourceRectangle.X -= (newWidth - SourceRectangle.Width) / 2;
+                SourceRectangle.Width = newWidth;
+            }
+            else
+            {
+                // Добавки сверху и снизу
+                var newHeight = TargetRectangle.Height * SourceRectangle.Width / TargetRectangle.Width;
+                SourceRectangle.Y -= (newHeight - SourceRectangle.Height) / 2;
+                SourceRectangle.Height = newHeight;
+            }
         }
     }
 }
