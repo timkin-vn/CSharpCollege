@@ -1,0 +1,459 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{0DB14748-F6E3-47F8-9E21-529282BEE77D}|CaedFile.DataAccess\\CardFile.DataAccess.csproj|c:\\users\\glebk\\onedrive\\desktop\\cardfile.wpf\\caedfile.dataaccess\\datacollection\\cardcollection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0DB14748-F6E3-47F8-9E21-529282BEE77D}|CaedFile.DataAccess\\CardFile.DataAccess.csproj|solutionrelative:caedfile.dataaccess\\datacollection\\cardcollection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0DB14748-F6E3-47F8-9E21-529282BEE77D}|CaedFile.DataAccess\\CardFile.DataAccess.csproj|c:\\users\\glebk\\onedrive\\desktop\\cardfile.wpf\\caedfile.dataaccess\\filedataaccess\\storageentities\\xmlcardcollection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0DB14748-F6E3-47F8-9E21-529282BEE77D}|CaedFile.DataAccess\\CardFile.DataAccess.csproj|solutionrelative:caedfile.dataaccess\\filedataaccess\\storageentities\\xmlcardcollection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0DB14748-F6E3-47F8-9E21-529282BEE77D}|CaedFile.DataAccess\\CardFile.DataAccess.csproj|c:\\users\\glebk\\onedrive\\desktop\\cardfile.wpf\\caedfile.dataaccess\\filedataaccess\\storageentities\\xmlcard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0DB14748-F6E3-47F8-9E21-529282BEE77D}|CaedFile.DataAccess\\CardFile.DataAccess.csproj|solutionrelative:caedfile.dataaccess\\filedataaccess\\storageentities\\xmlcard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0DB14748-F6E3-47F8-9E21-529282BEE77D}|CaedFile.DataAccess\\CardFile.DataAccess.csproj|c:\\users\\glebk\\onedrive\\desktop\\cardfile.wpf\\caedfile.dataaccess\\filedataaccess\\storageentities\\jsoncardcollection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0DB14748-F6E3-47F8-9E21-529282BEE77D}|CaedFile.DataAccess\\CardFile.DataAccess.csproj|solutionrelative:caedfile.dataaccess\\filedataaccess\\storageentities\\jsoncardcollection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0DB14748-F6E3-47F8-9E21-529282BEE77D}|CaedFile.DataAccess\\CardFile.DataAccess.csproj|c:\\users\\glebk\\onedrive\\desktop\\cardfile.wpf\\caedfile.dataaccess\\filedataaccess\\storageentities\\jsoncard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0DB14748-F6E3-47F8-9E21-529282BEE77D}|CaedFile.DataAccess\\CardFile.DataAccess.csproj|solutionrelative:caedfile.dataaccess\\filedataaccess\\storageentities\\jsoncard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0DB14748-F6E3-47F8-9E21-529282BEE77D}|CaedFile.DataAccess\\CardFile.DataAccess.csproj|c:\\users\\glebk\\onedrive\\desktop\\cardfile.wpf\\caedfile.dataaccess\\filedataaccess\\filesavers\\zipfilesaver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0DB14748-F6E3-47F8-9E21-529282BEE77D}|CaedFile.DataAccess\\CardFile.DataAccess.csproj|solutionrelative:caedfile.dataaccess\\filedataaccess\\filesavers\\zipfilesaver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0DB14748-F6E3-47F8-9E21-529282BEE77D}|CaedFile.DataAccess\\CardFile.DataAccess.csproj|c:\\users\\glebk\\onedrive\\desktop\\cardfile.wpf\\caedfile.dataaccess\\filedataaccess\\filesavers\\xmlfilesaver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0DB14748-F6E3-47F8-9E21-529282BEE77D}|CaedFile.DataAccess\\CardFile.DataAccess.csproj|solutionrelative:caedfile.dataaccess\\filedataaccess\\filesavers\\xmlfilesaver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0DB14748-F6E3-47F8-9E21-529282BEE77D}|CaedFile.DataAccess\\CardFile.DataAccess.csproj|c:\\users\\glebk\\onedrive\\desktop\\cardfile.wpf\\caedfile.dataaccess\\filedataaccess\\filesavers\\textfilesaver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0DB14748-F6E3-47F8-9E21-529282BEE77D}|CaedFile.DataAccess\\CardFile.DataAccess.csproj|solutionrelative:caedfile.dataaccess\\filedataaccess\\filesavers\\textfilesaver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0DB14748-F6E3-47F8-9E21-529282BEE77D}|CaedFile.DataAccess\\CardFile.DataAccess.csproj|c:\\users\\glebk\\onedrive\\desktop\\cardfile.wpf\\caedfile.dataaccess\\filedataaccess\\filesavers\\jsonfilesaver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0DB14748-F6E3-47F8-9E21-529282BEE77D}|CaedFile.DataAccess\\CardFile.DataAccess.csproj|solutionrelative:caedfile.dataaccess\\filedataaccess\\filesavers\\jsonfilesaver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0DB14748-F6E3-47F8-9E21-529282BEE77D}|CaedFile.DataAccess\\CardFile.DataAccess.csproj|c:\\users\\glebk\\onedrive\\desktop\\cardfile.wpf\\caedfile.dataaccess\\filedataaccess\\filesavers\\ifilesaver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0DB14748-F6E3-47F8-9E21-529282BEE77D}|CaedFile.DataAccess\\CardFile.DataAccess.csproj|solutionrelative:caedfile.dataaccess\\filedataaccess\\filesavers\\ifilesaver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0DB14748-F6E3-47F8-9E21-529282BEE77D}|CaedFile.DataAccess\\CardFile.DataAccess.csproj|c:\\users\\glebk\\onedrive\\desktop\\cardfile.wpf\\caedfile.dataaccess\\filedataaccess\\filesavers\\binaryfilesaver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0DB14748-F6E3-47F8-9E21-529282BEE77D}|CaedFile.DataAccess\\CardFile.DataAccess.csproj|solutionrelative:caedfile.dataaccess\\filedataaccess\\filesavers\\binaryfilesaver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0DB14748-F6E3-47F8-9E21-529282BEE77D}|CaedFile.DataAccess\\CardFile.DataAccess.csproj|c:\\users\\glebk\\onedrive\\desktop\\cardfile.wpf\\caedfile.dataaccess\\dtos\\carddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0DB14748-F6E3-47F8-9E21-529282BEE77D}|CaedFile.DataAccess\\CardFile.DataAccess.csproj|solutionrelative:caedfile.dataaccess\\dtos\\carddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C0CC2350-98AD-495B-A6D2-65675041CD98}|CardFile.Common\\CardFile.Common.csproj|c:\\users\\glebk\\onedrive\\desktop\\cardfile.wpf\\cardfile.common\\infrastructure\\mapping.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C0CC2350-98AD-495B-A6D2-65675041CD98}|CardFile.Common\\CardFile.Common.csproj|solutionrelative:cardfile.common\\infrastructure\\mapping.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFAF3F52-E8A8-4345-8EFF-FA03E83EB991}|CardFile.Business\\CardFile.Business.csproj|c:\\users\\glebk\\onedrive\\desktop\\cardfile.wpf\\cardfile.business\\services\\cardfileservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CFAF3F52-E8A8-4345-8EFF-FA03E83EB991}|CardFile.Business\\CardFile.Business.csproj|solutionrelative:cardfile.business\\services\\cardfileservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFAF3F52-E8A8-4345-8EFF-FA03E83EB991}|CardFile.Business\\CardFile.Business.csproj|c:\\users\\glebk\\onedrive\\desktop\\cardfile.wpf\\cardfile.business\\entities\\card.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CFAF3F52-E8A8-4345-8EFF-FA03E83EB991}|CardFile.Business\\CardFile.Business.csproj|solutionrelative:cardfile.business\\entities\\card.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFAF3F52-E8A8-4345-8EFF-FA03E83EB991}|CardFile.Business\\CardFile.Business.csproj|c:\\users\\glebk\\onedrive\\desktop\\cardfile.wpf\\cardfile.business\\infrastructure\\mapperinitialize.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CFAF3F52-E8A8-4345-8EFF-FA03E83EB991}|CardFile.Business\\CardFile.Business.csproj|solutionrelative:cardfile.business\\infrastructure\\mapperinitialize.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0DB14748-F6E3-47F8-9E21-529282BEE77D}|CaedFile.DataAccess\\CardFile.DataAccess.csproj|c:\\users\\glebk\\onedrive\\desktop\\cardfile.wpf\\caedfile.dataaccess\\filedataaccess\\filedataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0DB14748-F6E3-47F8-9E21-529282BEE77D}|CaedFile.DataAccess\\CardFile.DataAccess.csproj|solutionrelative:caedfile.dataaccess\\filedataaccess\\filedataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{243F6653-8636-4733-8C7C-187342E3A23F}|CardFile.Wpf\\CardFile.Wpf.csproj|c:\\users\\glebk\\onedrive\\desktop\\cardfile.wpf\\cardfile.wpf\\view\\editcardwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{243F6653-8636-4733-8C7C-187342E3A23F}|CardFile.Wpf\\CardFile.Wpf.csproj|solutionrelative:cardfile.wpf\\view\\editcardwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{243F6653-8636-4733-8C7C-187342E3A23F}|CardFile.Wpf\\CardFile.Wpf.csproj|c:\\users\\glebk\\onedrive\\desktop\\cardfile.wpf\\cardfile.wpf\\viewmodels\\cardviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{243F6653-8636-4733-8C7C-187342E3A23F}|CardFile.Wpf\\CardFile.Wpf.csproj|solutionrelative:cardfile.wpf\\viewmodels\\cardviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{243F6653-8636-4733-8C7C-187342E3A23F}|CardFile.Wpf\\CardFile.Wpf.csproj|c:\\users\\glebk\\onedrive\\desktop\\cardfile.wpf\\cardfile.wpf\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{243F6653-8636-4733-8C7C-187342E3A23F}|CardFile.Wpf\\CardFile.Wpf.csproj|solutionrelative:cardfile.wpf\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{243F6653-8636-4733-8C7C-187342E3A23F}|CardFile.Wpf\\CardFile.Wpf.csproj|c:\\users\\glebk\\onedrive\\desktop\\cardfile.wpf\\cardfile.wpf\\viewmodels\\cardfileviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{243F6653-8636-4733-8C7C-187342E3A23F}|CardFile.Wpf\\CardFile.Wpf.csproj|solutionrelative:cardfile.wpf\\viewmodels\\cardfileviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{243F6653-8636-4733-8C7C-187342E3A23F}|CardFile.Wpf\\CardFile.Wpf.csproj|c:\\users\\glebk\\onedrive\\desktop\\cardfile.wpf\\cardfile.wpf\\infrastructure\\mapperinitialize.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{243F6653-8636-4733-8C7C-187342E3A23F}|CardFile.Wpf\\CardFile.Wpf.csproj|solutionrelative:cardfile.wpf\\infrastructure\\mapperinitialize.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0DB14748-F6E3-47F8-9E21-529282BEE77D}|CaedFile.DataAccess\\CardFile.DataAccess.csproj|c:\\users\\glebk\\onedrive\\desktop\\cardfile.wpf\\caedfile.dataaccess\\infrastructure\\mapperinitialize.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0DB14748-F6E3-47F8-9E21-529282BEE77D}|CaedFile.DataAccess\\CardFile.DataAccess.csproj|solutionrelative:caedfile.dataaccess\\infrastructure\\mapperinitialize.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0DB14748-F6E3-47F8-9E21-529282BEE77D}|CaedFile.DataAccess\\CardFile.DataAccess.csproj|c:\\users\\glebk\\onedrive\\desktop\\cardfile.wpf\\caedfile.dataaccess\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{0DB14748-F6E3-47F8-9E21-529282BEE77D}|CaedFile.DataAccess\\CardFile.DataAccess.csproj|solutionrelative:caedfile.dataaccess\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{243F6653-8636-4733-8C7C-187342E3A23F}|CardFile.Wpf\\CardFile.Wpf.csproj|c:\\users\\glebk\\onedrive\\desktop\\cardfile.wpf\\cardfile.wpf\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{243F6653-8636-4733-8C7C-187342E3A23F}|CardFile.Wpf\\CardFile.Wpf.csproj|solutionrelative:cardfile.wpf\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{243F6653-8636-4733-8C7C-187342E3A23F}|CardFile.Wpf\\CardFile.Wpf.csproj|c:\\users\\glebk\\onedrive\\desktop\\cardfile.wpf\\cardfile.wpf\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{243F6653-8636-4733-8C7C-187342E3A23F}|CardFile.Wpf\\CardFile.Wpf.csproj|solutionrelative:cardfile.wpf\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 19,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "app.config",
+              "DocumentMoniker": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CaedFile.DataAccess\\app.config",
+              "RelativeDocumentMoniker": "CaedFile.DataAccess\\app.config",
+              "ToolTip": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CaedFile.DataAccess\\app.config",
+              "RelativeToolTip": "CaedFile.DataAccess\\app.config",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2025-06-09T01:36:11.861Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CardFile.Wpf\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "CardFile.Wpf\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CardFile.Wpf\\MainWindow.xaml.cs",
+              "RelativeToolTip": "CardFile.Wpf\\MainWindow.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-09T01:21:54.156Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "App.xaml",
+              "DocumentMoniker": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CardFile.Wpf\\App.xaml",
+              "RelativeDocumentMoniker": "CardFile.Wpf\\App.xaml",
+              "ToolTip": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CardFile.Wpf\\App.xaml",
+              "RelativeToolTip": "CardFile.Wpf\\App.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-06-09T01:20:58.214Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "CardViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CardFile.Wpf\\ViewModels\\CardViewModel.cs",
+              "RelativeDocumentMoniker": "CardFile.Wpf\\ViewModels\\CardViewModel.cs",
+              "ToolTip": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CardFile.Wpf\\ViewModels\\CardViewModel.cs",
+              "RelativeToolTip": "CardFile.Wpf\\ViewModels\\CardViewModel.cs",
+              "ViewState": "AgIAACsAAAAAAAAAAAA5wIQAAABSAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-09T01:20:33.256Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "EditCardWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CardFile.Wpf\\View\\EditCardWindow.xaml",
+              "RelativeDocumentMoniker": "CardFile.Wpf\\View\\EditCardWindow.xaml",
+              "ToolTip": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CardFile.Wpf\\View\\EditCardWindow.xaml",
+              "RelativeToolTip": "CardFile.Wpf\\View\\EditCardWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-06-09T01:19:50.274Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "CardFileViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CardFile.Wpf\\ViewModels\\CardFileViewModel.cs",
+              "RelativeDocumentMoniker": "CardFile.Wpf\\ViewModels\\CardFileViewModel.cs",
+              "ToolTip": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CardFile.Wpf\\ViewModels\\CardFileViewModel.cs",
+              "RelativeToolTip": "CardFile.Wpf\\ViewModels\\CardFileViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAIgAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-09T01:19:48.27Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "MapperInitialize.cs",
+              "DocumentMoniker": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CardFile.Wpf\\Infrastructure\\MapperInitialize.cs",
+              "RelativeDocumentMoniker": "CardFile.Wpf\\Infrastructure\\MapperInitialize.cs",
+              "ToolTip": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CardFile.Wpf\\Infrastructure\\MapperInitialize.cs",
+              "RelativeToolTip": "CardFile.Wpf\\Infrastructure\\MapperInitialize.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-09T01:19:42.688Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "MapperInitialize.cs",
+              "DocumentMoniker": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CaedFile.DataAccess\\Infrastructure\\MapperInitialize.cs",
+              "RelativeDocumentMoniker": "CaedFile.DataAccess\\Infrastructure\\MapperInitialize.cs",
+              "ToolTip": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CaedFile.DataAccess\\Infrastructure\\MapperInitialize.cs",
+              "RelativeToolTip": "CaedFile.DataAccess\\Infrastructure\\MapperInitialize.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-09T01:19:36.175Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "FileDataService.cs",
+              "DocumentMoniker": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CaedFile.DataAccess\\FileDataAccess\\FileDataService.cs",
+              "RelativeDocumentMoniker": "CaedFile.DataAccess\\FileDataAccess\\FileDataService.cs",
+              "ToolTip": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CaedFile.DataAccess\\FileDataAccess\\FileDataService.cs",
+              "RelativeToolTip": "CaedFile.DataAccess\\FileDataAccess\\FileDataService.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAxwCYAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-09T01:19:25.662Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "XmlCardCollection.cs",
+              "DocumentMoniker": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CaedFile.DataAccess\\FileDataAccess\\StorageEntities\\XmlCardCollection.cs",
+              "RelativeDocumentMoniker": "CaedFile.DataAccess\\FileDataAccess\\StorageEntities\\XmlCardCollection.cs",
+              "ToolTip": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CaedFile.DataAccess\\FileDataAccess\\StorageEntities\\XmlCardCollection.cs",
+              "RelativeToolTip": "CaedFile.DataAccess\\FileDataAccess\\StorageEntities\\XmlCardCollection.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-09T01:18:48.965Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "XmlCard.cs",
+              "DocumentMoniker": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CaedFile.DataAccess\\FileDataAccess\\StorageEntities\\XmlCard.cs",
+              "RelativeDocumentMoniker": "CaedFile.DataAccess\\FileDataAccess\\StorageEntities\\XmlCard.cs",
+              "ToolTip": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CaedFile.DataAccess\\FileDataAccess\\StorageEntities\\XmlCard.cs",
+              "RelativeToolTip": "CaedFile.DataAccess\\FileDataAccess\\StorageEntities\\XmlCard.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAACcAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-09T01:18:39.108Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "JsonCardCollection.cs",
+              "DocumentMoniker": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CaedFile.DataAccess\\FileDataAccess\\StorageEntities\\JsonCardCollection.cs",
+              "RelativeDocumentMoniker": "CaedFile.DataAccess\\FileDataAccess\\StorageEntities\\JsonCardCollection.cs",
+              "ToolTip": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CaedFile.DataAccess\\FileDataAccess\\StorageEntities\\JsonCardCollection.cs",
+              "RelativeToolTip": "CaedFile.DataAccess\\FileDataAccess\\StorageEntities\\JsonCardCollection.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAADYAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-09T01:18:26.261Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "JsonCard.cs",
+              "DocumentMoniker": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CaedFile.DataAccess\\FileDataAccess\\StorageEntities\\JsonCard.cs",
+              "RelativeDocumentMoniker": "CaedFile.DataAccess\\FileDataAccess\\StorageEntities\\JsonCard.cs",
+              "ToolTip": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CaedFile.DataAccess\\FileDataAccess\\StorageEntities\\JsonCard.cs",
+              "RelativeToolTip": "CaedFile.DataAccess\\FileDataAccess\\StorageEntities\\JsonCard.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-09T01:18:12.729Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ZipFileSaver.cs",
+              "DocumentMoniker": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CaedFile.DataAccess\\FileDataAccess\\FileSavers\\ZipFileSaver.cs",
+              "RelativeDocumentMoniker": "CaedFile.DataAccess\\FileDataAccess\\FileSavers\\ZipFileSaver.cs",
+              "ToolTip": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CaedFile.DataAccess\\FileDataAccess\\FileSavers\\ZipFileSaver.cs",
+              "RelativeToolTip": "CaedFile.DataAccess\\FileDataAccess\\FileSavers\\ZipFileSaver.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACkAAABbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-09T01:18:00.142Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "XmlFileSaver.cs",
+              "DocumentMoniker": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CaedFile.DataAccess\\FileDataAccess\\FileSavers\\XmlFileSaver.cs",
+              "RelativeDocumentMoniker": "CaedFile.DataAccess\\FileDataAccess\\FileSavers\\XmlFileSaver.cs",
+              "ToolTip": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CaedFile.DataAccess\\FileDataAccess\\FileSavers\\XmlFileSaver.cs",
+              "RelativeToolTip": "CaedFile.DataAccess\\FileDataAccess\\FileSavers\\XmlFileSaver.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACcAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-09T01:17:50.861Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "TextFileSaver.cs",
+              "DocumentMoniker": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CaedFile.DataAccess\\FileDataAccess\\FileSavers\\TextFileSaver.cs",
+              "RelativeDocumentMoniker": "CaedFile.DataAccess\\FileDataAccess\\FileSavers\\TextFileSaver.cs",
+              "ToolTip": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CaedFile.DataAccess\\FileDataAccess\\FileSavers\\TextFileSaver.cs",
+              "RelativeToolTip": "CaedFile.DataAccess\\FileDataAccess\\FileSavers\\TextFileSaver.cs",
+              "ViewState": "AgIAAD0AAAAAAAAAAAAQwGYAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-09T01:17:37.925Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "JsonFileSaver.cs",
+              "DocumentMoniker": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CaedFile.DataAccess\\FileDataAccess\\FileSavers\\JsonFileSaver.cs",
+              "RelativeDocumentMoniker": "CaedFile.DataAccess\\FileDataAccess\\FileSavers\\JsonFileSaver.cs",
+              "ToolTip": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CaedFile.DataAccess\\FileDataAccess\\FileSavers\\JsonFileSaver.cs",
+              "RelativeToolTip": "CaedFile.DataAccess\\FileDataAccess\\FileSavers\\JsonFileSaver.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAB4AAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-09T01:17:32.579Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "IFileSaver.cs",
+              "DocumentMoniker": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CaedFile.DataAccess\\FileDataAccess\\FileSavers\\IFileSaver.cs",
+              "RelativeDocumentMoniker": "CaedFile.DataAccess\\FileDataAccess\\FileSavers\\IFileSaver.cs",
+              "ToolTip": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CaedFile.DataAccess\\FileDataAccess\\FileSavers\\IFileSaver.cs",
+              "RelativeToolTip": "CaedFile.DataAccess\\FileDataAccess\\FileSavers\\IFileSaver.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-09T01:17:27.697Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "BinaryFileSaver.cs",
+              "DocumentMoniker": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CaedFile.DataAccess\\FileDataAccess\\FileSavers\\BinaryFileSaver.cs",
+              "RelativeDocumentMoniker": "CaedFile.DataAccess\\FileDataAccess\\FileSavers\\BinaryFileSaver.cs",
+              "ToolTip": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CaedFile.DataAccess\\FileDataAccess\\FileSavers\\BinaryFileSaver.cs",
+              "RelativeToolTip": "CaedFile.DataAccess\\FileDataAccess\\FileSavers\\BinaryFileSaver.cs",
+              "ViewState": "AgIAACsAAAAAAAAAAAAQwEcAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-09T01:17:16.158Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CardCollection.cs",
+              "DocumentMoniker": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CaedFile.DataAccess\\DataCollection\\CardCollection.cs",
+              "RelativeDocumentMoniker": "CaedFile.DataAccess\\DataCollection\\CardCollection.cs",
+              "ToolTip": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CaedFile.DataAccess\\DataCollection\\CardCollection.cs",
+              "RelativeToolTip": "CaedFile.DataAccess\\DataCollection\\CardCollection.cs",
+              "ViewState": "AgIAACkAAAAAAAAAAAAAwCwAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-09T01:15:49.817Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Mapping.cs",
+              "DocumentMoniker": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CardFile.Common\\Infrastructure\\Mapping.cs",
+              "RelativeDocumentMoniker": "CardFile.Common\\Infrastructure\\Mapping.cs",
+              "ToolTip": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CardFile.Common\\Infrastructure\\Mapping.cs",
+              "RelativeToolTip": "CardFile.Common\\Infrastructure\\Mapping.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-09T01:15:46.255Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "CardFileService.cs",
+              "DocumentMoniker": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CardFile.Business\\Services\\CardFileService.cs",
+              "RelativeDocumentMoniker": "CardFile.Business\\Services\\CardFileService.cs",
+              "ToolTip": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CardFile.Business\\Services\\CardFileService.cs",
+              "RelativeToolTip": "CardFile.Business\\Services\\CardFileService.cs",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAIwGkAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-09T01:14:57.35Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "MapperInitialize.cs",
+              "DocumentMoniker": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CardFile.Business\\Infrastructure\\MapperInitialize.cs",
+              "RelativeDocumentMoniker": "CardFile.Business\\Infrastructure\\MapperInitialize.cs",
+              "ToolTip": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CardFile.Business\\Infrastructure\\MapperInitialize.cs",
+              "RelativeToolTip": "CardFile.Business\\Infrastructure\\MapperInitialize.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-09T01:14:37.772Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Card.cs",
+              "DocumentMoniker": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CardFile.Business\\Entities\\Card.cs",
+              "RelativeDocumentMoniker": "CardFile.Business\\Entities\\Card.cs",
+              "ToolTip": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CardFile.Business\\Entities\\Card.cs",
+              "RelativeToolTip": "CardFile.Business\\Entities\\Card.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-09T01:14:25.576Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "CardDto.cs",
+              "DocumentMoniker": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CaedFile.DataAccess\\Dtos\\CardDto.cs",
+              "RelativeDocumentMoniker": "CaedFile.DataAccess\\Dtos\\CardDto.cs",
+              "ToolTip": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CaedFile.DataAccess\\Dtos\\CardDto.cs",
+              "RelativeToolTip": "CaedFile.DataAccess\\Dtos\\CardDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADkAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-09T01:10:29.183Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CardFile.Wpf\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "CardFile.Wpf\\MainWindow.xaml",
+              "ToolTip": "C:\\Users\\glebk\\OneDrive\\Desktop\\CardFile.Wpf\\CardFile.Wpf\\MainWindow.xaml",
+              "RelativeToolTip": "CardFile.Wpf\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-06-09T01:04:56.793Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

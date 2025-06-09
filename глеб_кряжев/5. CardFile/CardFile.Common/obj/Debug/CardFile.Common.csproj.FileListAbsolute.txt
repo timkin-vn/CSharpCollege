@@ -1,0 +1,9 @@
+C:\Users\glebk\OneDrive\Desktop\CardFile.Wpf\CardFile.Common\bin\Debug\CardFile.Common.dll
+C:\Users\glebk\OneDrive\Desktop\CardFile.Wpf\CardFile.Common\bin\Debug\CardFile.Common.pdb
+C:\Users\glebk\OneDrive\Desktop\CardFile.Wpf\CardFile.Common\bin\Debug\AutoMapper.dll
+C:\Users\glebk\OneDrive\Desktop\CardFile.Wpf\CardFile.Common\bin\Debug\AutoMapper.xml
+C:\Users\glebk\OneDrive\Desktop\CardFile.Wpf\CardFile.Common\obj\Debug\CardFile.Common.csproj.AssemblyReference.cache
+C:\Users\glebk\OneDrive\Desktop\CardFile.Wpf\CardFile.Common\obj\Debug\CardFile.Common.csproj.CoreCompileInputs.cache
+C:\Users\glebk\OneDrive\Desktop\CardFile.Wpf\CardFile.Common\obj\Debug\CardFile.C61ACAD1.Up2Date
+C:\Users\glebk\OneDrive\Desktop\CardFile.Wpf\CardFile.Common\obj\Debug\CardFile.Common.dll
+C:\Users\glebk\OneDrive\Desktop\CardFile.Wpf\CardFile.Common\obj\Debug\CardFile.Common.pdb
