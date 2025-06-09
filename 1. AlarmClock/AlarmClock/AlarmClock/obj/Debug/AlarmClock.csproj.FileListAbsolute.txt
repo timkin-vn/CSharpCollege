@@ -1,0 +1,68 @@
+C:\Users\gtaon\Downloads\CSharpCollege-master\Projects.24.1.23.3\1. AlarmClock\AlarmClock\AlarmClock\bin\Debug\Images\Image1.jpg
+C:\Users\gtaon\Downloads\CSharpCollege-master\Projects.24.1.23.3\1. AlarmClock\AlarmClock\AlarmClock\bin\Debug\Images\Image3.jpg
+C:\Users\gtaon\Downloads\CSharpCollege-master\Projects.24.1.23.3\1. AlarmClock\AlarmClock\AlarmClock\bin\Debug\Images\Image4.jpg
+C:\Users\gtaon\Downloads\CSharpCollege-master\Projects.24.1.23.3\1. AlarmClock\AlarmClock\AlarmClock\bin\Debug\Images\Image5.jpg
+C:\Users\gtaon\Downloads\CSharpCollege-master\Projects.24.1.23.3\1. AlarmClock\AlarmClock\AlarmClock\bin\Debug\Images\Image7.jpg
+C:\Users\gtaon\Downloads\CSharpCollege-master\Projects.24.1.23.3\1. AlarmClock\AlarmClock\AlarmClock\bin\Debug\AlarmClock.exe.config
+C:\Users\gtaon\Downloads\CSharpCollege-master\Projects.24.1.23.3\1. AlarmClock\AlarmClock\AlarmClock\bin\Debug\AlarmClock.exe
+C:\Users\gtaon\Downloads\CSharpCollege-master\Projects.24.1.23.3\1. AlarmClock\AlarmClock\AlarmClock\bin\Debug\AlarmClock.pdb
+C:\Users\gtaon\Downloads\CSharpCollege-master\Projects.24.1.23.3\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.csproj.AssemblyReference.cache
+C:\Users\gtaon\Downloads\CSharpCollege-master\Projects.24.1.23.3\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.ClockForm.resources
+C:\Users\gtaon\Downloads\CSharpCollege-master\Projects.24.1.23.3\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.Forms.AboutForm.resources
+C:\Users\gtaon\Downloads\CSharpCollege-master\Projects.24.1.23.3\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.Forms.AwakeForm.resources
+C:\Users\gtaon\Downloads\CSharpCollege-master\Projects.24.1.23.3\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.Forms.SettingsForm.resources
+C:\Users\gtaon\Downloads\CSharpCollege-master\Projects.24.1.23.3\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.Properties.Resources.resources
+C:\Users\gtaon\Downloads\CSharpCollege-master\Projects.24.1.23.3\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.csproj.GenerateResource.cache
+C:\Users\gtaon\Downloads\CSharpCollege-master\Projects.24.1.23.3\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.csproj.CoreCompileInputs.cache
+C:\Users\gtaon\Downloads\CSharpCollege-master\Projects.24.1.23.3\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.exe
+C:\Users\gtaon\Downloads\CSharpCollege-master\Projects.24.1.23.3\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.pdb
+C:\Users\gtaon\Downloads\CSharpCollege-master\Projects.24.1.23.3\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.exe.config
+C:\Users\gtaon\OneDrive\Рабочий стол\TItov C#\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.csproj.AssemblyReference.cache
+C:\Users\gtaon\OneDrive\Рабочий стол\TItov C#\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.exe.config
+C:\Users\gtaon\OneDrive\Рабочий стол\TItov C#\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.ClockForm.resources
+C:\Users\gtaon\OneDrive\Рабочий стол\TItov C#\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.Forms.AboutForm.resources
+C:\Users\gtaon\OneDrive\Рабочий стол\TItov C#\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.Forms.AwakeForm.resources
+C:\Users\gtaon\OneDrive\Рабочий стол\TItov C#\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.Forms.SettingsForm.resources
+C:\Users\gtaon\OneDrive\Рабочий стол\TItov C#\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.Properties.Resources.resources
+C:\Users\gtaon\OneDrive\Рабочий стол\TItov C#\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.csproj.GenerateResource.cache
+C:\Users\gtaon\OneDrive\Рабочий стол\TItov C#\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.csproj.CoreCompileInputs.cache
+C:\Users\gtaon\OneDrive\Рабочий стол\TItov C#\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.exe
+C:\Users\gtaon\OneDrive\Рабочий стол\TItov C#\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.pdb
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка\1. AlarmClock\AlarmClock\AlarmClock\bin\Debug\Images\Image1.jpg
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка\1. AlarmClock\AlarmClock\AlarmClock\bin\Debug\Images\Image3.jpg
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка\1. AlarmClock\AlarmClock\AlarmClock\bin\Debug\Images\Image4.jpg
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка\1. AlarmClock\AlarmClock\AlarmClock\bin\Debug\Images\Image5.jpg
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка\1. AlarmClock\AlarmClock\AlarmClock\bin\Debug\Images\Image7.jpg
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка\1. AlarmClock\AlarmClock\AlarmClock\bin\Debug\AlarmClock.exe.config
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка\1. AlarmClock\AlarmClock\AlarmClock\bin\Debug\AlarmClock.exe
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка\1. AlarmClock\AlarmClock\AlarmClock\bin\Debug\AlarmClock.pdb
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.csproj.AssemblyReference.cache
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.exe.config
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.ClockForm.resources
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.Forms.AboutForm.resources
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.Forms.AwakeForm.resources
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.Forms.SettingsForm.resources
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.Properties.Resources.resources
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.csproj.GenerateResource.cache
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.csproj.CoreCompileInputs.cache
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.exe
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.pdb
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка (2)\1. AlarmClock\AlarmClock\AlarmClock\bin\Debug\Images\Image1.jpg
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка (2)\1. AlarmClock\AlarmClock\AlarmClock\bin\Debug\Images\Image3.jpg
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка (2)\1. AlarmClock\AlarmClock\AlarmClock\bin\Debug\Images\Image4.jpg
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка (2)\1. AlarmClock\AlarmClock\AlarmClock\bin\Debug\Images\Image5.jpg
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка (2)\1. AlarmClock\AlarmClock\AlarmClock\bin\Debug\Images\Image7.jpg
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка (2)\1. AlarmClock\AlarmClock\AlarmClock\bin\Debug\AlarmClock.exe.config
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка (2)\1. AlarmClock\AlarmClock\AlarmClock\bin\Debug\AlarmClock.exe
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка (2)\1. AlarmClock\AlarmClock\AlarmClock\bin\Debug\AlarmClock.pdb
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка (2)\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.csproj.AssemblyReference.cache
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка (2)\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.exe.config
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка (2)\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.ClockForm.resources
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка (2)\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.Forms.AboutForm.resources
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка (2)\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.Forms.AwakeForm.resources
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка (2)\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.Forms.SettingsForm.resources
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка (2)\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.Properties.Resources.resources
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка (2)\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.csproj.GenerateResource.cache
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка (2)\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.csproj.CoreCompileInputs.cache
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка (2)\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.exe
+C:\Users\gtaon\OneDrive\Рабочий стол\Новая папка (2)\1. AlarmClock\AlarmClock\AlarmClock\obj\Debug\AlarmClock.pdb

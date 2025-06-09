@@ -1,0 +1,33 @@
+C:\Users\gtaon\Downloads\CSharpCollege-master\Projects.24.1.23.3\2. Drawing\Drawing\Drawing\bin\Debug\Drawing.exe.config
+C:\Users\gtaon\Downloads\CSharpCollege-master\Projects.24.1.23.3\2. Drawing\Drawing\Drawing\bin\Debug\Drawing.exe
+C:\Users\gtaon\Downloads\CSharpCollege-master\Projects.24.1.23.3\2. Drawing\Drawing\Drawing\bin\Debug\Drawing.pdb
+C:\Users\gtaon\Downloads\CSharpCollege-master\Projects.24.1.23.3\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.csproj.AssemblyReference.cache
+C:\Users\gtaon\Downloads\CSharpCollege-master\Projects.24.1.23.3\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.DrawingForm.resources
+C:\Users\gtaon\Downloads\CSharpCollege-master\Projects.24.1.23.3\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.Properties.Resources.resources
+C:\Users\gtaon\Downloads\CSharpCollege-master\Projects.24.1.23.3\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.csproj.GenerateResource.cache
+C:\Users\gtaon\Downloads\CSharpCollege-master\Projects.24.1.23.3\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.csproj.CoreCompileInputs.cache
+C:\Users\gtaon\Downloads\CSharpCollege-master\Projects.24.1.23.3\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.exe
+C:\Users\gtaon\Downloads\CSharpCollege-master\Projects.24.1.23.3\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.pdb
+C:\Users\gtaon\Downloads\CSharpCollege-master\Projects.24.1.23.3\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.exe.config
+C:\Users\gtaon\OneDrive\Рабочий стол\2. Drawing\Drawing\Drawing\bin\Debug\Drawing.exe.config
+C:\Users\gtaon\OneDrive\Рабочий стол\2. Drawing\Drawing\Drawing\bin\Debug\Drawing.exe
+C:\Users\gtaon\OneDrive\Рабочий стол\2. Drawing\Drawing\Drawing\bin\Debug\Drawing.pdb
+C:\Users\gtaon\OneDrive\Рабочий стол\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.csproj.AssemblyReference.cache
+C:\Users\gtaon\OneDrive\Рабочий стол\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.exe.config
+C:\Users\gtaon\OneDrive\Рабочий стол\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.DrawingForm.resources
+C:\Users\gtaon\OneDrive\Рабочий стол\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.Properties.Resources.resources
+C:\Users\gtaon\OneDrive\Рабочий стол\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.csproj.GenerateResource.cache
+C:\Users\gtaon\OneDrive\Рабочий стол\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.csproj.CoreCompileInputs.cache
+C:\Users\gtaon\OneDrive\Рабочий стол\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.exe
+C:\Users\gtaon\OneDrive\Рабочий стол\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.pdb
+C:\Users\gtaon\OneDrive\Рабочий стол\TItov C#\2. Drawing\Drawing\Drawing\bin\Debug\Drawing.exe.config
+C:\Users\gtaon\OneDrive\Рабочий стол\TItov C#\2. Drawing\Drawing\Drawing\bin\Debug\Drawing.exe
+C:\Users\gtaon\OneDrive\Рабочий стол\TItov C#\2. Drawing\Drawing\Drawing\bin\Debug\Drawing.pdb
+C:\Users\gtaon\OneDrive\Рабочий стол\TItov C#\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.csproj.AssemblyReference.cache
+C:\Users\gtaon\OneDrive\Рабочий стол\TItov C#\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.exe.config
+C:\Users\gtaon\OneDrive\Рабочий стол\TItov C#\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.DrawingForm.resources
+C:\Users\gtaon\OneDrive\Рабочий стол\TItov C#\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.Properties.Resources.resources
+C:\Users\gtaon\OneDrive\Рабочий стол\TItov C#\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.csproj.GenerateResource.cache
+C:\Users\gtaon\OneDrive\Рабочий стол\TItov C#\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.csproj.CoreCompileInputs.cache
+C:\Users\gtaon\OneDrive\Рабочий стол\TItov C#\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.exe
+C:\Users\gtaon\OneDrive\Рабочий стол\TItov C#\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.pdb
