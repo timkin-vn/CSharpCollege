@@ -49,7 +49,7 @@ namespace AlarmClock.Forms
             }
             else
             {
-                Settings.AlarmMessage = "Сработал будильник";
+                Settings.AlarmMessage = "Сработал будильник!";
             }
             Settings.IsAlarmActive = IsAlarmActiveCheckBox.Checked;
             Settings.IsSoundActive = IsSoundActiveCheckBox.Checked;

@@ -49,10 +49,5 @@ namespace Calculator.Wpf
         {
             ViewModel.PressProcent();
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.PressFloat();
-        }
     }
 }

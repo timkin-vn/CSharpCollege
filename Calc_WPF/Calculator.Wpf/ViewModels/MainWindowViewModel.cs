@@ -33,8 +33,6 @@ namespace Calculator.Wpf.ViewModels
 
         public void PressOperation(string operationCode)
         {
-            _state.bonus = 10.0;
-            _state.IsFloat = false;
             _service.PressOperation(_state, operationCode);
             OnPropertyChanged(nameof(DisplayValue));
         }
@@ -45,11 +43,7 @@ namespace Calculator.Wpf.ViewModels
             _state.RegisterX = _state.RegisterY / 100 * _state.RegisterX;
             OnPropertyChanged(nameof(DisplayValue));
         }
-        public void PressFloat()
-        {
-            _state.IsFloat = true;
-            _state.bonus = 10.0;
-        }
+        
 
         private void OnPropertyChanged(string propertyName)
         {

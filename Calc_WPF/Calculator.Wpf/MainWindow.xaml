@@ -74,7 +74,7 @@
 
         <Button Grid.Row="6" Grid.Column="4" Content="log" FontSize="36" Margin="5" Click="OperationButton_Click" />
 
-        <Button Grid.Row="6" Grid.Column="5" Content="." FontSize="36" Margin="5" Click="OperationButton_Click" />
+        <Button Grid.Row="6" Grid.Column="5" Content="ln" FontSize="36" Margin="5" Click="OperationButton_Click" />
 
         <Button Grid.Row="6" Grid.Column="6" Content="_" FontSize="36" Margin="5" Click="OperationButton_Click" />
 
