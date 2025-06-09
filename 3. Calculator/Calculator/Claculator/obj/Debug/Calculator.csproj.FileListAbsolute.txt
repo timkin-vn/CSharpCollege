@@ -1,0 +1,14 @@
+C:\Users\gtaon\OneDrive\Рабочий стол\3. Calculator\Calculator\Claculator\bin\Debug\Claculator.exe.config
+C:\Users\gtaon\OneDrive\Рабочий стол\3. Calculator\Calculator\Claculator\bin\Debug\Claculator.exe
+C:\Users\gtaon\OneDrive\Рабочий стол\3. Calculator\Calculator\Claculator\bin\Debug\Claculator.pdb
+C:\Users\gtaon\OneDrive\Рабочий стол\3. Calculator\Calculator\Claculator\bin\Debug\Calculator.Business.dll
+C:\Users\gtaon\OneDrive\Рабочий стол\3. Calculator\Calculator\Claculator\bin\Debug\Calculator.Business.pdb
+C:\Users\gtaon\OneDrive\Рабочий стол\3. Calculator\Calculator\Claculator\obj\Debug\Calculator.csproj.AssemblyReference.cache
+C:\Users\gtaon\OneDrive\Рабочий стол\3. Calculator\Calculator\Claculator\obj\Debug\Claculator.CalculatorForm.resources
+C:\Users\gtaon\OneDrive\Рабочий стол\3. Calculator\Calculator\Claculator\obj\Debug\Claculator.Properties.Resources.resources
+C:\Users\gtaon\OneDrive\Рабочий стол\3. Calculator\Calculator\Claculator\obj\Debug\Calculator.csproj.GenerateResource.cache
+C:\Users\gtaon\OneDrive\Рабочий стол\3. Calculator\Calculator\Claculator\obj\Debug\Calculator.csproj.CoreCompileInputs.cache
+C:\Users\gtaon\OneDrive\Рабочий стол\3. Calculator\Calculator\Claculator\obj\Debug\Calculator.csproj.Up2Date
+C:\Users\gtaon\OneDrive\Рабочий стол\3. Calculator\Calculator\Claculator\obj\Debug\Claculator.exe
+C:\Users\gtaon\OneDrive\Рабочий стол\3. Calculator\Calculator\Claculator\obj\Debug\Claculator.pdb
+C:\Users\gtaon\OneDrive\Рабочий стол\3. Calculator\Calculator\Claculator\obj\Debug\Claculator.exe.config

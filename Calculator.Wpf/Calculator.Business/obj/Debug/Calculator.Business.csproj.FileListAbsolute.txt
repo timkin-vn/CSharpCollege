@@ -1,0 +1,6 @@
+C:\Users\gtaon\OneDrive\Рабочий стол\Calculator.Wpf\Calculator.Business\bin\Debug\Calculator.Business.dll
+C:\Users\gtaon\OneDrive\Рабочий стол\Calculator.Wpf\Calculator.Business\bin\Debug\Calculator.Business.pdb
+C:\Users\gtaon\OneDrive\Рабочий стол\Calculator.Wpf\Calculator.Business\obj\Debug\Calculator.Business.csproj.AssemblyReference.cache
+C:\Users\gtaon\OneDrive\Рабочий стол\Calculator.Wpf\Calculator.Business\obj\Debug\Calculator.Business.csproj.CoreCompileInputs.cache
+C:\Users\gtaon\OneDrive\Рабочий стол\Calculator.Wpf\Calculator.Business\obj\Debug\Calculator.Business.dll
+C:\Users\gtaon\OneDrive\Рабочий стол\Calculator.Wpf\Calculator.Business\obj\Debug\Calculator.Business.pdb
