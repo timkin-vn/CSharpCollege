@@ -1,10 +1,9 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using CalculatorForm.Business.Models;
 
 namespace CalculatorForm.Business.Services {
     public class CalculatorService {
-        public void PressDigit(CalculatorState state, string digitText) {
+        public static void PressDigit(CalculatorState state, string digitText) {
             if (state.NeedClearX) {
                 state.CurrentInput = digitText;
                 state.NeedClearX = false;
@@ -163,7 +162,7 @@ namespace CalculatorForm.Business.Services {
             }
             else {
                 state.RegisterX = 0;
-                state.Expression = "Error: Negative Square Root";
+                state.Expression = "Ошибка: Отрицательный квадратный корень.";
             }
             state.NeedClearX = true;
         }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -17,52 +16,55 @@ namespace CalculatorForm.Wpf {
         }
 
         private void CalculatorForm_KeyDown(object sender, KeyEventArgs e) {
-            if (e.Key == Key.Escape) {
-                CalculatorService.Clear(_state);
-                SineButton.Content = "sin";
-                ShowResult();
-                e.Handled = true;
-            }
-            else if (e.Key >= Key.D0 && e.Key <= Key.D9) {
-                _service.PressDigit(_state, (e.Key - Key.D0).ToString());
-                ShowResult();
-                e.Handled = true;
-            }
-            else if (e.Key == Key.Add) {
-                _service.PressOperation(_state, "+");
-                ShowResult();
-                e.Handled = true;
-            }
-            else if (e.Key == Key.Subtract) {
-                _service.PressOperation(_state, "-");
-                ShowResult();
-                e.Handled = true;
-            }
-            else if (e.Key == Key.Multiply) {
-                _service.PressOperation(_state, "*");
-                ShowResult();
-                e.Handled = true;
-            }
-            else if (e.Key == Key.Divide) {
-                _service.PressOperation(_state, "/");
-                ShowResult();
-                e.Handled = true;
-            }
-            else if (e.Key == Key.Enter) {
-                CalculatorService.PressEqual(_state);
-                ShowResult();
-                e.Handled = true;
-            }
-            else if (e.Key == Key.Decimal || e.Key == Key.OemPeriod) {
-                CalculatorService.AddDecimal(_state);
-                ShowResult();
-                e.Handled = true;
+            switch (e.Key) {
+                case Key.Escape:
+                    CalculatorService.Clear(_state);
+                    SineButton.Content = "sin";
+                    ShowResult();
+                    e.Handled = true;
+                    break;
+                case >= Key.D0 and <= Key.D9:
+                    CalculatorService.PressDigit(_state, (e.Key - Key.D0).ToString());
+                    ShowResult();
+                    e.Handled = true;
+                    break;
+                case Key.Add:
+                    _service.PressOperation(_state, "+");
+                    ShowResult();
+                    e.Handled = true;
+                    break;
+                case Key.Subtract:
+                    _service.PressOperation(_state, "-");
+                    ShowResult();
+                    e.Handled = true;
+                    break;
+                case Key.Multiply:
+                    _service.PressOperation(_state, "*");
+                    ShowResult();
+                    e.Handled = true;
+                    break;
+                case Key.Divide:
+                    _service.PressOperation(_state, "/");
+                    ShowResult();
+                    e.Handled = true;
+                    break;
+                case Key.Enter:
+                    CalculatorService.PressEqual(_state);
+                    ShowResult();
+                    e.Handled = true;
+                    break;
+                case Key.Decimal:
+                case Key.OemPeriod:
+                    CalculatorService.AddDecimal(_state);
+                    ShowResult();
+                    e.Handled = true;
+                    break;
             }
         }
 
         private void DigitButton_Click(object sender, RoutedEventArgs e) {
-            var digit = (sender as Button).Content.ToString();
-            _service.PressDigit(_state, digit);
+            var digit = (sender as Button)?.Content.ToString();
+            if (digit != null) CalculatorService.PressDigit(_state, digit);
             ShowResult();
         }
 
@@ -73,8 +75,8 @@ namespace CalculatorForm.Wpf {
         }
 
         private void OperationButton_Click(object sender, RoutedEventArgs e) {
-            var operation = (sender as Button).Content.ToString();
-            _service.PressOperation(_state, operation);
+            var operation = (sender as Button)?.Content.ToString();
+            if (operation != null) _service.PressOperation(_state, operation);
             ShowResult();
         }
 
@@ -84,7 +86,7 @@ namespace CalculatorForm.Wpf {
         }
 
         private void FunctionButton_Click(object sender, RoutedEventArgs e) {
-            var function = (sender as Button).Content.ToString();
+            var function = (sender as Button)?.Content.ToString();
             switch (function) {
                 case "√":
                     CalculatorService.SquareRoot(_state);
@@ -122,9 +124,10 @@ namespace CalculatorForm.Wpf {
         }
 
         private void TrigMenuButton_Click(object sender, RoutedEventArgs e) {
-            ContextMenu contextMenu = new ContextMenu();
-            contextMenu.Background = new SolidColorBrush(Color.FromRgb(40, 40, 40));
-            contextMenu.Foreground = new SolidColorBrush(Colors.White);
+            var contextMenu = new ContextMenu {
+                Background = new SolidColorBrush(Color.FromRgb(40, 40, 40)),
+                Foreground = new SolidColorBrush(Colors.White)
+            };
             foreach (var func in new[] { "sin", "cos", "tan", "cot", "arcsin", "arccos", "arctan", "arccot" }) {
                 var menuItem = new MenuItem { Header = func };
                 menuItem.Click += (_, _) => SetTrigFunction(func);

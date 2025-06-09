@@ -12,7 +12,7 @@ public class ViewModel : INotifyPropertyChanged {
     private string _expressionText = "";
     private string _sineButtonText = "sin";
 
-    public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     public string DisplayText {
         get => _displayText;
@@ -39,7 +39,7 @@ public class ViewModel : INotifyPropertyChanged {
     }
 
     public void PressDigit(string digit) {
-        _service.PressDigit(_state, digit);
+        CalculatorService.PressDigit(_state, digit);
         UpdateDisplay();
     }
 
@@ -101,14 +101,14 @@ public class ViewModel : INotifyPropertyChanged {
         SineButtonText = function;
     }
 
-    public void UpdateDisplay() {
+    private void UpdateDisplay() {
         DisplayText = !string.IsNullOrEmpty(_state.CurrentInput) 
             ? _state.CurrentInput 
             : _state.RegisterX.ToString("F6").TrimEnd('0').TrimEnd('.');
         ExpressionText = _state.Expression;
     }
 
-    private void OnPropertyChanged([CallerMemberName] string propertyName = null) {
+    private void OnPropertyChanged([CallerMemberName] string? propertyName = null) {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
