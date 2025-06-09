@@ -1,6 +1,6 @@
 ﻿using System.Drawing.Drawing2D;
 using Calculator.Business.Services;
-using CalculatorForm.Calculator.Business.Models;
+using CalculatorForm.Business.Models;
 
 namespace CalculatorForm {
     public sealed partial class CalculatorForm : Form {

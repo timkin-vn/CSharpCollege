@@ -1,9 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197 d17.13
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalculatorForm", "CalculatorForm\CalculatorForm.csproj", "{19D15F2C-96BF-4844-914A-BFE02AFB4AB7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalculatorForm", "CalculatorForm\CalculatorForm.csproj", "{AC26AD69-9A42-415D-896D-A8738A295467}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalculatorForm.Business", "CalculatorForm.Business\CalculatorForm.Business.csproj", "{E925EBCD-61F3-4367-95B7-0D39B3AED316}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +10,13 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{19D15F2C-96BF-4844-914A-BFE02AFB4AB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{19D15F2C-96BF-4844-914A-BFE02AFB4AB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{19D15F2C-96BF-4844-914A-BFE02AFB4AB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{19D15F2C-96BF-4844-914A-BFE02AFB4AB7}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {924315F2-5E0A-45EE-A259-8C2B13958723}
+		{AC26AD69-9A42-415D-896D-A8738A295467}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC26AD69-9A42-415D-896D-A8738A295467}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC26AD69-9A42-415D-896D-A8738A295467}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC26AD69-9A42-415D-896D-A8738A295467}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E925EBCD-61F3-4367-95B7-0D39B3AED316}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E925EBCD-61F3-4367-95B7-0D39B3AED316}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E925EBCD-61F3-4367-95B7-0D39B3AED316}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E925EBCD-61F3-4367-95B7-0D39B3AED316}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

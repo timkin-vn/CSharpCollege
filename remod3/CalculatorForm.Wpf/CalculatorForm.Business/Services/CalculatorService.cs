@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Globalization;
-using CalculatorForm.Calculator.Business.Models;
+using CalculatorForm.Business.Models;
 
-namespace Calculator.Business.Services {
+namespace CalculatorForm.Business.Services {
     public class CalculatorService {
         public void PressDigit(CalculatorState state, string digitText) {
             if (state.NeedClearX) {

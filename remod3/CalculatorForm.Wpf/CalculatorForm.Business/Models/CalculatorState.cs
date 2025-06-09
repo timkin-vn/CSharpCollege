@@ -1,4 +1,4 @@
-﻿namespace CalculatorForm.Calculator.Business.Models {
+﻿namespace CalculatorForm.Business.Models {
     public class CalculatorState {
         public string CurrentInput { get; set; } = "";
         public double RegisterX { get; set; }
