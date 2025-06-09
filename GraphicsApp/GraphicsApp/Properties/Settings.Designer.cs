@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PictureApp.Properties
+namespace GraphicsApp.Properties
 {
 
 
