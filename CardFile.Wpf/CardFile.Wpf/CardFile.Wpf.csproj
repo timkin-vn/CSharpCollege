@@ -35,9 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=10.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.10.1.1\lib\net461\AutoMapper.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -58,7 +55,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Infrastructure\MapperInitialize.cs" />
     <Compile Include="ViewModels\CardFileViewModel.cs" />
     <Compile Include="ViewModels\CardViewModel.cs" />
     <Compile Include="View\EditCardWindow.xaml.cs">
@@ -99,7 +95,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -112,10 +107,6 @@
     <ProjectReference Include="..\CardFile.Business\CardFile.Business.csproj">
       <Project>{CFAF3F52-E8A8-4345-8EFF-FA03E83EB991}</Project>
       <Name>CardFile.Business</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CardFile.Common\CardFile.Common.csproj">
-      <Project>{C0CC2350-98AD-495B-A6D2-65675041CD98}</Project>
-      <Name>CardFile.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

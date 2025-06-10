@@ -1,8 +1,10 @@
 ﻿using CardFile.DataAccess.Dtos;
-using CardFile.DataAccess.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace CardFile.DataAccess.DataCollection
 {
@@ -13,43 +15,58 @@ namespace CardFile.DataAccess.DataCollection
             new CardDto
             {
                 Id = 1,
-                FullName = "Андрей Александрович Захаров",
-                CardNumber = "1234567890123456",
-                BonusPoints = 100,
-                CardType = "Обычная"
+                FirstName = "Андрей",
+                MiddleName = "Александрович",
+                LastName = "Захаров",
+                BirthDate = new DateTime(1984, 11, 15),
+                PaymentAmount = 125000m,
+                ChildrenCount = 2,
+                City = "Нижний Новгород",
+                Street = "Рождественская",
+                House = "17",
             },
             new CardDto
             {
                 Id = 2,
-                FullName = "Людмила Викторовна Фролова",
-                CardNumber = "9876543210987654",
-                BonusPoints = 150,
-                CardType = "Премиальная"
+                FirstName = "Людмила",
+                MiddleName = "Викторовна",
+                LastName = "Фролова",
+                BirthDate = new DateTime(1995, 7, 18),
+                PaymentAmount = 100000m,
+                ChildrenCount = 1,
+                City = "Нижний Новгород", 
+                Street = "Рождественская", 
+                House = "17",
             },
             new CardDto
             {
                 Id = 3,
-                FullName = "Геннадий Андреевич Василенко",
-                CardNumber = "1112131415161718",
-                BonusPoints = 200,
-                CardType = "Пенсионная"
+                FirstName = "Геннадий",
+                MiddleName = "Андреевич",
+                LastName = "Василенко",
+                BirthDate = new DateTime(1979, 3, 21),
+                PaymentAmount = 150000m,
+                ChildrenCount = 3,
+                City = "Нижний Новгород",
+                Street = "Рождественская",
+                House = "17",
             },
             new CardDto
             {
                 Id = 4,
-                FullName = "Ирина Васильевна Мельникова",
-                CardNumber = "6667686970717273",
-                BonusPoints = 250,
-                CardType = "Обычная"
+                FirstName = "Ирина",
+                MiddleName = "Васильевна",
+                LastName = "Мельникова",
+                BirthDate = new DateTime(1989, 5, 8),
+                PaymentAmount = 150000m,
+                ChildrenCount = 3,
+                City = "Нижний Новгород",
+                Street = "Рождественская",
+                House = "17",
             },
         };
 
-        internal int CurrentId = 5;
-
-        public CardCollection()
-        {
-            MapperInitialize.Initialize();
-        }
+        private int _currentId = 5;
 
         public IEnumerable<CardDto> GetAll()
         {
@@ -83,7 +100,7 @@ namespace CardFile.DataAccess.DataCollection
             if (card.Id == 0)
             {
                 var newCard = card.Clone();
-                newCard.Id = CurrentId++;
+                newCard.Id = _currentId++;
                 _cards.Add(newCard);
                 return newCard.Id;
             }
@@ -109,20 +126,6 @@ namespace CardFile.DataAccess.DataCollection
 
             _cards.Remove(existingCard);
             return true;
-        }
-
-        internal void ReplaceCollection(IEnumerable<CardDto> collection)
-        {
-            _cards.Clear();
-            _cards.AddRange(collection);
-            CurrentId = _cards.Max(c => c.Id) + 1;
-        }
-
-        internal void ReplaceCollection(IEnumerable<CardDto> collection, int currentId)
-        {
-            _cards.Clear();
-            _cards.AddRange(collection);
-            CurrentId = currentId;
         }
     }
 }

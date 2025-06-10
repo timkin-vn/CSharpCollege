@@ -31,9 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=10.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.10.1.1\lib\net461\AutoMapper.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -45,22 +42,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Card.cs" />
-    <Compile Include="Infrastructure\MapperInitialize.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CardFileService.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\CaedFile.DataAccess\CardFile.DataAccess.csproj">
       <Project>{0DB14748-F6E3-47F8-9E21-529282BEE77D}</Project>
       <Name>CardFile.DataAccess</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CardFile.Common\CardFile.Common.csproj">
-      <Project>{C0CC2350-98AD-495B-A6D2-65675041CD98}</Project>
-      <Name>CardFile.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

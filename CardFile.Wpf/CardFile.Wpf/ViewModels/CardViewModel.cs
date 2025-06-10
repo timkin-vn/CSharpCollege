@@ -1,54 +1,140 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace CardFile.Wpf.ViewModels
 {
     public class CardViewModel : INotifyPropertyChanged
     {
-        private string _fullName;
-        private string _cardNumber;
-        private int _bonusPoints;
-        private string _cardType;
+        private string _firstName;
+
+        private string _lastName;
+
+        private string _middleName;
+
+        private DateTime _birthDate = new DateTime(2000, 6, 15);
+
+        private decimal _paymentAmount;
+
+        private int _childrenCount;
 
         public int Id { get; set; }
 
-        public string FullName
+        private string _city;
+
+        private string _street;
+
+        private string _house;
+
+        public string Addres => $"{City} {Street} {House}";
+
+        public string Fio => $"{LastName} {FirstName} {MiddleName}";
+
+        public string City
         {
-            get => _fullName;
+            get => _city;
             set
             {
-                _fullName = value;
-                OnPropertyChanged(nameof(FullName));
+                _city = value;
+                OnPropertyChanged(nameof(Addres));
+                OnPropertyChanged(nameof(City));
+            }
+
+        }
+
+        public string Street
+        {
+            get => _street;
+            set
+            {
+                _street = value;
+                OnPropertyChanged(nameof(Addres));
+                OnPropertyChanged(nameof(Street));
+            }
+
+        }
+
+        public string House
+        {
+            get => _house;
+            set
+            {
+                _house = value;
+                OnPropertyChanged(nameof(Addres));
+                OnPropertyChanged(nameof(House));
+            }
+
+        }
+
+        public string FirstName
+        {
+            get => _firstName;
+            set
+            {
+                _firstName = value;
+                OnPropertyChanged(nameof(Fio));
+                OnPropertyChanged(nameof(FirstName));
             }
         }
 
-        public string CardNumber
+        public string MiddleName
         {
-            get => _cardNumber;
+            get => _middleName;
             set
             {
-                _cardNumber = value;
-                OnPropertyChanged(nameof(CardNumber));
+                _middleName = value;
+                OnPropertyChanged(nameof(Fio));
+                OnPropertyChanged(nameof(MiddleName));
             }
         }
 
-        public int BonusPoints
+        public string LastName
         {
-            get => _bonusPoints;
+            get => _lastName;
             set
             {
-                _bonusPoints = value;
-                OnPropertyChanged(nameof(BonusPoints));
+                _lastName = value;
+                OnPropertyChanged(nameof(Fio));
+                OnPropertyChanged(nameof(LastName));
             }
         }
 
-        public string CardType
+        public DateTime BirthDate
         {
-            get => _cardType;
+            get => _birthDate;
             set
             {
-                _cardType = value;
-                OnPropertyChanged(nameof(CardType));
+                _birthDate = value;
+                OnPropertyChanged(nameof(BirthDate));
+            }
+        }
+
+
+        public string BirthDateText => BirthDate.ToShortDateString();
+
+        public decimal PaymentAmount
+        {
+            get => _paymentAmount;
+            set
+            {
+                _paymentAmount = value;
+                OnPropertyChanged(nameof(PaymentAmount));
+            }
+        }
+
+        public string PaymentAmountText => PaymentAmount.ToString("#,##0.00 р\\.");
+
+        public int ChildrenCount
+        {
+            get => _childrenCount;
+            set
+            {
+                _childrenCount = value;
+                OnPropertyChanged(nameof(ChildrenCount));
             }
         }
 
@@ -57,10 +143,15 @@ namespace CardFile.Wpf.ViewModels
         public void CopyFrom(CardViewModel model)
         {
             Id = model.Id;
-            FullName = model.FullName;
-            CardNumber = model.CardNumber;
-            BonusPoints = model.BonusPoints;
-            CardType = model.CardType;
+            FirstName = model.FirstName;
+            MiddleName = model.MiddleName;
+            LastName = model.LastName;
+            BirthDate = model.BirthDate;
+            PaymentAmount = model.PaymentAmount;
+            ChildrenCount = model.ChildrenCount;
+            City = model.City;
+            Street = model.Street;
+            House = model.House;
         }
 
         private void OnPropertyChanged(string propertyName)
