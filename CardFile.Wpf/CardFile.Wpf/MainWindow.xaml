@@ -30,14 +30,13 @@
             <DataGrid Grid.Row="0" Margin="5" ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" AutoGenerateColumns="False"
                       IsReadOnly="True" CanUserAddRows="False" SelectionMode="Single" SelectionChanged="Cards_SelectionChanged">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Название книги" Binding="{Binding BookName}" />
+                    <DataGridTextColumn Header="Книга" Binding="{Binding BookName}" />
                     <DataGridTextColumn Header="Автор" Binding="{Binding Fio}" />
                     <DataGridTextColumn Header="Жанр" Binding="{Binding Genre}" />
                     <DataGridTextColumn Header="Дата публикации" Binding="{Binding DateOfPublishingText}" />
                     <DataGridTextColumn Header="Издательство" Binding="{Binding Edition}" />
                     <DataGridTextColumn Header="Цена" Binding="{Binding Price}" />
                     <DataGridTextColumn Header="Количество страниц" Binding="{Binding AmountOfPages}" />
-                 <!--   <DataGridTextColumn Header="Дата исключения из каталога" Binding="{Binding DateOfDelistingText}" /> -->
                     <DataGridTextColumn Header="Рейтинг" Binding="{Binding Rating}" />
                 </DataGrid.Columns>
             </DataGrid>
