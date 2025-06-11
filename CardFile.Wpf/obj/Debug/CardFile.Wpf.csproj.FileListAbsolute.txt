@@ -1,0 +1,60 @@
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.Wpf.exe.config
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.Wpf.exe
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.Wpf.pdb
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Wpf\bin\Debug\AutoMapper.dll
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.Business.dll
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.Common.dll
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.DataAccess.dll
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Wpf\bin\Debug\Newtonsoft.Json.dll
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.Business.pdb
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.Common.pdb
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Wpf\bin\Debug\AutoMapper.xml
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.DataAccess.pdb
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Wpf\bin\Debug\Newtonsoft.Json.xml
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.csproj.AssemblyReference.cache
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Wpf\obj\Debug\MainWindow.g.cs
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Wpf\obj\Debug\Views\CardEditWindow.g.cs
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Wpf\obj\Debug\App.g.cs
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Wpf\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf_MarkupCompile.cache
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf_MarkupCompile.lref
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Wpf\obj\Debug\MainWindow.baml
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Wpf\obj\Debug\Views\CardEditWindow.baml
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.g.resources
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.Properties.Resources.resources
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.csproj.GenerateResource.cache
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.csproj.CoreCompileInputs.cache
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.5F5EAEEE.Up2Date
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.exe
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.pdb
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.exe.config
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.Wpf.exe.config
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.Wpf.exe
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.Wpf.pdb
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\AutoMapper.dll
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.Business.dll
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.Common.dll
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.DataAccess.dll
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\Newtonsoft.Json.dll
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.Business.pdb
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.Common.pdb
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\AutoMapper.xml
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\CardFile.DataAccess.pdb
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Wpf\bin\Debug\Newtonsoft.Json.xml
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.csproj.AssemblyReference.cache
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.exe.config
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\MainWindow.g.cs
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\Views\CardEditWindow.g.cs
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\App.g.cs
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf_MarkupCompile.cache
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf_MarkupCompile.lref
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\MainWindow.baml
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\Views\CardEditWindow.baml
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.g.resources
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.Properties.Resources.resources
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.csproj.GenerateResource.cache
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.csproj.CoreCompileInputs.cache
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.5F5EAEEE.Up2Date
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.exe
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Wpf\obj\Debug\CardFile.Wpf.pdb
