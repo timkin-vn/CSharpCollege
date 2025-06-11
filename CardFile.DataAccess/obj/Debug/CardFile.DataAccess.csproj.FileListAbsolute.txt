@@ -1,0 +1,26 @@
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.DataAccess\bin\Debug\CardFile.DataAccess.dll
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.DataAccess\bin\Debug\CardFile.DataAccess.pdb
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.DataAccess\bin\Debug\AutoMapper.dll
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.DataAccess\bin\Debug\CardFile.Common.dll
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.DataAccess\bin\Debug\Newtonsoft.Json.dll
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.DataAccess\bin\Debug\CardFile.Common.pdb
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.DataAccess\bin\Debug\AutoMapper.xml
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.DataAccess\bin\Debug\Newtonsoft.Json.xml
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.DataAccess\obj\Debug\CardFile.DataAccess.csproj.AssemblyReference.cache
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.DataAccess\obj\Debug\CardFile.DataAccess.csproj.CoreCompileInputs.cache
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.DataAccess\obj\Debug\CardFile.DDB5AA98.Up2Date
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.DataAccess\obj\Debug\CardFile.DataAccess.dll
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.DataAccess\obj\Debug\CardFile.DataAccess.pdb
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.DataAccess\bin\Debug\CardFile.DataAccess.dll
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.DataAccess\bin\Debug\CardFile.DataAccess.pdb
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.DataAccess\bin\Debug\AutoMapper.dll
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.DataAccess\bin\Debug\CardFile.Common.dll
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.DataAccess\bin\Debug\Newtonsoft.Json.dll
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.DataAccess\bin\Debug\CardFile.Common.pdb
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.DataAccess\bin\Debug\AutoMapper.xml
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.DataAccess\bin\Debug\Newtonsoft.Json.xml
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.DataAccess\obj\Debug\CardFile.DataAccess.csproj.AssemblyReference.cache
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.DataAccess\obj\Debug\CardFile.DataAccess.csproj.CoreCompileInputs.cache
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.DataAccess\obj\Debug\CardFile.DDB5AA98.Up2Date
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.DataAccess\obj\Debug\CardFile.DataAccess.dll
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.DataAccess\obj\Debug\CardFile.DataAccess.pdb

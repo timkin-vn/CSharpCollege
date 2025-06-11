@@ -1,0 +1,30 @@
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.Business.dll
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.Business.pdb
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Business\bin\Debug\AutoMapper.dll
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.Common.dll
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.DataAccess.dll
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Business\bin\Debug\Newtonsoft.Json.dll
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.Common.pdb
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.DataAccess.pdb
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Business\bin\Debug\AutoMapper.xml
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Business\bin\Debug\Newtonsoft.Json.xml
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Business\obj\Debug\CardFile.Business.csproj.AssemblyReference.cache
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Business\obj\Debug\CardFile.Business.csproj.CoreCompileInputs.cache
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Business\obj\Debug\CardFile.C5365084.Up2Date
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Business\obj\Debug\CardFile.Business.dll
+C:\Users\prytk\Desktop\Nagornov\5. carddd\CardFile.Wpf\CardFile.Business\obj\Debug\CardFile.Business.pdb
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.Business.dll
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.Business.pdb
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Business\bin\Debug\AutoMapper.dll
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.Common.dll
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.DataAccess.dll
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Business\bin\Debug\Newtonsoft.Json.dll
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.Common.pdb
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.DataAccess.pdb
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Business\bin\Debug\AutoMapper.xml
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Business\bin\Debug\Newtonsoft.Json.xml
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Business\obj\Debug\CardFile.Business.csproj.AssemblyReference.cache
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Business\obj\Debug\CardFile.Business.csproj.CoreCompileInputs.cache
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Business\obj\Debug\CardFile.C5365084.Up2Date
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Business\obj\Debug\CardFile.Business.dll
+C:\Users\prytk\Desktop\CardFile.Wpf\CardFile.Business\obj\Debug\CardFile.Business.pdb
