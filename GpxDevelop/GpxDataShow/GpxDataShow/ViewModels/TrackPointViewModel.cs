@@ -54,6 +54,17 @@ namespace GpxDataShow.ViewModels
 
         public string MeanElevationText => MeanElevation.HasValue ? MeanElevation.Value.ToString("F2") : "-";
 
+        public string MeanVelocityRoundedText => RoundToNearest(MeanVelocity, 5)?.ToString("F0") ?? "-";
+        public string MeanElevationRoundedText => RoundToNearest(MeanElevation, 5)?.ToString("F0") ?? "-";
+        public string MeanHeadingRoundedText => RoundToNearest(MeanHeading, 10)?.ToString("F0") ?? "-";
+
+        // Вспомогательный метод
+        private double? RoundToNearest(double? value, double step)
+        {
+            if (!value.HasValue) return null;
+            return Math.Round(value.Value / step) * step;
+        }
+
         public static TrackPointViewModel FromBusinessModel(TrackPoint point)
         {
             return new TrackPointViewModel

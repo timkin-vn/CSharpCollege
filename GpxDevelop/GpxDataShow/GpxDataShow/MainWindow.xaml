@@ -31,11 +31,14 @@
                     <DataGridTextColumn Header="Широта" Binding="{Binding Latitude}" />
                     <DataGridTextColumn Header="Высота" IsReadOnly="True" Binding="{Binding ElevationText, Mode=OneWay}" />
                     <DataGridTextColumn Header="Средняя высота" IsReadOnly="True" Binding="{Binding MeanElevationText, Mode=OneWay}" />
+                    <DataGridTextColumn Header="Ср. высота (окр. 5)" Binding="{Binding MeanElevationRoundedText}" />
                     <DataGridTextColumn Header="Расстояние" IsReadOnly="True" Binding="{Binding DistanceText, Mode=OneWay}" />
-                    <DataGridTextColumn Header="Моментальная корость" IsReadOnly="True" Binding="{Binding NearestVelocityText, Mode=OneWay}" />
+                    <DataGridTextColumn Header="Моментальная скорость" IsReadOnly="True" Binding="{Binding NearestVelocityText, Mode=OneWay}" />
                     <DataGridTextColumn Header="Средняя скорость" IsReadOnly="True" Binding="{Binding MeanVelocityText, Mode=OneWay}" />
+                    <DataGridTextColumn Header="Ср. скорость (окр. 5)" Binding="{Binding MeanVelocityRoundedText}" />
                     <DataGridTextColumn Header="Направление" IsReadOnly="True" Binding="{Binding NearestHeadingText, Mode=OneWay}" />
                     <DataGridTextColumn Header="Среднее направление" IsReadOnly="True" Binding="{Binding MeanHeadingText, Mode=OneWay}" />
+                    <DataGridTextColumn Header="Ср. направление (окр. 10)" Binding="{Binding MeanHeadingRoundedText}" />
                     <DataGridTextColumn Header="Вертикальная скорость" IsReadOnly="True" Binding="{Binding NearestVerticalSpeedText, Mode=OneWay}" />
                     <DataGridTextColumn Header="Средняя вертикальная скорость" IsReadOnly="True" Binding="{Binding MeanVerticalSpeedText, Mode=OneWay}" />
                 </DataGrid.Columns>

@@ -1,4 +1,12 @@
-﻿using GpxDataShow.Business.Models;
+﻿/*
+ TrackService отвечает за:
+
+Загрузку данных из GPX-файла
+Преобразование DTO-моделей в бизнес-модели
+Расчёт скоростей, направлений, высот и их усреднённых значений
+ */
+
+using GpxDataShow.Business.Models;
 using GpxDataShow.Data.Models;
 using GpxDataShow.Data.Services;
 using System;
@@ -25,14 +33,24 @@ namespace GpxDataShow.Business.Services
         public const double DegreesPerHalfCircle = 180;
 
         public const double MPerSecToKmPerHour = 3.6;
-
+        //Загрузка данных из файла
+        /*
+         Использует DataService для загрузки XML.
+        Преобразует его в бизнес-объект Track.
+        После маппинга вызывает расчёты.
+         */
         public void ReadFromFile(string fileName)
         {
             var inputData = _dataService.ReadFromFile(fileName);
             Track = CreateFromInput(inputData);
             CalculateMeanData();
         }
-
+        //Маппинг DTO → Business Models
+        /*
+         Конвертирует данные из GPX-структуры в ваши внутренние модели.
+         Проверяет корректность координат и времени.
+         Если время не может быть прочитано — точка игнорируется.
+         */
         private Track CreateFromInput(GpxData input)
         {
             var result = new Track { Segments = new List<TrackSegment>() };
