@@ -35,5 +35,11 @@ namespace GpxDataShow.Business.Models
         public double? MeanVerticalSpeed { get; set; }
         //Среднее значение высоты в некотором окне вокруг точки
         public double? MeanElevation { get; set; }
+        //Округленное значение скорости
+        public double? MeanVelocityRounded { get; set; }
+        //Округленное значение высоты
+        public double? MeanElevationRounded { get; set; }
+        //Округленное значение направления (азимута)
+        public double? MeanHeadingRounded { get; set; }
     }
 }

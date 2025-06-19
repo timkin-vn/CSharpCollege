@@ -165,6 +165,8 @@ namespace GpxDataShow.Business.Services
                     }
                     segment.Points[i].MeanElevation = sumElevation / (TakeMeanBefore + TakeMeanAfter + 1);
 
+                    segment.Points[i].MeanElevationRounded = RoundToNearest(segment.Points[i].MeanElevation, 5);
+
                     // Средняя скорость и направление
                     double phi1 = segment.Points[i - TakeMeanBefore].Latitude * Math.PI / DegreesPerHalfCircle;
                     double phi2 = segment.Points[i + TakeMeanAfter].Latitude * Math.PI / DegreesPerHalfCircle;
@@ -174,10 +176,22 @@ namespace GpxDataShow.Business.Services
 
                     segment.Points[i].MeanVelocity = distance / dt * MPerSecToKmPerHour;
 
+                    segment.Points[i].MeanVelocityRounded = RoundToNearest(segment.Points[i].MeanVelocity, 5);
+
+                    
+
                     if (distance > 0.1)
                     {
                         double meanHeading = CalculateHeading(phi1, phi2, dLambda);
                         segment.Points[i].MeanHeading = meanHeading;
+
+                        segment.Points[i].MeanHeadingRounded = RoundToNearest(meanHeading, 10);
+
+                        // если получилось 360°, заменяем на 0°
+                        if (segment.Points[i].MeanHeadingRounded == 360)
+                        {
+                            segment.Points[i].MeanHeadingRounded = 0;
+                        }
                     }
 
                     // Если расстояние очень малое — направление считается ненадёжным
@@ -190,6 +204,13 @@ namespace GpxDataShow.Business.Services
                     segment.Points[i].MeanVerticalSpeed = (segment.Points[i + TakeMeanAfter].Elevation - segment.Points[i - TakeMeanBefore].Elevation) / dt;
                 }
             }
+        }
+
+        // метод округления:
+        private static double? RoundToNearest(double? value, double step)
+        {
+            if (!value.HasValue) return null;
+            return Math.Round(value.Value / step) * step;
         }
 
         // Вычисление расстояния между двумя координатами на сфере (гаверсинус)
