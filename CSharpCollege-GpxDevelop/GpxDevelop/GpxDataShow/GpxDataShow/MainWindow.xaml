@@ -1,0 +1,87 @@
+﻿<Window x:Class="GpxDataShow.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GpxDataShow"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <DockPanel>
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Пройденное расстояние:" Margin="5" />
+                    <TextBlock Text="{Binding TotalWay, StringFormat=F0}" Margin="5" />
+                </StackPanel>
+            </StatusBarItem>
+        </StatusBar>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Button Name="FileOpenButton" Grid.Row="0" HorizontalAlignment="Left" Margin="5" Padding="5" Click="FileOpenButton_Click">Открыть...</Button>
+
+            <DataGrid x:Name="TrackData" Grid.Row="1" AutoGenerateColumns="False" ItemsSource="{Binding Points}"
+                      CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" CanUserSortColumns="False" IsReadOnly="True" SelectionChanged="TrackData_SelectionChanged">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Время" Binding="{Binding DateTime}" />
+                    
+                    <DataGridTextColumn Header="Долгота" Binding="{Binding Longitude}">
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="Background" Value="{Binding LongitudeBrush}"/>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+
+                    <DataGridTemplateColumn Header="Широта">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Latitude}" Background="{Binding LatitudeBrush}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTextColumn Header="Высота" IsReadOnly="True" Binding="{Binding ElevationText, Mode=OneWay}" />
+                    <DataGridTemplateColumn Header="Средняя высота" IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding MeanElevationText}" Background="{Binding MeanElevationBrush}" Padding="2"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+
+
+                    <DataGridTextColumn Header="Расстояние" IsReadOnly="True" Binding="{Binding DistanceText, Mode=OneWay}" />
+                    <DataGridTextColumn Header="Моментальная корость" IsReadOnly="True" Binding="{Binding NearestVelocityText, Mode=OneWay}" />
+                    <DataGridTemplateColumn Header="Средняя скорость">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding MeanVelocityText}" Background="{Binding MeanVelocityBrush}" Padding="2"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="Направление">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding MeanHeadingText}" 
+                       Background="{Binding MeanHeadingBrush}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+
+                    <DataGridTextColumn Header="Среднее направление" IsReadOnly="True" Binding="{Binding MeanHeadingText, Mode=OneWay}" />
+                    
+                    
+                    <DataGridTextColumn Header="Вертикальная скорость" IsReadOnly="True" Binding="{Binding NearestVerticalSpeedText, Mode=OneWay}" />
+                    <DataGridTextColumn Header="Средняя вертикальная скорость" IsReadOnly="True" Binding="{Binding MeanVerticalSpeedText, Mode=OneWay}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </DockPanel>
+</Window>
