@@ -1,0 +1,75 @@
+﻿<Window x:Class="CardFile.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CardFile.Wpf" xmlns:viewmodels="clr-namespace:CardFile.Wpf.ViewModels"
+        mc:Ignorable="d"
+        Title="{Binding WindowHeader}" Height="500" Width="1080" Initialized="Window_Initialized">
+    <Window.DataContext>
+        <viewmodels:CardFileProductsViewModel />
+    </Window.DataContext>
+
+    <Window.Resources>
+
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="LightBlue"/>
+            <Setter Property="Foreground" Value="Red"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Margin" Value="5"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Goldenrod"/>
+                    <Setter Property="Foreground" Value="Purple"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="OliveDrab"/>
+            <Setter Property="Foreground" Value="Orange"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Margin" Value="5"/>
+
+        </Style>
+    </Window.Resources>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_Файл">
+                <MenuItem Header="_Открыть..." Click="OpenFile_Click" />
+                <MenuItem Header="_Сохранить" Click="SaveFile_Click" />
+                <MenuItem Header="_Сохранить как..." Click="SaveFileAs_Click" />
+                <Separator />
+                <MenuItem Header="В_ыход" Click="ExitMenuItem_Click"  />
+            </MenuItem>
+        </Menu>
+
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <DataGrid Grid.Row="0" Margin="5" ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" AutoGenerateColumns="False"
+                  IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserSortColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Название продукта" Binding="{Binding NameProducts }" />
+                    <DataGridTextColumn Header="Тип продукта" Binding="{Binding TypeProducts }" />
+                    <DataGridTextColumn Header="Срок-годности" Binding="{Binding Date_Shelf_Life}" />
+                    <DataGridTextColumn Header="Количество  продуктов" Binding="{Binding CountProducts}" />
+                    <DataGridTextColumn Header="Цена одного продукта" Binding="{Binding PriceOneProducts}" />
+                    <DataGridTextColumn Header="Затраты на продукты" Binding="{Binding PriseText}" />
+                    <DataGridTextColumn Header="Место нахождения" Binding="{Binding Storage_Location}" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
+                <Button Content="Добавить" Margin="5" Padding="5" Click="AddButton_Click" />
+                <Button Content="Изменить" Margin="5" Padding="5" IsEnabled="{Binding IsEditButtonEnabled}" Click="EditButton_Click" />
+                <Button Content="Удалить" Margin="5" Padding="5" IsEnabled="{Binding IsEditButtonEnabled}" Click="DeleteButton_Click" />
+            </StackPanel>
+        </Grid>
+    </DockPanel>
+</Window>
