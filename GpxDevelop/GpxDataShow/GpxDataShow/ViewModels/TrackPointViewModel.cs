@@ -45,11 +45,6 @@ namespace GpxDataShow.ViewModels
         public double? MeanHeading { get; set; }
         public double? MeanVerticalSpeed { get; set; }
         public double? MeanElevation { get; set; }
-        // Показатели с округлением
-        public double? MeanVelocityRounded { get; set; }
-        public double? MeanElevationRounded { get; set; }
-        public double? MeanHeadingRounded { get; set; }
-
 
         // Текстовые версии для отображения в UI (с форматированием и проверкой на null)
         public string ElevationText => Elevation.HasValue ? Elevation.ToString() : "-";
@@ -67,10 +62,18 @@ namespace GpxDataShow.ViewModels
         public string MeanElevationText => MeanElevation.HasValue ? MeanElevation.Value.ToString("F2") : "-";
 
         // Округлённые значения для удобства визуального анализа (например, для построения графиков или группировки)
-        public string MeanVelocityRoundedText => MeanVelocityRounded?.ToString("F0") ?? "-";
-        public string MeanElevationRoundedText => MeanElevationRounded?.ToString("F0") ?? "-";
-        public string MeanHeadingRoundedText => MeanHeadingRounded?.ToString("F0") ?? "-";
+        public string MeanVelocityRoundedText => RoundToNearest(MeanVelocity, 5)?.ToString("F0") ?? "-";
+        public string MeanElevationRoundedText => RoundToNearest(MeanElevation, 5)?.ToString("F0") ?? "-";
+        public string MeanHeadingRoundedText => RoundToNearest(MeanHeading, 10)?.ToString("F0") ?? "-";
 
+        /// <summary>
+        /// Вспомогательный метод для округления значения до ближайшего кратного step.
+        /// </summary>
+        private double? RoundToNearest(double? value, double step)
+        {
+            if (!value.HasValue) return null;
+            return Math.Round(value.Value / step) * step;
+        }
 
         /// <summary>
         /// Создаёт ViewModel из бизнес-модели TrackPoint.
@@ -92,9 +95,6 @@ namespace GpxDataShow.ViewModels
                 MeanVerticalSpeed = point.MeanVerticalSpeed,
                 MeanElevation = point.MeanElevation,
                 IsDirectionUnreliable = point.IsDirectionUnreliable,
-                MeanVelocityRounded = point.MeanVelocityRounded,
-                MeanElevationRounded = point.MeanElevationRounded,
-                MeanHeadingRounded = point.MeanHeadingRounded,
             };
         }
     }

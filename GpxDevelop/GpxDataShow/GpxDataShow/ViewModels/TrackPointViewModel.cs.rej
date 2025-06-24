@@ -1,0 +1,11 @@
+diff a/GpxDevelop/GpxDataShow/GpxDataShow/ViewModels/TrackPointViewModel.cs b/GpxDevelop/GpxDataShow/GpxDataShow/ViewModels/TrackPointViewModel.cs	(rejected hunks)
+@@ -92,6 +92,9 @@
+                 MeanVerticalSpeed = point.MeanVerticalSpeed,
+                 MeanElevation = point.MeanElevation,
+                 IsDirectionUnreliable = point.IsDirectionUnreliable,
++                MeanVelocityRounded = point.MeanVelocityRounded,
++                MeanElevationRounded = point.MeanElevationRounded,
++                MeanHeadingRounded = point.MeanHeadingRounded,
+             };
+         }
+     }
