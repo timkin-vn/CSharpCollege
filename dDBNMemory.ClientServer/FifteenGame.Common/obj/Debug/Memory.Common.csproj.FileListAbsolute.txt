@@ -1,9 +1,0 @@
-C:\Users\seq\Pictures\VladaMemory.ClientServer\FifteenGame.Common\bin\Debug\FifteenGame.Common.dll
-C:\Users\seq\Pictures\VladaMemory.ClientServer\FifteenGame.Common\bin\Debug\FifteenGame.Common.pdb
-C:\Users\seq\Pictures\VladaMemory.ClientServer\FifteenGame.Common\bin\Debug\Ninject.dll
-C:\Users\seq\Pictures\VladaMemory.ClientServer\FifteenGame.Common\bin\Debug\Ninject.xml
-C:\Users\seq\Pictures\VladaMemory.ClientServer\FifteenGame.Common\obj\Debug\Memory.Common.csproj.AssemblyReference.cache
-C:\Users\seq\Pictures\VladaMemory.ClientServer\FifteenGame.Common\obj\Debug\Memory.Common.csproj.CoreCompileInputs.cache
-C:\Users\seq\Pictures\VladaMemory.ClientServer\FifteenGame.Common\obj\Debug\Memory.C.8190FF3D.Up2Date
-C:\Users\seq\Pictures\VladaMemory.ClientServer\FifteenGame.Common\obj\Debug\FifteenGame.Common.dll
-C:\Users\seq\Pictures\VladaMemory.ClientServer\FifteenGame.Common\obj\Debug\FifteenGame.Common.pdb
