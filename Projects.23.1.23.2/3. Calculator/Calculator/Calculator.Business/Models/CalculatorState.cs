@@ -15,5 +15,10 @@ namespace Calculator.Business.Models
         public string OperationCode { get; set; }
 
         public bool IsClearNeeded { get; set; }
+
+        public bool IsFloat { get; set; }
+
+        public double bonus { get; set; }
+
     }
 }
