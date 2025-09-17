@@ -1,0 +1,91 @@
+<Window x:Class="FifteenGame.Wpf.TicTacToeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FifteenGame.Wpf"
+        xmlns:viewmodels="clr-namespace:FifteenGame.Wpf.ViewModels"
+        mc:Ignorable="d"
+        Title="Крестики-нолики" Height="450" Width="400" 
+        WindowStartupLocation="CenterScreen" 
+        Background="#F0F0F0">
+    
+    <Window.Resources>
+        <Style x:Key="CellButtonStyle" TargetType="Button">
+            <Setter Property="FontSize" Value="48" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Foreground" Value="#2E4057" />
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="BorderBrush" Value="#99A8B2" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding DisplayText}" Value="X">
+                    <Setter Property="Foreground" Value="#048BA8" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding DisplayText}" Value="O">
+                    <Setter Property="Foreground" Value="#E4572E" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок и статус игры -->
+        <Border Grid.Row="0" Background="#2E4057" Padding="10" Margin="0,0,0,10">
+            <StackPanel>
+                <TextBlock Text="Крестики-нолики" FontSize="24" Foreground="White" 
+                           FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,5"/>
+                <TextBlock Text="{Binding StatusText}" FontSize="18" Foreground="#BFD7EA" 
+                           FontWeight="Medium" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+        
+        <!-- Игровое поле -->
+        <Border Grid.Row="1" Background="White" Margin="10" CornerRadius="5" 
+                BorderBrush="#99A8B2" BorderThickness="1">
+            <ItemsControl ItemsSource="{Binding Cells}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Rows="3" Columns="3" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button 
+                            Content="{Binding DisplayText}" 
+                            Command="{Binding ClickCommand}" 
+                            Style="{StaticResource CellButtonStyle}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
+        
+        <!-- Кнопка сброса -->
+        <Button 
+            Grid.Row="2" 
+            Content="Начать новую игру" 
+            Command="{Binding ResetCommand}" 
+            Margin="10" 
+            Padding="15,8" 
+            HorizontalAlignment="Center"
+            Background="#048BA8"
+            Foreground="White"
+            FontSize="16"
+            FontWeight="SemiBold"
+            BorderThickness="0"
+            Cursor="Hand">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+    </Grid>
+</Window> 
