@@ -4,6 +4,7 @@ using GraphEditor.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -145,6 +146,37 @@ namespace GraphEditor.ViewServices
             _businessService.CreateNewPicture();
             _viewModel = FromBusiness(_businessService.PictureModel);
             FileName = string.Empty;
+        }
+
+        public void Export(string fileName, Rectangle size, Color backColor)
+        {
+            using (var bmp = new Bitmap(size.Width, size.Height))
+            {
+                using (var g = Graphics.FromImage(bmp))
+                {
+                    g.Clear(backColor);
+                    new Painter().Paint(g, _viewModel, false);
+                }
+
+                bmp.Save(fileName, ImageFormat.Png);
+            }
+        }
+
+        public Color GetFillColor()
+        {
+            return _viewModel?.SelectedRectangle?.FillColor ?? PictureService.DefaultFillColor;
+        }
+
+        public void SetFillColor(Color color)
+        {
+            _businessService.SetFillColor(color);
+            _viewModel = FromBusiness(_businessService.PictureModel);
+        }
+
+        public void MoveForward()
+        {
+            _businessService.MoveForward();
+            _viewModel = FromBusiness(_businessService.PictureModel);
         }
 
         private bool IsInside(Point p, Rectangle rect) =>

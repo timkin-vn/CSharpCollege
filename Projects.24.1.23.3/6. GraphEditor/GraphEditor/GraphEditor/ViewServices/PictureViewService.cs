@@ -4,6 +4,7 @@ using GraphEditor.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
@@ -26,6 +27,8 @@ namespace GraphEditor.ViewServices
         public bool CreateMode { get; set; }
 
         public bool CanDelete => !CreateMode && _businessService.PictureModel.SelectedRectangle != null;
+
+        public string FileName { get; set; }
 
         public void Paint(Graphics g)
         {
@@ -99,6 +102,68 @@ namespace GraphEditor.ViewServices
         public void DeleteButtonClicked()
         {
             _businessService.DeleteRectangle();
+            LoadViewModel();
+        }
+
+        public void Create()
+        {
+            _businessService.CreateNewPicture();
+            FileName = string.Empty;
+            LoadViewModel();
+        }
+
+        public void Open(string fileName)
+        {
+            _businessService.Open(fileName);
+            FileName = fileName;
+            LoadViewModel();
+        }
+
+        public void Save(string fileName)
+        {
+            _businessService.Save(fileName);
+
+            FileName = fileName;
+        }
+
+        public void Save()
+        {
+            _businessService.Save(FileName);
+        }
+
+        public void Export(string fileName, Rectangle size, Color backColor)
+        {
+            using (var bmp = new Bitmap(size.Width, size.Height))
+            {
+                using (var g = Graphics.FromImage(bmp))
+                {
+                    g.Clear(backColor);
+                    new Painter().Paint(g, _viewModel, false);
+                }
+
+                bmp.Save(fileName, ImageFormat.Png);
+            }
+        }
+
+        public Color GetCurrentFillColor()
+        {
+            return _viewModel?.SelectedRectangle?.FillColor ?? PictureService.DefaultFillColor;
+        }
+
+        public void SetFillColor(Color color)
+        {
+            if (_viewModel?.SelectedRectangle == null)
+            {
+                return;
+            }
+
+            _businessService.SetFillColor(color);
+            LoadViewModel();
+        }
+
+        public void MoveForward()
+        {
+            _businessService.MoveForward();
             LoadViewModel();
         }
 
