@@ -28,8 +28,8 @@ namespace GraphEditor.ViewServices
 
             if (isInteractive)
             {
-                var activeBrush = Brushes.Black;
-                var inactiveBrush = Brushes.White;
+                var activeBrush = Brushes.White;
+                var inactiveBrush = Brushes.Black;
                 var pen = Pens.Black;
 
                 foreach (var marker in viewModel.Markers)

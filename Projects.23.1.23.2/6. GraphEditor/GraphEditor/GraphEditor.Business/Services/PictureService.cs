@@ -82,13 +82,62 @@ namespace GraphEditor.Business.Services
             {
                 case EditMode.Creating:
                 case EditMode.ResizeBR:
-                    selectedRect.Right = loc.X;
                     selectedRect.Bottom = loc.Y;
+                    selectedRect.Right = loc.X;
                     break;
 
                 case EditMode.ResizeR:
                     selectedRect.Right = loc.X;
                     break;
+
+                case EditMode.ResizeB:
+                    selectedRect.Bottom = loc.Y;
+                    break;
+
+                case EditMode.ResizeBL:
+                    {
+                        int oldRight = selectedRect.Right;
+                        selectedRect.Bottom = loc.Y;
+                        selectedRect.Left = loc.X;
+                        selectedRect.Width = oldRight - selectedRect.Left;
+                        break;
+                    }
+
+                case EditMode.ResizeL:
+                    {
+                        int oldRight = selectedRect.Right;
+                        selectedRect.Left = loc.X;
+                        selectedRect.Width = oldRight - selectedRect.Left;
+                        break;
+                    }
+
+                case EditMode.ResizeTL:
+                    {
+                        int oldBottom = selectedRect.Bottom;
+                        int oldRight = selectedRect.Right;
+                        selectedRect.Top = loc.Y;
+                        selectedRect.Left = loc.X;
+                        selectedRect.Height = oldBottom - selectedRect.Top;
+                        selectedRect.Width = oldRight - selectedRect.Left;
+                        break;
+                    }
+
+                case EditMode.ResizeT:
+                    {
+                        int oldBottom = selectedRect.Bottom;
+                        selectedRect.Top = loc.Y;
+                        selectedRect.Height = oldBottom - selectedRect.Top;
+                        break;
+                    }
+
+                case EditMode.ResizeTR:
+                    {
+                        int oldBottom = selectedRect.Bottom;
+                        selectedRect.Top = loc.Y;
+                        selectedRect.Right = loc.X;
+                        selectedRect.Height = oldBottom - selectedRect.Top;
+                        break;
+                    }
 
                 case EditMode.Moving:
                     selectedRect.Left = loc.X - selectedRect.Dx;
