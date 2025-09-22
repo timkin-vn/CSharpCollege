@@ -12,6 +12,10 @@ namespace GraphEditor.Business.Services
     {
         public PictureModel PictureModel { get; private set; } = new PictureModel();
 
+        public static Color DefaultFillColor = Color.Yellow;
+
+        public static Color DefaultBorderColor = Color.Blue;
+
         public PictureService()
         {
             PictureModel.Rectangles.Add(new RectangleModel { Left = 100, Top = 50, Width = 200, Height = 150, FillColor = Color.LightCyan, });
@@ -23,7 +27,15 @@ namespace GraphEditor.Business.Services
 
         public void CreateRectangle(PointModel loc)
         {
-            var newRectangle = new RectangleModel { Left = loc.X, Top = loc.Y, Width = 0, Height = 0, };
+            var newRectangle = new RectangleModel 
+            { 
+                Left = loc.X, 
+                Top = loc.Y, 
+                Width = 0, 
+                Height = 0, 
+                FillColor = DefaultFillColor,
+                BorderColor = DefaultBorderColor,
+            };
             PictureModel.Rectangles.Add(newRectangle);
             PictureModel.SelectedRectangle = newRectangle;
             newRectangle.EditMode = EditMode.Creating;
@@ -113,6 +125,32 @@ namespace GraphEditor.Business.Services
         {
             PictureModel.Rectangles.Clear();
             PictureModel.SelectedRectangle = null;
+        }
+
+        public void SetFillColor(Color color)
+        {
+            if (PictureModel.SelectedRectangle != null)
+            {
+                PictureModel.SelectedRectangle.FillColor = color;
+            }
+        }
+
+        public void MoveForward()
+        {
+            if (PictureModel.SelectedRectangle == null)
+            {
+                return;
+            }
+
+            var index = PictureModel.Rectangles.IndexOf(PictureModel.SelectedRectangle);
+            if (index < 0 || index == PictureModel.Rectangles.Count - 1)
+            {
+                return;
+            }
+
+            var rect = PictureModel.Rectangles[index + 1];
+            PictureModel.Rectangles[index + 1] = PictureModel.Rectangles[index];
+            PictureModel.Rectangles[index] = rect;
         }
     }
 }

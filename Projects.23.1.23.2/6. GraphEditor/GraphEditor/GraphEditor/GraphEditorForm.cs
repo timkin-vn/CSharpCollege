@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -75,7 +76,9 @@ namespace GraphEditor
         {
             CreateRectangleButton.Checked = _service.CreateMode;
             DeleteRectangleButton.Enabled = _service.CanDelete;
-            Text = string.IsNullOrEmpty(_service.FileName) ? "Графический редактор" : $"Графический редактор | {_service.FileName}";
+            Text = string.IsNullOrEmpty(_service.FileName) ?
+                "Графический редактор" : 
+                $"Графический редактор | {Path.GetFileName(_service.FileName)}";
         }
 
         private void DeleteRectangleButton_Click(object sender, EventArgs e)
@@ -146,11 +149,31 @@ namespace GraphEditor
             {
                 return;
             }
+
+            _service.Export(FileExportDialog.FileName, ClientRectangle, BackColor);
         }
 
         private void FileExitMenuItem_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void FillColorMenuItem_Click(object sender, EventArgs e)
+        {
+            FillColorDialog.Color = _service.GetFillColor();
+            if (FillColorDialog.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            _service.SetFillColor(FillColorDialog.Color);
+            Refresh();
+        }
+
+        private void MoveForwardMenuItem_Click(object sender, EventArgs e)
+        {
+            _service.MoveForward();
+            Refresh();
         }
     }
 }

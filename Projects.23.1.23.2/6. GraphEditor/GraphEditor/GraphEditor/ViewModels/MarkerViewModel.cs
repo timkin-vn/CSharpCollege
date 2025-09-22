@@ -11,7 +11,7 @@ namespace GraphEditor.ViewModels
 {
     internal class MarkerViewModel
     {
-        public static int MarkerHalfSize = 5;
+        public static int MarkerHalfSize = 3;
 
         public Rectangle Rectangle { get; set; }
 
