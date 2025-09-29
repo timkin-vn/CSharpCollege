@@ -193,5 +193,59 @@ namespace GraphEditor.Business.Services
             PictureModel.Rectangles[index] = PictureModel.Rectangles[index + 1];
             PictureModel.Rectangles[index + 1] = rect;
         }
+
+        public void MoveBackward()
+        {
+            if (PictureModel.SelectedRectangle == null)
+            {
+                return;
+            }
+
+            var index = PictureModel.Rectangles.IndexOf(PictureModel.SelectedRectangle);
+            if (index <= 0)
+            {
+                return;
+            }
+
+            var rect = PictureModel.Rectangles[index];
+            PictureModel.Rectangles[index] = PictureModel.Rectangles[index - 1];
+            PictureModel.Rectangles[index - 1] = rect;
+        }
+
+        public void MoveToBack()
+        {
+            if (PictureModel.SelectedRectangle == null)
+            {
+                return;
+            }
+
+            var index = PictureModel.Rectangles.IndexOf(PictureModel.SelectedRectangle);
+            if (index <= 0)
+            {
+                return;
+            }
+
+            var rect = PictureModel.Rectangles[index];
+            PictureModel.Rectangles.RemoveAt(index);
+            PictureModel.Rectangles.Insert(0, rect);
+        }
+
+        public void MoveToFront()
+        {
+            if (PictureModel.SelectedRectangle == null)
+            {
+                return;
+            }
+
+            var index = PictureModel.Rectangles.IndexOf(PictureModel.SelectedRectangle);
+            if (index < 0 || index == PictureModel.Rectangles.Count - 1)
+            {
+                return;
+            }
+
+            var rect = PictureModel.Rectangles[index];
+            PictureModel.Rectangles.RemoveAt(index);
+            PictureModel.Rectangles.Add(rect);
+        }
     }
 }

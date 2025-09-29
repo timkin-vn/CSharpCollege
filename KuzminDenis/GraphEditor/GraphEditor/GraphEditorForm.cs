@@ -193,5 +193,23 @@ namespace GraphEditor
             _viewService.MoveForward();
             Refresh();
         }
+
+        private void MoveBackwardMenuItem_Click(object sender, EventArgs e)
+        {
+            _viewService.MoveBackward();
+            Refresh();
+        }
+
+        private void MoveToFrontMenuItem_Click(object sender, EventArgs e)
+        {
+            _viewService.MoveToFront();
+            Refresh();
+        }
+
+        private void MoveToBackMenuItem_Click(object sender, EventArgs e)
+        {
+            _viewService.MoveToBack();
+            Refresh();
+        }
     }
 }
