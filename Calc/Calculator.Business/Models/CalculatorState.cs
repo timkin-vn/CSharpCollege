@@ -15,5 +15,6 @@ namespace Calculator.Business.Models
         public string OperationCode { get; set; }
 
         public bool IsClearNeeded { get; set; }
+        public bool IsDegree { get; set; }
     }
 }

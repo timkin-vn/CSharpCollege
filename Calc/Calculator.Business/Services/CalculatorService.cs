@@ -26,9 +26,24 @@ namespace Calculator.Business.Services
             state.IsClearNeeded = false;
         }
 
+        public void RadiansToDegrees(CalculatorState state)
+        {
+            if (state.IsDegree)
+            {
+                state.IsDegree = false;
+            }
+            else
+            {
+                state.IsDegree = true;
+            }
+        }
+
+
         public void Clear(CalculatorState state)
         {
             state.RegisterX = 0;
+            state.RegisterY = 0;
+            state.OperationCode = "";
         }
 
         public void MoveXToY(CalculatorState state)
@@ -56,57 +71,85 @@ namespace Calculator.Business.Services
                     state.RegisterX = state.RegisterY / state.RegisterX;
                     break;
 
-                case "%":
-                    state.RegisterX = state.RegisterX * (state.RegisterY / 100);
-                    break;
-
-                case "sin":
-                    state.RegisterX = Math.Sin(state.RegisterY);
-                    break;
-
-                case "cos":
-                    state.RegisterX = Math.Cos(state.RegisterY);
-                    break;
-
-                case "tg":
-                    state.RegisterX = Math.Tan(state.RegisterY);
-                    break;
-
-                case "x^2":
-                    state.RegisterX = Math.Pow(state.RegisterY, 2);
-                    break;
-
-                case "√x":
-                    state.RegisterX = Math.Sqrt(state.RegisterY);
-                    break;
-
                 case "x^y":
-                    state.RegisterX= Math.Pow(state.RegisterY, state.RegisterX);
-                    break;
-
-                case "ln":
-                    state.RegisterX = Math.Log(state.RegisterY);
+                    state.RegisterX = Math.Pow(state.RegisterY, state.RegisterX);
                     break;
 
                 case "log":
                     state.RegisterX = Math.Log(state.RegisterY, state.RegisterX);
                     break;
 
+            }
+        }
+
+        public void CompleteSpecialOperation(CalculatorState state, string operationCode)
+        {
+            switch (operationCode)
+            {
+                case "sin":
+                    state.RegisterX = Math.Sin(state.RegisterX);
+                    if (state.IsDegree == true)
+                    {
+                        state.RegisterX *= (180 / Math.PI);
+                    }
+                    break;
+
+                case "cos":
+                    state.RegisterX = Math.Cos(state.RegisterX);
+                    if (state.IsDegree == true)
+                    {
+                        state.RegisterX *= (180 / Math.PI);
+                    }
+                    break;
+
+                case "tg":
+                    state.RegisterX = Math.Tan(state.RegisterX);
+                    if (state.IsDegree == true)
+                    {
+                        state.RegisterX *= (180 / Math.PI);
+                    }
+                    break;
+
+                case "+/-":
+                    state.RegisterX *= -1;
+                    break;
+
+                case "x^2":
+                    state.RegisterX = Math.Pow(state.RegisterX, 2);
+                    break;
+
+                case "√x":
+                    state.RegisterX = Math.Sqrt(state.RegisterX);
+                    break;
+
                 case "x!":
-                    double f=state.RegisterX-1;
-                    while (f>0)
+                    double f = state.RegisterX - 1;
+                    while (f > 0)
                     {
                         state.RegisterX *= f;
                         f--;
                     }
                     break;
+
+                case "ln":
+                    state.RegisterX = Math.Log(state.RegisterX);
+                    break;
             }
         }
-
         public void PressOperation(CalculatorState state, string operationCode)
         {
             CompleteOperation(state, state.OperationCode);
             MoveXToY(state);
+
+            state.OperationCode = operationCode;
+            state.IsClearNeeded = true;
+        }
+
+        public void PressSpecialOperation(CalculatorState state, string operationCode)
+        {
+            CompleteSpecialOperation(state, state.OperationCode);
+            //MoveXToY(state);
+
             state.OperationCode = operationCode;
             state.IsClearNeeded = true;
         }

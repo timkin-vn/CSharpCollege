@@ -1,4 +1,4 @@
-using Calculator.Business.Models; //meow
+using Calculator.Business.Models;
 using Calculator.Business.Services;
 using System;
 using System.Collections.Generic;
@@ -51,6 +51,19 @@ namespace Calculator
             var operationCode = ((Button)sender).Text;
             _service.PressOperation(_state, operationCode);
             ShowResult();
+        }
+
+        private void SpecialButton_Click(Object sender, EventArgs e)
+        {
+            var operationCode = ((Button)sender).Text;
+            _service.PressSpecialOperation(_state, operationCode);
+            ShowResult();
+        }
+
+        private void RadiansDegreesButton_Click()
+        {
+            bool var = _state.IsDegree;
+            DegreeToRadiansButton.Text = var ? "Градусы" : "Радианы";
         }
 
         private void EqualButton_Click(object sender, EventArgs e)
