@@ -64,27 +64,29 @@
 
         <Button Grid.Row="4" Grid.Column="0" Content="0" FontSize="36" Margin="5" Background="White" Click="DigitButton_Click" />
 
+        <Button Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" x:Name="TrigonomicButton" Content="Радианы" FontSize="36" Margin="5" Background="PeachPuff" Foreground="DarkOrange" Click="DegreesToRadiansButton_Click" />
+
         <Button Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" Content="=" FontSize="36" Margin="5" Background="LightCyan" Foreground="ForestGreen" Click="OperationButton_Click" />
 
-        <Button Grid.Row="6" Grid.Column="0" Content="sin" FontSize="36" Margin="5" Background="PeachPuff" Foreground="DarkOrange" Click="OperationButton_Click" />
+        <Button Grid.Row="6" Grid.Column="0" Content="sin" FontSize="36" Margin="5" Background="PeachPuff" Foreground="DarkOrange" Click="SpecialButton_Click" />
 
-        <Button Grid.Row="6" Grid.Column="1" Content="cos" FontSize="36" Margin="5" Background="PeachPuff" Foreground="DarkOrange" Click="OperationButton_Click" />
+        <Button Grid.Row="6" Grid.Column="1" Content="cos" FontSize="36" Margin="5" Background="PeachPuff" Foreground="DarkOrange" Click="SpecialButton_Click" />
 
-        <Button Grid.Row="6" Grid.Column="2" Content="tg" FontSize="36" Margin="5" Background="PeachPuff" Foreground="DarkOrange" Click="OperationButton_Click" />
+        <Button Grid.Row="6" Grid.Column="2" Content="tg" FontSize="36" Margin="5" Background="PeachPuff" Foreground="DarkOrange" Click="SpecialButton_Click" />
 
-        <Button Grid.Row="6" Grid.Column="4" Content="log" FontSize="36" Margin="5" Background="PeachPuff" Foreground="DarkOrange" Click="OperationButton_Click" />
+        <Button Grid.Row="6" Grid.Column="4" Content="log" FontSize="36" Margin="5" Background="PeachPuff" Foreground="DarkOrange" Click="SpecialButton_Click" />
 
-        <Button Grid.Row="6" Grid.Column="5" Content="ln" FontSize="36" Margin="5" Background="PeachPuff" Foreground="DarkOrange" Click="OperationButton_Click" />
+        <Button Grid.Row="6" Grid.Column="5" Content="ln" FontSize="36" Margin="5" Background="PeachPuff" Foreground="DarkOrange" Click="SpecialButton_Click" />
 
-        <Button Grid.Row="5" Grid.Column="6" Content="x!" FontSize="36" Margin="5" Background="LemonChiffon" Foreground="Orange" Click="OperationButton_Click" />
+        <Button Grid.Row="5" Grid.Column="6" Content="x!" FontSize="36" Margin="5" Background="LemonChiffon" Foreground="Orange" Click="SpecialButton_Click" />
 
-        <Button Grid.Row="4" Grid.Column="6" Content="x^y" FontSize="36" Margin="5" Background="LemonChiffon" Foreground="Orange" Click="OperationButton_Click" />
+        <Button Grid.Row="4" Grid.Column="6" Content="x^y" FontSize="36" Margin="5" Background="LemonChiffon" Foreground="Orange" Click="SpecialButton_Click" />
 
-        <Button Grid.Row="3" Grid.Column="6" Content="√x" FontSize="36" Margin="5" Background="LemonChiffon" Foreground="Orange" Click="OperationButton_Click" />
+        <Button Grid.Row="3" Grid.Column="6" Content="√x" FontSize="36" Margin="5" Background="LemonChiffon" Foreground="Orange" Click="SpecialButton_Click" />
 
-        <Button Grid.Row="2" Grid.Column="6" Content="x^2" FontSize="36" Margin="5" Background="LemonChiffon" Foreground="Orange" Click="OperationButton_Click" />
+        <Button Grid.Row="2" Grid.Column="6" Content="x^2" FontSize="36" Margin="5" Background="LemonChiffon" Foreground="Orange" Click="SpecialButton_Click" />
 
-        <Button Grid.Row="1" Grid.Column="6" Content="+/-" FontSize="36" Margin="5" Background="LemonChiffon" Foreground="Orange" Click="OperationButton_Click" />
+        <Button Grid.Row="1" Grid.Column="6" Content="+/-" FontSize="36" Margin="5" Background="LemonChiffon" Foreground="Orange" Click="SpecialButton_Click" />
 
     </Grid>
 </Window>

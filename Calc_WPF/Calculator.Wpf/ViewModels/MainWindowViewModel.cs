@@ -17,6 +17,7 @@ namespace Calculator.Wpf.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        //public string TrigonomicSettingText = "Градусы";
         public string DisplayValue => _state.RegisterX.ToString();
 
         public void PressDigit(string digit)
@@ -37,11 +38,17 @@ namespace Calculator.Wpf.ViewModels
             OnPropertyChanged(nameof(DisplayValue));
         }
 
-        public void PressProcent()
+        public void PressSpecialOperation(string operationCode)
         {
-            _state.RegisterY = _state.RegisterY > 0 ? _state.RegisterY : 1;
-            _state.RegisterX = _state.RegisterY / 100 * _state.RegisterX;
+            _service.PressSpecialOperation(_state, operationCode);
             OnPropertyChanged(nameof(DisplayValue));
+        }
+
+        public bool DegreeOrRadians()
+        {
+            _service.RadiansToDegrees(_state);
+            OnPropertyChanged(nameof(DisplayValue));
+            return _state.IsDegree;
         }
         
 

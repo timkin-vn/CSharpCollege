@@ -45,9 +45,17 @@ namespace Calculator.Wpf
             ViewModel.PressOperation(operationCode);
         }
 
-        private void Procent_Click(object sender, RoutedEventArgs e)
+        private void SpecialButton_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.PressProcent();
+            var operationCode = (string)((Button)sender).Content;
+            ViewModel.PressSpecialOperation(operationCode);
         }
+
+        private void DegreesToRadiansButton_Click(object sender, RoutedEventArgs e)
+        {
+            bool var = ViewModel.DegreeOrRadians();
+            TrigonomicButton.Content = var ? "Градусы" : "Радианы";
+        }
+        
     }
 }
