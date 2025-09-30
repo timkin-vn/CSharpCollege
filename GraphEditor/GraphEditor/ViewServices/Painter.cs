@@ -20,10 +20,10 @@ namespace GraphEditor.ViewServices
 
             foreach (var rect in viewModel.Rectangles)
             {
-                if (rect.Rectangle.Width <= 0 || rect.Rectangle.Height <= 0)
+                /*if (rect.Rectangle.Width <= 0 || rect.Rectangle.Height <= 0)
                 {
                     continue;
-                }
+                }*/
                 if (rect.UseGradient)
                 {
                     using (var gradientBrush = new LinearGradientBrush(rect.Rectangle,rect.FillColor, rect.GradientColor, LinearGradientMode.ForwardDiagonal))
