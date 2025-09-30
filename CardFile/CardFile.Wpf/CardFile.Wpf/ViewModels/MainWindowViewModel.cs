@@ -70,15 +70,27 @@ namespace CardFile.Wpf.ViewModels
 
         private bool FilterCards(object obj)
         {
-            if (obj is CardViewModel cvm)
+            if (obj is CardViewModel card)
             {
-                if (string.IsNullOrWhiteSpace(SearchText)) return true;
+                if (string.IsNullOrWhiteSpace(SearchText))
+                    return true;
 
-                var text = SearchText.ToLower();
                 var propInfo = typeof(CardViewModel).GetProperty(SearchColumn);
-                var value = propInfo?.GetValue(cvm)?.ToString()?.ToLower() ?? string.Empty;
+                if (propInfo == null)
+                    return true;
 
-                return value.Contains(text);
+                var propertyValue = propInfo.GetValue(card);
+                if (propertyValue == null)
+                    return false;
+
+                var stringValue = propertyValue.ToString();
+                if (string.IsNullOrEmpty(stringValue))
+                    return false;
+
+                var value = stringValue.ToLower();
+                var searchText = SearchText.ToLower();
+
+                return value.Contains(searchText);
             }
             return false;
         }
