@@ -95,6 +95,23 @@ namespace AlarmClock
             Text = _settings.IsAlarmActive ? "Будильник (ожидание)" : "Будильник";
         }
 
+        // Add this to your ClockForm constructor or initialization
+        private void InitializeStopwatchButton()
+        {
+            var stopwatchButton = new Button();
+            stopwatchButton.Text = "Stopwatch";
+            stopwatchButton.Location = new Point(100, 100); // Adjust position as needed
+            stopwatchButton.Size = new Size(80, 30);
+            stopwatchButton.Click += StopwatchButton_Click;
+            this.Controls.Add(stopwatchButton);
+        }
+
+        private void StopwatchButton_Click(object sender, EventArgs e)
+        {
+            var stopwatchForm = new StopwatchForm();
+            stopwatchForm.Show();
+        }
+
         private void DisplayLabel_Click(object sender, EventArgs e)
         {
 
