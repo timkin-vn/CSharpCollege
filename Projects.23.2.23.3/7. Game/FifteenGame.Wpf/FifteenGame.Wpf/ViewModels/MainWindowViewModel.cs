@@ -24,7 +24,7 @@ namespace FifteenGame.Wpf.ViewModels
 
         public void Initialize()
         {
-            _service.Initialize(_model);
+            _service.Shuffle(_model);
             FromModel(_model);
         }
 
@@ -77,10 +77,10 @@ namespace FifteenGame.Wpf.ViewModels
         {
             _service.MakeMove(_model, direction);
             FromModel(_model);
-            //if (_service.IsGameOver(_model))
-            //{
-            //    gameFinishedAction();
-            //}
+            if (_service.IsGameOver(_model))
+            {
+                gameFinishedAction();
+            }
         }
     }
 }

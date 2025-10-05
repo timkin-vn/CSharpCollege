@@ -24,14 +24,18 @@ namespace FifteenGame.Wpf.ViewModels
 
         public void Initialize()
         {
-            _service.Initialize(_model);
+            _service.Shuffle(_model);
             FromModel(_model);
         }
 
-        public void MakeMove(MoveDirection direction)
+        public void MakeMove(MoveDirection direction, Action gameFinishAction)
         {
             _service.MakeMove(_model, direction);
             FromModel(_model);
+            if (_service.IsGameOver(_model))
+            {
+                gameFinishAction?.Invoke();
+            }
         }
 
         private void FromModel(GameModel model)

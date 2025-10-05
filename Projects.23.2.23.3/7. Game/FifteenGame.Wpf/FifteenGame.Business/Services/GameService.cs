@@ -76,5 +76,39 @@ namespace FifteenGame.Business.Services
 
             return false;
         }
+
+        public void Shuffle(GameField model)
+        {
+            Initialize(model);
+
+            var rnd = new Random();
+            for (int i = 0; i < 1000; i++)
+            {
+                var nextMove = (MoveDirection)(rnd.Next(4) + 1);
+                MakeMove(model, nextMove);
+            }
+        }
+
+        public bool IsGameOver(GameField model)
+        {
+            int value = 1;
+            for (int row = 0; row < GameField.RowCount; row++)
+            {
+                for (int column = 0; column < GameField.ColumnCount; column++)
+                {
+                    if (row == GameField.RowCount - 1 && column == GameField.ColumnCount - 1)
+                    {
+                        return true;
+                    }
+
+                    if (model[row, column] != value++)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return false;
+        }
     }
 }

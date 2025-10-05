@@ -32,7 +32,16 @@ namespace FifteenGame.Wpf
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             var tag = (MoveDirection)((FrameworkElement)sender).Tag;
-            ViewModel.MakeMove(tag, null);
+            ViewModel.MakeMove(tag, GameFinished);
+        }
+
+        private void GameFinished()
+        {
+            if (MessageBox.Show("Игра окончена. Повторить?", "Поздравляем!", MessageBoxButton.YesNo, MessageBoxImage.Information) ==
+                MessageBoxResult.Yes)
+            {
+                ViewModel.Initialize();
+            }
         }
     }
 }
