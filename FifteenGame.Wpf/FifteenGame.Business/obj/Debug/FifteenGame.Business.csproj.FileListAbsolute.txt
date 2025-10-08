@@ -1,0 +1,6 @@
+D:\123\CSharpCollege-LevKudrashow\CSharpCollege-LevKudrashow\LevKudrashow\FifteenGame.Wpf\FifteenGame.Business\bin\Debug\FifteenGame.Business.dll
+D:\123\CSharpCollege-LevKudrashow\CSharpCollege-LevKudrashow\LevKudrashow\FifteenGame.Wpf\FifteenGame.Business\bin\Debug\FifteenGame.Business.pdb
+D:\123\CSharpCollege-LevKudrashow\CSharpCollege-LevKudrashow\LevKudrashow\FifteenGame.Wpf\FifteenGame.Business\obj\Debug\FifteenGame.Business.csproj.AssemblyReference.cache
+D:\123\CSharpCollege-LevKudrashow\CSharpCollege-LevKudrashow\LevKudrashow\FifteenGame.Wpf\FifteenGame.Business\obj\Debug\FifteenGame.Business.csproj.CoreCompileInputs.cache
+D:\123\CSharpCollege-LevKudrashow\CSharpCollege-LevKudrashow\LevKudrashow\FifteenGame.Wpf\FifteenGame.Business\obj\Debug\FifteenGame.Business.dll
+D:\123\CSharpCollege-LevKudrashow\CSharpCollege-LevKudrashow\LevKudrashow\FifteenGame.Wpf\FifteenGame.Business\obj\Debug\FifteenGame.Business.pdb
