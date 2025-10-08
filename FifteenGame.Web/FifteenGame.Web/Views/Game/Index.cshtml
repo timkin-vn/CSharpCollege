@@ -1,0 +1,71 @@
+﻿@model FifteenGame.Web.Models.GameViewModel
+
+@{
+    ViewBag.Title = "Игра 15";
+    bool isGameOver = (bool?)ViewBag.IsGameOver ?? false;
+}
+
+<main>
+    <h2>Игра 15</h2>
+
+    <div class="alert alert-info fs-5">
+        Осталось шагов: @Model.StepsText
+    </div>
+
+    @if (isGameOver)
+    {
+        <h2 class="text-danger">Поздравляем! Игра завершена.</h2>
+        <div>@Html.ActionLink("Начать заново", "Index", "Game", new { }, new { @class = "btn btn-primary fs-3", })</div>
+    }
+
+    <div class="container text-center">
+        @for (int row = 0; row < Model.RowCount; row++)
+        {
+            <div class="row">
+                <div class="col col-2">
+                </div>
+
+                @for (int column = 0; column < Model.ColumnCount; column++)
+                {
+                    if (Model.Cells[row, column].IsPlayer)
+                    {
+                        <div class="col-2 d-grid gap-2 p-2">
+                            <a href="#" class="btn btn-warning fs-3">@Model.Cells[row, column].NumText</a>
+                        </div>
+
+                        continue;
+                    }
+
+                    if (isGameOver)
+                    {
+                        <div class="col col-2 d-grid gap-2 p-2">
+                            <div class="btn btn-secondary fs-3">@Model.Cells[row, column].NumText</div>
+
+                        </div>
+                        continue;
+                    }
+
+                    <div class="col-2 d-grid gap-2 p-2">
+                        @{
+                            int numValue = Model.Cells[row, column].Num;
+                            string buttonClass = "btn btn-secondary fs-3";
+                            if (numValue > 0)
+                            {
+                                buttonClass = "btn btn-primary fs-3";
+                            }
+                            else if (numValue < 0)
+                            {
+                                buttonClass = "btn btn-danger fs-3";
+                            }
+                        }
+                        @Html.ActionLink(numValue.ToString(), "PressButton",
+                             new { directionText = Model.Cells[row, column].DirectionText }, new { @class = buttonClass })
+
+                        <a href="@Url.Action("PressButton", new { directionText = Model.Cells[row, column].DirectionText })">
+                        </a>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</main>
