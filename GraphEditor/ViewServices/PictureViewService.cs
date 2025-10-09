@@ -1,52 +1,34 @@
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Linq;
+using System.Windows.Forms;
 using GraphEditor.Business.Models;
 using GraphEditor.Business.Services;
 using GraphEditor.ViewModels;
-using System.Drawing.Imaging;
 
 namespace GraphEditor.ViewServices;
 
 internal class PictureViewService {
-    private readonly PictureService _businessService = new PictureService();
+    private readonly PictureService _businessService = new();
 
     private PictureViewModel _viewModel;
-    private readonly PictureService _pictureService = new PictureService();
 
-    public PictureViewService(string fileName) {
-        FileName = fileName;
+    public PictureViewService() {
         _viewModel = FromBusiness(_businessService.PictureModel);
+        FileName = string.Empty;
     }
     
-    public PictureModel GetPictureModel() {
-        return _businessService.GetPictureModel();
-    }
+    public PictureModel PictureModel => _businessService.PictureModel;
 
     public bool CreateMode { get; private set; }
 
-    public bool CanDelete => !CreateMode && _businessService.PictureModel.SelectedRectangle != null;
+    public bool CanDelete => !CreateMode && PictureModel.SelectedRectangleIds.Any();
 
     public string FileName { get; private set; }
 
-    public void Paint(Graphics g) {
-        new Painter().Paint(g, _viewModel, true);
-    }
-        
-    public PictureModel GetPictureModel() {
-        return _pictureService.GetPictureModel();
-    }
-
-    private static PictureViewModel FromBusiness(PictureModel model) {
-        var result = new PictureViewModel {
-            Rectangles = model.Rectangles.Select(RectangleViewModel.FromBusiness).ToList(),
-        };
-
-        if (model.SelectedRectangle == null) return result;
-        var index = model.Rectangles.IndexOf(model.SelectedRectangle);
-        if (index >= 0) {
-            result.SelectedRectangle = result.Rectangles[index];
-        }
-
-        return result;
-    }
+    public PictureModel GetPictureModel() => _businessService.GetPictureModel();
+    
+    public void Paint(Graphics g) => new Painter().Paint(g, _viewModel, true);
 
     public Cursor GetCursor(Point loc) {
         var activeMarker = _viewModel.Markers.FirstOrDefault(m => m.IsActive && IsInside(loc, m.Rectangle));
@@ -54,39 +36,37 @@ internal class PictureViewService {
             return activeMarker.Cursor;
         }
 
-        var activeRect = _viewModel.Rectangles?.FirstOrDefault(r => IsInside(loc, r.Rectangle));
+        var activeRect = _viewModel.Rectangles?.LastOrDefault(r => IsInside(loc, r.Rectangle));
         return activeRect != null ? Cursors.SizeAll : Cursors.Default;
     }
 
-    public void MouseDown(Point loc) {
+    public void MouseDown(Point loc, bool additiveSelection) {
         if (CreateMode) {
             _businessService.CreateRectangle(ToModel(loc));
-            _viewModel = FromBusiness(_businessService.PictureModel);
+            RefreshViewModel();
             return;
         }
 
-        {
-            var activeMarker = _viewModel.Markers.FirstOrDefault(m => m.IsActive && IsInside(loc, m.Rectangle));
-            if (activeMarker != null) {
-                _businessService.SetResizeMode(activeMarker.EditMode);
-                _viewModel = FromBusiness(_businessService.PictureModel);
-                return;
-            }
+        var activeMarker = _viewModel.Markers.FirstOrDefault(m => m.IsActive && IsInside(loc, m.Rectangle));
+        if (activeMarker != null) {
+            _businessService.SetResizeMode(activeMarker.EditMode);
+            RefreshViewModel();
+            return;
         }
 
-        _businessService.SetMoveMode(ToModel(loc));
-        _viewModel = FromBusiness(_businessService.PictureModel);
+        _businessService.SetMoveMode(ToModel(loc), additiveSelection);
+        RefreshViewModel();
     }
 
     public void MouseMove(Point loc) {
         _businessService.UpdateMovingPoint(ToModel(loc));
-        _viewModel = FromBusiness(_businessService.PictureModel);
+        RefreshViewModel();
     }
 
     public void MouseUp() {
         _businessService.ResetMode();
         CreateMode = false;
-        _viewModel = FromBusiness(_businessService.PictureModel);
+        RefreshViewModel();
     }
 
     public void CreateButtonClick() {
@@ -95,12 +75,12 @@ internal class PictureViewService {
 
     public void DeleteButtonClick() {
         _businessService.DeleteRectangle();
-        _viewModel = FromBusiness(_businessService.PictureModel);
+        RefreshViewModel();
     }
 
     public void OpenFile(string fileName) {
         _businessService.OpenFile(fileName);
-        _viewModel = FromBusiness(_businessService.PictureModel);
+        RefreshViewModel();
         FileName = fileName;
     }
 
@@ -110,12 +90,14 @@ internal class PictureViewService {
     }
 
     public void SaveToFile() {
-        _businessService.SaveToFile(FileName);
+        if (!string.IsNullOrEmpty(FileName)) {
+            _businessService.SaveToFile(FileName);
+        }
     }
 
     public void CreateNewPicture() {
         _businessService.CreateNewPicture();
-        _viewModel = FromBusiness(_businessService.PictureModel);
+        RefreshViewModel();
         FileName = string.Empty;
     }
 
@@ -129,48 +111,90 @@ internal class PictureViewService {
         bmp.Save(fileName, ImageFormat.Png);
     }
 
-    public Color GetFillColor() {
-        return _viewModel.SelectedRectangle?.FillColor ?? PictureService.DefaultFillColor;
-    }
+    public Color GetFillColor() => _viewModel.SelectedRectangle?.FillColor ?? PictureService.DefaultFillColor;
 
     public void SetFillColor(Color color) {
         _businessService.SetFillColor(color);
-        _viewModel = FromBusiness(_businessService.PictureModel);
+        RefreshViewModel();
     }
 
     public void MoveForward() {
         _businessService.MoveForward();
-        _viewModel = FromBusiness(_businessService.PictureModel);
+        RefreshViewModel();
     }
-
-    private bool IsInside(Point p, Rectangle rect) =>
-        p.X >= rect.X && p.X <= rect.Right &&
-        p.Y >= rect.Y && p.Y <= rect.Bottom;
-
-    private static PointModel ToModel(Point loc) => new PointModel { X =  loc.X, Y = loc.Y };
         
     public void SetText(string text) {
         _businessService.SetText(text);
-        _viewModel = FromBusiness(_businessService.PictureModel);
+        RefreshViewModel();
     }
 
     public void SetTextColor(Color color) {
         _businessService.SetTextColor(color);
-        _viewModel = FromBusiness(_businessService.PictureModel);
+        RefreshViewModel();
     }
 
     public void SetBorderWidth(float width) {
         _businessService.SetBorderWidth(width);
-        _viewModel = FromBusiness(_businessService.PictureModel);
+        RefreshViewModel();
     }
     
-    public void GroupSelected(string? name = null) {
-        _businessService.GroupSelected(name);
-        _viewModel = FromBusiness(_businessService.PictureModel);
+    public bool GroupSelected(string? name = null) {
+        var result = _businessService.GroupSelected(name);
+        RefreshViewModel();
+        return result;
     }
 
     public void Ungroup(Guid groupId) {
         _businessService.Ungroup(groupId);
+        RefreshViewModel();
+    }
+
+    public bool TryBeginTextEdit(Point location, out Rectangle bounds, out string text, out string fontFamily, out float fontSize, out Color textColor, out TextAlign textAlign, out Color fillColor) {
+        var rect = _businessService.SelectAt(ToModel(location), additiveSelection: false, includeGroup: false);
+        RefreshViewModel();
+
+        if (rect == null) {
+            bounds = default;
+            text = string.Empty;
+            fontFamily = string.Empty;
+            fontSize = 0;
+            textColor = Color.Black;
+            textAlign = TextAlign.Left;
+            fillColor = Color.White;
+            return false;
+        }
+
+        var viewRect = _viewModel.Rectangles?.FirstOrDefault(r => r.Id == rect.Id);
+        if (viewRect == null) {
+            bounds = default;
+            text = string.Empty;
+            fontFamily = string.Empty;
+            fontSize = 0;
+            textColor = Color.Black;
+            textAlign = TextAlign.Left;
+            fillColor = Color.White;
+            return false;
+        }
+
+        bounds = viewRect.Rectangle;
+        text = rect.Text ?? string.Empty;
+        fontFamily = viewRect.FontFamily;
+        fontSize = viewRect.FontSize;
+        textColor = viewRect.TextColor;
+        textAlign = viewRect.TextAlign;
+        fillColor = viewRect.FillColor;
+        return true;
+    }
+
+    private static bool IsInside(Point p, Rectangle rect) =>
+        p.X >= rect.Left && p.X <= rect.Right &&
+        p.Y >= rect.Top && p.Y <= rect.Bottom;
+
+    private static PointModel ToModel(Point loc) => new() { X = loc.X, Y = loc.Y };
+
+    private static PictureViewModel FromBusiness(PictureModel model) => PictureViewModel.FromModel(model);
+
+    private void RefreshViewModel() {
         _viewModel = FromBusiness(_businessService.PictureModel);
     }
 }

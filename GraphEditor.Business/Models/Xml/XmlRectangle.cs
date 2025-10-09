@@ -4,6 +4,9 @@ namespace GraphEditor.Business.Models.Xml;
 
 [Serializable]
 public class XmlRectangle {
+    [XmlAttribute("Id")]
+    public Guid Id { get; set; }
+    
     [XmlAttribute("Left")]
     public int Left { get; set; }
 

@@ -1,5 +1,6 @@
 using GraphEditor.ViewModels;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 
 namespace GraphEditor.ViewServices {
@@ -10,11 +11,21 @@ namespace GraphEditor.ViewServices {
             }
 
             foreach (var rect in viewModel.Rectangles) {
-                var pen = rect.BorderPen;
-                var brush = rect.FillBrush;
+                g.FillRectangle(rect.FillBrush, rect.Rectangle);
+                g.DrawRectangle(rect.BorderPen, rect.Rectangle);
 
-                g.FillRectangle(brush, rect.Rectangle);
-                g.DrawRectangle(pen, rect.Rectangle);
+                if (!string.IsNullOrWhiteSpace(rect.Text)) {
+                    using var font = new Font(rect.FontFamily, rect.FontSize);
+                    using var textBrush = new SolidBrush(rect.TextColor);
+                    using var format = new StringFormat { Alignment = ToHorizontal(rect.TextAlign), LineAlignment = StringAlignment.Center, Trimming = StringTrimming.EllipsisCharacter };
+                    format.FormatFlags |= StringFormatFlags.LineLimit;
+                    g.DrawString(rect.Text, font, textBrush, rect.Rectangle, format);
+                }
+
+                if (rect.IsSelected) {
+                    using var selectionPen = new Pen(Color.Black) { DashStyle = DashStyle.Dot };
+                    g.DrawRectangle(selectionPen, rect.Rectangle);
+                }
             }
 
             if (!isInteractive) return; {
@@ -30,5 +41,10 @@ namespace GraphEditor.ViewServices {
                 }
             }
         }
+        private static StringAlignment ToHorizontal(TextAlign align) => align switch {
+            TextAlign.Left => StringAlignment.Near,
+            TextAlign.Right => StringAlignment.Far,
+            _ => StringAlignment.Center,
+        };
     }
 }

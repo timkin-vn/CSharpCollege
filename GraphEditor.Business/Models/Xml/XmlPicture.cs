@@ -9,5 +9,9 @@ namespace GraphEditor.Business.Models.Xml {
         [XmlArray("Figures")]
         [XmlArrayItem("Figure")]
         public required List<XmlRectangle> Rectangles { get; set; }
+        
+        [XmlArray("Groups")]
+        [XmlArrayItem("Group")]
+        public List<XmlGroup> Groups { get; set; } = new();
     }
 }

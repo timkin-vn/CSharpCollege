@@ -1,211 +1,96 @@
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Windows.Forms;
 using GraphEditor.Business.Models;
 
-namespace GraphEditor.ViewModels {
-    internal class RectangleViewModel {
-        private string? Text { get; init; }
-        
-        private Color TextColor { get; init; } = Color.Black;
-        
-        private string FontFamily { get; init; } = "Segoe UI";
-        
-        private float FontSize { get; init; } = 10f;
-        
-        private TextAlign TextAlign { get; init; } = TextAlign.Center;
-        
-        private float BorderWidth { get; init; } = 1.5f;
-        
-        private int Dx { get; init; }
+namespace GraphEditor.ViewModels;
 
-        private int Dy { get; init; }
+internal class RectangleViewModel {
+    private const int MarkerHalfSize = MarkerViewModel.MarkerHalfSize;
 
-        private int Left { get; init; }
+    public Guid Id { get; init; }
 
-        private int Top { get; init; }
+    public int Left { get; init; }
 
-        private int Width { get; set; }
+    public int Top { get; init; }
 
-        private int Height { get; set; }
+    public int Width { get; init; }
 
-        public int Bottom {
-            get => Top + Height;
-            set => Height = value - Top;
-        }
+    public int Height { get; init; }
 
-        public int Right {
-            get => Left + Width;
-            set => Width = value - Left;
-        }
-        
-        public RectangleModel ToModel() {
-            return new RectangleModel {
-                Left = Left,
-                Top = Top,
-                Width = Width,
-                Height = Height,
-                FillColor = FillColor,
-                BorderColor = BorderColor,
-                BorderWidth = BorderWidth,
-                Text = Text,
-                TextColor = TextColor,
-                FontFamily = FontFamily,
-                FontSize = FontSize,
-                TextAlign = TextAlign
-            };
-        }
-        
-        public static RectangleViewModel FromModel(RectangleModel model) {
-            return new RectangleViewModel {
-                Left = model.Left,
-                Top = model.Top,
-                Width = model.Width,
-                Height = model.Height,
-                FillColor = model.FillColor,
-                BorderColor = model.BorderColor,
-                BorderWidth = model.BorderWidth,
-                Text = model.Text,
-                TextColor = model.TextColor,
-                FontFamily = model.FontFamily,
-                FontSize = model.FontSize,
-                TextAlign = model.TextAlign
-            };
-        }
+    public Color FillColor { get; init; } = Color.Yellow;
 
-        private EditMode EditMode { get; init; }
+    public Brush FillBrush { get; init; } = Brushes.Yellow;
 
-        public Color FillColor { get; private init; } = Color.Yellow;
+    public Color BorderColor { get; init; } = Color.Blue;
 
-        public Brush? FillBrush { get; private init; }
+    public float BorderWidth { get; init; } = 1.5f;
 
-        private Color BorderColor { get; init; } = Color.Blue;
+    public Pen BorderPen { get; init; } = Pens.Blue;
 
-        public Pen? BorderPen { get; private init; }
+    public string? Text { get; init; }
 
-        public Rectangle Rectangle => new Rectangle {
-            X = Left < Right ? Left : Right,
-            Y = Top < Bottom ? Top : Bottom,
-            Width = Width > 0 ? Width : -Width,
-            Height = Height > 0 ? Height : -Height,
+    public Color TextColor { get; init; } = Color.Black;
+
+    public string FontFamily { get; init; } = "Segoe UI";
+
+    public float FontSize { get; init; } = 10f;
+
+    public TextAlign TextAlign { get; init; } = TextAlign.Center;
+
+    public bool IsSelected { get; init; }
+
+    public EditMode EditMode { get; init; }
+
+    public Rectangle Rectangle => new(
+        Left < Right ? Left : Right,
+        Top < Bottom ? Top : Bottom,
+        Math.Abs(Width),
+        Math.Abs(Height));
+
+    private int Right => Left + Width;
+
+    private int Bottom => Top + Height;
+
+    public IEnumerable<MarkerViewModel> Markers => new[] {
+        CreateMarker(Left, Top, EditMode.ResizeTL, Cursors.SizeNWSE, false),
+        CreateMarker((Left + Right) / 2, Top, EditMode.ResizeT, Cursors.SizeNS, false),
+        CreateMarker(Right, Top, EditMode.ResizeTR, Cursors.SizeNESW, false),
+        CreateMarker(Right, (Top + Bottom) / 2, EditMode.ResizeR, Cursors.SizeWE, true),
+        CreateMarker(Right, Bottom, EditMode.ResizeBR, Cursors.SizeNWSE, true),
+        CreateMarker((Left + Right) / 2, Bottom, EditMode.ResizeB, Cursors.SizeNS, false),
+        CreateMarker(Left, Bottom, EditMode.ResizeBL, Cursors.SizeNESW, false),
+        CreateMarker(Left, (Top + Bottom) / 2, EditMode.ResizeL, Cursors.SizeWE, false),
+    };
+
+    private static MarkerViewModel CreateMarker(int centerX, int centerY, EditMode mode, Cursor cursor, bool isActive) =>
+        new() {
+            Rectangle = new Rectangle(centerX - MarkerHalfSize, centerY - MarkerHalfSize, MarkerHalfSize * 2, MarkerHalfSize * 2),
+            EditMode = mode,
+            Cursor = cursor,
+            IsActive = isActive,
         };
 
-        public IEnumerable<MarkerViewModel> Markers => [
-            new MarkerViewModel {
-                Rectangle = new Rectangle {
-                    X = Left - MarkerViewModel.MarkerHalfSize,
-                    Y = Top - MarkerViewModel.MarkerHalfSize,
-                    Width = MarkerViewModel.MarkerHalfSize * 2,
-                    Height = MarkerViewModel.MarkerHalfSize * 2,
-                },
-                IsActive = false,
-                EditMode = EditMode.ResizeTL,
-                Cursor = Cursors.SizeNWSE,
-            },
-            new MarkerViewModel {
-                Rectangle = new Rectangle {
-                    X = (Left + Right) / 2 - MarkerViewModel.MarkerHalfSize,
-                    Y = Top - MarkerViewModel.MarkerHalfSize,
-                    Width = MarkerViewModel.MarkerHalfSize * 2,
-                    Height = MarkerViewModel.MarkerHalfSize * 2,
-                },
-                IsActive = false,
-                EditMode = EditMode.ResizeT,
-                Cursor = Cursors.SizeNS,
-            },
-            new MarkerViewModel {
-                Rectangle = new Rectangle {
-                    X = Right - MarkerViewModel.MarkerHalfSize,
-                    Y = Top - MarkerViewModel.MarkerHalfSize,
-                    Width = MarkerViewModel.MarkerHalfSize * 2,
-                    Height = MarkerViewModel.MarkerHalfSize * 2,
-                },
-                IsActive = false,
-                EditMode = EditMode.ResizeTR,
-                Cursor = Cursors.SizeNESW,
-            },
-            new MarkerViewModel {
-                Rectangle = new Rectangle {
-                    X = Right - MarkerViewModel.MarkerHalfSize,
-                    Y = (Top + Bottom) /2 - MarkerViewModel.MarkerHalfSize,
-                    Width = MarkerViewModel.MarkerHalfSize * 2,
-                    Height = MarkerViewModel.MarkerHalfSize * 2,
-                },
-                IsActive = true,
-                EditMode = EditMode.ResizeR,
-                Cursor = Cursors.SizeWE,
-            },
-            new MarkerViewModel {
-                Rectangle = new Rectangle {
-                    X = Right - MarkerViewModel.MarkerHalfSize,
-                    Y = Bottom - MarkerViewModel.MarkerHalfSize,
-                    Width = MarkerViewModel.MarkerHalfSize * 2,
-                    Height = MarkerViewModel.MarkerHalfSize * 2,
-                },
-                IsActive = true,
-                EditMode = EditMode.ResizeBR,
-                Cursor = Cursors.SizeNWSE,
-            },
-            new MarkerViewModel {
-                Rectangle = new Rectangle {
-                    X = (Left + Right) / 2 - MarkerViewModel.MarkerHalfSize,
-                    Y = Bottom - MarkerViewModel.MarkerHalfSize,
-                    Width = MarkerViewModel.MarkerHalfSize * 2,
-                    Height = MarkerViewModel.MarkerHalfSize * 2,
-                },
-                IsActive = false,
-                EditMode = EditMode.ResizeB,
-                Cursor = Cursors.SizeNS,
-            },
-            new MarkerViewModel {
-                Rectangle = new Rectangle {
-                    X = Left - MarkerViewModel.MarkerHalfSize,
-                    Y = Bottom - MarkerViewModel.MarkerHalfSize,
-                    Width = MarkerViewModel.MarkerHalfSize * 2,
-                    Height = MarkerViewModel.MarkerHalfSize * 2,
-                },
-                IsActive = false,
-                EditMode = EditMode.ResizeBL,
-                Cursor = Cursors.SizeNESW,
-            },
-            new MarkerViewModel {
-                Rectangle = new Rectangle {
-                    X = Left - MarkerViewModel.MarkerHalfSize,
-                    Y = (Top + Bottom) /2 - MarkerViewModel.MarkerHalfSize,
-                    Width = MarkerViewModel.MarkerHalfSize * 2,
-                    Height = MarkerViewModel.MarkerHalfSize * 2,
-                },
-                IsActive = false,
-                EditMode = EditMode.ResizeL,
-                Cursor = Cursors.SizeWE,
-            }
-        ];
-
-        public static RectangleViewModel FromBusiness(RectangleModel model) {
-            return new RectangleViewModel {
-                Dx = model.Dx,
-                Dy = model.Dy,
-                Left = model.Left,
-                Top = model.Top,
-                Width = model.Width,
-                Height = model.Height,
-                EditMode = model.EditMode,
-                FillColor = model.FillColor,
-                FillBrush = new SolidBrush(model.FillColor),
-                BorderColor = model.BorderColor,
-                BorderPen = new Pen(model.BorderColor, 3),
-            };
-        }
-
-        public RectangleModel ToBusiness() {
-            return new RectangleModel {
-                Dx = Dx,
-                Dy = Dy,
-                Left = Left,
-                Top = Top,
-                Width = Width,
-                Height = Height,
-                EditMode = EditMode,
-                FillColor = FillColor,
-                BorderColor = BorderColor,
-            };
-        }
+    public static RectangleViewModel FromBusiness(RectangleModel model, bool isSelected) {
+        return new RectangleViewModel {
+            Id = model.Id,
+            Left = model.Left,
+            Top = model.Top,
+            Width = model.Width,
+            Height = model.Height,
+            FillColor = model.FillColor,
+            FillBrush = new SolidBrush(model.FillColor),
+            BorderColor = model.BorderColor,
+            BorderWidth = model.BorderWidth <= 0 ? 1.5f : model.BorderWidth,
+            BorderPen = new Pen(model.BorderColor, model.BorderWidth <= 0 ? 1.5f : model.BorderWidth),
+            Text = model.Text,
+            TextColor = model.TextColor,
+            FontFamily = model.FontFamily,
+            FontSize = model.FontSize,
+            TextAlign = model.TextAlign,
+            IsSelected = isSelected,
+            EditMode = model.EditMode,
+        };
     }
 }

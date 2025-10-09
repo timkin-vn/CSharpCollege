@@ -138,10 +138,9 @@
             this.FileSaveAsMenuItem,
             this.toolStripMenuItem1,
             this.FileExportMenuItem,
-            this.toolStripMenuItem2,
-            this.FileExportMenuItem,
             this.FileExportSvgMenuItem,
             this.FileExportJsonMenuItem,
+            this.toolStripMenuItem2,
             this.FileExitMenuItem});
             this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
             this.файлToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
@@ -209,6 +208,7 @@
             this.Name = "GraphEditorForm";
             this.Text = "Графический редактор";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.GraphEditorForm_Paint);
+            this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.GraphEditorForm_MouseDoubleClick);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GraphEditorForm_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.GraphEditorForm_MouseMove);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.GraphEditorForm_MouseUp);

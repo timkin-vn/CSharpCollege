@@ -48,11 +48,12 @@ namespace GraphEditor.Business.Services {
             return new XmlPicture {
                 Rectangles = model.Rectangles
                     .Select(r => new XmlRectangle {
+                        Id = r.Id,
                         Left = r.Left,
                         Top = r.Top,
                         Width = r.Width,
                         Height = r.Height,
-                        BorderColor = new XmlColor { 
+                        BorderColor = new XmlColor {
                             Red = r.BorderColor.R,
                             Green = r.BorderColor.G,
                             Blue = r.BorderColor.B,
@@ -73,13 +74,20 @@ namespace GraphEditor.Business.Services {
                         FontSize = r.FontSize,
                         TextAlign = r.TextAlign.ToString(),
                     }).ToList(),
+                Groups = model.Groups
+                    .Select(g => new XmlGroup {
+                        Id = g.Id,
+                        Name = g.Name,
+                        RectangleIds = g.RectangleIds.ToList(),
+                    })
+                    .ToList(),
             };
         }
 
         private PictureModel FromXml(XmlPicture xml) {
-            return new PictureModel {
-                Rectangles = xml.Rectangles
+            var rectangles = xml.Rectangles
                     .Select(r => new RectangleModel {
+                        Id = r.Id == Guid.Empty ? Guid.NewGuid() : r.Id,
                         Left = r.Left,
                         Top = r.Top,
                         Width = r.Width,
@@ -89,15 +97,32 @@ namespace GraphEditor.Business.Services {
 
                         BorderWidth = r.BorderWidth <= 0 ? 1.5f : r.BorderWidth,
                         Text = r.Text,
-                        TextColor = r.TextColor != null ? 
-                            Color.FromArgb(r.TextColor.Red, r.TextColor.Green, r.TextColor.Blue) 
+                        TextColor = r.TextColor != null ?
+                            Color.FromArgb(r.TextColor.Red, r.TextColor.Green, r.TextColor.Blue)
                             : Color.Black,
                         FontFamily = string.IsNullOrWhiteSpace(r.FontFamily) ? "Segoe UI" : r.FontFamily,
                         FontSize = r.FontSize <= 0 ? 10f : r.FontSize,
                         TextAlign = Enum.TryParse<TextAlign>(r.TextAlign, out var align) ? align : TextAlign.Center,
-                    }).ToList(),
+                    })
+                    .ToList();
+
+            var model = new PictureModel {
+                Rectangles = rectangles,
+                Groups = xml.Groups
+                    .Select(g => {
+                        var group = new GroupModel { Id = g.Id == Guid.Empty ? Guid.NewGuid() : g.Id, Name = g.Name };
+                        foreach (var id in g.RectangleIds) {
+                            if (rectangles.Any(r => r.Id == id)) {
+                                group.Add(id);
+                            }
+                        }
+                        return group;
+                    })
+                    .Where(g => !g.IsEmpty)
+                    .ToList(),
                 SelectedRectangle = null,
             };
+            return model;
         }
     }
 }
