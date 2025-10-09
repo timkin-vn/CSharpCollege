@@ -28,11 +28,18 @@ namespace GraphEditor.Business.Services {
             try {
                 using (var fs = new FileStream(fileName, FileMode.Open, FileAccess.Read)) {
                     using (var archive = new ZipArchive(fs, ZipArchiveMode.Read)) {
-                        var entry = archive.GetEntry(Path.GetFileNameWithoutExtension(fileName) + ".xml");
-                        using (var es = entry!.Open()) {
+                        var entryName = Path.GetFileNameWithoutExtension(fileName) + ".xml";
+                        var entry = archive.GetEntry(entryName);
+                        if (entry == null) {
+                            throw new InvalidDataException($"Отсутствует запись {entryName}.");
+                        }
+
+                        using (var es = entry.Open()) {
                             using (var reader = new StreamReader(es)) {
                                 var serializer = new XmlSerializer(typeof(XmlPicture));
-                                var xml = (XmlPicture)serializer.Deserialize(reader)!;
+                                if (serializer.Deserialize(reader) is not XmlPicture xml) {
+                                    throw new InvalidDataException("Не удалось десериализовать файл.");
+                                }
                                 return FromXml(xml);
                             }
                         }
@@ -85,6 +92,10 @@ namespace GraphEditor.Business.Services {
         }
 
         private PictureModel FromXml(XmlPicture xml) {
+            static Color ToColor(XmlColor? color, Color fallback) => color == null
+                ? fallback
+                : Color.FromArgb(color.Red, color.Green, color.Blue);
+            
             var rectangles = xml.Rectangles
                     .Select(r => new RectangleModel {
                         Id = r.Id == Guid.Empty ? Guid.NewGuid() : r.Id,

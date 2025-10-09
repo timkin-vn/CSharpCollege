@@ -7,7 +7,7 @@ using GraphEditor.Business.Models;
 namespace GraphEditor.ViewModels;
 
 internal class RectangleViewModel {
-    private const int MarkerHalfSize = MarkerViewModel.MarkerHalfSize;
+    private static readonly int MarkerHalfSize = MarkerViewModel.MarkerHalfSize;
 
     public Guid Id { get; init; }
 
