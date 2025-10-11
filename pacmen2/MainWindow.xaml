@@ -1,0 +1,51 @@
+﻿<Window x:Class="StepByStepPacman.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Пакмен" 
+        Height="900" Width="800"
+        KeyDown="Window_KeyDown">
+    <Grid Background="Black">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Панель информации -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
+            <TextBlock Text="Счет: " Foreground="White" FontSize="16" FontWeight="Bold" Margin="10,0"/>
+            <TextBlock x:Name="ScoreText" Text="0" Foreground="White" FontSize="16" FontWeight="Bold" Margin="0,0,20,0"/>
+            
+            <TextBlock Text="Жизни: " Foreground="White" FontSize="16" FontWeight="Bold" Margin="10,0"/>
+            <TextBlock x:Name="LivesText" Text="3" Foreground="White" FontSize="16" FontWeight="Bold" Margin="0,0,20,0"/>
+            
+            <TextBlock Text="Точки: " Foreground="White" FontSize="16" FontWeight="Bold" Margin="10,0"/>
+            <TextBlock x:Name="DotsText" Text="0/0" Foreground="White" FontSize="16" FontWeight="Bold"/>
+        </StackPanel>
+        
+        <!-- Игровое поле -->
+        <Canvas x:Name="GameCanvas" Grid.Row="1" Margin="10" Background="Black"/>
+        
+        <!-- Сообщение о конце игры -->
+        <Border x:Name="GameOverPanel" Grid.Row="1" 
+                Background="#CC000000" 
+                Visibility="Collapsed"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Padding="20">
+            <StackPanel>
+                <TextBlock x:Name="GameOverText" FontSize="32" FontWeight="Bold" 
+                          TextAlignment="Center" Foreground="White" Margin="0,0,0,20"/>
+                <Button x:Name="RestartButton" Content="Новая игра" 
+                       Click="RestartButton_Click" 
+                       FontSize="16" Padding="10,5" 
+                       HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+        
+        <!-- Инструкция -->
+        <TextBlock Grid.Row="2" Text="Управление: стрелки ← ↑ → ↓" 
+                  Foreground="Gray" FontSize="14" 
+                  HorizontalAlignment="Center" Margin="10"/>
+    </Grid>
+</Window>
