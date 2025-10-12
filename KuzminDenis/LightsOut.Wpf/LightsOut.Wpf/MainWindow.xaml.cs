@@ -19,7 +19,7 @@ namespace LightsOut.Wpf
             var fe = (FrameworkElement)sender;
             if (fe?.DataContext is CellViewModel cell)
             {
-                ViewModel.MakeMoveAt(cell.Row, cell.Column, OnGameFinished);
+                ViewModel.MakeMoveAt(cell.Row, cell.Column, OnGameFinished, OnGameLost);
             }
         }
 
@@ -27,6 +27,15 @@ namespace LightsOut.Wpf
         {
             if (MessageBox.Show("Вы погасили все лампочки! Повторить?", "Победа!", MessageBoxButton.YesNo, MessageBoxImage.Information) ==
                 MessageBoxResult.Yes)
+            {
+                ViewModel.Initialize();
+            }
+        }
+
+        private void OnGameLost()
+        {
+            if (MessageBox.Show("У вас закончились ходы! Попробовать снова?", "Поражение", MessageBoxButton.YesNo, MessageBoxImage.Warning)
+                == MessageBoxResult.Yes)
             {
                 ViewModel.Initialize();
             }
