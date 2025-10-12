@@ -8,11 +8,9 @@ namespace FifteenGame.Business.Models
 {
     public class GameModel
     {
-        public const int RowCount = 4;
-
-        public const int ColumnCount = 4;
-
-        public const int FreeCellValue = -1;
+        public const int RowCount = 8;
+        public const int ColumnCount = 8;
+        public const int GemTypeCount = 5; // фишки
 
         private int[,] _cells = new int[RowCount, ColumnCount];
 
@@ -22,8 +20,22 @@ namespace FifteenGame.Business.Models
             internal set => _cells[row, column] = value;
         }
 
-        public int FreeCellRow { get; internal set; }
+        public GameModel()
+        {
+            GenerateInitialBoard();
+        }
 
-        public int FreeCellColumn { get; internal set; }
+        private void GenerateInitialBoard()
+        {
+            var rnd = new Random();
+
+            for (int row = 0; row < RowCount; row++)
+            {
+                for (int column = 0; column < ColumnCount; column++)
+                {
+                    _cells[row, column] = rnd.Next(GemTypeCount);
+                }
+            }
+        }
     }
 }
