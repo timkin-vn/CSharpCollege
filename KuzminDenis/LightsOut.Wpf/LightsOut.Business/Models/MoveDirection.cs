@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace LightsOut.Business.Models
 {
-    internal class MoveDirection
+    public enum MoveDirection
     {
+        None,
+        Left,
+        Right,
+        Up,
+        Down,
     }
 }

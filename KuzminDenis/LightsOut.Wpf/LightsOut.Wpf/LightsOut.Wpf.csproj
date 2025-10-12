@@ -96,5 +96,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LightsOut.Business\LightsOut.Business.csproj">
+      <Project>{f7b11d63-739b-4fda-8c2d-9fc682cfd2d8}</Project>
+      <Name>LightsOut.Business</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
