@@ -41,8 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Cell.cs" />
     <Compile Include="Models\GameModel.cs" />
-    <Compile Include="Models\MoveDirection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\GameService.cs" />
   </ItemGroup>
