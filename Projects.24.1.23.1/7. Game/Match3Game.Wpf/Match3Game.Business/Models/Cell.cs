@@ -4,14 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Match3Game.Business.Models
+namespace FifteenGame.Business.Models
 {
-    public enum MoveDirection
+    internal class Cell
     {
-        None,
-        Left,
-        Right,
-        Up,
-        Down,
     }
 }
