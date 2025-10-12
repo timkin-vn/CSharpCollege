@@ -1,11 +1,12 @@
-﻿using FifteenGame.Business.Models;
+﻿using 
+    .Business.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FifteenGame.Wpf.ViewModels
+namespace Match3Game.Wpf.ViewModels
 {
     public class CellViewModel
     {

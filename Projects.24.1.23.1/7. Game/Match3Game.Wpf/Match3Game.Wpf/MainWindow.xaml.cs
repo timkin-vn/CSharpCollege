@@ -1,5 +1,5 @@
-﻿using FifteenGame.Business.Models;
-using FifteenGame.Wpf.ViewModels;
+﻿using Match3Game.Business.Models;
+using Match3Game.Wpf.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace FifteenGame.Wpf
+namespace Match3Game.Wpf
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

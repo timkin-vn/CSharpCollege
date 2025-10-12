@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FifteenGame.Business.Models
+namespace Match3Game.Business.Models
 {
     public class GameModel
     {

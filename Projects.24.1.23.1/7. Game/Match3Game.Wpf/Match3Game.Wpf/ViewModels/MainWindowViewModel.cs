@@ -1,5 +1,5 @@
-﻿using FifteenGame.Business.Models;
-using FifteenGame.Business.Services;
+﻿using Match3Game.Business.Models;
+using Match3Game.Business.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FifteenGame.Wpf.ViewModels
+namespace Match3Game.Wpf.ViewModels
 {
     public class MainWindowViewModel
     {

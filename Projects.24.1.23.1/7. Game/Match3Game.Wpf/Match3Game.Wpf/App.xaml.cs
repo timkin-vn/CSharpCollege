@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace FifteenGame.Wpf
+namespace Match3Game.Wpf
 {
     /// <summary>
     /// Interaction logic for App.xaml

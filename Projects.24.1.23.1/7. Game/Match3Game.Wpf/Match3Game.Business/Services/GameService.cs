@@ -1,128 +1,95 @@
-﻿using FifteenGame.Business.Models;
+﻿using Match3Game.Business.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FifteenGame.Business.Services
+namespace Match3Game.Business.Services
 {
     public class GameService
     {
+        private static readonly Random _rnd = new Random(); 
         public void Initialize(GameModel model)
         {
-            int value = 1;
             for (int row = 0; row < GameModel.RowCount; row++)
             {
                 for (int column = 0; column < GameModel.ColumnCount; column++)
                 {
-                    model[row, column] = value++;
+                    model[row, column] = _rnd.Next(1, 6);
                 }
             }
-
-            model[GameModel.RowCount - 1, GameModel.ColumnCount - 1] = GameModel.FreeCellValue;
-            model.FreeCellRow = GameModel.RowCount - 1;
-            model.FreeCellColumn = GameModel.ColumnCount - 1;
         }
 
-        public bool MakeMove(GameModel model, MoveDirection direction)
+        public void Swap(GameModel model, int r1, int c1, int r2, int c2)
         {
-            switch (direction)
-            {
-                case MoveDirection.Left:
-                    if (model.FreeCellColumn == GameModel.ColumnCount - 1)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow, model.FreeCellColumn + 1];
-                    model[model.FreeCellRow, model.FreeCellColumn + 1] = GameModel.FreeCellValue;
-                    model.FreeCellColumn++;
-                    return true;
-
-                case MoveDirection.Right:
-                    if (model.FreeCellColumn == 0)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow, model.FreeCellColumn - 1];
-                    model[model.FreeCellRow, model.FreeCellColumn - 1] = GameModel.FreeCellValue;
-                    model.FreeCellColumn--;
-                    return true;
-
-                case MoveDirection.Up:
-                    if (model.FreeCellRow == GameModel.RowCount - 1)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow + 1, model.FreeCellColumn];
-                    model[model.FreeCellRow + 1, model.FreeCellColumn] = GameModel.FreeCellValue;
-                    model.FreeCellRow++;
-                    return true;
-
-                case MoveDirection.Down:
-                    if (model.FreeCellRow == 0)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow - 1, model.FreeCellColumn];
-                    model[model.FreeCellRow - 1, model.FreeCellColumn] = GameModel.FreeCellValue;
-                    model.FreeCellRow--;
-                    return true;
-            }
-
-            return false;
+            int temp = model[r1, c1];
+            model[r1, c1] = model[r2, c2];
+            model[r2, c2] = temp;
         }
 
-        public void Shuffle(GameModel model)
+        public List<(int row, int col)> CheckMatches(GameModel model)
         {
-            Initialize(model);
+            var matches = new List<(int, int)>();
 
-            var rnd = new Random();
-            for (int i = 0; i < 1000; i++)
-            {
-                var nextMove = (MoveDirection)(rnd.Next(4) + 1);
-                MakeMove(model, nextMove);
-            }
-        }
-
-        public bool IsGameOver(GameModel model)
-        {
-            int freeCellRow = model.FreeCellRow;
-            if (freeCellRow != GameModel.RowCount - 1)
-            {
-                return false;
-            }
-
-            int freeCellColumn = model.FreeCellColumn;
-            if (freeCellColumn != GameModel.ColumnCount - 1)
-            {
-                return false;
-            }
-
-            int value = 1;
             for (int row = 0; row < GameModel.RowCount; row++)
             {
-                for (int column = 0; column < GameModel.ColumnCount; column++)
+                for (int col = 0; col < GameModel.ColumnCount - 2; col++)
                 {
-                    if (row == freeCellRow && column == freeCellColumn)
+                    int val = model[row, col];
+                    if (val != 0 && val == model[row, col + 1] && val == model[row, col + 2])
                     {
-                        if (model[row, column] != GameModel.FreeCellValue)
-                        {
-                            return false;
-                        }
-                    }
-                    else if (model[row, column] != value++)
-                    {
-                        return false;
+                        matches.Add((row, col));
+                        matches.Add((row, col + 1));
+                        matches.Add((row, col + 2));
                     }
                 }
             }
 
-            return true;
+            for (int col = 0; col < GameModel.ColumnCount; col++)
+            {
+                for (int row = 0; row < GameModel.RowCount - 2; row++)
+                {
+                    int val = model[row, col];
+                    if (val != 0 && val == model[row + 1, col] && val == model[row + 2, col])
+                    {
+                        matches.Add((row, col));
+                        matches.Add((row + 1, col));
+                        matches.Add((row + 2, col));
+                    }
+                }
+            }
+
+            return matches;
+        }
+
+        public void RemoveMatches(GameModel model, List<(int row, int col)> matches)
+        {
+            foreach (var (r, c) in matches)
+            {
+                model[r, c] = 0;
+            }
+        }
+
+        public void Collapse(GameModel model)
+        {
+            for (int col = 0; col < GameModel.ColumnCount; col++)
+            {
+                int writeRow = GameModel.RowCount - 1;
+                for (int row = GameModel.RowCount - 1; row >= 0; row--)
+                {
+                    if (model[row, col] != 0)
+                    {
+                        model[writeRow, col] = model[row, col];
+                        writeRow--;
+                    }
+                }
+
+                for (int row = writeRow; row >= 0; row--)
+                {
+                    model[row, col] = _rnd.Next(1, 6);
+                }
+            }
         }
     }
 }
