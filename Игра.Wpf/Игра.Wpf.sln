@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36408.4 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Игра.Wpf", "Игра.Wpf\Игра.Wpf.csproj", "{ABB52BE4-4CFE-4100-8BB5-F7B754BDE600}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Игра.Business", "Игра.Business\Игра.Business.csproj", "{2C709ECD-0A89-4FB5-B367-5930D1A5D331}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ABB52BE4-4CFE-4100-8BB5-F7B754BDE600}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABB52BE4-4CFE-4100-8BB5-F7B754BDE600}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABB52BE4-4CFE-4100-8BB5-F7B754BDE600}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABB52BE4-4CFE-4100-8BB5-F7B754BDE600}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C709ECD-0A89-4FB5-B367-5930D1A5D331}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C709ECD-0A89-4FB5-B367-5930D1A5D331}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C709ECD-0A89-4FB5-B367-5930D1A5D331}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C709ECD-0A89-4FB5-B367-5930D1A5D331}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D7802C5A-6009-4D0E-BB36-364ECE0BB3A2}
+	EndGlobalSection
+EndGlobal
