@@ -78,26 +78,29 @@ namespace Match3Game.Business.Services
 
         public void ProcessMatches(GameModel model)
         {
-            var matches = CheckMatches(model);
-            if (matches.Count == 0) return;
-
             for (int col = 0; col < GameModel.ColumnCount; col++)
             {
                 int writeRow = GameModel.RowCount - 1;
+
                 for (int row = GameModel.RowCount - 1; row >= 0; row--)
                 {
                     if (model[row, col] != 0)
                     {
                         model[writeRow, col] = model[row, col];
+
+                        if (writeRow != row)
+                            model[row, col] = 0;
+
                         writeRow--;
                     }
                 }
 
                 for (int row = writeRow; row >= 0; row--)
                 {
-                    model[row, col] = _rnd.Next(1, GameModel.GemTypeCount + 1);
+                    model[row, col] = _rnd.Next(1, 6);
                 }
             }
         }
+
     }
 }

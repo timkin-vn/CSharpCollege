@@ -42,12 +42,18 @@ namespace Match3Game.Wpf.ViewModels
 				_firstSelected.IsSelected = false;
 				_firstSelected = null;
 
-				if (success)
-				{
-					_service.ProcessMatches(_model);
-					UpdateCells();
-				}
-			}
+                if (success)
+                {
+                    var matches = _service.CheckMatches(_model);
+                    if (matches.Any())
+                    {
+                        _service.RemoveMatches(_model, matches);
+                        _service.ProcessMatches(_model);
+                    }
+
+                    UpdateCells();
+                }
+            }
 		}
 
 		private void UpdateCells()
