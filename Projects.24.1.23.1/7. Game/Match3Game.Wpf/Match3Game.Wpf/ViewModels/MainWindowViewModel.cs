@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Match3Game.Wpf.ViewModels
 {
@@ -13,8 +14,11 @@ namespace Match3Game.Wpf.ViewModels
 	{
 		private GameService _service = new GameService();
 		private GameModel _model = new GameModel();
+        private int _matchesCount;
+        public int MatchesCount { get => _matchesCount; set { _matchesCount = value; } }
 
-		public ObservableCollection<CellViewModel> Cells { get; set; } = new ObservableCollection<CellViewModel>();
+
+        public ObservableCollection<CellViewModel> Cells { get; set; } = new ObservableCollection<CellViewModel>();
 
 		private CellViewModel _firstSelected;
 
@@ -29,7 +33,29 @@ namespace Match3Game.Wpf.ViewModels
 			UpdateCells();
 		}
 
-		public void SelectCell(CellViewModel cell)
+        public void CheckGameFinish()
+        {
+            if (MatchesCount >= 20)
+            {
+                var result = MessageBox.Show(
+                    $"Поздравляем!\n\nВы собрали {MatchesCount} фишку.\n\nПовторить?",
+                    "Игра окончена",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    MatchesCount = 0;
+                    Initialize();
+                }
+                else
+                {
+                    Application.Current.Shutdown();
+                }
+            }
+        }
+
+        public void SelectCell(CellViewModel cell)
 		{
 			if (_firstSelected == null)
 			{
@@ -47,13 +73,18 @@ namespace Match3Game.Wpf.ViewModels
                     var matches = _service.CheckMatches(_model);
                     if (matches.Any())
                     {
+						MatchesCount += matches.Count;	
                         _service.RemoveMatches(_model, matches);
                         _service.ProcessMatches(_model);
+                        UpdateCells();
+						CheckGameFinish();
+					}
+                    else
+                    {
+                        UpdateCells();
                     }
-
-                    UpdateCells();
-                }
-            }
+				}
+			}
 		}
 
 		private void UpdateCells()
