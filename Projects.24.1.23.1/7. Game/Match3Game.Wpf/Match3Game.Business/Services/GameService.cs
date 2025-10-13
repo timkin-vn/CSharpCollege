@@ -30,6 +30,16 @@ namespace Match3Game.Business.Services
             model[r1, c1] = model[r2, c2];
             model[r2, c2] = temp;
 
+            var matches = CheckMatches(model);
+
+            if (!matches.Any())
+            {
+                temp = model[r1, c1];
+                model[r1, c1] = model[r2, c2];
+                model[r2, c2] = temp;
+                return false;
+            }
+
             return true;
         }
 
