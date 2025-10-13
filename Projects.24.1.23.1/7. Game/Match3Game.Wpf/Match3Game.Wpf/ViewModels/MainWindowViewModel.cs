@@ -9,78 +9,62 @@ using System.Threading.Tasks;
 
 namespace Match3Game.Wpf.ViewModels
 {
-    public class MainWindowViewModel
-    {
-        private GameService _service = new GameService();
+	public class MainWindowViewModel
+	{
+		private GameService _service = new GameService();
+		private GameModel _model = new GameModel();
 
-        private GameModel _model = new GameModel();
+		public ObservableCollection<CellViewModel> Cells { get; set; } = new ObservableCollection<CellViewModel>();
 
-        public ObservableCollection<CellViewModel> Cells { get; set; } = new ObservableCollection<CellViewModel>();
+		private CellViewModel _firstSelected;
 
-        public MainWindowViewModel()
-        {
-            Initialize();
-        }
+		public MainWindowViewModel()
+		{
+			Initialize();
+		}
 
-        public void Initialize()
-        {
-            _service.Shuffle(_model);
-            FromModel(_model);
-        }
+		public void Initialize()
+		{
+			_service.Initialize(_model);
+			UpdateCells();
+		}
 
-        public void MakeMove(MoveDirection direction, Action gameFinishAction)
-        {
-            _service.MakeMove(_model, direction);
-            FromModel(_model);
-            if (_service.IsGameOver(_model))
-            {
-                gameFinishAction?.Invoke();
-            }
-        }
+		public void SelectCell(CellViewModel cell)
+		{
+			if (_firstSelected == null)
+			{
+				_firstSelected = cell;
+				cell.IsSelected = true;
+			}
+			else
+			{
+				var success = _service.Swap(_model, _firstSelected.Row, _firstSelected.Column, cell.Row, cell.Column);
+				_firstSelected.IsSelected = false;
+				_firstSelected = null;
 
-        private void FromModel(GameModel model)
-        {
-            Cells.Clear();
-            for (int row = 0; row < GameModel.RowCount; row++)
-            {
-                for (int column = 0; column < GameModel.ColumnCount; column++)
-                {
-                    if (model[row, column] != GameModel.FreeCellValue)
-                    {
-                        var direction = MoveDirection.None;
-                        if (row == model.FreeCellRow)
-                        {
-                            if (column == model.FreeCellColumn - 1)
-                            {
-                                direction = MoveDirection.Right;
-                            }
-                            else if (column == model.FreeCellColumn + 1)
-                            {
-                                direction = MoveDirection.Left;
-                            }
-                        }
-                        else if (column == model.FreeCellColumn)
-                        {
-                            if (row == model.FreeCellRow - 1)
-                            {
-                                direction = MoveDirection.Down;
-                            }
-                            else if (row == model.FreeCellRow + 1)
-                            {
-                                direction = MoveDirection.Up;
-                            }
-                        }
+				if (success)
+				{
+					_service.ProcessMatches(_model);
+					UpdateCells();
+				}
+			}
+		}
 
-                        Cells.Add(new CellViewModel
-                        {
-                            Row = row,
-                            Column = column,
-                            Num = model[row, column],
-                            Direction = direction
-                        });
-                    }
-                }
-            }
-        }
-    }
+		private void UpdateCells()
+		{
+			Cells.Clear();
+			for (int row = 0; row < GameModel.RowCount; row++)
+			{
+				for (int col = 0; col < GameModel.ColumnCount; col++)
+				{
+					Cells.Add(new CellViewModel
+					{
+						Row = row,
+						Column = col,
+						Value = _model[row, col]
+					});
+				}
+			}
+		}
+	}
 }

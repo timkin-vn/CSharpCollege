@@ -21,11 +21,16 @@ namespace Match3Game.Business.Services
             }
         }
 
-        public void Swap(GameModel model, int r1, int c1, int r2, int c2)
+        public bool Swap(GameModel model, int r1, int c1, int r2, int c2)
         {
+            if (Math.Abs(r1 - r2) + Math.Abs(c1 - c2) != 1)
+                return false;
+
             int temp = model[r1, c1];
             model[r1, c1] = model[r2, c2];
             model[r2, c2] = temp;
+
+            return true;
         }
 
         public List<(int row, int col)> CheckMatches(GameModel model)
@@ -71,8 +76,11 @@ namespace Match3Game.Business.Services
             }
         }
 
-        public void Collapse(GameModel model)
+        public void ProcessMatches(GameModel model)
         {
+            var matches = CheckMatches(model);
+            if (matches.Count == 0) return;
+
             for (int col = 0; col < GameModel.ColumnCount; col++)
             {
                 int writeRow = GameModel.RowCount - 1;
@@ -87,7 +95,7 @@ namespace Match3Game.Business.Services
 
                 for (int row = writeRow; row >= 0; row--)
                 {
-                    model[row, col] = _rnd.Next(1, 6);
+                    model[row, col] = _rnd.Next(1, GameModel.GemTypeCount + 1);
                 }
             }
         }

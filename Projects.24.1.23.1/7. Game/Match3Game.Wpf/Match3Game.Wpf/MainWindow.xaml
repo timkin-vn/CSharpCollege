@@ -6,10 +6,13 @@
         xmlns:local="clr-namespace:Match3Game.Wpf" xmlns:viewmodels="clr-namespace:Match3Game.Wpf.ViewModels"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <viewmodels:BoolToBrushConverter x:Key="BoolToBrushConverter" />
+    </Window.Resources>
+
     <Window.DataContext>
         <viewmodels:MainWindowViewModel />
     </Window.DataContext>
-    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -28,17 +31,25 @@
                 <ItemsPanelTemplate>
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="100" />
-                            <RowDefinition Height="100" />
-                            <RowDefinition Height="100" />
-                            <RowDefinition Height="100" />
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="50" />
                         </Grid.RowDefinitions>
 
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="50" />
                         </Grid.ColumnDefinitions>
                     </Grid>
                 </ItemsPanelTemplate>
@@ -46,11 +57,14 @@
 
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid MouseDown="Grid_MouseDown" Tag="{Binding Direction}">
-                        <Rectangle Margin="5" Stroke="Brown" StrokeThickness="3" RadiusX="10" RadiusY="10" Fill="LightBlue" />
-                        <TextBlock Text="{Binding Text}" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    </Grid>
+                    <Button Click="Cell_Click"
+                            Margin="2"
+                            FontSize="20"
+                            FontWeight="Bold"
+                            Background="{Binding IsSelected, Converter={StaticResource BoolToBrushConverter}}"
+                            Content="{Binding Value}" />
                 </DataTemplate>
+
             </ItemsControl.ItemTemplate>
 
             <ItemsControl.ItemContainerStyle>
