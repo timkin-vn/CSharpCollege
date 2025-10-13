@@ -69,10 +69,17 @@ namespace CardFile.DataAccess.FileDataAccess.FileSavers
             {
                 foreach (var item in collection.GetAll())
                 {
-                    writer.WriteLine($"{item.Id};{item.FirstName};{item.MiddleName};{item.LastName};" +
-                        $"{item.BirthDate.ToShortDateString()};{item.Gender};{item.Address};{item.Diagnosis};" +
-                        $"{(item.LastVisitDate.HasValue ? item.LastVisitDate.Value.ToShortDateString() : "-")};" +
-                        $"{item.PhoneNumber}");
+                    writer.WriteLine($"{item.Id};" +
+    $"{item.FirstName};" +
+    $"{item.MiddleName};" +
+    $"{item.LastName};" +
+    $"{item.BirthDate:yyyy-MM-dd};" +
+    $"{(string.IsNullOrEmpty(item.Gender) ? "-" : item.Gender)};" +
+    $"{(string.IsNullOrEmpty(item.Address) ? "-" : item.Address)};" +
+    $"{(string.IsNullOrEmpty(item.Diagnosis) ? "-" : item.Diagnosis)};" +
+    $"{(item.LastVisitDate.HasValue ? item.LastVisitDate.Value.ToString("yyyy-MM-dd") : "-")};" +
+    $"{(string.IsNullOrEmpty(item.PhoneNumber) ? "-" : item.PhoneNumber)};" +
+    $"{(string.IsNullOrEmpty(item.InsuranceNumber) ? "-" : item.InsuranceNumber)}");
                 }
             }
         }
