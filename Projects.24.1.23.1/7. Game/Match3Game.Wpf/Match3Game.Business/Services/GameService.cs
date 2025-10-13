@@ -84,23 +84,26 @@ namespace Match3Game.Business.Services
 
                 for (int row = GameModel.RowCount - 1; row >= 0; row--)
                 {
-                    if (model[row, col] != 0)
+                    int current = model[row, col];
+                    if (current != 0)
                     {
-                        model[writeRow, col] = model[row, col];
-
                         if (writeRow != row)
+                        {
+                            model[writeRow, col] = current;
                             model[row, col] = 0;
-
+                        }
                         writeRow--;
                     }
                 }
 
                 for (int row = writeRow; row >= 0; row--)
                 {
-                    model[row, col] = _rnd.Next(1, 6);
+                    if (model[row, col] == 0)
+                        model[row, col] = _rnd.Next(1, 6);
                 }
             }
         }
+
 
     }
 }
