@@ -20,11 +20,7 @@
             <TextBlock Text="Ходы: " FontSize="16" />
             <TextBlock Text="{Binding MovesCount}" FontSize="16" Margin="5,0" />
 
-            <TextBlock Text="Ваши корабли: " FontSize="16" Margin="20,0,5,0" />
-            <TextBlock Text="{Binding PlayerShipsLeft}" FontSize="16" />
-
-            <TextBlock Text="Корабли противника: " FontSize="16" Margin="20,0,5,0" />
-            <TextBlock Text="{Binding ComputerShipsLeft}" FontSize="16" />
+           
         </StackPanel>
 
         <Grid Grid.Row="1">
