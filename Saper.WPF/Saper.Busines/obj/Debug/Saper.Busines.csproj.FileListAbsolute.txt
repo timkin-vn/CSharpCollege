@@ -1,0 +1,6 @@
+C:\Users\skmpl\source\repos\Saper.WPF\Saper.Busines\bin\Debug\Saper.Busines.dll
+C:\Users\skmpl\source\repos\Saper.WPF\Saper.Busines\bin\Debug\Saper.Busines.pdb
+C:\Users\skmpl\source\repos\Saper.WPF\Saper.Busines\obj\Debug\Saper.Busines.csproj.AssemblyReference.cache
+C:\Users\skmpl\source\repos\Saper.WPF\Saper.Busines\obj\Debug\Saper.Busines.csproj.CoreCompileInputs.cache
+C:\Users\skmpl\source\repos\Saper.WPF\Saper.Busines\obj\Debug\Saper.Busines.dll
+C:\Users\skmpl\source\repos\Saper.WPF\Saper.Busines\obj\Debug\Saper.Busines.pdb

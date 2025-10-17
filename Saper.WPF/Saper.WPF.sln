@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36414.22 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saper.WPF", "Saper.WPF\Saper.WPF.csproj", "{39641D59-CE2B-4659-85B5-7928D9DE22B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saper.Busines", "Saper.Busines\Saper.Busines.csproj", "{001C94A6-42FA-4A55-B97E-CD6433BB5746}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{39641D59-CE2B-4659-85B5-7928D9DE22B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39641D59-CE2B-4659-85B5-7928D9DE22B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39641D59-CE2B-4659-85B5-7928D9DE22B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39641D59-CE2B-4659-85B5-7928D9DE22B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{001C94A6-42FA-4A55-B97E-CD6433BB5746}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{001C94A6-42FA-4A55-B97E-CD6433BB5746}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{001C94A6-42FA-4A55-B97E-CD6433BB5746}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{001C94A6-42FA-4A55-B97E-CD6433BB5746}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3B806FB8-4431-49F2-BCD2-BC7D4383B4C5}
+	EndGlobalSection
+EndGlobal
