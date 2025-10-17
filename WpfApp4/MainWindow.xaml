@@ -1,0 +1,78 @@
+﻿<Window x:Class="WpfApp4.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Лабиринт" Height="700" Width="800"
+        WindowStartupLocation="CenterScreen"
+        KeyDown="Window_KeyDown">
+    <Grid Background="LightGray">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="DarkBlue" Padding="10">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="ЛАБИРИНТ" FontSize="24" FontWeight="Bold" 
+                          Foreground="White" Margin="0,0,20,0"/>
+                <TextBlock x:Name="MovesText" Text="Ходы: 0" FontSize="16" 
+                          Foreground="White" FontWeight="Bold"/>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="1" Background="Black" Margin="20" Padding="10"
+                BorderBrush="DarkBlue" BorderThickness="3">
+            <ItemsControl x:Name="GameBoard">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid x:Name="MazeGrid" Rows="15" Columns="15"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="Gray" BorderThickness="0.5" 
+                                Background="{Binding Background}" 
+                                Width="35" Height="35">
+                            <TextBlock Text="{Binding Symbol}" FontSize="16" 
+                                      FontWeight="Bold" HorizontalAlignment="Center" 
+                                      VerticalAlignment="Center" 
+                                      Foreground="{Binding Foreground}"/>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
+
+        <Border Grid.Row="2" Background="LightBlue" Padding="15">
+            <StackPanel>
+                <TextBlock x:Name="StatusText" Text="Используйте стрелки для движения. Дойдите до выхода!" 
+                          FontSize="16" FontWeight="Bold" HorizontalAlignment="Center"
+                          Foreground="DarkBlue" Margin="0,0,0,10"/>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button x:Name="UpButton" Content="↑" FontSize="20" FontWeight="Bold" 
+                            Width="50" Height="50" Margin="5" Click="DirectionButton_Click"
+                            Background="LightGreen" Tag="Up"/>
+                    <Button x:Name="DownButton" Content="↓" FontSize="20" FontWeight="Bold" 
+                            Width="50" Height="50" Margin="5" Click="DirectionButton_Click"
+                            Background="LightGreen" Tag="Down"/>
+                    <Button x:Name="LeftButton" Content="←" FontSize="20" FontWeight="Bold" 
+                            Width="50" Height="50" Margin="5" Click="DirectionButton_Click"
+                            Background="LightGreen" Tag="Left"/>
+                    <Button x:Name="RightButton" Content="→" FontSize="20" FontWeight="Bold" 
+                            Width="50" Height="50" Margin="5" Click="DirectionButton_Click"
+                            Background="LightGreen" Tag="Right"/>
+
+                    <Button x:Name="RestartButton" Content="Новая игра" 
+                            Click="RestartButton_Click" Padding="15,10"
+                            FontSize="14" FontWeight="Bold" Background="Orange" 
+                            Foreground="White" Margin="20,0,0,0"/>
+                </StackPanel>
+
+                <TextBlock Text="Или используйте клавиши стрелок на клавиатуре" 
+                          FontSize="12" HorizontalAlignment="Center" 
+                          Foreground="DarkSlateGray" Margin="0,10,0,0"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
