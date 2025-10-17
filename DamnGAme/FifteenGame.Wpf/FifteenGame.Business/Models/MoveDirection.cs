@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace FifteenGame.Business.Models
 {
     public enum MoveDirection
     {
-        None,   // Не используется в этой игре, сохраняем для структуры
+        None,
+        // Не используется в этой игре, но сохраняем для структуры
     }
 }
