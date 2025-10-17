@@ -1,10 +1,5 @@
 ﻿using FifteenGame.Business.Models;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
 
 namespace FifteenGame.Wpf.ViewModels
@@ -24,29 +19,42 @@ namespace FifteenGame.Wpf.ViewModels
             }
         }
 
-        public string Text { get { return GetText(); } }
+        private bool _isShipDestroyed;
+        public bool IsShipDestroyed
+        {
+            get => _isShipDestroyed;
+            set
+            {
+                _isShipDestroyed = value;
+                OnPropertyChanged(nameof(IsShipDestroyed));
+            }
+        }
 
-        public Brush Color { get { return (Brush)new BrushConverter().ConvertFrom(GetColor()); } }
+        public string Text
+        {
+            get
+            {
+                if (State == 'H' && IsShipDestroyed) return "X"; // Перечеркнутый корабль
+                if (State == 'M') return "O";
+                if (State == 'F') return "F";
+                return "";
+            }
+        }
+
+        public Brush Color
+        {
+            get
+            {
+                if (State == 'H') return IsShipDestroyed ? Brushes.DarkRed : Brushes.Red;
+                if (State == 'M') return Brushes.Gray;
+                if (State == 'F') return Brushes.Yellow;
+                return Brushes.LightBlue;
+            }
+        }
 
         public int Row { get; set; }
         public int Column { get; set; }
-        public MoveDirection Direction { get; set; } // Сохраняем для структуры
-
-        private string GetText()
-        {
-            if (State == 'H') return "X";
-            if (State == 'M') return "O";
-            if (State == 'F') return "F";
-            return "";
-        }
-
-        private string GetColor()
-        {
-            if (State == 'H') return "Red";
-            if (State == 'M') return "Gray";
-            if (State == 'F') return "Yellow";
-            return "LightBlue"; // Пустая клетка
-        }
+        public MoveDirection Direction { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName)

@@ -9,9 +9,6 @@ namespace FifteenGame.Business.Models
 
         private readonly char[,] _cells;
 
-        /// <summary>
-        /// Количество кораблей, оставшихся на поле.
-        /// </summary>
         public int ShipCount { get; private set; }
 
         public GameField()
@@ -31,9 +28,6 @@ namespace FifteenGame.Business.Models
             }
         }
 
-        /// <summary>
-        /// Полностью очищает поле.
-        /// </summary>
         public void Clear()
         {
             for (int r = 0; r < RowCount; r++)
@@ -42,31 +36,21 @@ namespace FifteenGame.Business.Models
             ShipCount = 0;
         }
 
-        /// <summary>
-        /// Проверяет, находится ли клетка в пределах поля.
-        /// </summary>
         public static bool IsInside(int row, int column)
         {
             return row >= 0 && row < RowCount && column >= 0 && column < ColumnCount;
         }
 
-        /// <summary>
-        /// Регистрирует выстрел по клетке.
-        /// </summary>
-        /// <returns>
-        /// true — если попали по кораблю, false — если мимо или уже было.
-        /// </returns>
         public bool ShootAt(int row, int col)
         {
-            if (!IsInside(row, col))
-                return false;
+            if (!IsInside(row, col)) return false;
 
             char cell = _cells[row, col];
 
             if (cell == 'S')
             {
                 _cells[row, col] = 'H';
-                ShipCount--; // 💥 уменьшаем количество кораблей
+                ShipCount--;
                 return true;
             }
             else if (cell == ' ')
@@ -74,19 +58,41 @@ namespace FifteenGame.Business.Models
                 _cells[row, col] = 'M';
                 return false;
             }
-
-            // Если сюда попали по уже отмеченной клетке — ничего не делаем
             return false;
         }
 
-        /// <summary>
-        /// Возвращает количество оставшихся кораблей.
-        /// </summary>
         public int GetRemainingShips() => ShipCount;
-
-        /// <summary>
-        /// Возвращает символ в клетке (для отрисовки в UI).
-        /// </summary>
         public char GetCell(int row, int col) => _cells[row, col];
+
+        // 🔹 Новый метод: проверяет, уничтожен ли весь корабль
+        public bool IsShipDestroyed(int row, int col)
+        {
+            if (_cells[row, col] != 'H') return false;
+
+            // Горизонтальный корабль
+            int startCol = col;
+            while (startCol > 0 && (_cells[row, startCol - 1] == 'S' || _cells[row, startCol - 1] == 'H'))
+                startCol--;
+            int endCol = col;
+            while (endCol < ColumnCount - 1 && (_cells[row, endCol + 1] == 'S' || _cells[row, endCol + 1] == 'H'))
+                endCol++;
+            bool horizontalDestroyed = true;
+            for (int c = startCol; c <= endCol; c++)
+                if (_cells[row, c] == 'S') horizontalDestroyed = false;
+            if (horizontalDestroyed && endCol > startCol) return true;
+
+            // Вертикальный корабль
+            int startRow = row;
+            while (startRow > 0 && (_cells[startRow - 1, col] == 'S' || _cells[startRow - 1, col] == 'H'))
+                startRow--;
+            int endRow = row;
+            while (endRow < RowCount - 1 && (_cells[endRow + 1, col] == 'S' || _cells[endRow + 1, col] == 'H'))
+                endRow++;
+            bool verticalDestroyed = true;
+            for (int r = startRow; r <= endRow; r++)
+                if (_cells[r, col] == 'S') verticalDestroyed = false;
+
+            return verticalDestroyed;
+        }
     }
 }
