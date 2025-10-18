@@ -1,0 +1,14 @@
+﻿@model WebHello.Models.DialogViewModel
+
+@{
+    ViewBag.Title = "Greeting";
+}
+
+<main>
+    <h2>Приветствие</h2>
+
+    <div>
+        Приветствую вас, @(string.IsNullOrEmpty(Model.Name) ? "незнакомец" : Model.Name)!
+    </div>
+</main>
+
