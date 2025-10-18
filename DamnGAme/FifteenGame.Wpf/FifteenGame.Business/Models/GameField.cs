@@ -64,12 +64,12 @@ namespace FifteenGame.Business.Models
         public int GetRemainingShips() => ShipCount;
         public char GetCell(int row, int col) => _cells[row, col];
 
-        // 🔹 Новый метод: проверяет, уничтожен ли весь корабль
+        
         public bool IsShipDestroyed(int row, int col)
         {
             if (_cells[row, col] != 'H') return false;
 
-            // Горизонтальный корабль
+            
             int startCol = col;
             while (startCol > 0 && (_cells[row, startCol - 1] == 'S' || _cells[row, startCol - 1] == 'H'))
                 startCol--;
@@ -81,7 +81,7 @@ namespace FifteenGame.Business.Models
                 if (_cells[row, c] == 'S') horizontalDestroyed = false;
             if (horizontalDestroyed && endCol > startCol) return true;
 
-            // Вертикальный корабль
+            
             int startRow = row;
             while (startRow > 0 && (_cells[startRow - 1, col] == 'S' || _cells[startRow - 1, col] == 'H'))
                 startRow--;

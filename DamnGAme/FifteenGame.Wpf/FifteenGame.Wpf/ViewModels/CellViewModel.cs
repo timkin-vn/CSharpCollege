@@ -34,7 +34,7 @@ namespace FifteenGame.Wpf.ViewModels
         {
             get
             {
-                if (State == 'H' && IsShipDestroyed) return "X"; // Перечеркнутый корабль
+                if (State == 'H' && IsShipDestroyed) return "X"; 
                 if (State == 'M') return "O";
                 if (State == 'F') return "F";
                 return "";

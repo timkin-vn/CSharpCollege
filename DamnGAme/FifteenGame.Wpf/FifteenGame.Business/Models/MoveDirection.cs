@@ -9,6 +9,6 @@ namespace FifteenGame.Business.Models
     public enum MoveDirection
     {
         None,
-        // Не используется в этой игре, но сохраняем для структуры
+        
     }
 }

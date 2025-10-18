@@ -88,7 +88,7 @@ namespace FifteenGame.Business.Services
         public bool PlayerAttack(GameField computerField, int row, int column)
         {
             Console.WriteLine($"Атака: row={row}, col={column}, текущее состояние={computerField[row, column]}");
-            if (computerField[row, column] == 'F') return false; // Уже помечено флагом
+            if (computerField[row, column] == 'F') return false; 
 
             if (computerField[row, column] == 'S')
             {
@@ -103,13 +103,13 @@ namespace FifteenGame.Business.Services
                 return false;
             }
             Console.WriteLine("Ячейка уже атакована!");
-            return false; // Уже атаковано
+            return false; 
         }
 
         public void ToggleFlag(GameField computerField, int row, int column)
         {
-            if (computerField[row, column] == ' ') computerField[row, column] = 'F'; // Ставим флаг
-            else if (computerField[row, column] == 'F') computerField[row, column] = ' '; // Убираем флаг
+            if (computerField[row, column] == ' ') computerField[row, column] = 'F'; 
+            else if (computerField[row, column] == 'F') computerField[row, column] = ' ';
         }
 
         public void ComputerAttack(GameField playerField, ref int lastHitRow, ref int lastHitColumn, ref bool huntingMode)
@@ -119,7 +119,7 @@ namespace FifteenGame.Business.Services
 
             if (huntingMode)
             {
-                // Ищем вокруг последней удачной атаки
+                
                 int[][] directions = new int[][] {
                     new int[] { -1, 0 },
                     new int[] { 1, 0 },
@@ -152,10 +152,10 @@ namespace FifteenGame.Business.Services
                         }
                     }
                 }
-                huntingMode = false; // Нет доступных соседей - выходим из режима
+                huntingMode = false; 
             }
 
-            // Случайная атака
+            
             do
             {
                 row = rnd.Next(GameField.RowCount);
@@ -185,7 +185,7 @@ namespace FifteenGame.Business.Services
                 {
                     if (field[row, column] == 'S')
                     {
-                        return false; // Ещё есть корабли
+                        return false; 
                     }
                 }
             }

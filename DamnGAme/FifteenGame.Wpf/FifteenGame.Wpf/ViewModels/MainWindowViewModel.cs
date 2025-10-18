@@ -77,14 +77,14 @@ namespace FifteenGame.Wpf.ViewModels
                 cell.IsShipDestroyed = _computerField.IsShipDestroyed(cell.Row, cell.Column);
         }
 
-        // 🔹 Оставляем только один MakeAttack
+        
         public void MakeAttack(int row, int column, Action gameFinishedAction)
         {
             try
             {
                 bool hit = _service.PlayerAttack(_computerField, row, column);
                 UpdateField(_computerField, ComputerCells);
-                UpdateShipDestroyedStatus(); // обновляем статус кораблей
+                UpdateShipDestroyedStatus(); 
                 MovesCount++;
                 ComputerShipsLeft = _service.CountShipsLeft(_computerField);
 
@@ -96,7 +96,7 @@ namespace FifteenGame.Wpf.ViewModels
 
                 _service.ComputerAttack(_playerField, ref _lastHitRow, ref _lastHitColumn, ref _huntingMode);
                 UpdateField(_playerField, PlayerCells);
-                UpdateShipDestroyedStatus(); // обновляем статус кораблей
+                UpdateShipDestroyedStatus(); 
                 PlayerShipsLeft = _service.CountShipsLeft(_playerField);
 
                 if (_service.IsGameOver(_playerField))
