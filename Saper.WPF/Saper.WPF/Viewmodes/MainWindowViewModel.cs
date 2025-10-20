@@ -14,14 +14,14 @@ namespace Saper.WPF.ViewModels
         private GameService _gameService = new GameService();
         private GameModel _gameModel = new GameModel();
         private bool _isGameOver = false;
-        private bool _showBombs = false; // Флаг для показа бомб
+        private bool _showBombs = false; 
 
         public ObservableCollection<CellViewModel> Cells { get; set; } = new ObservableCollection<CellViewModel>();
 
         public ICommand NewGameCommand { get; }
         public ICommand CellOpenCommand { get; }
         public ICommand CellFlagCommand { get; }
-        public ICommand ShowBombsCommand { get; } // Команда для показа бомб
+        public ICommand ShowBombsCommand { get; } 
 
         private string _statusText;
         public string StatusText
@@ -39,15 +39,15 @@ namespace Saper.WPF.ViewModels
             NewGameCommand = new RelayCommand(StartNewGame);
             CellOpenCommand = new RelayCommand<CellViewModel>(OpenCell);
             CellFlagCommand = new RelayCommand<CellViewModel>(ToggleFlag);
-            ShowBombsCommand = new RelayCommand(ToggleShowBombs); // Просто переключаем показ
+            ShowBombsCommand = new RelayCommand(ToggleShowBombs); 
 
             StartNewGame();
         }
 
-        // Просто переключаем показ бомб
+        
         private void ToggleShowBombs()
         {
-            _showBombs = !_showBombs; // Вкл/выкл показ бомб
+            _showBombs = !_showBombs; 
             UpdateCellsFromModel();
 
             if (_showBombs)
@@ -135,7 +135,7 @@ namespace Saper.WPF.ViewModels
         }
     }
 
-    // Реализации ICommand (оставь без изменений)
+    
     public class RelayCommand : ICommand
     {
         private readonly Action _execute;
@@ -167,4 +167,5 @@ namespace Saper.WPF.ViewModels
         public bool CanExecute(object parameter) => true;
         public void Execute(object parameter) => _execute((T)parameter);
     }
+
 }
