@@ -32,7 +32,7 @@ namespace Saper.ViewModels
         {
             get
             {
-                if (ShowBombs && HasBomb) // Красный только когда включен показ бомб
+                if (ShowBombs && HasBomb) 
                     return Brushes.Red;
                 else if (IsOpened)
                     return Brushes.LightGray;
@@ -44,4 +44,5 @@ namespace Saper.ViewModels
         public ICommand OpenCommand { get; set; }
         public ICommand FlagCommand { get; set; }
     }
+
 }
