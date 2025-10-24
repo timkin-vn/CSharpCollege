@@ -1,0 +1,196 @@
+﻿@model _2048Game.Web.Models.GameViewModel
+@{
+    ViewBag.Title = "2048";
+}
+
+<h2 class="title">@ViewBag.Title</h2>
+
+<div class="score-box">
+    <span>Счет: <strong>@Model.Score</strong></span>
+</div>
+<div class="score-box high-score">
+    <span>Рекорд: <strong>@Model.HighScore</strong></span>
+</div>
+
+<div id="game-container">
+    <div id="board">
+        @Html.Partial("_Board", Model)
+    </div>
+
+    @if (!Model.CanMove)
+    {
+        <div id="game-over-overlay">
+            <div class="message">
+                Игра окончена! <br/>
+                <span>Ваш счет: <strong>@Model.Score</strong></span><br /><br />
+                <button onclick="reset()">Заново</button>
+            </div>
+        </div>
+    }
+</div>
+
+@section scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function move(dir) {
+            $.post('/Game/Move', { direction: dir }, function (data) {
+                $('#game-container').html($(data).find('#game-container').html());
+                $('.score-box').html($(data).find('.score-box').html());
+                $('.high-score').html($(data).find('.high-score').html());
+            });
+        }
+
+        function reset() {
+            window.location.href = '/Game/Reset';
+        }
+
+        document.addEventListener('keydown', function (e) {
+            switch (e.key) {
+                case 'ArrowUp': move('up'); break;
+                case 'ArrowDown': move('down'); break;
+                case 'ArrowLeft': move('left'); break;
+                case 'ArrowRight': move('right'); break;
+            }
+        });
+    </script>
+}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #faf8ef;
+        text-align: center;
+    }
+
+    .title {
+        font-size: 36px;
+        margin-top: 30px;
+        color: #776e65;
+    }
+
+    .score-box {
+        font-size: 20px;
+        margin: 10px;
+        color: #776e65;
+    }
+
+    .score-box high-score {
+        font-size: 20px;
+        margin: 10px;
+        color: #776e65;
+    }
+
+    #game-container {
+        position: relative;
+        display: inline-block;
+        margin-top: 20px;
+    }
+
+    .board {
+        border-collapse: separate;
+        border-spacing: 10px;
+        background-color: #bbada0;
+        padding: 10px;
+        border-radius: 10px;
+    }
+
+    .board td {
+        width: 100px;
+        height: 100px;
+        text-align: center;
+        vertical-align: middle;
+        font-size: 28px;
+        font-weight: bold;
+        border-radius: 8px;
+        color: #776e65;
+    }
+
+    .tile-empty {
+        background-color: #cdc1b4;
+    }
+
+    .tile-2 {
+        background-color: #eee4da;
+    }
+
+    .tile-4 {
+        background-color: #ede0c8;
+    }
+
+    .tile-8 {
+        background-color: #f2b179;
+        color: #f9f6f2;
+    }
+
+    .tile-16 {
+        background-color: #f59563;
+        color: #f9f6f2;
+    }
+
+    .tile-32 {
+        background-color: #f67c5f;
+        color: #f9f6f2;
+    }
+
+    .tile-64 {
+        background-color: #f65e3b;
+        color: #f9f6f2;
+    }
+
+    .tile-128 {
+        background-color: #edcf72;
+        color: #f9f6f2;
+    }
+
+    .tile-256 {
+        background-color: #edcc61;
+        color: #f9f6f2;
+    }
+
+    .tile-512 {
+        background-color: #edc850;
+        color: #f9f6f2;
+    }
+
+    .tile-1024 {
+        background-color: #edc53f;
+        color: #f9f6f2;
+    }
+
+    .tile-2048 {
+        background-color: #edc22e;
+        color: #f9f6f2;
+    }
+
+    #game-over-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(238, 228, 218, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+    }
+
+    #game-over-overlay .message {
+        background: #8f7a66;
+        color: white;
+        font-size: 28px;
+        padding: 30px 50px;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    }
+
+    #game-over-overlay button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        font-size: 18px;
+        border: none;
+        border-radius: 6px;
+        background: #edc22e;
+        color: #776e65;
+        cursor: pointer;
+    }
+</style>

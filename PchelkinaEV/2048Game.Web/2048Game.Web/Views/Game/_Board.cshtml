@@ -1,0 +1,17 @@
+﻿@model _2048Game.Web.Models.GameViewModel
+
+<table class="board" id="board">
+@for (int r = 0; r < 4; r++)
+{
+    <tr>
+        @for(int c = 0; c < 4; c++)
+        {
+            var tile = Model.Tiles[r, c];
+            <td class="@tile.CssClass">
+                @(tile.Value == 0 ? "" : tile.Value.ToString())
+            </td>
+        }
+    </tr>
+}
+</table>
+
