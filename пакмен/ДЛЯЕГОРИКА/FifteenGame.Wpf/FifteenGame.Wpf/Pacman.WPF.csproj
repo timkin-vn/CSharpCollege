@@ -96,9 +96,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FifteenGame.Business\Pacmen.Business.csproj">
+    <ProjectReference Include="..\FifteenGame.Business\Pacman.Business.csproj">
       <Project>{49efe736-3358-4d0b-a8af-499a9ae4071f}</Project>
-      <Name>Pacmen.Business</Name>
+      <Name>Pacman.Business</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36414.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pacmen.WPF", "FifteenGame.Wpf\Pacmen.WPF.csproj", "{653051BD-B182-4363-95EC-E027911A4070}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pacman.WPF", "FifteenGame.Wpf\Pacman.WPF.csproj", "{653051BD-B182-4363-95EC-E027911A4070}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pacmen.Business", "FifteenGame.Business\Pacmen.Business.csproj", "{49EFE736-3358-4D0B-A8AF-499A9AE4071F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pacman.Business", "FifteenGame.Business\Pacman.Business.csproj", "{49EFE736-3358-4D0B-A8AF-499A9AE4071F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
