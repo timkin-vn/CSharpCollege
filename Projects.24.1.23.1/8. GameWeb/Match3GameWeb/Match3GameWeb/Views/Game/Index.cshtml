@@ -1,0 +1,21 @@
+﻿@model Match3GameWeb.Models.GameViewModel
+
+@{
+    ViewBag.Title = "Игра 3 в ряд";
+    bool isGameOver = (bool?)ViewBag.IsGameOver ?? false;
+}
+
+<main>
+    <h2>Игра 3 в ряд</h2>   
+
+    @if (isGameOver)
+        {
+            <h2>Поздравляем! Игра завершена.</h2>
+
+            <div>
+                @Html.ActionLink("Повторить", "Index", "Game", new { }, new { })
+            </div>
+        }
+
+
+</main>
