@@ -1,0 +1,19 @@
+﻿@{
+    bool isGameWon = (bool?)ViewBag.IsGameWon ?? false;
+}
+
+<table>
+    @for (int r = 0; r < Model.Size; r++)
+    {
+        <tr>
+            @for (int c = 0; c < Model.Size; c++)
+            {
+                var cell = Model.Cells[r, c];
+                var color = isGameWon ? "green" : (cell.IsActive ? "yellow" : "gray");
+                <td style="width:60px; height:60px; background-color:@color; text-align:center;">
+                    <a href="@Url.Action("Click", "Game", new { row = r, col = c })" style="display:block; width:100%; height:100%;"></a>
+                </td>
+            }
+        </tr>
+    }
+</table>

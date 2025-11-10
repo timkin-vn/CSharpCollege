@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36603.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Игра.Web", "Игра.Web\Игра.Web.csproj", "{6A146D5D-9E96-4541-A1C1-E04254183759}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Игра.Business", "Игра.Business\Игра.Business.csproj", "{1294681A-DD4F-4F9E-BB72-7B601DB9CE6B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6A146D5D-9E96-4541-A1C1-E04254183759}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A146D5D-9E96-4541-A1C1-E04254183759}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A146D5D-9E96-4541-A1C1-E04254183759}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A146D5D-9E96-4541-A1C1-E04254183759}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1294681A-DD4F-4F9E-BB72-7B601DB9CE6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1294681A-DD4F-4F9E-BB72-7B601DB9CE6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1294681A-DD4F-4F9E-BB72-7B601DB9CE6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1294681A-DD4F-4F9E-BB72-7B601DB9CE6B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0166A505-0704-4FA2-82A0-176CB5D6F601}
+	EndGlobalSection
+EndGlobal
