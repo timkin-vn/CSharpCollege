@@ -1,0 +1,63 @@
+﻿@model FifteenGame.Web.Models.GameViewModel
+
+@{
+    ViewBag.Title = "Игра 15";
+    bool isGameOver = (bool?)ViewBag.IsGameOver ?? false;
+}
+
+<main>
+    <h2>Игра 15</h2>
+
+    @if (isGameOver)
+    {
+        <h2 class="text-danger">Поздравляем! Игра завершена.</h2>
+
+        <div>
+            @Html.ActionLink("Повторить", "Index", "Game", new { }, new { @class = "btn btn-success" })
+        </div>
+    }
+
+    <div class="container text-center">
+        @for (int row = 0; row < Model.RowCount; row++)
+        {
+            <div class="row p-2">
+                <div class="col-2"></div>
+
+                @for (int col = 0; col < Model.ColumnCoun; col++)
+                {
+                    if (Model.Cells[row, col].IsEmpty)
+                    {
+                        <div class="col-2"></div>
+                        continue;
+                    }
+
+                    if (isGameOver || Model.Cells[row, col].Direction == FifteenGame.Business.Models.MoveDirection.None)
+                    {
+                        @*<div class="col-2 d-grid p-2">
+                            <div class="btn btn-success fs-3">@Model.Cells[row, col].Text</div>
+                        </div>*@
+
+                        <div class="col-2 d-grid p-2 text-center">
+                            <img src="@Url.Content($"~/Content/img/{Model.Cells[row, col].Text}.png")"
+                                 style="width: 150px; height: 150px; display: block; margin: auto;" />
+                        </div>
+
+                        continue;
+                    }
+
+                    <div class="col-2 d-grid p-2">
+                        <a href="@Url.Action("PressButton", "Game", new { directionText = Model.Cells[row, col].DirectionText })">
+                            <img src="@Url.Content($"~/Content/img/{Model.Cells[row, col].Text}.png")"
+                                 style="width: 150px; height: 150px; display: block; margin: auto;" />
+                        </a>
+
+                        @*@Html.ActionLink(Model.Cells[row, col].Text, "PressButton",
+                            new { directionText = Model.Cells[row, col].DirectionText }, new { @class = "btn btn-success fs-3" })*@
+                    </div>
+                }
+
+                <div class="col-2"></div>
+            </div>
+        }
+    </div>
+</main>
