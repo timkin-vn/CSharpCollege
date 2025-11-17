@@ -50,6 +50,13 @@
       <Project>{7A2BE220-41E4-4440-AB09-17B64C5E122A}</Project>
       <Name>FifteenGame.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FifteenGame.DataAccess\FifteenGame.DataAccess.csproj">
+      <Project>{0DFB57FB-37EC-49D5-BD9A-1CC3114E57E3}</Project>
+      <Name>FifteenGame.DataAccess</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
