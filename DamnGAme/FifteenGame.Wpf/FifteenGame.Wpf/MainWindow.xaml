@@ -43,8 +43,8 @@
             <TextBlock Grid.Column="2" Text="Поле противника" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" Foreground="White"/>
 
             <!-- Поле игрока -->
-            <Border Grid.Column="0" BorderBrush="DarkBlue" BorderThickness="3" CornerRadius="5" Padding="2">
-                <ItemsControl ItemsSource="{Binding PlayerCells}">
+            <Border Grid.Column="0" BorderBrush="DarkBlue" BorderThickness="10" CornerRadius="5" Padding="2" Margin="0,0,15,43">
+                <ItemsControl ItemsSource="{Binding PlayerCells}" Margin="-2,7,2,-7">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <Grid>
@@ -123,8 +123,8 @@
             </Border>
 
             <!-- Поле противника -->
-            <Border Grid.Column="2" BorderBrush="DarkRed" BorderThickness="3" CornerRadius="5" Padding="2">
-                <ItemsControl ItemsSource="{Binding ComputerCells}">
+            <Border Grid.Column="2" BorderBrush="DarkRed" BorderThickness="3" CornerRadius="5" Padding="2" HorizontalAlignment="Left" Width="358" Margin="0,0,0,69">
+                <ItemsControl ItemsSource="{Binding ComputerCells}" HorizontalAlignment="Left" Width="380">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <Grid>

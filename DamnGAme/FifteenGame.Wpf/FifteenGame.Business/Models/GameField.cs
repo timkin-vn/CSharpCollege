@@ -81,7 +81,7 @@ namespace FifteenGame.Business.Models
                 if (_cells[row, c] == 'S') horizontalDestroyed = false;
             if (horizontalDestroyed && endCol > startCol) return true;
 
-            
+             
             int startRow = row;
             while (startRow > 0 && (_cells[startRow - 1, col] == 'S' || _cells[startRow - 1, col] == 'H'))
                 startRow--;
