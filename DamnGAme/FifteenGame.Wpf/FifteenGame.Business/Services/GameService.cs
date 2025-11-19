@@ -1,131 +1,111 @@
-﻿using FifteenGame.Business.Models;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
-namespace FifteenGame.Business.Services
+namespace Battleship
 {
+    // High-level service that manages two fields and turns
     public class GameService
     {
-        private readonly int[] ShipSizes = { 4, 3, 3, 2, 2, 2, 1, 1, 1, 1 };
-        private readonly Random rnd = new Random();
+        public GameField PlayerField { get; private set; }
+        public GameField EnemyField { get; private set; }
 
-        public void Initialize(GameField playerField, GameField computerField)
+        public bool IsPlayerTurn { get; private set; } = true;
+        private Random rng = new Random();
+
+        // pool of all enemy candidate cells for AI random shots
+        private HashSet<(int X, int Y)> enemyTargetCandidates = new HashSet<(int X, int Y)>();
+
+        // Standard fleet lengths: Carrier(5), Battleship(4), Cruiser(3), Submarine(3), Destroyer(2)
+        public static readonly int[] DefaultFleet = new[] { 5, 4, 3, 3, 2 };
+
+        public GameService(int width = GameField.DefaultSize, int height = GameField.DefaultSize)
         {
-            PlaceAllShips(playerField);
-            PlaceAllShips(computerField);
+            PlayerField = new GameField(width, height);
+            EnemyField = new GameField(width, height);
+            ResetEnemyTargets();
         }
 
-        private void PlaceAllShips(GameField field)
+        private void ResetEnemyTargets()
         {
-            field.Clear();
-
-            foreach (int size in ShipSizes)
-            {
-                bool placed = false;
-                int maxAttempts = 10000;
-
-                for (int attempt = 0; attempt < maxAttempts && !placed; attempt++)
-                {
-                    bool horizontal = rnd.Next(2) == 0;
-
-                    int maxRow = horizontal ? GameField.Size : GameField.Size - size + 1;
-                    int maxCol = horizontal ? GameField.Size - size + 1 : GameField.Size;
-
-                    if (maxRow <= 0 || maxCol <= 0) continue;
-
-                    int row = rnd.Next(maxRow);
-                    int col = rnd.Next(maxCol);
-
-                    if (field.CanPlaceShip(row, col, size, horizontal))
-                    {
-                        field.PlaceShip(row, col, size, horizontal);
-                        placed = true;
-                    }
-                }
-
-                // Если вдруг не получилось — форсируем в левый верхний угол
-                if (!placed)
-                {
-                    for (int row = 0; row < GameField.Size && !placed; row++)
-                    {
-                        for (int col = 0; col < GameField.Size && !placed; col++)
-                        {
-                            foreach (bool hor in new[] { true, false })
-                            {
-                                if ((hor && col + size <= GameField.Size) ||
-                                    (!hor && row + size <= GameField.Size))
-                                {
-                                    if (field.CanPlaceShip(row, col, size, hor))
-                                    {
-                                        field.PlaceShip(row, col, size, hor);
-                                        placed = true;
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            enemyTargetCandidates.Clear();
+            for (int x = 0; x < EnemyField.Width; x++)
+                for (int y = 0; y < EnemyField.Height; y++)
+                    enemyTargetCandidates.Add((x, y));
         }
 
-        public bool PlayerAttack(GameField enemyField, int row, int col)
+        public void StartNewGame(bool autoPlacePlayer = false, IEnumerable<int> fleet = null)
         {
-            return enemyField.Shoot(row, col);
+            fleet ??= DefaultFleet;
+            PlayerField.Clear();
+            EnemyField.Clear();
+            ResetEnemyTargets();
+            IsPlayerTurn = true;
+
+            if (autoPlacePlayer)
+                PlayerField.AutoPlaceFleet(fleet);
+
+            EnemyField.AutoPlaceFleet(fleet);
         }
 
-        public void ComputerAttack(GameField playerField, ref int lastHitRow, ref int lastHitCol, ref bool hunting)
+        // Player places ship manually. Returns true if placed.
+        public bool PlayerPlaceShip(int startX, int startY, Orientation orientation, int length)
         {
-            int r, c;
-
-            if (hunting && lastHitRow != -1)
-            {
-                int[][] directions = { new[] { -1, 0 }, new[] { 1, 0 }, new[] { 0, -1 }, new[] { 0, 1 } };
-                var shuffled = directions.OrderBy(x => rnd.Next()).ToArray();
-
-                foreach (var dir in shuffled)
-                {
-                    r = lastHitRow + dir[0];
-                    c = lastHitCol + dir[1];
-
-                    if (GameField.IsValid(r, c) && playerField[r, c] != 'H' && playerField[r, c] != 'M')
-                    {
-                        bool hit = playerField.Shoot(r, c);
-                        if (hit)
-                        {
-                            lastHitRow = r;
-                            lastHitCol = c;
-                            return;
-                        }
-                        else
-                        {
-                            hunting = false;
-                            return;
-                        }
-                    }
-                }
-                hunting = false;
-            }
-
-            // Случайный выстрел
-            do
-            {
-                r = rnd.Next(GameField.Size);
-                c = rnd.Next(GameField.Size);
-            } while (playerField[r, c] == 'H' || playerField[r, c] == 'M');
-
-            bool shipHit = playerField.Shoot(r, c);
-            if (shipHit)
-            {
-                lastHitRow = r;
-                lastHitCol = c;
-                hunting = true;
-            }
+            return PlayerField.PlaceShip(startX, startY, orientation, length);
         }
 
-        public bool IsGameOver(GameField field)
+        // Player fires at enemy
+        public ShotResult PlayerFire(int x, int y)
         {
-            return field.GetRemainingShips() == 0;
+            if (!IsPlayerTurn) throw new InvalidOperationException("Not player's turn");
+            var result = EnemyField.Shoot(x, y);
+            if (result == ShotResult.Miss)
+                IsPlayerTurn = false; // switch to enemy
+            // If Hit or Sunk, player continues
+            return result;
+        }
+
+        // Enemy (AI) makes a move: simple random selection among unseen cells
+        public (int X, int Y, ShotResult Result) EnemyMove()
+        {
+            if (IsPlayerTurn) throw new InvalidOperationException("Not enemy's turn");
+
+            if (!enemyTargetCandidates.Any())
+                ResetEnemyTargets();
+
+            // Simple AI: pick random from candidates
+            var list = enemyTargetCandidates.ToList();
+            var pick = list[rng.Next(list.Count)];
+            enemyTargetCandidates.Remove(pick);
+
+            var result = PlayerField.Shoot(pick.X, pick.Y);
+
+            // If miss - switch back to player
+            if (result == ShotResult.Miss)
+                IsPlayerTurn = true;
+            // If hit or sunk - enemy continues (we keep IsPlayerTurn = false)
+
+            return (pick.X, pick.Y, result);
+        }
+
+        public bool IsPlayerWinner() => EnemyField.AllShipsSunk();
+        public bool IsEnemyWinner() => PlayerField.AllShipsSunk();
+
+        // Helpers for UI: get masked enemy view (so player doesn't see ships)
+        public Cell[,] GetEnemyViewForPlayer() => EnemyField.GetMaskedGridForOpponent();
+
+        // Helper: get player's field (with ships visible)
+        public Cell[,] GetPlayerView() => PlayerField.GetFullGridCopy();
+
+        // Convenience: render both fields to strings for console testing
+        public string DebugRenderBoth(bool showEnemyShips = false)
+        {
+            var sb = new System.Text.StringBuilder();
+            sb.AppendLine("Player field:");
+            sb.AppendLine(PlayerField.RenderToString(showShips: true));
+            sb.AppendLine("Enemy field (player view):");
+            sb.AppendLine(EnemyField.RenderToString(showShips: showEnemyShips));
+            return sb.ToString();
         }
     }
 }

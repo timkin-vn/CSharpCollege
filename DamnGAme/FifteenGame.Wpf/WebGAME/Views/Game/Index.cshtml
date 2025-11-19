@@ -1,14 +1,14 @@
 ﻿@{
     ViewData["Title"] = "Морской бой";
-    var playerField = ViewBag.PlayerField as FifteenGame.Business.Models.GameField;
-    var computerField = ViewBag.ComputerField as FifteenGame.Business.Models.GameField;
+    var playerField = ViewBag.PlayerField as char[,];
+    var computerField = ViewBag.ComputerField as char[,];
 }
 
 <h1>МОРСКОЙ БОЙ</h1>
 
 <div style="display:flex; gap:50px; justify-content:center; margin-top:30px; font-family:Consolas;">
 
-    <!-- Твоё поле -->
+    <!-- Поле игрока -->
     <div>
         <h2>Твои корабли (осталось: @ViewBag.ComputerShipsLeft)</h2>
         <table border="1" style="border-collapse:collapse;">
@@ -17,13 +17,16 @@
                     <tr>
                     @for (int c = 0; c < 10; c++)
                     {
-                        char cell = playerField[r, c];
+                        char cell = playerField[c, r];
                         string bg = cell == 'H' ? "red" :
                                     cell == 'M' ? "lightblue" :
                                     cell == 'S' ? "gray" : "white";
-                                <td style="width:30px;height:30px;text-align:center;background:@bg">
-                            @(cell == 'S' ? "■" : cell == 'H' ? "✖" : cell == 'M' ? "•" : "")
-                                </td>
+                        string symbol = cell == 'H' ? "✖" :
+                                        cell == 'M' ? "•" :
+                                        cell == 'S' ? "■" : "";
+                            <td style="width:30px;height:30px;text-align:center;background:@bg">
+                            @symbol
+                            </td>
                     }
                     </tr>
             }
@@ -39,14 +42,15 @@
                     <tr>
                     @for (int c = 0; c < 10; c++)
                     {
-                        char cell = computerField[r, c];
+                        char cell = computerField[c, r];
                         string bg = cell == 'H' ? "red" :
                                     cell == 'M' ? "lightblue" : "white";
-                        string symbol = cell == 'H' ? "✖" : cell == 'M' ? "•" : "";
-                                <td style="width:30px;height:30px;text-align:center;background:@bg;cursor:pointer;"
-                                    onclick="shoot(@r, @c, this)">
+                        string symbol = cell == 'H' ? "✖" :
+                                        cell == 'M' ? "•" : "";
+                            <td style="width:30px;height:30px;text-align:center;background:@bg; cursor:pointer;"
+                                onclick="shoot(@r, @c, this)">
                             @symbol
-                                </td>
+                            </td>
                     }
                     </tr>
             }
@@ -61,10 +65,7 @@
 
 <script>
     async function shoot(row, col, cellElement) {
-        // Защита от повторного клика
-        if (cellElement.style.background === 'red' || cellElement.style.background === 'lightblue') {
-            return;
-        }
+        if (cellElement.style.background === 'red' || cellElement.style.background === 'lightblue') return;
 
         const response = await fetch('/Game/Shoot', {
             method: 'POST',
@@ -74,32 +75,23 @@
 
         const result = await response.json();
 
-        // Обновляем ячейку игрока
         if (result.hit) {
             cellElement.style.background = 'red';
             cellElement.innerHTML = '✖';
-            if (result.destroyed) {
-                alert('ПОТОПИЛ!');
-            }
+            if (result.destroyed) setTimeout(()=>alert("ПОТОПИЛ!"),100);
         } else {
             cellElement.style.background = 'lightblue';
             cellElement.innerHTML = '•';
         }
 
-        // Обновляем счётчики
-        document.querySelector('h2:nth-of-type(2)').innerText = `Противник (осталось: ${result.playerShipsLeft})`;
+        document.querySelector("h2:nth-of-type(2)").innerText =
+            `Противник (осталось: ${result.playerShipsLeft})`;
+        document.querySelector("h2:nth-of-type(1)").innerText =
+            `Твои корабли (осталось: ${result.computerShipsLeft})`;
 
-        // Проверяем победу
-        if (result.playerWon) {
-            alert('ТЫ ПОБЕДИЛ, СУКА!');
-            location.reload();
-        }
-        if (result.computerWon) {
-            alert('ПРОИГРАЛ, НУБ');
-            location.reload();
-        }
+        if(result.playerWon){setTimeout(()=>{alert("ПОБЕДА!");location.reload();},500);}
+        if(result.computerWon){setTimeout(()=>{alert("ПРОИГРАЛ!");location.reload();},500);}
 
-        // Обновляем своё поле (компьютер мог попасть)
-        location.reload(); // Самое простое и надёжное решение
+        setTimeout(()=>location.reload(),1000); // обновить поле игрока
     }
 </script>

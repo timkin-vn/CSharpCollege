@@ -1,115 +1,257 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace FifteenGame.Business.Models
+namespace Battleship
 {
-    public class GameField
+    public enum Cell
     {
-        public const int Size = 10;
-        private readonly char[,] _cells = new char[Size, Size];
-        public int ShipCount { get; private set; }
+        Empty,
+        Ship,
+        Miss,
+        Hit
+    }
 
-        public GameField()
+    public enum Orientation
+    {
+        Horizontal,
+        Vertical
+    }
+
+    public enum ShotResult
+    {
+        Miss,
+        Hit,
+        Sunk,
+        AlreadyShot
+    }
+
+    public class Ship
+    {
+        public int Length { get; }
+        public List<(int X, int Y)> Cells { get; } = new List<(int X, int Y)>();
+        private HashSet<(int X, int Y)> hits = new HashSet<(int X, int Y)>();
+
+        public Ship(int length)
         {
-            Clear();
+            if (length <= 0) throw new ArgumentException("Length must be positive", nameof(length));
+            Length = length;
         }
 
-        public char this[int row, int col]
+        public void SetPosition(int startX, int startY, Orientation orientation)
         {
-            get { return _cells[row, col]; }
-            set
+            Cells.Clear();
+            for (int i = 0; i < Length; i++)
             {
-                if (_cells[row, col] == 'S' && value != 'S') ShipCount--;
-                if (value == 'S' && _cells[row, col] != 'S') ShipCount++;
-                _cells[row, col] = value;
+                int x = startX + (orientation == Orientation.Horizontal ? i : 0);
+                int y = startY + (orientation == Orientation.Vertical ? i : 0);
+                Cells.Add((x, y));
             }
+        }
+
+        public bool Occupies(int x, int y) => Cells.Contains((x, y));
+
+        public void RegisterHit(int x, int y)
+        {
+            if (Occupies(x, y))
+                hits.Add((x, y));
+        }
+
+        public bool IsSunk() => hits.Count >= Length;
+    }
+
+    public class GameField
+    {
+        public const int DefaultSize = 10;
+        public int Width { get; }
+        public int Height { get; }
+
+        private Cell[,] grid;
+        public IReadOnlyList<Ship> Ships => ships.AsReadOnly();
+        private List<Ship> ships = new List<Ship>();
+        private static readonly Random rng = new Random();
+
+        // Default constructor 10x10
+        public GameField(int width = DefaultSize, int height = DefaultSize)
+        {
+            if (width <= 0 || height <= 0) throw new ArgumentException("Invalid dimensions");
+            Width = width;
+            Height = height;
+            grid = new Cell[Width, Height];
+            Clear();
         }
 
         public void Clear()
         {
-            for (int r = 0; r < Size; r++)
-                for (int c = 0; c < Size; c++)
-                    _cells[r, c] = ' ';
-            ShipCount = 0;
+            ships.Clear();
+            for (int x = 0; x < Width; x++)
+                for (int y = 0; y < Height; y++)
+                    grid[x, y] = Cell.Empty;
         }
 
-        public static bool IsValid(int row, int col)
-        {
-            return row >= 0 && row < Size && col >= 0 && col < Size;
-        }
+        public bool InBounds(int x, int y) => x >= 0 && x < Width && y >= 0 && y < Height;
 
-        public bool Shoot(int row, int col)
+        // Validate placement without committing
+        public bool CanPlaceShip(int startX, int startY, Orientation orientation, int length)
         {
-            if (!IsValid(row, col)) return false;
-            if (_cells[row, col] == 'H' || _cells[row, col] == 'M') return false;
-
-            if (_cells[row, col] == 'S')
+            for (int i = 0; i < length; i++)
             {
-                _cells[row, col] = 'H';
-                ShipCount--;
-                return true;
-            }
-
-            _cells[row, col] = 'M';
-            return false;
-        }
-
-        public bool IsShipDestroyed(int row, int col)
-        {
-            if (_cells[row, col] != 'H') return false;
-
-            // Горизонталь
-            int left = col;
-            while (left > 0 && (_cells[row, left - 1] == 'S' || _cells[row, left - 1] == 'H')) left--;
-            int right = col;
-            while (right < Size - 1 && (_cells[row, right + 1] == 'S' || _cells[row, right + 1] == 'H')) right++;
-
-            bool horDestroyed = true;
-            for (int c = left; c <= right; c++)
-                if (_cells[row, c] == 'S') horDestroyed = false;
-            if (horDestroyed && right >= left) return true;
-
-            // Вертикаль
-            int up = row;
-            while (up > 0 && (_cells[up - 1, col] == 'S' || _cells[up - 1, col] == 'H')) up--;
-            int down = row;
-            while (down < Size - 1 && (_cells[down + 1, col] == 'S' || _cells[down + 1, col] == 'H')) down++;
-
-            bool vertDestroyed = true;
-            for (int r = up; r <= down; r++)
-                if (_cells[r, col] == 'S') vertDestroyed = false;
-
-            return vertDestroyed;
-        }
-
-        public void PlaceShip(int r, int c, int size, bool horizontal)
-        {
-            for (int i = 0; i < size; i++)
-            {
-                if (horizontal)
-                    this[r, c + i] = 'S';
-                else
-                    this[r + i, c] = 'S';
-            }
-        }
-
-        public bool CanPlaceShip(int r, int c, int size, bool horizontal)
-        {
-            if (horizontal && c + size > Size) return false;
-            if (!horizontal && r + size > Size) return false;
-
-            for (int i = -1; i <= size; i++)
-            {
-                for (int j = -1; j <= 1; j++)
-                {
-                    int nr = horizontal ? r + j : r + i;
-                    int nc = horizontal ? c + i : c + j;
-                    if (IsValid(nr, nc) && _cells[nr, nc] == 'S')
-                        return false;
-                }
+                int x = startX + (orientation == Orientation.Horizontal ? i : 0);
+                int y = startY + (orientation == Orientation.Vertical ? i : 0);
+                if (!InBounds(x, y)) return false;
+                if (grid[x, y] != Cell.Empty) return false;
+                // check adjacency (no-touch rule)
+                for (int dx = -1; dx <= 1; dx++)
+                    for (int dy = -1; dy <= 1; dy++)
+                    {
+                        int nx = x + dx, ny = y + dy;
+                        if (InBounds(nx, ny) && grid[nx, ny] == Cell.Ship)
+                            return false;
+                    }
             }
             return true;
         }
 
-        public int GetRemainingShips() => ShipCount;
+        // Place and commit a ship (returns false if cannot)
+        public bool PlaceShip(int startX, int startY, Orientation orientation, int length)
+        {
+            if (!CanPlaceShip(startX, startY, orientation, length))
+                return false;
+
+            var ship = new Ship(length);
+            ship.SetPosition(startX, startY, orientation);
+            ships.Add(ship);
+
+            foreach (var (x, y) in ship.Cells)
+                grid[x, y] = Cell.Ship;
+
+            return true;
+        }
+
+        // Attempt to randomly place standard fleet: lengths provided
+        public void AutoPlaceFleet(IEnumerable<int> lengths)
+        {
+            foreach (var l in lengths)
+            {
+                bool placed = false;
+                int attempts = 0;
+                while (!placed && attempts < 500)
+                {
+                    attempts++;
+                    Orientation o = rng.Next(2) == 0 ? Orientation.Horizontal : Orientation.Vertical;
+                    int maxX = o == Orientation.Horizontal ? Width - l : Width - 1;
+                    int maxY = o == Orientation.Vertical ? Height - l : Height - 1;
+                    int sx = rng.Next(0, maxX + 1);
+                    int sy = rng.Next(0, maxY + 1);
+                    placed = PlaceShip(sx, sy, o, l);
+                }
+                if (!placed)
+                    throw new InvalidOperationException($"Не удалось автоматически разместить корабль длины {l}");
+            }
+        }
+
+        // Receive a shot and return result
+        public ShotResult Shoot(int x, int y)
+        {
+            if (!InBounds(x, y)) throw new ArgumentOutOfRangeException("Shot out of bounds");
+
+            var current = grid[x, y];
+            if (current == Cell.Miss || current == Cell.Hit) return ShotResult.AlreadyShot;
+
+            if (current == Cell.Empty)
+            {
+                grid[x, y] = Cell.Miss;
+                return ShotResult.Miss;
+            }
+
+            // Hit a ship
+            if (current == Cell.Ship)
+            {
+                grid[x, y] = Cell.Hit;
+                // mark hit on ship object
+                var ship = ships.FirstOrDefault(s => s.Occupies(x, y));
+                if (ship != null)
+                {
+                    ship.RegisterHit(x, y);
+                    if (ship.IsSunk())
+                    {
+                        // optionally mark surrounding cells as Miss (classical rule) -- we will mark them as Miss to help UI/AI
+                        MarkSurroundingAroundSunkShip(ship);
+                        return ShotResult.Sunk;
+                    }
+                    return ShotResult.Hit;
+                }
+                return ShotResult.Hit;
+            }
+
+            return ShotResult.Miss;
+        }
+
+        private void MarkSurroundingAroundSunkShip(Ship ship)
+        {
+            foreach (var (sx, sy) in ship.Cells)
+            {
+                for (int dx = -1; dx <= 1; dx++)
+                    for (int dy = -1; dy <= 1; dy++)
+                    {
+                        int nx = sx + dx, ny = sy + dy;
+                        if (InBounds(nx, ny) && grid[nx, ny] == Cell.Empty)
+                            grid[nx, ny] = Cell.Miss;
+                    }
+            }
+        }
+
+        public bool AllShipsSunk() => ships.All(s => s.IsSunk());
+
+        // Return a copy of internal grid (for server logic). For view you might want masked version.
+        public Cell[,] GetFullGridCopy()
+        {
+            var copy = new Cell[Width, Height];
+            for (int x = 0; x < Width; x++)
+                for (int y = 0; y < Height; y++)
+                    copy[x, y] = grid[x, y];
+            return copy;
+        }
+
+        // Get view for opponent: hide ships (only reveal hits/misses)
+        public Cell[,] GetMaskedGridForOpponent()
+        {
+            var view = new Cell[Width, Height];
+            for (int x = 0; x < Width; x++)
+                for (int y = 0; y < Height; y++)
+                {
+                    var c = grid[x, y];
+                    if (c == Cell.Hit) view[x, y] = Cell.Hit;
+                    else if (c == Cell.Miss) view[x, y] = Cell.Miss;
+                    else view[x, y] = Cell.Empty; // hide ships and empty
+                }
+            return view;
+        }
+
+        // Utility: print grid to console (for debugging)
+        // showShips = true -> reveal ships
+        public string RenderToString(bool showShips = true)
+        {
+            var sb = new System.Text.StringBuilder();
+            sb.Append("  ");
+            for (int x = 0; x < Width; x++) sb.Append($"{x} ");
+            sb.AppendLine();
+            for (int y = 0; y < Height; y++)
+            {
+                sb.Append($"{y:00} ");
+                for (int x = 0; x < Width; x++)
+                {
+                    char ch = '.';
+                    var c = grid[x, y];
+                    if (c == Cell.Empty) ch = '.';
+                    else if (c == Cell.Miss) ch = 'o';
+                    else if (c == Cell.Hit) ch = 'X';
+                    else if (c == Cell.Ship) ch = showShips ? 'S' : '.';
+                    sb.Append($"{ch} ");
+                }
+                sb.AppendLine();
+            }
+            return sb.ToString();
+        }
     }
 }
