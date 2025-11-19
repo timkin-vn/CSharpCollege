@@ -6,16 +6,14 @@ namespace FifteenGameWeb2.Controllers
 {
     public class GameController : Controller
     {
-        // Статические поля — одна игра на всех (для теста норм, потом можно в сессию)
-        private static readonly GameField PlayerField = new();
-        private static readonly GameField ComputerField = new();
-        private static readonly GameService GameService = new();
+        private static readonly GameField PlayerField = new GameField();
+        private static readonly GameField ComputerField = new GameField();
+        private static readonly GameService GameService = new GameService();
 
         private static int lastHitRow = -1;
-        private static int lastHitColumn = -1;
+        private static int lastHitCol = -1;
         private static bool huntingMode = false;
 
-        // Инициализация при первом запуске
         static GameController()
         {
             GameService.Initialize(PlayerField, ComputerField);
@@ -33,12 +31,10 @@ namespace FifteenGameWeb2.Controllers
         [HttpPost]
         public JsonResult Shoot(int row, int column)
         {
-            // Твоя оригинальная функция — ничего не меняем
             bool hit = GameService.PlayerAttack(ComputerField, row, column);
             bool destroyed = hit && ComputerField.IsShipDestroyed(row, column);
 
-            // Ход компьютера — твоя оригинальная функция
-            GameService.ComputerAttack(PlayerField, ref lastHitRow, ref lastHitColumn, ref huntingMode);
+            GameService.ComputerAttack(PlayerField, ref lastHitRow, ref lastHitCol, ref huntingMode);
 
             return Json(new
             {
@@ -56,7 +52,7 @@ namespace FifteenGameWeb2.Controllers
         {
             PlayerField.Clear();
             ComputerField.Clear();
-            lastHitRow = lastHitColumn = -1;
+            lastHitRow = lastHitCol = -1;
             huntingMode = false;
             GameService.Initialize(PlayerField, ComputerField);
             return RedirectToAction("Index");

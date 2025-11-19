@@ -1,104 +1,105 @@
 ﻿@{
     ViewData["Title"] = "Морской бой";
-    var player = ViewBag.PlayerField as FifteenGame.Business.Models.GameField;
-    var computer = ViewBag.ComputerField as FifteenGame.Business.Models.GameField;
+    var playerField = ViewBag.PlayerField as FifteenGame.Business.Models.GameField;
+    var computerField = ViewBag.ComputerField as FifteenGame.Business.Models.GameField;
 }
 
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="utf-8" />
-    <title>Морской бой</title>
-    <style>
-        body { font-family: Arial; background: #001020; color: #fff; text-align: center; margin: 0; padding: 20px; }
-        table { border-collapse: collapse; display: inline-block; margin: 20px; }
-        td {
-            width: 40px; height: 40px; border: 2px solid #00aaff;
-            font-size: 28px; cursor: pointer; background: #0088cc;
-            user-select: none;
-        }
-        .hit { background: #ff0000 !important; color: white; }
-        .miss { background: #333 !important; color: #ccc; }
-        .ship { background: #222; }
-        h1 { margin: 30px; }
-        button { padding: 15px 35px; font-size: 20px; margin: 20px; cursor: pointer; }
-        .info { font-size: 24px; margin: 20px; }
-    </style>
-</head>
-<body>
-    <h1>МОРСКОЙ БОЙ 10×10</h1>
+<h1>МОРСКОЙ БОЙ</h1>
 
-    <div class="info">
-        Корабли противника: <b>@ViewBag.PlayerShipsLeft</b>  |  Ваши корабли: <b>@ViewBag.ComputerShipsLeft</b>
-    </div>
+<div style="display:flex; gap:50px; justify-content:center; margin-top:30px; font-family:Consolas;">
 
-    <div style="margin: 20px;">
-        <h2>Ваше поле</h2>
-        <table>
+    <!-- Твоё поле -->
+    <div>
+        <h2>Твои корабли (осталось: @ViewBag.ComputerShipsLeft)</h2>
+        <table border="1" style="border-collapse:collapse;">
             @for (int r = 0; r < 10; r++)
             {
                     <tr>
                     @for (int c = 0; c < 10; c++)
                     {
-                        char cell = player[r, c];
-                        string cls = cell == 'S' ? "ship" : cell == 'H' ? "hit" : cell == 'M' ? "miss" : "";
-                        string sym = cell == 'H' ? "X" : cell == 'M' ? "•" : "";
-                                <td class="@cls">@sym</td>
-                    }
-                    </tr>
-            }
-        </table>
-
-        <h2>Поле противника — стреляй!</h2>
-        <table id="enemy">
-            @for (int r = 0; r < 10; r++)
-            {
-                    <tr>
-                    @for (int c = 0; c < 10; c++)
-                    {
-                        char cell = computer[r, c];
-                        string display = cell == 'H' ? "X" : cell == 'M' ? "•" : "";
-                        string cls = cell == 'H' ? "hit" : cell == 'M' ? "miss" : "";
-                                <td class="@cls" data-r="@r" data-c="@c" onclick="shoot(@r,@c,this)">@display</td>
+                        char cell = playerField[r, c];
+                        string bg = cell == 'H' ? "red" :
+                                    cell == 'M' ? "lightblue" :
+                                    cell == 'S' ? "gray" : "white";
+                                <td style="width:30px;height:30px;text-align:center;background:@bg">
+                            @(cell == 'S' ? "■" : cell == 'H' ? "✖" : cell == 'M' ? "•" : "")
+                                </td>
                     }
                     </tr>
             }
         </table>
     </div>
 
-    <form method="post" asp-action="Restart">
-        <button type="submit">НОВАЯ ИГРА</button>
-    </form>
-
-    <script>
-        async function shoot(r, c, el) {
-            if (el.classList.contains('hit') || el.classList.contains('miss')) return;
-
-            const res = await fetch('/Game/Shoot', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ row: r, column: c })
-            });
-
-            const d = await res.json();
-
-            if (d.hit) {
-                el.textContent = 'X';
-                el.className = 'hit';
-                if (d.destroyed) el.style.boxShadow = '0 0 25px gold';
-            } else {
-                el.textContent = '•';
-                el.className = 'miss';
+    <!-- Поле противника -->
+    <div>
+        <h2>Противник (осталось: @ViewBag.PlayerShipsLeft)</h2>
+        <table border="1" style="border-collapse:collapse;" id="enemyTable">
+            @for (int r = 0; r < 10; r++)
+            {
+                    <tr>
+                    @for (int c = 0; c < 10; c++)
+                    {
+                        char cell = computerField[r, c];
+                        string bg = cell == 'H' ? "red" :
+                                    cell == 'M' ? "lightblue" : "white";
+                        string symbol = cell == 'H' ? "✖" : cell == 'M' ? "•" : "";
+                                <td style="width:30px;height:30px;text-align:center;background:@bg;cursor:pointer;"
+                                    onclick="shoot(@r, @c, this)">
+                            @symbol
+                                </td>
+                    }
+                    </tr>
             }
+        </table>
+    </div>
 
-            document.querySelector('.info').innerHTML = 
-                `Корабли противника: <b>${d.playerShipsLeft}</b>  |  Ваши корабли: <b>${d.computerShipsLeft}</b>`;
+</div>
 
-            if (d.playerWon) { alert('ВЫ ПОБЕДИЛИ!'); location.href = '/Game/Restart'; }
-            if (d.computerWon) { alert('Вы проиграли...'); location.href = '/Game/Restart'; }
+<form asp-action="Restart" method="post" style="text-align:center;margin-top:30px;">
+    <button type="submit" style="padding:15px 30px;font-size:18px;">НОВАЯ ИГРА</button>
+</form>
 
-            setTimeout(() => location.reload(), 1000); // обновляем своё поле после хода ПК
+<script>
+    async function shoot(row, col, cellElement) {
+        // Защита от повторного клика
+        if (cellElement.style.background === 'red' || cellElement.style.background === 'lightblue') {
+            return;
         }
-    </script>
-</body>
-</html>
+
+        const response = await fetch('/Game/Shoot', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ row: row, column: col })
+        });
+
+        const result = await response.json();
+
+        // Обновляем ячейку игрока
+        if (result.hit) {
+            cellElement.style.background = 'red';
+            cellElement.innerHTML = '✖';
+            if (result.destroyed) {
+                alert('ПОТОПИЛ!');
+            }
+        } else {
+            cellElement.style.background = 'lightblue';
+            cellElement.innerHTML = '•';
+        }
+
+        // Обновляем счётчики
+        document.querySelector('h2:nth-of-type(2)').innerText = `Противник (осталось: ${result.playerShipsLeft})`;
+
+        // Проверяем победу
+        if (result.playerWon) {
+            alert('ТЫ ПОБЕДИЛ, СУКА!');
+            location.reload();
+        }
+        if (result.computerWon) {
+            alert('ПРОИГРАЛ, НУБ');
+            location.reload();
+        }
+
+        // Обновляем своё поле (компьютер мог попасть)
+        location.reload(); // Самое простое и надёжное решение
+    }
+</script>

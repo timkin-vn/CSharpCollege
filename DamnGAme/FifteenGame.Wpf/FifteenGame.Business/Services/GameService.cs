@@ -1,211 +1,131 @@
 ﻿using FifteenGame.Business.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FifteenGame.Business.Services
 {
     public class GameService
     {
-        private readonly int[] ShipSizes = { 4, 3, 3, 2, 2, 2, 1, 1, 1, 1 }; // Стандартный набор кораблей
+        private readonly int[] ShipSizes = { 4, 3, 3, 2, 2, 2, 1, 1, 1, 1 };
+        private readonly Random rnd = new Random();
 
         public void Initialize(GameField playerField, GameField computerField)
         {
-            PlaceShips(playerField);
-            PlaceShips(computerField);
+            PlaceAllShips(playerField);
+            PlaceAllShips(computerField);
         }
 
-        private void PlaceShips(GameField field)
+        private void PlaceAllShips(GameField field)
         {
-            var rnd = new Random();
+            field.Clear();
+
             foreach (int size in ShipSizes)
             {
                 bool placed = false;
-                while (!placed)
+                int maxAttempts = 10000;
+
+                for (int attempt = 0; attempt < maxAttempts && !placed; attempt++)
                 {
-                    int row = rnd.Next(GameField.RowCount);
-                    int col = rnd.Next(GameField.ColumnCount);
                     bool horizontal = rnd.Next(2) == 0;
 
-                    if (CanPlaceShip(field, row, col, size, horizontal))
+                    int maxRow = horizontal ? GameField.Size : GameField.Size - size + 1;
+                    int maxCol = horizontal ? GameField.Size - size + 1 : GameField.Size;
+
+                    if (maxRow <= 0 || maxCol <= 0) continue;
+
+                    int row = rnd.Next(maxRow);
+                    int col = rnd.Next(maxCol);
+
+                    if (field.CanPlaceShip(row, col, size, horizontal))
                     {
-                        for (int i = 0; i < size; i++)
-                        {
-                            if (horizontal)
-                            {
-                                field[row, col + i] = 'S';
-                            }
-                            else
-                            {
-                                field[row + i, col] = 'S';
-                            }
-                        }
+                        field.PlaceShip(row, col, size, horizontal);
                         placed = true;
                     }
                 }
-            }
-        }
 
-        private bool CanPlaceShip(GameField field, int row, int col, int size, bool horizontal)
-        {
-            if (horizontal)
-            {
-                if (col + size > GameField.ColumnCount) return false;
-                for (int i = -1; i <= size; i++)
+                // Если вдруг не получилось — форсируем в левый верхний угол
+                if (!placed)
                 {
-                    for (int j = -1; j <= 1; j++)
+                    for (int row = 0; row < GameField.Size && !placed; row++)
                     {
-                        int newRow = row + j;
-                        int newCol = col + i;
-                        if (newRow >= 0 && newRow < GameField.RowCount && newCol >= 0 && newCol < GameField.ColumnCount && field[newRow, newCol] == 'S')
+                        for (int col = 0; col < GameField.Size && !placed; col++)
                         {
-                            return false;
+                            foreach (bool hor in new[] { true, false })
+                            {
+                                if ((hor && col + size <= GameField.Size) ||
+                                    (!hor && row + size <= GameField.Size))
+                                {
+                                    if (field.CanPlaceShip(row, col, size, hor))
+                                    {
+                                        field.PlaceShip(row, col, size, hor);
+                                        placed = true;
+                                        break;
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             }
-            else
+        }
+
+        public bool PlayerAttack(GameField enemyField, int row, int col)
+        {
+            return enemyField.Shoot(row, col);
+        }
+
+        public void ComputerAttack(GameField playerField, ref int lastHitRow, ref int lastHitCol, ref bool hunting)
+        {
+            int r, c;
+
+            if (hunting && lastHitRow != -1)
             {
-                if (row + size > GameField.RowCount) return false;
-                for (int i = -1; i <= size; i++)
+                int[][] directions = { new[] { -1, 0 }, new[] { 1, 0 }, new[] { 0, -1 }, new[] { 0, 1 } };
+                var shuffled = directions.OrderBy(x => rnd.Next()).ToArray();
+
+                foreach (var dir in shuffled)
                 {
-                    for (int j = -1; j <= 1; j++)
+                    r = lastHitRow + dir[0];
+                    c = lastHitCol + dir[1];
+
+                    if (GameField.IsValid(r, c) && playerField[r, c] != 'H' && playerField[r, c] != 'M')
                     {
-                        int newRow = row + i;
-                        int newCol = col + j;
-                        if (newRow >= 0 && newRow < GameField.RowCount && newCol >= 0 && newCol < GameField.ColumnCount && field[newRow, newCol] == 'S')
+                        bool hit = playerField.Shoot(r, c);
+                        if (hit)
                         {
-                            return false;
-                        }
-                    }
-                }
-            }
-            return true;
-        }
-
-        public bool PlayerAttack(GameField computerField, int row, int column)
-        {
-            Console.WriteLine($"Атака: row={row}, col={column}, текущее состояние={computerField[row, column]}");
-            if (computerField[row, column] == 'F') return false; 
-
-            if (computerField[row, column] == 'S')
-            {
-                computerField[row, column] = 'H'; // Попадание
-                Console.WriteLine("Попадание!");
-                return true;
-            }
-            else if (computerField[row, column] == ' ')
-            {
-                computerField[row, column] = 'M'; // Промах
-                Console.WriteLine("Промах!");
-                return false;
-            }
-            Console.WriteLine("Ячейка уже атакована!");
-            return false; 
-        }
-
-        public void ToggleFlag(GameField computerField, int row, int column)
-        {
-            if (computerField[row, column] == ' ') computerField[row, column] = 'F'; 
-            else if (computerField[row, column] == 'F') computerField[row, column] = ' ';
-        }
-
-        public void ComputerAttack(GameField playerField, ref int lastHitRow, ref int lastHitColumn, ref bool huntingMode)
-        {
-            var rnd = new Random();
-            int row, column;
-
-            if (huntingMode)
-            {
-                
-                int[][] directions = new int[][] {
-                    new int[] { -1, 0 },
-                    new int[] { 1, 0 },
-                    new int[] { 0, -1 },
-                    new int[] { 0, 1 }
-                };
-                var shuffledDirections = directions.OrderBy(d => rnd.Next()).ToArray();
-
-                foreach (var dir in shuffledDirections)
-                {
-                    row = lastHitRow + dir[0];
-                    column = lastHitColumn + dir[1];
-                    if (row >= 0 && row < GameField.RowCount && column >= 0 && column < GameField.ColumnCount &&
-                        playerField[row, column] != 'H' && playerField[row, column] != 'M')
-                    {
-                        if (playerField[row, column] == 'S')
-                        {
-                            playerField[row, column] = 'H';
-                            lastHitRow = row;
-                            lastHitColumn = column;
-                            Console.WriteLine($"Компьютер попал: row={row}, col={column}");
+                            lastHitRow = r;
+                            lastHitCol = c;
                             return;
                         }
                         else
                         {
-                            playerField[row, column] = 'M';
-                            huntingMode = false; // Промах - выходим из режима охоты
-                            Console.WriteLine($"Компьютер промахнулся: row={row}, col={column}");
+                            hunting = false;
                             return;
                         }
                     }
                 }
-                huntingMode = false; 
+                hunting = false;
             }
 
-            
+            // Случайный выстрел
             do
             {
-                row = rnd.Next(GameField.RowCount);
-                column = rnd.Next(GameField.ColumnCount);
-            } while (playerField[row, column] == 'H' || playerField[row, column] == 'M');
+                r = rnd.Next(GameField.Size);
+                c = rnd.Next(GameField.Size);
+            } while (playerField[r, c] == 'H' || playerField[r, c] == 'M');
 
-            if (playerField[row, column] == 'S')
+            bool shipHit = playerField.Shoot(r, c);
+            if (shipHit)
             {
-                playerField[row, column] = 'H';
-                lastHitRow = row;
-                lastHitColumn = column;
-                huntingMode = true;
-                Console.WriteLine($"Компьютер попал: row={row}, col={column}");
-            }
-            else
-            {
-                playerField[row, column] = 'M';
-                Console.WriteLine($"Компьютер промахнулся: row={row}, col={column}");
+                lastHitRow = r;
+                lastHitCol = c;
+                hunting = true;
             }
         }
 
         public bool IsGameOver(GameField field)
         {
-            for (int row = 0; row < GameField.RowCount; row++)
-            {
-                for (int column = 0; column < GameField.ColumnCount; column++)
-                {
-                    if (field[row, column] == 'S')
-                    {
-                        return false; 
-                    }
-                }
-            }
-            return true;
-        }
-
-        public int CountShipsLeft(GameField field)
-        {
-            int count = 0;
-            for (int row = 0; row < GameField.RowCount; row++)
-            {
-                for (int column = 0; column < GameField.ColumnCount; column++)
-                {
-                    if (field[row, column] == 'S')
-                    {
-                        count++;
-                    }
-                }
-            }
-            return count;
+            return field.GetRemainingShips() == 0;
         }
     }
 }

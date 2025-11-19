@@ -6,17 +6,20 @@ namespace FifteenGame.Business.Models
     {
         public const int Size = 10;
         private readonly char[,] _cells = new char[Size, Size];
-        public int ShipsRemaining { get; private set; } = 0;
+        public int ShipCount { get; private set; }
 
-        public GameField() => Clear();
+        public GameField()
+        {
+            Clear();
+        }
 
         public char this[int row, int col]
         {
-            get => _cells[row, col];
-            private set
+            get { return _cells[row, col]; }
+            set
             {
-                if (_cells[row, col] == 'S' && value != 'S') ShipsRemaining--;
-                if (value == 'S' && _cells[row, col] != 'S') ShipsRemaining++;
+                if (_cells[row, col] == 'S' && value != 'S') ShipCount--;
+                if (value == 'S' && _cells[row, col] != 'S') ShipCount++;
                 _cells[row, col] = value;
             }
         }
@@ -26,65 +29,74 @@ namespace FifteenGame.Business.Models
             for (int r = 0; r < Size; r++)
                 for (int c = 0; c < Size; c++)
                     _cells[r, c] = ' ';
-            ShipsRemaining = 0;
+            ShipCount = 0;
         }
 
-        public static bool IsValid(int r, int c) => r >= 0 && r < Size && c >= 0 && c < Size;
+        public static bool IsValid(int row, int col)
+        {
+            return row >= 0 && row < Size && col >= 0 && col < Size;
+        }
 
         public bool Shoot(int row, int col)
         {
             if (!IsValid(row, col)) return false;
-            if (_cells[row, col] is 'H' or 'M') return false;
+            if (_cells[row, col] == 'H' || _cells[row, col] == 'M') return false;
 
             if (_cells[row, col] == 'S')
             {
-                this[row, col] = 'H';
+                _cells[row, col] = 'H';
+                ShipCount--;
                 return true;
             }
 
-            this[row, col] = 'M';
+            _cells[row, col] = 'M';
             return false;
         }
 
-        public bool IsShipSunken(int row, int col)
+        public bool IsShipDestroyed(int row, int col)
         {
             if (_cells[row, col] != 'H') return false;
 
-            // Проверяем горизонтальный корабль
-            if (CheckDirection(row, col, 0, 1) || CheckDirection(row, col, 0, -1))
-                return true;
+            // Горизонталь
+            int left = col;
+            while (left > 0 && (_cells[row, left - 1] == 'S' || _cells[row, left - 1] == 'H')) left--;
+            int right = col;
+            while (right < Size - 1 && (_cells[row, right + 1] == 'S' || _cells[row, right + 1] == 'H')) right++;
 
-            // Проверяем вертикальный корабль
-            if (CheckDirection(row, col, 1, 0) || CheckDirection(row, col, -1, 0))
-                return true;
+            bool horDestroyed = true;
+            for (int c = left; c <= right; c++)
+                if (_cells[row, c] == 'S') horDestroyed = false;
+            if (horDestroyed && right >= left) return true;
 
-            return false; // одиночный корабль потоплен сразу
-        }
+            // Вертикаль
+            int up = row;
+            while (up > 0 && (_cells[up - 1, col] == 'S' || _cells[up - 1, col] == 'H')) up--;
+            int down = row;
+            while (down < Size - 1 && (_cells[down + 1, col] == 'S' || _cells[down + 1, col] == 'H')) down++;
 
-        private bool CheckDirection(int r, int c, int dr, int dc)
-        {
-            int len = 0;
-            while (IsValid(r, c) && (_cells[r, c] == 'H' || _cells[r, c] == 'S'))
-            {
-                if (_cells[r, c] == 'S') return false;
-                len++;
-                r += dr; c += dc;
-            }
-            return len > 0;
+            bool vertDestroyed = true;
+            for (int r = up; r <= down; r++)
+                if (_cells[r, col] == 'S') vertDestroyed = false;
+
+            return vertDestroyed;
         }
 
         public void PlaceShip(int r, int c, int size, bool horizontal)
         {
             for (int i = 0; i < size; i++)
             {
-                int row = horizontal ? r : r + i;
-                int col = horizontal ? c + i : c;
-                this[row, col] = 'S';
+                if (horizontal)
+                    this[r, c + i] = 'S';
+                else
+                    this[r + i, c] = 'S';
             }
         }
 
         public bool CanPlaceShip(int r, int c, int size, bool horizontal)
         {
+            if (horizontal && c + size > Size) return false;
+            if (!horizontal && r + size > Size) return false;
+
             for (int i = -1; i <= size; i++)
             {
                 for (int j = -1; j <= 1; j++)
@@ -98,6 +110,6 @@ namespace FifteenGame.Business.Models
             return true;
         }
 
-        public int GetRemainingShips() => ShipsRemaining;
+        public int GetRemainingShips() => ShipCount;
     }
 }
