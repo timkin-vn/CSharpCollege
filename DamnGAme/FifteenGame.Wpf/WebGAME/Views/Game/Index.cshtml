@@ -1,0 +1,104 @@
+﻿@{
+    ViewData["Title"] = "Морской бой";
+    var player = ViewBag.PlayerField as FifteenGame.Business.Models.GameField;
+    var computer = ViewBag.ComputerField as FifteenGame.Business.Models.GameField;
+}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <title>Морской бой</title>
+    <style>
+        body { font-family: Arial; background: #001020; color: #fff; text-align: center; margin: 0; padding: 20px; }
+        table { border-collapse: collapse; display: inline-block; margin: 20px; }
+        td {
+            width: 40px; height: 40px; border: 2px solid #00aaff;
+            font-size: 28px; cursor: pointer; background: #0088cc;
+            user-select: none;
+        }
+        .hit { background: #ff0000 !important; color: white; }
+        .miss { background: #333 !important; color: #ccc; }
+        .ship { background: #222; }
+        h1 { margin: 30px; }
+        button { padding: 15px 35px; font-size: 20px; margin: 20px; cursor: pointer; }
+        .info { font-size: 24px; margin: 20px; }
+    </style>
+</head>
+<body>
+    <h1>МОРСКОЙ БОЙ 10×10</h1>
+
+    <div class="info">
+        Корабли противника: <b>@ViewBag.PlayerShipsLeft</b>  |  Ваши корабли: <b>@ViewBag.ComputerShipsLeft</b>
+    </div>
+
+    <div style="margin: 20px;">
+        <h2>Ваше поле</h2>
+        <table>
+            @for (int r = 0; r < 10; r++)
+            {
+                    <tr>
+                    @for (int c = 0; c < 10; c++)
+                    {
+                        char cell = player[r, c];
+                        string cls = cell == 'S' ? "ship" : cell == 'H' ? "hit" : cell == 'M' ? "miss" : "";
+                        string sym = cell == 'H' ? "X" : cell == 'M' ? "•" : "";
+                                <td class="@cls">@sym</td>
+                    }
+                    </tr>
+            }
+        </table>
+
+        <h2>Поле противника — стреляй!</h2>
+        <table id="enemy">
+            @for (int r = 0; r < 10; r++)
+            {
+                    <tr>
+                    @for (int c = 0; c < 10; c++)
+                    {
+                        char cell = computer[r, c];
+                        string display = cell == 'H' ? "X" : cell == 'M' ? "•" : "";
+                        string cls = cell == 'H' ? "hit" : cell == 'M' ? "miss" : "";
+                                <td class="@cls" data-r="@r" data-c="@c" onclick="shoot(@r,@c,this)">@display</td>
+                    }
+                    </tr>
+            }
+        </table>
+    </div>
+
+    <form method="post" asp-action="Restart">
+        <button type="submit">НОВАЯ ИГРА</button>
+    </form>
+
+    <script>
+        async function shoot(r, c, el) {
+            if (el.classList.contains('hit') || el.classList.contains('miss')) return;
+
+            const res = await fetch('/Game/Shoot', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ row: r, column: c })
+            });
+
+            const d = await res.json();
+
+            if (d.hit) {
+                el.textContent = 'X';
+                el.className = 'hit';
+                if (d.destroyed) el.style.boxShadow = '0 0 25px gold';
+            } else {
+                el.textContent = '•';
+                el.className = 'miss';
+            }
+
+            document.querySelector('.info').innerHTML = 
+                `Корабли противника: <b>${d.playerShipsLeft}</b>  |  Ваши корабли: <b>${d.computerShipsLeft}</b>`;
+
+            if (d.playerWon) { alert('ВЫ ПОБЕДИЛИ!'); location.href = '/Game/Restart'; }
+            if (d.computerWon) { alert('Вы проиграли...'); location.href = '/Game/Restart'; }
+
+            setTimeout(() => location.reload(), 1000); // обновляем своё поле после хода ПК
+        }
+    </script>
+</body>
+</html>
