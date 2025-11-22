@@ -1,0 +1,26 @@
+﻿<Window x:Class="_2048Game.WPF.Views.UserLoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_2048Game.WPF.Views" xmlns:viewmodels="clr-namespace:_2048Game.WPF.ViewModels"
+        mc:Ignorable="d"
+        Title="2048" Height="150" Width="300">
+    <Window.DataContext>
+        <viewmodels:UserLoginWindowViewModel />
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Ваше имя: " Margin="5" />
+
+        <TextBox Grid.Row="1" Margin="5" Text="{Binding UserName}" />
+
+        <Button Grid.Row="2" Content="OK" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5" Padding="5" Click="OkButtom_Click" />
+    </Grid>
+</Window>
