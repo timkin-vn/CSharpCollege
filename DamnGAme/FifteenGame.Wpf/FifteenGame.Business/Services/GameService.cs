@@ -1,111 +1,142 @@
-﻿using System;
+﻿using FifteenGame.Business.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Battleship
+namespace FifteenGame.Business.Services
 {
-    // High-level service that manages two fields and turns
     public class GameService
     {
-        public GameField PlayerField { get; private set; }
-        public GameField EnemyField { get; private set; }
+        private readonly Dictionary<string, Game> _games = new Dictionary<string, Game>();
 
-        public bool IsPlayerTurn { get; private set; } = true;
-        private Random rng = new Random();
-
-        // pool of all enemy candidate cells for AI random shots
-        private HashSet<(int X, int Y)> enemyTargetCandidates = new HashSet<(int X, int Y)>();
-
-        // Standard fleet lengths: Carrier(5), Battleship(4), Cruiser(3), Submarine(3), Destroyer(2)
-        public static readonly int[] DefaultFleet = new[] { 5, 4, 3, 3, 2 };
-
-        public GameService(int width = GameField.DefaultSize, int height = GameField.DefaultSize)
+        public Game CreateGame()
         {
-            PlayerField = new GameField(width, height);
-            EnemyField = new GameField(width, height);
-            ResetEnemyTargets();
+            var game = new Game();
+            PlaceShipsRandomly(game.PlayerField);
+            PlaceShipsRandomly(game.OpponentField);
+            _games[game.Id] = game;
+            return game;
         }
 
-        private void ResetEnemyTargets()
+        public Game GetGame(string id)
         {
-            enemyTargetCandidates.Clear();
-            for (int x = 0; x < EnemyField.Width; x++)
-                for (int y = 0; y < EnemyField.Height; y++)
-                    enemyTargetCandidates.Add((x, y));
+            _games.TryGetValue(id, out var game);
+            return game;
         }
 
-        public void StartNewGame(bool autoPlacePlayer = false, IEnumerable<int> fleet = null)
+        public ShotResult Shoot(string gameId, int x, int y)
         {
-            fleet ??= DefaultFleet;
-            PlayerField.Clear();
-            EnemyField.Clear();
-            ResetEnemyTargets();
-            IsPlayerTurn = true;
+            if (!_games.TryGetValue(gameId, out var game))
+                throw new KeyNotFoundException("Игра не найдена");
 
-            if (autoPlacePlayer)
-                PlayerField.AutoPlaceFleet(fleet);
+            var targetField = game.IsPlayerTurn ? game.OpponentField : game.PlayerField;
 
-            EnemyField.AutoPlaceFleet(fleet);
+            if (x < 0 || x >= Field.Size || y < 0 || y >= Field.Size)
+                return ShotResult.Invalid;
+
+            var cell = targetField.Cells[x, y];
+
+            if (cell.State == CellState.Hit || cell.State == CellState.Miss || cell.State == CellState.Sunk)
+                return ShotResult.AlreadyShot;
+
+            if (cell.Ship == null)
+            {
+                cell.State = CellState.Miss;
+                game.IsPlayerTurn = !game.IsPlayerTurn;
+                return ShotResult.Miss;
+            }
+
+            cell.State = CellState.Hit;
+
+            if (cell.Ship.IsSunk)
+            {
+                foreach (var c in cell.Ship.Cells)
+                    c.State = CellState.Sunk;
+
+                if (targetField.Ships.All(s => s.IsSunk))
+                    return ShotResult.GameOver;
+
+                return ShotResult.Sunk;
+            }
+
+            game.IsPlayerTurn = !game.IsPlayerTurn;
+            return ShotResult.Hit;
         }
 
-        // Player places ship manually. Returns true if placed.
-        public bool PlayerPlaceShip(int startX, int startY, Orientation orientation, int length)
+        private void PlaceShipsRandomly(Field field)
         {
-            return PlayerField.PlaceShip(startX, startY, orientation, length);
+            var sizes = new[] { 4, 3, 3, 2, 2, 2, 1, 1, 1, 1 };
+            var random = new Random();
+
+            foreach (var size in sizes)
+            {
+                Ship ship;
+                bool placed;
+
+                do
+                {
+                    bool horizontal = random.Next(2) == 0;
+                    int startX = random.Next(Field.Size);
+                    int startY = random.Next(Field.Size);
+
+                    ship = new Ship(size);
+                    placed = TryPlaceShip(field, ship, startX, startY, horizontal);
+
+                } while (!placed);
+
+                field.Ships.Add(ship);
+            }
         }
 
-        // Player fires at enemy
-        public ShotResult PlayerFire(int x, int y)
+        private bool TryPlaceShip(Field field, Ship ship, int startX, int startY, bool horizontal)
         {
-            if (!IsPlayerTurn) throw new InvalidOperationException("Not player's turn");
-            var result = EnemyField.Shoot(x, y);
-            if (result == ShotResult.Miss)
-                IsPlayerTurn = false; // switch to enemy
-            // If Hit or Sunk, player continues
-            return result;
+            var cells = new List<Cell>();
+
+            for (int i = 0; i < ship.Size; i++)
+            {
+                int x = horizontal ? startX + i : startX;
+                int y = horizontal ? startY : startY + i;
+
+                if (x >= Field.Size || y >= Field.Size)
+                    return false;
+
+                if (field.Cells[x, y].Ship != null)
+                    return false;
+
+                // проверка окружения (не касаемся других кораблей)
+                for (int dx = -1; dx <= 1; dx++)
+                    for (int dy = -1; dy <= 1; dy++)
+                    {
+                        int nx = x + dx;
+                        int ny = y + dy;
+                        if (nx >= 0 && nx < Field.Size && ny >= 0 && ny < Field.Size)
+                        {
+                            if (field.Cells[nx, ny].Ship != null)
+                                return false;
+                        }
+                    }
+
+                cells.Add(field.Cells[x, y]);
+            }
+
+            foreach (var cell in cells)
+            {
+                cell.Ship = ship;
+                cell.State = CellState.Ship;
+                ship.Cells.Add(cell);
+            }
+
+            return true;
         }
+    }
 
-        // Enemy (AI) makes a move: simple random selection among unseen cells
-        public (int X, int Y, ShotResult Result) EnemyMove()
-        {
-            if (IsPlayerTurn) throw new InvalidOperationException("Not enemy's turn");
-
-            if (!enemyTargetCandidates.Any())
-                ResetEnemyTargets();
-
-            // Simple AI: pick random from candidates
-            var list = enemyTargetCandidates.ToList();
-            var pick = list[rng.Next(list.Count)];
-            enemyTargetCandidates.Remove(pick);
-
-            var result = PlayerField.Shoot(pick.X, pick.Y);
-
-            // If miss - switch back to player
-            if (result == ShotResult.Miss)
-                IsPlayerTurn = true;
-            // If hit or sunk - enemy continues (we keep IsPlayerTurn = false)
-
-            return (pick.X, pick.Y, result);
-        }
-
-        public bool IsPlayerWinner() => EnemyField.AllShipsSunk();
-        public bool IsEnemyWinner() => PlayerField.AllShipsSunk();
-
-        // Helpers for UI: get masked enemy view (so player doesn't see ships)
-        public Cell[,] GetEnemyViewForPlayer() => EnemyField.GetMaskedGridForOpponent();
-
-        // Helper: get player's field (with ships visible)
-        public Cell[,] GetPlayerView() => PlayerField.GetFullGridCopy();
-
-        // Convenience: render both fields to strings for console testing
-        public string DebugRenderBoth(bool showEnemyShips = false)
-        {
-            var sb = new System.Text.StringBuilder();
-            sb.AppendLine("Player field:");
-            sb.AppendLine(PlayerField.RenderToString(showShips: true));
-            sb.AppendLine("Enemy field (player view):");
-            sb.AppendLine(EnemyField.RenderToString(showShips: showEnemyShips));
-            return sb.ToString();
-        }
+    public enum ShotResult
+    {
+        Miss,
+        Hit,
+        Sunk,
+        GameOver,
+        AlreadyShot,
+        Invalid
     }
 }

@@ -1,65 +1,72 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using FifteenGame.Business.Models;
 using FifteenGame.Business.Services;
-using Battleship;
 
-namespace FifteenGameWeb2.Controllers
+namespace WebGAME.Controllers
 {
     public class GameController : Controller
     {
-        private static GameField PlayerField = new GameField();
-        private static GameField ComputerField = new GameField();
-        private static GameService GameService = new GameService();
+        private readonly GameService _gameService;
 
-        static GameController()
+        public GameController(GameService gameService)
         {
-            GameService.Initialize(PlayerField, ComputerField);
+            _gameService = gameService;
         }
 
         public IActionResult Index()
         {
-            ViewBag.PlayerField = PlayerField.GetGridCopy();
-            ViewBag.ComputerField = ComputerField.GetMaskedGridForOpponent();
-
-            ViewBag.PlayerShipsLeft = GameService.CountShipsLeft(ComputerField);
-            ViewBag.ComputerShipsLeft = GameService.CountShipsLeft(PlayerField);
-
-            return View();
+            var game = _gameService.CreateGame();
+            TempData["GameId"] = game.Id;
+            return View(game);
         }
 
         [HttpPost]
-        public JsonResult Shoot(int row, int column)
+        public JsonResult Shoot(int x, int y)
         {
-            bool hit = GameService.PlayerFire(ComputerField, row, column);
-            bool destroyed = hit && GameService.IsShipDestroyed(ComputerField, row, column);
+            var gameId = (string)TempData["GameId"];
+            TempData["GameId"] = gameId; // сохраняем между запросами
 
-            bool playerWon = GameService.IsGameOver(ComputerField);
-            bool computerWon = false;
+            var game = _gameService.GetGame(gameId);
+            if (game == null || game.IsOver)
+                return Json(new { success = false, message = "Игра не найдена или завершена" });
 
-            if (!playerWon)
+            var result = _gameService.Shoot(gameId, x, y);
+
+            var message = result switch
             {
-                GameService.ComputerFire(PlayerField);
-                computerWon = GameService.IsGameOver(PlayerField);
-            }
+                ShotResult.Miss => "Мимо!",
+                ShotResult.Hit => "Попадание!",
+                ShotResult.Sunk => "Потопил!",
+                ShotResult.GameOver => $"Игра окончена! Победил: {(game.Winner == "Player" ? "Вы" : "Компьютер")}!",
+                ShotResult.AlreadyShot => "Уже стреляли сюда!",
+                _ => "Недопустимый выстрел"
+            };
 
             return Json(new
             {
-                hit = hit,
-                destroyed = destroyed,
-                playerWon = playerWon,
-                computerWon = computerWon,
-                playerShipsLeft = GameService.CountShipsLeft(ComputerField),
-                computerShipsLeft = GameService.CountShipsLeft(PlayerField)
+                success = true,
+                result = result.ToString(),
+                message,
+                isOver = game.IsOver,
+                winner = game.Winner,
+                playerField = RenderField(game.PlayerField, revealShips: game.IsOver),
+                opponentField = RenderField(game.OpponentField, revealShips: false)
             });
         }
 
-        [HttpPost]
-        public IActionResult Restart()
+        private string[,] RenderField(Field field, bool revealShips)
         {
-            PlayerField.Clear();
-            ComputerField.Clear();
-            GameService.Initialize(PlayerField, ComputerField);
-            return RedirectToAction("Index");
+            var result = new string[10, 10];
+            for (int x = 0; x < 10; x++)
+                for (int y = 0; y < 10; y++)
+                {
+                    var cell = field.Cells[x, y];
+                    if (!revealShips && cell.State == CellState.Ship)
+                        result[x, y] = "empty";
+                    else
+                        result[x, y] = cell.State.ToString().ToLower();
+                }
+            return result;
         }
     }
 }
