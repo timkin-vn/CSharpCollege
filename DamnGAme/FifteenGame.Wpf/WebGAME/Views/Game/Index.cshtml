@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["Title"] = "Морской бой";
+}
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Морской бой</h1>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h3 class="text-center">Ваше поле</h3>
+            <table id="playerField" class="table table-bordered text-center mx-auto" style="width: 400px;">
+                @for (int y = 0; y < 10; y++)
+                {
+                        <tr>
+                        @for (int x = 0; x < 10; x++)
+                        {
+                                    <td class="cell" data-x="@x" data-y="@y">
+                                        &nbsp;
+                                    </td>
+                        }
+                        </tr>
+                }
+            </table>
+        </div>
+
+        <div class="col-md-6">
+            <h3 class="text-center">Поле противника</h3>
+            <table id="opponentField" class="table table-bordered text-center mx-auto" style="width: 400px;">
+                @for (int y = 0; y < 10; y++)
+                {
+                        <tr>
+                        @for (int x = 0; x < 10; x++)
+                        {
+                                    <td class="cell opponent" data-x="@x" data-y="@y">
+                                        &nbsp;
+                                    </td>
+                        }
+                        </tr>
+                }
+            </table>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <h4 id="message">Ваша очередь! Кликайте по полю противника.</h4>
+        <button id="newGame" class="btn btn-primary mt-3" style="display:none;">Новая игра</button>
+    </div>
+</div>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+@section Scripts {
+        <script src="~/js/battleship.js"></script>
+}
