@@ -1,4 +1,4 @@
-﻿using FifteenGame.Business.Models;
+﻿/*using FifteenGame.Business.Models;
 using FifteenGame.Business.Services;
 using System;
 using System.Collections.ObjectModel;
@@ -121,3 +121,4 @@ namespace FifteenGame.Wpf.ViewModels
         }
     }
 }
+*/

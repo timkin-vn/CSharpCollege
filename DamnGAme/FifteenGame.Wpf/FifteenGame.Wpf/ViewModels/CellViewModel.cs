@@ -1,4 +1,4 @@
-﻿using FifteenGame.Business.Models;
+﻿/*using FifteenGame.Business.Models;
 using System.ComponentModel;
 using System.Windows.Media;
 
@@ -63,3 +63,4 @@ namespace FifteenGame.Wpf.ViewModels
         }
     }
 }
+*/
