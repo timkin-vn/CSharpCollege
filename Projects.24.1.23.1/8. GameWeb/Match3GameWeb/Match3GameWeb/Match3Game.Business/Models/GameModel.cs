@@ -12,6 +12,8 @@ namespace Match3Game.Business.Models
         public const int ColumnCount = 8;
         public const int GemTypeCount = 5; // фишки
 
+        public bool IsGameOver { get; set; }
+
         private int[,] _cells = new int[RowCount, ColumnCount];
 
         public int this[int row, int column]
@@ -22,6 +24,7 @@ namespace Match3Game.Business.Models
 
         public GameModel()
         {
+            IsGameOver = false;
             GenerateInitialBoard();
         }
 
