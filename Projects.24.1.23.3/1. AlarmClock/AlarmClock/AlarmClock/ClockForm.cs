@@ -2,13 +2,7 @@
 using AlarmClock.Models;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Media;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AlarmClock
@@ -16,10 +10,12 @@ namespace AlarmClock
     public partial class ClockForm : Form
     {
         private AlarmSettings _settings = new AlarmSettings();
+        private List<AlarmSettings> _alarms = new List<AlarmSettings>();
 
         public ClockForm()
         {
             InitializeComponent();
+
             var currentTime = DateTime.Now.AddMinutes(1).TimeOfDay;
             _settings.AlarmTime = new TimeSpan(currentTime.Hours, currentTime.Minutes, 0);
         }
@@ -33,55 +29,78 @@ namespace AlarmClock
         {
             DisplayLabel.Text = DateTime.Now.ToLongTimeString();
 
-            if (!_settings.IsAlarmActive)
+            if (_settings.IsAlarmActive)
             {
-                return;
+                if (!_settings.IsAwakeActivated &&
+                    DateTime.Now.Hour == _settings.AlarmTime.Hours &&
+                    DateTime.Now.Minute == _settings.AlarmTime.Minutes)
+                {
+                    _settings.IsAwakeActivated = true;
+                    var awakeForm = new AwakeForm();
+                    awakeForm.Settings = _settings;
+                    awakeForm.ShowDialog();
+                }
+
+                if (_settings.IsSoundActive && _settings.IsAwakeActivated)
+                    SystemSounds.Beep.Play();
             }
 
-            if (!_settings.IsAwakeActivated && 
-                DateTime.Now.Hour == _settings.AlarmTime.Hours &&
-                DateTime.Now.Minute == _settings.AlarmTime.Minutes)
+            foreach (var alarm in _alarms)
             {
-                _settings.IsAwakeActivated = true;
-                var awakeForm = new AwakeForm();
-                awakeForm.Settings = _settings;
-                awakeForm.FormClosed += AwakeForm_FormClosed;
-                awakeForm.ShowDialog();
-            }
+                if (!alarm.IsAlarmActive)
+                    continue;
 
-            if (_settings.IsSoundActive && _settings.IsAwakeActivated)
-            {
-                SystemSounds.Beep.Play();
-            }
-        }
+                if (!alarm.IsAwakeActivated &&
+                    DateTime.Now.Hour == alarm.AlarmTime.Hours &&
+                    DateTime.Now.Minute == alarm.AlarmTime.Minutes)
+                {
+                    alarm.IsAwakeActivated = true;
 
-        private void AwakeForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            ((Form)sender).FormClosed -= AwakeForm_FormClosed;
-            ShowControls();
+                    var awakeForm = new AwakeForm();
+                    awakeForm.Settings = alarm;
+                    awakeForm.ShowDialog();
+                }
+
+                if (alarm.IsSoundActive && alarm.IsAwakeActivated)
+                    SystemSounds.Beep.Play();
+            }
         }
 
         private void AboutButton_Click(object sender, EventArgs e)
         {
-            var aboutForm = new AboutForm();
-            aboutForm.ShowDialog();
+            new AboutForm().ShowDialog();
         }
 
         private void SettingsButton_Click(object sender, EventArgs e)
         {
+            var newAlarm = new AlarmSettings();
             var settingsForm = new SettingsForm();
-            settingsForm.Settings = _settings;
-            if (settingsForm.ShowDialog() != DialogResult.OK)
-            {
-                return;
-            }
+            settingsForm.Settings = newAlarm;
 
-            ShowControls();
+            if (settingsForm.ShowDialog() == DialogResult.OK)
+            {
+                _alarms.Add(newAlarm); // сохранение в список
+            }
+        }
+
+        private void AlarmListButton_Click(object sender, EventArgs e)
+        {
+            var listForm = new AlarmListForm();
+            listForm.Alarms = _alarms;
+            listForm.ShowDialog();
         }
 
         private void ShowControls()
         {
             Text = _settings.IsAlarmActive ? "Будильник (ожидание)" : "Будильник";
         }
+
+        private void OpenAlarmListButton_Click(object sender, EventArgs e)
+        {
+            var listForm = new AlarmListForm();
+            listForm.Alarms = _alarms;   // передаём список
+            listForm.ShowDialog();       
+        }
+
     }
 }

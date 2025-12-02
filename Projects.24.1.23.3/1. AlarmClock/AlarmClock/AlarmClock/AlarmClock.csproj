@@ -58,6 +58,12 @@
     <Compile Include="Forms\AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\AlarmListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AlarmListForm.Designer.cs">
+      <DependentUpon>AlarmListForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\AwakeForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -78,6 +84,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AlarmListForm.resx">
+      <DependentUpon>AlarmListForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AwakeForm.resx">
       <DependentUpon>AwakeForm.cs</DependentUpon>
