@@ -1,5 +1,6 @@
 ﻿using FifteenGame.Common.BusinessModels;
 using FifteenGame.Wpf.ViewModels;
+using FifteenGame.Wpf.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +43,13 @@ namespace FifteenGame.Wpf
             {
                 ViewModel.Initialize();
             }
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            var dialog = new UserLoginWindow();
+            dialog.ViewModel.MainViewModel = ViewModel;
+            dialog.ShowDialog();
         }
     }
 }

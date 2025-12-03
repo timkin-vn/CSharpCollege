@@ -1,5 +1,9 @@
 ﻿using FifteenGame.Common.BusinessModels;
+using FifteenGame.Common.Definitions;
+using FifteenGame.Common.Dto;
+using FifteenGame.Common.Repositories;
 using FifteenGame.Common.Services;
+using FifteenGame.DataAccess.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,20 +14,27 @@ namespace FifteenGame.Business.Services
 {
     public class GameService : IGameService
     {
+        private readonly IGameRepository _repository;
+
+        public GameService(IGameRepository repository)
+        {
+            _repository = repository;
+        }
+
         public void Initialize(GameModel model)
         {
             int value = 1;
-            for (int row = 0; row < GameModel.RowCount; row++)
+            for (int row = 0; row < Constants.RowCount; row++)
             {
-                for (int column = 0; column < GameModel.ColumnCount; column++)
+                for (int column = 0; column < Constants.ColumnCount; column++)
                 {
                     model[row, column] = value++;
                 }
             }
 
-            model[GameModel.RowCount - 1, GameModel.ColumnCount - 1] = GameModel.FreeCellValue;
-            model.FreeCellRow = GameModel.RowCount - 1;
-            model.FreeCellColumn = GameModel.ColumnCount - 1;
+            model[Constants.RowCount - 1, Constants.ColumnCount - 1] = Constants.FreeCellValue;
+            model.FreeCellRow = Constants.RowCount - 1;
+            model.FreeCellColumn = Constants.ColumnCount - 1;
 
             model.MoveCount = 0;
         }
@@ -33,13 +44,13 @@ namespace FifteenGame.Business.Services
             switch (direction)
             {
                 case MoveDirection.Left:
-                    if (model.FreeCellColumn == GameModel.ColumnCount - 1)
+                    if (model.FreeCellColumn == Constants.ColumnCount - 1)
                     {
                         return false;
                     }
 
                     model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow, model.FreeCellColumn + 1];
-                    model[model.FreeCellRow, model.FreeCellColumn + 1] = GameModel.FreeCellValue;
+                    model[model.FreeCellRow, model.FreeCellColumn + 1] = Constants.FreeCellValue;
                     model.FreeCellColumn++;
 
                     model.MoveCount++;
@@ -52,20 +63,20 @@ namespace FifteenGame.Business.Services
                     }
 
                     model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow, model.FreeCellColumn - 1];
-                    model[model.FreeCellRow, model.FreeCellColumn - 1] = GameModel.FreeCellValue;
+                    model[model.FreeCellRow, model.FreeCellColumn - 1] = Constants.FreeCellValue;
                     model.FreeCellColumn--;
 
                     model.MoveCount++;
                     return true;
 
                 case MoveDirection.Up:
-                    if (model.FreeCellRow == GameModel.RowCount - 1)
+                    if (model.FreeCellRow == Constants.RowCount - 1)
                     {
                         return false;
                     }
 
                     model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow + 1, model.FreeCellColumn];
-                    model[model.FreeCellRow + 1, model.FreeCellColumn] = GameModel.FreeCellValue;
+                    model[model.FreeCellRow + 1, model.FreeCellColumn] = Constants.FreeCellValue;
                     model.FreeCellRow++;
 
                     model.MoveCount++;
@@ -78,7 +89,7 @@ namespace FifteenGame.Business.Services
                     }
 
                     model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow - 1, model.FreeCellColumn];
-                    model[model.FreeCellRow - 1, model.FreeCellColumn] = GameModel.FreeCellValue;
+                    model[model.FreeCellRow - 1, model.FreeCellColumn] = Constants.FreeCellValue;
                     model.FreeCellRow--;
 
                     model.MoveCount++;
@@ -105,25 +116,25 @@ namespace FifteenGame.Business.Services
         public bool IsGameOver(GameModel model)
         {
             int freeCellRow = model.FreeCellRow;
-            if (freeCellRow != GameModel.RowCount - 1)
+            if (freeCellRow != Constants.RowCount - 1)
             {
                 return false;
             }
 
             int freeCellColumn = model.FreeCellColumn;
-            if (freeCellColumn != GameModel.ColumnCount - 1)
+            if (freeCellColumn != Constants.ColumnCount - 1)
             {
                 return false;
             }
 
             int value = 1;
-            for (int row = 0; row < GameModel.RowCount; row++)
+            for (int row = 0; row < Constants.RowCount; row++)
             {
-                for (int column = 0; column < GameModel.ColumnCount; column++)
+                for (int column = 0; column < Constants.ColumnCount; column++)
                 {
                     if (row == freeCellRow && column == freeCellColumn)
                     {
-                        if (model[row, column] != GameModel.FreeCellValue)
+                        if (model[row, column] != Constants.FreeCellValue)
                         {
                             return false;
                         }
@@ -140,17 +151,95 @@ namespace FifteenGame.Business.Services
 
         public GameModel GetByUserId(int userId)
         {
-            throw new NotImplementedException();
+            var dtos = _repository.GetByUserId(userId);
+            var dto = dtos.LastOrDefault();
+            if (dto != null)
+            {
+                return FromDto(dto);
+            }
+
+            var game = new GameModel
+            {
+                UserId = userId,
+            };
+
+            Shuffle(game);
+            var gameId = _repository.Save(ToDto(game));
+
+            return GetByGameId(gameId);
         }
 
         public GameModel GetByGameId(int gameId)
         {
-            throw new NotImplementedException();
+            var dto = _repository.GetByGameId(gameId);
+            return FromDto(dto);
         }
 
         public void RemoveGame(int gameId)
         {
-            throw new NotImplementedException();
+            _repository.Remove(gameId);
+        }
+
+        private GameModel FromDto(GameDto dto)
+        {
+            var result = new GameModel
+            {
+                Id = dto.Id,
+                UserId = dto.UserId,
+                MoveCount = dto.MoveCount,
+            };
+
+            for (int row = 0; row < Constants.RowCount; row++)
+            {
+                for (int column = 0; column < Constants.ColumnCount; column++)
+                {
+                    result[row, column] = dto.Cells[row, column];
+                    if (result[row, column] == Constants.FreeCellValue)
+                    {
+                        result.FreeCellRow = row;
+                        result.FreeCellColumn = column;
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        private GameDto ToDto(GameModel game)
+        {
+            var dto = new GameDto
+            {
+                Id = game.Id,
+                UserId = game.UserId,
+                MoveCount = game.MoveCount,
+            };
+
+            for (int row = 0; row < Constants.RowCount; row++)
+            {
+                for (int column = 0; column < Constants.ColumnCount; column++)
+                {
+                    dto.Cells[row, column] = game[row, column];
+                }
+            }
+
+            return dto;
+        }
+
+        public bool IsGameOver(int gameId)
+        {
+            var dto = _repository.GetByGameId(gameId);
+            return IsGameOver(FromDto(dto));
+        }
+
+        public GameModel MakeMove(int gameId, MoveDirection direction)
+        {
+            var dto = _repository.GetByGameId(gameId);
+            var model = FromDto(dto);
+
+            MakeMove(model, direction);
+
+            _repository.Save(ToDto(model));
+            return model;
         }
     }
 }
