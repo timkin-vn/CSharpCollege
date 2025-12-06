@@ -18,6 +18,11 @@ namespace Claculator
 
         private readonly CalculatorService _service = new CalculatorService();
 
+        private double _historyY;
+        private double _historyX;
+        private string _historyOp = string.Empty;
+        private bool _historyAvailable = false;
+
         public CalculatorForm()
         {
             InitializeComponent();
@@ -38,7 +43,14 @@ namespace Claculator
 
         private void OperationButton_Click(object sender, EventArgs e)
         {
-            var operation = ((Button)sender).Text;
+            var operation = ((Button)sender).Text.Trim();
+
+            _historyY = _state.RegisterY;
+            _historyX = _state.RegisterX;
+            if (operation != "=") 
+                _historyOp = operation;
+            _historyAvailable = true;
+
             _service.PressOperation(_state, operation);
             ShowResult();
         }
@@ -46,6 +58,20 @@ namespace Claculator
         private void EqualButton_Click(object sender, EventArgs e)
         {
             _service.PressEqual(_state);
+
+            var result = _state.RegisterX;
+
+            string entry;
+            if (!string.IsNullOrEmpty(_historyOp))
+                entry = $"{_historyY} {_historyOp} {_historyX} = {result}";
+            else
+                entry = $"{_historyX} = {result}";
+
+            AddToHistory(entry);
+
+            _historyAvailable = false;
+            _historyOp = string.Empty;
+
             ShowResult();
         }
 
@@ -69,6 +95,11 @@ namespace Claculator
         {
             _service.ToggleSign(_state);
             ShowResult();
+        }
+
+        private void AddToHistory(string text)
+        {
+            HistoryListBox.Items.Add(text);
         }
     }
 }

@@ -49,6 +49,7 @@
             this.PercentButton = new System.Windows.Forms.Button();
             this.ClearEntry = new System.Windows.Forms.Button();
             this.ToggleSign = new System.Windows.Forms.Button();
+            this.HistoryListBox = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
             // DisplayLabel
@@ -304,11 +305,22 @@
             this.ToggleSign.UseVisualStyleBackColor = true;
             this.ToggleSign.Click += new System.EventHandler(this.ToggleSign_Click);
             // 
+            // HistoryListBox
+            // 
+            this.HistoryListBox.FormattingEnabled = true;
+            this.HistoryListBox.ItemHeight = 16;
+            this.HistoryListBox.Location = new System.Drawing.Point(12, 503);
+            this.HistoryListBox.Name = "HistoryListBox";
+            this.HistoryListBox.Size = new System.Drawing.Size(632, 148);
+            this.HistoryListBox.TabIndex = 21;
+            this.EqualButton.Click += new System.EventHandler(this.EqualButton_Click);
+            // 
             // CalculatorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(663, 496);
+            this.ClientSize = new System.Drawing.Size(663, 663);
+            this.Controls.Add(this.HistoryListBox);
             this.Controls.Add(this.ToggleSign);
             this.Controls.Add(this.ClearEntry);
             this.Controls.Add(this.PercentButton);
@@ -362,6 +374,7 @@
         private System.Windows.Forms.Button PercentButton;
         private System.Windows.Forms.Button ClearEntry;
         private System.Windows.Forms.Button ToggleSign;
+        private System.Windows.Forms.ListBox HistoryListBox;
     }
 }
 
