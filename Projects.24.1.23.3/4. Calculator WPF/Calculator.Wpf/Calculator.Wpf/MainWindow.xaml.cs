@@ -38,6 +38,14 @@ namespace Calculator.Wpf
         {
             ViewModel.PressClear();
         }
+        private void ClearEntryButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.PressClearEntry();
+        }
+        private void ToggleSignButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.PressToggleSign();
+        }
 
         private void OperationButton_Click(object sender, RoutedEventArgs e)
         {

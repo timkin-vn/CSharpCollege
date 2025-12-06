@@ -33,6 +33,16 @@ namespace Calculator.Wpf.ViewModels
             _service.Clear(_state);
             OnPropertyChanged(nameof(DisplayValue));
         }
+        public void PressClearEntry()
+        {
+            _service.ClearEntry(_state);
+            OnPropertyChanged(nameof(DisplayValue));
+        }
+        public void PressToggleSign()
+        {
+            _service.ToggleSign(_state);
+            OnPropertyChanged(nameof(DisplayValue));
+        }
 
         public void PressOperation(string operationCode)
         {
