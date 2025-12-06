@@ -1,9 +1,7 @@
 ﻿using Calculator.Business.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Win32;
+using System.IO.Ports;
+using System.Net;
 
 namespace Calculator.Business.Services
 {
@@ -30,6 +28,16 @@ namespace Calculator.Business.Services
             state.RegisterX = 0;
             state.Operation = string.Empty;
         }
+        public void ClearEntry(CalculatorState state)
+        {
+            state.RegisterX = 0;
+            state.NeedClearX = false;
+        }
+
+        public void ToggleSign(CalculatorState state)
+        {
+            state.RegisterX = -state.RegisterX;
+        }
 
         public void MoveXToY(CalculatorState state)
         {
@@ -54,6 +62,9 @@ namespace Calculator.Business.Services
 
                 case "/":
                     state.RegisterX = state.RegisterY / state.RegisterX;
+                    break;
+                case "%":
+                    state.RegisterX = state.RegisterY * state.RegisterX / 100;
                     break;
             }
         }

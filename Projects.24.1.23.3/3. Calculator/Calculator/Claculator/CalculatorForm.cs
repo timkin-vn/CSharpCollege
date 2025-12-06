@@ -58,5 +58,17 @@ namespace Claculator
         {
             DisplayLabel.Text = _state.RegisterX.ToString();
         }
+
+        private void ClearEntry_Click(object sender, EventArgs e)
+        {
+            _service.ClearEntry(_state);
+            ShowResult();
+        }
+
+        private void ToggleSign_Click(object sender, EventArgs e)
+        {
+            _service.ToggleSign(_state);
+            ShowResult();
+        }
     }
 }
