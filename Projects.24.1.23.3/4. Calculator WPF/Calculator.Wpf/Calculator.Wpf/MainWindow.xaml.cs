@@ -49,8 +49,12 @@ namespace Calculator.Wpf
 
         private void OperationButton_Click(object sender, RoutedEventArgs e)
         {
-            var operationCode = (string)((Button)sender).Content;
-            ViewModel.PressOperation(operationCode);
+            var op = (string)((Button)sender).Content;
+
+            if (op == "=")
+                ViewModel.PressEqual();
+            else
+                ViewModel.PressOperation(op);
         }
     }
 }

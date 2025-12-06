@@ -73,7 +73,10 @@ namespace Calculator.Business.Services
 
         public void PressOperation(CalculatorState state, string operation)
         {
-            CompleteOperation(state, state.Operation);
+            if (!state.NeedClearX && !string.IsNullOrEmpty(state.Operation))
+            {
+                CompleteOperation(state, state.Operation);
+            }
             MoveXToY(state);
             state.Operation = operation;
             state.NeedClearX = true;

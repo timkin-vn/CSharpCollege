@@ -17,6 +17,7 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -69,5 +70,7 @@
         <Button Grid.Row="4" Grid.Column="1" Content="%" FontSize="36" Margin="5,5,5,5" Click="OperationButton_Click" />
 
         <Button Grid.Row="4" Grid.Column="2" Content="±" FontSize="36" Margin="5,5,5,5" Click="ToggleSignButton_Click" />
+
+        <ListBox x:Name="HistoryList" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="6" Margin="10" FontSize="20" ItemsSource="{Binding History}"/>
     </Grid>
 </Window>
