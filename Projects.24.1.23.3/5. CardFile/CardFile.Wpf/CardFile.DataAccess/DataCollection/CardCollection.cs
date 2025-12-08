@@ -19,54 +19,31 @@ namespace CardFile.DataAccess.DataCollection
             _cards.Add(new CardDto
             {
                 Id = 1,
-                FirstName = "Андрей",
-                MiddleName = "Геннадьевич",
-                LastName = "Захаров",
-                BirthDate = new DateTime(1985, 11, 7),
-                Department = "Отдел разработки",
-                Position = "Руководитель проекта",
-                EmploymentDate = new DateTime(2010, 4, 18),
-                DismissalDate = null,
-                Salary = 250000m,
+                Title = "Тень Ветра",
+                Author = "Карлос Руис Сафон",
+                Year = 2001,
+                Genre = "Готический детектив",
+                Description = "Мальчик находит таинственную книгу, которая меняет всю его жизнь."
             });
+
             _cards.Add(new CardDto
             {
                 Id = 2,
-                FirstName = "Нина",
-                MiddleName = "Аркадьевна",
-                LastName = "Шевченко",
-                BirthDate = new DateTime(1990, 8, 21),
-                Department = "Отдел тестирования",
-                Position = "Старший тестировщик",
-                EmploymentDate = new DateTime(2015, 2, 14),
-                DismissalDate = new DateTime(2024, 11, 3),
-                Salary = 200000m,
+                Title = "451° по Фаренгейту",
+                Author = "Рэй Брэдбери",
+                Year = 1953,
+                Genre = "Антиутопия",
+                Description = "Роман описывает американское общество близкого будущего, в котором книги находятся под запретом; «пожарные»[1], к числу которых принадлежит и главный герой Гай Монтэг, сжигают любые найденные книги. В ходе романа Монтэг разочаровывается в идеалах общества, частью которого он является, становится изгоем и присоединяется к небольшой подпольной группе маргиналов, сторонники которой заучивают тексты книг, чтобы спасти их для потомков. В книге содержится немало цитат из произведений англоязычных авторов прошлого (таких, как Уильям Шекспир, Джонатан Свифт и другие), а также несколько цитат из Библии."
             });
+
             _cards.Add(new CardDto
             {
                 Id = 3,
-                FirstName = "Виктор",
-                MiddleName = "Петрович",
-                LastName = "Васильев",
-                BirthDate = new DateTime(2001, 3, 11),
-                Department = "Отдел разработки",
-                Position = "Ведущий разработчик",
-                EmploymentDate = new DateTime(2020, 9, 25),
-                DismissalDate = null,
-                Salary = 300000m,
-            });
-            _cards.Add(new CardDto
-            {
-                Id = 4,
-                FirstName = "Ольга",
-                MiddleName = "Владимировна",
-                LastName = "Меднис",
-                BirthDate = new DateTime(1981, 9, 2),
-                Department = "Бухгалтерия",
-                Position = "Главный бухгалтер",
-                EmploymentDate = new DateTime(2010, 9, 25),
-                DismissalDate = new DateTime(2023, 3, 18),
-                Salary = 150000m,
+                Title = "Мастер и Маргарита",
+                Author = "Михаил Булгаков",
+                Year = 1967,
+                Genre = "Мистика",
+                Description = "Дьявол появляется в Москве и меняет судьбы многих людей."
             });
 
             InitializeMapper.Register();

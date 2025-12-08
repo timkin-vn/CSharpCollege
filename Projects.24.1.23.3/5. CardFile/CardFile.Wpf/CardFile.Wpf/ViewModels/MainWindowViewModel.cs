@@ -48,8 +48,11 @@ namespace CardFile.Wpf.ViewModels
         {
             return new CardViewModel
             {
-                BirthDate = new DateTime(2000, 07, 15),
-                EmploymentDate = new DateTime(2020, 07, 15),
+                Title = "Новая книга",
+                Author = "Автор",
+                Year = DateTime.Now.Year,
+                Genre = "Жанр",
+                Description = ""
             };
         }
 
@@ -155,37 +158,11 @@ namespace CardFile.Wpf.ViewModels
         private CardViewModel FromBusiness(Card card)
         {
             return Mapping.Mapper.Map<CardViewModel>(card);
-            //return new CardViewModel
-            //{
-            //    Id = card.Id,
-            //    FirstName = card.FirstName,
-            //    LastName = card.LastName,
-            //    MiddleName = card.MiddleName,
-            //    BirthDate = card.BirthDate,
-            //    Department = card.Department,
-            //    Position = card.Position,
-            //    EmploymentDate = card.EmploymentDate,
-            //    DismissalDate = card.DismissalDate,
-            //    Salary = card.Salary,
-            //};
         }
 
         private Card ToBusiness(CardViewModel card)
         {
             return Mapping.Mapper.Map<Card>(card);
-            //return new Card
-            //{
-            //    Id = card.Id,
-            //    FirstName = card.FirstName,
-            //    LastName = card.LastName,
-            //    MiddleName = card.MiddleName,
-            //    BirthDate = card.BirthDate,
-            //    Department = card.Department,
-            //    Position = card.Position,
-            //    EmploymentDate = card.EmploymentDate,
-            //    DismissalDate = card.DismissalDate,
-            //    Salary = card.Salary,
-            //};
         }
     }
 }

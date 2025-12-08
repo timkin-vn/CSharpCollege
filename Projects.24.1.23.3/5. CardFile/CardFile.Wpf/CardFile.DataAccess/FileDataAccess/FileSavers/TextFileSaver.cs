@@ -28,7 +28,7 @@ namespace CardFile.DataAccess.FileDataAccess.FileSavers
                         }
 
                         var lineParts = line.Split(';');
-                        if (lineParts.Length != 10)
+                        if (lineParts.Length != 6)
                         {
                             throw new Exception($"В строке файла {fileName} неверное количество полей");
                         }
@@ -44,52 +44,22 @@ namespace CardFile.DataAccess.FileDataAccess.FileSavers
                             throw new Exception($"В строке файла {fileName} неверное значение Id");
                         }
 
-                        newCard.FirstName = lineParts[1];
-                        newCard.MiddleName = lineParts[2];
-                        newCard.LastName = lineParts[3];
+                        newCard.Title = lineParts[1];
 
-                        if (DateTime.TryParse(lineParts[4], out var birthDate))
+                        newCard.Author = lineParts[2];
+
+                        if (int.TryParse(lineParts[3], out var year))
                         {
-                            newCard.BirthDate = birthDate;
+                            newCard.Year = year;
                         }
                         else
                         {
-                            throw new Exception($"В строке файла {fileName} неверное значение BirthDate");
+                            throw new Exception($"В строке файла {fileName} неверное значение Year");
                         }
 
-                        newCard.Department = lineParts[5];
-                        newCard.Position = lineParts[6];
+                        newCard.Genre = lineParts[4];
 
-                        if (DateTime.TryParse(lineParts[7], out var employmentDate))
-                        {
-                            newCard.EmploymentDate = employmentDate;
-                        }
-                        else
-                        {
-                            throw new Exception($"В строке файла {fileName} неверное значение EmploymentDate");
-                        }
-
-                        if (lineParts[8] == "-")
-                        {
-                            newCard.DismissalDate = null;
-                        }
-                        else if (DateTime.TryParse(lineParts[8], out var dismissalDate))
-                        {
-                            newCard.DismissalDate = dismissalDate;
-                        }
-                        else
-                        {
-                            throw new Exception($"В строке файла {fileName} неверное значение DismissalDate");
-                        }
-
-                        if (decimal.TryParse(lineParts[9], out var salary))
-                        {
-                            newCard.Salary = salary;
-                        }
-                        else
-                        {
-                            throw new Exception($"В строке файла {fileName} неверное значение Salary");
-                        }
+                        newCard.Description = lineParts[5];
 
                         records.Add(newCard);
                     }
@@ -107,10 +77,8 @@ namespace CardFile.DataAccess.FileDataAccess.FileSavers
                 {
                     foreach (var item in collection.GetAll())
                     {
-                        writer.WriteLine($"{item.Id};{item.FirstName};{item.MiddleName};{item.LastName};" +
-                            $"{item.BirthDate.ToShortDateString()};{item.Department};{item.Position};" +
-                            $"{item.EmploymentDate.ToShortDateString()};{item.DismissalDate?.ToShortDateString() ?? "-"};" +
-                            $"{item.Salary}");
+                        writer.WriteLine($"{item.Id};{item.Title};{item.Author};{item.Year};" +
+                            $"{item.Genre};{item.Description};");
                     }
                 }
             }

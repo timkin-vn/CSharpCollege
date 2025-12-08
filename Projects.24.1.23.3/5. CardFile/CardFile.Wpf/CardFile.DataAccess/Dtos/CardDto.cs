@@ -16,64 +16,40 @@ namespace CardFile.DataAccess.Dtos
         public int Id { get; set; }
 
         /// <summary>
-        /// Имя
+        /// Название книги
         /// </summary>
-        public string FirstName { get; set; }
+        public string Title { get; set; }
 
         /// <summary>
-        /// Отчество
+        /// Автор книги
         /// </summary>
-        public string MiddleName { get; set; }
+        public string Author { get; set; }
 
         /// <summary>
-        /// Фамилия
+        /// Год выпуска
         /// </summary>
-        public string LastName { get; set; }
+        public int Year { get; set; }
 
         /// <summary>
-        /// Дата рождения
+        /// Жанр
         /// </summary>
-        public DateTime BirthDate { get; set; }
+        public string Genre { get; set; }
 
         /// <summary>
-        /// Подразделение
+        /// Краткое описание
         /// </summary>
-        public string Department { get; set; }
-
-        /// <summary>
-        /// Должность
-        /// </summary>
-        public string Position { get; set; }
-
-        /// <summary>
-        /// Дата трудоустройства
-        /// </summary>
-        public DateTime EmploymentDate { get; set; }
-
-        /// <summary>
-        /// Дата увольнения
-        /// </summary>
-        public DateTime? DismissalDate { get; set; }
-
-        /// <summary>
-        /// Оклад
-        /// </summary>
-        public decimal Salary { get; set; }
+        public string Description { get; set; }
 
         public CardDto Clone()
         {
             return new CardDto
             {
                 Id = Id,
-                FirstName = FirstName,
-                MiddleName = MiddleName,
-                LastName = LastName,
-                BirthDate = BirthDate,
-                Department = Department,
-                Position = Position,
-                EmploymentDate = EmploymentDate,
-                DismissalDate = DismissalDate,
-                Salary = Salary,
+                Title = Title,
+                Author = Author,
+                Year = Year,
+                Genre = Genre,
+                Description = Description
             };
         }
     }

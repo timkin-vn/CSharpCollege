@@ -27,16 +27,6 @@ namespace CardFile.Wpf.Views
             InitializeComponent();
         }
 
-        private void IsWorkingTillNow_Checked(object sender, RoutedEventArgs e)
-        {
-            ViewModel.IsWorkingTillNowChecked();
-        }
-
-        private void IsWorkingTillNow_Unchecked(object sender, RoutedEventArgs e)
-        {
-            ViewModel.IsWorkingTillNowUnchecked();
-        }
-
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = true;

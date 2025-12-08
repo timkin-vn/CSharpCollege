@@ -30,13 +30,17 @@
             <DataGrid Grid.Row="0" Margin="5" ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" AutoGenerateColumns="False"
                       IsReadOnly="True" CanUserAddRows="False" SelectionMode="Single" SelectionChanged="CardsDataGrid_SelectionChanged">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ФИО" Binding="{Binding Fio}" />
-                    <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDate}" />
-                    <DataGridTextColumn Header="Подразделение" Binding="{Binding Department}" />
-                    <DataGridTextColumn Header="Должность" Binding="{Binding Position}" />
-                    <DataGridTextColumn Header="Дата трудоустройства" Binding="{Binding EmploymentDate}" />
-                    <DataGridTextColumn Header="Дата увольнения" Binding="{Binding DismissalDate}" />
-                    <DataGridTextColumn Header="Оклад" Binding="{Binding Salary}" />
+                    <DataGridTextColumn Header="Название" Binding="{Binding Title}" />
+                    <DataGridTextColumn Header="Автор" Binding="{Binding Author}" />
+                    <DataGridTextColumn Header="Год" Binding="{Binding Year}" />
+                    <DataGridTextColumn Header="Жанр" Binding="{Binding Genre}" />
+                    <DataGridTemplateColumn Header="Описание" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Description}" TextWrapping="Wrap" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
 

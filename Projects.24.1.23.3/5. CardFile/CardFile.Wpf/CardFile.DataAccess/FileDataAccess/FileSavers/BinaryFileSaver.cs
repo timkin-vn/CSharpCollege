@@ -14,56 +14,35 @@ namespace CardFile.DataAccess.FileDataAccess.FileSavers
         public void OpenFromFile(string fileName, CardCollection collection)
         {
             using (var fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+            using (var reader = new BinaryReader(fs))
             {
-                using (var reader = new BinaryReader(fs))
+                var records = new List<CardDto>();
+
+                try
                 {
-                    var records = new List<CardDto>();
-
-                    try
+                    while (reader.BaseStream.Position < reader.BaseStream.Length)
                     {
-                        while (reader.BaseStream.Position < reader.BaseStream.Length)
-                        {
-                            var newCard = new CardDto();
+                        var newCard = new CardDto();
 
-                            newCard.Id = reader.ReadInt32();
-                            newCard.FirstName = reader.ReadString();
-                            newCard.MiddleName = reader.ReadString();
-                            newCard.LastName = reader.ReadString();
+                        newCard.Id = reader.ReadInt32();
+                        newCard.Title = reader.ReadString();
+                        newCard.Author = reader.ReadString();
+                        newCard.Year = reader.ReadInt32();
+                        newCard.Genre = reader.ReadString();
+                        newCard.Description = reader.ReadString();
 
-                            var ticks = reader.ReadInt64();
-                            newCard.BirthDate = new DateTime(ticks);
-
-                            newCard.Department = reader.ReadString();
-                            newCard.Position = reader.ReadString();
-
-                            ticks = reader.ReadInt64();
-                            newCard.EmploymentDate = new DateTime(ticks);
-
-                            var isDismissalDatePresent = reader.ReadBoolean();
-                            if (isDismissalDatePresent)
-                            {
-                                ticks = reader.ReadInt64();
-                                newCard.DismissalDate = new DateTime(ticks);
-                            }
-                            else
-                            {
-                                newCard.DismissalDate = null;
-                            }
-
-                            newCard.Salary = reader.ReadDecimal();
-
-                            records.Add(newCard);
-                        }
-
-                        collection.ReplaceAll(records);
+                        records.Add(newCard);
                     }
-                    catch
-                    {
-                        throw new Exception($"Неверный данные в файле {fileName}");
-                    }
+
+                    collection.ReplaceAll(records);
+                }
+                catch
+                {
+                    throw new Exception($"Неверные данные в файле {fileName}");
                 }
             }
         }
+
 
         public void SaveToFile(string fileName, CardCollection collection)
         {
@@ -74,21 +53,11 @@ namespace CardFile.DataAccess.FileDataAccess.FileSavers
                     foreach (var item in collection.GetAll())
                     {
                         writer.Write(item.Id);
-                        writer.Write(item.FirstName);
-                        writer.Write(item.MiddleName);
-                        writer.Write(item.LastName);
-                        writer.Write(item.BirthDate.Ticks);
-                        writer.Write(item.Department);
-                        writer.Write(item.Position);
-                        writer.Write(item.EmploymentDate.Ticks);
-
-                        writer.Write(item.DismissalDate.HasValue);
-                        if (item.DismissalDate.HasValue)
-                        {
-                            writer.Write(item.DismissalDate.Value.Ticks);
-                        }
-
-                        writer.Write(item.Salary);
+                        writer.Write(item.Title);
+                        writer.Write(item.Author);
+                        writer.Write(item.Year);
+                        writer.Write(item.Genre);
+                        writer.Write(item.Description);
                     }
                 }
             }
