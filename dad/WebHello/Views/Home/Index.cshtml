@@ -1,0 +1,94 @@
+﻿@model LabyrinthGame.Models.GameViewModel
+
+@{
+    ViewBag.Title = "Лабиринт";
+}
+
+<div class="text-center">
+    <h2>Labyrinth Game</h2>
+    <div id="statusText" class="alert alert-info">@Model.Message</div>
+    <h4>Ходы: <span id="movesCount">@Model.Moves</span></h4>
+    <button class="btn btn-warning" onclick="sendMove('Restart')">Рестарт (R)</button>
+</div>
+
+<div class="maze-container">
+    <div id="mazeBoard" class="maze-grid">
+        <!-- Здесь будет рисоваться лабиринт -->
+        @foreach (var row in Model.Grid)
+        {
+            <div class="maze-row">
+                @foreach (var cell in row)
+                {
+                    <div class="cell @cell.CssClass">@cell.Symbol</div>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Скрипт для управления -->
+@section scripts {
+    <script>
+        // Обработка нажатий клавиш
+        document.addEventListener('keydown', function (event) {
+            let direction = "";
+            switch (event.key) {
+                case "ArrowUp":
+                case "w":
+                case "W":
+                    direction = "Up"; break;
+                case "ArrowDown":
+                case "s":
+                case "S":
+                    direction = "Down"; break;
+                case "ArrowLeft":
+                case "a":
+                case "A":
+                    direction = "Left"; break;
+                case "ArrowRight":
+                case "d":
+                case "D":
+                    direction = "Right"; break;
+                case "r":
+                case "R":
+                    direction = "Restart"; break;
+            }
+
+            if (direction) {
+                event.preventDefault(); // Чтобы страница не прокручивалась
+                sendMove(direction);
+            }
+        });
+
+        function sendMove(direction) {
+            $.post('/Home/Move', { direction: direction }, function (data) {
+                updateBoard(data);
+            });
+        }
+
+        function updateBoard(data) {
+            // Обновляем текст
+            $('#statusText').text(data.Message);
+            $('#movesCount').text(data.Moves);
+
+            if (data.IsFinished) {
+                $('#statusText').removeClass('alert-info').addClass('alert-success');
+                // Звук победы (стандартный алерт браузера)
+                // alert("Победа!");
+            } else {
+                $('#statusText').removeClass('alert-success').addClass('alert-info');
+            }
+
+            // Перерисовываем доску
+            let html = "";
+            data.Grid.forEach(row => {
+                html += '<div class="maze-row">';
+                row.forEach(cell => {
+                    html += `<div class="cell ${cell.CssClass}">${cell.Symbol}</div>`;
+                });
+                html += '</div>';
+            });
+            $('#mazeBoard').html(html);
+        }
+    </script>
+}
