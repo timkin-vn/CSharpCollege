@@ -1,0 +1,154 @@
+﻿@model Minesweeper.Web.Models.MinesweeperViewModel
+
+@{
+    ViewBag.Title = "Игра Сапёр";
+}
+
+<h2>Сапёр</h2>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-info">
+        @TempData["Message"]
+    </div>
+}
+
+<div class="game-controls">
+    @using (Html.BeginForm("NewGame", "Game", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <button type="submit" class="btn btn-primary">Новая игра</button>
+    }
+
+    @using (Html.BeginForm("ToggleDebug", "Game", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <button type="submit" class="btn @(Model.DebugMode ? "btn-success" : "btn-warning")">
+            @if (Model.DebugMode)
+            {
+                <text>Скрыть мины</text>
+            }
+            else
+            {
+                <text>Показать мины</text>
+            }
+        </button>
+    }
+</div>
+
+<table class="minesweeper-grid" style="margin: 20px auto;">
+    @for (int row = 0; row < Model.Size; row++)
+    {
+        <tr>
+            @for (int col = 0; col < Model.Size; col++)
+            {
+                <td>
+                    @{
+                        var cell = Model.GameField;
+                        bool isRevealed = cell.Revealed[row, col];
+                        bool isFlagged = cell.Flagged[row, col];
+                        bool hasMine = cell.HasMine(row, col);
+                        int number = cell.GetNumber(row, col);
+                        bool showDebugMine = Model.DebugMode && hasMine && !isRevealed;
+                    }
+
+                    @if (isRevealed)
+                    {
+                        if (hasMine)
+                        {
+                            <div class="cell mine" style="width: 30px; height: 30px; background-color: red; color: white; text-align: center; line-height: 30px;">
+                                💥
+                            </div>
+                        }
+                        else if (number > 0)
+                        {
+                            string color;
+                            switch (number)
+                            {
+                                case 1: color = "blue"; break;
+                                case 2: color = "green"; break;
+                                case 3: color = "red"; break;
+                                case 4: color = "darkblue"; break;
+                                case 5: color = "darkred"; break;
+                                case 6: color = "teal"; break;
+                                case 7: color = "black"; break;
+                                case 8: color = "gray"; break;
+                                default: color = "black"; break;
+                            }
+
+                            <div class="cell number" style="width: 30px; height: 30px; background-color: white; color: @color; text-align: center; line-height: 30px; font-weight: bold;">
+                                @number
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="cell empty" style="width: 30px; height: 30px; background-color: white; border: 1px solid #ccc;"></div>
+                        }
+                    }
+                    else if (isFlagged)
+                    {
+                        using (Html.BeginForm("ToggleFlag", "Game", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="row" value="@row" />
+                            <input type="hidden" name="col" value="@col" />
+                            <button type="submit" class="cell flagged" style="width: 30px; height: 30px; background-color: lightyellow; border: 1px solid #333; cursor: pointer;">
+                                🚩
+                            </button>
+                        }
+                    }
+                    else if (Model.DebugMode && hasMine)
+                    {
+                        using (Html.BeginForm("RevealCell", "Game", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="row" value="@row" />
+                            <input type="hidden" name="col" value="@col" />
+                            <button type="submit" class="cell debug-mine" style="width: 30px; height: 30px; background-color: pink; border: 1px solid #333; cursor: pointer; color: purple;">
+                                💥
+                            </button>
+                        }
+                    }
+                    else
+                    {
+                        using (Html.BeginForm("RevealCell", "Game", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="row" value="@row" />
+                            <input type="hidden" name="col" value="@col" />
+                            <button type="submit" class="cell hidden" style="width: 30px; height: 30px; background-color: lightblue; border: 1px solid #333; cursor: pointer;">
+                                &nbsp;
+                            </button>
+                        }
+                    }
+                </td>
+            }
+        </tr>
+    }
+</table>
+
+<style>
+    .minesweeper-grid {
+        border-collapse: collapse;
+    }
+
+        .minesweeper-grid td {
+            padding: 0;
+        }
+
+    .cell {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+    }
+
+    .game-controls {
+        margin: 20px 0;
+    }
+
+        .game-controls form {
+            display: inline-block;
+            margin-right: 10px;
+        }
+</style>
