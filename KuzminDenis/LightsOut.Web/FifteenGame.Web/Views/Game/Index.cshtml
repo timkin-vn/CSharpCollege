@@ -1,0 +1,50 @@
+﻿@model LightsOut.Web.Models.GameViewModel
+@{
+    ViewBag.Title = "Lights Out";
+}
+
+<main>
+    <h2>Lights Out</h2>
+
+    <div class="moves-info mb-3">
+        <h4>Ходов осталось: @Model.MovesLeft из @Model.MaxMoves</h4>
+    </div>
+
+    @if (Model.IsGameOver)
+    {
+        <h2 class="text-success">Победа! Все огни выключены.</h2>
+        <a class="btn btn-primary" href="@Url.Action("Index", "Game")">Новая игра</a>
+    }
+
+    @if (Model.IsGameLose)
+    {
+        <h2 class="text-danger">Проигрыш! Ходы закончились.</h2>
+        <a class="btn btn-primary" href="@Url.Action("Index", "Game")">Новая игра</a>
+    }
+
+    <div class="container mt-4">
+        @for (int row = 0; row < Model.RowCount; row++)
+        {
+            <div class="row justify-content-center">
+                @for (int col = 0; col < Model.ColumnCount; col++)
+                {
+                    var cell = Model.Cells[row, col];
+                    string img = cell.IsOn ? "on.png" : "off.png";
+
+                    <div class="col-1 p-1 text-center">
+                        @if (!Model.IsGameOver && !Model.IsGameLose)
+                        {
+                            <a href="@Url.Action("ClickCell", "Game", new { row = row, column = col })">
+                                <img src="~/Content/img/@img" style="width:100px;height:100px;" />
+                            </a>
+                        }
+                        else
+                        {
+                            <img src="~/Content/img/@img" style="width:100px;height:100px; opacity:0.5;" />
+                        }
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</main>
