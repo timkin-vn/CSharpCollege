@@ -1,0 +1,1 @@
+﻿net start/stop postgresql-x64-18
