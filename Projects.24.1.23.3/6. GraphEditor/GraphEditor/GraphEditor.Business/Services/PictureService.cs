@@ -92,6 +92,45 @@ namespace GraphEditor.Business.Services
                     selectedRect.Width = loc.X - selectedRect.Left;
                     break;
 
+                case EditMode.ResizeL:
+                    var deltaL = loc.X - selectedRect.Left;
+                    selectedRect.Left += deltaL;
+                    selectedRect.Width -= deltaL;
+                    break;
+
+                case EditMode.ResizeB:
+                    selectedRect.Height = loc.Y - selectedRect.Top;
+                    break;
+
+                case EditMode.ResizeT:
+                    var deltaT = loc.Y - selectedRect.Top;
+                    selectedRect.Top += deltaT;
+                    selectedRect.Height -= deltaT;
+                    break;
+
+                case EditMode.ResizeTL:
+                    deltaL = loc.X - selectedRect.Left;
+                    deltaT = loc.Y - selectedRect.Top;
+                    selectedRect.Left += deltaL;
+                    selectedRect.Top += deltaT;
+                    selectedRect.Width -= deltaL;
+                    selectedRect.Height -= deltaT;
+                    break;
+
+                case EditMode.ResizeTR:
+                    deltaT = loc.Y - selectedRect.Top;
+                    selectedRect.Top += deltaT;
+                    selectedRect.Width = loc.X - selectedRect.Left;
+                    selectedRect.Height -= deltaT;
+                    break;
+
+                case EditMode.ResizeBL:
+                    deltaL = loc.X - selectedRect.Left;
+                    selectedRect.Left += deltaL;
+                    selectedRect.Width -= deltaL;
+                    selectedRect.Height = loc.Y - selectedRect.Top;
+                    break;
+
                 case EditMode.Moving:
                     selectedRect.Left = loc.X - selectedRect.Dx;
                     selectedRect.Top = loc.Y - selectedRect.Dy;
