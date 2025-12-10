@@ -167,5 +167,28 @@ namespace GraphEditor
             _viewService.MoveForward();
             Refresh();
         }
+
+        private void toolStripDropDownButton1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void вСамыйКонецToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _viewService.SendToBack();
+            Refresh();
+        }
+
+        private void назадToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _viewService.MoveBehaind();
+            Refresh();
+        }
+
+        private void спередиВсехToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _viewService.BringToFront();
+            Refresh();
+        }
     }
 }

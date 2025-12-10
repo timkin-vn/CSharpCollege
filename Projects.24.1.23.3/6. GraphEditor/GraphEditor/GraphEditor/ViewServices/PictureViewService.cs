@@ -167,6 +167,24 @@ namespace GraphEditor.ViewServices
             LoadViewModel();
         }
 
+        public void MoveBehaind()
+        {
+            _businessService.MoveBehaind();
+            LoadViewModel();
+        }
+
+        public void BringToFront()
+        {
+            _businessService.BringToFront();
+            LoadViewModel();
+        }
+    
+        public void SendToBack()
+        {
+            _businessService.SendToBack();
+            LoadViewModel();
+        }
+
         private void LoadViewModel()
         {
             var model = _businessService.PictureModel;
