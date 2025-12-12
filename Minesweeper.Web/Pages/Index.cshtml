@@ -29,9 +29,18 @@
 </div>
 
 <div class="status panel">
-    <div><strong>Сложность:</strong> <span id="status-difficulty">@Model.View.Difficulty</span></div>
-    <div><strong>Мины:</strong> <span id="status-mines">@Model.View.FlagsLeft</span> из @Model.View.Mines</div>
-    <div><strong>Время:</strong> <span id="status-time">@Model.View.Seconds</span> c</div>
+    <div>
+        <strong>Сложность:</strong>
+        <span class="badge" id="status-difficulty">@Model.View.Difficulty</span>
+    </div>
+    <div>
+        <strong>Мины:</strong>
+        <span class="badge"><span id="status-mines">@Model.View.FlagsLeft</span> из @Model.View.Mines</span>
+    </div>
+    <div>
+        <strong>Время:</strong>
+        <span class="badge" id="status-time">@Model.View.Seconds</span> c
+    </div>
     <div id="status-text">@Model.View.StatusText</div>
 </div>
 
