@@ -12,8 +12,8 @@ public sealed class GameServiceProxy {
         return await _api.PostAsync<GameSnapshotDto>("/api/games", req);
     }
 
-    public async Task<GameSnapshotDto> ActionAsync(Guid gameId, GameActionType type, int row, int col) {
-        var req = new GameActionRequest(type, row, col);
+    public async Task<GameSnapshotDto> ActionAsync(Guid gameId, GameActionType type, int row, int col, bool debugMode = false) {
+        var req = new GameActionRequest(type, row, col, debugMode);
         return await _api.PostAsync<GameSnapshotDto>($"/api/games/{gameId}/action", req);
     }
 
