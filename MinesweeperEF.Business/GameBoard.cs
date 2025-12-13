@@ -27,6 +27,13 @@ public sealed class GameBoard {
     public void NewGame() {
         PrepareBoard();
     }
+    
+    public void ClearGameOverForDebug() {
+        if (HasWon)
+            return;
+
+        GameOver = false;
+    }
 
     public CellSnapshot this[int row, int col] {
         get {
