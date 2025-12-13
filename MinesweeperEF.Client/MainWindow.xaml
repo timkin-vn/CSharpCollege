@@ -264,37 +264,45 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
-                        <Border Grid.Row="0" Background="#0F2638" CornerRadius="8" 
+                        <Border Grid.Row="0" Background="#0F2638" CornerRadius="8"
                                 Padding="16,12" Margin="0,0,0,12" BorderBrush="#2A4F6F" BorderThickness="1.5">
-                            <UniformGrid Columns="4" Rows="1">
-                                <StackPanel Margin="0,0,8,0">
-                                    <TextBlock Text="📊 Статус" FontWeight="SemiBold" FontSize="11" 
-                                               Foreground="#8FA7BA" />
-                                    <TextBlock x:Name="StatusText" FontSize="14" FontWeight="Bold" 
-                                               Foreground="{StaticResource AccentBrush}" Margin="0,3,0,0" />
-                                </StackPanel>
-                                
-                                <StackPanel Margin="8,0">
-                                    <TextBlock Text="🚩 Флаги" FontWeight="SemiBold" FontSize="11" 
-                                               Foreground="#8FA7BA" />
-                                    <TextBlock x:Name="FlagsText" FontSize="14" FontWeight="Bold" 
-                                               Margin="0,3,0,0" />
-                                </StackPanel>
-                                
-                                <StackPanel Margin="8,0">
-                                    <TextBlock Text="📏 Поле" FontWeight="SemiBold" FontSize="11" 
-                                               Foreground="#8FA7BA" />
-                                    <TextBlock x:Name="BoardInfoText" FontSize="14" FontWeight="Bold" 
-                                               Margin="0,3,0,0" />
-                                </StackPanel>
-                                
-                                <StackPanel Margin="8,0,0,0">
-                                    <TextBlock Text="🎮 Игра" FontWeight="SemiBold" FontSize="11" 
-                                               Foreground="#8FA7BA" />
-                                    <TextBlock x:Name="GameNameText" FontSize="14" FontWeight="Bold" 
-                                               Margin="0,3,0,0" TextTrimming="CharacterEllipsis" />
-                                </StackPanel>
-                            </UniformGrid>
+                            <StackPanel>
+                                <UniformGrid Columns="4" Rows="1">
+                                    <StackPanel Margin="0,0,8,0">
+                                        <TextBlock Text="📊 Статус" FontWeight="SemiBold" FontSize="11"
+                                                   Foreground="#8FA7BA" />
+                                        <TextBlock x:Name="StatusText" FontSize="14" FontWeight="Bold"
+                                                   Foreground="{StaticResource AccentBrush}" Margin="0,3,0,0" />
+                                    </StackPanel>
+
+                                    <StackPanel Margin="8,0">
+                                        <TextBlock Text="🚩 Флаги" FontWeight="SemiBold" FontSize="11"
+                                                   Foreground="#8FA7BA" />
+                                        <TextBlock x:Name="FlagsText" FontSize="14" FontWeight="Bold"
+                                                   Margin="0,3,0,0" />
+                                    </StackPanel>
+
+                                    <StackPanel Margin="8,0">
+                                        <TextBlock Text="📏 Поле" FontWeight="SemiBold" FontSize="11"
+                                                   Foreground="#8FA7BA" />
+                                        <TextBlock x:Name="BoardInfoText" FontSize="14" FontWeight="Bold"
+                                                   Margin="0,3,0,0" />
+                                    </StackPanel>
+
+                                    <StackPanel Margin="8,0,0,0">
+                                        <TextBlock Text="🎮 Игра" FontWeight="SemiBold" FontSize="11"
+                                                   Foreground="#8FA7BA" />
+                                        <TextBlock x:Name="GameNameText" FontSize="14" FontWeight="Bold"
+                                                   Margin="0,3,0,0" TextTrimming="CharacterEllipsis" />
+                                    </StackPanel>
+                                </UniformGrid>
+
+                                <Button x:Name="RevealMinesButton" Content="Показать мины"
+                                        Visibility="Collapsed" Height="32" Margin="0,12,0,0"
+                                        HorizontalAlignment="Left" Padding="12,0"
+                                        Click="RevealMines_Click"
+                                        ToolTip="Показать все скрытые мины после поражения" />
+                            </StackPanel>
                         </Border>
 
                         <Border Grid.Row="1" Background="{StaticResource DarkBgBrush}" 
