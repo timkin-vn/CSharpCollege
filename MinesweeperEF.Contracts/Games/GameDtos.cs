@@ -4,7 +4,7 @@ public enum GameActionType { Reveal, ToggleFlag, Chord }
 
 public sealed record NewGameRequest(int Rows, int Cols, int Mines, string? Name);
 
-public sealed record GameActionRequest(GameActionType Type, int Row, int Col);
+public sealed record GameActionRequest(GameActionType Type, int Row, int Col, bool DebugMode = false);
 
 public sealed record SavedGameInfoDto(Guid GameId, string Name, DateTime UpdatedAt, string Status);
 
