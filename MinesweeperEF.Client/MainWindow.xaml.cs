@@ -16,9 +16,21 @@ public partial class MainWindow {
     private GameServiceProxy? _games;
 
     private Guid? _currentGameId;
+    private string _currentGameName = "";
     private GameStateDto? _currentState;
 
     private static readonly Brush RevealedBrush = new SolidColorBrush(Color.FromRgb(230, 230, 230));
+    private static readonly Brush[] NumberBrushes = {
+        Brushes.Transparent,
+        Brushes.SteelBlue,
+        Brushes.ForestGreen,
+        Brushes.Firebrick,
+        Brushes.MidnightBlue,
+        Brushes.DarkRed,
+        Brushes.MediumVioletRed,
+        Brushes.Black,
+        Brushes.DarkSlateGray
+    };
     private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web);
 
     public MainWindow() {
@@ -26,19 +38,19 @@ public partial class MainWindow {
         UpdateStatus(null);
     }
 
-        private bool EnsureApiInitialized() {
-            if (_api is not null) return true;
-        
-            var url = ApiUrlBox.Text.Trim();
-            if (string.IsNullOrWhiteSpace(url)) {
-                MessageBox.Show("Укажите URL API");
-                return false;
-            }
+    private bool EnsureApiInitialized() {
+        if (_api is not null) return true;
     
-            _api = new ApiClient(url);
-            _users = new UserServiceProxy(_api);
-            _games = new GameServiceProxy(_api);
-            return true;
+        var url = ApiUrlBox.Text.Trim();
+        if (string.IsNullOrWhiteSpace(url)) {
+            MessageBox.Show("Укажите URL API");
+            return false;
+        }
+
+        _api = new ApiClient(url);
+        _users = new UserServiceProxy(_api);
+        _games = new GameServiceProxy(_api);
+        return true;
     }
 
     private async void Register_Click(object sender, RoutedEventArgs e) {
@@ -65,20 +77,24 @@ public partial class MainWindow {
             MessageBox.Show($"Ошибка входа: {ex.Message}");
         }
     }
+    
+    private void ClearForm_Click(object sender, RoutedEventArgs e) {
+        RowsBox.Text = "16";
+        ColsBox.Text = "16";
+        MinesBox.Text = "40";
+        NameBox.Text = "Game";
+    }
 
     private async void NewGame_Click(object sender, RoutedEventArgs e) {
         if (_games is null && !EnsureApiInitialized()) return;
         if (_games is null) return;
 
-        if (!int.TryParse(RowsBox.Text, out var rows) ||
-            !int.TryParse(ColsBox.Text, out var cols) ||
-            !int.TryParse(MinesBox.Text, out var mines)) {
-            MessageBox.Show("Введите корректные числа");
-            return;
-        }
+        if (!TryReadSettings(out var rows, out var cols, out var mines)) return;
 
         try {
-            var snapshot = await _games.NewGameAsync(rows, cols, mines, NameBox.Text);
+            var name = string.IsNullOrWhiteSpace(NameBox.Text) ? "Game" : NameBox.Text.Trim();
+            var snapshot = await _games.NewGameAsync(rows, cols, mines, name);
+            _currentGameName = name;
             RenderSnapshot(snapshot);
             await RefreshGamesAsync();
         }
@@ -93,6 +109,7 @@ public partial class MainWindow {
 
         try {
             var snapshot = await _games.GetAsync(info.GameId);
+            _currentGameName = info.Name;
             RenderSnapshot(snapshot);
         }
         catch (Exception ex) {
@@ -122,6 +139,9 @@ public partial class MainWindow {
             MessageBox.Show("Не удалось прочитать состояние поля");
             return;
         }
+        
+        BoardInfoText.Text = $"{_currentState.Settings.Rows} x {_currentState.Settings.Columns}";
+        GameNameText.Text = string.IsNullOrWhiteSpace(_currentGameName) ? "Новая игра" : _currentGameName;
 
         BoardGrid.Children.Clear();
         BoardGrid.Rows = _currentState.Settings.Rows;
@@ -137,13 +157,16 @@ public partial class MainWindow {
                     MinWidth = 32,
                     MinHeight = 32,
                     Margin = new Thickness(2),
-                    FontWeight = FontWeights.Bold
+                    FontWeight = FontWeights.Bold,
+                    FontSize = 16,
+                    FocusVisualStyle = null
                 };
 
                 UpdateButtonVisual(btn, cell);
 
                 btn.Click += Cell_Click;
                 btn.MouseRightButtonUp += Cell_RightClick;
+                btn.MouseDoubleClick += Cell_DoubleClick;
                 BoardGrid.Children.Add(btn);
             }
         }
@@ -155,6 +178,8 @@ public partial class MainWindow {
         if (snapshot is null || _currentState is null) {
             StatusText.Text = "Нет активной игры";
             FlagsText.Text = string.Empty;
+            BoardInfoText.Text = string.Empty;
+            GameNameText.Text = string.Empty;
             return;
         }
 
@@ -162,7 +187,7 @@ public partial class MainWindow {
             ? (snapshot.HasWon ? "Победа" : "Поражение")
             : "Игра продолжается";
 
-        StatusText.Text = $"Статус: {status}";
+        StatusText.Text = status;
         FlagsText.Text = $"Флагов осталось: {snapshot.FlagsLeft}";
     }
 
@@ -190,7 +215,13 @@ public partial class MainWindow {
                 break;
             case CellState.Revealed:
                 btn.Background = RevealedBrush;
-                btn.Content = cell.AdjacentMines > 0 ? cell.AdjacentMines.ToString() : string.Empty;
+                if (cell.AdjacentMines > 0) {
+                    btn.Content = cell.AdjacentMines.ToString();
+                    btn.Foreground = NumberBrushes[Math.Min(cell.AdjacentMines, NumberBrushes.Length - 1)];
+                }
+                else {
+                    btn.Content = string.Empty;
+                }
                 break;
         }
     }
@@ -208,6 +239,14 @@ public partial class MainWindow {
             : GameActionType.Reveal;
 
         await SendActionAsync(action, row, col);
+    }
+    
+    private async void Cell_DoubleClick(object sender, MouseButtonEventArgs e) {
+        if (_games is null || _currentState is null || _currentGameId is null) return;
+        if (sender is not Button btn || btn.Tag is not ValueTuple<int, int> coords) return;
+
+        var (row, col) = coords;
+        await SendActionAsync(GameActionType.Chord, row, col);
     }
 
     private async void Cell_RightClick(object sender, MouseButtonEventArgs e) {
@@ -229,5 +268,28 @@ public partial class MainWindow {
         catch (Exception ex) {
             MessageBox.Show($"Ошибка хода: {ex.Message}");
         }
+    }
+    
+    private bool TryReadSettings(out int rows, out int cols, out int mines) {
+        rows = cols = mines = 0;
+
+        if (!int.TryParse(RowsBox.Text, out rows) ||
+            !int.TryParse(ColsBox.Text, out cols) ||
+            !int.TryParse(MinesBox.Text, out mines)) {
+            MessageBox.Show("Введите корректные числа");
+            return false;
+        }
+
+        if (rows is < 2 or > 22 || cols is < 2 or > 30) {
+            MessageBox.Show("Допустимые размеры: от 2x2 до 22x30");
+            return false;
+        }
+
+        if (mines <= 0 || mines >= rows * cols) {
+            MessageBox.Show("Количество мин должно быть меньше количества клеток");
+            return false;
+        }
+
+        return true;
     }
 }
