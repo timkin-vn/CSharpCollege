@@ -13,9 +13,11 @@ namespace MinesweeperEF.Server.Controllers;
 [Route("api/auth")]
 public sealed class AuthController : ControllerBase {
     private readonly AppDbContext _db;
+    private readonly JwtOptions _jwtOptions;
 
-    public AuthController(AppDbContext db) {
+    public AuthController(AppDbContext db, JwtOptions jwtOptions) {
         _db = db;
+        _jwtOptions = jwtOptions;
     }
 
     [HttpPost("register")]
@@ -45,7 +47,7 @@ public sealed class AuthController : ControllerBase {
             new Claim(ClaimTypes.Name, user.UserName)
         };
 
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("REPLACE_THIS_SUPER_SECRET_AND_LONG_KEY_123"));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.Key));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(
