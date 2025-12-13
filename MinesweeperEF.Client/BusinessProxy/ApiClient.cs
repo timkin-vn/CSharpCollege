@@ -18,10 +18,16 @@ public sealed class ApiClient {
             new AuthenticationHeaderValue("Bearer", token);
     }
 
-    public async Task<T> PostAsync<T>(string url, object body) {
-        var response = await _http.PostAsJsonAsync(url, body);
-        response.EnsureSuccessStatusCode();
+    public async Task<T> PostAsync<T>(string url, object body) =>
+        await SendAsync<T>(() => _http.PostAsJsonAsync(url, body));
 
-        return (await response.Content.ReadFromJsonAsync<T>())!;
+    public async Task<T> GetAsync<T>(string url) =>
+        await SendAsync<T>(() => _http.GetAsync(url));
+
+    private static async Task<T> SendAsync<T>(Func<Task<HttpResponseMessage>> call) {
+        var response = await call();
+        response.EnsureSuccessStatusCode();
+        return await response.Content.ReadFromJsonAsync<T>()
+               ?? throw new InvalidOperationException("Пустой ответ сервера");
     }
 }
