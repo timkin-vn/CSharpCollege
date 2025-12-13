@@ -1,0 +1,110 @@
+using System.Text.Json;
+using MinesweeperEF.Business;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using MinesweeperEF.Contracts.Games;
+using MinesweeperEF.Server.Data;
+
+namespace MinesweeperEF.Server.Controllers;
+
+[ApiController]
+[Route("api/games")]
+[Authorize]
+public sealed class GamesController(AppDbContext db) : ControllerBase {
+    private async Task<User> GetCurrentUser() {
+        var userName = User.Identity?.Name;
+        if (string.IsNullOrWhiteSpace(userName))
+            throw new UnauthorizedAccessException();
+
+        var user = await db.Users.FirstOrDefaultAsync(x => x.UserName == userName);
+        if (user is null)
+            throw new UnauthorizedAccessException();
+
+        return user;
+    }
+
+    [HttpGet]
+    public async Task<List<SavedGameInfoDto>> List() {
+        var user = await GetCurrentUser();
+
+        return await db.SavedGames
+            .Where(g => g.UserId == user.Id)
+            .OrderByDescending(g => g.UpdatedAt)
+            .Select(g => new SavedGameInfoDto(g.Id, g.Name, g.UpdatedAt, g.Status))
+            .ToListAsync();
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<GameSnapshotDto>> NewGame(NewGameRequest req) {
+        var user = await GetCurrentUser();
+        var settings = new GameSettings(req.Rows, req.Cols, req.Mines);
+        var board = new GameBoard();
+        board.ApplySettings(settings);
+        board.NewGame();
+        
+        var dto = board.ExportState();
+        var json = JsonSerializer.Serialize(dto);
+
+        var game = new SavedGame {
+            Id = Guid.NewGuid(),
+            UserId = user.Id,
+            Name = string.IsNullOrWhiteSpace(req.Name) ? "Game" : req.Name!,
+            UpdatedAt = DateTime.UtcNow,
+            Rows = req.Rows,
+            Cols = req.Cols,
+            Mines = req.Mines,
+            Status = "InProgress",
+            StateJson = json
+        };
+
+        db.SavedGames.Add(game);
+        await db.SaveChangesAsync();
+
+        return new GameSnapshotDto(
+            game.Id,
+            game.Rows,
+            game.Cols,
+            board.FlagsLeft,
+            board.GameOver,
+            board.HasWon,
+            game.StateJson
+        );
+    }
+    
+    [HttpPost("{id:guid}/action")]
+    public async Task<ActionResult<GameSnapshotDto>> Action(Guid id, GameActionRequest req) {
+        var user = await GetCurrentUser();
+
+        var game = await db.SavedGames.FirstOrDefaultAsync(g => g.Id == id && g.UserId == user.Id);
+        if (game is null) return NotFound();
+
+        var dto = JsonSerializer.Deserialize<GameStateDto>(game.StateJson);
+        if (dto is null) return Problem("Invalid game state");
+
+        var board = GameBoard.ImportState(dto);
+
+        _ = req.Type switch {
+            GameActionType.Reveal     => board.Reveal(req.Row, req.Col),
+            GameActionType.ToggleFlag => board.ToggleFlag(req.Row, req.Col),
+            GameActionType.Chord      => board.Chord(req.Row, req.Col),
+            _ => throw new ArgumentOutOfRangeException()
+        };
+
+        game.UpdatedAt = DateTime.UtcNow;
+        if (board.GameOver) game.Status = board.HasWon ? "Won" : "Lost";
+
+        game.StateJson = JsonSerializer.Serialize(board.ExportState());
+        await db.SaveChangesAsync();
+
+        return new GameSnapshotDto(
+            game.Id,
+            board.Settings.Rows,
+            board.Settings.Columns,
+            board.FlagsLeft,
+            board.GameOver,
+            board.HasWon,
+            game.StateJson
+        );
+    }
+}

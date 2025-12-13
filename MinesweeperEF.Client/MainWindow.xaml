@@ -1,0 +1,12 @@
+﻿<Window x:Class="MinesweeperEF.Client.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MinesweeperEF" Height="250" Width="350">
+    <StackPanel Margin="20">
+        <TextBox x:Name="UserBox" Margin="0,0,0,10"/>
+        <PasswordBox x:Name="PassBox" Margin="0,0,0,10"/>
+
+        <Button Content="Register" Click="Register_Click" Margin="0,0,0,5"/>
+        <Button Content="Login" Click="Login_Click"/>
+    </StackPanel>
+</Window>
