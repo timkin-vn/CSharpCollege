@@ -21,7 +21,7 @@ public partial class MainWindow {
     private GameStateDto? _currentState;
 
     private static readonly Brush RevealedBrush = new SolidColorBrush(Color.FromRgb(230, 230, 230));
-    private static readonly Brush[] NumberBrushes = {
+    private static readonly Brush[] NumberBrushes = [
         Brushes.Transparent,
         Brushes.SteelBlue,
         Brushes.ForestGreen,
@@ -31,7 +31,7 @@ public partial class MainWindow {
         Brushes.MediumVioletRed,
         Brushes.Black,
         Brushes.DarkSlateGray
-    };
+    ];
     private static readonly JsonSerializerOptions JsonOptions = new() {
         PropertyNameCaseInsensitive = true,
         NumberHandling = JsonNumberHandling.AllowReadingFromString
@@ -158,12 +158,19 @@ public partial class MainWindow {
 
                 var btn = new Button {
                     Tag = (r, c),
-                    MinWidth = 32,
-                    MinHeight = 32,
-                    Margin = new Thickness(2),
+                    Width = 36,
+                    Height = 36,
+                    MinWidth = 36,
+                    MinHeight = 36,
+                    MaxWidth = 36,
+                    MaxHeight = 36,
+                    Margin = new Thickness(1),
+                    Padding = new Thickness(0),
                     FontWeight = FontWeights.Bold,
-                    FontSize = 16,
-                    FocusVisualStyle = null
+                    FontSize = 18,
+                    FocusVisualStyle = null,
+                    HorizontalContentAlignment = HorizontalAlignment.Center,
+                    VerticalContentAlignment = VerticalAlignment.Center
                 };
 
                 UpdateButtonVisual(btn, cell);
@@ -188,11 +195,17 @@ public partial class MainWindow {
         }
 
         var status = snapshot.GameOver
-            ? (snapshot.HasWon ? "Победа" : "Поражение")
+            ? (snapshot.HasWon ? "Победа" : IsDebugMode ? "Поражение (Debug)" : "Поражение")
             : "Игра продолжается";
 
         StatusText.Text = status;
         FlagsText.Text = $"Флагов осталось: {snapshot.FlagsLeft}";
+        
+        if (IsDebugMode && snapshot is { GameOver: true, HasWon: false }) {
+            StatusText.Foreground = new SolidColorBrush(Color.FromRgb(255, 183, 77));
+        } else {
+            StatusText.Foreground = (Brush)FindResource("AccentBrush");
+        }
     }
 
     private void UpdateButtonVisual(Button btn, CellDto cell) {
@@ -230,24 +243,37 @@ public partial class MainWindow {
         }
     }
 
+    private bool _isDoubleClick;
+    private bool IsDebugMode => DebugModeCheck?.IsChecked == true;
+
     private async void Cell_Click(object sender, RoutedEventArgs e) {
         if (_games is null || _currentState is null || _currentGameId is null) return;
         if (sender is not Button btn || btn.Tag is not ValueTuple<int, int> coords) return;
 
+        if (_isDoubleClick) {
+            _isDoubleClick = false;
+            return;
+        }
+
+        await Task.Delay(200);
+        
+        if (_isDoubleClick) {
+            _isDoubleClick = false;
+            return;
+        }
+
         var (row, col) = coords;
-        var idx = row * _currentState.Settings.Columns + col;
-        var cell = _currentState.Cells[idx];
 
-        var action = cell.State == CellState.Revealed && cell.AdjacentMines > 0
-            ? GameActionType.Chord
-            : GameActionType.Reveal;
-
+        const GameActionType action = GameActionType.Reveal;
         await SendActionAsync(action, row, col);
     }
     
     private async void Cell_DoubleClick(object sender, MouseButtonEventArgs e) {
         if (_games is null || _currentState is null || _currentGameId is null) return;
         if (sender is not Button btn || btn.Tag is not ValueTuple<int, int> coords) return;
+
+        _isDoubleClick = true;
+        e.Handled = true;
 
         var (row, col) = coords;
         await SendActionAsync(GameActionType.Chord, row, col);
@@ -267,6 +293,32 @@ public partial class MainWindow {
 
         try {
             var snapshot = await _games.ActionAsync(_currentGameId.Value, type, row, col);
+            
+            if (IsDebugMode && snapshot is { GameOver: true, HasWon: false }) {
+                var state = JsonSerializer.Deserialize<GameStateDto>(snapshot.StateJson, JsonOptions);
+                if (state != null) {
+                    var modifiedState = new GameStateDto(
+                        state.Settings,
+                        state.FlagsLeft,
+                        false,
+                        false,
+                        state.HasStarted,
+                        state.Cells
+                    );
+                    
+                    var modifiedJson = JsonSerializer.Serialize(modifiedState, JsonOptions);
+                    snapshot = new GameSnapshotDto(
+                        snapshot.GameId,
+                        snapshot.Rows,
+                        snapshot.Cols,
+                        snapshot.FlagsLeft,
+                        false,
+                        false,
+                        modifiedJson
+                    );
+                }
+            }
+            
             RenderSnapshot(snapshot);
         }
         catch (Exception ex) {
