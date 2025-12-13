@@ -1,12 +1,63 @@
 ﻿<Window x:Class="MinesweeperEF.Client.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MinesweeperEF" Height="250" Width="350">
-    <StackPanel Margin="20">
-        <TextBox x:Name="UserBox" Margin="0,0,0,10"/>
-        <PasswordBox x:Name="PassBox" Margin="0,0,0,10"/>
+        Title="MinesweeperEF" Height="650" Width="1000">
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0,0,0,10">
+            <TextBlock Text="API" VerticalAlignment="Center" />
+            <TextBox x:Name="ApiUrlBox" Width="200" Text="http://localhost:5234" />
+            <TextBlock Text="Логин" VerticalAlignment="Center" />
+            <TextBox x:Name="UserBox" Width="120" />
+            <TextBlock Text="Пароль" VerticalAlignment="Center" />
+            <PasswordBox x:Name="PassBox" Width="120" />
+            <Button Content="Регистрация" Width="110" Click="Register_Click" />
+            <Button Content="Вход" Width="90" Click="Login_Click" />
+        </StackPanel>
 
-        <Button Content="Register" Click="Register_Click" Margin="0,0,0,5"/>
-        <Button Content="Login" Click="Login_Click"/>
-    </StackPanel>
+        <StackPanel Grid.Row="1" Margin="0,0,15,0">
+            <GroupBox Header="Новая игра">
+                <StackPanel Margin="8">
+                    <UniformGrid Columns="2" Rows="2" Margin="0,0,0,6" HorizontalAlignment="Left">
+                        <TextBlock Text="Строки:" />
+                        <TextBox x:Name="RowsBox" Width="80" Text="16" />
+                        <TextBlock Text="Столбцы:" />
+                        <TextBox x:Name="ColsBox" Width="80" Text="16" />
+                        <TextBlock Text="Мины:" />
+                        <TextBox x:Name="MinesBox" Width="80" Text="40" />
+                        <TextBlock Text="Имя игры:" />
+                        <TextBox x:Name="NameBox" Width="150" Text="Game" />
+                    </UniformGrid>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="Старт" Width="90" Click="NewGame_Click" />
+                        <Button Content="Обновить список" Width="130" Click="RefreshGames_Click" />
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="Сохраненные игры">
+                <DockPanel>
+                    <ListBox x:Name="GamesList" DisplayMemberPath="Name" SelectionChanged="GamesList_SelectionChanged" />
+                </DockPanel>
+            </GroupBox>
+
+            <StackPanel>
+                <TextBlock x:Name="StatusText" FontWeight="Bold" />
+                <TextBlock x:Name="FlagsText" />
+            </StackPanel>
+        </StackPanel>
+
+        <Border Grid.Column="1" Grid.Row="1" BorderBrush="Gray" BorderThickness="1" Padding="8">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                <UniformGrid x:Name="BoardGrid" Rows="1" Columns="1" />
+            </ScrollViewer>
+        </Border>
+    </Grid>
 </Window>
