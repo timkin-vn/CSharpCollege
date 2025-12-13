@@ -11,7 +11,7 @@ public sealed class UserServiceProxy {
 
     public async Task RegisterAsync(string userName, string password) {
         var req = new RegisterRequest(userName, password);
-        await _api.PostAsync<object>("/api/auth/register", req);
+        await _api.PostAsync("/api/auth/register", req);
     }
 
     public async Task LoginAsync(string userName, string password) {
