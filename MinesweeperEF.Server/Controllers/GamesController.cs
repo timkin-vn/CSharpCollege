@@ -103,6 +103,9 @@ public sealed class GamesController(AppDbContext db) : ControllerBase {
         if (dto is null) return Problem("Invalid game state");
 
         var board = GameBoard.ImportState(dto);
+        
+        if (req.DebugMode && board.GameOver && !board.HasWon)
+            board.ClearGameOverForDebug();
 
         _ = req.Type switch {
             GameActionType.Reveal     => board.Reveal(req.Row, req.Col),
@@ -112,7 +115,10 @@ public sealed class GamesController(AppDbContext db) : ControllerBase {
         };
 
         game.UpdatedAt = DateTime.UtcNow;
-        if (board.GameOver) game.Status = board.HasWon ? "Won" : "Lost";
+        if (req.DebugMode && board is { GameOver: true, HasWon: false })
+            board.ClearGameOverForDebug();
+
+        game.Status = board.GameOver ? (board.HasWon ? "Won" : "Lost") : "InProgress";
 
         game.StateJson = JsonSerializer.Serialize(board.ExportState());
         await db.SaveChangesAsync();
