@@ -34,6 +34,26 @@ public sealed class GamesController(AppDbContext db) : ControllerBase {
             .Select(g => new SavedGameInfoDto(g.Id, g.Name, g.UpdatedAt, g.Status))
             .ToListAsync();
     }
+    
+    [HttpGet("{id:guid}")]
+    public async Task<ActionResult<GameSnapshotDto>> Get(Guid id) {
+        var user = await GetCurrentUser();
+        var game = await db.SavedGames.FirstOrDefaultAsync(g => g.Id == id && g.UserId == user.Id);
+        if (game is null) return NotFound();
+
+        var dto = JsonSerializer.Deserialize<GameStateDto>(game.StateJson);
+        if (dto is null) return Problem("Invalid game state");
+
+        return new GameSnapshotDto(
+            game.Id,
+            dto.Settings.Rows,
+            dto.Settings.Columns,
+            dto.FlagsLeft,
+            dto.GameOver,
+            dto.HasWon,
+            game.StateJson
+        );
+    }
 
     [HttpPost]
     public async Task<ActionResult<GameSnapshotDto>> NewGame(NewGameRequest req) {
