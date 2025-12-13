@@ -1,6 +1,6 @@
 namespace MinesweeperEF.Contracts.Games;
 
-public enum GameActionType { Reveal, ToggleFlag, Chord }
+public enum GameActionType { Reveal, ToggleFlag, Chord, RevealMines }
 
 public sealed record NewGameRequest(int Rows, int Cols, int Mines, string? Name);
 
