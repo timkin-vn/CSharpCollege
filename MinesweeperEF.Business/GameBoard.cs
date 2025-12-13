@@ -27,13 +27,6 @@ public sealed class GameBoard {
     public void NewGame() {
         PrepareBoard();
     }
-    
-    public void ClearGameOverForDebug() {
-        if (HasWon)
-            return;
-
-        GameOver = false;
-    }
 
     public CellSnapshot this[int row, int col] {
         get {
@@ -43,8 +36,8 @@ public sealed class GameBoard {
         }
     }
 
-    public GameActionResult ToggleFlag(int row, int col) {
-        if (GameOver || !IsInBounds(row, col))
+    public GameActionResult ToggleFlag(int row, int col, bool ignoreGameOver = false) {
+        if ((GameOver && !ignoreGameOver) || !IsInBounds(row, col))
             return EmptyResult();
 
         ref var cell = ref _cells[row, col];
@@ -70,8 +63,8 @@ public sealed class GameBoard {
         return CreateResult(updates, hitMine: false);
     }
 
-    public GameActionResult Reveal(int row, int col) {
-        if (GameOver || !IsInBounds(row, col))
+    public GameActionResult Reveal(int row, int col, bool ignoreGameOver = false) {
+        if ((GameOver && !ignoreGameOver) || !IsInBounds(row, col))
             return EmptyResult();
 
         if (!HasStarted) {
@@ -84,8 +77,8 @@ public sealed class GameBoard {
         return CreateResult(updates, hitMine: updates.Any(u => u.State == CellState.Exploded));
     }
 
-    public GameActionResult Chord(int row, int col) {
-        if (GameOver || !IsInBounds(row, col))
+    public GameActionResult Chord(int row, int col, bool ignoreGameOver = false) {
+        if ((GameOver && !ignoreGameOver) || !IsInBounds(row, col))
             return EmptyResult();
 
         ref var cell = ref _cells[row, col];
