@@ -104,21 +104,35 @@ public sealed class GamesController(AppDbContext db) : ControllerBase {
 
         var board = GameBoard.ImportState(dto);
         
-        if (req.DebugMode && board.GameOver && !board.HasWon)
-            board.ClearGameOverForDebug();
+        var allowAfterLoss = req.DebugMode && !board.HasWon;
 
-        _ = req.Type switch {
-            GameActionType.Reveal     => board.Reveal(req.Row, req.Col),
-            GameActionType.ToggleFlag => board.ToggleFlag(req.Row, req.Col),
-            GameActionType.Chord      => board.Chord(req.Row, req.Col),
-            _ => throw new ArgumentOutOfRangeException()
-        };
+        if (req.Type == GameActionType.RevealMines && (!board.GameOver || board.HasWon))
+            return BadRequest("Показ мин доступен только после поражения");
+
+        switch (req.Type) {
+            case GameActionType.Reveal:
+                board.Reveal(req.Row, req.Col, allowAfterLoss);
+                break;
+            
+            case GameActionType.ToggleFlag:
+                board.ToggleFlag(req.Row, req.Col, allowAfterLoss);
+                break;
+            
+            case GameActionType.Chord:
+                board.Chord(req.Row, req.Col, allowAfterLoss);
+                break;
+            
+            case GameActionType.RevealMines:
+                board.RevealAllMines();
+                break;
+            
+            default:
+                return BadRequest($"Unknown action type: {req.Type}");
+        }
 
         game.UpdatedAt = DateTime.UtcNow;
-        if (req.DebugMode && board is { GameOver: true, HasWon: false })
-            board.ClearGameOverForDebug();
 
-        game.Status = board.GameOver ? (board.HasWon ? "Won" : "Lost") : "InProgress";
+        game.Status = board.GameOver ? board.HasWon ? "Won" : "Lost" : "InProgress";
 
         game.StateJson = JsonSerializer.Serialize(board.ExportState());
         await db.SaveChangesAsync();
