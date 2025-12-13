@@ -275,14 +275,16 @@ public sealed class GameBoard {
     }
 
     public static GameBoard ImportState(GameStateDto dto) {
-        var board = new GameBoard();
+        var board = new GameBoard { Settings = dto.Settings };
+
+        var rows = dto.Settings.Rows;
+        var cols = dto.Settings.Columns;
+        board._cells = new Cell[rows, cols];
+        
         board.FlagsLeft = dto.FlagsLeft;
         board.GameOver = dto.GameOver;
         board.HasWon = dto.HasWon;
         board.HasStarted = dto.HasStarted;
-
-        var rows = dto.Settings.Rows;
-        var cols = dto.Settings.Columns;
 
         var k = 0;
         for (var r = 0; r < rows; r++) {
