@@ -206,6 +206,9 @@ public partial class MainWindow {
         } else {
             StatusText.Foreground = (Brush)FindResource("AccentBrush");
         }
+        
+        var showRevealMines = !IsDebugMode && snapshot is { GameOver: true, HasWon: false };
+        RevealMinesButton.Visibility = showRevealMines ? Visibility.Visible : Visibility.Collapsed;
     }
 
     private void UpdateButtonVisual(Button btn, CellDto cell) {
@@ -294,35 +297,22 @@ public partial class MainWindow {
         try {
             var snapshot = await _games.ActionAsync(_currentGameId.Value, type, row, col, debugMode);
             
-            if (IsDebugMode && snapshot is { GameOver: true, HasWon: false }) {
-                var state = JsonSerializer.Deserialize<GameStateDto>(snapshot.StateJson, JsonOptions);
-                if (state != null) {
-                    var modifiedState = new GameStateDto(
-                        state.Settings,
-                        state.FlagsLeft,
-                        false,
-                        false,
-                        state.HasStarted,
-                        state.Cells
-                    );
-                    
-                    var modifiedJson = JsonSerializer.Serialize(modifiedState, JsonOptions);
-                    snapshot = new GameSnapshotDto(
-                        snapshot.GameId,
-                        snapshot.Rows,
-                        snapshot.Cols,
-                        snapshot.FlagsLeft,
-                        false,
-                        false,
-                        modifiedJson
-                    );
-                }
-            }
-            
             RenderSnapshot(snapshot);
         }
         catch (Exception ex) {
             MessageBox.Show($"Ошибка хода: {ex.Message}");
+        }
+    }
+    
+    private async void RevealMines_Click(object sender, RoutedEventArgs e) {
+        if (_games is null || _currentGameId is null) return;
+
+        try {
+            var snapshot = await _games.ActionAsync(_currentGameId.Value, GameActionType.RevealMines, 0, 0, false);
+            RenderSnapshot(snapshot);
+        }
+        catch (Exception ex) {
+            MessageBox.Show($"Не удалось открыть все мины: {ex.Message}");
         }
     }
     
