@@ -265,7 +265,7 @@ public partial class MainWindow {
         var (row, col) = coords;
 
         const GameActionType action = GameActionType.Reveal;
-        await SendActionAsync(action, row, col);
+        await SendActionAsync(action, row, col, IsDebugMode);
     }
     
     private async void Cell_DoubleClick(object sender, MouseButtonEventArgs e) {
@@ -276,7 +276,7 @@ public partial class MainWindow {
         e.Handled = true;
 
         var (row, col) = coords;
-        await SendActionAsync(GameActionType.Chord, row, col);
+        await SendActionAsync(GameActionType.Chord, row, col, IsDebugMode);
     }
 
     private async void Cell_RightClick(object sender, MouseButtonEventArgs e) {
@@ -285,14 +285,14 @@ public partial class MainWindow {
         e.Handled = true;
 
         var (row, col) = coords;
-        await SendActionAsync(GameActionType.ToggleFlag, row, col);
+        await SendActionAsync(GameActionType.ToggleFlag, row, col, IsDebugMode);
     }
 
-    private async Task SendActionAsync(GameActionType type, int row, int col) {
+    private async Task SendActionAsync(GameActionType type, int row, int col, bool debugMode) {
         if (_games is null || _currentGameId is null) return;
 
         try {
-            var snapshot = await _games.ActionAsync(_currentGameId.Value, type, row, col);
+            var snapshot = await _games.ActionAsync(_currentGameId.Value, type, row, col, debugMode);
             
             if (IsDebugMode && snapshot is { GameOver: true, HasWon: false }) {
                 var state = JsonSerializer.Deserialize<GameStateDto>(snapshot.StateJson, JsonOptions);
