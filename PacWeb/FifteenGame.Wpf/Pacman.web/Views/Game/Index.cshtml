@@ -1,0 +1,109 @@
+﻿
+
+@model StepByStepPacman.Business.Models.GameState
+
+@{
+    ViewBag.Title = "Pac-Man";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+    <style>
+        
+        body {
+            background: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        
+        #board {
+            border: 8px solid #0000FF;
+            border-radius: 12px;
+            box-shadow: 0 0 20px #FFD700;
+        }
+
+        
+        #gameover {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            display: none;
+            z-index: 999;
+        }
+
+        .score-board {
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>PAC-MAN</h1>
+
+    <div class="score-board">
+        Счёт: <span id="score" style="color:yellow;font-weight:bold;">@Model.Score</span>
+        &nbsp; | &nbsp;
+        Жизни: <span id="lives" style="color:red;font-weight:bold;">@Model.Lives</span>
+    </div>
+
+   
+    <canvas id="board" width="665" height="735"></canvas>
+
+    <div>
+        <p style="font-size:22px;color:#bbb;">
+            Управление: ← ↑ → ↓ или WASD
+        </p>
+        <button id="restart" class="btn btn-warning btn-lg">
+            Начать заново
+        </button>
+    </div>
+
+    <div id="gameover">
+        <h1 id="result"></h1>
+        <p>Ваш счёт: <span id="finalscore">0</span></p>
+        <button class="btn btn-success btn-lg" onclick="location.reload()">
+            Играть снова
+        </button>
+    </div>
+
+    @Scripts.Render("~/bundles/pacman")
+
+    <script>
+        const keys = {};
+
+        document.addEventListener('keydown', e => keys[e.key.toLowerCase()] = true);
+        document.addEventListener('keyup', e => keys[e.key.toLowerCase()] = false);
+
+        function getDirection() {
+            if (keys['arrowleft'] || keys['a']) return 'Left';
+            if (keys['arrowright'] || keys['d']) return 'Right';
+            if (keys['arrowup'] || keys['w']) return 'Up';
+            if (keys['arrowdown'] || keys['s']) return 'Down';
+            return 'None';
+        }
+
+        $('#restart').on('click', function () {
+            $.post('/Game/Restart', () => location.reload());
+        });
+    </script>
+
+</body>
+</html>
