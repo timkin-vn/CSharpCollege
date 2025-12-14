@@ -5,11 +5,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{49EFE736-3358-4D0B-A8AF-499A9AE4071F}</ProjectGuid>
+    <ProjectGuid>{8A0B5C99-0899-47B5-AED0-C1F0DF2AAAC3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FifteenGame.Business</RootNamespace>
-    <AssemblyName>FifteenGame.Business</AssemblyName>
+    <RootNamespace>FifteenGame.Data</RootNamespace>
+    <AssemblyName>FifteenGame.Data</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -99,16 +99,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Cell.cs" />
-    <Compile Include="Models\Field.cs" />
-    <Compile Include="Models\Game.cs" />
-    <Compile Include="Models\Ship.cs" />
+    <Compile Include="DbContext.cs" />
+    <Compile Include="Entities\user.cs" />
+    <Compile Include="Migrations\202512121901145_InitialCreate_Clean.cs" />
+    <Compile Include="Migrations\202512121901145_InitialCreate_Clean.Designer.cs">
+      <DependentUpon>202512121901145_InitialCreate_Clean.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202512141349335_AddSavedGameField.cs" />
+    <Compile Include="Migrations\202512141349335_AddSavedGameField.Designer.cs">
+      <DependentUpon>202512141349335_AddSavedGameField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\GameService.cs" />
+    <Compile Include="Repositories\IUserRepository.cs" />
+    <Compile Include="Repositories\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202512121901145_InitialCreate_Clean.resx">
+      <DependentUpon>202512121901145_InitialCreate_Clean.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202512141349335_AddSavedGameField.resx">
+      <DependentUpon>202512141349335_AddSavedGameField.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

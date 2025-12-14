@@ -14,34 +14,68 @@
         </Grid.RowDefinitions>
 
         <!-- ВЕРХНЯЯ ПАНЕЛЬ -->
+        <!-- ВЕРХНЯЯ ПАНЕЛЬ -->
         <Border Grid.Row="0" Background="#001122" CornerRadius="0,0,15,15">
             <Border.Effect>
                 <DropShadowEffect Color="Black" BlurRadius="20" ShadowDepth="5" Opacity="0.8"/>
             </Border.Effect>
 
-            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                <TextBlock Text="{Binding ElapsedTime}"
+            <Grid>
+                <!-- Левая часть: Таймер и Имя -->
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+
+                    <!-- Текущее время игры -->
+                    <TextBlock Text="{Binding ElapsedTime}"
                            FontSize="60"
                            FontWeight="ExtraBold"
                            Foreground="#00FF41"
-                           HorizontalAlignment="Center">
-                    <TextBlock.Effect>
-                        <DropShadowEffect Color="#00FF41" BlurRadius="20" ShadowDepth="0"/>
-                    </TextBlock.Effect>
-                </TextBlock>
+                           HorizontalAlignment="Center"
+                           LineHeight="60"
+                           Margin="0,-5,0,0">
+                        <TextBlock.Effect>
+                            <DropShadowEffect Color="#00FF41" BlurRadius="20" ShadowDepth="0"/>
+                        </TextBlock.Effect>
+                    </TextBlock>
 
-                <TextBlock Text="{Binding PlayerName}"
-                           FontSize="36"
+                    <!-- Имя игрока -->
+                    <TextBlock Text="{Binding PlayerName}"
+                           FontSize="28"
                            FontWeight="Bold"
                            Foreground="#00E5FF"
                            HorizontalAlignment="Center"
-                           Margin="0,5,0,0">
-                    <TextBlock.Effect>
-                        <DropShadowEffect Color="#00E5FF" BlurRadius="15" ShadowDepth="0"/>
-                    </TextBlock.Effect>
-                </TextBlock>
-            </StackPanel>
+                           Margin="0,0,0,5">
+                        <TextBlock.Effect>
+                            <DropShadowEffect Color="#00E5FF" BlurRadius="10" ShadowDepth="0"/>
+                        </TextBlock.Effect>
+                    </TextBlock>
+                </StackPanel>
+
+                <!-- Правая часть: Плашка рекорда (абсолютное позиционирование справа) -->
+                <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,40,0">
+                    <TextBlock Text="РЕКОРД"
+                               Foreground="#FFD700"
+                               FontSize="14"
+                               FontWeight="Bold"
+                               HorizontalAlignment="Center"
+                               Opacity="0.8"/>
+
+                    <Border BorderBrush="#FFD700" BorderThickness="2" CornerRadius="10" Padding="15,5" Margin="0,5,0,0">
+                        <Border.Background>
+                            <SolidColorBrush Color="#FFD700" Opacity="0.1"/>
+                        </Border.Background>
+                        <TextBlock Text="{Binding BestTime}"
+                                   FontSize="32"
+                                   FontWeight="ExtraBold"
+                                   Foreground="#FFD700">
+                            <TextBlock.Effect>
+                                <DropShadowEffect Color="#FFD700" BlurRadius="15" ShadowDepth="0"/>
+                            </TextBlock.Effect>
+                        </TextBlock>
+                    </Border>
+                </StackPanel>
+            </Grid>
         </Border>
+
 
         <!-- ПОЛЯ -->
         <Grid Grid.Row="1" Margin="20">

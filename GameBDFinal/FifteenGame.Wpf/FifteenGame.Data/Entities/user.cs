@@ -14,7 +14,9 @@ namespace FifteenGame.Data.Entities
         [Index(IsUnique = true)]
         public string Username { get; set; }
 
-        // Рекорд времени в секундах (nullable)
         public double? BestTimeSeconds { get; set; }
+
+        // Новое поле для сохранения игры (позволяет хранить много текста)
+        public string SavedGameJson { get; set; }
     }
 }
