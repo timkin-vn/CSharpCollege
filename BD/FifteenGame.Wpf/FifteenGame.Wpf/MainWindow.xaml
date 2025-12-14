@@ -21,26 +21,31 @@
 
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                 <TextBlock Text="{Binding ElapsedTime}"
-                           FontSize="60"
-                           FontWeight="ExtraBold"
-                           Foreground="#00FF41"
-                           HorizontalAlignment="Center">
-                    <TextBlock.Effect>
-                        <DropShadowEffect Color="#00FF41" BlurRadius="20" ShadowDepth="0"/>
-                    </TextBlock.Effect>
-                </TextBlock>
+               FontSize="60"
+               FontWeight="ExtraBold"
+               Foreground="#00FF41"
+               HorizontalAlignment="Center"/>
 
                 <TextBlock Text="{Binding PlayerName}"
-                           FontSize="36"
-                           FontWeight="Bold"
-                           Foreground="#00E5FF"
-                           HorizontalAlignment="Center"
-                           Margin="0,5,0,0">
-                    <TextBlock.Effect>
-                        <DropShadowEffect Color="#00E5FF" BlurRadius="15" ShadowDepth="0"/>
-                    </TextBlock.Effect>
-                </TextBlock>
+               FontSize="32"
+               FontWeight="Bold"
+               Foreground="#00E5FF"
+               HorizontalAlignment="Center"
+               Margin="0,5,0,0"/>
+
+                <TextBlock Text="Рекорд"
+               FontSize="18"
+               Foreground="#AAAAAA"
+               HorizontalAlignment="Center"
+               Margin="0,8,0,0"/>
+
+                <TextBlock Text="{Binding BestTime}"
+               FontSize="26"
+               FontWeight="Bold"
+               Foreground="#FFD700"
+               HorizontalAlignment="Center"/>
             </StackPanel>
+
         </Border>
 
         <!-- ПОЛЯ -->
