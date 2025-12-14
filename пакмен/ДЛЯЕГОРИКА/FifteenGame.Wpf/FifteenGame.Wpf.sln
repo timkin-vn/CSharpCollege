@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pacman.WPF", "FifteenGame.W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pacman.Business", "FifteenGame.Business\Pacman.Business.csproj", "{49EFE736-3358-4D0B-A8AF-499A9AE4071F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PacmanGame.DataAccess", "PacmanGame.DataAccess\PacmanGame.DataAccess.csproj", "{B6BC1D48-C5DE-49C1-8404-C2B566EA10F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{49EFE736-3358-4D0B-A8AF-499A9AE4071F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49EFE736-3358-4D0B-A8AF-499A9AE4071F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49EFE736-3358-4D0B-A8AF-499A9AE4071F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6BC1D48-C5DE-49C1-8404-C2B566EA10F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6BC1D48-C5DE-49C1-8404-C2B566EA10F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6BC1D48-C5DE-49C1-8404-C2B566EA10F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6BC1D48-C5DE-49C1-8404-C2B566EA10F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

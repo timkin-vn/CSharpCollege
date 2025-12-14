@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using StepByStepPacman.Business.Models;
 
 namespace StepByStepPacman.Business
@@ -16,8 +18,27 @@ namespace StepByStepPacman.Business
         public int Lives { get; set; }
         public int TotalDots { get; set; }
         public int CollectedDots { get; set; }
-        public bool IsGameOver { get; set; }
+
+        public bool IsGameOver
+        {
+            get
+            {
+                // ПОБЕДА: Собраны все точки.
+                if (CollectedDots >= TotalDots && TotalDots > 0)
+                {
+                    return true;
+                }
+                // ПРОИГРЫШ: Закончились жизни
+                if (Lives <= 0)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+
         public bool GameRunning { get; set; }
+        public int Level { get; set; } = 1;
 
         public GameState()
         {
@@ -29,19 +50,92 @@ namespace StepByStepPacman.Business
             Score = 0;
             Lives = 3;
             CollectedDots = 0;
-            IsGameOver = false;
-            GameRunning = true;
 
+            // 1. Инициализируем доску
             InitializeBoard();
+
+            // 2. Считаем общее количество точек (теперь публичный метод)
+            CountTotalDots();
+
+            // 3. Инициализируем персонажей
             InitializePlayer();
             InitializeGhosts();
-            CountTotalDots();
+
+            GameRunning = true;
         }
+
+        public void Restart()
+        {
+            Initialize();
+        }
+
+        public void SetInitialState(GameStateData data)
+        {
+            Score = data.Score;
+            Lives = data.Lives;
+            Level = data.Level;
+            CollectedDots = data.CollectedDots;
+
+            // При загрузке TotalDots устанавливается в LoadState в ViewModel
+            
+
+            GameRunning = true;
+        }
+
+        public void EatDot(int x, int y)
+        {
+            if (!IsWithinBounds(x, y)) return;
+
+            int cell = GameBoard[y, x];
+
+            if (cell == 2) // Обычная точка
+            {
+                Score += 10;
+                CollectedDots++;
+                GameBoard[y, x] = 1;
+            }
+            else if (cell == 3) // Энерджайзер
+            {
+                Score += 50;
+                CollectedDots++;
+                GameBoard[y, x] = 1;
+                
+            }
+        }
+
+        // -----------------------------------------------------------------
+        
+        
+        
+        public void CountTotalDots()
+        {
+            // Сбрасываем счетчик перед пересчетом
+            TotalDots = 0;
+
+            // Перебираем игровое поле
+            for (int y = 0; y < GRID_HEIGHT; y++)
+            {
+                for (int x = 0; x < GRID_WIDTH; x++)
+                {
+                    int cell = GameBoard[y, x];
+
+                    // Проверяем, является ли ячейка точкой (2) или энерджайзером (3)
+                    // ИЛИ
+                    // Проверяем, является ли ячейка скрытой точкой/энерджайзером (<0)
+                    if (cell == 2 || cell == 3 || cell < 0) // <-- Проблема, вероятно, здесь
+                    {
+                        TotalDots++;
+                    }
+                }
+            }
+        }
+        
 
         private void InitializeBoard()
         {
             GameBoard = new int[GRID_HEIGHT, GRID_WIDTH];
 
+            // 0=Стена, 1=Путь (Пусто), 2=Точка, 3=Энерджайзер
             int[,] initialBoard = {
                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                 {0,2,2,2,2,2,2,2,2,0,2,2,2,2,2,2,2,2,0},
@@ -85,10 +179,6 @@ namespace StepByStepPacman.Business
         private void InitializePlayer()
         {
             Player = new PacmanPlayer(1, 1, TILE_SIZE - 4);
-            if (IsWithinBounds(Player.X, Player.Y))
-            {
-                GameBoard[Player.Y, Player.X] = 5;
-            }
         }
 
         private void InitializeGhosts()
@@ -100,39 +190,11 @@ namespace StepByStepPacman.Business
                 new Ghost(9, 9, TILE_SIZE - 4, ColorType.Cyan, "Inky"),
                 new Ghost(10, 9, TILE_SIZE - 4, ColorType.Orange, "Clyde")
             };
-
-            foreach (var ghost in Ghosts)
-            {
-                if (IsWithinBounds(ghost.X, ghost.Y))
-                {
-                    GameBoard[ghost.Y, ghost.X] = 4;
-                }
-            }
-        }
-
-        private void CountTotalDots()
-        {
-            TotalDots = 0;
-            for (int y = 0; y < GRID_HEIGHT; y++)
-            {
-                for (int x = 0; x < GRID_WIDTH; x++)
-                {
-                    if (GameBoard[y, x] == 2 || GameBoard[y, x] == 3)
-                    {
-                        TotalDots++;
-                    }
-                }
-            }
         }
 
         public bool IsWithinBounds(int x, int y)
         {
             return x >= 0 && x < GRID_WIDTH && y >= 0 && y < GRID_HEIGHT;
-        }
-
-        public void Reset()
-        {
-            Initialize();
         }
     }
 }

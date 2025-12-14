@@ -1,5 +1,6 @@
 ﻿using StepByStepPacman.Business.Models;
 using System;
+using System.Linq; 
 
 namespace StepByStepPacman.Business.Services
 {
@@ -61,6 +62,7 @@ namespace StepByStepPacman.Business.Services
             {
                 if (State.IsWithinBounds(oldX, oldY))
                 {
+                    // Очищаем предыдущую позицию, оставляя след пути (1)
                     State.GameBoard[oldY, oldX] = 1;
                 }
 
@@ -69,6 +71,7 @@ namespace StepByStepPacman.Business.Services
                 if (State.IsWithinBounds(State.Player.X, State.Player.Y) &&
                     State.GameBoard[State.Player.Y, State.Player.X] != 5)
                 {
+                    // Устанавливаем текущую позицию как позицию игрока (5)
                     State.GameBoard[State.Player.Y, State.Player.X] = 5;
                 }
             }
@@ -78,8 +81,11 @@ namespace StepByStepPacman.Business.Services
         {
             if (!State.IsWithinBounds(State.Player.X, State.Player.Y)) return;
 
+            
+
             int cellValue = State.GameBoard[State.Player.Y, State.Player.X];
 
+            // 1. Поедание точки/энерджайзера, которая была скрыта призраком
             if (cellValue < 0)
             {
                 int originalValue = -cellValue;
@@ -94,8 +100,10 @@ namespace StepByStepPacman.Business.Services
                     State.Score += 50;
                     State.CollectedDots++;
                     State.GameBoard[State.Player.Y, State.Player.X] = 5;
+                    
                 }
             }
+            // 2. Поедание обычной, видимой точки/энерджайзера
             else if (cellValue == 2)
             {
                 State.Score += 10;
@@ -107,21 +115,26 @@ namespace StepByStepPacman.Business.Services
                 State.Score += 50;
                 State.CollectedDots++;
                 State.GameBoard[State.Player.Y, State.Player.X] = 5;
+                
             }
         }
 
         private void MoveGhosts()
         {
+            // Сначала восстанавливаем точки, которые были под призраками
             RestorePointsUnderGhosts();
 
+            // Перемещаем призраков, очищая их старые позиции
             foreach (var ghost in State.Ghosts)
             {
+                // Убираем старый след (4)
                 if (State.IsWithinBounds(ghost.X, ghost.Y) && State.GameBoard[ghost.Y, ghost.X] == 4)
                 {
-                    State.GameBoard[ghost.Y, ghost.X] = 1;
+                    State.GameBoard[ghost.Y, ghost.X] = 1; // Заменяем на путь
                 }
             }
 
+            // Двигаем и устанавливаем новые позиции
             foreach (var ghost in State.Ghosts)
             {
                 ghost.Move(State.GameBoard, State.Player);
@@ -129,12 +142,16 @@ namespace StepByStepPacman.Business.Services
                 if (State.IsWithinBounds(ghost.X, ghost.Y))
                 {
                     int previousCellValue = State.GameBoard[ghost.Y, ghost.X];
+
+                    // Если призрак двигается на ячейку с точкой (2) или энерджайзером (3)
                     if (previousCellValue == 2 || previousCellValue == 3)
                     {
+                        // Скрываем точку, устанавливая отрицательное значение
                         State.GameBoard[ghost.Y, ghost.X] = -previousCellValue;
                     }
                     else
                     {
+                        // Иначе просто устанавливаем позицию призрака (4)
                         State.GameBoard[ghost.Y, ghost.X] = 4;
                     }
                 }
@@ -145,9 +162,11 @@ namespace StepByStepPacman.Business.Services
         {
             foreach (var ghost in State.Ghosts)
             {
+                // Если ячейка имеет отрицательное значение (скрытая точка/энерджайзер)
                 if (State.IsWithinBounds(ghost.X, ghost.Y) && State.GameBoard[ghost.Y, ghost.X] < 0)
                 {
                     int cellValue = State.GameBoard[ghost.Y, ghost.X];
+                    // Восстанавливаем оригинальное положительное значение (2 или 3)
                     State.GameBoard[ghost.Y, ghost.X] = -cellValue;
                 }
             }
@@ -160,44 +179,59 @@ namespace StepByStepPacman.Business.Services
                 if (ghost.X == State.Player.X && ghost.Y == State.Player.Y)
                 {
                     State.Lives--;
+
                     if (State.Lives <= 0)
                     {
+                        // Проигрыш. Завершаем игру.
                         State.GameRunning = false;
-                        State.IsGameOver = true;
+                        
                     }
                     else
                     {
+                        // Потеря жизни, но есть еще попытки. Сброс позиций.
+
+                        // Очищаем позицию пакмана
                         if (State.IsWithinBounds(State.Player.X, State.Player.Y))
-                            State.GameBoard[State.Player.Y, State.Player.X] = 1;
+                            State.GameBoard[State.Player.Y, State.Player.X] = 1; // Устанавливаем на путь
 
                         RestorePointsUnderGhosts();
-                        ResetPlayer();
+                        InitializePlayerPositions();
+
+                        // NOTE: В настоящем Pacman также нужно сбросить позиции призраков!
                     }
                     break;
                 }
             }
         }
 
-        private void ResetPlayer()
+        
+        private void InitializePlayerPositions()
         {
-            State.Player = new PacmanPlayer(1, 1, GameState.TILE_SIZE - 4);
+            // Сбрасываем Пака в начальную позицию (1, 1)
+            State.Player.X = 1;
+            State.Player.Y = 1;
+            State.Player.Direction = Direction.None;
+
             if (State.IsWithinBounds(State.Player.X, State.Player.Y))
                 State.GameBoard[State.Player.Y, State.Player.X] = 5;
         }
 
         private void CheckGameEnd()
         {
-            if (State.CollectedDots >= State.TotalDots)
+            if (State.CollectedDots >= State.TotalDots && State.TotalDots > 0)
             {
+                // Победа. Завершаем игру.
                 State.GameRunning = false;
-                State.IsGameOver = true;
+                
             }
         }
 
         public void Restart()
         {
-            State.Reset();
+            
+            State.Restart();
             _ghostMoveCounter = 0;
+            // NOTE: После перезапуска GameRunning уже будет true (установлено в State.Initialize)
         }
     }
-}
+}   
