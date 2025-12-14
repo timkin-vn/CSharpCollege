@@ -4,13 +4,71 @@ using FifteenGame.Data;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Threading;
-using FifteenGame.Wpf.ViewModels;
+using System.Linq;
+
 
 namespace FifteenGame.Wpf.ViewModels
 {
+    public class CellVM : INotifyPropertyChanged
+    {
+        public Cell Model { get; private set; }
+        private readonly bool _showShips;
+
+        public int X { get { return Model.X; } }
+        public int Y { get { return Model.Y; } }
+
+        public Brush Background
+        {
+            get
+            {
+                if (Model.State == CellState.Sunk) return Brushes.DarkRed;
+                if (Model.State == CellState.Hit) return Brushes.OrangeRed;
+                if (Model.State == CellState.Miss) return Brushes.LightSteelBlue;
+                if (Model.State == CellState.Ship && _showShips) return Brushes.Gray;
+                return Brushes.CornflowerBlue;
+            }
+        }
+
+        public string Symbol
+        {
+            get
+            {
+                if (Model.State == CellState.Miss) return "•";
+                if (Model.State == CellState.Hit) return "×";
+                if (Model.State == CellState.Sunk) return "✖";
+                if (Model.State == CellState.Ship && _showShips) return "■";
+                return "";
+            }
+        }
+
+        public Brush TextColor
+        {
+            get { return Model.State == CellState.Sunk ? Brushes.White : Brushes.Yellow; }
+        }
+
+        public CellVM(Cell model, bool showShips)
+        {
+            Model = model;
+            _showShips = showShips;
+        }
+
+        public void Refresh()
+        {
+            OnPropertyChanged("Background");
+            OnPropertyChanged("Symbol");
+            OnPropertyChanged("TextColor");
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+
     public class MainWindowViewModel : INotifyPropertyChanged
     {
         private readonly GameService _service = new GameService();
@@ -23,60 +81,30 @@ namespace FifteenGame.Wpf.ViewModels
         private readonly DispatcherTimer _timer = new DispatcherTimer();
         private TimeSpan _elapsed = TimeSpan.Zero;
 
-        public string ElapsedTime =>
-            $"{_elapsed.Minutes:D2}:{_elapsed.Seconds:D2}";
-
-        private double? _bestTimeSeconds;
-        public string BestTime
+        public string ElapsedTime
         {
-            get
-            {
-                if (_bestTimeSeconds == null)
-                    return "—";
-                var ts = TimeSpan.FromSeconds(_bestTimeSeconds.Value);
-                return $"{ts.Minutes:D2}:{ts.Seconds:D2}";
-            }
+            get { return string.Format("{0:D2}:{1:D2}", _elapsed.Minutes, _elapsed.Seconds); }
         }
 
         private int _lastHitX = -1;
         private int _lastHitY = -1;
         private bool _hunting = false;
 
-        private string _playerName = "Игрок";
-        public string PlayerName
-        {
-            get => _playerName;
-            set
-            {
-                _playerName = value;
-                OnPropertyChanged(nameof(PlayerName));
-            }
-        }
-
         public MainWindowViewModel()
         {
             PlayerCells = new ObservableCollection<CellVM>();
             ComputerCells = new ObservableCollection<CellVM>();
+            NewGame();
 
             _timer.Interval = TimeSpan.FromSeconds(1);
-            _timer.Tick += (s, e) =>
-            {
-                _elapsed = _elapsed.Add(TimeSpan.FromSeconds(1));
-                OnPropertyChanged(nameof(ElapsedTime));
-            };
-
-            NewGame();
+            _timer.Tick += Timer_Tick;
             _timer.Start();
         }
 
-        public void LoadBestTime(string playerName)
+        private void Timer_Tick(object sender, EventArgs e)
         {
-            using (var db = new GameDbContext())
-            {
-                var user = db.Users.FirstOrDefault(u => u.Username == playerName);
-                _bestTimeSeconds = user?.BestTimeSeconds;
-                OnPropertyChanged(nameof(BestTime));
-            }
+            _elapsed = _elapsed.Add(TimeSpan.FromSeconds(1));
+            OnPropertyChanged("ElapsedTime");
         }
 
         public void NewGame()
@@ -98,11 +126,20 @@ namespace FifteenGame.Wpf.ViewModels
             }
 
             _elapsed = TimeSpan.Zero;
-            OnPropertyChanged(nameof(ElapsedTime));
-
+            OnPropertyChanged("ElapsedTime");
             _lastHitX = -1;
             _lastHitY = -1;
             _hunting = false;
+        }
+        private string _playerName = "Игрок";
+        public string PlayerName
+        {
+            get { return _playerName; }
+            set
+            {
+                _playerName = value;
+                OnPropertyChanged("PlayerName");
+            }
         }
 
         public void ShootAtEnemy(int x, int y)
@@ -114,36 +151,43 @@ namespace FifteenGame.Wpf.ViewModels
             {
                 _timer.Stop();
 
+                // Сохраняем рекорд
                 using (var db = new GameDbContext())
                 {
-                    var user = db.Users.First(u => u.Username == PlayerName);
-                    double seconds = _elapsed.TotalSeconds;
-
-                    if (user.BestTimeSeconds == null || seconds < user.BestTimeSeconds)
+                    var user = db.Users.FirstOrDefault(u => u.Username == PlayerName);
+                    if (user != null)
                     {
-                        user.BestTimeSeconds = seconds;
-                        db.SaveChanges();
-                        LoadBestTime(PlayerName); // 🔥 ОБНОВЛЕНИЕ РЕКОРДА В UI
+                        double seconds = _elapsed.TotalSeconds;
+
+                        if (user.BestTimeSeconds == null || seconds < user.BestTimeSeconds)
+                        {
+                            user.BestTimeSeconds = seconds;
+                            db.SaveChanges();
+                        }
                     }
                 }
 
-                MessageBox.Show($"ВЫ ПОБЕДИЛИ за {ElapsedTime}!", "Победа");
+                MessageBox.Show("ВЫ ПОБЕДИЛИ за " + ElapsedTime + "!", "Победа!", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
+
             _service.ComputerAttack(_playerField, ref _lastHitX, ref _lastHitY, ref _hunting);
-            foreach (var cell in PlayerCells)
+
+            foreach (CellVM cell in PlayerCells)
                 cell.Refresh();
 
             if (_service.IsGameOver(_playerField))
             {
                 _timer.Stop();
-                MessageBox.Show($"Вы проиграли за {ElapsedTime}...", "Поражение");
+                MessageBox.Show("Вы проиграли за " + ElapsedTime + "...", "Поражение", MessageBoxButton.OK, MessageBoxImage.Stop);
             }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string name) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }
