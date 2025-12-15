@@ -16,7 +16,7 @@ namespace FifteenGame.Data.Entities
 
         public double? BestTimeSeconds { get; set; }
 
-        // Новое поле для сохранения игры (позволяет хранить много текста)
+        
         public string SavedGameJson { get; set; }
     }
 }

@@ -32,7 +32,7 @@ namespace FifteenGame.Data.Repositories
                 var user = db.Users.FirstOrDefault(u => u.Username == username);
                 if (user != null)
                 {
-                    // Если рекорда нет ИЛИ новый время лучше (меньше) старого
+                    
                     if (user.BestTimeSeconds == null || timeInSeconds < user.BestTimeSeconds)
                     {
                         user.BestTimeSeconds = timeInSeconds;

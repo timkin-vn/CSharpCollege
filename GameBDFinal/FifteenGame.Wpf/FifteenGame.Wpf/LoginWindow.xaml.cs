@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Windows;
-using FifteenGame.Data.Repositories; // <-- Подключили
+using FifteenGame.Data.Repositories; 
 
 namespace FifteenGame.Wpf
 {
     public partial class LoginWindow : Window
     {
-        // Создаем экземпляр репозитория
+        
         private readonly IUserRepository _userRepository = new UserRepository();
 
         public LoginWindow()
@@ -27,10 +27,10 @@ namespace FifteenGame.Wpf
 
                 string saveJsonToLoad = null;
 
-                // Используем репозиторий для поиска/создания игрока
+                
                 var user = _userRepository.GetOrCreate(name);
 
-                // Проверка на наличие сохранения
+                
                 if (!string.IsNullOrEmpty(user.SavedGameJson))
                 {
                     var result = MessageBox.Show(
@@ -45,12 +45,12 @@ namespace FifteenGame.Wpf
                     }
                     else
                     {
-                        // Отказались — очищаем через репозиторий
+                        
                         _userRepository.ClearSavedGame(name);
                     }
                 }
 
-                // Запуск главного окна
+                
                 var mainWindow = new MainWindow(name);
 
                 if (!string.IsNullOrEmpty(saveJsonToLoad))

@@ -1,6 +1,6 @@
 ﻿using FifteenGame.Business.Models;
 using FifteenGame.Business.Services;
-using FifteenGame.Data.Repositories; // <-- Подключили репозиторий
+using FifteenGame.Data.Repositories; 
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,7 +12,7 @@ using System.Windows.Threading;
 
 namespace FifteenGame.Wpf.ViewModels
 {
-    // --- ViewModel для одной клетки ---
+    
     public class CellVM : INotifyPropertyChanged
     {
         public Cell Model { get; private set; }
@@ -70,12 +70,12 @@ namespace FifteenGame.Wpf.ViewModels
         }
     }
 
-    // --- Главная ViewModel окна ---
+   
     public class MainWindowViewModel : INotifyPropertyChanged
     {
         private readonly GameService _service = new GameService();
 
-        // РЕПОЗИТОРИЙ
+        
         private readonly IUserRepository _userRepository;
 
         private Field _playerField;
@@ -121,7 +121,7 @@ namespace FifteenGame.Wpf.ViewModels
 
         public MainWindowViewModel()
         {
-            // Инициализируем репозиторий
+           
             _userRepository = new UserRepository();
 
             PlayerCells = new ObservableCollection<CellVM>();
@@ -144,7 +144,7 @@ namespace FifteenGame.Wpf.ViewModels
         {
             try
             {
-                // Используем репозиторий для получения данных
+                
                 var user = _userRepository.GetOrCreate(PlayerName);
 
                 if (user != null && user.BestTimeSeconds.HasValue)
@@ -223,12 +223,12 @@ namespace FifteenGame.Wpf.ViewModels
             {
                 if (isWin)
                 {
-                    // Обновляем рекорд через репозиторий
+                   
                     _userRepository.UpdateBestTime(PlayerName, _elapsed.TotalSeconds);
-                    LoadBestTime(); // Обновить цифры на экране
+                    LoadBestTime(); 
                 }
 
-                // Удаляем сохранение, так как игра закончена
+                
                 _userRepository.ClearSavedGame(PlayerName);
             }
             catch (Exception ex)
@@ -237,7 +237,7 @@ namespace FifteenGame.Wpf.ViewModels
             }
         }
 
-        // --- Сериализация (Сохранение) ---
+        
 
         public string GetSerializedGame()
         {
@@ -280,7 +280,7 @@ namespace FifteenGame.Wpf.ViewModels
                 OnPropertyChanged("ElapsedTime");
                 _timer.Start();
 
-                // Полная перерисовка
+                
                 PlayerCells.Clear();
                 ComputerCells.Clear();
 
@@ -300,7 +300,7 @@ namespace FifteenGame.Wpf.ViewModels
             }
         }
 
-        // --- Вспомогательные методы ---
+        
 
         private List<List<PointDto>> GetShipsCoords(Field field)
         {
@@ -365,7 +365,7 @@ namespace FifteenGame.Wpf.ViewModels
         }
     }
 
-    // --- DTO Классы для сохранения ---
+    
     public class GameSaveData
     {
         public double ElapsedSeconds { get; set; }

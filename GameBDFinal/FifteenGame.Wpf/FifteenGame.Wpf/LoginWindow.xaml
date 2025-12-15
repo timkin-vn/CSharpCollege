@@ -28,7 +28,7 @@
 				<RowDefinition Height="*"/>
 			</Grid.RowDefinitions>
 
-			<!-- Заголовок -->
+			
 			<TextBlock Text="МОРСКОЙ БОЙ"
                        FontSize="46"
                        FontWeight="ExtraBold"
@@ -40,7 +40,7 @@
 				</TextBlock.Effect>
 			</TextBlock>
 
-			<!-- Иконка корабля -->
+			
 			<TextBlock Text="Ship"
                        FontSize="110"
                        FontWeight="Bold"
@@ -49,7 +49,6 @@
                        Grid.Row="1"
                        Margin="0,0,0,40"/>
 
-			<!-- Подсказка -->
 			<TextBlock Text="Введи своё имя, капитан:"
                        Foreground="#00FFFF"
                        FontSize="22"
@@ -57,7 +56,7 @@
                        Grid.Row="2"
                        Margin="0,0,0,15"/>
 
-			<!-- Поле имени -->
+			
 			<TextBox x:Name="txtUsername"
                      Grid.Row="3"
                      Width="320"
@@ -78,7 +77,7 @@
 				</TextBox.Effect>
 			</TextBox>
 
-			<!-- КНОПКА ВОЙТИ — теперь точно видна и в нужном месте -->
+			
 			<Button Content="ВОЙТИ В БОЙ"
                     Grid.Row="4"
                     Width="300"
