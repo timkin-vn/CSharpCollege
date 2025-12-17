@@ -1,0 +1,362 @@
+﻿@model FifteenGame.Web.Models.GameViewModel
+@{
+    ViewBag.Title = "Сапер";
+}
+
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        text-align: center;
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+        color: white;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    h1 {
+        font-size: 3em;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        transition: all 0.3s;
+    }
+
+    .game-over-title {
+        color: red !important;
+        font-size: 2.5em !important;
+        animation: pulse 0.5s infinite alternate;
+    }
+
+    @@keyframes pulse {
+        from {
+            transform: scale(1);
+        }
+
+        to {
+            transform: scale(1.1);
+        }
+    }
+
+    .game-info {
+        display: flex;
+        justify-content: space-around;
+        margin: 20px 0;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 15px;
+        border-radius: 15px;
+    }
+
+    .info-block {
+        background: rgba(0, 0, 0, 0.3);
+        padding: 10px 20px;
+        border-radius: 10px;
+        min-width: 120px;
+    }
+
+    .controls {
+        margin: 20px 0;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 15px;
+        border-radius: 15px;
+    }
+
+    .mines-control {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0 15px;
+    }
+
+    input[type="number"] {
+        padding: 8px;
+        border: none;
+        border-radius: 5px;
+        width: 60px;
+        text-align: center;
+    }
+
+    input[type="range"] {
+        width: 150px;
+    }
+
+    button {
+        background: #ff6b6b;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 1em;
+        transition: all 0.3s;
+        margin: 0 5px;
+    }
+
+        button:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+        }
+
+    .game-status {
+        margin: 15px 0;
+        font-size: 1.2em;
+        font-weight: bold;
+        height: 25px;
+    }
+
+    .game-board {
+        display: inline-block;
+        margin: 20px auto;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 15px;
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .game-row {
+        display: flex;
+    }
+
+    .cell {
+        width: 35px;
+        height: 35px;
+        border: 2px outset #e0e0e0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        cursor: pointer;
+        user-select: none;
+        transition: all 0.2s;
+        font-size: 14px;
+    }
+
+        .cell:hover {
+            background: #d0d0d0 !important;
+        }
+
+        .cell.revealed {
+            border: 1px solid #c0c0c0;
+        }
+
+        .cell.exploded {
+            background: darkred !important;
+            color: white !important;
+            animation: explode 0.3s;
+        }
+
+    @@keyframes explode {
+        0% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.2);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .game-over-animation {
+        animation: blink 0.2s 6;
+    }
+
+    @@keyframes blink {
+        0%, 100% {
+            background-color: white;
+        }
+
+        50% {
+            background-color: red;
+        }
+    }
+</style>
+
+<div class="container">
+    <h1 id="gameTitle">САПЕР</h1>
+
+    <div class="game-info">
+        <div class="info-block">
+            <div>Всего мин</div>
+            <div id="totalMines">@Model.TotalMines</div>
+        </div>
+        <div class="info-block">
+            <div>Флаги</div>
+            <div id="flagsCount">@Model.FlagsCount</div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <div class="mines-control">
+            <span>Количество мин:</span>
+            <input type="range" id="minesSlider" min="5" max="30" value="@Model.MinesCount">
+            <input type="number" id="minesInput" min="5" max="50" value="@Model.MinesCount">
+            <button id="applyButton">ПРИМЕНИТЬ</button>
+        </div>
+        <button id="newGameButton">НОВАЯ ИГРА</button>
+    </div>
+
+    <div class="game-status" id="gameStatus" style="color: @Model.StatusColor;">@Model.GameStatus</div>
+
+    <div class="game-board" id="gameBoard">
+        @for (int row = 0; row < Model.RowCount; row++)
+        {
+            <div class="game-row">
+                @for (int col = 0; col < Model.ColumnCount; col++)
+                {
+                    var cell = Model.Cells.FirstOrDefault(c => c.Row == row && c.Column == col);
+                    if (cell != null)
+                    {
+                        <div class="cell @(cell.IsRevealed ? "revealed" : "") @(cell.IsExploded ? "exploded" : "")"
+                             data-row="@cell.Row" data-col="@cell.Column"
+                             style="background-color: @cell.CellColor; color: @cell.TextColor;">
+                            @cell.DisplayText
+                        </div>
+                    }
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Синхронизация слайдера и поля ввода
+            $('#minesSlider').on('input', function () {
+                $('#minesInput').val($(this).val());
+            });
+
+            $('#minesInput').on('input', function () {
+                let value = Math.max(5, Math.min(50, $(this).val()));
+                $('#minesSlider').val(value);
+                $(this).val(value);
+            });
+
+            // Обработчики кнопок
+            $('#newGameButton').click(function () {
+                startNewGame($('#minesInput').val());
+            });
+
+            $('#applyButton').click(function () {
+                startNewGame($('#minesInput').val());
+            });
+
+            // Обработчики клеток
+            $(document).on('click', '.cell:not(.revealed)', function () {
+                if ($('#gameStatus').css('color') === 'rgb(255, 0, 0)') return; // Игра окончена
+
+                const row = $(this).data('row');
+                const col = $(this).data('col');
+                revealCell(row, col);
+            });
+
+            $(document).on('contextmenu', '.cell:not(.revealed)', function (e) {
+                e.preventDefault();
+                if ($('#gameStatus').css('color') === 'rgb(255, 0, 0)') return;
+
+                const row = $(this).data('row');
+                const col = $(this).data('col');
+                toggleFlag(row, col);
+            });
+
+            // Автоперезапуск при проигрыше
+            function checkForAutoRestart() {
+                if ($('#gameStatus').text().includes('Перезапуск')) {
+                    setTimeout(() => {
+                        startNewGame($('#minesInput').val());
+                    }, 3000);
+                }
+            }
+
+            function startNewGame(minesCount) {
+                $.post('@Url.Action("NewGame", "Game")', { minesCount: minesCount })
+                    .done(function (data) {
+                        updateGame(data);
+                    });
+            }
+
+            function revealCell(row, col) {
+                $.post('@Url.Action("RevealCell", "Game")', { row: row, column: col })
+                    .done(function (data) {
+                        updateGame(data);
+                        if (data.IsGameOver && data.GameStatus.includes('проиграли')) {
+                            playGameOverAnimations();
+                            checkForAutoRestart();
+                        }
+                    });
+            }
+
+            function toggleFlag(row, col) {
+                $.post('@Url.Action("ToggleFlag", "Game")', { row: row, column: col })
+                    .done(function (data) {
+                        updateGame(data);
+                    });
+            }
+
+            function updateGame(gameData) {
+                // Обновляем информацию
+                $('#totalMines').text(gameData.TotalMines);
+                $('#flagsCount').text(gameData.FlagsCount);
+                $('#gameStatus').text(gameData.GameStatus).css('color', gameData.StatusColor);
+
+                // Обновляем заголовок
+                if (gameData.IsGameOver) {
+                    if (gameData.GameStatus.includes('проиграли')) {
+                        $('#gameTitle').addClass('game-over-title').text('💥 ПРОИГРЫШ! 💥');
+                    } else {
+                        $('#gameTitle').css('color', 'green').text('🎉 ПОБЕДА! 🎉');
+                    }
+                } else {
+                    $('#gameTitle').removeClass('game-over-title').css('color', 'white').text('САПЕР');
+                }
+
+                // Обновляем поле
+                const gameBoard = $('#gameBoard');
+                gameBoard.empty();
+
+                for (let row = 0; row < gameData.RowCount; row++) {
+                    const rowDiv = $('<div class="game-row"></div>');
+
+                    for (let col = 0; col < gameData.ColumnCount; col++) {
+                        const cell = gameData.Cells.find(c => c.Row === row && c.Column === col);
+                        if (cell) {
+                            const cellDiv = $(`
+                                <div class="cell ${cell.IsRevealed ? 'revealed' : ''} ${cell.IsExploded ? 'exploded' : ''}"
+                                     data-row="${cell.Row}" data-col="${cell.Column}"
+                                     style="background-color: ${cell.CellColor}; color: ${cell.TextColor};">
+                                    ${cell.DisplayText}
+                                </div>
+                            `);
+                            rowDiv.append(cellDiv);
+                        }
+                    }
+
+                    gameBoard.append(rowDiv);
+                }
+            }
+
+            function playGameOverAnimations() {
+                // Анимация мигания
+                $('body').addClass('game-over-animation');
+                setTimeout(() => {
+                    $('body').removeClass('game-over-animation');
+                }, 1200);
+
+                // Анимация заголовка
+                $('#gameTitle').css('animation', 'pulse 0.5s infinite alternate');
+            }
+        });
+    </script>
+}

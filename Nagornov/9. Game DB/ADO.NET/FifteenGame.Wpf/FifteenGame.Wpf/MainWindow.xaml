@@ -1,0 +1,199 @@
+﻿<Window x:Class="FifteenGame.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Сапер" Height="700" Width="600">
+
+    <Grid x:Name="MainGrid" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- ВСЕГДА ВИДИМАЯ панель входа -->
+        <Border Grid.Row="0" 
+                Background="#f0f8ff" 
+                Margin="5" 
+                Padding="10" 
+                CornerRadius="3"
+                BorderBrush="#4682b4" 
+                BorderThickness="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" 
+                           Orientation="Horizontal" 
+                           VerticalAlignment="Center">
+                    <TextBlock Text="Имя:" 
+                              FontSize="14" 
+                              FontWeight="Bold"
+                              VerticalAlignment="Center" 
+                              Margin="0,0,5,0"
+                              Foreground="#2e8b57"/>
+
+                    <TextBox x:Name="LoginUserNameTextBox" 
+                             Width="120" 
+                             FontSize="14" 
+                             Padding="5"
+                             Margin="0,0,10,0"
+                             Text="{Binding CurrentUserName, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <Button Content="Войти" 
+                           Click="LoginButton_Click" 
+                           Padding="8,5"
+                           Margin="0,0,5,0"
+                           Background="#4CAF50"
+                           Foreground="White"
+                           BorderBrush="#45a049"/>
+
+                    <Button Content="Регистрация" 
+                           Click="RegisterButton_Click" 
+                           Padding="8,5"
+                           Background="#008CBA"
+                           Foreground="White"
+                           BorderBrush="#007399"/>
+                </StackPanel>
+
+                <TextBlock Grid.Column="1" 
+                          x:Name="LoginStatusText" 
+                          Foreground="#dc143c" 
+                          Margin="15,0,0,0"
+                          VerticalAlignment="Center"
+                          FontSize="13"
+                          TextWrapping="Wrap"
+                          Width="200"/>
+
+                <Button Grid.Column="1" 
+                       Content="Новая игра" 
+                       Command="{Binding NewGameCommand}" 
+                       Padding="10,5"
+                       Background="#2196F3"
+                       Foreground="White"
+                       FontWeight="Bold" Click="Button_Click" Margin="86,56,23,-55"/>
+            </Grid>
+        </Border>
+
+        <!-- ВСЕГДА ВИДИМАЯ игра -->
+        <TextBlock Grid.Row="1" 
+                   Text="САПЕР" 
+                   FontSize="24" 
+                   FontWeight="Bold" 
+                   HorizontalAlignment="Center" 
+                   Margin="10" 
+                   x:Name="TitleText">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsGameOver}" Value="True">
+                            <Setter Property="Foreground" Value="Red"/>
+                            <Setter Property="Text" Value="💥 ПРОИГРЫШ! 💥"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+
+        <Border Grid.Row="2" 
+                Background="LightGray" 
+                Margin="10" 
+                Padding="10" 
+                CornerRadius="5">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="Количество мин: " 
+                          FontSize="14" 
+                          VerticalAlignment="Center"/>
+
+                <Slider x:Name="MinesSlider" 
+                        Minimum="5" 
+                        Maximum="30" 
+                        Value="{Binding MinesCount}" 
+                        Width="150" 
+                        Margin="5,0" 
+                        VerticalAlignment="Center"
+                        TickFrequency="1" 
+                        IsSnapToTickEnabled="True"/>
+
+                <TextBox Text="{Binding MinesCount, UpdateSourceTrigger=PropertyChanged}" 
+                        Width="40" 
+                        Margin="5,0" 
+                        VerticalAlignment="Center" 
+                        TextAlignment="Center"
+                        PreviewTextInput="MinesTextBox_PreviewTextInput"/>
+
+                <Button Content="Применить" 
+                       Command="{Binding ApplySettingsCommand}" 
+                       Padding="10,5" 
+                       Margin="10,0"/>
+            </StackPanel>
+        </Border>
+
+        <StackPanel Grid.Row="3" 
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Center" 
+                    Margin="10">
+            <TextBlock Text="Всего мин: " 
+                      FontSize="16" 
+                      VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding TotalMines}" 
+                      FontSize="16" 
+                      FontWeight="Bold" 
+                      VerticalAlignment="Center" 
+                      Margin="5,0,20,0"/>
+
+            <TextBlock Text="Флаги: " 
+                      FontSize="16" 
+                      VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding FlagsCount}" 
+                      FontSize="16" 
+                      FontWeight="Bold" 
+                      VerticalAlignment="Center" 
+                      Margin="5,0,20,0"/>
+        </StackPanel>
+
+        <ItemsControl Grid.Row="4" 
+                     ItemsSource="{Binding Cells}" 
+                     Margin="10" 
+                     x:Name="GameField">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Rows="10" Columns="10"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button Content="{Binding DisplayText}" 
+                           Command="{Binding DataContext.CellClickCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                           CommandParameter="{Binding}"
+                           Margin="1"
+                           Background="{Binding CellColor}"
+                           Foreground="{Binding TextColor}"
+                           FontWeight="Bold"
+                           FontSize="16"
+                           BorderThickness="1"
+                           BorderBrush="DarkGray"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <TextBlock Grid.Row="5" 
+                   Text="{Binding GameStatus}" 
+                   FontSize="18" 
+                   FontWeight="Bold" 
+                   HorizontalAlignment="Center" 
+                   Margin="10" 
+                   Foreground="{Binding StatusColor}" 
+                   x:Name="StatusText"/>
+    </Grid>
+</Window>
