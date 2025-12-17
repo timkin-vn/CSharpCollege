@@ -21,7 +21,7 @@ namespace FifteenGame.Business.Services
         public bool Sunk { get; set; }
         public bool GameOver { get; set; }
     }
-
+    //3 уровневая архитектура 
     public class GameService
     {
         private readonly Dictionary<string, Game> _games = new Dictionary<string, Game>();
