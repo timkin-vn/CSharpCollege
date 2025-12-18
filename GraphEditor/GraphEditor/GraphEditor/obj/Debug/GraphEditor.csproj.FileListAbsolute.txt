@@ -1,0 +1,13 @@
+C:\Users\Just Earth\Desktop\GraphEditor\GraphEditor\bin\Debug\GraphEditor.exe.config
+C:\Users\Just Earth\Desktop\GraphEditor\GraphEditor\bin\Debug\GraphEditor.exe
+C:\Users\Just Earth\Desktop\GraphEditor\GraphEditor\bin\Debug\GraphEditor.pdb
+C:\Users\Just Earth\Desktop\GraphEditor\GraphEditor\bin\Debug\GraphEditor.Business.dll
+C:\Users\Just Earth\Desktop\GraphEditor\GraphEditor\bin\Debug\GraphEditor.Business.pdb
+C:\Users\Just Earth\Desktop\GraphEditor\GraphEditor\obj\Debug\GraphEditor.csproj.AssemblyReference.cache
+C:\Users\Just Earth\Desktop\GraphEditor\GraphEditor\obj\Debug\GraphEditor.GraphEditorForm.resources
+C:\Users\Just Earth\Desktop\GraphEditor\GraphEditor\obj\Debug\GraphEditor.Properties.Resources.resources
+C:\Users\Just Earth\Desktop\GraphEditor\GraphEditor\obj\Debug\GraphEditor.csproj.GenerateResource.cache
+C:\Users\Just Earth\Desktop\GraphEditor\GraphEditor\obj\Debug\GraphEditor.csproj.CoreCompileInputs.cache
+C:\Users\Just Earth\Desktop\GraphEditor\GraphEditor\obj\Debug\GraphEdi.B75FE3B2.Up2Date
+C:\Users\Just Earth\Desktop\GraphEditor\GraphEditor\obj\Debug\GraphEditor.exe
+C:\Users\Just Earth\Desktop\GraphEditor\GraphEditor\obj\Debug\GraphEditor.pdb
