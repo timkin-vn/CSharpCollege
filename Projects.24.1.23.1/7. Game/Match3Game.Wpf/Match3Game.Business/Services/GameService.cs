@@ -9,15 +9,46 @@ namespace Match3Game.Business.Services
 {
     public class GameService
     {
-        private static readonly Random _rnd = new Random(); 
+        private const int GemTypeCount = 5;
+        private static readonly Random _rnd = new Random();
+        private const int FinishMatchesCount = 20;
+
         public void Initialize(GameModel model)
         {
+            model.MatchesCount = 0;
+            model.IsFinished = false;
+
             for (int row = 0; row < GameModel.RowCount; row++)
             {
                 for (int column = 0; column < GameModel.ColumnCount; column++)
                 {
-                    model[row, column] = _rnd.Next(1, 6);
+                    model[row, column] = _rnd.Next(1, GemTypeCount);
                 }
+            }
+            ClearInitialMatches(model);
+        }
+
+        public void AddMatches(GameModel model, int count)
+        {
+            model.MatchesCount += count;
+
+            if (model.MatchesCount >= FinishMatchesCount)
+            {
+                model.IsFinished = true;
+            }
+        }
+
+        private void ClearInitialMatches(GameModel model)
+        {
+            while (true)
+            {
+                var matches = CheckMatches(model);
+
+                if (!matches.Any())
+                    break;
+
+                RemoveMatches(model, matches);
+                ProcessMatches(model);
             }
         }
 
@@ -113,7 +144,5 @@ namespace Match3Game.Business.Services
                 }
             }
         }
-
-
     }
 }

@@ -10,7 +10,8 @@ namespace Match3Game.Business.Models
     {
         public const int RowCount = 8;
         public const int ColumnCount = 8;
-        public const int GemTypeCount = 5; // фишки
+        public int MatchesCount { get; set; }
+        public bool IsFinished { get; set; }
 
         private int[,] _cells = new int[RowCount, ColumnCount];
 
@@ -18,24 +19,6 @@ namespace Match3Game.Business.Models
         {
             get => _cells[row, column];
             internal set => _cells[row, column] = value;
-        }
-
-        public GameModel()
-        {
-            GenerateInitialBoard();
-        }
-
-        private void GenerateInitialBoard()
-        {
-            var rnd = new Random();
-
-            for (int row = 0; row < RowCount; row++)
-            {
-                for (int column = 0; column < ColumnCount; column++)
-                {
-                    _cells[row, column] = rnd.Next(GemTypeCount);
-                }
-            }
         }
     }
 }
