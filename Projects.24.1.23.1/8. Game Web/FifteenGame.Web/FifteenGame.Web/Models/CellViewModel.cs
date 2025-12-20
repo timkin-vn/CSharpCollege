@@ -8,14 +8,11 @@ namespace FifteenGame.Web.Models
 {
     public class CellViewModel
     {
-        public int Num { get; set; }
+        public int Row { get; set; }
+        public int Column { get; set; }
 
-        public string Text => Num.ToString();
+        public int GemType { get; set; }
 
-        public MoveDirection Direction { get; set; }
-
-        public string DirectionText => Direction.ToString();
-
-        public bool IsEmpty { get; set; }
+        public bool IsEmpty => GemType == 0;
     }
 }

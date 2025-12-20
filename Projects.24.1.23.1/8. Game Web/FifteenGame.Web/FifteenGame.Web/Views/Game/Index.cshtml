@@ -1,63 +1,40 @@
 ﻿@model FifteenGame.Web.Models.GameViewModel
 
 @{
-    ViewBag.Title = "Игра 15";
-    bool isGameOver = (bool?)ViewBag.IsGameOver ?? false;
+    ViewBag.Title = "Match-3";
 }
 
-<main>
-    <h2>Игра 15</h2>
+<h2>Match-3</h2>
 
-    @if (isGameOver)
+@if (Model.IsFinished)
+{
+    <h3 class="text-success">
+        Игра окончена!
+    </h3>
+
+    <a class="btn btn-success" href="@Url.Action("NewGame", "Game")">
+        Начать заново
+    </a>
+}
+
+<h3>Очки: @Model.MatchesCount</h3>
+
+<table class="table table-bordered text-center" style="width: auto;">
+    @for (int row = 0; row < Model.RowCount; row++)
     {
-        <h2 class="text-danger">Поздравляем! Игра завершена.</h2>
+        <tr>
+            @for (int col = 0; col < Model.ColumnCount; col++)
+            {
+                var cell = Model.Cells[row, col];
 
-        <div>
-            @Html.ActionLink("Повторить", "Index", "Game", new {}, new { @class= "btn btn-success" })
-        </div>
-    }
-
-    <div class="container">
-        @for (int row = 0; row < Model.RowCount; row++)
-        {
-            <div class="row">
-                <div class="col-2"></div>
-
-                @for (int column = 0; column < Model.ColumnCount; column++)
-                {
-                    if (Model.Cells[row, column].IsEmpty)
-                    {
-                        <div class="col-2"></div>
-                        continue;
-                    }
-
-                    if (isGameOver || Model.Cells[row, column].Direction == FifteenGame.Business.Models.MoveDirection.None)
-                    {
-                        @*<div class="col-2 d-grid p-2 text-center">
-                            <div class="btn btn-success fs-3">@Model.Cells[row, column].Text</div>
-                        </div>*@
-
-                        <div class="col-2 d-grid p-2 text-center">
-                            <img src="@Url.Content($"~/Content/img/{@Model.Cells[row, column].Text}.png")"
-                                 style="width: 150px; height: 150px; display: block; margin: auto;"/>
+                <td>
+                    <a href="@Url.Action("Select", "Game", new { row = row, col = col })">
+                        <div class="gem gem-@cell.GemType">
+                            @cell.GemType
                         </div>
-
-                        continue;
-                    }
-
-                    <div class="col-2 d-grid p-2 text-center">
-                        @*@Html.ActionLink(Model.Cells[row, column].Text, "PressButton",
-                            new { directionText = Model.Cells[row, column].DirectionText }, new { @class = "btn btn-success fs-3" })*@
-
-                        <a href="@Url.Action("PressButton", "Game", new { directionText = Model.Cells[row, column].DirectionText })">
-                            <img src="@Url.Content($"~/Content/img/{@Model.Cells[row, column].Text}.png")"
-                                 style="width: 150px; height: 150px; display: block; margin: auto;" />
-                        </a>
-                    </div>
-                }
-
-                <div class="col-2"></div>
-            </div>
-        }
-    </div>
-</main>
+                    </a>
+                </td>
+            }
+        </tr>
+    }
+</table>

@@ -11,88 +11,105 @@ namespace FifteenGame.Web.Controllers
 {
     public class GameController : Controller
     {
+        private const string GameSessionKey = "GameModel";
+        private const string SelectedCellKey = "SelectedCell";
+
         private readonly GameService _service = new GameService();
 
-        // GET: Game
         public ActionResult Index()
         {
-            var model = GetGameModel();
-            _service.Shuffle(model);
-            SaveGameModel(model);
-
+            var model = GetOrCreateGame();
             return View(ToViewModel(model));
         }
 
-        public ActionResult PressButton(string directionText)
+        public ActionResult Select(int row, int col)
         {
-            var model = GetGameModel();
-            if (Enum.TryParse<MoveDirection>(directionText, out var direction))
-            {
-                _service.MakeMove(model, direction);
-                SaveGameModel(model);
+            var model = GetOrCreateGame();
 
-                if (_service.IsGameOver(model))
+            var selected = Session[SelectedCellKey] as (int r, int c)?;
+
+            if (selected == null)
+            {
+                Session[SelectedCellKey] = (row, col);
+            }
+            else
+            {
+                var (r1, c1) = selected.Value;
+
+                if (_service.Swap(model, r1, c1, row, col))
                 {
-                    ViewBag.IsGameOver = true;
+                    while (true)
+                    {
+                        var matches = _service.CheckMatches(model);
+                        if (!matches.Any())
+                            break;
+
+                        _service.AddMatches(model, matches.Count);
+                        _service.RemoveMatches(model, matches);
+                        _service.ProcessMatches(model);
+                    }
                 }
+
+                Session.Remove(SelectedCellKey);
             }
 
-            return View("Index", ToViewModel(model));
+            SaveGame(model);
+            return RedirectToAction("Index");
         }
 
-        private GameModel GetGameModel()
+        private GameModel GetOrCreateGame()
         {
-            if (Session.IsNewSession)
+            if (Session[GameSessionKey] == null)
             {
-                Session["GameModel"] = new GameModel();
+                var model = new GameModel();
+                _service.Initialize(model);
+                Session[GameSessionKey] = model;
             }
 
-            return (GameModel)Session["GameModel"];
+            return (GameModel)Session[GameSessionKey];
         }
 
-        private void SaveGameModel(GameModel model)
+        public ActionResult NewGame()
         {
-            Session["GameModel"] = model;
+            var model = new GameModel();
+            _service.Initialize(model);
+            Session[GameSessionKey] = model;
+
+            Session.Remove(SelectedCellKey); // сброс выбора
+
+            return RedirectToAction("Index");
+        }
+
+        private void SaveGame(GameModel model)
+        {
+            Session[GameSessionKey] = model;
         }
 
         private GameViewModel ToViewModel(GameModel model)
         {
-            var result = new GameViewModel();
-
-            for (int row = 0; row < GameModel.RowCount; row++)
+            var vm = new GameViewModel
             {
-                for (int column = 0; column < GameModel.ColumnCount; column++)
+                RowCount = GameModel.RowCount,
+                ColumnCount = GameModel.ColumnCount,
+                MatchesCount = model.MatchesCount,
+                IsFinished = model.IsFinished,
+                Cells = new CellViewModel[GameModel.RowCount, GameModel.ColumnCount]
+            };
+
+            for (int r = 0; r < GameModel.RowCount; r++)
+            {
+                for (int c = 0; c < GameModel.ColumnCount; c++)
                 {
-                    result.Cells[row, column] = new CellViewModel
+                    vm.Cells[r, c] = new CellViewModel
                     {
-                        Num = model[row, column],
-                        Direction = MoveDirection.None,
-                        IsEmpty = row == model.FreeCellRow && column == model.FreeCellColumn
+                        Row = r,
+                        Column = c,
+                        GemType = model[r, c]
                     };
                 }
             }
 
-            if (model.FreeCellColumn > 0)
-            {
-                result.Cells[model.FreeCellRow, model.FreeCellColumn - 1].Direction = MoveDirection.Right;
-            }
-
-            if (model.FreeCellColumn < GameModel.ColumnCount - 1)
-            {
-                result.Cells[model.FreeCellRow, model.FreeCellColumn + 1].Direction = MoveDirection.Left;
-            }
-
-            if (model.FreeCellRow > 0)
-            {
-                result.Cells[model.FreeCellRow - 1, model.FreeCellColumn].Direction = MoveDirection.Down;
-            }
-
-            if (model.FreeCellRow < GameModel.RowCount - 1)
-            {
-                result.Cells[model.FreeCellRow + 1, model.FreeCellColumn].Direction = MoveDirection.Up;
-            }
-
-            return result;
+            return vm;
         }
     }
 }
