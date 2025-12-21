@@ -26,6 +26,9 @@ namespace FifteenGame.Web.Controllers
         {
             var model = GetOrCreateGame();
 
+            if (model.IsFinished)
+                return RedirectToAction("Index");
+
             var selected = Session[SelectedCellKey] as (int r, int c)?;
 
             if (selected == null)

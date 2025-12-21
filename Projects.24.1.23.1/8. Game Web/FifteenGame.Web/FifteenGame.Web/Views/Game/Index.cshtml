@@ -4,36 +4,42 @@
     ViewBag.Title = "Match-3";
 }
 
-<h2>Match-3</h2>
+<div class="text-start text">
+    <h2 style="color: #333; text-shadow: 2px 2px 5px rgba(0,0,0,0.5);">Match-3</h2>
+</div>
+
 
 @if (Model.IsFinished)
 {
-    <h3 class="text-success">
-        Игра окончена!
-    </h3>
+    <div class="alert alert-success text-center">
+        <strong>Игра окончена!</strong>
+    </div>
 
-    <a class="btn btn-success" href="@Url.Action("NewGame", "Game")">
-        Начать заново
-    </a>
+    <div class="text-center mb-3">
+        <a class="btn btn-success btn-lg" href="@Url.Action("NewGame", "Game")">
+            Начать заново
+        </a>
+    </div>
 }
 
-<h3>Очки: @Model.MatchesCount</h3>
+<div class="text-center mb-3">
+    <h4>Очки: <span class="badge bg-warning text-dark">@Model.MatchesCount</span></h4>
+</div>
 
-<table class="table table-bordered text-center" style="width: auto;">
+
+<table class="table table-bordered table-striped text-center mx-auto" style="width: auto;">
     @for (int row = 0; row < Model.RowCount; row++)
     {
         <tr>
             @for (int col = 0; col < Model.ColumnCount; col++)
             {
                 var cell = Model.Cells[row, col];
-
-                <td>
+                <td style="padding:5px;">
                     <a href="@Url.Action("Select", "Game", new { row = row, col = col })">
                         @if (!cell.IsEmpty)
                         {
                             <img src="@Url.Content("~/Content/img/" + cell.ImageName + ".png")"
-                                 width="64"
-                                 height="64" />
+                                 style="width:64px; height:64px; display:block; margin:auto;" />
                         }
                     </a>
                 </td>
@@ -41,3 +47,4 @@
         </tr>
     }
 </table>
+
