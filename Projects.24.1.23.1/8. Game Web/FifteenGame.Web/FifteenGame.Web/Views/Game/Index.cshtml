@@ -29,9 +29,12 @@
 
                 <td>
                     <a href="@Url.Action("Select", "Game", new { row = row, col = col })">
-                        <div class="gem gem-@cell.GemType">
-                            @cell.GemType
-                        </div>
+                        @if (!cell.IsEmpty)
+                        {
+                            <img src="@Url.Content("~/Content/img/" + cell.ImageName + ".png")"
+                                 width="64"
+                                 height="64" />
+                        }
                     </a>
                 </td>
             }
