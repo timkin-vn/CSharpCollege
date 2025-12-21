@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36603.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2048Game.Web", "2048Game.Web\2048Game.Web.csproj", "{D463217C-DE3F-4A40-AE12-F01086AEA225}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2048Game.Business", "..\..\Программки ^^\2048Game.WPF\2048Game.Business\2048Game.Business.csproj", "{3A4A61A0-E7C8-4ED6-A6B8-B72FA1DA15B3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D463217C-DE3F-4A40-AE12-F01086AEA225}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D463217C-DE3F-4A40-AE12-F01086AEA225}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D463217C-DE3F-4A40-AE12-F01086AEA225}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D463217C-DE3F-4A40-AE12-F01086AEA225}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A4A61A0-E7C8-4ED6-A6B8-B72FA1DA15B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A4A61A0-E7C8-4ED6-A6B8-B72FA1DA15B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A4A61A0-E7C8-4ED6-A6B8-B72FA1DA15B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A4A61A0-E7C8-4ED6-A6B8-B72FA1DA15B3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DA7733FC-9156-43E8-AC02-BC7B68485DB0}
+	EndGlobalSection
+EndGlobal
