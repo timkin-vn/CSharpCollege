@@ -1,0 +1,171 @@
+﻿<Window x:Class="StepByStepPacman.WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Pacman"
+        Width="720"
+        Height="900"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="#FF0B1020"
+        KeyDown="Window_KeyDown">
+
+    <Window.Resources>
+
+        <DropShadowEffect x:Key="ShadowStrong"
+                          BlurRadius="24"
+                          ShadowDepth="6"
+                          Opacity="0.4"/>
+
+        <Style x:Key="TopPanelBorder" TargetType="Border">
+            <Setter Property="CornerRadius" Value="18"/>
+            <Setter Property="Background" Value="#FF101A33"/>
+            <Setter Property="BorderBrush" Value="#332B5FFF"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="12"/>
+            <Setter Property="Effect" Value="{StaticResource ShadowStrong}"/>
+        </Style>
+
+        <Style x:Key="StatLabel" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#FF94A3FF"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+
+        <Style x:Key="StatValue" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <Style x:Key="ActionButton" TargetType="Button">
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="14,0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="12"
+                                Effect="{StaticResource ShadowStrong}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+
+    <Grid Margin="12">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Верхняя панель -->
+        <Border Grid.Row="0" Style="{StaticResource TopPanelBorder}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+
+                    <StackPanel Margin="10,0">
+                        <TextBlock Text="СЧЁТ" Style="{StaticResource StatLabel}"/>
+                        <TextBlock Text="{Binding State.Score}" Style="{StaticResource StatValue}"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="10,0">
+                        <TextBlock Text="ЖИЗНИ" Style="{StaticResource StatLabel}"/>
+                        <TextBlock Text="{Binding State.Lives}" Style="{StaticResource StatValue}"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="10,0">
+                        <TextBlock Text="ТОЧКИ" Style="{StaticResource StatLabel}"/>
+                        <TextBlock Text="{Binding DotsDisplay}" Style="{StaticResource StatValue}"/>
+                    </StackPanel>
+
+                </StackPanel>
+
+                <StackPanel Grid.Column="1"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center">
+
+                    <Button x:Name="SaveButton"
+                            Content="Сохранить"
+                            Command="{Binding SaveCommand}"
+                            Background="#FF22C55E"
+                            Style="{StaticResource ActionButton}"
+                            Margin="0,0,10,0"/>
+
+                    <Button x:Name="LoadButton"
+                            Content="Загрузить"
+                            Click="LoadButton_Click"
+                            Background="#FF3B82F6"
+                            Style="{StaticResource ActionButton}"/>
+                </StackPanel>
+
+            </Grid>
+        </Border>
+
+        <!-- Игровое поле -->
+        <Border Grid.Row="1"
+                Margin="0,14"
+                Background="#FF050A14"
+                CornerRadius="18"
+                BorderBrush="#332B5FFF"
+                BorderThickness="1"
+                Effect="{StaticResource ShadowStrong}">
+
+            <Grid>
+                <Canvas x:Name="GameCanvas"/>
+
+                <Border x:Name="GameOverPanel"
+                        Background="#CC05070F"
+                        Visibility="Collapsed"
+                        CornerRadius="18"
+                        BorderBrush="#44FFFFFF"
+                        BorderThickness="1"
+                        Padding="24"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center">
+
+                    <StackPanel Width="300">
+                        <TextBlock x:Name="GameOverText"
+                                   FontSize="28"
+                                   FontWeight="Bold"
+                                   Foreground="White"
+                                   TextAlignment="Center"
+                                   Margin="0,0,0,20"/>
+
+                        <Button x:Name="RestartButton"
+                                Content="Новая игра"
+                                Click="RestartButton_Click"
+                                Background="#FFF97316"
+                                Style="{StaticResource ActionButton}"/>
+                    </StackPanel>
+
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- Низ -->
+        <TextBlock Grid.Row="2"
+                   Text="Управление: стрелки ← ↑ → ↓"
+                   Foreground="#FF9CA3AF"
+                   FontSize="13"
+                   FontWeight="SemiBold"
+                   HorizontalAlignment="Center"
+                   Margin="0,6"/>
+
+    </Grid>
+</Window>
