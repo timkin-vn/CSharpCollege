@@ -1,0 +1,50 @@
+﻿<Window x:Class="Pacman.Client.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:Pacman.Client.ViewModels"
+        Title="Pac-Man Login" Height="400" Width="350"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None" ResizeMode="NoResize"
+        Background="Transparent" AllowsTransparency="True">
+
+    <Window.DataContext>
+        <vm:LoginViewModel/>
+    </Window.DataContext>
+
+    <Border Background="Black" BorderBrush="Yellow" BorderThickness="4" CornerRadius="20">
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Заголовок -->
+            <TextBlock Text="PAC-MAN" Foreground="Yellow" FontSize="40" FontWeight="Bold" 
+                       HorizontalAlignment="Center" Margin="0,20,0,20">
+                <TextBlock.Effect>
+                    <DropShadowEffect Color="Orange" BlurRadius="10"/>
+                </TextBlock.Effect>
+            </TextBlock>
+
+            <!-- Поле ввода -->
+            <StackPanel Grid.Row="1" VerticalAlignment="Center">
+                <TextBlock Text="ENTER NAME:" Foreground="White" FontSize="16" Margin="0,0,0,5"/>
+                <TextBox Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" 
+                         FontSize="20" Padding="5" Background="#222" Foreground="Yellow" 
+                         BorderBrush="Yellow" CaretBrush="Yellow"/>
+            </StackPanel>
+
+            <!-- Кнопка -->
+            <Button Content="START GAME" Grid.Row="2" Height="50" Width="200"
+                    FontSize="20" FontWeight="Bold" Background="Yellow" Foreground="Black"
+                    Margin="0,30,0,0" Click="Login_Click" Cursor="Hand">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="10"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+        </Grid>
+    </Border>
+</Window>
