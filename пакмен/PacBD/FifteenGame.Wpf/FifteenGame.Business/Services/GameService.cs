@@ -127,10 +127,10 @@ namespace StepByStepPacman.Business.Services
             // Перемещаем призраков, очищая их старые позиции
             foreach (var ghost in State.Ghosts)
             {
-                // Убираем старый след (4)
+                
                 if (State.IsWithinBounds(ghost.X, ghost.Y) && State.GameBoard[ghost.Y, ghost.X] == 4)
                 {
-                    State.GameBoard[ghost.Y, ghost.X] = 1; // Заменяем на путь
+                    State.GameBoard[ghost.Y, ghost.X] = 1; 
                 }
             }
 
@@ -143,7 +143,7 @@ namespace StepByStepPacman.Business.Services
                 {
                     int previousCellValue = State.GameBoard[ghost.Y, ghost.X];
 
-                    // Если призрак двигается на ячейку с точкой (2) или энерджайзером (3)
+                    
                     if (previousCellValue == 2 || previousCellValue == 3)
                     {
                         // Скрываем точку, устанавливая отрицательное значение
@@ -192,12 +192,12 @@ namespace StepByStepPacman.Business.Services
 
                         // Очищаем позицию пакмана
                         if (State.IsWithinBounds(State.Player.X, State.Player.Y))
-                            State.GameBoard[State.Player.Y, State.Player.X] = 1; // Устанавливаем на путь
+                            State.GameBoard[State.Player.Y, State.Player.X] = 1; 
 
                         RestorePointsUnderGhosts();
                         InitializePlayerPositions();
 
-                        // NOTE: В настоящем Pacman также нужно сбросить позиции призраков!
+                        
                     }
                     break;
                 }
@@ -231,7 +231,7 @@ namespace StepByStepPacman.Business.Services
             
             State.Restart();
             _ghostMoveCounter = 0;
-            // NOTE: После перезапуска GameRunning уже будет true (установлено в State.Initialize)
+            
         }
     }
 }   

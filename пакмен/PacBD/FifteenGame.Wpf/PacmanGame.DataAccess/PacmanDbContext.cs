@@ -7,7 +7,7 @@ namespace PacmanGame.DataAccess
     public class PacmanDbContext : DbContext
     {
         
-        // EF автоматически ищет строку подключения по имени "PacmanConnection".
+        
         public PacmanDbContext() : base("PacmanConnection")
         {
             // Отключение инициализатора БД, так как вы используете миграции Code First
@@ -29,10 +29,10 @@ namespace PacmanGame.DataAccess
 
             // КОНФИГУРАЦИЯ СВЯЗЕЙ 
             modelBuilder.Entity<GameStateEntity>()
-                .HasRequired(gs => gs.GameUser)              // GameStateEntity требует GameUserEntity
-                .WithMany(gu => gu.GameStates)               // У GameUserEntity много GameStateEntity
-                .HasForeignKey(gs => gs.GameUserId)          // Внешний ключ: GameUserId
-                .WillCascadeOnDelete(true);                  // При удалении пользователя, его сохранения удаляются
+                .HasRequired(gs => gs.GameUser)              
+                .WithMany(gu => gu.GameStates)               
+                .HasForeignKey(gs => gs.GameUserId)          
+                .WillCascadeOnDelete(true);                 
 
             // КОНФИГУРАЦИЯ ПОЛЬЗОВАТЕЛЯ 
             modelBuilder.Entity<GameUserEntity>()
