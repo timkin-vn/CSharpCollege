@@ -51,21 +51,9 @@ public class PictureService {
         return PictureModel;
     }
 
-    public void SetTextColor(Color color) {
-        var selected = GetSelectedRectangles().ToList();
-        if (!selected.Any()) return;
-
-        var command = new ChangePropertyCommand<Color>(
-            selected, color,
-            r => r.TextColor,
-            (r, c) => r.TextColor = c,
-            "Change text color");
-        _commandHistory.Execute(command);
-    }
-
     public void SetBorderWidth(float width) {
         var selected = GetSelectedRectangles().ToList();
-        if (!selected.Any()) return;
+        if (selected.Count == 0) return;
 
         var command = new ChangePropertyCommand<float>(
             selected, width,
@@ -77,7 +65,7 @@ public class PictureService {
 
     public void SetBorderColor(Color color) {
         var selected = GetSelectedRectangles().ToList();
-        if (!selected.Any()) return;
+        if (selected.Count == 0) return;
 
         var command = new ChangePropertyCommand<Color>(
             selected, color,
@@ -93,14 +81,12 @@ public class PictureService {
             return false;
         }
 
-        foreach (var group in PictureModel.Groups.ToList()) {
-            if (group.RectangleIds.Any(id => selectedIds.Contains(id))) {
-                foreach (var id in selectedIds) {
-                    group.Remove(id);
-                }
-                if (group.IsEmpty) {
-                    PictureModel.Groups.Remove(group);
-                }
+        foreach (var group in PictureModel.Groups.ToList().Where(group => group.RectangleIds.Any(id => selectedIds.Contains(id)))) {
+            foreach (var id in selectedIds) {
+                group.Remove(id);
+            }
+            if (group.IsEmpty) {
+                PictureModel.Groups.Remove(group);
             }
         }
 
@@ -168,7 +154,7 @@ public class PictureService {
 
         switch (selectedRect.EditMode) {
             case EditMode.Creating:
-            case EditMode.ResizeBR:
+            case EditMode.ResizeBr:
                 selectedRect.Right = loc.X;
                 selectedRect.Bottom = loc.Y;
                 break;
@@ -193,8 +179,7 @@ public class PictureService {
     }
 
     public void SaveToFile(string fileName) {
-        var fileService = new FileService();
-        fileService.SaveToFile(fileName, PictureModel);
+        FileService.SaveToFile(fileName, PictureModel);
     }
 
     public void CreateNewPicture() {
@@ -206,7 +191,7 @@ public class PictureService {
 
     public void SetFillColor(Color color) {
         var selected = GetSelectedRectangles().ToList();
-        if (!selected.Any()) return;
+        if (selected.Count == 0) return;
 
         var command = new ChangePropertyCommand<Color>(
             selected, color,
@@ -239,11 +224,10 @@ public class PictureService {
         return PictureModel.Rectangles.LastOrDefault(r => r.IsInside(loc));
     }
 
-    public void SelectExclusive(RectangleModel? rect) {
+    private void SelectExclusive(RectangleModel? rect) {
         UpdateSelection(rect, additiveSelection: false, includeGroup: false);
     }
 
-    // Undo/Redo
     public void Undo() {
         _commandHistory.Undo();
     }
@@ -252,7 +236,6 @@ public class PictureService {
         _commandHistory.Redo();
     }
 
-    // Copy/Paste/Duplicate
     public void CopySelected() {
         _clipboard = GetSelectedRectangles().Select(r => r.Clone()).ToList();
     }
@@ -264,26 +247,23 @@ public class PictureService {
         var command = new PasteRectanglesCommand(PictureModel, newRects);
         _commandHistory.Execute(command);
 
-        // Select pasted rectangles
         ClearSelection();
         foreach (var rect in newRects) {
             PictureModel.SelectedRectangleIds.Add(rect.Id);
         }
         PictureModel.SelectedRectangle = newRects.LastOrDefault();
 
-        // Update clipboard for subsequent paste
         _clipboard = newRects.Select(r => r.Clone()).ToList();
     }
 
     public void DuplicateSelected(int offsetX = 15, int offsetY = 15) {
         var selected = GetSelectedRectangles().ToList();
-        if (!selected.Any()) return;
+        if (selected.Count == 0) return;
 
         var newRects = selected.Select(r => r.Clone(offsetX, offsetY)).ToList();
         var command = new PasteRectanglesCommand(PictureModel, newRects);
         _commandHistory.Execute(command);
 
-        // Select duplicated rectangles
         ClearSelection();
         foreach (var rect in newRects) {
             PictureModel.SelectedRectangleIds.Add(rect.Id);
@@ -291,16 +271,14 @@ public class PictureService {
         PictureModel.SelectedRectangle = newRects.LastOrDefault();
     }
 
-    // Arrow key movement
     public void MoveSelected(int deltaX, int deltaY) {
         var selected = GetSelectedRectangles().ToList();
-        if (!selected.Any()) return;
+        if (selected.Count == 0) return;
 
         var command = new MoveRectanglesCommand(selected, deltaX, deltaY);
         _commandHistory.Execute(command);
     }
 
-    // Alignment methods
     public void AlignLeft() {
         var selected = GetSelectedRectangles().ToList();
         if (selected.Count < 2) return;
@@ -401,7 +379,7 @@ public class PictureService {
         }
     }
 
-    public IEnumerable<RectangleModel> GetSelectedRectangles() =>
+    private IEnumerable<RectangleModel> GetSelectedRectangles() =>
         PictureModel.Rectangles.Where(r => PictureModel.SelectedRectangleIds.Contains(r.Id));
 
     private void UpdateSelection(RectangleModel? rect, bool additiveSelection, bool includeGroup) {
@@ -427,13 +405,11 @@ public class PictureService {
         PictureModel.SelectedRectangle = rect;
         PictureModel.SelectedRectangleIds.Add(rect.Id);
 
-        if (includeGroup) {
-            var group = PictureModel.Groups.FirstOrDefault(g => g.Contains(rect.Id));
-            if (group != null) {
-                foreach (var member in group.Resolve(PictureModel)) {
-                    PictureModel.SelectedRectangleIds.Add(member.Id);
-                }
-            }
+        if (!includeGroup) return;
+        var group = PictureModel.Groups.FirstOrDefault(g => g.Contains(rect.Id));
+        if (group == null) return;
+        foreach (var member in group.Resolve(PictureModel)) {
+            PictureModel.SelectedRectangleIds.Add(member.Id);
         }
     }
 
