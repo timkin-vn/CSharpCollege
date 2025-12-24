@@ -7,8 +7,6 @@ public class MoveRectanglesCommand : ICommand {
     private readonly int _deltaX;
     private readonly int _deltaY;
 
-    public string Description => "Move rectangles";
-
     public MoveRectanglesCommand(IEnumerable<RectangleModel> rectangles, int deltaX, int deltaY) {
         _deltaX = deltaX;
         _deltaY = deltaY;
