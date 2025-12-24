@@ -1,14 +1,10 @@
 using GraphEditor.ViewServices;
 using GraphEditor.Export;
-using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
 using GraphEditor.Business.Models;
-using Microsoft.VisualBasic;
 
 namespace GraphEditor;
 
-public partial class GraphEditorForm : Form {
+public sealed partial class GraphEditorForm : Form {
     private readonly PictureViewService _service = new();
 
     private bool _isMouseDown;
@@ -41,7 +37,6 @@ public partial class GraphEditorForm : Form {
         var shift = (e.Modifiers & Keys.Shift) == Keys.Shift;
 
         switch (e.KeyCode) {
-            // Undo: Ctrl+Z
             case Keys.Z when ctrl && !shift:
                 if (_service.CanUndo) {
                     _service.Undo();
@@ -51,7 +46,6 @@ public partial class GraphEditorForm : Form {
                 e.Handled = true;
                 break;
 
-            // Redo: Ctrl+Y or Ctrl+Shift+Z
             case Keys.Y when ctrl:
             case Keys.Z when ctrl && shift:
                 if (_service.CanRedo) {
@@ -62,7 +56,6 @@ public partial class GraphEditorForm : Form {
                 e.Handled = true;
                 break;
 
-            // Copy: Ctrl+C
             case Keys.C when ctrl:
                 if (_service.HasSelection) {
                     _service.Copy();
@@ -70,7 +63,6 @@ public partial class GraphEditorForm : Form {
                 e.Handled = true;
                 break;
 
-            // Paste: Ctrl+V
             case Keys.V when ctrl:
                 if (_service.HasClipboard) {
                     _service.Paste();
@@ -80,7 +72,6 @@ public partial class GraphEditorForm : Form {
                 e.Handled = true;
                 break;
 
-            // Duplicate: Ctrl+D
             case Keys.D when ctrl:
                 if (_service.HasSelection) {
                     _service.Duplicate();
@@ -90,7 +81,6 @@ public partial class GraphEditorForm : Form {
                 e.Handled = true;
                 break;
 
-            // Delete: Delete or Backspace
             case Keys.Delete:
             case Keys.Back:
                 if (_service.CanDelete) {
@@ -101,7 +91,6 @@ public partial class GraphEditorForm : Form {
                 e.Handled = true;
                 break;
 
-            // Arrow keys for movement
             case Keys.Left:
             case Keys.Right:
             case Keys.Up:
@@ -179,11 +168,11 @@ public partial class GraphEditorForm : Form {
             return;
         }
 
-        if (_service.TryBeginTextEdit(e.Location, out var bounds, out var text, out var fontFamily, out var fontSize, out var textColor, out var align, out var fillColor)) {
-            ShowTextEditor(bounds, text, fontFamily, fontSize, textColor, align, fillColor);
-            Refresh();
-            UpdateVisualState();
-        }
+        if (!_service.TryBeginTextEdit(e.Location, out var bounds, out var text, out var fontFamily, out var fontSize,
+                out var textColor, out var align, out var fillColor)) return;
+        ShowTextEditor(bounds, text, fontFamily, fontSize, textColor, align, fillColor);
+        Refresh();
+        UpdateVisualState();
     }
 
     private void CreateRectangleButton_Click(object sender, EventArgs e) {
@@ -468,18 +457,21 @@ public partial class GraphEditorForm : Form {
     }
 
     private void TextEditorOnKeyDown(object? sender, KeyEventArgs e) {
-        if (e.KeyCode == Keys.Enter && e.Control) {
-            HideTextEditor(true);
-            e.SuppressKeyPress = true;
-        } else if (e.KeyCode == Keys.Escape) {
-            HideTextEditor(false);
-            e.SuppressKeyPress = true;
+        switch (e.KeyCode) {
+            case Keys.Enter when e.Control:
+                HideTextEditor(true);
+                e.SuppressKeyPress = true;
+                break;
+            case Keys.Escape:
+                HideTextEditor(false);
+                e.SuppressKeyPress = true;
+                break;
         }
     }
 
     private static HorizontalAlignment ToHorizontalAlignment(TextAlign align) => align switch {
         TextAlign.Left => HorizontalAlignment.Left,
         TextAlign.Right => HorizontalAlignment.Right,
-        _ => HorizontalAlignment.Center,
+        _ => HorizontalAlignment.Center
     };
 }
