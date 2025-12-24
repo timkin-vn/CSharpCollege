@@ -12,14 +12,17 @@ public partial class GraphEditorForm : Form {
     private readonly PictureViewService _service = new();
 
     private bool _isMouseDown;
-    
+
     private readonly TextBox _textEditor;
 
     private bool _isHandlingTextEditor;
 
     public GraphEditorForm() {
         InitializeComponent();
-        
+
+        KeyPreview = true;
+        KeyDown += GraphEditorForm_KeyDown;
+
         _textEditor = new TextBox {
             Visible = false,
             Multiline = true,
@@ -29,6 +32,91 @@ public partial class GraphEditorForm : Form {
         _textEditor.Leave += TextEditorOnLeave;
         _textEditor.KeyDown += TextEditorOnKeyDown;
         Controls.Add(_textEditor);
+    }
+
+    private void GraphEditorForm_KeyDown(object? sender, KeyEventArgs e) {
+        if (_textEditor.Visible) return;
+
+        var ctrl = (e.Modifiers & Keys.Control) == Keys.Control;
+        var shift = (e.Modifiers & Keys.Shift) == Keys.Shift;
+
+        switch (e.KeyCode) {
+            // Undo: Ctrl+Z
+            case Keys.Z when ctrl && !shift:
+                if (_service.CanUndo) {
+                    _service.Undo();
+                    Refresh();
+                    UpdateVisualState();
+                }
+                e.Handled = true;
+                break;
+
+            // Redo: Ctrl+Y or Ctrl+Shift+Z
+            case Keys.Y when ctrl:
+            case Keys.Z when ctrl && shift:
+                if (_service.CanRedo) {
+                    _service.Redo();
+                    Refresh();
+                    UpdateVisualState();
+                }
+                e.Handled = true;
+                break;
+
+            // Copy: Ctrl+C
+            case Keys.C when ctrl:
+                if (_service.HasSelection) {
+                    _service.Copy();
+                }
+                e.Handled = true;
+                break;
+
+            // Paste: Ctrl+V
+            case Keys.V when ctrl:
+                if (_service.HasClipboard) {
+                    _service.Paste();
+                    Refresh();
+                    UpdateVisualState();
+                }
+                e.Handled = true;
+                break;
+
+            // Duplicate: Ctrl+D
+            case Keys.D when ctrl:
+                if (_service.HasSelection) {
+                    _service.Duplicate();
+                    Refresh();
+                    UpdateVisualState();
+                }
+                e.Handled = true;
+                break;
+
+            // Delete: Delete or Backspace
+            case Keys.Delete:
+            case Keys.Back:
+                if (_service.CanDelete) {
+                    _service.DeleteButtonClick();
+                    Refresh();
+                    UpdateVisualState();
+                }
+                e.Handled = true;
+                break;
+
+            // Arrow keys for movement
+            case Keys.Left:
+            case Keys.Right:
+            case Keys.Up:
+            case Keys.Down:
+                if (_service.HasSelection) {
+                    var step = shift ? 10 : 1;
+                    var dx = e.KeyCode == Keys.Left ? -step : e.KeyCode == Keys.Right ? step : 0;
+                    var dy = e.KeyCode == Keys.Up ? -step : e.KeyCode == Keys.Down ? step : 0;
+                    _service.MoveSelected(dx, dy);
+                    Refresh();
+                    UpdateVisualState();
+                }
+                e.Handled = true;
+                break;
+        }
     }
 
     private void GraphEditorForm_Paint(object sender, PaintEventArgs e) {
@@ -245,6 +333,89 @@ public partial class GraphEditorForm : Form {
     private void MoveForwardMenuItem_Click(object sender, EventArgs e) {
         HideTextEditor(true);
         _service.MoveForward();
+        Refresh();
+    }
+
+    private void BorderColorMenuItem_Click(object sender, EventArgs e) {
+        HideTextEditor(true);
+        BorderColorDialog.Color = _service.GetBorderColor();
+        if (BorderColorDialog.ShowDialog() != DialogResult.OK) {
+            return;
+        }
+
+        _service.SetBorderColor(BorderColorDialog.Color);
+        Refresh();
+    }
+
+    private void BorderWidth1MenuItem_Click(object sender, EventArgs e) {
+        HideTextEditor(true);
+        _service.SetBorderWidth(1f);
+        Refresh();
+    }
+
+    private void BorderWidth2MenuItem_Click(object sender, EventArgs e) {
+        HideTextEditor(true);
+        _service.SetBorderWidth(2f);
+        Refresh();
+    }
+
+    private void BorderWidth3MenuItem_Click(object sender, EventArgs e) {
+        HideTextEditor(true);
+        _service.SetBorderWidth(3f);
+        Refresh();
+    }
+
+    private void BorderWidth5MenuItem_Click(object sender, EventArgs e) {
+        HideTextEditor(true);
+        _service.SetBorderWidth(5f);
+        Refresh();
+    }
+
+    private void AlignLeftMenuItem_Click(object sender, EventArgs e) {
+        HideTextEditor(true);
+        _service.AlignLeft();
+        Refresh();
+    }
+
+    private void AlignRightMenuItem_Click(object sender, EventArgs e) {
+        HideTextEditor(true);
+        _service.AlignRight();
+        Refresh();
+    }
+
+    private void AlignTopMenuItem_Click(object sender, EventArgs e) {
+        HideTextEditor(true);
+        _service.AlignTop();
+        Refresh();
+    }
+
+    private void AlignBottomMenuItem_Click(object sender, EventArgs e) {
+        HideTextEditor(true);
+        _service.AlignBottom();
+        Refresh();
+    }
+
+    private void AlignCenterHorizontalMenuItem_Click(object sender, EventArgs e) {
+        HideTextEditor(true);
+        _service.AlignCenterHorizontal();
+        Refresh();
+    }
+
+    private void AlignCenterVerticalMenuItem_Click(object sender, EventArgs e) {
+        HideTextEditor(true);
+        _service.AlignCenterVertical();
+        Refresh();
+    }
+
+    private void DistributeHorizontallyMenuItem_Click(object sender, EventArgs e) {
+        HideTextEditor(true);
+        _service.DistributeHorizontally();
+        Refresh();
+    }
+
+    private void DistributeVerticallyMenuItem_Click(object sender, EventArgs e) {
+        HideTextEditor(true);
+        _service.DistributeVertically();
         Refresh();
     }
     

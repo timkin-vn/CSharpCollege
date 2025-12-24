@@ -1,4 +1,5 @@
 using GraphEditor.Business.Models;
+using GraphEditor.Business.Commands;
 
 namespace GraphEditor.Business.Services;
 
@@ -6,8 +7,14 @@ public class PictureService {
     public PictureModel PictureModel { get; private set; } = new PictureModel();
 
     public static Color DefaultFillColor = Color.Yellow;
-
     public static Color DefaultBorderColor = Color.Blue;
+
+    private readonly CommandHistory _commandHistory = new();
+    private List<RectangleModel> _clipboard = new();
+
+    public bool CanUndo => _commandHistory.CanUndo;
+    public bool CanRedo => _commandHistory.CanRedo;
+    public bool HasClipboard => _clipboard.Count > 0;
 
     public PictureService() {
         PictureModel.Rectangles.Add(new RectangleModel { Left = 100, Top = 50, Width = 200, Height = 150, FillColor = Color.LightCyan, });
@@ -26,31 +33,58 @@ public class PictureService {
             FillColor = DefaultFillColor,
             BorderColor = DefaultBorderColor,
         };
-        PictureModel.Rectangles.Add(newRectangle);
+
+        var command = new CreateRectangleCommand(PictureModel, newRectangle);
+        _commandHistory.Execute(command);
+
         SelectExclusive(newRectangle);
         newRectangle.EditMode = EditMode.Creating;
     }
-        
+
     public void SetText(string text) {
         if (PictureModel.SelectedRectangle != null) {
             PictureModel.SelectedRectangle.Text = text;
         }
     }
-        
+
     public PictureModel GetPictureModel() {
         return PictureModel;
     }
 
     public void SetTextColor(Color color) {
-        foreach (var rect in GetSelectedRectangles()) {
-            rect.TextColor = color;
-        }
+        var selected = GetSelectedRectangles().ToList();
+        if (!selected.Any()) return;
+
+        var command = new ChangePropertyCommand<Color>(
+            selected, color,
+            r => r.TextColor,
+            (r, c) => r.TextColor = c,
+            "Change text color");
+        _commandHistory.Execute(command);
     }
 
     public void SetBorderWidth(float width) {
-        foreach (var rect in GetSelectedRectangles()) {
-            rect.BorderWidth = width;
-        }
+        var selected = GetSelectedRectangles().ToList();
+        if (!selected.Any()) return;
+
+        var command = new ChangePropertyCommand<float>(
+            selected, width,
+            r => r.BorderWidth,
+            (r, w) => r.BorderWidth = w,
+            "Change border width");
+        _commandHistory.Execute(command);
+    }
+
+    public void SetBorderColor(Color color) {
+        var selected = GetSelectedRectangles().ToList();
+        if (!selected.Any()) return;
+
+        var command = new ChangePropertyCommand<Color>(
+            selected, color,
+            r => r.BorderColor,
+            (r, c) => r.BorderColor = c,
+            "Change border color");
+        _commandHistory.Execute(command);
     }
 
     public bool GroupSelected(string? name = null) {
@@ -69,7 +103,7 @@ public class PictureService {
                 }
             }
         }
-            
+
         var g = new GroupModel { Name = name };
         foreach (var id in selectedIds) {
             g.Add(id);
@@ -93,16 +127,8 @@ public class PictureService {
         }
 
         var toDelete = GetSelectedRectangles().ToList();
-        foreach (var rect in toDelete) {
-            PictureModel.Rectangles.Remove(rect);
-            foreach (var group in PictureModel.Groups.ToList()) {
-                group.Remove(rect.Id);
-                if (group.IsEmpty) {
-                    PictureModel.Groups.Remove(group);
-                }
-            }
-        }
-
+        var command = new DeleteRectanglesCommand(PictureModel, toDelete);
+        _commandHistory.Execute(command);
         ClearSelection();
     }
 
@@ -163,6 +189,7 @@ public class PictureService {
     public void OpenFile(string fileName) {
         var fileService = new FileService();
         PictureModel = fileService.OpenFile(fileName);
+        _commandHistory.Clear();
     }
 
     public void SaveToFile(string fileName) {
@@ -174,12 +201,19 @@ public class PictureService {
         PictureModel.Rectangles.Clear();
         PictureModel.Groups.Clear();
         ClearSelection();
+        _commandHistory.Clear();
     }
 
     public void SetFillColor(Color color) {
-        foreach (var rect in GetSelectedRectangles()) {
-            rect.FillColor = color;
-        }
+        var selected = GetSelectedRectangles().ToList();
+        if (!selected.Any()) return;
+
+        var command = new ChangePropertyCommand<Color>(
+            selected, color,
+            r => r.FillColor,
+            (r, c) => r.FillColor = c,
+            "Change fill color");
+        _commandHistory.Execute(command);
     }
 
     public void MoveForward() {
@@ -194,7 +228,7 @@ public class PictureService {
 
         (PictureModel.Rectangles[index + 1], PictureModel.Rectangles[index]) = (PictureModel.Rectangles[index], PictureModel.Rectangles[index + 1]);
     }
-        
+
     public RectangleModel? SelectAt(PointModel loc, bool additiveSelection, bool includeGroup = true) {
         var rect = PictureModel.Rectangles.LastOrDefault(r => r.IsInside(loc));
         UpdateSelection(rect, additiveSelection, includeGroup);
@@ -209,7 +243,165 @@ public class PictureService {
         UpdateSelection(rect, additiveSelection: false, includeGroup: false);
     }
 
-    private IEnumerable<RectangleModel> GetSelectedRectangles() =>
+    // Undo/Redo
+    public void Undo() {
+        _commandHistory.Undo();
+    }
+
+    public void Redo() {
+        _commandHistory.Redo();
+    }
+
+    // Copy/Paste/Duplicate
+    public void CopySelected() {
+        _clipboard = GetSelectedRectangles().Select(r => r.Clone()).ToList();
+    }
+
+    public void Paste(int offsetX = 20, int offsetY = 20) {
+        if (!HasClipboard) return;
+
+        var newRects = _clipboard.Select(r => r.Clone(offsetX, offsetY)).ToList();
+        var command = new PasteRectanglesCommand(PictureModel, newRects);
+        _commandHistory.Execute(command);
+
+        // Select pasted rectangles
+        ClearSelection();
+        foreach (var rect in newRects) {
+            PictureModel.SelectedRectangleIds.Add(rect.Id);
+        }
+        PictureModel.SelectedRectangle = newRects.LastOrDefault();
+
+        // Update clipboard for subsequent paste
+        _clipboard = newRects.Select(r => r.Clone()).ToList();
+    }
+
+    public void DuplicateSelected(int offsetX = 15, int offsetY = 15) {
+        var selected = GetSelectedRectangles().ToList();
+        if (!selected.Any()) return;
+
+        var newRects = selected.Select(r => r.Clone(offsetX, offsetY)).ToList();
+        var command = new PasteRectanglesCommand(PictureModel, newRects);
+        _commandHistory.Execute(command);
+
+        // Select duplicated rectangles
+        ClearSelection();
+        foreach (var rect in newRects) {
+            PictureModel.SelectedRectangleIds.Add(rect.Id);
+        }
+        PictureModel.SelectedRectangle = newRects.LastOrDefault();
+    }
+
+    // Arrow key movement
+    public void MoveSelected(int deltaX, int deltaY) {
+        var selected = GetSelectedRectangles().ToList();
+        if (!selected.Any()) return;
+
+        var command = new MoveRectanglesCommand(selected, deltaX, deltaY);
+        _commandHistory.Execute(command);
+    }
+
+    // Alignment methods
+    public void AlignLeft() {
+        var selected = GetSelectedRectangles().ToList();
+        if (selected.Count < 2) return;
+
+        var minLeft = selected.Min(r => r.Left);
+        foreach (var rect in selected) {
+            rect.Left = minLeft;
+        }
+    }
+
+    public void AlignRight() {
+        var selected = GetSelectedRectangles().ToList();
+        if (selected.Count < 2) return;
+
+        var maxRight = selected.Max(r => r.Right);
+        foreach (var rect in selected) {
+            rect.Left = maxRight - rect.Width;
+        }
+    }
+
+    public void AlignTop() {
+        var selected = GetSelectedRectangles().ToList();
+        if (selected.Count < 2) return;
+
+        var minTop = selected.Min(r => r.Top);
+        foreach (var rect in selected) {
+            rect.Top = minTop;
+        }
+    }
+
+    public void AlignBottom() {
+        var selected = GetSelectedRectangles().ToList();
+        if (selected.Count < 2) return;
+
+        var maxBottom = selected.Max(r => r.Bottom);
+        foreach (var rect in selected) {
+            rect.Top = maxBottom - rect.Height;
+        }
+    }
+
+    public void AlignCenterHorizontal() {
+        var selected = GetSelectedRectangles().ToList();
+        if (selected.Count < 2) return;
+
+        var minLeft = selected.Min(r => r.Left);
+        var maxRight = selected.Max(r => r.Right);
+        var centerX = (minLeft + maxRight) / 2;
+
+        foreach (var rect in selected) {
+            rect.Left = centerX - rect.Width / 2;
+        }
+    }
+
+    public void AlignCenterVertical() {
+        var selected = GetSelectedRectangles().ToList();
+        if (selected.Count < 2) return;
+
+        var minTop = selected.Min(r => r.Top);
+        var maxBottom = selected.Max(r => r.Bottom);
+        var centerY = (minTop + maxBottom) / 2;
+
+        foreach (var rect in selected) {
+            rect.Top = centerY - rect.Height / 2;
+        }
+    }
+
+    public void DistributeHorizontally() {
+        var selected = GetSelectedRectangles().OrderBy(r => r.Left).ToList();
+        if (selected.Count < 3) return;
+
+        var totalWidth = selected.Sum(r => r.Width);
+        var minLeft = selected.Min(r => r.Left);
+        var maxRight = selected.Max(r => r.Right);
+        var availableSpace = maxRight - minLeft - totalWidth;
+        var gap = availableSpace / (selected.Count - 1);
+
+        var currentLeft = minLeft;
+        foreach (var rect in selected) {
+            rect.Left = currentLeft;
+            currentLeft += rect.Width + gap;
+        }
+    }
+
+    public void DistributeVertically() {
+        var selected = GetSelectedRectangles().OrderBy(r => r.Top).ToList();
+        if (selected.Count < 3) return;
+
+        var totalHeight = selected.Sum(r => r.Height);
+        var minTop = selected.Min(r => r.Top);
+        var maxBottom = selected.Max(r => r.Bottom);
+        var availableSpace = maxBottom - minTop - totalHeight;
+        var gap = availableSpace / (selected.Count - 1);
+
+        var currentTop = minTop;
+        foreach (var rect in selected) {
+            rect.Top = currentTop;
+            currentTop += rect.Height + gap;
+        }
+    }
+
+    public IEnumerable<RectangleModel> GetSelectedRectangles() =>
         PictureModel.Rectangles.Where(r => PictureModel.SelectedRectangleIds.Contains(r.Id));
 
     private void UpdateSelection(RectangleModel? rect, bool additiveSelection, bool includeGroup) {

@@ -50,6 +50,24 @@ public class RectangleModel {
         Top += Height;
         Height = -Height;
     }
+
+    public RectangleModel Clone(int offsetX = 0, int offsetY = 0) {
+        return new RectangleModel {
+            Id = Guid.NewGuid(),
+            Left = Left + offsetX,
+            Top = Top + offsetY,
+            Width = Width,
+            Height = Height,
+            FillColor = FillColor,
+            BorderColor = BorderColor,
+            BorderWidth = BorderWidth,
+            Text = Text,
+            TextColor = TextColor,
+            FontFamily = FontFamily,
+            FontSize = FontSize,
+            TextAlign = TextAlign,
+        };
+    }
 }
 
 public enum TextAlign {
