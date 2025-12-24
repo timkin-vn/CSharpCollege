@@ -1,5 +1,5 @@
 ﻿namespace GraphEditor {
-    partial class GraphEditorForm {
+    sealed partial class GraphEditorForm {
         private System.ComponentModel.IContainer components = null;
 
         protected override void Dispose(bool disposing) {
@@ -40,9 +40,7 @@
             this.toolStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // toolStrip1
-            // 
+            
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CreateRectangleButton,
             this.DeleteRectangleButton,
@@ -92,14 +90,12 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             
-            // Border color menu item
             this.BorderColorMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BorderColorMenuItem.Name = "BorderColorMenuItem";
             this.BorderColorMenuItem.Size = new System.Drawing.Size(180, 22);
             this.BorderColorMenuItem.Text = "Цвет границы...";
             this.BorderColorMenuItem.Click += new System.EventHandler(this.BorderColorMenuItem_Click);
 
-            // Border width menu
             this.BorderWidthMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BorderWidthMenuItem.Name = "BorderWidthMenuItem";
             this.BorderWidthMenuItem.Size = new System.Drawing.Size(180, 22);
@@ -152,10 +148,8 @@
             this.FillColorMenuItem.Text = "Цвет заливки...";
             this.FillColorMenuItem.Click += new System.EventHandler(this.FillColorMenuItem_Click);
 
-            // Border color dialog
             this.BorderColorDialog = new System.Windows.Forms.ColorDialog();
            
-            // Alignment menu
             this.AlignMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AlignMenuItem.Name = "AlignMenuItem";
             this.AlignMenuItem.Size = new System.Drawing.Size(180, 22);
@@ -388,4 +382,3 @@
         private System.Windows.Forms.ToolStripMenuItem DistributeVerticallyMenuItem;
     }
 }
-
