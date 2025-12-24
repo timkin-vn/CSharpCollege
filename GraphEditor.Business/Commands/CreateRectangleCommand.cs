@@ -2,28 +2,20 @@ using GraphEditor.Business.Models;
 
 namespace GraphEditor.Business.Commands;
 
-public class CreateRectangleCommand : ICommand {
-    private readonly PictureModel _picture;
-    private readonly RectangleModel _rectangle;
-
+public class CreateRectangleCommand(PictureModel picture, RectangleModel rectangle) : ICommand {
     public string Description => "Create rectangle";
 
-    public CreateRectangleCommand(PictureModel picture, RectangleModel rectangle) {
-        _picture = picture;
-        _rectangle = rectangle;
-    }
-
     public void Execute() {
-        if (!_picture.Rectangles.Contains(_rectangle)) {
-            _picture.Rectangles.Add(_rectangle);
+        if (!picture.Rectangles.Contains(rectangle)) {
+            picture.Rectangles.Add(rectangle);
         }
     }
 
     public void Undo() {
-        _picture.Rectangles.Remove(_rectangle);
-        _picture.SelectedRectangleIds.Remove(_rectangle.Id);
-        if (_picture.SelectedRectangle?.Id == _rectangle.Id) {
-            _picture.SelectedRectangle = null;
+        picture.Rectangles.Remove(rectangle);
+        picture.SelectedRectangleIds.Remove(rectangle.Id);
+        if (picture.SelectedRectangle?.Id == rectangle.Id) {
+            picture.SelectedRectangle = null;
         }
     }
 }
