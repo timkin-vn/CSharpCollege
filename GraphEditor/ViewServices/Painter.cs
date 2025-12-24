@@ -5,8 +5,8 @@ using System.Drawing.Drawing2D;
 namespace GraphEditor.ViewServices;
 
 
-internal class Painter {
-    public void Paint(Graphics g, PictureViewModel? viewModel, bool isInteractive) {
+internal abstract class Painter {
+    public static void Paint(Graphics g, PictureViewModel? viewModel, bool isInteractive) {
         if (viewModel?.Rectangles == null || !viewModel.Rectangles.Any()) {
             return;
         }
@@ -18,19 +18,18 @@ internal class Painter {
             if (!string.IsNullOrWhiteSpace(rect.Text)) {
                 using var font = new Font(rect.FontFamily, rect.FontSize);
                 using var textBrush = new SolidBrush(rect.TextColor);
-                using var format = new StringFormat {
-                    Alignment = ToHorizontal(rect.TextAlign),
-                    LineAlignment = StringAlignment.Center,
-                    Trimming = StringTrimming.EllipsisCharacter,
-                };
+                using var format = new StringFormat();
+                format.Alignment = ToHorizontal(rect.TextAlign);
+                format.LineAlignment = StringAlignment.Center;
+                format.Trimming = StringTrimming.EllipsisCharacter;
                 format.FormatFlags |= StringFormatFlags.LineLimit;
                 g.DrawString(rect.Text, font, textBrush, rect.Rectangle, format);
             }
 
-            if (rect.IsSelected) {
-                using var selectionPen = new Pen(Color.Black) { DashStyle = DashStyle.Dot };
-                g.DrawRectangle(selectionPen, rect.Rectangle);
-            }
+            if (!rect.IsSelected) continue;
+            using var selectionPen = new Pen(Color.Black);
+            selectionPen.DashStyle = DashStyle.Dot;
+            g.DrawRectangle(selectionPen, rect.Rectangle);
         }
 
         if (!isInteractive) {
