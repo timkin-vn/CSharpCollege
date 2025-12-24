@@ -5,7 +5,7 @@ using GraphEditor.Business.Models;
 namespace GraphEditor.Export;
 
 public static class SvgExporter {
-    public static void Export(PictureModel picture, string filePath, int canvasWidth, int canvasHeight, System.Drawing.Color background) {
+    public static void Export(PictureModel picture, string filePath, int canvasWidth, int canvasHeight, Color background) {
         var sb = new StringBuilder();
         sb.AppendLine($"""<?xml version="1.0" encoding="UTF-8"?>""");
         sb.AppendLine($"""<svg xmlns="http://www.w3.org/2000/svg" width="{canvasWidth}" height="{canvasHeight}" viewBox="0 0 {canvasWidth} {canvasHeight}">""");
@@ -53,10 +53,9 @@ public static class SvgExporter {
         return rect + Environment.NewLine + txt;
     }
 
-    private static string ToSvgColor(System.Drawing.Color c) => $"#{c.R:X2}{c.G:X2}{c.B:X2}";
+    private static string ToSvgColor(Color c) => $"#{c.R:X2}{c.G:X2}{c.B:X2}";
 
     private static string EscapeXml(string? s) {
-        if (string.IsNullOrEmpty(s)) return string.Empty;
-        return s.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;");
+        return string.IsNullOrEmpty(s) ? string.Empty : s.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;");
     }
 }
