@@ -13,8 +13,8 @@ public class DeleteRectanglesCommand : ICommand {
     public DeleteRectanglesCommand(PictureModel picture, IEnumerable<RectangleModel> rectangles) {
         _picture = picture;
         _deletedRectangles = rectangles.ToList();
-        _positionInfo = new List<(int, RectangleModel)>();
-        _groupInfo = new List<(GroupModel, List<Guid>)>();
+        _positionInfo = [];
+        _groupInfo = [];
 
         foreach (var rect in _deletedRectangles) {
             var index = _picture.Rectangles.IndexOf(rect);
@@ -25,7 +25,7 @@ public class DeleteRectanglesCommand : ICommand {
             var removedIds = group.RectangleIds
                 .Where(id => _deletedRectangles.Any(r => r.Id == id))
                 .ToList();
-            if (removedIds.Any()) {
+            if (removedIds.Count != 0) {
                 _groupInfo.Add((group, removedIds));
             }
         }
@@ -62,10 +62,9 @@ public class DeleteRectanglesCommand : ICommand {
             if (!_picture.Groups.Contains(group)) {
                 _picture.Groups.Add(group);
             }
-            foreach (var id in removedIds) {
-                if (!group.Contains(id)) {
-                    group.Add(id);
-                }
+
+            foreach (var id in removedIds.Where(id => !group.Contains(id))) {
+                group.Add(id);
             }
         }
     }
