@@ -1,18 +1,15 @@
 using GraphEditor.Business.Models;
-using System.Drawing;
-using System.Windows.Forms;
-using GraphEditor.Business.Models;
 
-namespace GraphEditor.ViewModels {
-    internal class MarkerViewModel {
-        public static int MarkerHalfSize = 3;
+namespace GraphEditor.ViewModels;
 
-        public Rectangle Rectangle { get; set; }
+internal class MarkerViewModel {
+    public const int MarkerHalfSize = 3;
 
-        public bool IsActive { get; set; }
+    public Rectangle Rectangle { get; init; }
 
-        public EditMode EditMode { get; set; }
+    public bool IsActive { get; init; }
 
-        public Cursor Cursor { get; set; }
-    }
+    public EditMode EditMode { get; init; }
+
+    public Cursor? Cursor { get; init; }
 }
