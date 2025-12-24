@@ -1,7 +1,4 @@
-using System.Drawing;
 using System.Drawing.Imaging;
-using System.Linq;
-using System.Windows.Forms;
 using GraphEditor.Business.Models;
 using GraphEditor.Business.Services;
 using GraphEditor.ViewModels;
@@ -28,15 +25,14 @@ internal class PictureViewService {
     public bool CanRedo => _businessService.CanRedo;
     public bool HasClipboard => _businessService.HasClipboard;
     public bool HasSelection => PictureModel.SelectedRectangleIds.Any();
-    public bool HasMultipleSelection => PictureModel.SelectedRectangleIds.Count >= 2;
 
     public string FileName { get; private set; }
 
     public PictureModel GetPictureModel() => _businessService.GetPictureModel();
 
-    public void Paint(Graphics g) => new Painter().Paint(g, _viewModel, true);
+    public void Paint(Graphics g) => Painter.Paint(g, _viewModel, true);
 
-    public Cursor GetCursor(Point loc) {
+    public Cursor? GetCursor(Point loc) {
         var activeMarker = _viewModel.Markers.FirstOrDefault(m => m.IsActive && IsInside(loc, m.Rectangle));
         if (activeMarker != null) {
             return activeMarker.Cursor;
@@ -111,7 +107,7 @@ internal class PictureViewService {
         using var bmp = new Bitmap(size.Width, size.Height);
         using (var g = Graphics.FromImage(bmp)) {
             g.Clear(backColor);
-            new Painter().Paint(g, _viewModel, false);
+            Painter.Paint(g, _viewModel, false);
         }
 
         bmp.Save(fileName, ImageFormat.Png);
@@ -141,11 +137,6 @@ internal class PictureViewService {
         RefreshViewModel();
     }
 
-    public void SetTextColor(Color color) {
-        _businessService.SetTextColor(color);
-        RefreshViewModel();
-    }
-
     public void SetBorderWidth(float width) {
         _businessService.SetBorderWidth(width);
         RefreshViewModel();
@@ -162,7 +153,6 @@ internal class PictureViewService {
         RefreshViewModel();
     }
 
-    // Undo/Redo
     public void Undo() {
         _businessService.Undo();
         RefreshViewModel();
@@ -173,7 +163,6 @@ internal class PictureViewService {
         RefreshViewModel();
     }
 
-    // Copy/Paste/Duplicate
     public void Copy() {
         _businessService.CopySelected();
     }
@@ -188,13 +177,11 @@ internal class PictureViewService {
         RefreshViewModel();
     }
 
-    // Movement
     public void MoveSelected(int deltaX, int deltaY) {
         _businessService.MoveSelected(deltaX, deltaY);
         RefreshViewModel();
     }
 
-    // Alignment
     public void AlignLeft() {
         _businessService.AlignLeft();
         RefreshViewModel();
