@@ -1,6 +1,8 @@
 using Microsoft.Extensions.Caching.Memory;
-using Minesweeper.Business;
-using Minesweeper.Web.Business;
+using Minesweeper.Web.Business.Cells;
+using Minesweeper.Web.Business.Core;
+using Minesweeper.Web.Business.Models;
+using Minesweeper.Web.Business.Results;
 using Minesweeper.Web.Models;
 
 namespace Minesweeper.Web.Services;

@@ -1,4 +1,4 @@
-namespace Minesweeper.Business;
+namespace Minesweeper.Web.Business.Models;
 
 public sealed record GameSettings(int Rows, int Columns, int Mines) {
     public static GameSettings Beginner() => new(9, 9, 10);

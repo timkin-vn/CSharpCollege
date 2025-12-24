@@ -1,4 +1,4 @@
-using Minesweeper.Business;
+using Minesweeper.Web.Business.Cells;
 
 namespace Minesweeper.Web.Models;
 

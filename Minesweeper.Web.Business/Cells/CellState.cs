@@ -1,4 +1,4 @@
-namespace Minesweeper.Business;
+namespace Minesweeper.Web.Business.Cells;
 
 public enum CellState {
     Hidden,
