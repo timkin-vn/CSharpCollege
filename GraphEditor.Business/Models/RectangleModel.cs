@@ -1,7 +1,7 @@
 namespace GraphEditor.Business.Models;
 
 public class RectangleModel {
-    public Guid Id { get; set; } = Guid.NewGuid();
+    public Guid Id { get; init; } = Guid.NewGuid();
 
     public int Dx { get; set; }
     public int Dy { get; set; }
@@ -29,10 +29,10 @@ public class RectangleModel {
 
     public string? Text { get; set; }
     public Color TextColor { get; set; } = Color.Black;
-    public string FontFamily { get; set; } = "Segoe UI";
-    public float FontSize { get; set; } = 10f;
+    public string FontFamily { get; init; } = "Segoe UI";
+    public float FontSize { get; init; } = 10f;
 
-    public TextAlign TextAlign { get; set; } = TextAlign.Center;
+    public TextAlign TextAlign { get; init; } = TextAlign.Center;
 
     public float BorderWidth { get; set; } = 1.5f;
 
