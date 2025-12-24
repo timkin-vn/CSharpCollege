@@ -23,7 +23,7 @@ namespace FifteenGame.Wpf.ViewModels
         public ObservableCollection<CellViewModel> Cells { get; set; } = new ObservableCollection<CellViewModel>();
 
         public string UserName => _userModel?.Name ?? "<нет>";
-
+        public UserModel CurrentUser => _userModel;
         public string MoveCountText => (_model?.MoveCount ?? 0).ToString();
         
         public MainWindowViewModel()
