@@ -1,10 +1,10 @@
 namespace GraphEditor.Business.Models;
 
 public class GroupModel {
-    public Guid Id { get; set; } = Guid.NewGuid();
-    public string? Name { get; set; }
+    public Guid Id { get; init; } = Guid.NewGuid();
+    public string? Name { get; init; }
 
-    public List<Guid> RectangleIds { get; set; } = new();
+    public List<Guid> RectangleIds { get; } = [];
 
     public bool Contains(Guid rectId) => RectangleIds.Contains(rectId);
 
