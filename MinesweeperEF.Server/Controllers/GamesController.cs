@@ -1,5 +1,7 @@
 using System.Text.Json;
-using MinesweeperEF.Business;
+using MinesweeperEF.Business.Cells;
+using MinesweeperEF.Business.Core;
+using MinesweeperEF.Business.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

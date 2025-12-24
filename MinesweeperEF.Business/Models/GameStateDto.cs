@@ -1,6 +1,8 @@
-namespace MinesweeperEF.Business;
+using MinesweeperEF.Business.Cells;
 
-public sealed record GameStateDto (
+namespace MinesweeperEF.Business.Models;
+
+public sealed record GameStateDto(
     GameSettings Settings,
     int FlagsLeft,
     bool GameOver,
@@ -9,7 +11,7 @@ public sealed record GameStateDto (
     CellDto[] Cells
 );
 
-public sealed record CellDto (
+public sealed record CellDto(
     bool IsMine,
     int AdjacentMines,
     CellState State
