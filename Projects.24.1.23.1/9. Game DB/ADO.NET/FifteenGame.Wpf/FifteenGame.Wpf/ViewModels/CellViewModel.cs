@@ -16,7 +16,5 @@ namespace FifteenGame.Wpf.ViewModels
         public int Row { get; set; }
 
         public int Column { get; set; }
-
-        public MoveDirection Direction { get; set; }
     }
 }

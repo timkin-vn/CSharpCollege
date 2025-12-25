@@ -1,4 +1,6 @@
-﻿using FifteenGame.Common.Definitions;
+﻿using FifteenGame.Business.Models;
+using FifteenGame.Business.Services;
+using FifteenGame.Common.Definitions;
 using FifteenGame.Common.Dtos;
 using FifteenGame.DataAccess.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -29,20 +31,24 @@ namespace FifteenGame.UnitTests.RepositoryTests
             var gameDto = new GameDto
             {
                 UserId = selectedUser.Id,
-                MoveCount = 100,
+                MatchesCount = 0,
+                IsFinished = false
             };
 
-            var gameCells = new[,]
-            {
-                { 1, 2, 3, 4, },
-                { 5, 6, 7, 8, },
-                { 9, 10, 11, 12, },
-                { 13, 14, 15, Constants.FreeCellValue, },
-            };
+            var gameCells = new int[GameModel.RowCount, GameModel.ColumnCount];
 
-            for (int row = 0; row < Constants.RowCount; row++)
+            var rnd = new Random();
+            for (int row = 0; row < GameModel.RowCount; row++)
             {
-                for (int column = 0; column < Constants.ColumnCount; column++)
+                for (int column = 0; column < GameModel.ColumnCount; column++)
+                {
+                    gameCells[row, column] = rnd.Next(1, 6);
+                }
+            }
+
+            for (int row = 0; row < GameModel.RowCount; row++)
+            {
+                for (int column = 0; column < GameModel.ColumnCount; column++)
                 {
                     gameDto.Cells[row, column] = gameCells[row, column];
                 }
@@ -51,7 +57,7 @@ namespace FifteenGame.UnitTests.RepositoryTests
             var gameId = gameRepository.Save(gameDto);
             var readGameDto = gameRepository.GetByGameId(gameId);
 
-            Assert.AreEqual(gameDto.MoveCount, readGameDto.MoveCount);
+            Assert.AreEqual(gameDto.MatchesCount, readGameDto.MatchesCount);
             Assert.AreEqual(gameDto.UserId, readGameDto.UserId);
         }
 
@@ -80,61 +86,39 @@ namespace FifteenGame.UnitTests.RepositoryTests
             var users = userRepository.GetAll();
 
             var gameRepository = new GameRepository();
-            GameDto game = null;
+            GameDto gameDto = null;
 
             foreach (var user in users)
             {
                 var games = gameRepository.GetByUserId(user.Id);
                 if (games.Any())
                 {
-                    game = games.First();
+                    gameDto = games.First();
                     break;
                 }
             }
 
-            if (game == null)
-            {
+            if (gameDto == null)
                 return;
-            }
 
-            game.MoveCount++;
-            int freeRow = -1;
-            int freeColumn = -1;
+            var service = new GameService(gameRepository);
+            var model = service.GetByGameId(gameDto.Id);
 
-            for (int row = 0; row < Constants.RowCount; row++)
-            {
-                for (int column = 0; column < Constants.ColumnCount; column++)
-                {
-                    if (game.Cells[row, column] == Constants.FreeCellValue)
-                    {
-                        freeRow = row;
-                        freeColumn = column;
-                    }
-                }
-            }
+            int r1 = 0, c1 = 0, r2 = 0, c2 = 1;
+            service.Swap(model, r1, c1, r2, c2);
+            service.AddMatches(model, 3);
 
-            if (freeRow < 0 || freeColumn < 0)
-            {
-                throw new Exception("Ошибка в БД");
-            }
+            gameRepository.Save(service.ToDto(model));
 
-            if (freeRow > 0)
-            {
-                game.Cells[freeRow, freeColumn] = game.Cells[freeRow - 1, freeColumn];
-                game.Cells[freeRow - 1, freeColumn] = Constants.FreeCellValue;
-            }
-            else
-            {
-                game.Cells[freeRow, freeColumn] = game.Cells[freeRow + 1, freeColumn];
-                game.Cells[freeRow + 1, freeColumn] = Constants.FreeCellValue;
-            }
+            var readDto = gameRepository.GetByGameId(model.Id);
+            var readModel = service.GetByGameId(model.Id);
 
-            gameRepository.Save(game);
-            var readGame = gameRepository.GetByGameId(game.Id);
-
-            Assert.AreEqual(game.MoveCount, readGame.MoveCount);
-            Assert.AreEqual(game.Cells[freeRow, freeColumn], readGame.Cells[freeRow, freeColumn]);
+            Assert.AreEqual(model.MatchesCount, readModel.MatchesCount);
+            Assert.AreEqual(model[r1, c1], readModel[r1, c1]);
+            Assert.AreEqual(model[r2, c2], readModel[r2, c2]);
         }
+
+
 
         [TestMethod]
         public void RemoveGameTest()

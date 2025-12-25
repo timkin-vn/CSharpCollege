@@ -1,4 +1,5 @@
-﻿using FifteenGame.Business.Services;
+﻿using FifteenGame.Business.Models;
+using FifteenGame.Business.Services;
 using FifteenGame.Common.BusinessModels;
 using FifteenGame.Common.Definitions;
 using FifteenGame.Common.Infrastructure;
@@ -28,7 +29,7 @@ namespace FifteenGame.Wpf.ViewModels
 
         public string UserName => _user?.Name ?? "<нет>";
 
-        public int MoveCount => _model?.MoveCount ?? 0;
+        public int MoveCount => _model?.MatchesCount ?? 0;
 
         public MainWindowViewModel()
         {
@@ -46,7 +47,8 @@ namespace FifteenGame.Wpf.ViewModels
 
         public void Initialize()
         {
-            _model = new GameModel { MoveCount = 0 };
+            _model = new GameModel();
+            _service.Initialize(_model);
             FromModel(_model);
         }
 
@@ -56,58 +58,35 @@ namespace FifteenGame.Wpf.ViewModels
             FromModel(_model);
         }
 
-        public void MakeMove(MoveDirection direction, Action gameFinishAction)
+        public void MakeMove(int r1, int c1, int r2, int c2, Action gameFinishAction)
         {
-            _model = _service.MakeMove(_model.Id, direction);
-            FromModel(_model);
-            if (_service.IsGameOver(_model.Id))
+            if (_service.Swap(_model, r1, c1, r2, c2))
             {
-                _service.RemoveGame(_model.Id);
-                gameFinishAction?.Invoke();
+                _service.ProcessMatches(_model);
+                FromModel(_model);
+
+                if (_model.IsFinished)
+                {
+                    _service.RemoveGame(_model.Id);
+                    gameFinishAction?.Invoke();
+                }
             }
         }
+
 
         private void FromModel(GameModel model)
         {
             Cells.Clear();
-            for (int row = 0; row < Constants.RowCount; row++)
+            for (int row = 0; row < GameModel.RowCount; row++)
             {
-                for (int column = 0; column < Constants.ColumnCount; column++)
+                for (int column = 0; column < GameModel.ColumnCount; column++)
                 {
-                    if (model[row, column] != Constants.FreeCellValue)
+                    Cells.Add(new CellViewModel
                     {
-                        var direction = MoveDirection.None;
-                        if (row == model.FreeCellRow)
-                        {
-                            if (column == model.FreeCellColumn - 1)
-                            {
-                                direction = MoveDirection.Right;
-                            }
-                            else if (column == model.FreeCellColumn + 1)
-                            {
-                                direction = MoveDirection.Left;
-                            }
-                        }
-                        else if (column == model.FreeCellColumn)
-                        {
-                            if (row == model.FreeCellRow - 1)
-                            {
-                                direction = MoveDirection.Down;
-                            }
-                            else if (row == model.FreeCellRow + 1)
-                            {
-                                direction = MoveDirection.Up;
-                            }
-                        }
-
-                        Cells.Add(new CellViewModel
-                        {
-                            Row = row,
-                            Column = column,
-                            Num = model[row, column],
-                            Direction = direction
-                        });
-                    }
+                        Row = row,
+                        Column = column,
+                        Num = model[row, column]
+                    });
                 }
             }
 

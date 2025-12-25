@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace FifteenGame.Business.Services
 {
-    public class GameService
+    public class GameService : IGameService
     {
         private readonly IGameRepository _repository;
 
@@ -210,7 +210,7 @@ namespace FifteenGame.Business.Services
             return result;
         }
 
-        private GameDto ToDto(GameModel game)
+        public GameDto ToDto(GameModel game)
         {
             var dto = new GameDto
             {
@@ -230,5 +230,6 @@ namespace FifteenGame.Business.Services
 
             return dto;
         }
+
     }
 }
