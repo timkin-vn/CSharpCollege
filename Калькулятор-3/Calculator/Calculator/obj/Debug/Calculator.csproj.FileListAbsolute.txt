@@ -1,0 +1,13 @@
+C:\Users\Vladi\Documents\CSharpCollege\Projects.23.1.23.2\3. Calculator\Calculator\Calculator\bin\Debug\Calculator.exe.config
+C:\Users\Vladi\Documents\CSharpCollege\Projects.23.1.23.2\3. Calculator\Calculator\Calculator\bin\Debug\Calculator.exe
+C:\Users\Vladi\Documents\CSharpCollege\Projects.23.1.23.2\3. Calculator\Calculator\Calculator\bin\Debug\Calculator.pdb
+C:\Users\Vladi\Documents\CSharpCollege\Projects.23.1.23.2\3. Calculator\Calculator\Calculator\bin\Debug\Calculator.Business.dll
+C:\Users\Vladi\Documents\CSharpCollege\Projects.23.1.23.2\3. Calculator\Calculator\Calculator\bin\Debug\Calculator.Business.pdb
+C:\Users\Vladi\Documents\CSharpCollege\Projects.23.1.23.2\3. Calculator\Calculator\Calculator\obj\Debug\Calculator.csproj.AssemblyReference.cache
+C:\Users\Vladi\Documents\CSharpCollege\Projects.23.1.23.2\3. Calculator\Calculator\Calculator\obj\Debug\Calculator.CalculatorForm.resources
+C:\Users\Vladi\Documents\CSharpCollege\Projects.23.1.23.2\3. Calculator\Calculator\Calculator\obj\Debug\Calculator.Properties.Resources.resources
+C:\Users\Vladi\Documents\CSharpCollege\Projects.23.1.23.2\3. Calculator\Calculator\Calculator\obj\Debug\Calculator.csproj.GenerateResource.cache
+C:\Users\Vladi\Documents\CSharpCollege\Projects.23.1.23.2\3. Calculator\Calculator\Calculator\obj\Debug\Calculator.csproj.CoreCompileInputs.cache
+C:\Users\Vladi\Documents\CSharpCollege\Projects.23.1.23.2\3. Calculator\Calculator\Calculator\obj\Debug\Calculator.csproj.Up2Date
+C:\Users\Vladi\Documents\CSharpCollege\Projects.23.1.23.2\3. Calculator\Calculator\Calculator\obj\Debug\Calculator.exe
+C:\Users\Vladi\Documents\CSharpCollege\Projects.23.1.23.2\3. Calculator\Calculator\Calculator\obj\Debug\Calculator.pdb

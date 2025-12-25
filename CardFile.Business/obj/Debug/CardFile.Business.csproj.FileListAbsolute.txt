@@ -1,0 +1,45 @@
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.Business.dll
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.Business.pdb
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Business\bin\Debug\AutoMapper.dll
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.Common.dll
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.DataAccess.dll
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Business\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.Common.pdb
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.DataAccess.pdb
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Business\bin\Debug\AutoMapper.xml
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Business\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Business\obj\Debug\CardFile.Business.csproj.AssemblyReference.cache
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Business\obj\Debug\CardFile.Business.csproj.CoreCompileInputs.cache
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Business\obj\Debug\CardFile.C5365084.Up2Date
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Business\obj\Debug\CardFile.Business.dll
+C:\Users\Azerty\Desktop\5. CardFile\CardFile.Wpf\CardFile.Business\obj\Debug\CardFile.Business.pdb
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.Business.dll
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.Business.pdb
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Business\bin\Debug\AutoMapper.dll
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.Common.dll
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.DataAccess.dll
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Business\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.Common.pdb
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.DataAccess.pdb
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Business\bin\Debug\AutoMapper.xml
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Business\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Business\obj\Debug\CardFile.Business.csproj.AssemblyReference.cache
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Business\obj\Debug\CardFile.Business.csproj.CoreCompileInputs.cache
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Business\obj\Debug\CardFile.C5365084.Up2Date
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Business\obj\Debug\CardFile.Business.dll
+C:\Users\Azerty\Desktop\CardFile.Wpf\CardFile.Business\obj\Debug\CardFile.Business.pdb
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.Business.dll
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.Business.pdb
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Business\bin\Debug\AutoMapper.dll
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.Common.dll
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.DataAccess.dll
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Business\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.Common.pdb
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Business\bin\Debug\CardFile.DataAccess.pdb
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Business\bin\Debug\AutoMapper.xml
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Business\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Business\obj\Debug\CardFile.Business.csproj.AssemblyReference.cache
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Business\obj\Debug\CardFile.Business.csproj.CoreCompileInputs.cache
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Business\obj\Debug\CardFile.C5365084.Up2Date
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Business\obj\Debug\CardFile.Business.dll
+C:\Users\Fr1zer0k\Desktop\CardFile.Wpf\CardFile.Business\obj\Debug\CardFile.Business.pdb

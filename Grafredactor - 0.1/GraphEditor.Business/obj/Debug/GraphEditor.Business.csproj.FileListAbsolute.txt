@@ -1,0 +1,18 @@
+C:\Users\User\source\repos\CSharpCollege\Projects.23.1.23.2\6. GraphEditor\GraphEditor\GraphEditor.Business\bin\Debug\GraphEditor.Business.dll
+C:\Users\User\source\repos\CSharpCollege\Projects.23.1.23.2\6. GraphEditor\GraphEditor\GraphEditor.Business\bin\Debug\GraphEditor.Business.pdb
+C:\Users\User\source\repos\CSharpCollege\Projects.23.1.23.2\6. GraphEditor\GraphEditor\GraphEditor.Business\obj\Debug\GraphEditor.Business.csproj.AssemblyReference.cache
+C:\Users\User\source\repos\CSharpCollege\Projects.23.1.23.2\6. GraphEditor\GraphEditor\GraphEditor.Business\obj\Debug\GraphEditor.Business.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\CSharpCollege\Projects.23.1.23.2\6. GraphEditor\GraphEditor\GraphEditor.Business\obj\Debug\GraphEditor.Business.dll
+C:\Users\User\source\repos\CSharpCollege\Projects.23.1.23.2\6. GraphEditor\GraphEditor\GraphEditor.Business\obj\Debug\GraphEditor.Business.pdb
+C:\Users\User\source\repos\GraphEditor2\GraphEditor.Business\bin\Debug\GraphEditor.Business.dll
+C:\Users\User\source\repos\GraphEditor2\GraphEditor.Business\bin\Debug\GraphEditor.Business.pdb
+C:\Users\User\source\repos\GraphEditor2\GraphEditor.Business\obj\Debug\GraphEditor.Business.csproj.AssemblyReference.cache
+C:\Users\User\source\repos\GraphEditor2\GraphEditor.Business\obj\Debug\GraphEditor.Business.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\GraphEditor2\GraphEditor.Business\obj\Debug\GraphEditor.Business.dll
+C:\Users\User\source\repos\GraphEditor2\GraphEditor.Business\obj\Debug\GraphEditor.Business.pdb
+C:\Users\Fr1zer0k\Desktop\CSharpCollege-MartynovaNadia\GraphEditor3\GraphEditor.Business\bin\Debug\GraphEditor.Business.dll
+C:\Users\Fr1zer0k\Desktop\CSharpCollege-MartynovaNadia\GraphEditor3\GraphEditor.Business\bin\Debug\GraphEditor.Business.pdb
+C:\Users\Fr1zer0k\Desktop\CSharpCollege-MartynovaNadia\GraphEditor3\GraphEditor.Business\obj\Debug\GraphEditor.Business.csproj.AssemblyReference.cache
+C:\Users\Fr1zer0k\Desktop\CSharpCollege-MartynovaNadia\GraphEditor3\GraphEditor.Business\obj\Debug\GraphEditor.Business.csproj.CoreCompileInputs.cache
+C:\Users\Fr1zer0k\Desktop\CSharpCollege-MartynovaNadia\GraphEditor3\GraphEditor.Business\obj\Debug\GraphEditor.Business.dll
+C:\Users\Fr1zer0k\Desktop\CSharpCollege-MartynovaNadia\GraphEditor3\GraphEditor.Business\obj\Debug\GraphEditor.Business.pdb

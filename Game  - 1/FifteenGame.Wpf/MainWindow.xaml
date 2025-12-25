@@ -1,0 +1,61 @@
+﻿<Window x:Class="FifteenGame.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Сапёр" Height="600" Width="650"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Простая панель управления -->
+        <StackPanel Grid.Row="0" Background="LightBlue" Orientation="Horizontal" Height="50">
+            <Button x:Name="NewGameButton" Content="Новая игра" 
+                    Click="NewGameButton_Click" 
+                    Width="100" Margin="10,0"/>
+
+            <TextBlock Text="Размер:" VerticalAlignment="Center" Margin="10,0,5,0"/>
+            <Button Content="9x9" Click="SmallButton_Click" Width="50" Margin="2,0"/>
+            <Button Content="16x16" Click="MediumButton_Click" Width="60" Margin="2,0"/>
+            <Button Content="24x24" Click="LargeButton_Click" Width="60" Margin="2,0"/>
+
+            <TextBlock Text="Режим:" VerticalAlignment="Center" Margin="20,0,5,0"/>
+            <Button x:Name="OpenModeButton" Content="Открыть" 
+                    Click="OpenModeButton_Click" Width="70" Margin="2,0" Background="LightGreen"/>
+            <Button x:Name="FlagModeButton" Content="Флаг" 
+                    Click="FlagModeButton_Click" Width="70" Margin="2,0"/>
+        </StackPanel>
+
+        <!-- Игровое поле -->
+        <Border Grid.Row="1" Margin="10">
+            <ScrollViewer x:Name="GameScrollViewer"
+                          VerticalScrollBarVisibility="Auto" 
+                          HorizontalScrollBarVisibility="Auto">
+                <ItemsControl x:Name="GameField">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid x:Name="GameGrid"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Background="{Binding BackgroundColor}"
+                                    Foreground="{Binding TextColor}"
+                                    Content="{Binding DisplayText}"
+                                    IsEnabled="{Binding IsEnabled}"
+                                    Click="CellButton_Click"
+                                    MouseRightButtonDown="CellButton_RightClick"
+                                    Width="40" 
+                                    Height="40"
+                                    Margin="1"
+                                    FontWeight="Bold"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Border>
+    </Grid>
+</Window>
