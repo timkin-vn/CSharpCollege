@@ -1,0 +1,9 @@
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Game 2048</h1>
+    <p class="lead">Welcome to the 2048 game! Use arrow keys to play.</p>
+    <p>@Html.ActionLink("Play Game", "Index", "Game", null, new { @class = "btn btn-primary btn-large" })</p>
+</div>

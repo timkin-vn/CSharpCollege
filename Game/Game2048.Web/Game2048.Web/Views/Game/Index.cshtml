@@ -1,0 +1,58 @@
+@model Game2048.Web.Models.GameViewModel
+@{
+    ViewBag.Title = "Game 2048";
+}
+
+<div class="game-container">
+    <div class="game-header">
+        <h1>2048</h1>
+        <div>
+            <span class="score-container">Score: @Model.Score</span>
+            @Html.ActionLink("New Game", "NewGame", "Game", null, new { @class = "btn" })
+        </div>
+    </div>
+
+    @if (Model.HasWon)
+    {
+        <div class="game-message game-won">
+            Congratulations! You won! 🎉
+        </div>
+    }
+    else if (Model.IsGameOver)
+    {
+        <div class="game-message game-over">
+            Game Over! Try again!
+        </div>
+    }
+
+    <div class="game-board">
+        <div class="grid-container">
+            @for (int row = 0; row < Model.RowCount; row++)
+            {
+                for (int col = 0; col < Model.ColumnCount; col++)
+                {
+                    var cell = Model.Cells[row, col];
+                    var cellClass = "grid-cell";
+                    if (cell.Value > 0)
+                    {
+                        cellClass += $" grid-cell-{cell.Value}";
+                    }
+                    
+                    <div class="@cellClass">
+                        @(cell.Value > 0 ? cell.Value.ToString() : "")
+                    </div>
+                }
+            }
+        </div>
+    </div>
+
+    <div class="instructions">
+        <div style="margin-top: 20px;">
+            <p><strong>Keyboard Controls:</strong></p>
+            <p>&#8593; - Move Up</p>
+            <p>&#8595; - Move Down</p>
+            <p>&#8592; - Move Left</p>
+            <p>&#8594; - Move Right</p>
+        </div>
+    </div>
+</div>
