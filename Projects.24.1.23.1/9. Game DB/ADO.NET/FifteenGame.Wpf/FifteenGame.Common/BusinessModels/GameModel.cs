@@ -1,30 +1,27 @@
-﻿using FifteenGame.Common.Definitions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FifteenGame.Common.BusinessModels
+namespace FifteenGame.Business.Models
 {
     public class GameModel
     {
-        private int[,] _cells = new int[Constants.RowCount, Constants.ColumnCount];
+        public const int RowCount = 8;
+        public const int ColumnCount = 8;
+        public int MatchesCount { get; set; }
+        public bool IsFinished { get; set; }
 
         public int Id { get; set; }
-
         public int UserId { get; set; }
+
+        private int[,] _cells = new int[RowCount, ColumnCount];
 
         public int this[int row, int column]
         {
             get => _cells[row, column];
             set => _cells[row, column] = value;
         }
-
-        public int MoveCount { get; set; }
-
-        public int FreeCellRow { get; set; }
-
-        public int FreeCellColumn { get; set; }
     }
 }

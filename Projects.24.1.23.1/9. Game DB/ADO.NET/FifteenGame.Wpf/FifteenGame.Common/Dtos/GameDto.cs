@@ -1,4 +1,5 @@
-﻿using FifteenGame.Common.Definitions;
+﻿using FifteenGame.Business.Models;
+using FifteenGame.Common.Definitions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +14,9 @@ namespace FifteenGame.Common.Dtos
 
         public int UserId { get; set; }
 
-        public int[,] Cells { get; } = new int[Constants.RowCount, Constants.ColumnCount];
+        public int MatchesCount { get; set; }
+        public bool IsFinished { get; set; }
 
-        public int MoveCount { get; set; }
+        public int[,] Cells { get; } = new int[Business.Models.GameModel.RowCount, Business.Models.GameModel.ColumnCount];
     }
 }

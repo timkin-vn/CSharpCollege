@@ -1,4 +1,5 @@
-﻿using FifteenGame.Common.BusinessModels;
+﻿using FifteenGame.Business.Models;
+using FifteenGame.Common.BusinessModels;
 using FifteenGame.Common.Definitions;
 using FifteenGame.Common.Dtos;
 using FifteenGame.Common.Repositories;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace FifteenGame.Business.Services
 {
-    public class GameService : IGameService
+    public class GameService
     {
         private readonly IGameRepository _repository;
 
@@ -21,145 +22,140 @@ namespace FifteenGame.Business.Services
             _repository = repository;
         }
 
+        private const int GemTypeCount = 5;
+        private static readonly Random _rnd = new Random();
+        private const int FinishMatchesCount = 20;
+
         public void Initialize(GameModel model)
         {
-            int value = 1;
-            for (int row = 0; row < Constants.RowCount; row++)
+            model.MatchesCount = 0;
+            model.IsFinished = false;
+
+            for (int row = 0; row < GameModel.RowCount; row++)
             {
-                for (int column = 0; column < Constants.ColumnCount; column++)
+                for (int column = 0; column < GameModel.ColumnCount; column++)
                 {
-                    model[row, column] = value++;
+                    model[row, column] = _rnd.Next(1, GemTypeCount);
                 }
             }
-
-            model[Constants.RowCount - 1, Constants.ColumnCount - 1] = Constants.FreeCellValue;
-            model.FreeCellRow = Constants.RowCount - 1;
-            model.FreeCellColumn =  Constants.ColumnCount - 1;
-
-            model.MoveCount = 0;
+            ClearInitialMatches(model);
         }
 
-        public bool MakeMove(GameModel model, MoveDirection direction)
+        public void AddMatches(GameModel model, int count)
         {
-            switch (direction)
+            model.MatchesCount += count;
+
+            if (model.MatchesCount >= FinishMatchesCount)
             {
-                case MoveDirection.Left:
-                    if (model.FreeCellColumn == Constants.ColumnCount - 1)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow, model.FreeCellColumn + 1];
-                    model[model.FreeCellRow, model.FreeCellColumn + 1] = Constants.FreeCellValue;
-                    model.FreeCellColumn++;
-                    model.MoveCount++;
-                    return true;
-
-                case MoveDirection.Right:
-                    if (model.FreeCellColumn == 0)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow, model.FreeCellColumn - 1];
-                    model[model.FreeCellRow, model.FreeCellColumn - 1] = Constants.FreeCellValue;
-                    model.FreeCellColumn--;
-                    model.MoveCount++;
-                    return true;
-
-                case MoveDirection.Up:
-                    if (model.FreeCellRow == Constants.RowCount - 1)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow + 1, model.FreeCellColumn];
-                    model[model.FreeCellRow + 1, model.FreeCellColumn] = Constants.FreeCellValue;
-                    model.FreeCellRow++;
-                    model.MoveCount++;
-                    return true;
-
-                case MoveDirection.Down:
-                    if (model.FreeCellRow == 0)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow - 1, model.FreeCellColumn];
-                    model[model.FreeCellRow - 1, model.FreeCellColumn] = Constants.FreeCellValue;
-                    model.FreeCellRow--;
-                    model.MoveCount++;
-                    return true;
+                model.IsFinished = true;
             }
-
-            return false;
         }
 
-        public void Shuffle(GameModel model)
+        private void ClearInitialMatches(GameModel model)
         {
-            Initialize(model);
-
-            var rnd = new Random();
-            for (int i = 0; i < 1000; i++)
+            while (true)
             {
-                var nextMove = (MoveDirection)(rnd.Next(4) + 1);
-                MakeMove(model, nextMove);
+                var matches = CheckMatches(model);
+
+                if (!matches.Any())
+                    break;
+
+                RemoveMatches(model, matches);
+                ProcessMatches(model);
             }
-
-            model.MoveCount = 0;
         }
 
-        public bool IsGameOver(GameModel model)
+        public bool Swap(GameModel model, int r1, int c1, int r2, int c2)
         {
-            int freeCellRow = model.FreeCellRow;
-            if (freeCellRow != Constants.RowCount - 1)
-            {
+            if (Math.Abs(r1 - r2) + Math.Abs(c1 - c2) != 1)
                 return false;
-            }
 
-            int freeCellColumn = model.FreeCellColumn;
-            if (freeCellColumn != Constants.ColumnCount - 1)
+            int temp = model[r1, c1];
+            model[r1, c1] = model[r2, c2];
+            model[r2, c2] = temp;
+
+            var matches = CheckMatches(model);
+
+            if (!matches.Any())
             {
+                temp = model[r1, c1];
+                model[r1, c1] = model[r2, c2];
+                model[r2, c2] = temp;
                 return false;
-            }
-
-            int value = 1;
-            for (int row = 0; row < Constants.RowCount; row++)
-            {
-                for (int column = 0; column < Constants.ColumnCount; column++)
-                {
-                    if (row == freeCellRow && column == freeCellColumn)
-                    {
-                        if (model[row, column] != Constants.FreeCellValue)
-                        {
-                            return false;
-                        }
-                    }
-                    else if (model[row, column] != value++)
-                    {
-                        return false;
-                    }
-                }
             }
 
             return true;
         }
 
-        public GameModel MakeMove(int gameId, MoveDirection direction)
+        public List<(int row, int col)> CheckMatches(GameModel model)
         {
-            var dto = _repository.GetByGameId(gameId);
-            var model = FromDto(dto);
+            var matches = new List<(int, int)>();
 
-            MakeMove(model, direction);
+            for (int row = 0; row < GameModel.RowCount; row++)
+            {
+                for (int col = 0; col < GameModel.ColumnCount - 2; col++)
+                {
+                    int val = model[row, col];
+                    if (val != 0 && val == model[row, col + 1] && val == model[row, col + 2])
+                    {
+                        matches.Add((row, col));
+                        matches.Add((row, col + 1));
+                        matches.Add((row, col + 2));
+                    }
+                }
+            }
 
-            _repository.Save(ToDto(model));
-            return model;
+            for (int col = 0; col < GameModel.ColumnCount; col++)
+            {
+                for (int row = 0; row < GameModel.RowCount - 2; row++)
+                {
+                    int val = model[row, col];
+                    if (val != 0 && val == model[row + 1, col] && val == model[row + 2, col])
+                    {
+                        matches.Add((row, col));
+                        matches.Add((row + 1, col));
+                        matches.Add((row + 2, col));
+                    }
+                }
+            }
+
+            return matches;
         }
 
-        public bool IsGameOver(int gameId)
+        public void RemoveMatches(GameModel model, List<(int row, int col)> matches)
         {
-            var dto = _repository.GetByGameId(gameId);
-            return IsGameOver(FromDto(dto));
+            foreach (var (r, c) in matches)
+            {
+                model[r, c] = 0;
+            }
+        }
+
+        public void ProcessMatches(GameModel model)
+        {
+            for (int col = 0; col < GameModel.ColumnCount; col++)
+            {
+                int writeRow = GameModel.RowCount - 1;
+
+                for (int row = GameModel.RowCount - 1; row >= 0; row--)
+                {
+                    int current = model[row, col];
+                    if (current != 0)
+                    {
+                        if (writeRow != row)
+                        {
+                            model[writeRow, col] = current;
+                            model[row, col] = 0;
+                        }
+                        writeRow--;
+                    }
+                }
+
+                for (int row = writeRow; row >= 0; row--)
+                {
+                    if (model[row, col] == 0)
+                        model[row, col] = _rnd.Next(1, 6);
+                }
+            }
         }
 
         public GameModel GetByUserId(int userId)
@@ -176,7 +172,7 @@ namespace FifteenGame.Business.Services
                 UserId = userId,
             };
 
-            Shuffle(game);
+            Initialize(game);
             var gameId = _repository.Save(ToDto(game));
 
             return GetByGameId(gameId);
@@ -199,19 +195,15 @@ namespace FifteenGame.Business.Services
             {
                 Id = dto.Id,
                 UserId = dto.UserId,
-                MoveCount = dto.MoveCount,
+                MatchesCount = dto.MatchesCount,
+                IsFinished = dto.IsFinished,
             };
 
-            for (int row = 0; row < Constants.RowCount; row++)
+            for (int row = 0; row < GameModel.RowCount; row++)
             {
-                for (int column = 0; column < Constants.ColumnCount; column++)
+                for (int column = 0; column < GameModel.ColumnCount; column++)
                 {
                     result[row, column] = dto.Cells[row, column];
-                    if (result[row, column] == Constants.FreeCellValue)
-                    {
-                        result.FreeCellRow = row;
-                        result.FreeCellColumn = column;
-                    }
                 }
             }
 
@@ -224,12 +216,13 @@ namespace FifteenGame.Business.Services
             {
                 Id = game.Id,
                 UserId = game.UserId,
-                MoveCount = game.MoveCount,
+                MatchesCount = game.MatchesCount,
+                IsFinished = game.IsFinished
             };
 
-            for (int row = 0; row < Constants.RowCount; row++)
+            for (int row = 0; row < GameModel.RowCount; row++)
             {
-                for (int column = 0; column < Constants.ColumnCount; column++)
+                for (int column = 0; column < GameModel.ColumnCount; column++)
                 {
                     dto.Cells[row, column] = game[row, column];
                 }

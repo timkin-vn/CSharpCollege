@@ -44,8 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusinessModels\Cell.cs" />
     <Compile Include="BusinessModels\GameModel.cs" />
-    <Compile Include="BusinessModels\MoveDirection.cs" />
     <Compile Include="BusinessModels\UserModel.cs" />
     <Compile Include="Definitions\Constants.cs" />
     <Compile Include="Dtos\GameDto.cs" />
