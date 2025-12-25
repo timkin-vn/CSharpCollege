@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace StepByStepPacman.Business.Models
+namespace Pacman.Business.Models
 {
     public class Ghost : GameObject
     {

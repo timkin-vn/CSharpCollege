@@ -1,4 +1,4 @@
-﻿namespace StepByStepPacman.Business.Models
+﻿namespace Pacman.Business.Models
 {
     public enum Direction
     {

@@ -4,8 +4,10 @@ using System.Windows;
 using System.Windows.Media;
 using System;
 using System.Linq;
+using PacmanGame.DataAccess.UnitOfWork;
+using PacmanGame.DataAccess;
 
-namespace StepByStepPacman.WPF
+namespace FifteenGame.Wpf
 {
     public partial class LoginWindow : Window
     {
@@ -14,7 +16,9 @@ namespace StepByStepPacman.WPF
         public LoginWindow()
         {
             InitializeComponent();
-            _gameDataService = new GameDataService();
+            var context = new PacmanDbContext();
+            IUnitOfWork unitOfWork = new UnitOfWork(context);
+            _gameDataService = new GameDataService(unitOfWork);
         }
 
         // Этот метод вызывается кнопкой "Войти"

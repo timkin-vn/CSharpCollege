@@ -1,68 +1,88 @@
 using System;
 
-namespace StepByStepPacman.Business.TicTacToe
+namespace Pacman.Business.TicTacToe
 {
     public class TicTacToeGame
     {
-        public CellState[] Board { get; } = new CellState[9];
-        public CellState CurrentPlayer { get; private set; } = CellState.X;
-        public GameResult Result { get; private set; } = GameResult.InProgress;
+        public string[] Cells { get; } = new string[9];
 
-        public bool MakeMove(int index)
+        public bool XTurn { get; private set; } = true;
+        public bool GameOver { get; private set; } = false;
+
+        public string StatusText
         {
-            if (index < 0 || index > 8) return false;
-            if (Result != GameResult.InProgress) return false;
-            if (Board[index] != CellState.Empty) return false;
-
-            Board[index] = CurrentPlayer;
-
-            RecalcResult();
-
-            if (Result == GameResult.InProgress)
-                CurrentPlayer = (CurrentPlayer == CellState.X) ? CellState.O : CellState.X;
-
-            return true;
+            get
+            {
+                if (GameOver) return _statusAfterEnd;
+                return XTurn ? "Ход: X" : "Ход: O";
+            }
         }
 
-        public void Reset()
+        private string _statusAfterEnd = "";
+
+        public void MakeMove(int index)
         {
-            Array.Fill(Board, CellState.Empty);
-            CurrentPlayer = CellState.X;
-            Result = GameResult.InProgress;
+            if (GameOver) return;
+            if (index < 0 || index > 8) return;
+            if (!string.IsNullOrEmpty(Cells[index])) return; // клетка занята
+
+            Cells[index] = XTurn ? "X" : "O";
+
+            // Проверка победы/ничьи
+            var winner = GetWinner();
+            if (winner != null)
+            {
+                GameOver = true;
+                _statusAfterEnd = $"Победили {winner}!";
+            }
+            else if (IsDraw())
+            {
+                GameOver = true;
+                _statusAfterEnd = "Ничья!";
+            }
+            else
+            {
+                XTurn = !XTurn; // следующий ход
+            }
         }
 
-        private void RecalcResult()
+        public void ResetGame()
+        {
+            for (int i = 0; i < 9; i++)
+                Cells[i] = "";
+
+            XTurn = true;
+            GameOver = false;
+            _statusAfterEnd = "";
+        }
+
+        private string GetWinner()
         {
             int[][] lines =
             {
-                new[] {0,1,2}, new[] {3,4,5}, new[] {6,7,8},
-                new[] {0,3,6}, new[] {1,4,7}, new[] {2,5,8},
-                new[] {0,4,8}, new[] {2,4,6}
+                new[]{0,1,2}, new[]{3,4,5}, new[]{6,7,8},
+                new[]{0,3,6}, new[]{1,4,7}, new[]{2,5,8},
+                new[]{0,4,8}, new[]{2,4,6}
             };
 
-            foreach (var line in lines)
+            foreach (var l in lines)
             {
-                var a = Board[line[0]];
-                if (a == CellState.Empty) continue;
+                var a = Cells[l[0]];
+                if (string.IsNullOrEmpty(a)) continue;
 
-                if (Board[line[1]] == a && Board[line[2]] == a)
-                {
-                    Result = (a == CellState.X) ? GameResult.XWins : GameResult.OWins;
-                    return;
-                }
+                if (Cells[l[1]] == a && Cells[l[2]] == a)
+                    return a; // "X" или "O"
             }
 
-            // ничья, если нет пустых клеток
+            return null;
+        }
+
+        private bool IsDraw()
+        {
             for (int i = 0; i < 9; i++)
-            {
-                if (Board[i] == CellState.Empty)
-                {
-                    Result = GameResult.InProgress;
-                    return;
-                }
-            }
-
-            Result = GameResult.Draw;
+                if (string.IsNullOrEmpty(Cells[i]))
+                    return false;
+            return true;
         }
     }
 }

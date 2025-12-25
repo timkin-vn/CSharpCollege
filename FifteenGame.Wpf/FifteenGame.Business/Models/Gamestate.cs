@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using StepByStepPacman.Business.Models;
+using Pacman.Business.Models;
 
-namespace StepByStepPacman.Business
+namespace Pacman.Business
 {
     public class GameState
     {

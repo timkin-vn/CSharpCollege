@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace StepByStepPacman.WPF
+namespace FifteenGame.Wpf
 {
     public partial class MainWindow : Window
     {

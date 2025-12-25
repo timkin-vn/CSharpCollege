@@ -8,8 +8,8 @@
     <ProjectGuid>{49EFE736-3358-4D0B-A8AF-499A9AE4071F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FifteenGame.Business</RootNamespace>
-    <AssemblyName>FifteenGame.Business</AssemblyName>
+    <RootNamespace>Pacman.Business</RootNamespace>
+    <AssemblyName>Pacman.Business</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -76,6 +76,7 @@
     <Compile Include="Services\CollisionService.cs" />
     <Compile Include="Services\GameDataService.cs" />
     <Compile Include="Services\GameService.cs" />
+    <Compile Include="TicTacToe\TicTacToeGame.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

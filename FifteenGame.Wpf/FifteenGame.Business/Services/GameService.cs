@@ -1,8 +1,8 @@
-﻿using StepByStepPacman.Business.Models;
+﻿using Pacman.Business.Models;
 using System;
 using System.Linq; 
 
-namespace StepByStepPacman.Business.Services
+namespace Pacman.Business.Services
 {
     public class GameService
     {

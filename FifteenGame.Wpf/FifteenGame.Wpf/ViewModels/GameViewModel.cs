@@ -1,7 +1,8 @@
-﻿using Pacman.Business.Services;
-using StepByStepPacman.Business;
-using StepByStepPacman.Business.Models;
-using StepByStepPacman.Business.Services; 
+﻿using Pacman.Business;
+using Pacman.Business.Models;
+using Pacman.Business.Services;
+using Pacman.Business.TicTacToe;
+using Pacman.Business.Services; 
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -9,20 +10,20 @@ using System.Linq;
 using System.Timers;
 using System.Windows.Input;
 
-namespace StepByStepPacman.WPF.ViewModels
+namespace FifteenGame.Wpf.ViewModels
 {
     public class GameViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private readonly GameService _gameService = new GameService();
+        private readonly Pacman.Business.Services.GameService _gameService = new Pacman.Business.Services.GameService();
         private readonly Timer _timer;
 
         // НОВЫЕ ПОЛЯ ДЛЯ ВНЕДРЕНИЯ ЗАВИСИМОСТЕЙ
         private readonly int _userId;
         private readonly GameDataService _dataService;
 
-        public GameState State => _gameService.State;
+        public Pacman.Business.GameState State => _gameService.State;
 
         // Вычисляемое свойство для корректного отображения 147/147
         public string DotsDisplay => $"Точки: {State.CollectedDots}/{State.TotalDots}";
@@ -42,7 +43,7 @@ namespace StepByStepPacman.WPF.ViewModels
             _timer.Start();
 
             // Инициализация команды сохранения с проверкой CanExecute
-            SaveCommand = new RelayCommand(SaveGame, CanSaveGame);
+            SaveCommand = new FifteenGame.Wpf.ViewModels.RelayCommand(SaveGame, CanSaveGame);
         }
 
         // Добавленный метод проверки возможности выполнения команды
@@ -65,7 +66,7 @@ namespace StepByStepPacman.WPF.ViewModels
             OnPropertyChanged(nameof(DotsDisplay));
         }
 
-        public void SetDirection(Direction direction)
+        public void SetDirection(Pacman.Business.Models.Direction direction)
         {
             if (State?.Player != null)
             {
@@ -108,7 +109,7 @@ namespace StepByStepPacman.WPF.ViewModels
         }
         
 
-        public GameStateData GetGameStateData()
+        public Pacman.Business.Models.GameStateData GetGameStateData()
         {
             // Используем GameBoard для сериализации
             string boardStateString = string.Join(",", State.GameBoard.Cast<int>());
@@ -141,7 +142,7 @@ namespace StepByStepPacman.WPF.ViewModels
             return stateData;
         }
 
-        public void LoadState(GameStateData data)
+        public void LoadState(Pacman.Business.Models.GameStateData data)
         {
             if (data == null || State == null || State.Player == null)
             {

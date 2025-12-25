@@ -1,18 +1,20 @@
-﻿using PacmanGame.DataAccess;
-using PacmanGame.DataAccess.Entities;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Windows;
-using System.Windows.Media;
-using System.Data.Entity;
-using StepByStepPacman.Business.Models; // Используется для GameStateData
-
+using Pacman.Business.Models; // Используется для GameStateData
+using PacmanGame.DataAccess.Entities;
+using PacmanGame.DataAccess.UnitOfWork;
 namespace Pacman.Business.Services
 {
     public class GameDataService
     {
-        
+        private readonly IUnitOfWork _unitOfWork;
+
+        public GameDataService(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+
         // 1. АУТЕНТИФИКАЦИЯ (Возвращает Id)
         
         public int Authenticate(string username, string password)
@@ -25,27 +27,24 @@ namespace Pacman.Business.Services
 
             try
             {
-                using (var context = new PacmanDbContext())
+                var user = _unitOfWork.Users
+                                 .GetByUsername(username);
+
+                if (user == null)
                 {
-                    var user = context.GameUsers
-                                     .FirstOrDefault(u => u.Username.ToLower() == username.ToLower());
+                    Debug.WriteLine("❌ Пользователь не найден.");
+                    return 0;
+                }
 
-                    if (user == null)
-                    {
-                        Debug.WriteLine("❌ Пользователь не найден.");
-                        return 0;
-                    }
-
-                    if (user.Password == password)
-                    {
-                        Debug.WriteLine($"✅ Аутентификация успешна. ID: {user.Id}");
-                        return user.Id;
-                    }
-                    else
-                    {
-                        Debug.WriteLine("❌ Неверный пароль.");
-                        return 0;
-                    }
+                if (user.Password == password)
+                {
+                    Debug.WriteLine($"✅ Аутентификация успешна. ID: {user.Id}");
+                    return user.Id;
+                }
+                else
+                {
+                    Debug.WriteLine("❌ Неверный пароль.");
+                    return 0;
                 }
             }
             catch (Exception ex)
@@ -57,7 +56,6 @@ namespace Pacman.Business.Services
                 }
 
                 Debug.WriteLine(errorDetails);
-                MessageBox.Show(errorDetails, "КРИТИЧЕСКАЯ ОШИБКА БАЗЫ ДАННЫХ", MessageBoxButton.OK, MessageBoxImage.Error);
                 return 0;
             }
         }
@@ -77,27 +75,24 @@ namespace Pacman.Business.Services
 
             try
             {
-                using (var context = new PacmanDbContext())
+                if (_unitOfWork.Users.UsernameExists(username))
                 {
-                    if (context.GameUsers.Any(u => u.Username.ToLower() == username.ToLower()))
-                    {
-                        Debug.WriteLine("❌ Пользователь с таким логином уже существует в БД.");
-                        return false;
-                    }
-
-                    var newUser = new GameUserEntity
-                    {
-                        Username = username,
-                        Password = password,
-                        CreatedAt = DateTime.Now
-                    };
-
-                    context.GameUsers.Add(newUser);
-                    context.SaveChanges();
-
-                    Debug.WriteLine("✅ Регистрация прошла успешно (в БД)");
-                    return true;
+                    Debug.WriteLine("❌ Пользователь с таким логином уже существует в БД.");
+                    return false;
                 }
+
+                var newUser = new GameUserEntity
+                {
+                    Username = username,
+                    Password = password,
+                    CreatedAt = DateTime.Now
+                };
+
+                _unitOfWork.Users.Add(newUser);
+                _unitOfWork.SaveChanges();
+
+                Debug.WriteLine("✅ Регистрация прошла успешно (в БД)");
+                return true;
             }
             catch (Exception ex)
             {
@@ -108,7 +103,6 @@ namespace Pacman.Business.Services
                 }
 
                 Debug.WriteLine(errorDetails);
-                MessageBox.Show(errorDetails, "КРИТИЧЕСКАЯ ОШИБКА БАЗЫ ДАННЫХ", MessageBoxButton.OK, MessageBoxImage.Error);
 
                 return false;
             }
@@ -123,34 +117,29 @@ namespace Pacman.Business.Services
             Debug.WriteLine($"=== SAVE GAME STATE for UserID: {userId} ===");
             try
             {
-                using (var context = new PacmanDbContext())
+                var newSave = new GameStateEntity
                 {
-                    var newSave = new GameStateEntity
-                    {
-                        GameUserId = userId,
-                        Score = currentGameState.Score,
-                        Level = currentGameState.Level,
-                        Lives = currentGameState.Lives,
-                        PlayerX = currentGameState.PlayerX,
-                        PlayerY = currentGameState.PlayerY,
-                        BoardState = currentGameState.BoardState,
-                        GhostsPositions = currentGameState.GhostsPositions,
+                    GameUserId = userId,
+                    Score = currentGameState.Score,
+                    Level = currentGameState.Level,
+                    Lives = currentGameState.Lives,
+                    PlayerX = currentGameState.PlayerX,
+                    PlayerY = currentGameState.PlayerY,
+                    BoardState = currentGameState.BoardState,
+                    GhostsPositions = currentGameState.GhostsPositions,
 
-                        
-                        CreatedAt = DateTime.Now
-                    };
+                    CreatedAt = DateTime.Now
+                };
 
-                    context.GameStates.Add(newSave);
-                    context.SaveChanges();
+                _unitOfWork.GameStates.Add(newSave);
+                _unitOfWork.SaveChanges();
 
                     Debug.WriteLine($"✅ Игра сохранена. Счет: {currentGameState.Score}");
-                }
             }
             catch (Exception ex)
             {
                 string errorDetails = $"Критическая ошибка БД при сохранении: {ex.Message}";
                 Debug.WriteLine(errorDetails);
-                MessageBox.Show(errorDetails, "КРИТИЧЕСКАЯ ОШИБКА СОХРАНЕНИЯ", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -161,12 +150,8 @@ namespace Pacman.Business.Services
         {
             try
             {
-                using (var context = new PacmanDbContext())
-                {
-                    var latestSave = context.GameStates
-                                             .Where(g => g.GameUserId == userId)
-                                             .OrderByDescending(g => g.CreatedAt)
-                                             .FirstOrDefault();
+                var latestSave = _unitOfWork.GameStates
+                                         .GetLastGameStateByUserId(userId);
 
                     if (latestSave == null)
                     {
@@ -188,15 +173,13 @@ namespace Pacman.Business.Services
                         CreatedAt = latestSave.CreatedAt
                     };
 
-                    Debug.WriteLine($"✅ Загружен прогресс: Score={state.Score}, Level={state.Level}");
-                    return state;
-                }
+                Debug.WriteLine($"✅ Загружен прогресс: Score={state.Score}, Level={state.Level}");
+                return state;
             }
             catch (Exception ex)
             {
                 string errorDetails = $"Критическая ошибка БД при загрузке игры: {ex.Message}";
                 Debug.WriteLine(errorDetails);
-                MessageBox.Show(errorDetails, "КРИТИЧЕСКАЯ ОШИБКА ЗАГРУЗКИ", MessageBoxButton.OK, MessageBoxImage.Error);
                 return null;
             }
         }
