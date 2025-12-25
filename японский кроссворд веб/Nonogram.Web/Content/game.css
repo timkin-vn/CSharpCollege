@@ -1,0 +1,296 @@
+﻿/* Основная таблица кроссворда */
+.nonogram-table {
+    border-collapse: collapse;
+    margin: 20px auto;
+    border: 3px solid #000;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Пустой угол */
+.empty-corner {
+    width: 80px;
+    height: 80px;
+    background-color: #e9ecef;
+    border-right: 3px solid #000;
+    border-bottom: 3px solid #000;
+}
+
+/* Подсказки столбцов */
+.column-clue {
+    width: 35px;
+    height: 80px;
+    padding: 5px;
+    background-color: #f8f9fa;
+    border-right: 1px solid #ccc;
+    border-bottom: 3px solid #000;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+    vertical-align: bottom;
+    position: relative;
+}
+
+/* Вертикальное расположение цифр в подсказках столбцов */
+.vertical-clue {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100%;
+    line-height: 1.2;
+}
+
+/* Подсказки строк */
+.row-clue {
+    width: 80px;
+    height: 35px;
+    padding: 5px 10px;
+    background-color: #f8f9fa;
+    border-right: 3px solid #000;
+    border-bottom: 1px solid #ccc;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: right;
+    vertical-align: middle;
+}
+
+/* Клетки игры - ВСЕ клетки имеют тонкие границы */
+.game-cell {
+    width: 35px;
+    height: 35px;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    position: relative;
+    background-color: white;
+    cursor: pointer;
+    text-align: center;
+    vertical-align: middle;
+    transition: background-color 0.1s;
+}
+
+/* Убираем правую границу у последнего столбца клеток */
+.nonogram-table tbody tr td:last-child.game-cell {
+    border-right: none;
+}
+
+/* Убираем нижнюю границу у последней строки клеток */
+.nonogram-table tbody tr:last-child td.game-cell {
+    border-bottom: none;
+}
+
+/* ТОЛСТЫЕ ГРАНИЦЫ ДЛЯ БЛОКОВ 5x5 - ИСПРАВЛЕННЫЕ */
+
+/* Вертикальные толстые границы после каждых 5 столбцов */
+.nonogram-table tbody tr td:nth-child(7), /* 1 row-clue + 5 клеток + 1 = 7-й элемент (после 5-го столбца) */
+.nonogram-table tbody tr td:nth-child(12) { /* 1 row-clue + 10 клеток + 1 = 12-й элемент (после 10-го столбца) */
+    border-left: 2px solid #999;
+}
+
+/* Горизонтальные толстые границы после каждых 5 строк */
+.nonogram-table tbody tr:nth-child(6) td, /* 6-я строка (после 5 строк) */
+.nonogram-table tbody tr:nth-child(11) td { /* 11-я строка (после 10 строк) */
+    border-top: 2px solid #999;
+}
+
+/* Толстые границы для подсказок столбцов */
+.nonogram-table thead tr th:nth-child(7), /* 1 empty-corner + 5 подсказок + 1 = 7-й элемент */
+.nonogram-table thead tr th:nth-child(12) { /* 1 empty-corner + 10 подсказок + 1 = 12-й элемент */
+    border-left: 2px solid #999;
+}
+
+/* Толстые границы для подсказок строк */
+.nonogram-table tbody tr:nth-child(6) td.row-clue,
+.nonogram-table tbody tr:nth-child(11) td.row-clue {
+    border-top: 2px solid #999;
+    border-bottom: 2px solid #999;
+}
+
+/* Убираем тонкую нижнюю границу у строк выше толстой границы */
+.nonogram-table tbody tr:nth-child(5) td.row-clue,
+.nonogram-table tbody tr:nth-child(10) td.row-clue {
+    border-bottom: none;
+}
+
+/* Убираем тонкую правую границу у столбцов слева от толстой границы */
+.nonogram-table thead tr th:nth-child(6),
+.nonogram-table thead tr th:nth-child(11) {
+    border-right: none;
+}
+
+.nonogram-table tbody tr td:nth-child(6),
+.nonogram-table tbody tr td:nth-child(11) {
+    border-right: none;
+}
+
+/* Состояния клеток */
+.game-cell.empty {
+    background-color: white;
+}
+
+.game-cell.filled {
+    background-color: #000 !important;
+}
+
+.game-cell.crossed {
+    background-color: white !important;
+}
+
+/* Крестик */
+.cross {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    margin: 0 auto;
+}
+
+    .cross::before,
+    .cross::after {
+        content: '';
+        position: absolute;
+        background-color: #ff0000;
+        width: 2px;
+        height: 100%;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .cross::before {
+        transform: translateX(-50%) rotate(45deg);
+    }
+
+    .cross::after {
+        transform: translateX(-50%) rotate(-45deg);
+    }
+
+/* Наведение - только на пустые клетки */
+.game-cell:not(.filled):not(.crossed):hover {
+    background-color: #f0f8ff !important;
+}
+
+.game-cell.filled:hover,
+.game-cell.crossed:hover {
+    opacity: 0.9;
+}
+
+/* Завершенные строки/столбцы */
+.row-clue.completed {
+    background-color: #b3e0ff !important; /* Светло-голубой */
+    color: #0066cc;
+    font-weight: bold;
+}
+
+.column-clue.completed {
+    background-color: #b3e0ff !important; /* Светло-голубой */
+    color: #0066cc;
+    font-weight: bold;
+}
+
+.game-cell.filled.completed-cell {
+    background-color: #0066cc !important; /* Темно-синий */
+}
+
+/* Контейнеры */
+.game-container {
+    width: 100%;
+    overflow-x: auto;
+    padding: 20px 0;
+}
+
+.nonogram-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+/* Заголовок игры */
+.game-header {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Счетчик ошибок */
+.mistakes-counter {
+    display: inline-block;
+    background-color: #dc3545;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+#mistakesCount {
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+/* Кнопки управления */
+.game-controls {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+}
+
+.btn-lg {
+    padding: 12px 40px;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 0 10px;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .nonogram-table {
+        font-size: 12px;
+    }
+
+    .empty-corner {
+        width: 40px;
+        height: 40px;
+    }
+
+    .column-clue {
+        width: 22px;
+        height: 40px;
+        font-size: 10px;
+        padding: 2px;
+    }
+
+    .row-clue {
+        width: 40px;
+        height: 22px;
+        font-size: 10px;
+        padding: 2px;
+    }
+
+    .game-cell {
+        width: 22px;
+        height: 22px;
+    }
+
+    .cross {
+        width: 14px;
+        height: 14px;
+    }
+
+    /* Адаптивные толстые границы */
+    .nonogram-table tbody tr td:nth-child(7),
+    .nonogram-table tbody tr td:nth-child(12) {
+        border-left: 1px solid #999;
+    }
+
+    .nonogram-table tbody tr:nth-child(6) td,
+    .nonogram-table tbody tr:nth-child(11) td {
+        border-top: 1px solid #999;
+    }
+
+    .nonogram-table thead tr th:nth-child(7),
+    .nonogram-table thead tr th:nth-child(12) {
+        border-left: 1px solid #999;
+    }
+}

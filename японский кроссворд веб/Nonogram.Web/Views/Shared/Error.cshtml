@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "Ошибка";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="alert alert-danger">
+        <h2>Ошибка</h2>
+        <p>@ViewBag.Message</p>
+        <p>Пожалуйста, попробуйте снова или обратитесь к администратору.</p>
+        <a href="@Url.Action("Index", "Home")" class="btn btn-primary">На главную</a>
+    </div>
+</div>

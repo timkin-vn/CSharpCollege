@@ -1,0 +1,238 @@
+﻿@model NonogramWeb.Models.GameModel
+
+@{
+    ViewBag.Title = "Игра";
+}
+
+@if (Model == null)
+{
+    <div class="container mt-5">
+        <div class="alert alert-danger">
+            <h4>Ошибка инициализации игры</h4>
+            <p>Не удалось загрузить игру. Пожалуйста, попробуйте снова.</p>
+            <a href="@Url.Action("NewGame", "Game")" class="btn btn-primary">Начать новую игру</a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="game-container">
+        <div class="game-header text-center mb-4">
+            <h2>Японский кроссворд</h2>
+            <div class="mistakes-counter">
+                Ошибки: <span id="mistakesCount">@Model.MistakesCount</span> из 5
+            </div>
+        </div>
+
+        <div class="nonogram-wrapper">
+            <!-- Используем таблицу для ровной сетки -->
+            <table class="nonogram-table" cellspacing="0" cellpadding="0">
+                <thead>
+                    <tr>
+                        <!-- Пустой левый верхний угол -->
+                        <th class="empty-corner"></th>
+
+                        <!-- Подсказки для столбцов -->
+                        @for (int col = 0; col < Model.Size; col++)
+                        {
+                            <th class="column-clue @(Model.ColumnClues[col].IsCompleted ? "completed" : "")" data-column="@col">
+                                <div class="vertical-clue">
+                                    @foreach (var number in Model.ColumnClues[col].Values)
+                                    {
+                                        <div>@number</div>
+                                    }
+                                </div>
+                            </th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int row = 0; row < Model.Size; row++)
+                    {
+                        <tr>
+                            <!-- Подсказка для строки -->
+                            <td class="row-clue @(Model.RowClues[row].IsCompleted ? "completed" : "")" data-row="@row">
+                                @string.Join(" ", Model.RowClues[row].Values)
+                            </td>
+
+                            <!-- Клетки строки -->
+                            @for (int col = 0; col < Model.Size; col++)
+                            {
+                                <td class="game-cell @Model.GetCellCssClass(row, col)"
+                                    data-row="@row"
+                                    data-column="@col">
+                                    @if (Model.IsCellCrossed(row, col))
+                                    {
+                                        <div class="cross"></div>
+                                    }
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="game-controls text-center mt-4">
+            <form action="@Url.Action("NewGame", "Game")" method="post" class="d-inline">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-primary btn-lg">Новая игра</button>
+            </form>
+
+            <form action="@Url.Action("Reset", "Game")" method="post" class="d-inline ml-2">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-warning btn-lg">Сбросить</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Модальное окно для сообщений -->
+    <div class="modal fade" id="messageModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="messageModalTitle"></h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="messageModalBody"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                    <form action="@Url.Action("NewGame", "Game")" method="post" style="display: inline;">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-primary">Новая игра</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            console.log("Game initialized");
+
+            // Обработчик кликов по клеткам таблицы
+            $(document).on('click', '.nonogram-table .game-cell:not(.filled):not(.crossed)', function() {
+                var row = $(this).data('row');
+                var col = $(this).data('column');
+
+                console.log("Cell clicked:", row, col);
+
+                // Проверяем, не закончилась ли игра
+                if (parseInt($('#mistakesCount').text()) >= 5) {
+                    alert('Игра окончена! Начните новую игру.');
+                    return;
+                }
+
+                makeMove(row, col);
+            });
+
+            // Визуальная обратная связь
+            $(document).on('mouseenter', '.nonogram-table .game-cell:not(.filled):not(.crossed)', function() {
+                $(this).css('background-color', '#f0f8ff');
+            });
+
+            $(document).on('mouseleave', '.nonogram-table .game-cell:not(.filled):not(.crossed)', function() {
+                if ($(this).hasClass('empty')) {
+                    $(this).css('background-color', 'white');
+                }
+            });
+        });
+
+        function makeMove(row, column) {
+            console.log("Making move:", row, column);
+
+            // Получаем CSRF токен
+            var token = $('input[name="__RequestVerificationToken"]').val();
+
+            // Отправляем AJAX запрос
+            $.ajax({
+                url: '@Url.Action("MakeMove", "Game")',
+                type: 'POST',
+                data: {
+                    row: row,
+                    column: column,
+                    __RequestVerificationToken: token
+                },
+                success: function (data) {
+                    console.log("Move response:", data);
+
+                    if (data.Success) {
+                        // Обновляем счетчик ошибок
+                        $('#mistakesCount').text(data.MistakesCount);
+
+                        // Обновляем клетку
+                        var cell = $('.game-cell[data-row="' + row + '"][data-column="' + column + '"]');
+                        cell.removeClass('empty filled crossed');
+
+                        if (data.CellState === 'Filled') {
+                            cell.addClass('filled');
+                            cell.css('background-color', '#000');
+                        } else if (data.CellState === 'Crossed') {
+                            cell.addClass('crossed');
+                            cell.css('background-color', '#fff');
+                            // Добавляем крестик, если его нет
+                            if (cell.find('.cross').length === 0) {
+                                cell.append('<div class="cross"></div>');
+                            }
+                        } else {
+                            cell.addClass('empty');
+                            cell.css('background-color', '#fff');
+                            cell.find('.cross').remove();
+                        }
+
+                        // Обновляем подсказки строк (светло-голубой)
+                        if (data.CompletedRows && data.CompletedRows.length > 0) {
+                            for (var i = 0; i < data.CompletedRows.length; i++) {
+                                var rowIndex = data.CompletedRows[i];
+                                $('.row-clue[data-row="' + rowIndex + '"]').addClass('completed');
+                                $('.game-cell[data-row="' + rowIndex + '"].filled').addClass('completed-cell');
+                            }
+                        }
+
+                        // Обновляем подсказки столбцов (светло-голубой)
+                        if (data.CompletedColumns && data.CompletedColumns.length > 0) {
+                            for (var i = 0; i < data.CompletedColumns.length; i++) {
+                                var colIndex = data.CompletedColumns[i];
+                                $('.column-clue[data-column="' + colIndex + '"]').addClass('completed');
+                                $('.game-cell[data-column="' + colIndex + '"].filled').addClass('completed-cell');
+                            }
+                        }
+
+                        // Проверяем условия окончания игры
+                        if (data.IsGameOver) {
+                            showMessage('Игра окончена!', 'Вы сделали 5 ошибок. Попробуйте ещё раз!');
+                        } else if (data.IsGameWon) {
+                            showMessage('Поздравляем!', 'Вы решили кроссворд!');
+                        }
+                    } else {
+                        if (data.ErrorMessage) {
+                            alert('Ошибка: ' + data.ErrorMessage);
+                        }
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX error:", error);
+                    alert('Произошла ошибка при выполнении хода. Пожалуйста, попробуйте снова.');
+                }
+            });
+        }
+
+        function showMessage(title, message) {
+            $('#messageModalTitle').text(title);
+            $('#messageModalBody').text(message);
+            $('#messageModal').modal('show');
+        }
+
+        // CSRF токен для AJAX запросов
+        $(document).ajaxSend(function (event, xhr, options) {
+            if (options.type.toUpperCase() === "POST") {
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                if (token) {
+                    xhr.setRequestHeader("RequestVerificationToken", token);
+                }
+            }
+        });
+    </script>
+}
