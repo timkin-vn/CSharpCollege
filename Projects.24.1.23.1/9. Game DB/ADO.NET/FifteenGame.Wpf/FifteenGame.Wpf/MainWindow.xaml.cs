@@ -28,28 +28,25 @@ namespace FifteenGame.Wpf
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = ViewModel; ;
         }
 
-        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        // Этот обработчик должен быть привязан к кнопке/ячейке (например, Button в XAML)
+        private void Cell_Click(object sender, RoutedEventArgs e)
         {
-            var tag = (MoveDirection)((FrameworkElement)sender).Tag;
-            ViewModel.MakeMove(tag, OnGameFinished);
-        }
-
-        private void OnGameFinished()
-        {
-            if (MessageBox.Show("Игра окончена. Повторить?", "Поздравляем!", MessageBoxButton.YesNo, MessageBoxImage.Information) ==
-                MessageBoxResult.Yes)
+            if (sender is Button button && button.DataContext is CellViewModel cell)
             {
-                ViewModel.ReInitialize();
+                ViewModel.SelectCell(cell);
             }
         }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void Grid_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            var dialog = new UserLoginWindow();
-            dialog.ViewModel.MainViewModel = ViewModel;
-            dialog.ShowDialog();
+            if (DataContext is MainWindowViewModel viewModel)
+            {
+                var grid = (Grid)sender;
+                var cell = grid.DataContext as CellViewModel;
+                viewModel.SelectCell(cell);
+            }
         }
     }
 }
