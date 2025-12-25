@@ -1,0 +1,163 @@
+﻿<Window x:Class="Game2048.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Game2048.Wpf.ViewModels"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        Title="2048 Game with Database" Height="750" Width="500"
+        KeyDown="Window_KeyDown">
+    
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    </Window.Resources>
+    
+    <Window.DataContext>
+        <local:MainWindowViewModel/>
+    </Window.DataContext>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <TextBlock Grid.Row="0" Text="2048 Game" FontSize="36" FontWeight="Bold" 
+                  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20"/>
+        
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+            <TextBlock Text="Score: " FontSize="18" FontWeight="Bold" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding Score}" FontSize="18" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,20,0"/>
+            
+            <Button Content="New Game" FontSize="14" Padding="10,5" Click="NewGame_Click"/>
+        </StackPanel>
+        
+        <Grid Grid.Row="2" Background="#BBADA0" Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <!-- Row 0 -->
+            <Border Grid.Row="0" Grid.Column="0" Background="{Binding Cells[0].Color}" Margin="2" CornerRadius="4">
+                <TextBlock Text="{Binding Cells[0].Text}" FontSize="24" FontWeight="Bold"
+                          HorizontalAlignment="Center" VerticalAlignment="Center"
+                          Foreground="#776E65"/>
+            </Border>
+            <Border Grid.Row="0" Grid.Column="1" Background="{Binding Cells[1].Color}" Margin="2" CornerRadius="4">
+                <TextBlock Text="{Binding Cells[1].Text}" FontSize="24" FontWeight="Bold"
+                          HorizontalAlignment="Center" VerticalAlignment="Center"
+                          Foreground="#776E65"/>
+            </Border>
+            <Border Grid.Row="0" Grid.Column="2" Background="{Binding Cells[2].Color}" Margin="2" CornerRadius="4">
+                <TextBlock Text="{Binding Cells[2].Text}" FontSize="24" FontWeight="Bold"
+                          HorizontalAlignment="Center" VerticalAlignment="Center"
+                          Foreground="#776E65"/>
+            </Border>
+            <Border Grid.Row="0" Grid.Column="3" Background="{Binding Cells[3].Color}" Margin="2" CornerRadius="4">
+                <TextBlock Text="{Binding Cells[3].Text}" FontSize="24" FontWeight="Bold"
+                          HorizontalAlignment="Center" VerticalAlignment="Center"
+                          Foreground="#776E65"/>
+            </Border>
+            
+            <!-- Row 1 -->
+            <Border Grid.Row="1" Grid.Column="0" Background="{Binding Cells[4].Color}" Margin="2" CornerRadius="4">
+                <TextBlock Text="{Binding Cells[4].Text}" FontSize="24" FontWeight="Bold"
+                          HorizontalAlignment="Center" VerticalAlignment="Center"
+                          Foreground="#776E65"/>
+            </Border>
+            <Border Grid.Row="1" Grid.Column="1" Background="{Binding Cells[5].Color}" Margin="2" CornerRadius="4">
+                <TextBlock Text="{Binding Cells[5].Text}" FontSize="24" FontWeight="Bold"
+                          HorizontalAlignment="Center" VerticalAlignment="Center"
+                          Foreground="#776E65"/>
+            </Border>
+            <Border Grid.Row="1" Grid.Column="2" Background="{Binding Cells[6].Color}" Margin="2" CornerRadius="4">
+                <TextBlock Text="{Binding Cells[6].Text}" FontSize="24" FontWeight="Bold"
+                          HorizontalAlignment="Center" VerticalAlignment="Center"
+                          Foreground="#776E65"/>
+            </Border>
+            <Border Grid.Row="1" Grid.Column="3" Background="{Binding Cells[7].Color}" Margin="2" CornerRadius="4">
+                <TextBlock Text="{Binding Cells[7].Text}" FontSize="24" FontWeight="Bold"
+                          HorizontalAlignment="Center" VerticalAlignment="Center"
+                          Foreground="#776E65"/>
+            </Border>
+            
+            <!-- Row 2 -->
+            <Border Grid.Row="2" Grid.Column="0" Background="{Binding Cells[8].Color}" Margin="2" CornerRadius="4">
+                <TextBlock Text="{Binding Cells[8].Text}" FontSize="24" FontWeight="Bold"
+                          HorizontalAlignment="Center" VerticalAlignment="Center"
+                          Foreground="#776E65"/>
+            </Border>
+            <Border Grid.Row="2" Grid.Column="1" Background="{Binding Cells[9].Color}" Margin="2" CornerRadius="4">
+                <TextBlock Text="{Binding Cells[9].Text}" FontSize="24" FontWeight="Bold"
+                          HorizontalAlignment="Center" VerticalAlignment="Center"
+                          Foreground="#776E65"/>
+            </Border>
+            <Border Grid.Row="2" Grid.Column="2" Background="{Binding Cells[10].Color}" Margin="2" CornerRadius="4">
+                <TextBlock Text="{Binding Cells[10].Text}" FontSize="24" FontWeight="Bold"
+                          HorizontalAlignment="Center" VerticalAlignment="Center"
+                          Foreground="#776E65"/>
+            </Border>
+            <Border Grid.Row="2" Grid.Column="3" Background="{Binding Cells[11].Color}" Margin="2" CornerRadius="4">
+                <TextBlock Text="{Binding Cells[11].Text}" FontSize="24" FontWeight="Bold"
+                          HorizontalAlignment="Center" VerticalAlignment="Center"
+                          Foreground="#776E65"/>
+            </Border>
+            
+            <!-- Row 3 -->
+            <Border Grid.Row="3" Grid.Column="0" Background="{Binding Cells[12].Color}" Margin="2" CornerRadius="4">
+                <TextBlock Text="{Binding Cells[12].Text}" FontSize="24" FontWeight="Bold"
+                          HorizontalAlignment="Center" VerticalAlignment="Center"
+                          Foreground="#776E65"/>
+            </Border>
+            <Border Grid.Row="3" Grid.Column="1" Background="{Binding Cells[13].Color}" Margin="2" CornerRadius="4">
+                <TextBlock Text="{Binding Cells[13].Text}" FontSize="24" FontWeight="Bold"
+                          HorizontalAlignment="Center" VerticalAlignment="Center"
+                          Foreground="#776E65"/>
+            </Border>
+            <Border Grid.Row="3" Grid.Column="2" Background="{Binding Cells[14].Color}" Margin="2" CornerRadius="4">
+                <TextBlock Text="{Binding Cells[14].Text}" FontSize="24" FontWeight="Bold"
+                          HorizontalAlignment="Center" VerticalAlignment="Center"
+                          Foreground="#776E65"/>
+            </Border>
+            <Border Grid.Row="3" Grid.Column="3" Background="{Binding Cells[15].Color}" Margin="2" CornerRadius="4">
+                <TextBlock Text="{Binding Cells[15].Text}" FontSize="24" FontWeight="Bold"
+                          HorizontalAlignment="Center" VerticalAlignment="Center"
+                          Foreground="#776E65"/>
+            </Border>
+        </Grid>
+        
+        <StackPanel Grid.Row="3" Orientation="Vertical" HorizontalAlignment="Center" Margin="10">
+            <TextBlock Text="Use W/A/S/D keys to play" FontSize="12" HorizontalAlignment="Center"/>
+            <TextBlock Text="You Won!" FontSize="16" FontWeight="Bold" Foreground="Green" HorizontalAlignment="Center"
+                       Visibility="{Binding IsWon, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <TextBlock Text="Game Over!" FontSize="16" FontWeight="Bold" Foreground="Red" HorizontalAlignment="Center"
+                       Visibility="{Binding IsGameOver, Converter={StaticResource BoolToVisibilityConverter}}"/>
+        </StackPanel>
+        
+        <!-- High Scores Section -->
+        <StackPanel Grid.Row="4" Margin="20,10">
+            <TextBlock Text="High Scores" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+            <DataGrid ItemsSource="{Binding HighScores}" AutoGenerateColumns="False" 
+                      IsReadOnly="True" Height="150" MaxWidth="400" HorizontalAlignment="Center">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Player" Binding="{Binding Name}" Width="*"/>
+                    <DataGridTextColumn Header="Score" Binding="{Binding Score}" Width="100"/>
+                    <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat='{}{0:yyyy-MM-dd HH:mm}'}" Width="120"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+    </Grid>
+</Window>
