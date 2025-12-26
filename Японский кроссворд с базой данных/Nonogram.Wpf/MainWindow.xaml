@@ -1,0 +1,141 @@
+﻿<Window x:Class="Nonogram.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Японский кроссворд" 
+        Height="900" 
+        Width="1200"
+        WindowStartupLocation="CenterScreen"
+        Loaded="Window_Loaded">
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Информационная панель -->
+        <Border Grid.Row="0" Background="LightGray" Padding="10">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="Пользователь: " FontSize="16" FontWeight="Bold" VerticalAlignment="Center" />
+                <TextBlock Text="{Binding UserName}" FontSize="16" Margin="5,0,20,0" VerticalAlignment="Center" />
+                <TextBlock Text="Ошибки: " FontSize="16" FontWeight="Bold" VerticalAlignment="Center" />
+                <TextBlock Text="{Binding MistakesCount}" FontSize="16" 
+                           Foreground="Red" FontWeight="Bold" Margin="5,0,0,0" VerticalAlignment="Center" />
+                <TextBlock Text=" из 5" FontSize="16" FontWeight="Bold" Margin="5,0,20,0" VerticalAlignment="Center" />
+            </StackPanel>
+        </Border>
+
+        <!-- Центральная часть с игровым полем -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Пустой элемент для выравнивания -->
+                <Border Grid.Row="0" Grid.Column="0" Width="80" Height="60" Background="Transparent" />
+
+                <!-- Подсказки столбцов (сверху) -->
+                <ItemsControl Grid.Row="0" Grid.Column="1"
+                              ItemsSource="{Binding ColumnClues}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="1" Columns="15" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Width="40" Height="80"
+                                    BorderBrush="Gray" BorderThickness="1"
+                                    Background="{Binding BackgroundColor}">
+                                <TextBlock Text="{Binding VerticalClueText}" 
+                                           FontWeight="Bold" FontSize="12"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           TextAlignment="Center"
+                                           TextWrapping="Wrap" />
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!-- Подсказки строк (слева) -->
+                <ItemsControl Grid.Row="1" Grid.Column="0"
+                              ItemsSource="{Binding RowClues}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="15" Columns="1" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Width="80" Height="40"
+                                    BorderBrush="Gray" BorderThickness="1"
+                                    Background="{Binding BackgroundColor}">
+                                <TextBlock Text="{Binding ClueText}" 
+                                           FontWeight="Bold" FontSize="12"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center" />
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!-- Игровое поле 15x15 -->
+                <ItemsControl Grid.Row="1" Grid.Column="1"
+                              ItemsSource="{Binding Cells}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="15" Columns="15" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Width="40" Height="40"
+                                    BorderBrush="Black" 
+                                    BorderThickness="0.5"
+                                    Background="{Binding BackgroundColor}">
+                                <Grid MouseDown="Cell_MouseDown" 
+                                      Tag="{Binding}"
+                                      Background="Transparent">
+
+                                    <!-- Крестик для отмеченных клеток -->
+                                    <Path Data="M5,5 L35,35 M35,5 L5,35" 
+                                          Stroke="Red" 
+                                          StrokeThickness="2"
+                                          Visibility="{Binding CrossVisibility}"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+        </ScrollViewer>
+
+        <!-- Кнопки управления (без кнопки Выход) -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20">
+            <Button Name="NewGameButton" 
+                    Content="Новая игра" 
+                    Padding="20,10" 
+                    Margin="5" 
+                    Click="NewGame_Click" 
+                    FontSize="14" />
+            <Button Name="ResetButton"
+                    Content="Сбросить" 
+                    Padding="20,10" 
+                    Margin="5" 
+                    Click="Reset_Click" 
+                    FontSize="14" />
+        </StackPanel>
+    </Grid>
+</Window>
