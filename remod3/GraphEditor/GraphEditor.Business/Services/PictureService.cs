@@ -4,24 +4,24 @@ using GraphEditor.Business.Commands;
 namespace GraphEditor.Business.Services;
 
 public class PictureService {
-    public PictureModel PictureModel { get; private set; } = new PictureModel();
+    public PictureModel PictureModel { get; private set; } = new();
 
     public static Color DefaultFillColor = Color.Yellow;
     public static Color DefaultBorderColor = Color.Blue;
 
     private readonly CommandHistory _commandHistory = new();
-    private List<RectangleModel> _clipboard = new();
+    private List<RectangleModel> _clipboard = [];
 
     public bool CanUndo => _commandHistory.CanUndo;
     public bool CanRedo => _commandHistory.CanRedo;
     public bool HasClipboard => _clipboard.Count > 0;
 
     public PictureService() {
-        PictureModel.Rectangles.Add(new RectangleModel { Left = 100, Top = 50, Width = 200, Height = 150, FillColor = Color.LightCyan, });
-        var newRectangle = new RectangleModel { Left = 200, Top = 100, Width = 200, Height = 150, };
+        PictureModel.Rectangles.Add(new RectangleModel { Left = 100, Top = 50, Width = 200, Height = 150, FillColor = Color.LightCyan });
+        var newRectangle = new RectangleModel { Left = 200, Top = 100, Width = 200, Height = 150 };
         PictureModel.Rectangles.Add(newRectangle);
         SelectExclusive(newRectangle);
-        PictureModel.Rectangles.Add(new RectangleModel { Left = 300, Top = 200, Width = 200, Height = 150, FillColor = Color.Pink, });
+        PictureModel.Rectangles.Add(new RectangleModel { Left = 300, Top = 200, Width = 200, Height = 150, FillColor = Color.Pink });
     }
 
     public void CreateRectangle(PointModel loc) {
@@ -31,7 +31,7 @@ public class PictureService {
             Width = 0,
             Height = 0,
             FillColor = DefaultFillColor,
-            BorderColor = DefaultBorderColor,
+            BorderColor = DefaultBorderColor
         };
 
         var command = new CreateRectangleCommand(PictureModel, newRectangle);
@@ -58,8 +58,7 @@ public class PictureService {
         var command = new ChangePropertyCommand<float>(
             selected, width,
             r => r.BorderWidth,
-            (r, w) => r.BorderWidth = w,
-            "Change border width");
+            (r, w) => r.BorderWidth = w);
         _commandHistory.Execute(command);
     }
 
@@ -70,8 +69,7 @@ public class PictureService {
         var command = new ChangePropertyCommand<Color>(
             selected, color,
             r => r.BorderColor,
-            (r, c) => r.BorderColor = c,
-            "Change border color");
+            (r, c) => r.BorderColor = c);
         _commandHistory.Execute(command);
     }
 
@@ -196,8 +194,7 @@ public class PictureService {
         var command = new ChangePropertyCommand<Color>(
             selected, color,
             r => r.FillColor,
-            (r, c) => r.FillColor = c,
-            "Change fill color");
+            (r, c) => r.FillColor = c);
         _commandHistory.Execute(command);
     }
 
@@ -218,10 +215,6 @@ public class PictureService {
         var rect = PictureModel.Rectangles.LastOrDefault(r => r.IsInside(loc));
         UpdateSelection(rect, additiveSelection, includeGroup);
         return rect;
-    }
-
-    public RectangleModel? FindRectangle(PointModel loc) {
-        return PictureModel.Rectangles.LastOrDefault(r => r.IsInside(loc));
     }
 
     private void SelectExclusive(RectangleModel? rect) {
