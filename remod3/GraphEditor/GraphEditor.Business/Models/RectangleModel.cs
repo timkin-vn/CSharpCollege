@@ -25,16 +25,16 @@ public class RectangleModel {
     public EditMode EditMode { get; set; }
 
     public Color FillColor { get; set; } = Color.Yellow;
-    public Color BorderColor { get; init; } = Color.Blue;
+    public Color BorderColor { get; set; } = Color.Blue;
 
     public string? Text { get; set; }
-    public Color TextColor { get; init; } = Color.Black;
+    public Color TextColor { get; set; } = Color.Black;
     public string FontFamily { get; init; } = "Segoe UI";
     public float FontSize { get; init; } = 10f;
 
     public TextAlign TextAlign { get; init; } = TextAlign.Center;
 
-    public float BorderWidth { get; init; } = 1.5f;
+    public float BorderWidth { get; set; } = 1.5f;
 
     public bool IsInside(PointModel loc) =>
         loc.X >= Left && loc.X <= Right &&
@@ -49,6 +49,24 @@ public class RectangleModel {
         if (Height >= 0) return;
         Top += Height;
         Height = -Height;
+    }
+
+    public RectangleModel Clone(int offsetX = 0, int offsetY = 0) {
+        return new RectangleModel {
+            Id = Guid.NewGuid(),
+            Left = Left + offsetX,
+            Top = Top + offsetY,
+            Width = Width,
+            Height = Height,
+            FillColor = FillColor,
+            BorderColor = BorderColor,
+            BorderWidth = BorderWidth,
+            Text = Text,
+            TextColor = TextColor,
+            FontFamily = FontFamily,
+            FontSize = FontSize,
+            TextAlign = TextAlign,
+        };
     }
 }
 
