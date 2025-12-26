@@ -11,5 +11,5 @@ public enum EditMode {
     ResizeTr,
     ResizeBr,
     ResizeTl,
-    ResizeBl,
+    ResizeBl
 }
