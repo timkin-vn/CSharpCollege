@@ -40,9 +40,7 @@
             this.toolStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // toolStrip1
-            // 
+            
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CreateRectangleButton,
             this.DeleteRectangleButton,
@@ -92,26 +90,142 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             
+            this.BorderColorMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.BorderColorMenuItem.Name = "BorderColorMenuItem";
+            this.BorderColorMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.BorderColorMenuItem.Text = "Цвет границы...";
+            this.BorderColorMenuItem.Click += new System.EventHandler(this.BorderColorMenuItem_Click);
+
+            this.BorderWidthMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.BorderWidthMenuItem.Name = "BorderWidthMenuItem";
+            this.BorderWidthMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.BorderWidthMenuItem.Text = "Толщина границы";
+
+            this.BorderWidth1MenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.BorderWidth1MenuItem.Name = "BorderWidth1MenuItem";
+            this.BorderWidth1MenuItem.Size = new System.Drawing.Size(100, 22);
+            this.BorderWidth1MenuItem.Text = "1 px";
+            this.BorderWidth1MenuItem.Click += new System.EventHandler(this.BorderWidth1MenuItem_Click);
+
+            this.BorderWidth2MenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.BorderWidth2MenuItem.Name = "BorderWidth2MenuItem";
+            this.BorderWidth2MenuItem.Size = new System.Drawing.Size(100, 22);
+            this.BorderWidth2MenuItem.Text = "2 px";
+            this.BorderWidth2MenuItem.Click += new System.EventHandler(this.BorderWidth2MenuItem_Click);
+
+            this.BorderWidth3MenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.BorderWidth3MenuItem.Name = "BorderWidth3MenuItem";
+            this.BorderWidth3MenuItem.Size = new System.Drawing.Size(100, 22);
+            this.BorderWidth3MenuItem.Text = "3 px";
+            this.BorderWidth3MenuItem.Click += new System.EventHandler(this.BorderWidth3MenuItem_Click);
+
+            this.BorderWidth5MenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.BorderWidth5MenuItem.Name = "BorderWidth5MenuItem";
+            this.BorderWidth5MenuItem.Size = new System.Drawing.Size(100, 22);
+            this.BorderWidth5MenuItem.Text = "5 px";
+            this.BorderWidth5MenuItem.Click += new System.EventHandler(this.BorderWidth5MenuItem_Click);
+
+            this.BorderWidthMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+                this.BorderWidth1MenuItem,
+                this.BorderWidth2MenuItem,
+                this.BorderWidth3MenuItem,
+                this.BorderWidth5MenuItem
+            });
+
             this.toolStripSplitButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripSplitButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.FillColorMenuItem});
+            this.FillColorMenuItem,
+            this.BorderColorMenuItem,
+            this.BorderWidthMenuItem});
             this.toolStripSplitButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSplitButton1.Image")));
             this.toolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripSplitButton1.Name = "toolStripSplitButton1";
             this.toolStripSplitButton1.Size = new System.Drawing.Size(49, 22);
             this.toolStripSplitButton1.Text = "Цвет";
-           
+
             this.FillColorMenuItem.Name = "FillColorMenuItem";
-            this.FillColorMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.FillColorMenuItem.Size = new System.Drawing.Size(180, 22);
             this.FillColorMenuItem.Text = "Цвет заливки...";
             this.FillColorMenuItem.Click += new System.EventHandler(this.FillColorMenuItem_Click);
+
+            this.BorderColorDialog = new System.Windows.Forms.ColorDialog();
            
+            this.AlignMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AlignMenuItem.Name = "AlignMenuItem";
+            this.AlignMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.AlignMenuItem.Text = "Выравнивание";
+
+            this.AlignLeftMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AlignLeftMenuItem.Name = "AlignLeftMenuItem";
+            this.AlignLeftMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.AlignLeftMenuItem.Text = "По левому краю";
+            this.AlignLeftMenuItem.Click += new System.EventHandler(this.AlignLeftMenuItem_Click);
+
+            this.AlignRightMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AlignRightMenuItem.Name = "AlignRightMenuItem";
+            this.AlignRightMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.AlignRightMenuItem.Text = "По правому краю";
+            this.AlignRightMenuItem.Click += new System.EventHandler(this.AlignRightMenuItem_Click);
+
+            this.AlignTopMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AlignTopMenuItem.Name = "AlignTopMenuItem";
+            this.AlignTopMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.AlignTopMenuItem.Text = "По верхнему краю";
+            this.AlignTopMenuItem.Click += new System.EventHandler(this.AlignTopMenuItem_Click);
+
+            this.AlignBottomMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AlignBottomMenuItem.Name = "AlignBottomMenuItem";
+            this.AlignBottomMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.AlignBottomMenuItem.Text = "По нижнему краю";
+            this.AlignBottomMenuItem.Click += new System.EventHandler(this.AlignBottomMenuItem_Click);
+
+            this.AlignCenterHorizontalMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AlignCenterHorizontalMenuItem.Name = "AlignCenterHorizontalMenuItem";
+            this.AlignCenterHorizontalMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.AlignCenterHorizontalMenuItem.Text = "По центру (гориз.)";
+            this.AlignCenterHorizontalMenuItem.Click += new System.EventHandler(this.AlignCenterHorizontalMenuItem_Click);
+
+            this.AlignCenterVerticalMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AlignCenterVerticalMenuItem.Name = "AlignCenterVerticalMenuItem";
+            this.AlignCenterVerticalMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.AlignCenterVerticalMenuItem.Text = "По центру (верт.)";
+            this.AlignCenterVerticalMenuItem.Click += new System.EventHandler(this.AlignCenterVerticalMenuItem_Click);
+
+            this.AlignSeparator = new System.Windows.Forms.ToolStripSeparator();
+            this.AlignSeparator.Name = "AlignSeparator";
+            this.AlignSeparator.Size = new System.Drawing.Size(197, 6);
+
+            this.DistributeHorizontallyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.DistributeHorizontallyMenuItem.Name = "DistributeHorizontallyMenuItem";
+            this.DistributeHorizontallyMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.DistributeHorizontallyMenuItem.Text = "Распределить (гориз.)";
+            this.DistributeHorizontallyMenuItem.Click += new System.EventHandler(this.DistributeHorizontallyMenuItem_Click);
+
+            this.DistributeVerticallyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.DistributeVerticallyMenuItem.Name = "DistributeVerticallyMenuItem";
+            this.DistributeVerticallyMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.DistributeVerticallyMenuItem.Text = "Распределить (верт.)";
+            this.DistributeVerticallyMenuItem.Click += new System.EventHandler(this.DistributeVerticallyMenuItem_Click);
+
+            this.AlignMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+                this.AlignLeftMenuItem,
+                this.AlignRightMenuItem,
+                this.AlignTopMenuItem,
+                this.AlignBottomMenuItem,
+                this.AlignCenterHorizontalMenuItem,
+                this.AlignCenterVerticalMenuItem,
+                this.AlignSeparator,
+                this.DistributeHorizontallyMenuItem,
+                this.DistributeVerticallyMenuItem
+            });
+
             this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MoveForwardMenuItem,
             this.SetTextMenuItem,
             this.GroupMenuItem,
-            this.UngroupMenuItem});
+            this.UngroupMenuItem,
+            this.AlignMenuItem});
             this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
@@ -249,6 +363,22 @@
         private System.Windows.Forms.ColorDialog FillColorDialog;
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
         private System.Windows.Forms.ToolStripMenuItem MoveForwardMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem BorderColorMenuItem;
+        private System.Windows.Forms.ColorDialog BorderColorDialog;
+        private System.Windows.Forms.ToolStripMenuItem BorderWidthMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem BorderWidth1MenuItem;
+        private System.Windows.Forms.ToolStripMenuItem BorderWidth2MenuItem;
+        private System.Windows.Forms.ToolStripMenuItem BorderWidth3MenuItem;
+        private System.Windows.Forms.ToolStripMenuItem BorderWidth5MenuItem;
+        private System.Windows.Forms.ToolStripMenuItem AlignMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem AlignLeftMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem AlignRightMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem AlignTopMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem AlignBottomMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem AlignCenterHorizontalMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem AlignCenterVerticalMenuItem;
+        private System.Windows.Forms.ToolStripSeparator AlignSeparator;
+        private System.Windows.Forms.ToolStripMenuItem DistributeHorizontallyMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem DistributeVerticallyMenuItem;
     }
 }
-

@@ -1,6 +1,6 @@
-using GraphEditor.Business.Models;
-using GraphEditor.Export;
 using GraphEditor.ViewServices;
+using GraphEditor.Export;
+using GraphEditor.Business.Models;
 
 namespace GraphEditor;
 
@@ -8,14 +8,17 @@ public sealed partial class GraphEditorForm : Form {
     private readonly PictureViewService _service = new();
 
     private bool _isMouseDown;
-    
+
     private readonly TextBox _textEditor;
 
     private bool _isHandlingTextEditor;
 
     public GraphEditorForm() {
         InitializeComponent();
-        
+
+        KeyPreview = true;
+        KeyDown += GraphEditorForm_KeyDown;
+
         _textEditor = new TextBox {
             Visible = false,
             Multiline = true,
@@ -25,6 +28,84 @@ public sealed partial class GraphEditorForm : Form {
         _textEditor.Leave += TextEditorOnLeave;
         _textEditor.KeyDown += TextEditorOnKeyDown;
         Controls.Add(_textEditor);
+    }
+
+    private void GraphEditorForm_KeyDown(object? sender, KeyEventArgs e) {
+        if (_textEditor.Visible) return;
+
+        var ctrl = (e.Modifiers & Keys.Control) == Keys.Control;
+        var shift = (e.Modifiers & Keys.Shift) == Keys.Shift;
+
+        switch (e.KeyCode) {
+            case Keys.Z when ctrl && !shift:
+                if (_service.CanUndo) {
+                    _service.Undo();
+                    Refresh();
+                    UpdateVisualState();
+                }
+                e.Handled = true;
+                break;
+
+            case Keys.Y when ctrl:
+            case Keys.Z when ctrl && shift:
+                if (_service.CanRedo) {
+                    _service.Redo();
+                    Refresh();
+                    UpdateVisualState();
+                }
+                e.Handled = true;
+                break;
+
+            case Keys.C when ctrl:
+                if (_service.HasSelection) {
+                    _service.Copy();
+                }
+                e.Handled = true;
+                break;
+
+            case Keys.V when ctrl:
+                if (_service.HasClipboard) {
+                    _service.Paste();
+                    Refresh();
+                    UpdateVisualState();
+                }
+                e.Handled = true;
+                break;
+
+            case Keys.D when ctrl:
+                if (_service.HasSelection) {
+                    _service.Duplicate();
+                    Refresh();
+                    UpdateVisualState();
+                }
+                e.Handled = true;
+                break;
+
+            case Keys.Delete:
+            case Keys.Back:
+                if (_service.CanDelete) {
+                    _service.DeleteButtonClick();
+                    Refresh();
+                    UpdateVisualState();
+                }
+                e.Handled = true;
+                break;
+
+            case Keys.Left:
+            case Keys.Right:
+            case Keys.Up:
+            case Keys.Down:
+                if (_service.HasSelection) {
+                    var step = shift ? 10 : 1;
+                    var dx = e.KeyCode == Keys.Left ? -step : e.KeyCode == Keys.Right ? step : 0;
+                    var dy = e.KeyCode == Keys.Up ? -step : e.KeyCode == Keys.Down ? step : 0;
+                    _service.MoveSelected(dx, dy);
+                    Refresh();
+                    UpdateVisualState();
+                }
+                e.Handled = true;
+                break;
+        }
     }
 
     private void GraphEditorForm_Paint(object sender, PaintEventArgs e) {
@@ -39,7 +120,7 @@ public sealed partial class GraphEditorForm : Form {
         HideTextEditor(true);
 
         _isMouseDown = true;
-        var additive = (ModifierKeys & Keys.Control) != Keys.None;
+        var additive = (ModifierKeys & Keys.Control) == Keys.Control;
         _service.MouseDown(e.Location, additive);
         Refresh();
         UpdateVisualState();
@@ -58,8 +139,8 @@ public sealed partial class GraphEditorForm : Form {
         using var dlg = new SaveFileDialog();
         dlg.Filter = @"JSON|*.json";
         if (dlg.ShowDialog() != DialogResult.OK) return;
-        _service.GetPictureModel();
-        JsonExporter.Export(dlg.FileName);
+        var model = _service.GetPictureModel();
+        JsonExporter.Export(model, dlg.FileName);
     }
 
     private void GraphEditorForm_MouseUp(object sender, MouseEventArgs e) {
@@ -124,7 +205,7 @@ public sealed partial class GraphEditorForm : Form {
     
     private void SetTextMenuItem_Click(object sender, EventArgs e) {
         if (_service.PictureModel.SelectedRectangle == null) {
-            MessageBox.Show($@"Сначала выберите фигуру.", @"info");
+            MessageBox.Show($@"Сначала выберите фигуру.", "info");
             return;
         }
         
@@ -147,9 +228,10 @@ public sealed partial class GraphEditorForm : Form {
             return;
         }
 
-        if (!_service.GroupSelected("Группа")) return;
-        Refresh();
-        UpdateVisualState();
+        if (_service.GroupSelected("Группа")) {
+            Refresh();
+            UpdateVisualState();
+        }
     }
 
     private void UngroupMenuItem_Click(object sender, EventArgs e) {
@@ -242,6 +324,89 @@ public sealed partial class GraphEditorForm : Form {
         _service.MoveForward();
         Refresh();
     }
+
+    private void BorderColorMenuItem_Click(object sender, EventArgs e) {
+        HideTextEditor(true);
+        BorderColorDialog.Color = _service.GetBorderColor();
+        if (BorderColorDialog.ShowDialog() != DialogResult.OK) {
+            return;
+        }
+
+        _service.SetBorderColor(BorderColorDialog.Color);
+        Refresh();
+    }
+
+    private void BorderWidth1MenuItem_Click(object sender, EventArgs e) {
+        HideTextEditor(true);
+        _service.SetBorderWidth(1f);
+        Refresh();
+    }
+
+    private void BorderWidth2MenuItem_Click(object sender, EventArgs e) {
+        HideTextEditor(true);
+        _service.SetBorderWidth(2f);
+        Refresh();
+    }
+
+    private void BorderWidth3MenuItem_Click(object sender, EventArgs e) {
+        HideTextEditor(true);
+        _service.SetBorderWidth(3f);
+        Refresh();
+    }
+
+    private void BorderWidth5MenuItem_Click(object sender, EventArgs e) {
+        HideTextEditor(true);
+        _service.SetBorderWidth(5f);
+        Refresh();
+    }
+
+    private void AlignLeftMenuItem_Click(object sender, EventArgs e) {
+        HideTextEditor(true);
+        _service.AlignLeft();
+        Refresh();
+    }
+
+    private void AlignRightMenuItem_Click(object sender, EventArgs e) {
+        HideTextEditor(true);
+        _service.AlignRight();
+        Refresh();
+    }
+
+    private void AlignTopMenuItem_Click(object sender, EventArgs e) {
+        HideTextEditor(true);
+        _service.AlignTop();
+        Refresh();
+    }
+
+    private void AlignBottomMenuItem_Click(object sender, EventArgs e) {
+        HideTextEditor(true);
+        _service.AlignBottom();
+        Refresh();
+    }
+
+    private void AlignCenterHorizontalMenuItem_Click(object sender, EventArgs e) {
+        HideTextEditor(true);
+        _service.AlignCenterHorizontal();
+        Refresh();
+    }
+
+    private void AlignCenterVerticalMenuItem_Click(object sender, EventArgs e) {
+        HideTextEditor(true);
+        _service.AlignCenterVertical();
+        Refresh();
+    }
+
+    private void DistributeHorizontallyMenuItem_Click(object sender, EventArgs e) {
+        HideTextEditor(true);
+        _service.DistributeHorizontally();
+        Refresh();
+    }
+
+    private void DistributeVerticallyMenuItem_Click(object sender, EventArgs e) {
+        HideTextEditor(true);
+        _service.DistributeVertically();
+        Refresh();
+    }
     
     private void ShowTextEditor(Rectangle bounds, string text, string fontFamily, float fontSize, Color textColor, TextAlign align, Color fillColor) {
         const int padding = 4;
@@ -295,15 +460,13 @@ public sealed partial class GraphEditorForm : Form {
         switch (e.KeyCode) {
             case Keys.Enter when e.Control:
                 HideTextEditor(true);
+                e.SuppressKeyPress = true;
                 break;
             case Keys.Escape:
                 HideTextEditor(false);
+                e.SuppressKeyPress = true;
                 break;
-            default:
-                throw new ArgumentOutOfRangeException();
         }
-
-        e.SuppressKeyPress = true;
     }
 
     private static HorizontalAlignment ToHorizontalAlignment(TextAlign align) => align switch {
