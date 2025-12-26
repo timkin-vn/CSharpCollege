@@ -1,17 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Windows.Forms;
 using GraphEditor.Business.Models;
 
 namespace GraphEditor.ViewModels;
 
 internal class PictureViewModel {
-    public IList<RectangleViewModel> Rectangles { get; init; } = new List<RectangleViewModel>();
+    public IList<RectangleViewModel> Rectangles { get; private init; } = new List<RectangleViewModel>();
 
-    public RectangleViewModel? SelectedRectangle { get; init; }
+    public RectangleViewModel? SelectedRectangle { get; private init; }
 
-    public IEnumerable<MarkerViewModel> Markers => SelectedRectangle?.Markers ?? Enumerable.Empty<MarkerViewModel>();
+    public IEnumerable<MarkerViewModel> Markers => SelectedRectangle?.Markers ?? [];
 
     public static PictureViewModel FromModel(PictureModel model) {
         var rects = model.Rectangles
@@ -25,7 +21,7 @@ internal class PictureViewModel {
 
         return new PictureViewModel {
             Rectangles = rects,
-            SelectedRectangle = selected,
+            SelectedRectangle = selected
         };
     }
 }
