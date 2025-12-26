@@ -1,0 +1,85 @@
+﻿@model WebHello.Models.CalculatorViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<main>
+    <h2>Калькулятор</h2>
+
+    <div class="container text-center">
+        <div class="row p-2">
+            <div class="col-12 display-3 text-warning text-bg-primary text-end">
+                @Model.DisplayValue
+            </div>
+        </div>
+
+        <div class="row p-2">
+            <div class="col-2 d-grid">
+                @Html.ActionLink("7", "PressDigit", new { digitString = "7", }, new { @class = "btn btn-primary", })
+            </div>
+            <div class="col-2 d-grid">
+                @Html.ActionLink("8", "PressDigit", new { digitString = "8", }, new { @class = "btn btn-primary", })
+            </div>
+            <div class="col-2 d-grid">
+                @Html.ActionLink("9", "PressDigit", new { digitString = "9", }, new { @class = "btn btn-primary", })
+            </div>
+            <div class="col-2">
+            </div>
+            <div class="col-4 d-grid">
+                @Html.ActionLink("C", "PressClear", null, new { @class = "btn btn-primary", })
+            </div>
+        </div>
+
+        <div class="row p-2">
+            <div class="col-2 d-grid">
+                @Html.ActionLink("4", "PressDigit", new { digitString = "4", }, new { @class = "btn btn-primary", })
+            </div>
+            <div class="col-2 d-grid">
+                @Html.ActionLink("5", "PressDigit", new { digitString = "5", }, new { @class = "btn btn-primary", })
+            </div>
+            <div class="col-2 d-grid">
+                @Html.ActionLink("6", "PressDigit", new { digitString = "6", }, new { @class = "btn btn-primary", })
+            </div>
+            <div class="col-2">
+            </div>
+            <div class="col-2 d-grid">
+                @Html.ActionLink("+", "PressOperation", new { opCode = "+", }, new { @class = "btn btn-primary", })
+            </div>
+            <div class="col-2 d-grid">
+                @Html.ActionLink("-", "PressOperation", new { opCode = "-", }, new { @class = "btn btn-primary", })
+            </div>
+        </div>
+
+        <div class="row p-2">
+            <div class="col-2 d-grid">
+                @Html.ActionLink("1", "PressDigit", new { digitString = "1", }, new { @class = "btn btn-primary", })
+            </div>
+            <div class="col-2 d-grid">
+                @Html.ActionLink("2", "PressDigit", new { digitString = "2", }, new { @class = "btn btn-primary", })
+            </div>
+            <div class="col-2 d-grid">
+                @Html.ActionLink("3", "PressDigit", new { digitString = "3", }, new { @class = "btn btn-primary", })
+            </div>
+            <div class="col-2">
+            </div>
+            <div class="col-2 d-grid">
+                @Html.ActionLink("*", "PressOperation", new { opCode = "*", }, new { @class = "btn btn-primary", })
+            </div>
+            <div class="col-2 d-grid">
+                @Html.ActionLink("/", "PressOperation", new { opCode = "/", }, new { @class = "btn btn-primary", })
+            </div>
+        </div>
+
+        <div class="row p-2">
+            <div class="col-2 d-grid">
+                @Html.ActionLink("0", "PressDigit", new { digitString = "0", }, new { @class = "btn btn-primary", })
+            </div>
+            <div class="col-6">
+            </div>
+            <div class="col-4 d-grid">
+                @Html.ActionLink("=", "PressOperation", new { opCode = "=", }, new { @class = "btn btn-primary", })
+            </div>
+        </div>
+    </div>
+</main>

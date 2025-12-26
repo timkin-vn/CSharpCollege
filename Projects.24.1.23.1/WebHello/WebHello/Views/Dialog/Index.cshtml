@@ -1,0 +1,17 @@
+﻿@model WebHello.Models.DialogViewModel
+
+<main>
+    <h2>Диалог</h2>
+
+    @using (Html.BeginForm())
+    {
+        <div>
+            Представьтесь, пожалуйста: @Html.EditorFor(m => m.Name)
+        </div>
+
+        <div>
+            <input type="submit" class="btn btn-outline-primary" value="Привет!" />
+        </div>
+    }
+</main>
+
