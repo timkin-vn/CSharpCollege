@@ -38,7 +38,7 @@ internal class PictureViewService {
             return activeMarker.Cursor;
         }
 
-        var activeRect = _viewModel.Rectangles?.LastOrDefault(r => IsInside(loc, r.Rectangle));
+        var activeRect = _viewModel.Rectangles.LastOrDefault(r => IsInside(loc, r.Rectangle));
         return activeRect != null ? Cursors.SizeAll : Cursors.Default;
     }
 
@@ -237,7 +237,7 @@ internal class PictureViewService {
             return false;
         }
 
-        var viewRect = _viewModel.Rectangles?.FirstOrDefault(r => r.Id == rect.Id);
+        var viewRect = _viewModel.Rectangles.FirstOrDefault(r => r.Id == rect.Id);
         if (viewRect == null) {
             bounds = default;
             text = string.Empty;
