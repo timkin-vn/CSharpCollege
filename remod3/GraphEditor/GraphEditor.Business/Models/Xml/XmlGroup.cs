@@ -12,5 +12,5 @@ public class XmlGroup {
 
     [XmlArray("Members")]
     [XmlArrayItem("RectangleId")]
-    public List<Guid> RectangleIds { get; set; } = [];
+    public List<Guid> RectangleIds { get; set; } = new();
 }
