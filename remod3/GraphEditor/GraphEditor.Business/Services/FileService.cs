@@ -1,7 +1,7 @@
-using System.IO.Compression;
-using System.Xml.Serialization;
 using GraphEditor.Business.Models;
 using GraphEditor.Business.Models.Xml;
+using System.IO.Compression;
+using System.Xml.Serialization;
 
 namespace GraphEditor.Business.Services;
 
@@ -17,7 +17,7 @@ internal class FileService {
         serializer.Serialize(writer, xml);
     }
 
-    public static PictureModel OpenFile(string fileName) {
+    public PictureModel OpenFile(string fileName) {
         try {
             using var fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
             using var archive = new ZipArchive(fs, ZipArchiveMode.Read);
@@ -65,7 +65,7 @@ internal class FileService {
                     },
                     FontFamily = r.FontFamily,
                     FontSize = r.FontSize,
-                    TextAlign = r.TextAlign.ToString(),
+                    TextAlign = r.TextAlign.ToString()
                 }).ToList(),
             Groups = model.Groups
                 .Select(g => new XmlGroup {
@@ -85,8 +85,8 @@ internal class FileService {
                 Top = r.Top,
                 Width = r.Width,
                 Height = r.Height,
-                BorderColor = Color.FromArgb(r.BorderColor.Red, r.BorderColor.Green, r.BorderColor.Blue),
-                FillColor = Color.FromArgb(r.FillColor.Red, r.FillColor.Green, r.FillColor.Blue),
+                BorderColor = Color.FromArgb(r.BorderColor!.Red, r.BorderColor.Green, r.BorderColor.Blue),
+                FillColor = Color.FromArgb(r.FillColor!.Red, r.FillColor.Green, r.FillColor.Blue),
 
                 BorderWidth = r.BorderWidth <= 0 ? 1.5f : r.BorderWidth,
                 Text = r.Text,
@@ -95,7 +95,7 @@ internal class FileService {
                     : Color.Black,
                 FontFamily = string.IsNullOrWhiteSpace(r.FontFamily) ? "Segoe UI" : r.FontFamily,
                 FontSize = r.FontSize <= 0 ? 10f : r.FontSize,
-                TextAlign = Enum.TryParse<TextAlign>(r.TextAlign, out var align) ? align : TextAlign.Center,
+                TextAlign = Enum.TryParse<TextAlign>(r.TextAlign, out var align) ? align : TextAlign.Center
             })
             .ToList();
 
