@@ -14,17 +14,22 @@ internal class PictureViewService {
         _viewModel = FromBusiness(_businessService.PictureModel);
         FileName = string.Empty;
     }
-    
+
     public PictureModel PictureModel => _businessService.PictureModel;
 
     public bool CreateMode { get; private set; }
 
     public bool CanDelete => !CreateMode && PictureModel.SelectedRectangleIds.Any();
 
+    public bool CanUndo => _businessService.CanUndo;
+    public bool CanRedo => _businessService.CanRedo;
+    public bool HasClipboard => _businessService.HasClipboard;
+    public bool HasSelection => PictureModel.SelectedRectangleIds.Any();
+
     public string FileName { get; private set; }
 
     public PictureModel GetPictureModel() => _businessService.GetPictureModel();
-    
+
     public void Paint(Graphics g) => Painter.Paint(g, _viewModel, true);
 
     public Cursor? GetCursor(Point loc) {
@@ -33,7 +38,7 @@ internal class PictureViewService {
             return activeMarker.Cursor;
         }
 
-        var activeRect = _viewModel.Rectangles.LastOrDefault(r => IsInside(loc, r.Rectangle));
+        var activeRect = _viewModel.Rectangles?.LastOrDefault(r => IsInside(loc, r.Rectangle));
         return activeRect != null ? Cursors.SizeAll : Cursors.Default;
     }
 
@@ -110,8 +115,15 @@ internal class PictureViewService {
 
     public Color GetFillColor() => _viewModel.SelectedRectangle?.FillColor ?? PictureService.DefaultFillColor;
 
+    public Color GetBorderColor() => _viewModel.SelectedRectangle?.BorderColor ?? PictureService.DefaultBorderColor;
+
     public void SetFillColor(Color color) {
         _businessService.SetFillColor(color);
+        RefreshViewModel();
+    }
+
+    public void SetBorderColor(Color color) {
+        _businessService.SetBorderColor(color);
         RefreshViewModel();
     }
 
@@ -119,9 +131,14 @@ internal class PictureViewService {
         _businessService.MoveForward();
         RefreshViewModel();
     }
-        
+
     public void SetText(string text) {
         _businessService.SetText(text);
+        RefreshViewModel();
+    }
+
+    public void SetBorderWidth(float width) {
+        _businessService.SetBorderWidth(width);
         RefreshViewModel();
     }
 
@@ -133,6 +150,75 @@ internal class PictureViewService {
 
     public void Ungroup(Guid groupId) {
         _businessService.Ungroup(groupId);
+        RefreshViewModel();
+    }
+
+    public void Undo() {
+        _businessService.Undo();
+        RefreshViewModel();
+    }
+
+    public void Redo() {
+        _businessService.Redo();
+        RefreshViewModel();
+    }
+
+    public void Copy() {
+        _businessService.CopySelected();
+    }
+
+    public void Paste() {
+        _businessService.Paste();
+        RefreshViewModel();
+    }
+
+    public void Duplicate() {
+        _businessService.DuplicateSelected();
+        RefreshViewModel();
+    }
+
+    public void MoveSelected(int deltaX, int deltaY) {
+        _businessService.MoveSelected(deltaX, deltaY);
+        RefreshViewModel();
+    }
+
+    public void AlignLeft() {
+        _businessService.AlignLeft();
+        RefreshViewModel();
+    }
+
+    public void AlignRight() {
+        _businessService.AlignRight();
+        RefreshViewModel();
+    }
+
+    public void AlignTop() {
+        _businessService.AlignTop();
+        RefreshViewModel();
+    }
+
+    public void AlignBottom() {
+        _businessService.AlignBottom();
+        RefreshViewModel();
+    }
+
+    public void AlignCenterHorizontal() {
+        _businessService.AlignCenterHorizontal();
+        RefreshViewModel();
+    }
+
+    public void AlignCenterVertical() {
+        _businessService.AlignCenterVertical();
+        RefreshViewModel();
+    }
+
+    public void DistributeHorizontally() {
+        _businessService.DistributeHorizontally();
+        RefreshViewModel();
+    }
+
+    public void DistributeVertically() {
+        _businessService.DistributeVertically();
         RefreshViewModel();
     }
 
@@ -151,7 +237,7 @@ internal class PictureViewService {
             return false;
         }
 
-        var viewRect = _viewModel.Rectangles.FirstOrDefault(r => r.Id == rect.Id);
+        var viewRect = _viewModel.Rectangles?.FirstOrDefault(r => r.Id == rect.Id);
         if (viewRect == null) {
             bounds = default;
             text = string.Empty;

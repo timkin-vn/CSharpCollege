@@ -1,6 +1,6 @@
-using System.Drawing.Drawing2D;
 using GraphEditor.Business.Models;
 using GraphEditor.ViewModels;
+using System.Drawing.Drawing2D;
 
 namespace GraphEditor.ViewServices;
 
@@ -47,10 +47,9 @@ internal abstract class Painter {
             g.DrawRectangle(pen, marker.Rectangle);
         }
     }
-    
     private static StringAlignment ToHorizontal(TextAlign align) => align switch {
         TextAlign.Left => StringAlignment.Near,
         TextAlign.Right => StringAlignment.Far,
-        _ => StringAlignment.Center
+        _ => StringAlignment.Center,
     };
 }
