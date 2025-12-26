@@ -1,5 +1,7 @@
 using System.Text.Json;
-using MinesweeperEF.Business;
+using MinesweeperEF.Business.Cells;
+using MinesweeperEF.Business.Core;
+using MinesweeperEF.Business.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -31,7 +33,7 @@ public sealed class GamesController(AppDbContext db) : ControllerBase {
         return await db.SavedGames
             .Where(g => g.UserId == user.Id)
             .OrderByDescending(g => g.UpdatedAt)
-            .Select(g => new SavedGameInfoDto(g.Id, g.Name, g.UpdatedAt, g.Status))
+            .Select(g => new SavedGameInfoDto(g.Id, g.Name))
             .ToListAsync();
     }
     
