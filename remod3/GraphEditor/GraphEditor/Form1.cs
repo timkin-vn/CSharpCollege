@@ -23,7 +23,7 @@ public sealed partial class GraphEditorForm : Form {
             Visible = false,
             Multiline = true,
             BorderStyle = BorderStyle.FixedSingle,
-            Font = Font,
+            Font = Font
         };
         _textEditor.Leave += TextEditorOnLeave;
         _textEditor.KeyDown += TextEditorOnKeyDown;
@@ -205,7 +205,7 @@ public sealed partial class GraphEditorForm : Form {
     
     private void SetTextMenuItem_Click(object sender, EventArgs e) {
         if (_service.PictureModel.SelectedRectangle == null) {
-            MessageBox.Show($@"Сначала выберите фигуру.", "info");
+            MessageBox.Show($@"Сначала выберите фигуру.", @"info");
             return;
         }
         
@@ -228,10 +228,9 @@ public sealed partial class GraphEditorForm : Form {
             return;
         }
 
-        if (_service.GroupSelected("Группа")) {
-            Refresh();
-            UpdateVisualState();
-        }
+        if (!_service.GroupSelected("Группа")) return;
+        Refresh();
+        UpdateVisualState();
     }
 
     private void UngroupMenuItem_Click(object sender, EventArgs e) {
