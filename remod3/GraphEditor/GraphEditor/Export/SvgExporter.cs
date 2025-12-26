@@ -7,7 +7,7 @@ namespace GraphEditor.Export;
 public static class SvgExporter {
     public static void Export(PictureModel picture, string filePath, int canvasWidth, int canvasHeight, Color background) {
         var sb = new StringBuilder();
-        sb.AppendLine("""<?xml version="1.0" encoding="UTF-8"?>""");
+        sb.AppendLine($"""<?xml version="1.0" encoding="UTF-8"?>""");
         sb.AppendLine($"""<svg xmlns="http://www.w3.org/2000/svg" width="{canvasWidth}" height="{canvasHeight}" viewBox="0 0 {canvasWidth} {canvasHeight}">""");
 
         sb.AppendLine($"""  <rect x="0" y="0" width="{canvasWidth}" height="{canvasHeight}" fill="{ToSvgColor(background)}"/>""");

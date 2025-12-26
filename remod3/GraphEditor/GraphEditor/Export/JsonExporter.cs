@@ -1,5 +1,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using GraphEditor.Business.Models;
 
 namespace GraphEditor.Export;
 
@@ -9,14 +10,14 @@ public static class JsonExporter {
         Converters = { new ColorConverter() }
     };
 
-    public static void Export(string filePath) {
-        var dto = PictureDto.FromModel();
+    public static void Export(PictureModel picture, string filePath) {
+        var dto = PictureDto.FromModel(picture);
         var json = JsonSerializer.Serialize(dto, Options);
         File.WriteAllText(filePath, json);
     }
 
     public class PictureDto {
-        public static PictureDto FromModel() => new();
+        public static PictureDto FromModel(PictureModel m) => new() { };
     }
 
     private sealed class ColorConverter : JsonConverter<Color> {
