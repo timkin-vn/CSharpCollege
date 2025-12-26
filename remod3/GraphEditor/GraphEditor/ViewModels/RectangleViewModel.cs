@@ -3,7 +3,7 @@ using GraphEditor.Business.Models;
 namespace GraphEditor.ViewModels;
 
 internal class RectangleViewModel {
-    private static readonly int MarkerHalfSize = MarkerViewModel.MarkerHalfSize;
+    private const int MarkerHalfSize = MarkerViewModel.MarkerHalfSize;
 
     public Guid Id { get; private init; }
 
@@ -61,7 +61,7 @@ internal class RectangleViewModel {
             Rectangle = new Rectangle(centerX - MarkerHalfSize, centerY - MarkerHalfSize, MarkerHalfSize * 2, MarkerHalfSize * 2),
             EditMode = mode,
             Cursor = cursor,
-            IsActive = isActive,
+            IsActive = isActive
         };
 
     public static RectangleViewModel FromBusiness(RectangleModel model, bool isSelected) {
@@ -80,7 +80,7 @@ internal class RectangleViewModel {
             FontFamily = model.FontFamily,
             FontSize = model.FontSize,
             TextAlign = model.TextAlign,
-            IsSelected = isSelected,
+            IsSelected = isSelected
         };
     }
 }
