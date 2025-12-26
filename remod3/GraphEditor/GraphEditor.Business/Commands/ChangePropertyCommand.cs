@@ -7,18 +7,14 @@ public class ChangePropertyCommand<T> : ICommand {
     private readonly T _newValue;
     private readonly Action<RectangleModel, T> _setter;
 
-    public string Description { get; }
-
     public ChangePropertyCommand(
         IEnumerable<RectangleModel> rectangles,
         T newValue,
         Func<RectangleModel, T> getter,
-        Action<RectangleModel, T> setter,
-        string description) {
+        Action<RectangleModel, T> setter) {
         _newValue = newValue;
         var getter1 = getter;
         _setter = setter;
-        Description = description;
         _changes = rectangles.Select(r => (r, getter1(r))).ToList();
     }
 
