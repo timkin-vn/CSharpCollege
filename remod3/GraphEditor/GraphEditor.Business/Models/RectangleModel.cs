@@ -28,7 +28,7 @@ public class RectangleModel {
     public Color BorderColor { get; set; } = Color.Blue;
 
     public string? Text { get; set; }
-    public Color TextColor { get; set; } = Color.Black;
+    public Color TextColor { get; init; } = Color.Black;
     public string FontFamily { get; init; } = "Segoe UI";
     public float FontSize { get; init; } = 10f;
 
@@ -65,7 +65,7 @@ public class RectangleModel {
             TextColor = TextColor,
             FontFamily = FontFamily,
             FontSize = FontSize,
-            TextAlign = TextAlign,
+            TextAlign = TextAlign
         };
     }
 }
