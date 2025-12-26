@@ -50,6 +50,6 @@ internal abstract class Painter {
     private static StringAlignment ToHorizontal(TextAlign align) => align switch {
         TextAlign.Left => StringAlignment.Near,
         TextAlign.Right => StringAlignment.Far,
-        _ => StringAlignment.Center,
+        _ => StringAlignment.Center
     };
 }
