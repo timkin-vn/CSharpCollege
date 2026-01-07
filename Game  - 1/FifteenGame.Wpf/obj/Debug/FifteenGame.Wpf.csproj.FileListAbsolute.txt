@@ -1,0 +1,71 @@
+D:\123\CSharpCollege-LevKudrashow\CSharpCollege-LevKudrashow\LevKudrashow\FifteenGame.Wpf\FifteenGame.Wpf\bin\Debug\FifteenGame.Wpf.exe.config
+D:\123\CSharpCollege-LevKudrashow\CSharpCollege-LevKudrashow\LevKudrashow\FifteenGame.Wpf\FifteenGame.Wpf\bin\Debug\FifteenGame.Wpf.exe
+D:\123\CSharpCollege-LevKudrashow\CSharpCollege-LevKudrashow\LevKudrashow\FifteenGame.Wpf\FifteenGame.Wpf\bin\Debug\FifteenGame.Wpf.pdb
+D:\123\CSharpCollege-LevKudrashow\CSharpCollege-LevKudrashow\LevKudrashow\FifteenGame.Wpf\FifteenGame.Wpf\bin\Debug\FifteenGame.Business.dll
+D:\123\CSharpCollege-LevKudrashow\CSharpCollege-LevKudrashow\LevKudrashow\FifteenGame.Wpf\FifteenGame.Wpf\bin\Debug\FifteenGame.Business.pdb
+D:\123\CSharpCollege-LevKudrashow\CSharpCollege-LevKudrashow\LevKudrashow\FifteenGame.Wpf\FifteenGame.Wpf\obj\Debug\FifteenGame.Wpf.csproj.AssemblyReference.cache
+D:\123\CSharpCollege-LevKudrashow\CSharpCollege-LevKudrashow\LevKudrashow\FifteenGame.Wpf\FifteenGame.Wpf\obj\Debug\MainWindow.g.cs
+D:\123\CSharpCollege-LevKudrashow\CSharpCollege-LevKudrashow\LevKudrashow\FifteenGame.Wpf\FifteenGame.Wpf\obj\Debug\App.g.cs
+D:\123\CSharpCollege-LevKudrashow\CSharpCollege-LevKudrashow\LevKudrashow\FifteenGame.Wpf\FifteenGame.Wpf\obj\Debug\GeneratedInternalTypeHelper.g.cs
+D:\123\CSharpCollege-LevKudrashow\CSharpCollege-LevKudrashow\LevKudrashow\FifteenGame.Wpf\FifteenGame.Wpf\obj\Debug\FifteenGame.Wpf_MarkupCompile.cache
+D:\123\CSharpCollege-LevKudrashow\CSharpCollege-LevKudrashow\LevKudrashow\FifteenGame.Wpf\FifteenGame.Wpf\obj\Debug\FifteenGame.Wpf_MarkupCompile.lref
+D:\123\CSharpCollege-LevKudrashow\CSharpCollege-LevKudrashow\LevKudrashow\FifteenGame.Wpf\FifteenGame.Wpf\obj\Debug\MainWindow.baml
+D:\123\CSharpCollege-LevKudrashow\CSharpCollege-LevKudrashow\LevKudrashow\FifteenGame.Wpf\FifteenGame.Wpf\obj\Debug\FifteenGame.Wpf.g.resources
+D:\123\CSharpCollege-LevKudrashow\CSharpCollege-LevKudrashow\LevKudrashow\FifteenGame.Wpf\FifteenGame.Wpf\obj\Debug\FifteenGame.Wpf.Properties.Resources.resources
+D:\123\CSharpCollege-LevKudrashow\CSharpCollege-LevKudrashow\LevKudrashow\FifteenGame.Wpf\FifteenGame.Wpf\obj\Debug\FifteenGame.Wpf.csproj.GenerateResource.cache
+D:\123\CSharpCollege-LevKudrashow\CSharpCollege-LevKudrashow\LevKudrashow\FifteenGame.Wpf\FifteenGame.Wpf\obj\Debug\FifteenGame.Wpf.csproj.CoreCompileInputs.cache
+D:\123\CSharpCollege-LevKudrashow\CSharpCollege-LevKudrashow\LevKudrashow\FifteenGame.Wpf\FifteenGame.Wpf\obj\Debug\FifteenG.60025469.Up2Date
+D:\123\CSharpCollege-LevKudrashow\CSharpCollege-LevKudrashow\LevKudrashow\FifteenGame.Wpf\FifteenGame.Wpf\obj\Debug\FifteenGame.Wpf.exe
+D:\123\CSharpCollege-LevKudrashow\CSharpCollege-LevKudrashow\LevKudrashow\FifteenGame.Wpf\FifteenGame.Wpf\obj\Debug\FifteenGame.Wpf.pdb
+C:\Users\Fr1zer0k\Desktop\FifteenGame.Wpf\FifteenGame.Wpf\bin\Debug\FifteenGame.Wpf.exe.config
+C:\Users\Fr1zer0k\Desktop\FifteenGame.Wpf\FifteenGame.Wpf\bin\Debug\FifteenGame.Wpf.exe
+C:\Users\Fr1zer0k\Desktop\FifteenGame.Wpf\FifteenGame.Wpf\bin\Debug\FifteenGame.Wpf.pdb
+C:\Users\Fr1zer0k\Desktop\FifteenGame.Wpf\FifteenGame.Wpf\bin\Debug\FifteenGame.Business.dll
+C:\Users\Fr1zer0k\Desktop\FifteenGame.Wpf\FifteenGame.Wpf\bin\Debug\FifteenGame.Business.pdb
+C:\Users\Fr1zer0k\Desktop\FifteenGame.Wpf\FifteenGame.Wpf\obj\Debug\FifteenGame.Wpf.csproj.AssemblyReference.cache
+C:\Users\Fr1zer0k\Desktop\FifteenGame.Wpf\FifteenGame.Wpf\obj\Debug\MainWindow.g.cs
+C:\Users\Fr1zer0k\Desktop\FifteenGame.Wpf\FifteenGame.Wpf\obj\Debug\App.g.cs
+C:\Users\Fr1zer0k\Desktop\FifteenGame.Wpf\FifteenGame.Wpf\obj\Debug\FifteenGame.Wpf_MarkupCompile.cache
+C:\Users\Fr1zer0k\Desktop\FifteenGame.Wpf\FifteenGame.Wpf\obj\Debug\MainWindow.baml
+C:\Users\Fr1zer0k\Desktop\FifteenGame.Wpf\FifteenGame.Wpf\obj\Debug\FifteenGame.Wpf.g.resources
+C:\Users\Fr1zer0k\Desktop\FifteenGame.Wpf\FifteenGame.Wpf\obj\Debug\FifteenGame.Wpf.Properties.Resources.resources
+C:\Users\Fr1zer0k\Desktop\FifteenGame.Wpf\FifteenGame.Wpf\obj\Debug\FifteenGame.Wpf.csproj.GenerateResource.cache
+C:\Users\Fr1zer0k\Desktop\FifteenGame.Wpf\FifteenGame.Wpf\obj\Debug\FifteenGame.Wpf.csproj.CoreCompileInputs.cache
+C:\Users\Fr1zer0k\Desktop\FifteenGame.Wpf\FifteenGame.Wpf\obj\Debug\FifteenG.60025469.Up2Date
+C:\Users\Fr1zer0k\Desktop\FifteenGame.Wpf\FifteenGame.Wpf\obj\Debug\FifteenGame.Wpf.exe
+C:\Users\Fr1zer0k\Desktop\FifteenGame.Wpf\FifteenGame.Wpf\obj\Debug\FifteenGame.Wpf.pdb
+C:\Users\Fr1zer0k\Desktop\FifteenGame.Wpf\FifteenGame.Wpf\obj\Debug\FifteenGame.Wpf_MarkupCompile.lref
+C:\Users\Fr1zer0k\Desktop\Game  - 1\FifteenGame.Wpf\bin\Debug\FifteenGame.Wpf.exe.config
+C:\Users\Fr1zer0k\Desktop\Game  - 1\FifteenGame.Wpf\bin\Debug\FifteenGame.Wpf.exe
+C:\Users\Fr1zer0k\Desktop\Game  - 1\FifteenGame.Wpf\bin\Debug\FifteenGame.Wpf.pdb
+C:\Users\Fr1zer0k\Desktop\Game  - 1\FifteenGame.Wpf\bin\Debug\FifteenGame.Business.dll
+C:\Users\Fr1zer0k\Desktop\Game  - 1\FifteenGame.Wpf\bin\Debug\FifteenGame.Business.pdb
+C:\Users\Fr1zer0k\Desktop\Game  - 1\FifteenGame.Wpf\obj\Debug\FifteenGame.Wpf.csproj.AssemblyReference.cache
+C:\Users\Fr1zer0k\Desktop\Game  - 1\FifteenGame.Wpf\obj\Debug\MainWindow.g.cs
+C:\Users\Fr1zer0k\Desktop\Game  - 1\FifteenGame.Wpf\obj\Debug\App.g.cs
+C:\Users\Fr1zer0k\Desktop\Game  - 1\FifteenGame.Wpf\obj\Debug\FifteenGame.Wpf_MarkupCompile.cache
+C:\Users\Fr1zer0k\Desktop\Game  - 1\FifteenGame.Wpf\obj\Debug\MainWindow.baml
+C:\Users\Fr1zer0k\Desktop\Game  - 1\FifteenGame.Wpf\obj\Debug\FifteenGame.Wpf.g.resources
+C:\Users\Fr1zer0k\Desktop\Game  - 1\FifteenGame.Wpf\obj\Debug\FifteenGame.Wpf.Properties.Resources.resources
+C:\Users\Fr1zer0k\Desktop\Game  - 1\FifteenGame.Wpf\obj\Debug\FifteenGame.Wpf.csproj.GenerateResource.cache
+C:\Users\Fr1zer0k\Desktop\Game  - 1\FifteenGame.Wpf\obj\Debug\FifteenGame.Wpf.csproj.CoreCompileInputs.cache
+C:\Users\Fr1zer0k\Desktop\Game  - 1\FifteenGame.Wpf\obj\Debug\FifteenG.60025469.Up2Date
+C:\Users\Fr1zer0k\Desktop\Game  - 1\FifteenGame.Wpf\obj\Debug\FifteenGame.Wpf.exe
+C:\Users\Fr1zer0k\Desktop\Game  - 1\FifteenGame.Wpf\obj\Debug\FifteenGame.Wpf.pdb
+C:\Users\Fr1zer0k\Desktop\Game  - 1 2v1\FifteenGame.Wpf\bin\Debug\FifteenGame.Wpf.exe.config
+C:\Users\Fr1zer0k\Desktop\Game  - 1 2v1\FifteenGame.Wpf\bin\Debug\FifteenGame.Wpf.exe
+C:\Users\Fr1zer0k\Desktop\Game  - 1 2v1\FifteenGame.Wpf\bin\Debug\FifteenGame.Wpf.pdb
+C:\Users\Fr1zer0k\Desktop\Game  - 1 2v1\FifteenGame.Wpf\bin\Debug\FifteenGame.Business.dll
+C:\Users\Fr1zer0k\Desktop\Game  - 1 2v1\FifteenGame.Wpf\bin\Debug\FifteenGame.Business.pdb
+C:\Users\Fr1zer0k\Desktop\Game  - 1 2v1\FifteenGame.Wpf\obj\Debug\FifteenGame.Wpf.csproj.AssemblyReference.cache
+C:\Users\Fr1zer0k\Desktop\Game  - 1 2v1\FifteenGame.Wpf\obj\Debug\MainWindow.baml
+C:\Users\Fr1zer0k\Desktop\Game  - 1 2v1\FifteenGame.Wpf\obj\Debug\MainWindow.g.cs
+C:\Users\Fr1zer0k\Desktop\Game  - 1 2v1\FifteenGame.Wpf\obj\Debug\App.g.cs
+C:\Users\Fr1zer0k\Desktop\Game  - 1 2v1\FifteenGame.Wpf\obj\Debug\FifteenGame.Wpf_MarkupCompile.cache
+C:\Users\Fr1zer0k\Desktop\Game  - 1 2v1\FifteenGame.Wpf\obj\Debug\FifteenGame.Wpf.g.resources
+C:\Users\Fr1zer0k\Desktop\Game  - 1 2v1\FifteenGame.Wpf\obj\Debug\FifteenGame.Wpf.Properties.Resources.resources
+C:\Users\Fr1zer0k\Desktop\Game  - 1 2v1\FifteenGame.Wpf\obj\Debug\FifteenGame.Wpf.csproj.GenerateResource.cache
+C:\Users\Fr1zer0k\Desktop\Game  - 1 2v1\FifteenGame.Wpf\obj\Debug\FifteenGame.Wpf.csproj.CoreCompileInputs.cache
+C:\Users\Fr1zer0k\Desktop\Game  - 1 2v1\FifteenGame.Wpf\obj\Debug\FifteenG.60025469.Up2Date
+C:\Users\Fr1zer0k\Desktop\Game  - 1 2v1\FifteenGame.Wpf\obj\Debug\FifteenGame.Wpf.exe
+C:\Users\Fr1zer0k\Desktop\Game  - 1 2v1\FifteenGame.Wpf\obj\Debug\FifteenGame.Wpf.pdb
