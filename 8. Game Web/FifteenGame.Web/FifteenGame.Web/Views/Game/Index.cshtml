@@ -1,0 +1,102 @@
+﻿@model FifteenGame.Web.Models.GameViewModel
+
+@{
+    ViewBag.Title = "2048";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h2 class="m-0">2048</h2>
+            <div class="text-muted">Score: <strong>@Model.Score</strong></div>
+        </div>
+
+        <div class="d-flex gap-2">
+            <form method="post" action="@Url.Action("New", "Game")" class="m-0">
+                <button type="submit" class="btn btn-sm btn-outline-primary">Новая игра</button>
+            </form>
+
+            <a class="btn btn-sm btn-outline-secondary" href="@Url.Action("Index", "Home")">Выход</a>
+        </div>
+    </div>
+
+    <div id="gameBoard"
+         class="mx-auto"
+         style="width:440px; background:#bbada0; padding:10px; border-radius:12px; user-select:none;"
+         onmousedown="startSwipe(event)"
+         onmouseup="endSwipe(event)">
+
+        @for (int r = 0; r < Model.RowCount; r++)
+        {
+            <div class="d-flex justify-content-center">
+                @for (int c = 0; c < Model.ColumnCount; c++)
+                {
+                    var cell = Model.Cells[r, c];
+
+                    
+                    var bg = cell.IsEmpty ? "#cdc1b4" : "#eee4da";
+                    var color = cell.IsEmpty ? "transparent" : "#776e65";
+
+                    <div class="d-flex align-items-center justify-content-center"
+                         style="width:100px;height:100px;margin:5px;border-radius:8px;
+                                background:@bg; color:@color; font-size:28px;font-weight:800;">
+                        @cell.Text
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    @if (Model.IsWin)
+    {
+        <div class="alert alert-success mt-3 mb-0">
+            🎉 Победа! Вы собрали 2048.
+        </div>
+    }
+    else if (Model.IsLose)
+    {
+        <div class="alert alert-danger mt-3 mb-0">
+            😢 Ходов больше нет. Игра окончена.
+        </div>
+    }
+
+</div>
+
+
+<form id="moveForm" method="post" action="@Url.Action("Move", "Game")">
+    <input type="hidden" name="directionText" id="directionInput" />
+</form>
+
+<script>
+    var startX = 0;
+    var startY = 0;
+
+    function startSwipe(e) {
+        startX = e.clientX;
+        startY = e.clientY;
+    }
+
+    function endSwipe(e) {
+        
+        var isFinished = @((Model.IsWin || Model.IsLose) ? "true" : "false");
+        if (isFinished) return;
+
+        var dx = e.clientX - startX;
+        var dy = e.clientY - startY;
+
+        
+        if (Math.abs(dx) < 30 && Math.abs(dy) < 30) return;
+
+        var dir = "";
+
+        if (Math.abs(dx) > Math.abs(dy)) {
+            dir = dx > 0 ? "Right" : "Left";
+        } else {
+            dir = dy > 0 ? "Down" : "Up";
+        }
+
+        document.getElementById("directionInput").value = dir;
+        document.getElementById("moveForm").submit();
+    }
+</script>
