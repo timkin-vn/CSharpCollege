@@ -1,0 +1,278 @@
+using FifteenGame.Common.Definitions;
+using FifteenGame.Common.Dtos;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace FifteenGame.Business
+{
+    public class Game2048Service
+    {
+        private static readonly Random _rnd = new Random();
+
+        public GameDto InitializeGame()
+        {
+            var game = new GameDto
+            {
+                Score = 0,
+                IsGameOver = false,
+                HasWon = false
+            };
+
+            // Initialize empty board
+            for (int row = 0; row < Constants.RowCount; row++)
+            {
+                for (int col = 0; col < Constants.ColumnCount; col++)
+                {
+                    game.Cells[row, col] = Constants.FreeCellValue;
+                }
+            }
+
+            // Add two random tiles
+            AddRandomTile(game);
+            AddRandomTile(game);
+
+            return game;
+        }
+
+        public GameDto MakeMove(GameDto game, string direction)
+        {
+            if (game.IsGameOver || game.HasWon)
+                return game;
+
+            bool moved = false;
+
+            switch (direction.ToLower())
+            {
+                case "left":
+                    moved = MoveLeft(game);
+                    break;
+                case "right":
+                    moved = MoveRight(game);
+                    break;
+                case "up":
+                    moved = MoveUp(game);
+                    break;
+                case "down":
+                    moved = MoveDown(game);
+                    break;
+            }
+
+            if (moved)
+            {
+                AddRandomTile(game);
+                CheckGameState(game);
+            }
+
+            return game;
+        }
+
+        private bool MoveLeft(GameDto game)
+        {
+            bool moved = false;
+
+            for (int row = 0; row < Constants.RowCount; row++)
+            {
+                var tiles = GetRow(game, row);
+                var newTiles = SlideAndMerge(game, tiles);
+
+                if (!tiles.SequenceEqual(newTiles))
+                {
+                    moved = true;
+                    SetRow(game, row, newTiles);
+                }
+            }
+
+            return moved;
+        }
+
+        private bool MoveRight(GameDto game)
+        {
+            bool moved = false;
+
+            for (int row = 0; row < Constants.RowCount; row++)
+            {
+                var tiles = GetRow(game, row).Reverse().ToArray();
+                var newTiles = SlideAndMerge(game, tiles);
+                newTiles = newTiles.Reverse().ToArray();
+
+                if (!GetRow(game, row).SequenceEqual(newTiles))
+                {
+                    moved = true;
+                    SetRow(game, row, newTiles);
+                }
+            }
+
+            return moved;
+        }
+
+        private bool MoveUp(GameDto game)
+        {
+            bool moved = false;
+
+            for (int col = 0; col < Constants.ColumnCount; col++)
+            {
+                var tiles = GetColumn(game, col);
+                var newTiles = SlideAndMerge(game, tiles);
+
+                if (!tiles.SequenceEqual(newTiles))
+                {
+                    moved = true;
+                    SetColumn(game, col, newTiles);
+                }
+            }
+
+            return moved;
+        }
+
+        private bool MoveDown(GameDto game)
+        {
+            bool moved = false;
+
+            for (int col = 0; col < Constants.ColumnCount; col++)
+            {
+                var tiles = GetColumn(game, col).Reverse().ToArray();
+                var newTiles = SlideAndMerge(game, tiles);
+                newTiles = newTiles.Reverse().ToArray();
+
+                if (!GetColumn(game, col).SequenceEqual(newTiles))
+                {
+                    moved = true;
+                    SetColumn(game, col, newTiles);
+                }
+            }
+
+            return moved;
+        }
+
+        private int[] GetRow(GameDto game, int row)
+        {
+            int[] tiles = new int[Constants.ColumnCount];
+            for (int col = 0; col < Constants.ColumnCount; col++)
+            {
+                tiles[col] = game.Cells[row, col];
+            }
+            return tiles;
+        }
+
+        private void SetRow(GameDto game, int row, int[] tiles)
+        {
+            for (int col = 0; col < Constants.ColumnCount; col++)
+            {
+                game.Cells[row, col] = tiles[col];
+            }
+        }
+
+        private int[] GetColumn(GameDto game, int col)
+        {
+            int[] tiles = new int[Constants.RowCount];
+            for (int row = 0; row < Constants.RowCount; row++)
+            {
+                tiles[row] = game.Cells[row, col];
+            }
+            return tiles;
+        }
+
+        private void SetColumn(GameDto game, int col, int[] tiles)
+        {
+            for (int row = 0; row < Constants.RowCount; row++)
+            {
+                game.Cells[row, col] = tiles[row];
+            }
+        }
+
+        private int[] SlideAndMerge(GameDto game, int[] tiles)
+        {
+            var nonZeroTiles = tiles.Where(t => t != Constants.FreeCellValue).ToList();
+            var mergedTiles = new List<int>();
+
+            for (int i = 0; i < nonZeroTiles.Count; i++)
+            {
+                if (i < nonZeroTiles.Count - 1 && nonZeroTiles[i] == nonZeroTiles[i + 1])
+                {
+                    int mergedValue = nonZeroTiles[i] * 2;
+                    mergedTiles.Add(mergedValue);
+                    game.Score += mergedValue;
+                    i++;
+                }
+                else
+                {
+                    mergedTiles.Add(nonZeroTiles[i]);
+                }
+            }
+
+            while (mergedTiles.Count < Constants.ColumnCount)
+            {
+                mergedTiles.Add(Constants.FreeCellValue);
+            }
+
+            return mergedTiles.ToArray();
+        }
+
+        private void AddRandomTile(GameDto game)
+        {
+            var emptyCells = new List<(int row, int col)>();
+
+            for (int row = 0; row < Constants.RowCount; row++)
+            {
+                for (int col = 0; col < Constants.ColumnCount; col++)
+                {
+                    if (game.Cells[row, col] == Constants.FreeCellValue)
+                    {
+                        emptyCells.Add((row, col));
+                    }
+                }
+            }
+
+            if (emptyCells.Count > 0)
+            {
+                var randomCell = emptyCells[_rnd.Next(emptyCells.Count)];
+                game.Cells[randomCell.row, randomCell.col] = _rnd.Next(10) == 0 ? 4 : 2;
+            }
+        }
+
+        private void CheckGameState(GameDto game)
+        {
+            // Check for win
+            for (int row = 0; row < Constants.RowCount; row++)
+            {
+                for (int col = 0; col < Constants.ColumnCount; col++)
+                {
+                    if (game.Cells[row, col] == Constants.WinValue)
+                    {
+                        game.HasWon = true;
+                        return;
+                    }
+                }
+            }
+
+            // Check for empty cells
+            for (int row = 0; row < Constants.RowCount; row++)
+            {
+                for (int col = 0; col < Constants.ColumnCount; col++)
+                {
+                    if (game.Cells[row, col] == Constants.FreeCellValue)
+                    {
+                        return;
+                    }
+                }
+            }
+
+            // Check for possible merges
+            for (int row = 0; row < Constants.RowCount; row++)
+            {
+                for (int col = 0; col < Constants.ColumnCount; col++)
+                {
+                    var current = game.Cells[row, col];
+                    if ((row < Constants.RowCount - 1 && game.Cells[row + 1, col] == current) ||
+                        (col < Constants.ColumnCount - 1 && game.Cells[row, col + 1] == current))
+                    {
+                        return;
+                    }
+                }
+            }
+
+            game.IsGameOver = true;
+        }
+    }
+}

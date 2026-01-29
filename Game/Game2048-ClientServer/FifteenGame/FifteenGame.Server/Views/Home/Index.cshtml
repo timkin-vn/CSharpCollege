@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>2048 Game API</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .endpoint { background: #f5f5f5; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .method { color: #fff; padding: 3px 8px; border-radius: 3px; font-weight: bold; }
+        .get { background: #61affe; }
+        .post { background: #49cc90; }
+        .delete { background: #f93e3e; }
+        code { background: #f8f8f8; padding: 2px 4px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <h1>🎮 2048 Game API Server</h1>
+    <p>Сервер успешно запущен и готов к работе!</p>
+    
+    <h2>📋 Доступные эндпоинты:</h2>
+    
+    <div class="endpoint">
+        <span class="method post">POST</span> <code>/api/user/get-or-create</code>
+        <p>Создать или получить пользователя</p>
+        <p><strong>Request:</strong> {"Name": "PlayerName"}</p>
+    </div>
+    
+    <div class="endpoint">
+        <span class="method post">POST</span> <code>/api/game/new</code>
+        <p>Создать новую игру</p>
+        <p><strong>Request:</strong> {"UserId": 1}</p>
+    </div>
+    
+    <div class="endpoint">
+        <span class="method post">POST</span> <code>/api/game/move</code>
+        <p>Сделать ход в игре</p>
+        <p><strong>Request:</strong> {"GameId": 1, "Direction": "left"}</p>
+        <p><strong>Directions:</strong> "left", "right", "up", "down"</p>
+    </div>
+    
+    <div class="endpoint">
+        <span class="method post">POST</span> <code>/api/game/get-by-game-id</code>
+        <p>Получить игру по ID</p>
+        <p><strong>Request:</strong> {"GameId": 1}</p>
+    </div>
+    
+    <div class="endpoint">
+        <span class="method post">POST</span> <code>/api/game/get-by-user-id</code>
+        <p>Получить все игры пользователя</p>
+        <p><strong>Request:</strong> {"UserId": 1}</p>
+    </div>
+    
+    <div class="endpoint">
+        <span class="method delete">DELETE</span> <code>/api/game/remove</code>
+        <p>Удалить игру</p>
+        <p><strong>Request:</strong> {"GameId": 1}</p>
+    </div>
+    
+    <h2>🎯 Особенности:</h2>
+    <ul>
+        <li>✅ Сохранение счета игрока</li>
+        <li>✅ Сохранение поля игры при выходе</li>
+        <li>✅ Автоматическое создание базы данных</li>
+        <li>✅ Проверка выигрыша (достижение 2048)</li>
+        <li>✅ Проверка окончания игры</li>
+    </ul>
+    
+    <h2>🧪 Тестирование:</h2>
+    <p>Используйте Postman, curl или любой HTTP клиент для тестирования API</p>
+    
+    <h3>Пример запроса для создания игры:</h3>
+    <pre>
+curl -X POST http://localhost:61979/api/game/new \
+-H "Content-Type: application/json" \
+-d '{"UserId": 1}'
+    </pre>
+    
+    <p><strong>Статус сервера:</strong> <span style="color: green;">🟢 Работает</span></p>
+</body>
+</html>
