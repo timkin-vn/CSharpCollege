@@ -1,0 +1,44 @@
+﻿using FifteenGame.Business.Services;
+using FifteenGame.Common.BusinessModels;
+using FifteenGame.Common.Infrastructure;
+using FifteenGame.Common.Services;
+using Ninject;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+
+
+namespace FifteenGame.Wpf.ViewModels
+{
+    public class UserLoginWindowViewModel
+    {
+        private readonly IUserService _userService = NinjectKernel.Instance.Get<IUserService>();
+        private UserModel _userModel;
+
+        public string UserName { get; set; }
+        internal MainWindowViewModel MainViewModel { get; set; }
+
+        public bool FindUser()
+        {
+            _userModel = _userService.GetUserByName(UserName);
+            return _userModel != null;
+        }
+
+        public void CreateUser()
+        {
+            _userModel = _userService.GetOrCreateUser(UserName);
+        }
+
+        public bool SaveUser()
+        {
+            if (_userModel == null || MainViewModel == null)
+                return false;
+
+            MainViewModel.SetUser(_userModel);
+            return true;
+        }
+    }
+}
