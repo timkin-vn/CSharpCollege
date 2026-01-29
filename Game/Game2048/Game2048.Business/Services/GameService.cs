@@ -82,6 +82,7 @@ namespace Game2048.Business.Services
             {
                 var tiles = GetRowTiles(model, row);
                 var merged = MergeTiles(tiles);
+                // Дополняем список нулями справа
                 var newRow = merged.Concat(Enumerable.Repeat(0, GameModel.ColumnCount - merged.Count)).ToArray();
 
                 for (int column = 0; column < GameModel.ColumnCount; column++)
