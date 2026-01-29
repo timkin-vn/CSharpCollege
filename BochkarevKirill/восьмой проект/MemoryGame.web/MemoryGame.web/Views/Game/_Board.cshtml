@@ -1,0 +1,65 @@
+﻿@model MemoryGame.Web.ViewModels.GameVm
+
+<style>
+    .board-wrap {
+        display: inline-block;
+        padding: 16px;
+        border: 5px solid #8A2BE2;
+        border-radius: 22px;
+        background: #F0F8FF;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(4, 78px);
+        grid-template-rows: repeat(4, 78px);
+        gap: 10px;
+    }
+
+    .cell-btn {
+        width: 78px;
+        height: 78px;
+        border-radius: 18px;
+        border: 3px solid #483D8B;
+        background: #6A5ACD;
+        color: white;
+        font-size: 26px;
+        font-weight: 700;
+        cursor: pointer;
+        user-select: none;
+    }
+
+        .cell-btn:hover {
+            background: #FF69B4;
+            border-color: #B03060;
+        }
+
+    .cell-open {
+        background: #32CD32;
+        border-color: #228B22;
+    }
+
+    .cell-matched {
+        background: #00BFFF;
+        border-color: #1E90FF;
+    }
+</style>
+
+<div class="board-wrap">
+    <div style="margin-bottom:10px;">
+        <strong>@Model.StatusText</strong>
+    </div>
+
+    <div class="grid">
+        @foreach (var cell in Model.Cells)
+        {
+            var cls = "cell-btn";
+            if (cell.IsMatched) { cls += " cell-matched"; }
+            else if (cell.IsRevealed) { cls += " cell-open"; }
+
+            <button class="@cls" data-r="@cell.Row" data-c="@cell.Col">
+                @cell.Text
+            </button>
+        }
+    </div>
+</div>

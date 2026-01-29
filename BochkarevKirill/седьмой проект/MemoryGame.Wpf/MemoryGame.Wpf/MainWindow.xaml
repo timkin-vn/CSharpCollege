@@ -1,0 +1,116 @@
+﻿<Window x:Class="MemoryGame.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:MemoryGame.Wpf.ViewModels"
+        Title="Memory Game 🎴" Height="500" Width="450"
+        Background="#FFFDE7">
+
+    <Window.DataContext>
+        <vm:MainWindowViewModel />
+    </Window.DataContext>
+
+    <!-- Стили -->
+    <Window.Resources>
+
+        <!-- Стиль игровых кнопок -->
+        <Style x:Key="GameButtonStyle" TargetType="Button">
+            <Setter Property="FontSize" Value="26"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#FF6A5ACD"/>
+            <Setter Property="BorderBrush" Value="#FF483D8B"/>
+            <Setter Property="BorderThickness" Value="3"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Height" Value="75"/>
+            <Setter Property="Width" Value="75"/>
+
+            <!-- Шаблон с закруглением -->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="18"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="5">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <!-- Эффект наведения -->
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FFFF69B4"/>
+                    <Setter Property="BorderBrush" Value="#FFB03060"/>
+                </Trigger>
+
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#FF32CD32"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+    </Window.Resources>
+
+    <!-- Основной интерфейс -->
+    <DockPanel Margin="15">
+
+        <!-- Верхняя панель -->
+        <StackPanel DockPanel.Dock="Top"
+                    Orientation="Horizontal"
+                    Margin="0,0,0,15">
+
+            <Button Content="🎮 Новая игра"
+                    Width="140"
+                    FontSize="16"
+                    FontWeight="Bold"
+                    Background="#FF00BFFF"
+                    Foreground="White"
+                    BorderThickness="0"
+                    Padding="10"
+                    Cursor="Hand"
+                    Command="{Binding NewGameCommand}"/>
+
+            <TextBlock Text="{Binding StatusText}"
+                       FontSize="16"
+                       FontWeight="Bold"
+                       Margin="15,0,0,0"
+                       VerticalAlignment="Center"
+                       Foreground="#FF444444"/>
+        </StackPanel>
+
+        <!-- Игровое поле с рамкой -->
+        <Border BorderBrush="#FF8A2BE2"
+                BorderThickness="5"
+                CornerRadius="25"
+                Background="#FFF0F8FF"
+                Padding="15"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+
+            <ItemsControl ItemsSource="{Binding Cells}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Rows="4" Columns="4"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Style="{StaticResource GameButtonStyle}"
+                                Content="{Binding Text}"
+                                Margin="6"
+                                Command="{Binding DataContext.CellClickCommand,
+                                          RelativeSource={RelativeSource AncestorType=Window}}"
+                                CommandParameter="{Binding}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+        </Border>
+
+    </DockPanel>
+</Window>

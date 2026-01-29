@@ -1,0 +1,40 @@
+﻿@model MemoryGame.Web.ViewModels.GameVm
+@{
+    ViewBag.Title = "Memory Game";
+}
+
+<div class="container" style="margin-top:20px;">
+    <div class="row" style="margin-bottom:15px;">
+        <div class="col-md-6">
+            <button id="newGame" class="btn btn-info">🎮 Новая игра</button>
+        </div>
+        <div class="col-md-6 text-right">
+            <strong id="status">@Model.StatusText</strong>
+        </div>
+    </div>
+
+    <div id="boardHost">
+        @Html.Partial("_Board", Model)
+    </div>
+</div>
+
+@section scripts{
+    <script>
+    function wireBoardClicks() {
+        $(".cell-btn").off("click").on("click", function () {
+            var r = $(this).data("r");
+            var c = $(this).data("c");
+
+            $.post("@Url.Action("Click","Game")", { row: r, col: c })
+             .done(function (html) { $("#boardHost").html(html); wireBoardClicks(); });
+        });
+    }
+
+    $("#newGame").on("click", function () {
+        $.post("@Url.Action("NewGame","Game")")
+         .done(function (html) { $("#boardHost").html(html); wireBoardClicks(); });
+    });
+
+    $(function(){ wireBoardClicks(); });
+    </script>
+}
