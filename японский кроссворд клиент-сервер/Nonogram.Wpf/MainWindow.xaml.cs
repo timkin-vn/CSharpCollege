@@ -13,7 +13,23 @@ namespace Nonogram.Wpf
             try
             {
                 InitializeComponent();
-                Debug.WriteLine("=== MainWindow создан ===");
+                Debug.WriteLine("=== MainWindow создан через конструктор без параметров ===");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Ошибка создания MainWindow: {ex.Message}");
+                throw;
+            }
+        }
+
+        // Альтернативный конструктор с ViewModel
+        public MainWindow(MainWindowViewModel viewModel)
+        {
+            try
+            {
+                InitializeComponent();
+                DataContext = viewModel;
+                Debug.WriteLine("=== MainWindow создан с переданной ViewModel ===");
             }
             catch (Exception ex)
             {

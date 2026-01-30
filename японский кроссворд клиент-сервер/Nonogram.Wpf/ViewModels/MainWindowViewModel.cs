@@ -68,9 +68,17 @@ namespace Nonogram.Wpf.ViewModels
         {
             _user = user;
             UserName = user?.Name ?? "Без имени";
-            Debug.WriteLine($"Пользователь установлен: {UserName}");
+            Debug.WriteLine($"=== Установлен пользователь: {UserName}, Id: {user?.Id} ===");
+            Debug.WriteLine($"GameService доступен: {_gameService != null}");
 
-            LoadGame();
+            if (_user != null && _gameService != null)
+            {
+                LoadGame();
+            }
+            else
+            {
+                Debug.WriteLine("Пользователь или GameService не установлен!");
+            }
         }
 
         private void LoadGame()

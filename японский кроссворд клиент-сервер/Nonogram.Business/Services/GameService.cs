@@ -18,6 +18,7 @@ namespace Nonogram.Business.Services
             _repository = repository;
         }
 
+
         public void InitializeGame(GameModel model)
         {
             // Генерируем подсказки и решение
@@ -279,6 +280,16 @@ namespace Nonogram.Business.Services
                 Console.WriteLine($"Found {dtos.Count} games for user {userId}");
                 // Берем первую активную игру
                 model = FromDto(dtos.First());
+
+                // Проверяем, инициализированы ли подсказки
+                if (model.RowClues.Count == 0 || model.ColumnClues.Count == 0)
+                {
+                    Console.WriteLine($"Game {model.Id} has no clues, reinitializing");
+                    InitializeGame(model);
+
+                    // Обновляем в базе
+                    _repository.Save(ToDto(model));
+                }
             }
             else
             {
@@ -331,8 +342,16 @@ namespace Nonogram.Business.Services
                 }
             }
 
-            // Генерируем подсказки и решение
-            GenerateSolutionAndClues(model);
+            // Генерируем подсказки и решение ЕСЛИ они еще не заполнены
+            if (model.RowClues.Count == 0 || model.ColumnClues.Count == 0)
+            {
+                GenerateSolutionAndClues(model);
+            }
+            else
+            {
+                // Только генерируем решение (подсказки уже есть)
+                GenerateSolution(model);
+            }
 
             return model;
         }

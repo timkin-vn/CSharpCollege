@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35222.181
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nonogram.Wpf", "Nonogram.Wpf.csproj", "{B36B4636-4944-4C21-AFC9-5C4B843E4FA9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nonogram.Business", "..\Nonogram.Business\Nonogram.Business.csproj", "{CA766098-BE00-4C5B-B31F-133B38D1990E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nonogram.Common", "..\Nonogram.Common\Nonogram.Common.csproj", "{2E5F2C02-A60B-19A9-DB81-2478C449B64E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nonogram.DataAccess", "..\Nonogram.DataAccess\Nonogram.DataAccess.csproj", "{F20C4B07-A7B4-C856-F759-E1AD5EB07A97}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nonogram.UnitTests", "..\Nonogram.UnitTests\Nonogram.UnitTests.csproj", "{B841CB6A-873A-8094-38F8-80974BE05B85}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nonogram.BusinessProxy", "..\Nonogram.BusinessProxy\Nonogram.BusinessProxy.csproj", "{2CE6B57F-AFD6-D5BE-5122-BEE3B06D8B58}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B36B4636-4944-4C21-AFC9-5C4B843E4FA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B36B4636-4944-4C21-AFC9-5C4B843E4FA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B36B4636-4944-4C21-AFC9-5C4B843E4FA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B36B4636-4944-4C21-AFC9-5C4B843E4FA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA766098-BE00-4C5B-B31F-133B38D1990E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA766098-BE00-4C5B-B31F-133B38D1990E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA766098-BE00-4C5B-B31F-133B38D1990E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA766098-BE00-4C5B-B31F-133B38D1990E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E5F2C02-A60B-19A9-DB81-2478C449B64E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E5F2C02-A60B-19A9-DB81-2478C449B64E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E5F2C02-A60B-19A9-DB81-2478C449B64E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E5F2C02-A60B-19A9-DB81-2478C449B64E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F20C4B07-A7B4-C856-F759-E1AD5EB07A97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F20C4B07-A7B4-C856-F759-E1AD5EB07A97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F20C4B07-A7B4-C856-F759-E1AD5EB07A97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F20C4B07-A7B4-C856-F759-E1AD5EB07A97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B841CB6A-873A-8094-38F8-80974BE05B85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B841CB6A-873A-8094-38F8-80974BE05B85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B841CB6A-873A-8094-38F8-80974BE05B85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B841CB6A-873A-8094-38F8-80974BE05B85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CE6B57F-AFD6-D5BE-5122-BEE3B06D8B58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CE6B57F-AFD6-D5BE-5122-BEE3B06D8B58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CE6B57F-AFD6-D5BE-5122-BEE3B06D8B58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CE6B57F-AFD6-D5BE-5122-BEE3B06D8B58}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B9A3AB4B-21CC-464F-BA04-637CA87DC404}
+	EndGlobalSection
+EndGlobal

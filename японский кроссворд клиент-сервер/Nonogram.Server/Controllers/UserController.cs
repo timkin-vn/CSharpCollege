@@ -5,7 +5,6 @@ using Nonogram.Common.Infrastructure;
 using Nonogram.Common.Services;
 using System.Linq;
 using System.Web.Http;
-using System.Web.Mvc;
 
 namespace Nonogram.Server.Controllers
 {
@@ -15,6 +14,7 @@ namespace Nonogram.Server.Controllers
 
         public UserController()
         {
+            // Получаем экземпляр через NinjectKernel
             _userService = NinjectKernel.Instance.Get<IUserService>();
         }
 
@@ -25,7 +25,11 @@ namespace Nonogram.Server.Controllers
             var users = _userService.GetAllUsers();
             return new AllUsersReply
             {
-                Users = users.Select(u => new UserReply { Id = u.Id, Name = u.Name }).ToList()
+                Users = users.Select(u => new UserReply
+                {
+                    Id = u.Id,
+                    Name = u.Name
+                }).ToList()
             };
         }
 
@@ -33,22 +37,32 @@ namespace Nonogram.Server.Controllers
         [Route("api/user/get-by-name")]
         public UserReply GetByName([FromBody] UserNameRequest request)
         {
+            if (request == null) return null;
+
             var user = _userService.GetUserByName(request.Name);
-            return ToDto(user);
+            if (user == null) return null;
+
+            return new UserReply
+            {
+                Id = user.Id,
+                Name = user.Name
+            };
         }
 
         [HttpPost]
         [Route("api/user/get-or-create")]
         public UserReply GetOrCreate([FromBody] UserNameRequest request)
         {
-            var user = _userService.GetOrCreateUser(request.Name);
-            return ToDto(user);
-        }
+            if (request == null) return null;
 
-        private UserReply ToDto(UserModel user)
-        {
+            var user = _userService.GetOrCreateUser(request.Name);
             if (user == null) return null;
-            return new UserReply { Id = user.Id, Name = user.Name };
+
+            return new UserReply
+            {
+                Id = user.Id,
+                Name = user.Name
+            };
         }
     }
 }

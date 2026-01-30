@@ -235,6 +235,24 @@ values (@gameId, @row, @column, @value)
                 }
 
                 return gameId;
+                var insertSolutionQuery = @"
+    insert into ""PuzzleSolutions"" (""GameId"", ""Row"", ""Column"", ""SolutionValue"")
+    values (@gameId, @row, @column, @solutionValue)";
+
+                for (int row = 0; row < Constants.RowCount; row++)
+                {
+                    for (int column = 0; column < Constants.ColumnCount; column++)
+                    {
+                        using (var command = new NpgsqlCommand(insertSolutionQuery, connection))
+                        {
+                            command.Parameters.AddWithValue("gameId", gameId);
+                            command.Parameters.AddWithValue("row", row);
+                            command.Parameters.AddWithValue("column", column);
+                            command.Parameters.AddWithValue("solutionValue", gameDto.Solution[row, column]);
+                            command.ExecuteNonQuery();
+                        }
+                    }
+                }
             }
         }
 

@@ -313,6 +313,16 @@ namespace Nonogram.Business.Services
             _repository.Remove(gameId);
         }
 
+        // В методе FromDto нужно сохранять решение, а не генерировать заново
+        // Добавляем поле для хранения решения в DTO
+
+        public class GameDto
+        {
+            // ... существующие поля ...
+            public int[,] Solution { get; set; } = new int[Constants.RowCount, Constants.ColumnCount];
+        }
+
+        // В GameService.FromDto:
         private GameModel FromDto(GameDto dto)
         {
             var model = new GameModel
@@ -328,11 +338,13 @@ namespace Nonogram.Business.Services
                 for (int col = 0; col < Constants.ColumnCount; col++)
                 {
                     model[row, col] = dto.Cells[row, col];
+                    model.SetSolution(row, col, dto.Solution[row, col]); // Загружаем решение
                 }
             }
 
-            // Генерируем подсказки и решение
-            GenerateSolutionAndClues(model);
+            // Загружаем подсказки (нужно добавить в DTO)
+            // model.RowClues = dto.RowClues;
+            // model.ColumnClues = dto.ColumnClues;
 
             return model;
         }

@@ -17,22 +17,32 @@ namespace Nonogram.Wpf.Views
         {
             try
             {
-                // Получаем сервис через Ninject
+                Console.WriteLine("=== UserLoginWindow создается ===");
+
+                // Пытаемся получить сервис через NinjectKernel
                 if (NinjectKernel.Instance != null)
                 {
                     _userService = NinjectKernel.Instance.Get<IUserService>();
+                    Console.WriteLine("UserService получен через NinjectKernel");
+                }
+                else
+                {
+                    Console.WriteLine("NinjectKernel.Instance is null - возможно, не настроен Ninject");
+                    // Создаем временный сервис или бросаем исключение
+                    throw new InvalidOperationException("NinjectKernel не инициализирован");
                 }
 
                 InitializeComponent();
-                Console.WriteLine("UserLoginWindow created successfully");
+                Console.WriteLine("UserLoginWindow создан успешно");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error creating UserLoginWindow: {ex.Message}");
+                Console.WriteLine($"Ошибка создания UserLoginWindow: {ex.Message}");
                 throw;
             }
         }
 
+        // ЭТОТ МЕТОД ОБЯЗАТЕЛЬНО ДОЛЖЕН БЫТЬ!
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -47,7 +57,7 @@ namespace Nonogram.Wpf.Views
                 }
 
                 // Пробуем найти пользователя
-                _userModel = _userService?.GetUserByName(UserNameTextBox.Text);
+                _userModel = _userService.GetUserByName(UserNameTextBox.Text);
 
                 if (_userModel == null)
                 {
@@ -60,7 +70,7 @@ namespace Nonogram.Wpf.Views
                     if (result == MessageBoxResult.Yes)
                     {
                         Console.WriteLine($"Creating new user: {UserNameTextBox.Text}");
-                        _userModel = _userService?.GetOrCreateUser(UserNameTextBox.Text);
+                        _userModel = _userService.GetOrCreateUser(UserNameTextBox.Text);
                     }
                     else
                     {
@@ -69,7 +79,7 @@ namespace Nonogram.Wpf.Views
                 }
                 else
                 {
-                    Console.WriteLine($"User {UserNameTextBox.Text} found");
+                    Console.WriteLine($"User {UserNameTextBox.Text} found, Id: {_userModel.Id}");
                 }
 
                 if (_userModel != null)
@@ -84,6 +94,13 @@ namespace Nonogram.Wpf.Views
                 MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        // ЭТОТ МЕТОД ОБЯЗАТЕЛЬНО ДОЛЖЕН БЫТЬ!
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine("Cancel button clicked");
+            Application.Current.Shutdown();
         }
 
         private void CreateAndShowMainWindow()
@@ -116,12 +133,6 @@ namespace Nonogram.Wpf.Views
                 MessageBox.Show($"Ошибка создания главного окна: {ex.Message}", "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
-        }
-
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            Console.WriteLine("Cancel button clicked");
-            Application.Current.Shutdown();
         }
     }
 }

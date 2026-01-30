@@ -8,7 +8,8 @@
         Height="900" 
         Width="1200"
         WindowStartupLocation="CenterScreen"
-        Loaded="Window_Loaded">
+        Loaded="Window_Loaded"
+        Closed="Window_Closed">
 
     <Grid Background="White">
         <Grid.RowDefinitions>
@@ -122,7 +123,7 @@
             </Grid>
         </ScrollViewer>
 
-        <!-- Кнопки управления (без кнопки Выход) -->
+        <!-- Кнопки управления -->
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20">
             <Button Name="NewGameButton" 
                     Content="Новая игра" 

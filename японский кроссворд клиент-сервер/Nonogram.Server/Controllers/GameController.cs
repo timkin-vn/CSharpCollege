@@ -1,13 +1,9 @@
 ﻿using Ninject;
 using Nonogram.Common.BusinessDtos;
 using Nonogram.Common.BusinessModels;
-using Nonogram.Common.Definitions;
 using Nonogram.Common.Infrastructure;
 using Nonogram.Common.Services;
-using System;
-using System.Linq;
 using System.Web.Http;
-using System.Web.Mvc;
 
 namespace Nonogram.Server.Controllers
 {
@@ -17,6 +13,7 @@ namespace Nonogram.Server.Controllers
 
         public GameController()
         {
+            // Получаем экземпляр через NinjectKernel
             _gameService = NinjectKernel.Instance.Get<IGameService>();
         }
 
@@ -80,15 +77,28 @@ namespace Nonogram.Server.Controllers
                 Id = model.Id,
                 UserId = model.UserId,
                 MistakesCount = model.MistakesCount,
-                RowClues = model.RowClues,
-                ColumnClues = model.ColumnClues,
-                Cells = new int[Constants.RowCount * Constants.ColumnCount]
+                Cells = new int[Common.Definitions.Constants.RowCount * Common.Definitions.Constants.ColumnCount]
             };
 
-            int cellIndex = 0;
-            for (int row = 0; row < Constants.RowCount; row++)
+            // Копируем подсказки
+            dto.RowClues = new System.Collections.Generic.List<System.Collections.Generic.List<int>>();
+            dto.ColumnClues = new System.Collections.Generic.List<System.Collections.Generic.List<int>>();
+
+            foreach (var rowClue in model.RowClues)
             {
-                for (int column = 0; column < Constants.ColumnCount; column++)
+                dto.RowClues.Add(new System.Collections.Generic.List<int>(rowClue));
+            }
+
+            foreach (var colClue in model.ColumnClues)
+            {
+                dto.ColumnClues.Add(new System.Collections.Generic.List<int>(colClue));
+            }
+
+            // Копируем клетки
+            int cellIndex = 0;
+            for (int row = 0; row < Common.Definitions.Constants.RowCount; row++)
+            {
+                for (int column = 0; column < Common.Definitions.Constants.ColumnCount; column++)
                 {
                     dto.Cells[cellIndex++] = model[row, column];
                 }

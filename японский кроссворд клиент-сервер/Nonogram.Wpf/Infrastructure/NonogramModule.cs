@@ -1,9 +1,8 @@
 ﻿using Ninject.Modules;
-using Nonogram.Business.Services;
-using Nonogram.Common.Repositories;
+using Nonogram.BusinessProxy.Services;
 using Nonogram.Common.Services;
-using Nonogram.DataAccess.Repositories;
 using Nonogram.Wpf.ViewModels;
+using Nonogram.Wpf.Views;
 using System;
 
 namespace Nonogram.Wpf.Infrastructure
@@ -12,26 +11,27 @@ namespace Nonogram.Wpf.Infrastructure
     {
         public override void Load()
         {
-            Console.WriteLine("Loading Ninject module...");
+            Console.WriteLine("=== Загрузка модуля Ninject ===");
 
             try
             {
-                // Репозитории
-                Bind<IUserRepository>().To<UserRepository>().InSingletonScope();
-                Bind<IGameRepository>().To<GameRepository>().InSingletonScope();
-
-                // Сервисы
-                Bind<IUserService>().To<UserService>().InSingletonScope();
-                Bind<IGameService>().To<GameService>().InSingletonScope();
+                // Сервисы (через прокси)
+                Bind<IUserService>().To<UserServiceProxy>().InSingletonScope();
+                Bind<IGameService>().To<GameServiceProxy>().InSingletonScope();
 
                 // ViewModels
-                Bind<MainWindowViewModel>().ToSelf().InSingletonScope();
+                Bind<MainWindowViewModel>().ToSelf().InTransientScope();
+                Bind<UserLoginWindowViewModel>().ToSelf().InTransientScope();
 
-                Console.WriteLine("Ninject module loaded successfully");
+                // Views (окна)
+                Bind<UserLoginWindow>().ToSelf().InTransientScope();
+                Bind<MainWindow>().ToSelf().InTransientScope();
+
+                Console.WriteLine("Модуль Ninject загружен успешно");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error loading Ninject module: {ex.Message}");
+                Console.WriteLine($"Ошибка загрузки модуля Ninject: {ex.Message}");
                 throw;
             }
         }

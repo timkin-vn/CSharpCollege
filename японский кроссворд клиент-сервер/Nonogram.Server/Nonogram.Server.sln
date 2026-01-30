@@ -1,9 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36811.4 d17.14
+VisualStudioVersion = 17.14.36811.4
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nonogram.Server", "Nonogram.Server.csproj", "{B0B38CD1-71C6-4D0D-9F4A-CD38612F04F5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nonogram.Server", "Nonogram.Server.csproj", "{F2F75C7B-D2BA-499E-B470-62A598809FDC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{46F299A5-E7FD-4125-BA15-FEC9A767F85B} = {46F299A5-E7FD-4125-BA15-FEC9A767F85B}
+		{577B6DB4-9FA9-4E7B-A5B5-1EE9623E5E2C} = {577B6DB4-9FA9-4E7B-A5B5-1EE9623E5E2C}
+		{9DB338DF-5A58-46D3-9ED6-8E78A123C314} = {9DB338DF-5A58-46D3-9ED6-8E78A123C314}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nonogram.Business", "..\Nonogram.Business\Nonogram.Business.csproj", "{9DB338DF-5A58-46D3-9ED6-8E78A123C314}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nonogram.Common", "..\Nonogram.Common\Nonogram.Common.csproj", "{46F299A5-E7FD-4125-BA15-FEC9A767F85B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nonogram.DataAccess", "..\Nonogram.DataAccess\Nonogram.DataAccess.csproj", "{577B6DB4-9FA9-4E7B-A5B5-1EE9623E5E2C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +22,27 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B0B38CD1-71C6-4D0D-9F4A-CD38612F04F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B0B38CD1-71C6-4D0D-9F4A-CD38612F04F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B0B38CD1-71C6-4D0D-9F4A-CD38612F04F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B0B38CD1-71C6-4D0D-9F4A-CD38612F04F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2F75C7B-D2BA-499E-B470-62A598809FDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2F75C7B-D2BA-499E-B470-62A598809FDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2F75C7B-D2BA-499E-B470-62A598809FDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2F75C7B-D2BA-499E-B470-62A598809FDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DB338DF-5A58-46D3-9ED6-8E78A123C314}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DB338DF-5A58-46D3-9ED6-8E78A123C314}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DB338DF-5A58-46D3-9ED6-8E78A123C314}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DB338DF-5A58-46D3-9ED6-8E78A123C314}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46F299A5-E7FD-4125-BA15-FEC9A767F85B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46F299A5-E7FD-4125-BA15-FEC9A767F85B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46F299A5-E7FD-4125-BA15-FEC9A767F85B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46F299A5-E7FD-4125-BA15-FEC9A767F85B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{577B6DB4-9FA9-4E7B-A5B5-1EE9623E5E2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{577B6DB4-9FA9-4E7B-A5B5-1EE9623E5E2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{577B6DB4-9FA9-4E7B-A5B5-1EE9623E5E2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{577B6DB4-9FA9-4E7B-A5B5-1EE9623E5E2C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {AA8BE7BC-57B9-44B4-8D1B-CB12549FF327}
+		SolutionGuid = {E3853F20-436B-4699-A320-1CA05B9B7537}
 	EndGlobalSection
 EndGlobal
