@@ -31,7 +31,7 @@ namespace AlarmClock
                 return;
             }
 
-            if (!_alarmState.IsAwakeActivated && 
+            if (!_alarmState.IsAwakeActivated &&
                 DateTime.Now.Hour == _alarmState.AlarmTime.Hour &&
                 DateTime.Now.Minute == _alarmState.AlarmTime.Minute)
             {
@@ -41,7 +41,8 @@ namespace AlarmClock
                 awakeForm.AlarmState = _alarmState;
                 awakeForm.FormClosed += AwakeForm_FormClosed;
 
-                awakeForm.ShowDialog();
+                // Изменяем на Show (не ShowDialog), чтобы звук продолжал играть
+                awakeForm.Show();
             }
 
             if (_alarmState.IsSoundActive && _alarmState.IsAwakeActivated)
@@ -49,7 +50,6 @@ namespace AlarmClock
                 SystemSounds.Beep.Play();
             }
         }
-
         private void AwakeForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             ((Form)sender).FormClosed -= AwakeForm_FormClosed;
