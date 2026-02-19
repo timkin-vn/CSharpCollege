@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace AlarmClock.Forms
 {
     public partial class SettingsForm : Form
@@ -19,6 +20,7 @@ namespace AlarmClock.Forms
         {
             InitializeComponent();
         }
+
 
         private void SettingsForm_Load(object sender, EventArgs e)
         {
@@ -35,6 +37,7 @@ namespace AlarmClock.Forms
             IsAlarmActiveCheckBox.Checked = AlarmState.IsAlarmActive;
             IsSoundActiveCheckBox.Checked = AlarmState.IsSoundActive;
         }
+
 
         private void OkButton_Click(object sender, EventArgs e)
         {
