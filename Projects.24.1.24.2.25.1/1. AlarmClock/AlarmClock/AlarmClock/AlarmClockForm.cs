@@ -17,6 +17,10 @@ namespace AlarmClock
     {
         private AlarmState _alarmState = new AlarmState();
 
+        private int sec = 0;
+        private int min = 0;
+        private int hour = 0;
+
         public AlarmClockForm()
         {
             InitializeComponent();
@@ -88,6 +92,46 @@ namespace AlarmClock
             {
                 Text = "Будильник";
             }
+        }
+
+        private void StartButton_Click(object sender, EventArgs e)
+        {
+            timerSeconds.Enabled = true;
+        }
+
+        private void timerSeconds_Tick(object sender, EventArgs e)
+        {
+            sec++;
+
+            if (sec >= 60)
+            {
+                sec = 0;
+                min++;
+
+                if (min >= 60)
+                {
+                    min = 0;
+                    hour++;
+                }
+            }
+
+            SecondsLabel.Text = string.Format("{0:00}:{1:00}:{2:00}", hour, min, sec);
+        }
+
+        private void StopButton_Click(object sender, EventArgs e)
+        {
+            timerSeconds.Enabled = false;
+        }
+
+        private void ResetButton_Click(object sender, EventArgs e)
+        {
+            timerSeconds.Enabled = false;
+
+            hour = 0;
+            min = 0;
+            sec = 0;
+
+            SecondsLabel.Text = string.Format("{0:00}:{1:00}:{2:00}", hour, min, sec);
         }
     }
 }
