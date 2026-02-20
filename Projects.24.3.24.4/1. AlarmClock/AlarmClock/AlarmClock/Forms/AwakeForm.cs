@@ -14,8 +14,6 @@ namespace AlarmClock.Forms
 {
     public partial class AwakeForm : Form
     {
-        public bool IsSnoozed {  get;  set; }
-
         private const string ImageFolderName = "Images";
 
         private string[] _imageFileNames;
@@ -51,27 +49,6 @@ namespace AlarmClock.Forms
             }
 
             AwakePictureBox.Load(_imageFileNames[_imageIndex]);
-        }
-
-        private void AwakeButton_Click(object sender, EventArgs e)
-        {
-            IsSnoozed = false;
-
-            Close();
-        }
-
-        private void SnoozeButton_Click(object sender, EventArgs e)
-        {
-            IsSnoozed = true;
-
-            ClockForm mainForm = this.Owner as ClockForm;
-
-            if (mainForm != null)
-            {
-                mainForm.SnoozeAlarm(5);
-            }
-
-            this.Close();
         }
     }
 }
