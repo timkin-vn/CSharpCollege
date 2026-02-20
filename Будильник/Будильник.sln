@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36623.8 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Будильник", "Будильник\Будильник.csproj", "{6CFCA318-84DD-45AA-AA18-93AA913775FD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6CFCA318-84DD-45AA-AA18-93AA913775FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CFCA318-84DD-45AA-AA18-93AA913775FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CFCA318-84DD-45AA-AA18-93AA913775FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CFCA318-84DD-45AA-AA18-93AA913775FD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B8D4CC59-D919-4E96-8591-465362DBDBAF}
+	EndGlobalSection
+EndGlobal
