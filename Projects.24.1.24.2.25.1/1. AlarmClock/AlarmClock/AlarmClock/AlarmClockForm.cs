@@ -24,6 +24,7 @@ namespace AlarmClock
 
         private void ClockTimer_Tick(object sender, EventArgs e)
         {
+            // Отображает текущее время
             DisplayLabel.Text = DateTime.Now.ToLongTimeString();
 
             if (!_alarmState.IsAlarmActive)
@@ -31,6 +32,7 @@ namespace AlarmClock
                 return;
             }
 
+            // Если наступило время для срабатывания, открывает форму срабатывания
             if (!_alarmState.IsAwakeActivated && 
                 DateTime.Now.Hour == _alarmState.AlarmTime.Hour &&
                 DateTime.Now.Minute == _alarmState.AlarmTime.Minute)
@@ -44,6 +46,7 @@ namespace AlarmClock
                 awakeForm.ShowDialog();
             }
 
+            // Если требуется, запускает проигрывание звукового сигнала
             if (_alarmState.IsSoundActive && _alarmState.IsAwakeActivated)
             {
                 SystemSounds.Beep.Play();
