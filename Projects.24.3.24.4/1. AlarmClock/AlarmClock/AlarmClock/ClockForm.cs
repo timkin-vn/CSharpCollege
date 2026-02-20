@@ -38,6 +38,9 @@ namespace AlarmClock
                 _clockState.IsAwakeActivated = true;
 
                 var awakeForm = new AwakeForm { ClockState = _clockState };
+
+                awakeForm.Owner = this;
+
                 awakeForm.FormClosed += AwakeForm_FormClosed;
 
                 awakeForm.ShowDialog();
@@ -53,8 +56,14 @@ namespace AlarmClock
         {
             ((Form)sender).FormClosed -= AwakeForm_FormClosed;
 
-            _clockState.IsAlarmActive = false;
-            _clockState.IsAwakeActivated = false;
+            AwakeForm awakeForm = sender as AwakeForm;
+
+            if (awakeForm != null && !awakeForm.IsSnoozed)
+            {
+                _clockState.IsAlarmActive = false;
+                _clockState.IsAwakeActivated = false;
+            }
+
             UpdateView();
         }
 
@@ -91,6 +100,28 @@ namespace AlarmClock
             {
                 Text = "Будильник";
             }
+        }
+
+        public void SnoozeAlarm(int minutes = 5) 
+        {
+            _clockState.IsSoundActive = false;
+
+            DateTime now = DateTime.Now;
+            DateTime newAlarmTime = now.AddMinutes(minutes);
+
+            _clockState.AlarmTime = new DateTime(
+                now.Year,
+                now.Month,
+                now.Day,
+                newAlarmTime.Hour,
+                newAlarmTime.Minute,
+                0);
+
+            _clockState.IsAwakeActivated = false;
+            _clockState.IsAlarmActive = true;
+
+            UpdateView();
+
         }
     }
 }
