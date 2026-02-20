@@ -73,7 +73,7 @@
             // IsAlarmActiveCheckBox
             // 
             this.IsAlarmActiveCheckBox.AutoSize = true;
-            this.IsAlarmActiveCheckBox.Location = new System.Drawing.Point(15, 72);
+            this.IsAlarmActiveCheckBox.Location = new System.Drawing.Point(12, 144);
             this.IsAlarmActiveCheckBox.Name = "IsAlarmActiveCheckBox";
             this.IsAlarmActiveCheckBox.Size = new System.Drawing.Size(126, 17);
             this.IsAlarmActiveCheckBox.TabIndex = 4;
@@ -83,7 +83,7 @@
             // IsSoundActiveCheckBox
             // 
             this.IsSoundActiveCheckBox.AutoSize = true;
-            this.IsSoundActiveCheckBox.Location = new System.Drawing.Point(15, 95);
+            this.IsSoundActiveCheckBox.Location = new System.Drawing.Point(12, 167);
             this.IsSoundActiveCheckBox.Name = "IsSoundActiveCheckBox";
             this.IsSoundActiveCheckBox.Size = new System.Drawing.Size(158, 17);
             this.IsSoundActiveCheckBox.TabIndex = 5;
@@ -92,7 +92,7 @@
             // 
             // OkButton
             // 
-            this.OkButton.Location = new System.Drawing.Point(142, 135);
+            this.OkButton.Location = new System.Drawing.Point(134, 190);
             this.OkButton.Name = "OkButton";
             this.OkButton.Size = new System.Drawing.Size(75, 23);
             this.OkButton.TabIndex = 6;
@@ -103,7 +103,7 @@
             // CancelButton
             // 
             this.CancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelButton.Location = new System.Drawing.Point(223, 135);
+            this.CancelButton.Location = new System.Drawing.Point(223, 190);
             this.CancelButton.Name = "CancelButton";
             this.CancelButton.Size = new System.Drawing.Size(75, 23);
             this.CancelButton.TabIndex = 7;
@@ -114,7 +114,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(310, 170);
+            this.ClientSize = new System.Drawing.Size(339, 225);
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.OkButton);
             this.Controls.Add(this.IsSoundActiveCheckBox);

@@ -53,8 +53,29 @@ namespace AlarmClock.Forms
 
         private void AwakeForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            AlarmState.IsAlarmActive = false;
+           
+            if (AlarmState.IsAwakeActivated)
+            {
+                AlarmState.IsAlarmActive = false;
+                AlarmState.IsAwakeActivated = false;
+            }
+
+        }
+      
+        private void AwakeButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void More_time_Click(object sender, EventArgs e)
+        {
+            // Устанавливает новое время
+            AlarmState.AlarmTime = DateTime.Now.AddMinutes(5);
+
+
             AlarmState.IsAwakeActivated = false;
+
+            this.Close();
         }
     }
 }

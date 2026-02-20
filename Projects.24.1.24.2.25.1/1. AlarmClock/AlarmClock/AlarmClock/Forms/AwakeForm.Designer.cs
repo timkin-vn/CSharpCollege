@@ -32,6 +32,7 @@
             this.AwakePictureBox = new System.Windows.Forms.PictureBox();
             this.AwakeButton = new System.Windows.Forms.Button();
             this.AwakeTimer = new System.Windows.Forms.Timer(this.components);
+            this.More_time = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.AwakePictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -47,12 +48,13 @@
             // AwakeButton
             // 
             this.AwakeButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.AwakeButton.Location = new System.Drawing.Point(240, 351);
+            this.AwakeButton.Location = new System.Drawing.Point(164, 351);
             this.AwakeButton.Name = "AwakeButton";
             this.AwakeButton.Size = new System.Drawing.Size(113, 23);
             this.AwakeButton.TabIndex = 1;
             this.AwakeButton.Text = "Я проснулся";
             this.AwakeButton.UseVisualStyleBackColor = true;
+            this.AwakeButton.Click += new System.EventHandler(this.AwakeButton_Click);
             // 
             // AwakeTimer
             // 
@@ -60,11 +62,22 @@
             this.AwakeTimer.Interval = 5000;
             this.AwakeTimer.Tick += new System.EventHandler(this.AwakeTimer_Tick);
             // 
+            // More_time
+            // 
+            this.More_time.Location = new System.Drawing.Point(328, 351);
+            this.More_time.Name = "More_time";
+            this.More_time.Size = new System.Drawing.Size(105, 23);
+            this.More_time.TabIndex = 2;
+            this.More_time.Text = "ещё 5 минут";
+            this.More_time.UseVisualStyleBackColor = true;
+            this.More_time.Click += new System.EventHandler(this.More_time_Click);
+            // 
             // AwakeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(597, 386);
+            this.Controls.Add(this.More_time);
             this.Controls.Add(this.AwakeButton);
             this.Controls.Add(this.AwakePictureBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -83,5 +96,6 @@
         private System.Windows.Forms.PictureBox AwakePictureBox;
         private System.Windows.Forms.Button AwakeButton;
         private System.Windows.Forms.Timer AwakeTimer;
+        private System.Windows.Forms.Button More_time;
     }
 }
