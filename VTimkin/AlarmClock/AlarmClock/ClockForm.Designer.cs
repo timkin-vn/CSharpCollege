@@ -34,6 +34,12 @@
             this.SettingsButton = new System.Windows.Forms.Button();
             this.ExitButton = new System.Windows.Forms.Button();
             this.ClockTimer = new System.Windows.Forms.Timer(this.components);
+            this.grpStopwatch = new System.Windows.Forms.GroupBox();
+            this.btnReset = new System.Windows.Forms.Button();
+            this.btnStop = new System.Windows.Forms.Button();
+            this.btnStart = new System.Windows.Forms.Button();
+            this.lblStopwatchTime = new System.Windows.Forms.Label();
+            this.grpStopwatch.SuspendLayout();
             this.SuspendLayout();
             // 
             // DisplayLabel
@@ -84,11 +90,67 @@
             this.ClockTimer.Interval = 1000;
             this.ClockTimer.Tick += new System.EventHandler(this.ClockTimer_Tick);
             // 
+            // grpStopwatch
+            // 
+            this.grpStopwatch.Controls.Add(this.btnReset);
+            this.grpStopwatch.Controls.Add(this.btnStop);
+            this.grpStopwatch.Controls.Add(this.btnStart);
+            this.grpStopwatch.Controls.Add(this.lblStopwatchTime);
+            this.grpStopwatch.Location = new System.Drawing.Point(464, 8);
+            this.grpStopwatch.Name = "grpStopwatch";
+            this.grpStopwatch.Size = new System.Drawing.Size(200, 150);
+            this.grpStopwatch.TabIndex = 4;
+            this.grpStopwatch.TabStop = false;
+            this.grpStopwatch.Text = "секундомер";
+            // 
+            // btnReset
+            // 
+            this.btnReset.Location = new System.Drawing.Point(20, 95);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(150, 25);
+            this.btnReset.TabIndex = 3;
+            this.btnReset.Text = "Сброс";
+            this.btnReset.UseVisualStyleBackColor = true;
+            // 
+            // btnStop
+            // 
+            this.btnStop.Location = new System.Drawing.Point(100, 60);
+            this.btnStop.Name = "btnStop";
+            this.btnStop.Size = new System.Drawing.Size(70, 25);
+            this.btnStop.TabIndex = 2;
+            this.btnStop.Text = "Стоп";
+            this.btnStop.UseVisualStyleBackColor = true;
+            // 
+            // btnStart
+            // 
+            this.btnStart.Location = new System.Drawing.Point(20, 60);
+            this.btnStart.Name = "btnStart";
+            this.btnStart.Size = new System.Drawing.Size(70, 25);
+            this.btnStart.TabIndex = 1;
+            this.btnStart.Text = "Старт";
+            this.btnStart.UseVisualStyleBackColor = true;
+            // 
+            // lblStopwatchTime
+            // 
+            this.lblStopwatchTime.AutoSize = true;
+            this.lblStopwatchTime.BackColor = System.Drawing.SystemColors.Desktop;
+            this.lblStopwatchTime.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblStopwatchTime.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblStopwatchTime.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.lblStopwatchTime.Location = new System.Drawing.Point(20, 20);
+            this.lblStopwatchTime.Name = "lblStopwatchTime";
+            this.lblStopwatchTime.Size = new System.Drawing.Size(92, 24);
+            this.lblStopwatchTime.TabIndex = 0;
+            this.lblStopwatchTime.Text = "00:00:00";
+            this.lblStopwatchTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblStopwatchTime.Click += new System.EventHandler(this.lblStopwatchTime_Click);
+            // 
             // ClockForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(441, 111);
+            this.ClientSize = new System.Drawing.Size(676, 164);
+            this.Controls.Add(this.grpStopwatch);
             this.Controls.Add(this.ExitButton);
             this.Controls.Add(this.SettingsButton);
             this.Controls.Add(this.AboutButton);
@@ -98,6 +160,8 @@
             this.MinimizeBox = false;
             this.Name = "ClockForm";
             this.Text = "Будильник";
+            this.grpStopwatch.ResumeLayout(false);
+            this.grpStopwatch.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -109,6 +173,11 @@
         private System.Windows.Forms.Button SettingsButton;
         private System.Windows.Forms.Button ExitButton;
         private System.Windows.Forms.Timer ClockTimer;
+        private System.Windows.Forms.GroupBox grpStopwatch;
+        private System.Windows.Forms.Label lblStopwatchTime;
+        private System.Windows.Forms.Button btnReset;
+        private System.Windows.Forms.Button btnStop;
+        private System.Windows.Forms.Button btnStart;
     }
 }
 
