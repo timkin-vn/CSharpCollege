@@ -1,0 +1,11 @@
+C:\Users\danil\Desktop\С#\Машина\Машина\obj\Debug\Машина.csproj.AssemblyReference.cache
+C:\Users\danil\Desktop\С#\Машина\Машина\obj\Debug\Машина.Properties.Resources.resources
+C:\Users\danil\Desktop\С#\Машина\Машина\obj\Debug\Машина.csproj.GenerateResource.cache
+C:\Users\danil\Desktop\С#\Машина\Машина\obj\Debug\Машина.csproj.CoreCompileInputs.cache
+C:\Users\danil\Desktop\С#\Машина\Машина\bin\Debug\Машина.exe.config
+C:\Users\danil\Desktop\С#\Машина\Машина\bin\Debug\Машина.exe
+C:\Users\danil\Desktop\С#\Машина\Машина\bin\Debug\Машина.pdb
+C:\Users\danil\Desktop\С#\Машина\Машина\obj\Debug\Машина.Form1.resources
+C:\Users\danil\Desktop\С#\Машина\Машина\obj\Debug\Машина.exe
+C:\Users\danil\Desktop\С#\Машина\Машина\obj\Debug\Машина.pdb
+C:\Users\danil\Desktop\С#\Машина\Машина\obj\Debug\Машина.exe.config
