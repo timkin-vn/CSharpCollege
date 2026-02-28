@@ -1,0 +1,12 @@
+C:\Users\shabl\source\repos\4. Calculator WPF\Calculator.Wpf\Calculator.Business\bin\Debug\Calculator.Business.dll
+C:\Users\shabl\source\repos\4. Calculator WPF\Calculator.Wpf\Calculator.Business\bin\Debug\Calculator.Business.pdb
+C:\Users\shabl\source\repos\4. Calculator WPF\Calculator.Wpf\Calculator.Business\obj\Debug\Calculator.Business.csproj.AssemblyReference.cache
+C:\Users\shabl\source\repos\4. Calculator WPF\Calculator.Wpf\Calculator.Business\obj\Debug\Calculator.Business.csproj.CoreCompileInputs.cache
+C:\Users\shabl\source\repos\4. Calculator WPF\Calculator.Wpf\Calculator.Business\obj\Debug\Calculator.Business.dll
+C:\Users\shabl\source\repos\4. Calculator WPF\Calculator.Wpf\Calculator.Business\obj\Debug\Calculator.Business.pdb
+C:\Users\shabl\source\repos\1.1GOOD CALC 123\Calculator.Wpf\Calculator.Business\bin\Debug\Calculator.Business.dll
+C:\Users\shabl\source\repos\1.1GOOD CALC 123\Calculator.Wpf\Calculator.Business\bin\Debug\Calculator.Business.pdb
+C:\Users\shabl\source\repos\1.1GOOD CALC 123\Calculator.Wpf\Calculator.Business\obj\Debug\Calculator.Business.csproj.AssemblyReference.cache
+C:\Users\shabl\source\repos\1.1GOOD CALC 123\Calculator.Wpf\Calculator.Business\obj\Debug\Calculator.Business.csproj.CoreCompileInputs.cache
+C:\Users\shabl\source\repos\1.1GOOD CALC 123\Calculator.Wpf\Calculator.Business\obj\Debug\Calculator.Business.dll
+C:\Users\shabl\source\repos\1.1GOOD CALC 123\Calculator.Wpf\Calculator.Business\obj\Debug\Calculator.Business.pdb
