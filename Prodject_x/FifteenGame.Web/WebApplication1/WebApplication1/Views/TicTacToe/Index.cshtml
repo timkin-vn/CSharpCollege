@@ -1,0 +1,196 @@
+@{
+    ViewData["Title"] = "Крестики-Нолики";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h1 class="text-center mb-4">Игра Крестики-Нолики</h1>
+            
+            <div class="mb-3">
+                <p id="game-status" class="alert alert-info text-center">Ход игрока X</p>
+            </div>
+            
+            <div class="mb-4">
+                <div class="d-flex justify-content-center">
+                    <div id="game-board" class="tic-tac-toe-board">
+                        <!-- Игровое поле будет создано динамически через JavaScript -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <button id="reset-button" class="btn btn-primary">Начать новую игру</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .tic-tac-toe-board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 5px;
+            margin: 0 auto;
+        }
+
+        .cell {
+            width: 100px;
+            height: 100px;
+            background-color: #f8f9fa;
+            border: 2px solid #343a40;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .cell:hover {
+            background-color: #e2e6ea;
+        }
+
+        .cell-x {
+            color: #007bff;
+        }
+
+        .cell-o {
+            color: #dc3545;
+        }
+
+        .game-over .cell {
+            cursor: not-allowed;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const gameBoard = document.getElementById('game-board');
+            const gameStatus = document.getElementById('game-status');
+            const resetButton = document.getElementById('reset-button');
+            let game = null;
+
+            // Создание игрового поля
+            function createBoard() {
+                gameBoard.innerHTML = '';
+                for (let row = 0; row < 3; row++) {
+                    for (let col = 0; col < 3; col++) {
+                        const cell = document.createElement('div');
+                        cell.className = 'cell';
+                        cell.dataset.row = row;
+                        cell.dataset.col = col;
+                        cell.addEventListener('click', () => handleCellClick(row, col));
+                        gameBoard.appendChild(cell);
+                    }
+                }
+            }
+
+            // Обновление отображения игры
+            function updateDisplay() {
+                if (!game || !game.boardArray) {
+                    console.error('Ошибка: данные игры недоступны или некорректны', game);
+                    return;
+                }
+                
+                for (let row = 0; row < 3; row++) {
+                    for (let col = 0; col < 3; col++) {
+                        const cell = document.querySelector(`.cell[data-row="${row}"][data-col="${col}"]`);
+                        if (!cell) {
+                            console.error(`Ячейка [${row},${col}] не найдена`);
+                            continue;
+                        }
+                        
+                        const value = game.boardArray[row][col];
+                        
+                        cell.textContent = value !== ' ' ? value : '';
+                        cell.classList.remove('cell-x', 'cell-o');
+                        
+                        if (value === 'X') {
+                            cell.classList.add('cell-x');
+                        } else if (value === 'O') {
+                            cell.classList.add('cell-o');
+                        }
+                    }
+                }
+
+                gameStatus.textContent = game.status;
+                
+                if (game.isGameOver) {
+                    gameBoard.classList.add('game-over');
+                } else {
+                    gameBoard.classList.remove('game-over');
+                }
+            }
+
+            // Обработка клика по ячейке
+            async function handleCellClick(row, col) {
+                try {
+                    const response = await fetch('/api/tictactoe/move', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ row, col })
+                    });
+
+                    if (response.ok) {
+                        game = await response.json();
+                        updateDisplay();
+                    } else {
+                        const errorText = await response.text();
+                        console.error('Ошибка при выполнении хода:', errorText);
+                    }
+                } catch (error) {
+                    console.error('Ошибка при выполнении хода:', error);
+                }
+            }
+
+            // Сброс игры
+            async function resetGame() {
+                try {
+                    const response = await fetch('/api/tictactoe/reset', {
+                        method: 'POST'
+                    });
+
+                    if (response.ok) {
+                        game = await response.json();
+                        updateDisplay();
+                    } else {
+                        const errorText = await response.text();
+                        console.error('Ошибка при сбросе игры:', errorText);
+                    }
+                } catch (error) {
+                    console.error('Ошибка при сбросе игры:', error);
+                }
+            }
+
+            // Получение текущего состояния игры
+            async function getGameState() {
+                try {
+                    const response = await fetch('/api/tictactoe');
+                    if (response.ok) {
+                        game = await response.json();
+                        console.log('Получены данные игры:', game);
+                        updateDisplay();
+                    } else {
+                        const errorText = await response.text();
+                        console.error('Ошибка при получении состояния игры:', errorText);
+                    }
+                } catch (error) {
+                    console.error('Ошибка при получении состояния игры:', error);
+                }
+            }
+
+            // Инициализация
+            createBoard();
+            getGameState();
+            resetButton.addEventListener('click', resetGame);
+        });
+    </script>
+} 
