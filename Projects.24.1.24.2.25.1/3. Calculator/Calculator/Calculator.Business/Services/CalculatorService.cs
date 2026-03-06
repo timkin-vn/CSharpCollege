@@ -11,7 +11,7 @@ namespace Calculator.Business.Services
     {
         public void PressDigit(CalculatorModel calculatorModel, string digitString)
         {
-            if (!int.TryParse(digitString, out var digit))
+            if (!int.TryParse(digitString, out int digit))
             {
                 return;
             }
@@ -28,6 +28,8 @@ namespace Calculator.Business.Services
         public void PressClear(CalculatorModel calculatorModel)
         {
             calculatorModel.RegisterX = 0;
+            calculatorModel.RegisterY = 0;
+            calculatorModel.OperationCode = null;
             calculatorModel.IsLastDigitPressed = false;
         }
 
@@ -41,7 +43,7 @@ namespace Calculator.Business.Services
             switch (calculatorModel.OperationCode)
             {
                 case "+":
-                    calculatorModel.RegisterX = calculatorModel.RegisterX + calculatorModel.RegisterY;
+                    calculatorModel.RegisterX = calculatorModel.RegisterY + calculatorModel.RegisterX;
                     break;
 
                 case "-":
@@ -49,19 +51,34 @@ namespace Calculator.Business.Services
                     break;
 
                 case "*":
-                    calculatorModel.RegisterX = calculatorModel.RegisterX * calculatorModel.RegisterY;
+                    calculatorModel.RegisterX = calculatorModel.RegisterY * calculatorModel.RegisterX;
                     break;
 
                 case "/":
-                    calculatorModel.RegisterX = calculatorModel.RegisterY / calculatorModel.RegisterX;
+                    if (calculatorModel.RegisterX != 0)
+                        calculatorModel.RegisterX = calculatorModel.RegisterY / calculatorModel.RegisterX;
                     break;
+
+                case "^":
+                    calculatorModel.RegisterX =
+                        Math.Pow(calculatorModel.RegisterY, calculatorModel.RegisterX);
+                    break;
+
+                case "%":
+                    calculatorModel.RegisterX =
+                        calculatorModel.RegisterY * calculatorModel.RegisterX / 100.0;
+                    break;
+                case "√":
+                    calculatorModel.RegisterX = Math.Sqrt(calculatorModel.RegisterX);
+                    calculatorModel.IsLastDigitPressed = false;
+                    break;
+
             }
         }
 
         public void PressOperation(CalculatorModel calculatorModel, string operationCode)
         {
             CompleteOperation(calculatorModel);
-
             MoveXToY(calculatorModel);
             calculatorModel.OperationCode = operationCode;
             calculatorModel.IsLastDigitPressed = false;
@@ -70,6 +87,7 @@ namespace Calculator.Business.Services
         public void PressEqual(CalculatorModel calculatorModel)
         {
             CompleteOperation(calculatorModel);
+            calculatorModel.OperationCode = null;
             calculatorModel.IsLastDigitPressed = false;
         }
     }
