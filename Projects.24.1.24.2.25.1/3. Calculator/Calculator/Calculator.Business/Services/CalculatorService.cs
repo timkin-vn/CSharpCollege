@@ -53,7 +53,24 @@ namespace Calculator.Business.Services
                     break;
 
                 case "/":
+                    if (calculatorModel.RegisterX == 0)
+                        throw new DivideByZeroException("Деление на ноль невозможно!");
                     calculatorModel.RegisterX = calculatorModel.RegisterY / calculatorModel.RegisterX;
+                    break;
+
+                case "^": // Возведение в степень
+                    calculatorModel.RegisterX = Math.Pow(calculatorModel.RegisterY, calculatorModel.RegisterX);
+                    break;
+
+                case "√": // Квадратный корень
+                    if (calculatorModel.RegisterX < 0)
+                        throw new ArgumentException("Нельзя извлечь корень из отрицательного числа!");
+                    calculatorModel.RegisterX = Math.Sqrt(calculatorModel.RegisterX);
+                    // Для корня RegisterY не используется
+                    break;
+
+                case "%": // Процент
+                    calculatorModel.RegisterX = (calculatorModel.RegisterY * calculatorModel.RegisterX) / 100;
                     break;
             }
         }
