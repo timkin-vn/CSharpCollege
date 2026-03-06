@@ -64,5 +64,33 @@ namespace Picture.ViewServices
             var p2 = _scaler.Scale(point2);
             _graphics.DrawLine(pen, p1, p2);
         }
+
+        public void DrawPolygon(Pen pen, Brush brush, PointModel[] points)
+        {
+            var polygonPoints = points.Select(p => _scaler.Scale(p)).ToArray();
+
+            if (brush != null)
+                _graphics.FillPolygon(brush, polygonPoints);
+
+            if (pen != null)
+                _graphics.DrawPolygon(pen, polygonPoints);
+        }
+
+        public void DrawPie(Pen pen, Brush brush, RectangleModel rect, double startAngle, double sweepAngle)
+        {
+            var rectangle = _scaler.Scale(rect);
+
+            if (brush != null)
+                _graphics.FillPie(brush, rectangle, (float)startAngle, (float)sweepAngle);
+
+            if (pen != null)
+                _graphics.DrawPie(pen, rectangle, (float)startAngle, (float)sweepAngle);
+        }
+
+        public void DrawArc(Pen pen, RectangleModel rect, double startAngle, double sweepAngle)
+        {
+            var rectangle = _scaler.Scale(rect);
+            _graphics.DrawArc(pen, rectangle, (float)startAngle, (float)sweepAngle);
+        }
     }
 }
