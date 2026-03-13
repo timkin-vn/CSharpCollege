@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EB2298A8-403C-4B55-B9C6-D60A94557281}</ProjectGuid>
+    <ProjectGuid>{9EF3030E-28A4-41CF-8615-C022171659A7}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Drawing</RootNamespace>
     <AssemblyName>Drawing</AssemblyName>
@@ -57,9 +57,9 @@
     <Compile Include="Models\SizeModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Painter.cs" />
     <Compile Include="Services\PictureBuilder.cs" />
-    <Compile Include="ViewServices\Painter.cs" />
-    <Compile Include="ViewServices\Scaler.cs" />
+    <Compile Include="Services\Scaler.cs" />
     <EmbeddedResource Include="DrawingForm.resx">
       <DependentUpon>DrawingForm.cs</DependentUpon>
     </EmbeddedResource>

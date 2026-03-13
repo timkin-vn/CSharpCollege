@@ -1,4 +1,4 @@
-﻿using Drawing.ViewServices;
+﻿using Drawing.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,7 +21,8 @@ namespace Drawing
         private void DrawingForm_Paint(object sender, PaintEventArgs e)
         {
             var painter = new Painter();
-            painter.Paint(ClientRectangle, e.Graphics);
+            painter.Initialize(ClientRectangle);
+            painter.Paint(e.Graphics);
         }
 
         private void DrawingForm_Resize(object sender, EventArgs e)

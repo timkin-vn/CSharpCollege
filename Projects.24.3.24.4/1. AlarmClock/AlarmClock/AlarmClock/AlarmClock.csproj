@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D8D0D6D0-3993-4871-8C54-C1AEDEB3C936}</ProjectGuid>
+    <ProjectGuid>{60C23B65-018C-4EAD-8F18-E58A9BCC1DB0}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>AlarmClock</RootNamespace>
     <AssemblyName>AlarmClock</AssemblyName>
@@ -46,11 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClockForm.cs">
+    <Compile Include="AlarmClockForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ClockForm.Designer.cs">
-      <DependentUpon>ClockForm.cs</DependentUpon>
+    <Compile Include="AlarmClockForm.Designer.cs">
+      <DependentUpon>AlarmClockForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\AboutForm.cs">
       <SubType>Form</SubType>
@@ -70,11 +70,11 @@
     <Compile Include="Forms\SettingsForm.Designer.cs">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Model\AlarmClockState.cs" />
+    <Compile Include="Models\AlarmState.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="ClockForm.resx">
-      <DependentUpon>ClockForm.cs</DependentUpon>
+    <EmbeddedResource Include="AlarmClockForm.resx">
+      <DependentUpon>AlarmClockForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>

@@ -19,7 +19,7 @@ namespace Drawing.Models
         }
 
         public double Y
-        {
+        { 
             get => Location.Y;
             set => Location.Y = value;
         }

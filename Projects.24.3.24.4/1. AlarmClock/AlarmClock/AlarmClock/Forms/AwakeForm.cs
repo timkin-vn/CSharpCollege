@@ -1,4 +1,4 @@
-﻿using AlarmClock.Model;
+﻿using AlarmClock.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,7 +20,7 @@ namespace AlarmClock.Forms
 
         private int _imageIndex;
 
-        internal AlarmClockState ClockState { get; set; }
+        public AlarmState AlarmState { get; set; }
 
         public AwakeForm()
         {
@@ -29,7 +29,7 @@ namespace AlarmClock.Forms
 
         private void AwakeForm_Load(object sender, EventArgs e)
         {
-            AlarmMessageLabel.Text = ClockState.AlarmMessage;
+            Text = AlarmState.AlarmMessage;
             InitializeImages();
         }
 
@@ -49,6 +49,12 @@ namespace AlarmClock.Forms
             }
 
             AwakePictureBox.Load(_imageFileNames[_imageIndex]);
+        }
+
+        private void AwakeForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            AlarmState.IsAlarmActive = false;
+            AlarmState.IsAwakeActivated = false;
         }
     }
 }

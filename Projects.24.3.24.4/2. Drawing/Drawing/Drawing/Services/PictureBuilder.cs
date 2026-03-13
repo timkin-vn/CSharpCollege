@@ -1,5 +1,4 @@
 ﻿using Drawing.Models;
-using Drawing.ViewServices;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -25,32 +24,32 @@ namespace Drawing.Services
             var wheelBrush = Brushes.LightGray;
 
             var rect = new RectangleModel { X = -1, Y = 0, Width = 2, Height = 2, };
-            painter.DrawEllipse(mainPen, wheelBrush, rect);
+            painter.DrawEllipse(wheelBrush, mainPen, rect);
 
             rect.X = 2;
-            painter.DrawEllipse(mainPen, wheelBrush, rect);
+            painter.DrawEllipse(wheelBrush, mainPen, rect);
 
             rect.X = 5;
-            painter.DrawEllipse(mainPen, wheelBrush, rect);
+            painter.DrawEllipse(wheelBrush, mainPen, rect);
 
             rect.X = 8;
-            painter.DrawEllipse(mainPen, wheelBrush, rect);
+            painter.DrawEllipse(wheelBrush, mainPen, rect);
 
             var bodyBrush = Brushes.DarkGray;
 
             rect = new RectangleModel { X = 0, Y = 2, Width = 12, Height = 4, };
-            painter.DrawRectangle(mainPen, bodyBrush, rect);
+            painter.DrawRectangle(bodyBrush, mainPen, rect);
 
             rect = new RectangleModel { X = -4, Y = 2, Width = 4, Height = 8, };
-            painter.DrawRectangle(mainPen, bodyBrush, rect);
+            painter.DrawRectangle(bodyBrush, mainPen, rect);
 
             var windowBrush = Brushes.LightSkyBlue;
 
             rect = new RectangleModel { X = -2, Y = 6, Width = 1.5, Height = 3, };
-            painter.DrawRectangle(mainPen, windowBrush, rect);
+            painter.DrawRectangle(windowBrush, mainPen, rect);
 
             rect = new RectangleModel { X = 11, Y = 2, Width = 2, Height = 4, };
-            painter.DrawPie(mainPen, bodyBrush, rect, 270, 180);
+            painter.DrawPie(bodyBrush, mainPen, rect, 270, 180);
 
             var sweeperBrush = Brushes.Red;
             var sweeperPoints = new[]
@@ -61,7 +60,7 @@ namespace Drawing.Services
                 new PointModel { X = 11, Y = 0.5, },
             };
 
-            painter.DrawPolygon(mainPen, sweeperBrush, sweeperPoints);
+            painter.DrawPolygon(sweeperBrush, mainPen, sweeperPoints);
 
             var pipePoints = new[]
             {
@@ -71,7 +70,7 @@ namespace Drawing.Services
                 new PointModel { X = 9, Y = 6, },
             };
 
-            painter.DrawPolygon(mainPen, bodyBrush, pipePoints);
+            painter.DrawPolygon(bodyBrush, mainPen, pipePoints);
         }
     }
 }

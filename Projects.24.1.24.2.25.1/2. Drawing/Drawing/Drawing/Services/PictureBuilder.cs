@@ -1,10 +1,6 @@
 ﻿using Drawing.Models;
-using System;
-using System.Collections.Generic;
+using Drawing.ViewServices;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Drawing.Services
 {
@@ -12,65 +8,123 @@ namespace Drawing.Services
     {
         public RectangleModel SourceBounds { get; } = new RectangleModel
         {
-            X = -5,
-            Y = -1,
-            Width = 19,
-            Height = 12,
+            X = 0,
+            Y = 0,
+            Width = 10,
+            Height = 10,
         };
 
         public void DrawPicture(Painter painter)
         {
-            var mainPen = new Pen(Color.Black, 3);
-            var wheelBrush = Brushes.LightGray;
+            var blackPen = new Pen(Color.Black, 0.05f);
 
-            var rect = new RectangleModel { X = -1, Y = 0, Width = 2, Height = 2, };
-            painter.DrawEllipse(wheelBrush, mainPen, rect);
+            var bodyBrush = new SolidBrush(Color.DarkRed);
+            var noseBrush = new SolidBrush(Color.DarkOrange);
+            var stabilizerBrush = new SolidBrush(Color.DarkBlue);
+            var windowBrush = new SolidBrush(Color.LightSlateGray);
+            var nozzleBodyBrush = new SolidBrush(Color.DimGray);
+            var nozzleInnerBrush = new SolidBrush(Color.SlateGray);
+            var fireBrush1 = new SolidBrush(Color.Goldenrod);
+            var fireBrush2 = new SolidBrush(Color.Firebrick);
+            var ringBrush = new SolidBrush(Color.SlateGray);
+            var stripeBrush = new SolidBrush(Color.Gray);
+            var blackBrush = Brushes.Black;
 
-            rect.X = 2;
-            painter.DrawEllipse(wheelBrush, mainPen, rect);
+            // Корпус
+            var body = new RectangleModel { X = 3, Y = 2, Width = 4, Height = 6 };
+            painter.DrawRectangle(blackPen, bodyBrush, body);
 
-            rect.X = 5;
-            painter.DrawEllipse(wheelBrush, mainPen, rect);
-
-            rect.X = 8;
-            painter.DrawEllipse(wheelBrush, mainPen, rect);
-
-            var bodyBrush = Brushes.DarkGray;
-
-            rect = new RectangleModel { X = 0, Y = 2, Width = 12, Height = 4, };
-            painter.DrawRectangle(bodyBrush, mainPen, rect);
-
-            rect = new RectangleModel { X = -4, Y = 2, Width = 4, Height = 8, };
-            painter.DrawRectangle(bodyBrush, mainPen, rect);
-
-            var windowBrush = Brushes.LightSkyBlue;
-
-            rect = new RectangleModel { X = -2, Y = 6, Width = 1.5, Height = 3, };
-            painter.DrawRectangle(windowBrush, mainPen, rect);
-
-            rect = new RectangleModel { X = 11, Y = 2, Width = 2, Height = 4, };
-            painter.DrawPie(bodyBrush, mainPen, rect, 270, 180);
-
-            var sweeperBrush = Brushes.Red;
-            var sweeperPoints = new[]
+            // Нос
+            var nosePoints = new[]
             {
-                new PointModel { X = 11, Y = 2, },
-                new PointModel { X = 12, Y = 2, },
-                new PointModel { X = 13, Y = 0.5, },
-                new PointModel { X = 11, Y = 0.5, },
+                new PointModel { X = 3, Y = 8 },
+                new PointModel { X = 7, Y = 8 },
+                new PointModel { X = 5, Y = 10 }
             };
+            painter.DrawPolygon(blackPen, noseBrush, nosePoints);
 
-            painter.DrawPolygon(sweeperBrush, mainPen, sweeperPoints);
+            // Хвостовая часть
+            var tail = new RectangleModel { X = 2.8, Y = 1, Width = 4.4, Height = 1 };
+            painter.DrawRectangle(blackPen, nozzleBodyBrush, tail);
 
-            var pipePoints = new[]
+            // Серая полоса
+            var stripe = new RectangleModel { X = 4.9, Y = 2, Width = 0.2, Height = 6 };
+            painter.DrawRectangle(null, stripeBrush, stripe);
+
+            // Кольца
+            var ring1 = new RectangleModel { X = 3, Y = 7.3, Width = 4, Height = 0.2 };
+            painter.DrawRectangle(blackPen, ringBrush, ring1);
+            var ring2 = new RectangleModel { X = 3, Y = 5.6, Width = 4, Height = 0.2 };
+            painter.DrawRectangle(blackPen, ringBrush, ring2);
+            var ring3 = new RectangleModel { X = 3, Y = 3.8, Width = 4, Height = 0.2 };
+            painter.DrawRectangle(blackPen, ringBrush, ring3);
+
+            // Большие стабилизаторы
+            var leftBigFin = new[]
             {
-                new PointModel { X = 8.5, Y = 9, },
-                new PointModel { X = 10.5, Y = 9, },
-                new PointModel { X = 10, Y = 6, },
-                new PointModel { X = 9, Y = 6, },
+                new PointModel { X = 3, Y = 2 },
+                new PointModel { X = 3, Y = 4 },
+                new PointModel { X = 2, Y = 2 }
             };
+            painter.DrawPolygon(blackPen, stabilizerBrush, leftBigFin);
 
-            painter.DrawPolygon(bodyBrush, mainPen, pipePoints);
+            var rightBigFin = new[]
+            {
+                new PointModel { X = 7, Y = 2 },
+                new PointModel { X = 7, Y = 4 },
+                new PointModel { X = 8, Y = 2 }
+            };
+            painter.DrawPolygon(blackPen, stabilizerBrush, rightBigFin);
+
+            // Маленькие стабилизаторы
+            var leftSmallFin = new[]
+            {
+                new PointModel { X = 3, Y = 6.5 },
+                new PointModel { X = 3, Y = 7.5 },
+                new PointModel { X = 2.75, Y = 6.5 }
+            };
+            painter.DrawPolygon(blackPen, stabilizerBrush, leftSmallFin);
+
+            var rightSmallFin = new[]
+            {
+                new PointModel { X = 7, Y = 6.5 },
+                new PointModel { X = 7, Y = 7.5 },
+                new PointModel { X = 7.25, Y = 6.5 }
+            };
+            painter.DrawPolygon(blackPen, stabilizerBrush, rightSmallFin);
+
+            // Сопло
+            var nozzleCone = new[]
+            {
+                new PointModel { X = 4.2, Y = 1 },
+                new PointModel { X = 5.8, Y = 1 },
+                new PointModel { X = 6.2, Y = 0.2 },
+                new PointModel { X = 3.8, Y = 0.2 }
+            };
+            painter.DrawPolygon(blackPen, nozzleBodyBrush, nozzleCone);
+
+            var nozzleInner = new RectangleModel { X = 4.5, Y = 0.5, Width = 1, Height = 0.6 };
+            painter.DrawEllipse(blackPen, nozzleInnerBrush, nozzleInner);
+
+            var nozzleCenter = new RectangleModel { X = 4.9, Y = 0.8, Width = 0.2, Height = 0.2 };
+            painter.DrawEllipse(null, blackBrush, nozzleCenter);
+
+            // Пламя
+            var flameInner = new RectangleModel { X = 4.2, Y = -0.5, Width = 1.6, Height = 1.5 };
+            painter.DrawPie(null, fireBrush1, flameInner, 0, 180);
+            var flameOuter = new RectangleModel { X = 4, Y = -0.8, Width = 2, Height = 1.8 };
+            painter.DrawPie(null, fireBrush2, flameOuter, 0, 180);
+
+            // Иллюминаторы
+            var window1 = new RectangleModel { X = 4.2, Y = 5.5, Width = 1, Height = 1 };
+            painter.DrawEllipse(blackPen, windowBrush, window1);
+            var highlight1 = new RectangleModel { X = 4.5, Y = 6.2, Width = 0.2, Height = 0.2 };
+            painter.DrawEllipse(null, Brushes.White, highlight1);
+
+            var window2 = new RectangleModel { X = 4.2, Y = 4, Width = 1, Height = 1 };
+            painter.DrawEllipse(blackPen, windowBrush, window2);
+            var highlight2 = new RectangleModel { X = 4.5, Y = 4.7, Width = 0.2, Height = 0.2 };
+            painter.DrawEllipse(null, Brushes.White, highlight2);
         }
     }
 }

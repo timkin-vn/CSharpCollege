@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B7FAA1A1-2005-49FE-B4A6-DC2F2094998F}</ProjectGuid>
+    <ProjectGuid>{0FE66BEC-836D-4639-A3F7-30838E00BAF5}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Calculator</RootNamespace>
     <AssemblyName>Calculator</AssemblyName>
@@ -81,7 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Calculator.Business\Calculator.Business.csproj">
-      <Project>{55bb961e-1bb2-40d2-b6f9-457fa9a2828e}</Project>
+      <Project>{6f0929aa-b987-4507-b95a-7999fde01396}</Project>
       <Name>Calculator.Business</Name>
     </ProjectReference>
   </ItemGroup>

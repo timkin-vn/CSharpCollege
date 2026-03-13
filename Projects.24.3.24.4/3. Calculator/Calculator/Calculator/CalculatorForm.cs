@@ -16,7 +16,7 @@ namespace Calculator
     {
         private CalculatorModel _calculatorModel = new CalculatorModel();
 
-        private CalculatorService _calculatorService = new CalculatorService();
+        private CalculatorService _service = new CalculatorService();
 
         public CalculatorForm()
         {
@@ -25,33 +25,37 @@ namespace Calculator
 
         private void DigitButton_Click(object sender, EventArgs e)
         {
-            var digitString = ((Button)sender).Text;
-            _calculatorService.PressDigit(_calculatorModel, digitString);
-            DisplayResult();
+            _service.PressDigit(_calculatorModel, ((Button)sender).Text);
+            DisplayValue();
         }
 
-        private void DisplayResult()
+        private void DisplayValue()
         {
             DisplayLabel.Text = _calculatorModel.RegisterX.ToString();
         }
 
         private void ClearButton_Click(object sender, EventArgs e)
         {
-            _calculatorService.PressClear(_calculatorModel);
-            DisplayResult();
+            _service.PressClear(_calculatorModel);
+            DisplayValue();
         }
 
         private void MoveXToYButton_Click(object sender, EventArgs e)
         {
-            _calculatorService.PressMoveXToY(_calculatorModel);
-            DisplayResult();
+            _service.MoveXToY(_calculatorModel);
+            DisplayValue();
         }
 
         private void OperationButton_Click(object sender, EventArgs e)
         {
-            var operationCode = ((Button)sender).Text;
-            _calculatorService.PressOperation(_calculatorModel, operationCode);
-            DisplayResult();
+            _service.PressOperation(_calculatorModel, ((Button)sender).Text);
+            DisplayValue();
+        }
+
+        private void EqualButton_Click(object sender, EventArgs e)
+        {
+            _service.PressEqual(_calculatorModel);
+            DisplayValue();
         }
     }
 }

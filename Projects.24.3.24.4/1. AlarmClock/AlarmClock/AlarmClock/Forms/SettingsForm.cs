@@ -1,4 +1,4 @@
-﻿using AlarmClock.Model;
+﻿using AlarmClock.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +13,7 @@ namespace AlarmClock.Forms
 {
     public partial class SettingsForm : Form
     {
-        internal AlarmClockState ClockState { get; set; }
+        public AlarmState AlarmState { get; set; }
 
         public SettingsForm()
         {
@@ -22,40 +22,40 @@ namespace AlarmClock.Forms
 
         private void SettingsForm_Load(object sender, EventArgs e)
         {
-            if (ClockState.AlarmTime > DateTime.Now)
-            {
-                AlarmTimeTextBox.Text = ClockState.AlarmTime.ToShortTimeString();
-            }
-            else
+            if (AlarmState.AlarmTime < DateTime.Now)
             {
                 AlarmTimeTextBox.Text = DateTime.Now.AddHours(1).ToShortTimeString();
             }
+            else
+            {
+                AlarmTimeTextBox.Text = AlarmState.AlarmTime.ToShortTimeString();
+            }
 
-            AlarmMessageTextBox.Text = ClockState.AlarmMessage;
-            IsAlarmActiveCheckBox.Checked = ClockState.IsAlarmActive;
-            IsSoundActiveCheckBox.Checked = ClockState.IsSoundActive;
+            AlarmMessageTextBox.Text = AlarmState.AlarmMessage;
+            IsAlarmActiveCheckBox.Checked = AlarmState.IsAlarmActive;
+            IsSoundActiveCheckBox.Checked = AlarmState.IsSoundActive;
         }
 
         private void OkButton_Click(object sender, EventArgs e)
         {
             if (!TimeSpan.TryParse(AlarmTimeTextBox.Text, out var alarmTime))
             {
-                MessageBox.Show("Время задано неверно", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Введено неверное время", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             if (alarmTime > DateTime.Now.TimeOfDay)
             {
-                ClockState.AlarmTime = DateTime.Today + alarmTime;
+                AlarmState.AlarmTime = DateTime.Today + alarmTime;
             }
             else
             {
-                ClockState.AlarmTime = DateTime.Today.AddDays(1) + alarmTime;
+                AlarmState.AlarmTime = DateTime.Today.AddDays(1) + alarmTime;
             }
 
-            ClockState.AlarmMessage = AlarmMessageTextBox.Text;
-            ClockState.IsAlarmActive = IsAlarmActiveCheckBox.Checked;
-            ClockState.IsSoundActive = IsSoundActiveCheckBox.Checked;
+            AlarmState.AlarmMessage = AlarmMessageTextBox.Text;
+            AlarmState.IsAlarmActive = IsAlarmActiveCheckBox.Checked;
+            AlarmState.IsSoundActive = IsSoundActiveCheckBox.Checked;
 
             DialogResult = DialogResult.OK;
         }

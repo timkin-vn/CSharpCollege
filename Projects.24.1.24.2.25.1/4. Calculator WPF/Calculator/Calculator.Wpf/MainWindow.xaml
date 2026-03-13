@@ -33,6 +33,12 @@
                    FontSize="48" VerticalAlignment="Center" Background="Black" Foreground="LightGoldenrodYellow"
                    Margin="10" Padding="10"/>
 
+        <Button Grid.Row="1" Grid.Column="0" Margin="10,5,5,5" Content="√" FontSize="28" VerticalAlignment="Center" Click="SqrtButton_Click"/>
+        <Button Grid.Row="1" Grid.Column="1" Margin="5,5,5,5" Content="x²" FontSize="28" VerticalAlignment="Center" Click="SquareButton_Click"/>
+        <Button Grid.Row="1" Grid.Column="2" Margin="5,5,10,5" Content="x^y" FontSize="28" VerticalAlignment="Center" Click="PowerButton_Click"/>
+        <Button Grid.Row="1" Grid.Column="3" Margin="5,5,5,5" Content="%" FontSize="24" VerticalAlignment="Center" Click="PercentButton_Click"/>
+        <Button Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="2" Margin="10,5,10,5" Content="|x|" FontSize="28" VerticalAlignment="Center" Click="AbsButton_Click"/>
+
         <Button Grid.Row="2" Grid.Column="0" Margin="10,10,5,5" Content="7" FontSize="36" VerticalAlignment="Center" Click="DigitButton_Click" />
         <Button Grid.Row="2" Grid.Column="1" Margin="5,10,5,5" Content="8" FontSize="36" VerticalAlignment="Center" Click="DigitButton_Click" />
         <Button Grid.Row="2" Grid.Column="2" Margin="5,10,10,5" Content="9" FontSize="36" VerticalAlignment="Center" Click="DigitButton_Click" />

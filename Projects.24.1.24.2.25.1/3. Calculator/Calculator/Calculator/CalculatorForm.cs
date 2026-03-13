@@ -16,7 +16,7 @@ namespace Calculator
     {
         private CalculatorModel _calculatorModel = new CalculatorModel();
 
-        private CalculatorService _service = new CalculatorService();
+        private CalculatorService _calculatorService = new CalculatorService();
 
         public CalculatorForm()
         {
@@ -25,37 +25,61 @@ namespace Calculator
 
         private void DigitButton_Click(object sender, EventArgs e)
         {
-            _service.PressDigit(_calculatorModel, ((Button)sender).Text);
-            DisplayValue();
+            var digitString = ((Button)sender).Text;
+            _calculatorService.PressDigit(_calculatorModel, digitString);
+            DisplayResult();
         }
 
-        private void DisplayValue()
+        private void DisplayResult()
         {
             DisplayLabel.Text = _calculatorModel.RegisterX.ToString();
         }
 
         private void ClearButton_Click(object sender, EventArgs e)
         {
-            _service.PressClear(_calculatorModel);
-            DisplayValue();
+            _calculatorService.PressClear(_calculatorModel);
+            DisplayResult();
         }
 
         private void MoveXToYButton_Click(object sender, EventArgs e)
         {
-            _service.MoveXToY(_calculatorModel);
-            DisplayValue();
+            _calculatorService.PressMoveXToY(_calculatorModel);
+            DisplayResult();
         }
 
         private void OperationButton_Click(object sender, EventArgs e)
         {
-            _service.PressOperation(_calculatorModel, ((Button)sender).Text);
-            DisplayValue();
+            var operationCode = ((Button)sender).Text;
+            _calculatorService.PressOperation(_calculatorModel, operationCode);
+            DisplayResult();
+        }
+        private void SquareButton_Click(object sender, EventArgs e)
+        {
+            _calculatorService.PressSquare(_calculatorModel);
+            DisplayResult();
         }
 
-        private void EqualButton_Click(object sender, EventArgs e)
+        private void SqrtButton_Click(object sender, EventArgs e)
         {
-            _service.PressEqual(_calculatorModel);
-            DisplayValue();
+            _calculatorService.PressSqrt(_calculatorModel);
+            DisplayResult();
         }
-    }
+
+        private void PowerButton_Click(object sender, EventArgs e)
+        {
+            _calculatorService.PressOperation(_calculatorModel, "^");
+        }
+
+        private void PercentButton_Click(object sender, EventArgs e)
+        {
+            _calculatorService.PressPercent(_calculatorModel);
+            DisplayResult();
+        }
+
+        private void AbsButton_Click(object sender, EventArgs e)
+        {
+            _calculatorService.PressAbs(_calculatorModel);
+            DisplayResult();
+        }
+    }   
 }

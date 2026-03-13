@@ -21,8 +21,7 @@ namespace Calculator.Business.Services
                 calculatorModel.RegisterX = 0;
             }
 
-            calculatorModel.RegisterX *= 10;
-            calculatorModel.RegisterX += digit;
+            calculatorModel.RegisterX = calculatorModel.RegisterX * 10 + digit;
             calculatorModel.IsLastDigitPressed = true;
         }
 
@@ -32,25 +31,9 @@ namespace Calculator.Business.Services
             calculatorModel.IsLastDigitPressed = false;
         }
 
-        public void PressMoveXToY(CalculatorModel calculatorModel)
+        public void MoveXToY(CalculatorModel calculatorModel)
         {
             calculatorModel.RegisterY = calculatorModel.RegisterX;
-            calculatorModel.IsLastDigitPressed = false;
-        }
-
-        public void PressOperation(CalculatorModel calculatorModel, string operationCode)
-        {
-            CompleteOperation(calculatorModel);
-
-            PressMoveXToY(calculatorModel);
-            calculatorModel.OperationCode = operationCode;
-            calculatorModel.IsLastDigitPressed = false;
-        }
-
-        public void PressEqual(CalculatorModel calculatorModel)
-        {
-            CompleteOperation(calculatorModel);
-            calculatorModel.IsLastDigitPressed = false;
         }
 
         private void CompleteOperation(CalculatorModel calculatorModel)
@@ -73,6 +56,21 @@ namespace Calculator.Business.Services
                     calculatorModel.RegisterX = calculatorModel.RegisterY / calculatorModel.RegisterX;
                     break;
             }
+        }
+
+        public void PressOperation(CalculatorModel calculatorModel, string operationCode)
+        {
+            CompleteOperation(calculatorModel);
+
+            MoveXToY(calculatorModel);
+            calculatorModel.OperationCode = operationCode;
+            calculatorModel.IsLastDigitPressed = false;
+        }
+
+        public void PressEqual(CalculatorModel calculatorModel)
+        {
+            CompleteOperation(calculatorModel);
+            calculatorModel.IsLastDigitPressed = false;
         }
     }
 }

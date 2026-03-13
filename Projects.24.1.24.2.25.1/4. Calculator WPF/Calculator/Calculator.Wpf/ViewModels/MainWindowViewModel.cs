@@ -1,19 +1,13 @@
 ﻿using Calculator.Business.Models;
 using Calculator.Business.Services;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Calculator.Wpf.ViewModels
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
-        private CalculatorModel _calculatorModel = new CalculatorModel();
-
-        private CalculatorService _calculatorService = new CalculatorService();
+        private readonly CalculatorModel _calculatorModel = new CalculatorModel();
+        private readonly CalculatorService _calculatorService = new CalculatorService();
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -34,6 +28,36 @@ namespace Calculator.Wpf.ViewModels
         public void PressOperation(string operationCode)
         {
             _calculatorService.PressOperation(_calculatorModel, operationCode);
+            OnPropertyChanged(nameof(Result));
+        }
+
+        public void PressSqrt()
+        {
+            _calculatorService.PressSqrt(_calculatorModel);
+            OnPropertyChanged(nameof(Result));
+        }
+
+        public void PressPower()
+        {
+            _calculatorService.PressPower(_calculatorModel);
+            OnPropertyChanged(nameof(Result));
+        }
+
+        public void PressPercent()
+        {
+            _calculatorService.PressPercent(_calculatorModel);
+            OnPropertyChanged(nameof(Result));
+        }
+
+        public void PressAbs()
+        {
+            _calculatorService.PressAbs(_calculatorModel);
+            OnPropertyChanged(nameof(Result));
+        }
+
+        public void PressSquare()
+        {
+            _calculatorService.PressSquare(_calculatorModel);
             OnPropertyChanged(nameof(Result));
         }
 

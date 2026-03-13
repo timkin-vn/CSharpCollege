@@ -10,9 +10,9 @@ namespace Calculator.Business.Models
     {
         public double RegisterX { get; internal set; }
 
-        internal double RegisterY { get; set; }
+        public double RegisterY { get; internal set; }
 
-        internal string OperationCode { get; set; }
+        public string OperationCode { get; internal set; }
 
         internal bool IsLastDigitPressed { get; set; }
     }
