@@ -72,5 +72,33 @@ namespace Calculator.Business.Services
             CompleteOperation(calculatorModel);
             calculatorModel.IsLastDigitPressed = false;
         }
+        public void PressBackspace(CalculatorModel calculatorModel)
+        {
+            var text = calculatorModel.RegisterX.ToString();
+
+            if (text.Length <= 1 || (text.Length == 2 && text.StartsWith("-")))
+            {
+                calculatorModel.RegisterX = 0;
+            }
+            else
+            {
+                text = text.Substring(0, text.Length - 1);
+
+                if (text.EndsWith(",") || text.EndsWith("."))
+                {
+                    text = text.Substring(0, text.Length - 1);
+                }
+
+                calculatorModel.RegisterX = double.Parse(text);
+            }
+
+            calculatorModel.IsLastDigitPressed = true;
+        }
+
+        public void PressChangeSign(CalculatorModel calculatorModel)
+        {
+            calculatorModel.RegisterX = -calculatorModel.RegisterX;
+        }
+
     }
 }

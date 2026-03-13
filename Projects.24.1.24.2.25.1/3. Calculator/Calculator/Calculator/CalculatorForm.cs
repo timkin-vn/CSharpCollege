@@ -23,6 +23,18 @@ namespace Calculator
             InitializeComponent();
         }
 
+        private void BackspaceButton_Click(object sender, EventArgs e)
+        {
+            _service.PressBackspace(_calculatorModel);
+            DisplayValue();
+        }
+
+        private void ChangeSignButton_Click(object sender, EventArgs e)
+        {
+            _service.PressChangeSign(_calculatorModel);
+            DisplayValue();
+        }
+
         private void DigitButton_Click(object sender, EventArgs e)
         {
             _service.PressDigit(_calculatorModel, ((Button)sender).Text);

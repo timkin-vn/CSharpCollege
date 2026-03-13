@@ -6,6 +6,8 @@
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
+        private System.Windows.Forms.Button BackspaceButton;
+        private System.Windows.Forms.Button ChangeSignButton;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -46,6 +48,8 @@
             this.SubtractButton = new System.Windows.Forms.Button();
             this.EqualButton = new System.Windows.Forms.Button();
             this.MoveXToYButton = new System.Windows.Forms.Button();
+            this.BackspaceButton = new System.Windows.Forms.Button();
+            this.ChangeSignButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // DisplayLabel
@@ -234,7 +238,7 @@
             this.EqualButton.TabIndex = 16;
             this.EqualButton.Text = "=";
             this.EqualButton.UseVisualStyleBackColor = true;
-            this.EqualButton.Click += new System.EventHandler(this.OperationButton_Click);
+            this.EqualButton.Click += new System.EventHandler(this.EqualButton_Click);
             // 
             // MoveXToYButton
             // 
@@ -248,11 +252,35 @@
             this.MoveXToYButton.Visible = false;
             this.MoveXToYButton.Click += new System.EventHandler(this.MoveXToYButton_Click);
             // 
+            // BackspaceButton
+            // 
+            this.BackspaceButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.BackspaceButton.Location = new System.Drawing.Point(126, 347);
+            this.BackspaceButton.Name = "BackspaceButton";
+            this.BackspaceButton.Size = new System.Drawing.Size(107, 63);
+            this.BackspaceButton.TabIndex = 18;
+            this.BackspaceButton.Text = "⌫";
+            this.BackspaceButton.UseVisualStyleBackColor = true;
+            this.BackspaceButton.Click += new System.EventHandler(this.BackspaceButton_Click);
+            // 
+            // ChangeSignButton
+            // 
+            this.ChangeSignButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ChangeSignButton.Location = new System.Drawing.Point(239, 347);
+            this.ChangeSignButton.Name = "ChangeSignButton";
+            this.ChangeSignButton.Size = new System.Drawing.Size(107, 63);
+            this.ChangeSignButton.TabIndex = 19;
+            this.ChangeSignButton.Text = "+/-";
+            this.ChangeSignButton.UseVisualStyleBackColor = true;
+            this.ChangeSignButton.Click += new System.EventHandler(this.ChangeSignButton_Click);
+            // 
             // CalculatorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(646, 422);
+            this.Controls.Add(this.BackspaceButton);
+            this.Controls.Add(this.ChangeSignButton);
             this.Controls.Add(this.MoveXToYButton);
             this.Controls.Add(this.EqualButton);
             this.Controls.Add(this.SubtractButton);
@@ -276,7 +304,6 @@
             this.Name = "CalculatorForm";
             this.Text = "Калькулятор";
             this.ResumeLayout(false);
-
         }
 
         #endregion
@@ -301,4 +328,3 @@
         private System.Windows.Forms.Button MoveXToYButton;
     }
 }
-
