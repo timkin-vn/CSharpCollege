@@ -55,7 +55,25 @@ namespace Calculator.Business.Services
                 case "/":
                     calculatorModel.RegisterX = calculatorModel.RegisterY / calculatorModel.RegisterX;
                     break;
+
+                case "^":
+                    calculatorModel.RegisterX = Math.Pow(calculatorModel.RegisterY, calculatorModel.RegisterX);
+                    break;
             }
+        }
+        public void PressSqrt(CalculatorModel calculatorModel)
+        {
+            // Еслизначение отрицательное, ошибка
+            if (calculatorModel.RegisterX < 0)
+            {
+                calculatorModel.RegisterX = double.NaN;
+            }
+            else
+            {
+                calculatorModel.RegisterX = Math.Sqrt(calculatorModel.RegisterX);
+            }
+            // После унарной операции сбрасываем флаг ввода цифр
+            calculatorModel.IsLastDigitPressed = false;
         }
 
         public void PressOperation(CalculatorModel calculatorModel, string operationCode)
