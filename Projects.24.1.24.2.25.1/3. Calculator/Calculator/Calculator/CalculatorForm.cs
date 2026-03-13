@@ -28,6 +28,10 @@ namespace Calculator
             _service.PressDigit(_calculatorModel, ((Button)sender).Text);
             DisplayValue();
         }
+        private void Digit0Button_Click(object sender, EventArgs e) // для рабочего 0
+        {
+            DigitButton_Click(sender, e);
+        }
 
         private void DisplayValue()
         {
@@ -57,5 +61,18 @@ namespace Calculator
             _service.PressEqual(_calculatorModel);
             DisplayValue();
         }
+        // Для кнопки корня
+        private void RootButton_Click(object sender, EventArgs e)
+        {
+            _service.PressSqrt(_calculatorModel);
+            DisplayValue();
+        }
+
+        // Для кнопки возведения в степень
+        private void PowButton_Click(object sender, EventArgs e)
+        {
+            _service.PressOperation(_calculatorModel, "^");
+            DisplayValue();
+        }
     }
-}
+    }
