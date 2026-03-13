@@ -49,7 +49,11 @@ namespace AlarmClock.Forms
         {
             int num1 = _random.Next(1, 20);
             int num2 = _random.Next(1, 20);
+<<<<<<< HEAD
             int operation = _random.Next(1, 3);
+=======
+            int operation = _random.Next(0, 3);
+>>>>>>> 3f28b9e788e43e5c2cbc046a59cfb26e1e0b6315
 
             switch (operation)
             {
@@ -68,7 +72,11 @@ namespace AlarmClock.Forms
                 case 2:
                     num1 = _random.Next(1, 10);
                     num2 = _random.Next(1, 10);
+<<<<<<< HEAD
                     labelQuestion.Text = $"{num1} * {num2} = ?";
+=======
+                    labelQuestion.Text = $"{num1} ? {num2} = ?";
+>>>>>>> 3f28b9e788e43e5c2cbc046a59cfb26e1e0b6315
                     _correctAnswer = num1 * num2;
                     break;
             }
