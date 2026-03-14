@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\PointModel.cs" />
+    <Compile Include="Models\SizeModel.cs" />
+    <Compile Include="Models\RectangleModel.cs" />
+    <Compile Include="Services\PictureBuilder.cs" />
+    <Compile Include="ViewServices\Scaler.cs" />
+    <Compile Include="ViewServices\Painter.cs" />
     <Compile Include="PictureForm.cs">
       <SubType>Form</SubType>
     </Compile>
