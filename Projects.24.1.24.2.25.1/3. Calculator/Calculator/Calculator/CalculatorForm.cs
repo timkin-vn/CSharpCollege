@@ -41,12 +41,6 @@ namespace Calculator
             DisplayResult();
         }
 
-        private void MoveXToYButton_Click(object sender, EventArgs e)
-        {
-            _calculatorService.PressMoveXToY(_calculatorModel);
-            DisplayResult();
-        }
-
         private void OperationButton_Click(object sender, EventArgs e)
         {
             var operationCode = ((Button)sender).Text;

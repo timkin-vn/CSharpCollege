@@ -45,7 +45,6 @@
             this.AddButton = new System.Windows.Forms.Button();
             this.DivideButton = new System.Windows.Forms.Button();
             this.SubtractButton = new System.Windows.Forms.Button();
-            this.MoveXToYButton = new System.Windows.Forms.Button();
             // Новые кнопки
             this.SquareButton = new System.Windows.Forms.Button();
             this.SqrtButton = new System.Windows.Forms.Button();
@@ -241,19 +240,7 @@
             this.SubtractButton.Text = "-";
             this.SubtractButton.UseVisualStyleBackColor = true;
             this.SubtractButton.Click += new System.EventHandler(this.OperationButton_Click);
-            // 
-            // MoveXToYButton
-            // 
-            this.MoveXToYButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.MoveXToYButton.Location = new System.Drawing.Point(174, 313);
-            this.MoveXToYButton.Name = "MoveXToYButton";
-            this.MoveXToYButton.Size = new System.Drawing.Size(75, 59);
-            this.MoveXToYButton.TabIndex = 18;
-            this.MoveXToYButton.Text = "X -> Y";
-            this.MoveXToYButton.UseVisualStyleBackColor = true;
-            this.MoveXToYButton.Visible = false;
-            this.MoveXToYButton.Click += new System.EventHandler(this.MoveXToYButton_Click);
-            // 
+            //
             // SquareButton
             // 
             this.SquareButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -319,7 +306,6 @@
             this.Controls.Add(this.PowerButton);
             this.Controls.Add(this.SqrtButton);
             this.Controls.Add(this.SquareButton);
-            this.Controls.Add(this.MoveXToYButton);
             this.Controls.Add(this.SubtractButton);
             this.Controls.Add(this.DivideButton);
             this.Controls.Add(this.AddButton);
@@ -364,7 +350,7 @@
         private System.Windows.Forms.Button AddButton;
         private System.Windows.Forms.Button DivideButton;
         private System.Windows.Forms.Button SubtractButton;
-        private System.Windows.Forms.Button MoveXToYButton;
+
         private System.Windows.Forms.Button SquareButton;
         private System.Windows.Forms.Button SqrtButton;
         private System.Windows.Forms.Button PowerButton;
