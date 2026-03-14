@@ -15,6 +15,7 @@ namespace AlarmClock
 {
     public partial class ClockForm : Form
     {
+        
         private AlarmClockState _clockState = new AlarmClockState();
 
         public ClockForm()
@@ -38,6 +39,16 @@ namespace AlarmClock
                 _clockState.IsAwakeActivated = true;
 
                 var awakeForm = new AwakeForm { ClockState = _clockState };
+                awakeForm.TopMost = true;
+                
+                NotifyIcon notifyIcon = new NotifyIcon();
+                notifyIcon.Icon = SystemIcons.WinLogo;
+                notifyIcon.Visible = true;
+
+                notifyIcon.ShowBalloonTip(10000, $"Время: {_clockState.AlarmTime.Hour}:{_clockState.AlarmTime.Minute}",
+                    $"{_clockState.AlarmMessage ?? DateTime.Now.ToLongTimeString()}", ToolTipIcon.None);
+
+                
                 awakeForm.FormClosed += AwakeForm_FormClosed;
 
                 awakeForm.ShowDialog();

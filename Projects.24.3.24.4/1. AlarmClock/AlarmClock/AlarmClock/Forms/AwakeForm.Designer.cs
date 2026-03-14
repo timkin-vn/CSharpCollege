@@ -39,19 +39,20 @@
             // AlarmMessageLabel
             // 
             this.AlarmMessageLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.AlarmMessageLabel.Location = new System.Drawing.Point(12, 9);
+            this.AlarmMessageLabel.Location = new System.Drawing.Point(12, 10);
             this.AlarmMessageLabel.Name = "AlarmMessageLabel";
-            this.AlarmMessageLabel.Size = new System.Drawing.Size(584, 38);
+            this.AlarmMessageLabel.Size = new System.Drawing.Size(295, 38);
             this.AlarmMessageLabel.TabIndex = 0;
             this.AlarmMessageLabel.Text = "Сообщение";
             this.AlarmMessageLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.AlarmMessageLabel.Click += new System.EventHandler(this.AlarmMessageLabel_Click);
             // 
             // AwakeButton
             // 
             this.AwakeButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.AwakeButton.Location = new System.Drawing.Point(248, 415);
+            this.AwakeButton.Location = new System.Drawing.Point(12, 220);
             this.AwakeButton.Name = "AwakeButton";
-            this.AwakeButton.Size = new System.Drawing.Size(118, 23);
+            this.AwakeButton.Size = new System.Drawing.Size(295, 23);
             this.AwakeButton.TabIndex = 1;
             this.AwakeButton.Text = "Я проснулся";
             this.AwakeButton.UseVisualStyleBackColor = true;
@@ -59,9 +60,9 @@
             // AwakePictureBox
             // 
             this.AwakePictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.AwakePictureBox.Location = new System.Drawing.Point(13, 51);
+            this.AwakePictureBox.Location = new System.Drawing.Point(12, 51);
             this.AwakePictureBox.Name = "AwakePictureBox";
-            this.AwakePictureBox.Size = new System.Drawing.Size(583, 358);
+            this.AwakePictureBox.Size = new System.Drawing.Size(295, 163);
             this.AwakePictureBox.TabIndex = 2;
             this.AwakePictureBox.TabStop = false;
             // 
@@ -75,7 +76,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(608, 450);
+            this.ClientSize = new System.Drawing.Size(320, 253);
             this.Controls.Add(this.AwakePictureBox);
             this.Controls.Add(this.AwakeButton);
             this.Controls.Add(this.AlarmMessageLabel);
@@ -87,7 +88,6 @@
             this.Load += new System.EventHandler(this.AwakeForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.AwakePictureBox)).EndInit();
             this.ResumeLayout(false);
-
         }
 
         #endregion
