@@ -21,11 +21,28 @@ namespace AlarmClock
         {
             InitializeComponent();
         }
-
+        //-----------------------------------------------------------------------------------------
         private void ClockTimer_Tick(object sender, EventArgs e)
         {
-            DisplayLabel.Text = DateTime.Now.ToLongTimeString();
+            if (_clockState.IsAlarmActive)
+            {
+                TimeSpan remaining = _clockState.AlarmTime - DateTime.Now;
 
+                if (remaining.TotalSeconds > 0)
+                {
+                    DisplayLabel.Text = remaining.ToString(@"hh\:mm\:ss");
+                }
+                else
+                {
+                    DisplayLabel.Text = "00:00:00";
+                }
+            }
+            else
+            {
+                DisplayLabel.Text = DateTime.Now.ToLongTimeString();
+            }
+            
+            //--------------------------------------------------------------------------------
             if (!_clockState.IsAlarmActive)
             {
                 return;
@@ -91,6 +108,11 @@ namespace AlarmClock
             {
                 Text = "Будильник";
             }
+        }
+
+        private void ClockForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

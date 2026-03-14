@@ -96,7 +96,8 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "ClockForm";
-            this.Text = "Будильник";
+            this.Text = "ммммммммммммммммммммммммм";
+            this.Load += new System.EventHandler(this.ClockForm_Load);
             this.ResumeLayout(false);
 
         }
