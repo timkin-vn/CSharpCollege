@@ -1,0 +1,186 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pacman Server API</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .status {
+            background: rgba(76, 175, 80, 0.3);
+            border-left: 4px solid #4CAF50;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        h2 {
+            margin: 30px 0 20px 0;
+            font-size: 1.8em;
+        }
+
+        .endpoint {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            border-left: 4px solid #ffd700;
+            transition: transform 0.2s;
+        }
+
+            .endpoint:hover {
+                transform: translateX(10px);
+            }
+
+        .method {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 0.9em;
+        }
+
+        .get {
+            background: #61affe;
+        }
+
+        .post {
+            background: #49cc90;
+        }
+
+        .put {
+            background: #fca130;
+        }
+
+        .delete {
+            background: #f93e3e;
+        }
+
+        code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+        }
+
+        .description {
+            margin-top: 10px;
+            opacity: 0.8;
+            font-size: 0.95em;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 Pacman Server API</h1>
+        <p class="subtitle">Backend сервер для игры Pacman</p>
+
+        <div class="status">
+            ✅ Сервер работает и готов к приёму запросов
+        </div>
+
+        <h2>📡 API Endpoints</h2>
+
+        <div class="endpoint">
+            <span class="method get">GET</span>
+            <code>/api/users</code>
+            <div class="description">Получить список всех пользователей</div>
+        </div>
+
+        <div class="endpoint">
+            <span class="method post">POST</span>
+            <code>/api/users</code>
+            <div class="description">Создать нового пользователя</div>
+        </div>
+
+        <div class="endpoint">
+            <span class="method get">GET</span>
+            <code>/api/games/{userId}</code>
+            <div class="description">Получить все игры пользователя</div>
+        </div>
+
+        <div class="endpoint">
+            <span class="method post">POST</span>
+            <code>/api/games/create</code>
+            <div class="description">Создать новую игру</div>
+        </div>
+
+        <div class="endpoint">
+            <span class="method get">GET</span>
+            <code>/api/games/{id}/state</code>
+            <div class="description">Получить состояние игры</div>
+        </div>
+
+        <div class="endpoint">
+            <span class="method post">POST</span>
+            <code>/api/games/{id}/move</code>
+            <div class="description">Выполнить ход в игре</div>
+        </div>
+
+        <div class="endpoint">
+            <span class="method delete">DELETE</span>
+            <code>/api/games/{id}</code>
+            <div class="description">Удалить игру</div>
+        </div>
+
+        <div class="endpoint">
+            <span class="method get">GET</span>
+            <code>/api/leaderboard</code>
+            <div class="description">Получить таблицу лидеров</div>
+        </div>
+
+        <footer>
+            <p>Сервер работает на <strong>localhost:44375</strong></p>
+            <p style="margin-top: 10px; font-size: 0.9em;">База данных: PostgreSQL</p>
+        </footer>
+    </div>
+</body>
+</html>
