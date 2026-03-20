@@ -16,9 +16,6 @@ using System.Windows.Shapes;
 
 namespace Calculator.Wpf
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindowViewModel ViewModel => (MainWindowViewModel)DataContext;
@@ -43,6 +40,12 @@ namespace Calculator.Wpf
         {
             var operationCode = ((Button)sender).Content as string;
             ViewModel.PressOperation(operationCode);
+        }
+
+        // Обработчик для квадратного корня
+        private void SqrtButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.PressSqrt();
         }
     }
 }

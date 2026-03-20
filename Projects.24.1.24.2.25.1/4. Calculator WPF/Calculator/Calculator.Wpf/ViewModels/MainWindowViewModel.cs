@@ -12,7 +12,6 @@ namespace Calculator.Wpf.ViewModels
     public class MainWindowViewModel : INotifyPropertyChanged
     {
         private CalculatorModel _calculatorModel = new CalculatorModel();
-
         private CalculatorService _calculatorService = new CalculatorService();
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -34,6 +33,13 @@ namespace Calculator.Wpf.ViewModels
         public void PressOperation(string operationCode)
         {
             _calculatorService.PressOperation(_calculatorModel, operationCode);
+            OnPropertyChanged(nameof(Result));
+        }
+
+        // Метод для квадратного корня
+        public void PressSqrt()
+        {
+            _calculatorService.PressSqrt(_calculatorModel);
             OnPropertyChanged(nameof(Result));
         }
 
