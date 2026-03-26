@@ -24,18 +24,13 @@ namespace AlarmClock
 
         private void ClockTimer_Tick(object sender, EventArgs e)
         {
-            // 1. ЛОГИКА МИРОВОГО ВРЕМЕНИ
-            // Проверяем: если галочка стоит, берем UtcNow, если нет - обычный Now
+         
             DateTime timeToShow = UtcCheckBox.Checked ? DateTime.UtcNow : DateTime.Now;
 
-            // Выводим время на экран
             DisplayLabel.Text = timeToShow.ToLongTimeString();
 
-            // 2. ЛОГИКА БУДИЛЬНИКА (оставляем твою рабочую версию)
             if (!_clockState.IsAlarmActive) return;
 
-            // Сравниваем всегда с местным временем (DateTime.Now), 
-            // чтобы будильник не "прыгал" при переключении режима отображения
             if (!_clockState.IsAwakeActivated &&
                 DateTime.Now.Minute == _clockState.AlarmTime.Minute &&
                 DateTime.Now.Hour == _clockState.AlarmTime.Hour)
@@ -59,7 +54,6 @@ namespace AlarmClock
             Form awakeForm = (Form)sender;
             awakeForm.FormClosed -= AwakeForm_FormClosed;
 
-            // ПРОВЕРКА: Если в Tag написано "Snooze", мы НЕ выключаем будильник
             if (awakeForm.Tag?.ToString() != "Snooze")
             {
                 _clockState.IsAlarmActive = false;

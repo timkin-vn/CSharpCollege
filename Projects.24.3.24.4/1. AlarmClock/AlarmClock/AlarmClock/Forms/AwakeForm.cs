@@ -52,15 +52,14 @@ namespace AlarmClock.Forms
         }
         private void SnoozeButton_Click(object sender, EventArgs e)
         {
-            // Прибавляем 5 минут к текущему времени будильника
+
             ClockState.AlarmTime = ClockState.AlarmTime.AddMinutes(5);
 
-            // Сбрасываем флаг активации, чтобы ClockForm снова смогла его запустить
             ClockState.IsAwakeActivated = false;
 
-            this.Tag = "Snooze"; // Мы вешаем ярлык на окно перед закрытием
+            this.Tag = "Snooze";
 
-            // Закрываем форму (звук и таймер ClockForm подхватят изменения)
+ 
             this.Close();
         }
 
