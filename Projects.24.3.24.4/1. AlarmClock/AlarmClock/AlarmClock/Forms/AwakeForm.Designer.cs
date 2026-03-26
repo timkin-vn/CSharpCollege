@@ -29,12 +29,24 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            this.SnoozeButton = new System.Windows.Forms.Button();
             this.AlarmMessageLabel = new System.Windows.Forms.Label();
             this.AwakeButton = new System.Windows.Forms.Button();
             this.AwakePictureBox = new System.Windows.Forms.PictureBox();
             this.AwakeTimer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.AwakePictureBox)).BeginInit();
             this.SuspendLayout();
+            // 
+            // SnoozeButton
+            // 
+            this.SnoozeButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
+            this.SnoozeButton.Location = new System.Drawing.Point(277, 65);
+            this.SnoozeButton.Name = "SnoozeButton";
+            this.SnoozeButton.Size = new System.Drawing.Size(50, 31);
+            this.SnoozeButton.TabIndex = 3;
+            this.SnoozeButton.Text = "+5";
+            this.SnoozeButton.UseVisualStyleBackColor = true;
+            this.SnoozeButton.Click += new System.EventHandler(this.SnoozeButton_Click);
             // 
             // AlarmMessageLabel
             // 
@@ -49,12 +61,13 @@
             // AwakeButton
             // 
             this.AwakeButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.AwakeButton.Location = new System.Drawing.Point(248, 415);
+            this.AwakeButton.Location = new System.Drawing.Point(251, 415);
             this.AwakeButton.Name = "AwakeButton";
             this.AwakeButton.Size = new System.Drawing.Size(118, 23);
             this.AwakeButton.TabIndex = 1;
             this.AwakeButton.Text = "Я проснулся";
             this.AwakeButton.UseVisualStyleBackColor = true;
+            this.AwakeButton.Click += new System.EventHandler(this.AwakeButton_Click);
             // 
             // AwakePictureBox
             // 
@@ -76,6 +89,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(608, 450);
+            this.Controls.Add(this.SnoozeButton);
             this.Controls.Add(this.AwakePictureBox);
             this.Controls.Add(this.AwakeButton);
             this.Controls.Add(this.AlarmMessageLabel);
@@ -96,5 +110,6 @@
         private System.Windows.Forms.Button AwakeButton;
         private System.Windows.Forms.PictureBox AwakePictureBox;
         private System.Windows.Forms.Timer AwakeTimer;
+        private System.Windows.Forms.Button SnoozeButton;
     }
 }

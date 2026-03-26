@@ -24,13 +24,18 @@ namespace AlarmClock
 
         private void ClockTimer_Tick(object sender, EventArgs e)
         {
-            DisplayLabel.Text = DateTime.Now.ToLongTimeString();
+            // 1. ЛОГИКА МИРОВОГО ВРЕМЕНИ
+            // Проверяем: если галочка стоит, берем UtcNow, если нет - обычный Now
+            DateTime timeToShow = UtcCheckBox.Checked ? DateTime.UtcNow : DateTime.Now;
 
-            if (!_clockState.IsAlarmActive)
-            {
-                return;
-            }
+            // Выводим время на экран
+            DisplayLabel.Text = timeToShow.ToLongTimeString();
 
+            // 2. ЛОГИКА БУДИЛЬНИКА (оставляем твою рабочую версию)
+            if (!_clockState.IsAlarmActive) return;
+
+            // Сравниваем всегда с местным временем (DateTime.Now), 
+            // чтобы будильник не "прыгал" при переключении режима отображения
             if (!_clockState.IsAwakeActivated &&
                 DateTime.Now.Minute == _clockState.AlarmTime.Minute &&
                 DateTime.Now.Hour == _clockState.AlarmTime.Hour)
@@ -39,21 +44,27 @@ namespace AlarmClock
 
                 var awakeForm = new AwakeForm { ClockState = _clockState };
                 awakeForm.FormClosed += AwakeForm_FormClosed;
-
                 awakeForm.ShowDialog();
             }
 
+            // Звук
             if (_clockState.IsSoundActive && _clockState.IsAwakeActivated)
             {
-                SystemSounds.Beep.Play();
+                System.Media.SystemSounds.Beep.Play();
             }
         }
 
         private void AwakeForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            ((Form)sender).FormClosed -= AwakeForm_FormClosed;
+            Form awakeForm = (Form)sender;
+            awakeForm.FormClosed -= AwakeForm_FormClosed;
 
-            _clockState.IsAlarmActive = false;
+            // ПРОВЕРКА: Если в Tag написано "Snooze", мы НЕ выключаем будильник
+            if (awakeForm.Tag?.ToString() != "Snooze")
+            {
+                _clockState.IsAlarmActive = false;
+            }
+
             _clockState.IsAwakeActivated = false;
             UpdateView();
         }
@@ -91,6 +102,11 @@ namespace AlarmClock
             {
                 Text = "Будильник";
             }
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

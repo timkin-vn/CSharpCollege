@@ -34,6 +34,7 @@
             this.AboutButton = new System.Windows.Forms.Button();
             this.ExitButton = new System.Windows.Forms.Button();
             this.ClockTimer = new System.Windows.Forms.Timer(this.components);
+            this.UtcCheckBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // DisplayLabel
@@ -43,16 +44,16 @@
             this.DisplayLabel.ForeColor = System.Drawing.Color.GreenYellow;
             this.DisplayLabel.Location = new System.Drawing.Point(12, 9);
             this.DisplayLabel.Name = "DisplayLabel";
-            this.DisplayLabel.Size = new System.Drawing.Size(328, 83);
+            this.DisplayLabel.Size = new System.Drawing.Size(284, 83);
             this.DisplayLabel.TabIndex = 0;
             this.DisplayLabel.Text = "00:00:00";
             this.DisplayLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // SettingsButton
             // 
-            this.SettingsButton.Location = new System.Drawing.Point(346, 9);
+            this.SettingsButton.Location = new System.Drawing.Point(305, 9);
             this.SettingsButton.Name = "SettingsButton";
-            this.SettingsButton.Size = new System.Drawing.Size(108, 23);
+            this.SettingsButton.Size = new System.Drawing.Size(74, 23);
             this.SettingsButton.TabIndex = 1;
             this.SettingsButton.Text = "Настройки...";
             this.SettingsButton.UseVisualStyleBackColor = true;
@@ -60,7 +61,7 @@
             // 
             // AboutButton
             // 
-            this.AboutButton.Location = new System.Drawing.Point(346, 39);
+            this.AboutButton.Location = new System.Drawing.Point(334, 39);
             this.AboutButton.Name = "AboutButton";
             this.AboutButton.Size = new System.Drawing.Size(108, 23);
             this.AboutButton.TabIndex = 2;
@@ -70,7 +71,7 @@
             // 
             // ExitButton
             // 
-            this.ExitButton.Location = new System.Drawing.Point(346, 69);
+            this.ExitButton.Location = new System.Drawing.Point(334, 69);
             this.ExitButton.Name = "ExitButton";
             this.ExitButton.Size = new System.Drawing.Size(108, 23);
             this.ExitButton.TabIndex = 3;
@@ -84,11 +85,23 @@
             this.ClockTimer.Interval = 1000;
             this.ClockTimer.Tick += new System.EventHandler(this.ClockTimer_Tick);
             // 
+            // UtcCheckBox
+            // 
+            this.UtcCheckBox.AutoSize = true;
+            this.UtcCheckBox.Location = new System.Drawing.Point(385, 13);
+            this.UtcCheckBox.Name = "UtcCheckBox";
+            this.UtcCheckBox.Size = new System.Drawing.Size(70, 17);
+            this.UtcCheckBox.TabIndex = 4;
+            this.UtcCheckBox.Text = "UTC time";
+            this.UtcCheckBox.UseVisualStyleBackColor = true;
+            this.UtcCheckBox.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
             // ClockForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(466, 106);
+            this.Controls.Add(this.UtcCheckBox);
             this.Controls.Add(this.ExitButton);
             this.Controls.Add(this.AboutButton);
             this.Controls.Add(this.SettingsButton);
@@ -98,6 +111,7 @@
             this.Name = "ClockForm";
             this.Text = "Будильник";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -108,6 +122,7 @@
         private System.Windows.Forms.Button AboutButton;
         private System.Windows.Forms.Button ExitButton;
         private System.Windows.Forms.Timer ClockTimer;
+        private System.Windows.Forms.CheckBox UtcCheckBox;
     }
 }
 
