@@ -1,0 +1,56 @@
+﻿<Window x:Class="FifteenGame.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:FifteenGame.Wpf.ViewModels"
+        mc:Ignorable="d"
+        Title="Крестики-нолики"
+        Width="420" Height="560"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="#FF0B1020">
+
+    <Window.DataContext>
+        <vm:TicTacToeViewModel/>
+    </Window.DataContext>
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0"
+                   Text="{Binding StatusText}"
+                   FontSize="24"
+                   FontWeight="SemiBold"
+                   Foreground="White"
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,18"/>
+
+        <Border Grid.Row="1" CornerRadius="14" Background="#141B33" Padding="12">
+            <UniformGrid Rows="3" Columns="3">
+                <Button Content="{Binding Cells[0]}" Command="{Binding CellClickCommand}" CommandParameter="0" FontSize="34" Margin="6" />
+                <Button Content="{Binding Cells[1]}" Command="{Binding CellClickCommand}" CommandParameter="1" FontSize="34" Margin="6" />
+                <Button Content="{Binding Cells[2]}" Command="{Binding CellClickCommand}" CommandParameter="2" FontSize="34" Margin="6" />
+
+                <Button Content="{Binding Cells[3]}" Command="{Binding CellClickCommand}" CommandParameter="3" FontSize="34" Margin="6" />
+                <Button Content="{Binding Cells[4]}" Command="{Binding CellClickCommand}" CommandParameter="4" FontSize="34" Margin="6" />
+                <Button Content="{Binding Cells[5]}" Command="{Binding CellClickCommand}" CommandParameter="5" FontSize="34" Margin="6" />
+
+                <Button Content="{Binding Cells[6]}" Command="{Binding CellClickCommand}" CommandParameter="6" FontSize="34" Margin="6" />
+                <Button Content="{Binding Cells[7]}" Command="{Binding CellClickCommand}" CommandParameter="7" FontSize="34" Margin="6" />
+                <Button Content="{Binding Cells[8]}" Command="{Binding CellClickCommand}" CommandParameter="8" FontSize="34" Margin="6" />
+            </UniformGrid>
+        </Border>
+
+        <Button Grid.Row="2"
+                Content="Новая игра"
+                Command="{Binding ResetCommand}"
+                Height="44"
+                Margin="0,18,0,0"
+                FontSize="16"/>
+    </Grid>
+</Window>
