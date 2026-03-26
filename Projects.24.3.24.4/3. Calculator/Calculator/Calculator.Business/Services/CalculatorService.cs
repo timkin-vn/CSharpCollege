@@ -72,7 +72,23 @@ namespace Calculator.Business.Services
                 case "/":
                     calculatorModel.RegisterX = calculatorModel.RegisterY / calculatorModel.RegisterX;
                     break;
+
             }
         }
+        public void PressUnaryOperation(CalculatorModel calculatorModel, string operationCode)
+        {
+            switch (operationCode)
+            {
+                case "^2":
+                    calculatorModel.RegisterX = calculatorModel.RegisterX * calculatorModel.RegisterX;
+                    break;
+                case "/X": // Добавляем корень
+                    calculatorModel.RegisterX = Math.Sqrt(calculatorModel.RegisterX);
+                    break;
+            }
+           
+            calculatorModel.IsLastDigitPressed = false;
+        }
     }
+    
 }

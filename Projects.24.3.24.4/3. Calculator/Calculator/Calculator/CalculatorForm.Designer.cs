@@ -46,6 +46,8 @@
             this.DivideButton = new System.Windows.Forms.Button();
             this.SubtractButton = new System.Windows.Forms.Button();
             this.MoveXToYButton = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // DisplayLabel
@@ -239,20 +241,44 @@
             // MoveXToYButton
             // 
             this.MoveXToYButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.MoveXToYButton.Location = new System.Drawing.Point(174, 313);
+            this.MoveXToYButton.Location = new System.Drawing.Point(266, 118);
             this.MoveXToYButton.Name = "MoveXToYButton";
-            this.MoveXToYButton.Size = new System.Drawing.Size(75, 59);
+            this.MoveXToYButton.Size = new System.Drawing.Size(13, 59);
             this.MoveXToYButton.TabIndex = 18;
             this.MoveXToYButton.Text = "X -> Y";
             this.MoveXToYButton.UseVisualStyleBackColor = true;
             this.MoveXToYButton.Visible = false;
             this.MoveXToYButton.Click += new System.EventHandler(this.MoveXToYButton_Click);
             // 
+            // button1
+            // 
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button1.Location = new System.Drawing.Point(93, 313);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 59);
+            this.button1.TabIndex = 19;
+            this.button1.Text = "^2";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.SquareButton_Click);
+            // 
+            // button2
+            // 
+            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button2.Location = new System.Drawing.Point(174, 313);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 59);
+            this.button2.TabIndex = 20;
+            this.button2.Text = "/X";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.SquareButton_Click);
+            // 
             // CalculatorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(463, 384);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.MoveXToYButton);
             this.Controls.Add(this.SubtractButton);
             this.Controls.Add(this.DivideButton);
@@ -299,6 +325,8 @@
         private System.Windows.Forms.Button DivideButton;
         private System.Windows.Forms.Button SubtractButton;
         private System.Windows.Forms.Button MoveXToYButton;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
     }
 }
 

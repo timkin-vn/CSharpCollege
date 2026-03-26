@@ -53,5 +53,11 @@ namespace Calculator
             _calculatorService.PressOperation(_calculatorModel, operationCode);
             DisplayResult();
         }
+        private void SquareButton_Click(object sender, EventArgs e)
+        {
+            var operationCode = ((Button)sender).Text;
+            _calculatorService.PressUnaryOperation(_calculatorModel, operationCode);
+            DisplayResult();
+        }
     }
 }
