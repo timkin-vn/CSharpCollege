@@ -4,73 +4,87 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Globalization;
 
 namespace Calculator.Business.Services
 {
     public class CalculatorService
     {
-        public void PressDigit(CalculatorModel calculatorModel, string digitString)
+        public void PressDigit(CalculatorModel model, string digitString)
         {
-            if (!int.TryParse(digitString, out var digit))
+            if (!model.IsLastDigitPressed)
             {
+                model.RegisterX = double.Parse(digitString);
+                model.IsLastDigitPressed = true;
+            }
+            else
+            {
+                
+                string current = model.RegisterX.ToString();
+                if (double.TryParse(current + digitString, out double res))
+                    model.RegisterX = res;
+            }
+        }
+
+        public void PressOperation(CalculatorModel model, string op)
+        {
+            if (op == "x²")
+            {
+                model.RegisterX = Math.Pow(model.RegisterX, 2);
+                model.IsLastDigitPressed = false;
                 return;
             }
 
-            if (!calculatorModel.IsLastDigitPressed)
+            
+            if (!string.IsNullOrEmpty(model.OperationCode) && model.RegisterY != null)
             {
-                calculatorModel.RegisterX = 0;
+                CompleteOperation(model);
             }
 
-            calculatorModel.RegisterX = calculatorModel.RegisterX * 10 + digit;
-            calculatorModel.IsLastDigitPressed = true;
+            model.RegisterY = model.RegisterX;
+            model.OperationCode = op;
+            model.IsLastDigitPressed = false;
         }
 
-        public void PressClear(CalculatorModel calculatorModel)
+        public void PressEqual(CalculatorModel model)
         {
-            calculatorModel.RegisterX = 0;
-            calculatorModel.IsLastDigitPressed = false;
+            CompleteOperation(model);
+            model.OperationCode = null; 
+            model.IsLastDigitPressed = false;
         }
 
-        public void MoveXToY(CalculatorModel calculatorModel)
+        private void CompleteOperation(CalculatorModel model)
         {
-            calculatorModel.RegisterY = calculatorModel.RegisterX;
-        }
+            if (model.RegisterY == null || string.IsNullOrEmpty(model.OperationCode)) return;
 
-        private void CompleteOperation(CalculatorModel calculatorModel)
-        {
-            switch (calculatorModel.OperationCode)
+            double x = model.RegisterX;
+            double y = model.RegisterY.Value;
+
+            switch (model.OperationCode)
             {
-                case "+":
-                    calculatorModel.RegisterX = calculatorModel.RegisterX + calculatorModel.RegisterY;
-                    break;
-
-                case "-":
-                    calculatorModel.RegisterX = calculatorModel.RegisterY - calculatorModel.RegisterX;
-                    break;
-
-                case "*":
-                    calculatorModel.RegisterX = calculatorModel.RegisterX * calculatorModel.RegisterY;
-                    break;
-
-                case "/":
-                    calculatorModel.RegisterX = calculatorModel.RegisterY / calculatorModel.RegisterX;
-                    break;
+                case "+": model.RegisterX = y + x; break;
+                case "-": model.RegisterX = y - x; break;
+                case "*": model.RegisterX = y * x; break;
+                case "/": model.RegisterX = x != 0 ? y / x : 0; break;
+                case "^": model.RegisterX = Math.Pow(y, x); break;
             }
+            model.RegisterY = null;
         }
 
-        public void PressOperation(CalculatorModel calculatorModel, string operationCode)
+        public void PressClear(CalculatorModel model)
         {
-            CompleteOperation(calculatorModel);
-
-            MoveXToY(calculatorModel);
-            calculatorModel.OperationCode = operationCode;
-            calculatorModel.IsLastDigitPressed = false;
+            model.RegisterX = 0;
+            model.RegisterY = null;
+            model.OperationCode = null;
+            model.IsLastDigitPressed = false;
         }
 
-        public void PressEqual(CalculatorModel calculatorModel)
+        public void PressComma(CalculatorModel model)
         {
-            CompleteOperation(calculatorModel);
-            calculatorModel.IsLastDigitPressed = false;
+            model.IsLastDigitPressed = true;
+            
         }
     }
 }
+
+

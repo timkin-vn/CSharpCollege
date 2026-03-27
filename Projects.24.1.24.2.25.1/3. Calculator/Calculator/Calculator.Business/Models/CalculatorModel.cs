@@ -8,12 +8,12 @@ namespace Calculator.Business.Models
 {
     public class CalculatorModel
     {
-        public double RegisterX { get; internal set; }
+        public double RegisterX { get; set; } = 0;
+        public double? RegisterY { get; set; } = null; 
+        public string OperationCode { get; set; }
 
-        public double RegisterY { get; internal set; }
-
-        public string OperationCode { get; internal set; }
-
-        internal bool IsLastDigitPressed { get; set; }
+        public bool IsTyping { get; set; } = false;
+        public bool IsLastDigitPressed { get; set; } = false;
     }
+
 }

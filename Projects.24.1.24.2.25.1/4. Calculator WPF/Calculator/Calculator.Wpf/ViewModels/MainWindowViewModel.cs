@@ -41,5 +41,17 @@ namespace Calculator.Wpf.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        public void CommaPress() 
+        {
+            _calculatorService.PressComma(_calculatorModel);
+            OnPropertyChanged(nameof(Result));
+        }
+        public void PressEqual()
+        {
+            _calculatorService.PressEqual(_calculatorModel);
+            OnPropertyChanged(nameof(Result));
+        }
+
+
     }
 }
