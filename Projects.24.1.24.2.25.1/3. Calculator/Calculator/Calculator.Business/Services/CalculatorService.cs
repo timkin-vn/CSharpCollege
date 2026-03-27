@@ -6,85 +6,98 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Globalization;
 
-namespace Calculator.Business.Services
-{
-    public class CalculatorService
+    namespace Calculator.Business.Services
     {
-        public void PressDigit(CalculatorModel model, string digitString)
+        public class CalculatorService
         {
-            if (!model.IsLastDigitPressed)
+            public void PressDigit(CalculatorModel model, string digitString)
             {
-                model.RegisterX = double.Parse(digitString);
-                model.IsLastDigitPressed = true;
+                if (!model.IsLastDigitPressed)
+                {
+                    
+                    model.RegisterX = double.Parse(digitString);
+                    model.IsLastDigitPressed = true;
+                }
+                else
+                {
+                    
+                    string current = model.RegisterX.ToString();
+                    if (double.TryParse(current + digitString, out double res))
+                    {
+                        model.RegisterX = res;
+                    }
+                }
             }
-            else
+
+            public void PressOperation(CalculatorModel model, string op)
             {
                 
-                string current = model.RegisterX.ToString();
-                if (double.TryParse(current + digitString, out double res))
-                    model.RegisterX = res;
-            }
-        }
+                if (op == "x²")
+                {
+                    model.RegisterX = Math.Pow(model.RegisterX, 2);
+                    model.IsLastDigitPressed = false;
+                    return;
+                }
+                if (op == "√")
+                {
+                    model.RegisterX = Math.Sqrt(model.RegisterX);
+                    model.IsLastDigitPressed = false;
+                    return;
+                }
 
-        public void PressOperation(CalculatorModel model, string op)
-        {
-            if (op == "x²")
-            {
-                model.RegisterX = Math.Pow(model.RegisterX, 2);
+                
+                if (!string.IsNullOrEmpty(model.OperationCode) && model.RegisterY != null)
+                {
+                    CompleteOperation(model);
+                }
+
+                model.RegisterY = model.RegisterX;
+                model.OperationCode = op;
                 model.IsLastDigitPressed = false;
-                return;
             }
 
-            
-            if (!string.IsNullOrEmpty(model.OperationCode) && model.RegisterY != null)
+            public void PressEqual(CalculatorModel model)
             {
                 CompleteOperation(model);
+                model.OperationCode = null;
+                model.IsLastDigitPressed = false;
             }
 
-            model.RegisterY = model.RegisterX;
-            model.OperationCode = op;
-            model.IsLastDigitPressed = false;
-        }
-
-        public void PressEqual(CalculatorModel model)
-        {
-            CompleteOperation(model);
-            model.OperationCode = null; 
-            model.IsLastDigitPressed = false;
-        }
-
-        private void CompleteOperation(CalculatorModel model)
-        {
-            if (model.RegisterY == null || string.IsNullOrEmpty(model.OperationCode)) return;
-
-            double x = model.RegisterX;
-            double y = model.RegisterY.Value;
-
-            switch (model.OperationCode)
+            private void CompleteOperation(CalculatorModel model)
             {
-                case "+": model.RegisterX = y + x; break;
-                case "-": model.RegisterX = y - x; break;
-                case "*": model.RegisterX = y * x; break;
-                case "/": model.RegisterX = x != 0 ? y / x : 0; break;
-                case "^": model.RegisterX = Math.Pow(y, x); break;
+                
+                if (model.RegisterY == null || string.IsNullOrEmpty(model.OperationCode)) return;
+
+                double x = model.RegisterX;
+                double y = model.RegisterY.Value;
+
+                switch (model.OperationCode)
+                {
+                    case "+": model.RegisterX = y + x; break;
+                    case "-": model.RegisterX = y - x; break;
+                    case "*": model.RegisterX = y * x; break;
+                    case "/": model.RegisterX = x != 0 ? y / x : 0; break;
+                    case "^": model.RegisterX = Math.Pow(y, x); break;
+                    case "%": model.RegisterX = y * x / 100.0; break;
+                }
+
+                model.RegisterY = null; 
             }
-            model.RegisterY = null;
-        }
 
-        public void PressClear(CalculatorModel model)
-        {
-            model.RegisterX = 0;
-            model.RegisterY = null;
-            model.OperationCode = null;
-            model.IsLastDigitPressed = false;
-        }
+            public void PressClear(CalculatorModel model)
+            {
+                model.RegisterX = 0;
+                model.RegisterY = null;
+                model.OperationCode = null;
+                model.IsLastDigitPressed = false;
+            }
 
-        public void PressComma(CalculatorModel model)
-        {
-            model.IsLastDigitPressed = true;
-            
+            public void PressComma(CalculatorModel model)
+            {
+                
+                model.IsLastDigitPressed = true;
+            }
         }
     }
-}
 
 

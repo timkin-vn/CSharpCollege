@@ -57,5 +57,28 @@ namespace Calculator
             _service.PressEqual(_calculatorModel);
             DisplayValue();
         }
+
+        private void PowerButton_Click(object sender, EventArgs e)
+        {
+            _service.PressOperation(_calculatorModel, "^");
+            DisplayValue();
+        }
+
+        private void SqrtButton_Click(object sender, EventArgs e)
+        {
+            _service.PressOperation(_calculatorModel, "√");
+            _service.PressEqual(_calculatorModel); // Для корня сразу выполняем операцию
+            DisplayValue();
+
+        }
+
+        private void PercentButton_Click(object sender, EventArgs e)
+        {
+            _service.PressOperation(_calculatorModel, "%");
+            _service.PressEqual(_calculatorModel); // Процент сразу вычисляем
+            DisplayValue();
+
+
+        }
     }
 }
