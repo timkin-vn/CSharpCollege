@@ -1,0 +1,58 @@
+﻿<Window x:Class="CardFile.WPF.Views.CardEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CardFile.WPF.Views" xmlns:viewmodels="clr-namespace:CardFile.WPF.ViewModels"
+        mc:Ignorable="d"
+        Title="Правка карточки" Height="400" Width="450" ResizeMode="NoResize">
+    <Window.DataContext>
+        <viewmodels:CardViewModel/>
+    </Window.DataContext>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="Фамилия: " VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
+        <TextBox Grid.Column="1" Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Left" Width="200" Margin="5"/>
+        <TextBlock Text="Имя: " Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
+        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Left" Width="200" Margin="5"/>
+        <TextBlock Text="Отчество: " Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
+        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding MiddleName, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Left" Width="200" Margin="5"/>
+        <TextBlock Text="Дата рождения: " Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
+        <DatePicker Grid.Row="3" Grid.Column="1" SelectedDate="{Binding BirthDate, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Left" Width="200" Margin="5"/>
+        <TextBlock Text="Подразделение: " Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
+        <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding Department, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Left" Width="200" Margin="5"/>
+        <TextBlock Text="Должность: " Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
+        <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding Position, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Left" Width="200" Margin="5"/>
+        <TextBlock Text="Дата трудоустройства: " Grid.Row="6" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
+        <DatePicker Grid.Row="6" Grid.Column="1" SelectedDate="{Binding EmploymentDate, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Left" Width="200" Margin="5"/>
+        <TextBlock Text="Дата увольнения: " Grid.Row="7" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.Column="1" Margin="5">
+            <DatePicker SelectedDate="{Binding DismissalDate, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="5" IsEnabled="{Binding IsDesmissalDateEnabled}"/>
+            <CheckBox VerticalAlignment="Center" Margin="5" IsChecked="{Binding IsWorkingTillNow, UpdateSourceTrigger=PropertyChanged}" Checked="TillCheck" Unchecked="TillUnchecked">
+                <TextBlock Text="Работает до сих пор" VerticalAlignment="Center" />
+            </CheckBox>
+        </StackPanel>
+        <TextBlock Text="Оклад: " Grid.Row="8" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
+        <TextBox Grid.Column="1" Grid.Row="8" Text="{Binding Salary}" VerticalAlignment="Center" HorizontalAlignment="Left" Width="200" Margin="5"/>
+        <StackPanel Grid.Row="9" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+            <Button Content="ОК" Padding="5" Margin="5" Click="OkButtonClick"/>
+            <Button Content="Отмена" Padding="5" Margin="5" Click="CancelButtonClick"/>
+        </StackPanel>
+    </Grid>
+</Window>
