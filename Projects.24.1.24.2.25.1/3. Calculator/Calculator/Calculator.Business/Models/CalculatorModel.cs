@@ -15,5 +15,7 @@ namespace Calculator.Business.Models
         public string OperationCode { get; internal set; }
 
         internal bool IsLastDigitPressed { get; set; }
+
+        public bool HasComma { get; set; } = false;
     }
 }

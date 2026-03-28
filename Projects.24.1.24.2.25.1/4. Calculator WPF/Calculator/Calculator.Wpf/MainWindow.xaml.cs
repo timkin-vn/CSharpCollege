@@ -44,5 +44,16 @@ namespace Calculator.Wpf
             var operationCode = ((Button)sender).Content as string;
             ViewModel.PressOperation(operationCode);
         }
+
+        private void CommaButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.PressComma();
+        }
+
+        private void EqualButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.PressEqual();
+        }
+
     }
 }

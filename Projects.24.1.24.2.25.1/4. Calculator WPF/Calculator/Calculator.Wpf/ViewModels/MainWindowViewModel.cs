@@ -36,6 +36,18 @@ namespace Calculator.Wpf.ViewModels
             _calculatorService.PressOperation(_calculatorModel, operationCode);
             OnPropertyChanged(nameof(Result));
         }
+        public void PressComma()
+        {
+            _calculatorService.PressComma(_calculatorModel);
+            OnPropertyChanged(nameof(Result));
+        }
+
+        public void PressEqual()
+        {
+            _calculatorService.PressEqual(_calculatorModel);
+            OnPropertyChanged(nameof(Result));
+        }
+
 
         private void OnPropertyChanged(string propertyName)
         {

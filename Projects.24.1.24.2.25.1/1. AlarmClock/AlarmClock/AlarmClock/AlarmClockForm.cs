@@ -31,7 +31,7 @@ namespace AlarmClock
                 return;
             }
 
-            if (!_alarmState.IsAwakeActivated && 
+            if (!_alarmState.IsAwakeActivated &&
                 DateTime.Now.Hour == _alarmState.AlarmTime.Hour &&
                 DateTime.Now.Minute == _alarmState.AlarmTime.Minute)
             {
@@ -89,5 +89,99 @@ namespace AlarmClock
                 Text = "Будильник";
             }
         }
+
+        private void TimerTimer_Tick(object sender, EventArgs e)
+        {
+            if (_alarmState.IsTimerActive && !_alarmState.IsTimerPaused)
+            {
+                _alarmState.TimerRemaining = _alarmState.TimerRemaining.Subtract(TimeSpan.FromSeconds(1));
+
+                if (_alarmState.TimerRemaining <= TimeSpan.Zero)
+                {
+                    _timerTimer.Stop();
+                    _alarmState.IsTimerActive = false;
+                    _alarmState.TimerRemaining = TimeSpan.Zero;
+                    UpdateTimerDisplay();
+                    SystemSounds.Exclamation.Play();
+                    MessageBox.Show("Время таймера истекло!", "Таймер", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    UpdateTimerDisplay();
+                }
+            }
+        }
+
+        private void StartTimerButton_Click(object sender, EventArgs e)
+        {
+            if (_alarmState.TimerDuration == TimeSpan.Zero)
+            {
+                MessageBox.Show("Сначала установите время!", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!_alarmState.IsTimerActive)
+            {
+                _alarmState.IsTimerActive = true;
+                _alarmState.IsTimerPaused = false;
+                _alarmState.TimerRemaining = _alarmState.TimerDuration;
+                _timerTimer.Start();
+            }
+            else if (_alarmState.IsTimerPaused)
+            {
+                _alarmState.IsTimerPaused = false;
+                _timerTimer.Start();
+            }
+            UpdateTimerDisplay();
+        }
+
+        private void TimerPayzaButton_Click(object sender, EventArgs e)
+        {
+            if (_alarmState.IsTimerActive && !_alarmState.IsTimerPaused)
+            {
+                _alarmState.IsTimerPaused = true;
+                _timerTimer.Stop();
+            }
+        }
+
+        private void TimerStopButton_Click(object sender, EventArgs e)
+        {
+            _timerTimer.Stop();
+            _alarmState.IsTimerActive = false;
+            _alarmState.IsTimerPaused = false;
+            _alarmState.TimerRemaining = TimeSpan.Zero;
+            UpdateTimerDisplay();
+        }
+
+        private void ResetTimerButton_Click(object sender, EventArgs e)
+        {
+            _timerTimer.Stop();
+            _alarmState.IsTimerActive = false;
+            _alarmState.IsTimerPaused = false;
+            _alarmState.TimerRemaining = _alarmState.TimerDuration;
+            UpdateTimerDisplay();
+        }
+
+        private void button2_Click(object sender, EventArgs e) // Кнопка "Настроить таймер"
+        {
+            using (var timerSettingsForm = new TimerSettingsForm())
+            {
+                timerSettingsForm.TimerDuration = _alarmState.TimerDuration;
+                if (timerSettingsForm.ShowDialog() == DialogResult.OK)
+                {
+                    _alarmState.TimerDuration = timerSettingsForm.TimerDuration;
+                    _alarmState.TimerRemaining = timerSettingsForm.TimerDuration;
+                    UpdateTimerDisplay();
+                }
+            }
+        }
+
+        private void UpdateTimerDisplay()
+        {
+            TimerDisplayLabel.Text = _alarmState.TimerRemaining.ToString(@"hh\:mm\:ss");
+        }
+
+
     }
+
 }

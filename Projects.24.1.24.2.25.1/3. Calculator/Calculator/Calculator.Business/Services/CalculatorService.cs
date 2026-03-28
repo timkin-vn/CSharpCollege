@@ -9,85 +9,102 @@ namespace Calculator.Business.Services
 {
     public class CalculatorService
     {
+        private bool _isCommaPressed = false;
+        private int _decimalPlaces = 0;
+
         public void PressDigit(CalculatorModel calculatorModel, string digitString)
         {
-            if (!int.TryParse(digitString, out var digit))
-            {
-                return;
-            }
+            if (!int.TryParse(digitString, out var digit)) return;
 
             if (!calculatorModel.IsLastDigitPressed)
             {
                 calculatorModel.RegisterX = 0;
+                _isCommaPressed = false;
+                _decimalPlaces = 0;
             }
 
-            calculatorModel.RegisterX = calculatorModel.RegisterX * 10 + digit;
+            if (!_isCommaPressed)
+            {
+                calculatorModel.RegisterX = calculatorModel.RegisterX * 10 + digit;
+            }
+            else
+            {
+                _decimalPlaces++;
+                calculatorModel.RegisterX += digit / Math.Pow(10, _decimalPlaces);
+            }
+
             calculatorModel.IsLastDigitPressed = true;
         }
 
-        public void PressClear(CalculatorModel calculatorModel)
+        public void PressComma(CalculatorModel calculatorModel)
         {
-            calculatorModel.RegisterX = 0;
-            calculatorModel.IsLastDigitPressed = false;
-        }
-
-        public void MoveXToY(CalculatorModel calculatorModel)
-        {
-            calculatorModel.RegisterY = calculatorModel.RegisterX;
+            if (!calculatorModel.IsLastDigitPressed)
+            {
+                calculatorModel.RegisterX = 0;
+                calculatorModel.IsLastDigitPressed = true;
+            }
+            _isCommaPressed = true;
         }
 
         private void CompleteOperation(CalculatorModel calculatorModel)
         {
+            if (string.IsNullOrEmpty(calculatorModel.OperationCode)) return;
+
             switch (calculatorModel.OperationCode)
             {
-                case "+":
-                    calculatorModel.RegisterX = calculatorModel.RegisterX + calculatorModel.RegisterY;
-                    break;
-
-                case "-":
-                    calculatorModel.RegisterX = calculatorModel.RegisterY - calculatorModel.RegisterX;
-                    break;
-
-                case "*":
-                    calculatorModel.RegisterX = calculatorModel.RegisterX * calculatorModel.RegisterY;
-                    break;
-
+                case "+": calculatorModel.RegisterX = calculatorModel.RegisterY + calculatorModel.RegisterX; break;
+                case "-": calculatorModel.RegisterX = calculatorModel.RegisterY - calculatorModel.RegisterX; break;
+                case "*": calculatorModel.RegisterX = calculatorModel.RegisterY * calculatorModel.RegisterX; break;
                 case "/":
-                    if (calculatorModel.RegisterX == 0)
-                        throw new DivideByZeroException("Деление на ноль невозможно!");
-                    calculatorModel.RegisterX = calculatorModel.RegisterY / calculatorModel.RegisterX;
+                    if (calculatorModel.RegisterX != 0)
+                        calculatorModel.RegisterX = calculatorModel.RegisterY / calculatorModel.RegisterX;
                     break;
-
-                case "^": // Возведение в степень
+                case "x^y": 
                     calculatorModel.RegisterX = Math.Pow(calculatorModel.RegisterY, calculatorModel.RegisterX);
                     break;
-
-                case "√": // Квадратный корень
-                    if (calculatorModel.RegisterX < 0)
-                        throw new ArgumentException("Нельзя извлечь корень из отрицательного числа!");
-                    calculatorModel.RegisterX = Math.Sqrt(calculatorModel.RegisterX);
-                    // Для корня RegisterY не используется
-                    break;
-
-                case "%": // Процент
-                    calculatorModel.RegisterX = (calculatorModel.RegisterY * calculatorModel.RegisterX) / 100;
-                    break;
             }
+
+            calculatorModel.OperationCode = null;
         }
 
         public void PressOperation(CalculatorModel calculatorModel, string operationCode)
         {
-            CompleteOperation(calculatorModel);
+            if (operationCode == "x²")
+            {
+                calculatorModel.RegisterX = Math.Pow(calculatorModel.RegisterX, 2);
+                calculatorModel.IsLastDigitPressed = false;
+                return;
+            }
 
-            MoveXToY(calculatorModel);
+            if (calculatorModel.IsLastDigitPressed)
+            {
+                CompleteOperation(calculatorModel);
+            }
+
+            calculatorModel.RegisterY = calculatorModel.RegisterX;
             calculatorModel.OperationCode = operationCode;
             calculatorModel.IsLastDigitPressed = false;
+            _isCommaPressed = false;
+            _decimalPlaces = 0;
         }
 
         public void PressEqual(CalculatorModel calculatorModel)
         {
             CompleteOperation(calculatorModel);
             calculatorModel.IsLastDigitPressed = false;
+            _isCommaPressed = false;
+            _decimalPlaces = 0;
+        }
+
+        public void PressClear(CalculatorModel calculatorModel)
+        {
+            calculatorModel.RegisterX = 0;
+            calculatorModel.RegisterY = 0;
+            calculatorModel.OperationCode = null;
+            calculatorModel.IsLastDigitPressed = false;
+            _isCommaPressed = false;
+            _decimalPlaces = 0;
         }
     }
 }
+
