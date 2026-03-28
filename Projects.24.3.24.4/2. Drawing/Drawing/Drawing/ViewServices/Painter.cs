@@ -98,5 +98,31 @@ namespace Drawing.ViewServices
                 _graphics.DrawPolygon(pen, points);
             }
         }
+
+        public void DrawLine(Pen pen, PointModel start, PointModel end)
+        {
+            var p1 = _scaler.Scale(start);
+            var p2 = _scaler.Scale(end);
+            _graphics.DrawLine(pen, p1, p2);
+        }
+
+        public void DrawArc(Pen pen, RectangleModel rect, float startAngle, float sweepAngle)
+        {
+            var r = _scaler.Scale(rect);
+            _graphics.DrawArc(pen, r, startAngle, sweepAngle);
+        }
+
+        public void DrawString(string text, Font font, Brush brush, PointModel location)
+        {
+            var p = _scaler.Scale(location);
+            _graphics.DrawString(text, font, brush, p.X, p.Y);
+        }
+
+        public void DrawBezier(Pen pen, PointModel p1, PointModel p2, PointModel p3, PointModel p4)
+        {
+            _graphics.DrawBezier(pen, _scaler.Scale(p1), _scaler.Scale(p2), _scaler.Scale(p3), _scaler.Scale(p4));
+        }
+
     }
+
 }
