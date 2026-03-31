@@ -1,0 +1,18 @@
+C:\Users\danil\Desktop\3. Calculator\Calculator\Calculator.Business\bin\Debug\Calculator.Business.dll
+C:\Users\danil\Desktop\3. Calculator\Calculator\Calculator.Business\bin\Debug\Calculator.Business.pdb
+C:\Users\danil\Desktop\3. Calculator\Calculator\Calculator.Business\obj\Debug\Calculator.Business.csproj.AssemblyReference.cache
+C:\Users\danil\Desktop\3. Calculator\Calculator\Calculator.Business\obj\Debug\Calculator.Business.csproj.CoreCompileInputs.cache
+C:\Users\danil\Desktop\3. Calculator\Calculator\Calculator.Business\obj\Debug\Calculator.Business.dll
+C:\Users\danil\Desktop\3. Calculator\Calculator\Calculator.Business\obj\Debug\Calculator.Business.pdb
+C:\Users\danil\Desktop\колькулято\Calculator\Calculator.Business\bin\Debug\Calculator.Business.dll
+C:\Users\danil\Desktop\колькулято\Calculator\Calculator.Business\bin\Debug\Calculator.Business.pdb
+C:\Users\danil\Desktop\колькулято\Calculator\Calculator.Business\obj\Debug\Calculator.Business.csproj.AssemblyReference.cache
+C:\Users\danil\Desktop\колькулято\Calculator\Calculator.Business\obj\Debug\Calculator.Business.csproj.CoreCompileInputs.cache
+C:\Users\danil\Desktop\колькулято\Calculator\Calculator.Business\obj\Debug\Calculator.Business.dll
+C:\Users\danil\Desktop\колькулято\Calculator\Calculator.Business\obj\Debug\Calculator.Business.pdb
+C:\Users\danil\Desktop\С#\Калькулятор\Calculator.Business\bin\Debug\Calculator.Business.dll
+C:\Users\danil\Desktop\С#\Калькулятор\Calculator.Business\bin\Debug\Calculator.Business.pdb
+C:\Users\danil\Desktop\С#\Калькулятор\Calculator.Business\obj\Debug\Calculator.Business.csproj.AssemblyReference.cache
+C:\Users\danil\Desktop\С#\Калькулятор\Calculator.Business\obj\Debug\Calculator.Business.csproj.CoreCompileInputs.cache
+C:\Users\danil\Desktop\С#\Калькулятор\Calculator.Business\obj\Debug\Calculator.Business.dll
+C:\Users\danil\Desktop\С#\Калькулятор\Calculator.Business\obj\Debug\Calculator.Business.pdb
