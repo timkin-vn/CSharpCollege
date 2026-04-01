@@ -16,6 +16,8 @@ namespace CardFile.DataStore.DataCollection
 
         public CardCollection()
         {
+            MapperInitialization.PreRegister();
+
             _cards.Add(new CardDto
             {
                 Id = 1,
@@ -29,6 +31,7 @@ namespace CardFile.DataStore.DataCollection
                 DismissalDate = null,
                 Salary = 250000m,
             });
+
             _cards.Add(new CardDto
             {
                 Id = 2,
@@ -42,6 +45,7 @@ namespace CardFile.DataStore.DataCollection
                 DismissalDate = new DateTime(2024, 11, 3),
                 Salary = 200000m,
             });
+
             _cards.Add(new CardDto
             {
                 Id = 3,
@@ -55,6 +59,7 @@ namespace CardFile.DataStore.DataCollection
                 DismissalDate = null,
                 Salary = 300000m,
             });
+
             _cards.Add(new CardDto
             {
                 Id = 4,
@@ -68,13 +73,13 @@ namespace CardFile.DataStore.DataCollection
                 DismissalDate = new DateTime(2023, 3, 18),
                 Salary = 150000m,
             });
-
-            MapperInitialization.PreRegister();
         }
 
         public IEnumerable<CardDto> GetAll()
         {
             //return _cards;
+
+            //return new List<CardDto>(_cards);
 
             //var result = new List<CardDto>();
 
@@ -111,28 +116,7 @@ namespace CardFile.DataStore.DataCollection
 
         public bool Delete(int cardId)
         {
-            var index = _cards.FindIndex(c => c.Id == cardId);
-            if (index < 0)
-            {
-                return false;
-            }
-
-            _cards.RemoveAt(index);
-            return true;
-        }
-
-        internal void ReplaceAll(IEnumerable<CardDto> newCollection)
-        {
-            _cards.Clear();
-            _cards.AddRange(newCollection);
-            NextId = _cards.Max(c => c.Id) + 1;
-        }
-
-        internal void ReplaceAll(IEnumerable<CardDto> newCollection, int nextId)
-        {
-            _cards.Clear();
-            _cards.AddRange(newCollection);
-            NextId = nextId;
+            return false;
         }
     }
 }

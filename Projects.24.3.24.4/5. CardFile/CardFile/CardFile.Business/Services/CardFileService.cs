@@ -3,7 +3,6 @@ using CardFile.Business.Models;
 using CardFile.Common.Infrastructure;
 using CardFile.DataStore.DataCollection;
 using CardFile.DataStore.Dtos;
-using CardFile.DataStore.FileDataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +13,7 @@ namespace CardFile.Business.Services
 {
     public class CardFileService
     {
-        private readonly CardCollection _collection = new CardCollection();
+        private CardCollection _collection = new CardCollection();
 
         public CardFileService()
         {
@@ -23,8 +22,8 @@ namespace CardFile.Business.Services
 
         public IEnumerable<Card> GetAll()
         {
-            var cards = _collection.GetAll();
-            return cards.Select(FromDto).ToList();
+            var cardDtos = _collection.GetAll();
+            return cardDtos.Select(FromDto).ToList();
         }
 
         public int Save(Card card)
@@ -34,21 +33,9 @@ namespace CardFile.Business.Services
 
         public bool Delete(int cardId)
         {
-            return _collection.Delete(cardId);
+            return false;
         }
 
-        public void SaveToFile(string fileName)
-        {
-            var fileDataService = new FileDataService();
-            fileDataService.SaveToFile(fileName, _collection);
-        }
-
-        public void OpenFromFile(string fileName)
-        {
-            var fileDataService = new FileDataService();
-            fileDataService.OpenFromFile(fileName, _collection);
-        }
-        
         private Card FromDto(CardDto card)
         {
             return Mapping.Mapper.Map<Card>(card);
@@ -56,8 +43,8 @@ namespace CardFile.Business.Services
             //{
             //    Id = card.Id,
             //    FirstName = card.FirstName,
-            //    MiddleName = card.MiddleName,
             //    LastName = card.LastName,
+            //    MiddleName = card.MiddleName,
             //    BirthDate = card.BirthDate,
             //    Department = card.Department,
             //    Position = card.Position,
@@ -74,8 +61,8 @@ namespace CardFile.Business.Services
             //{
             //    Id = card.Id,
             //    FirstName = card.FirstName,
-            //    MiddleName = card.MiddleName,
             //    LastName = card.LastName,
+            //    MiddleName = card.MiddleName,
             //    BirthDate = card.BirthDate,
             //    Department = card.Department,
             //    Position = card.Position,

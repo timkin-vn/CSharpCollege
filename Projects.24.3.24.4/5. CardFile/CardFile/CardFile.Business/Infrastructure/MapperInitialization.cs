@@ -1,31 +1,26 @@
 ﻿using AutoMapper;
+using CardFile.Business.Models;
 using CardFile.Common.Infrastructure;
 using CardFile.DataStore.Dtos;
-using CardFile.DataStore.FileDataAccess.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CardFile.DataStore.Infrastructure
+namespace CardFile.Business.Infrastructure
 {
     internal static class MapperInitialization
     {
         public static void PreRegister()
         {
-            Mapping.InitializationAction += Configure;
+            Mapping.InitializeAction += Configure;
         }
 
         private static void Configure(IMapperConfigurationExpression cfg)
         {
-            cfg.CreateMap<CardDto, CardDto>();
-
-            cfg.CreateMap<CardDto, XmlCard>();
-            cfg.CreateMap<XmlCard, CardDto>();
-
-            cfg.CreateMap<CardDto, JsonCard>();
-            cfg.CreateMap<JsonCard, CardDto>();
+            cfg.CreateMap<Card, CardDto>();
+            cfg.CreateMap<CardDto, Card>();
         }
     }
 }

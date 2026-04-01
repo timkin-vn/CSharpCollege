@@ -5,8 +5,8 @@ using CardFile.Wpf.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,7 +14,7 @@ namespace CardFile.Wpf.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private readonly CardFileService _service = new CardFileService();
+        private CardFileService _service = new CardFileService();
 
         public ObservableCollection<CardViewModel> Cards { get; } = new ObservableCollection<CardViewModel>();
 
@@ -24,10 +24,6 @@ namespace CardFile.Wpf.ViewModels
 
         public bool IsDeleteButtonEnabled => SelectedCard != null;
 
-        public string FileName { get; private set; }
-
-        public string WindowTitle => string.IsNullOrEmpty(FileName) ? "Картотека" : $"Картотека: {Path.GetFileName(FileName)}";
-
         public MainWindowViewModel()
         {
             MapperInitialization.PreRegister();
@@ -35,12 +31,9 @@ namespace CardFile.Wpf.ViewModels
 
         public void WindowLoaded()
         {
-            LoadAllData();
-        }
-
-        public void Initialized()
-        {
             Mapping.Initialize();
+
+            LoadAllData();
         }
 
         public CardViewModel GetSelectedCard()
@@ -66,7 +59,7 @@ namespace CardFile.Wpf.ViewModels
                 throw new Exception("Карточка с таким Id не существует");
             }
 
-            var id = _service.Save(ToBusiness(card));
+            var id =_service.Save(ToBusiness(card));
 
             if (id < 0)
             {
@@ -94,22 +87,6 @@ namespace CardFile.Wpf.ViewModels
             Cards.Add(newCard);
         }
 
-        public void SelectionChanged()
-        {
-            OnPropertyChanged(nameof(IsDeleteButtonEnabled));
-            OnPropertyChanged(nameof(IsEditButtonEnabled));
-        }
-
-        private void LoadAllData()
-        {
-            var cards = _service.GetAll();
-            Cards.Clear();
-            foreach (var card in cards)
-            {
-                Cards.Add(ToViewModel(card));
-            }
-        }
-
         public void DeleteSelectedCard()
         {
             if (SelectedCard == null)
@@ -131,33 +108,19 @@ namespace CardFile.Wpf.ViewModels
             OnPropertyChanged(nameof(SelectedCard));
         }
 
-        public void SaveToFile(string fileName)
+        public void SelectionChanged()
         {
-            _service.SaveToFile(fileName);
-
-            FileName = fileName;
-            OnPropertyChanged(nameof(WindowTitle));
+            OnPropertyChanged(nameof(IsDeleteButtonEnabled));
+            OnPropertyChanged(nameof(IsEditButtonEnabled));
         }
 
-        public void OpenFromFile(string fileName)
+        private void LoadAllData()
         {
-            _service.OpenFromFile(fileName);
-            LoadAllData();
-
-            FileName = fileName;
-            OnPropertyChanged(nameof(WindowTitle));
-        }
-
-        public void SaveToFile()
-        {
-            try
+            var cards = _service.GetAll();
+            Cards.Clear();
+            foreach (var card in cards)
             {
-                _service.SaveToFile(FileName);
-            }
-            catch(Exception)
-            {
-                FileName = null;
-                throw;
+                Cards.Add(ToViewModel(card));
             }
         }
 
@@ -168,8 +131,8 @@ namespace CardFile.Wpf.ViewModels
             //{
             //    Id = card.Id,
             //    FirstName = card.FirstName,
-            //    MiddleName = card.MiddleName,
             //    LastName = card.LastName,
+            //    MiddleName = card.MiddleName,
             //    BirthDate = card.BirthDate,
             //    Department = card.Department,
             //    Position = card.Position,
@@ -186,8 +149,8 @@ namespace CardFile.Wpf.ViewModels
             //{
             //    Id = card.Id,
             //    FirstName = card.FirstName,
-            //    MiddleName = card.MiddleName,
             //    LastName = card.LastName,
+            //    MiddleName = card.MiddleName,
             //    BirthDate = card.BirthDate,
             //    Department = card.Department,
             //    Position = card.Position,

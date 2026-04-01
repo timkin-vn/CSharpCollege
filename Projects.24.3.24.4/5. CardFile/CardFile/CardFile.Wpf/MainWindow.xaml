@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CardFile.Wpf" xmlns:viewmodels="clr-namespace:CardFile.Wpf.ViewModels"
         mc:Ignorable="d"
-        Title="{Binding WindowTitle}" Height="450" Width="800" Loaded="Window_Loaded" Initialized="Window_Initialized">
+        Title="Картотека" Height="450" Width="800"
+        Loaded="Window_Loaded">
     <Window.DataContext>
         <viewmodels:MainWindowViewModel />
     </Window.DataContext>
@@ -27,9 +28,8 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <DataGrid Grid.Row="0" ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" SelectionChanged="DataGrid_SelectionChanged"
-                      AutoGenerateColumns="False" IsReadOnly="True"
-                      CanUserAddRows="False" SelectionMode="Single" Margin="5">
+            <DataGrid ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" AutoGenerateColumns="False" IsReadOnly="True"
+                      CanUserAddRows="False" Grid.Row="0" Margin="5" SelectionChanged="DataGrid_SelectionChanged">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="ФИО" Binding="{Binding Fio}" />
                     <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDateText}" />
@@ -40,13 +40,13 @@
                     <DataGridTextColumn Header="Оклад" Binding="{Binding SalaryText}" />
                 </DataGrid.Columns>
             </DataGrid>
-            
+
             <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Создать" Padding="5" Margin="5" VerticalAlignment="Center" Click="CreateButton_Click" />
+                <Button Content="Создать" Padding="5" Margin="5" VerticalAlignment="Center" Click="CreateCardButton_Click" />
                 <Button Content="Правка" IsEnabled="{Binding IsEditButtonEnabled}" Padding="5" Margin="5" VerticalAlignment="Center" 
-                        Click="EditButton_Click" />
+                        Click="EditCardButton_Click" />
                 <Button Content="Удалить" IsEnabled="{Binding IsDeleteButtonEnabled}" Padding="5" Margin="5" VerticalAlignment="Center" 
-                        Click="DeleteButton_Click" />
+                        Click="DeleteCardButton_Click" />
             </StackPanel>
         </Grid>
     </DockPanel>
