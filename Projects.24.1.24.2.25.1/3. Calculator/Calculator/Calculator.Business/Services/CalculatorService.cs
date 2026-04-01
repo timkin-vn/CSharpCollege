@@ -77,8 +77,8 @@ using System.Globalization;
                     case "-": model.RegisterX = y - x; break;
                     case "*": model.RegisterX = y * x; break;
                     case "/": model.RegisterX = x != 0 ? y / x : 0; break;
-                    case "^": model.RegisterX = Math.Pow(y, x); break;
-                    case "%": model.RegisterX = y * x / 100.0; break;
+                    case "x^y": model.RegisterX = Math.Pow(y, x); break;
+                    
                 }
 
                 model.RegisterY = null; 

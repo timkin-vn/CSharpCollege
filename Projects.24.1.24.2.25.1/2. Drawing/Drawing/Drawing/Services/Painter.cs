@@ -14,7 +14,7 @@ namespace Drawing.Services
 
         private Scaler _scaler;
 
-        private PictureBuilder _builder = new PictureBuilder();
+        private HouseBuilder _builder = new HouseBuilder();
 
         public void Initialize(Rectangle bounds)
         {
@@ -94,6 +94,14 @@ namespace Drawing.Services
             {
                 _graphics.DrawPolygon(pen, points);
             }
+        }
+        public void DrawLine(Pen pen, PointModel p1, PointModel p2)
+        {
+            _graphics.DrawLine(
+                pen,
+                (float)p1.X, (float)p1.Y,
+                (float)p2.X, (float)p2.Y
+            );
         }
     }
 }
