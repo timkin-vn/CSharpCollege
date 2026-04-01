@@ -20,57 +20,55 @@ namespace Drawing.Services
 
         public void DrawPicture(Painter painter)
         {
-            var mainPen = new Pen(Color.Black, 3);
-            var wheelBrush = Brushes.LightGray;
+            var mainPen = new Pen(Color.Black, 2);
 
-            var rect = new RectangleModel { X = -1, Y = 0, Width = 2, Height = 2, };
-            painter.DrawEllipse(wheelBrush, mainPen, rect);
+            var bodyBrush = Brushes.Orange;
+            var earBrush = Brushes.Chocolate;
+            var eyeBrush = Brushes.White;
+            var pupilBrush = Brushes.Black;
+            var noseBrush = Brushes.HotPink;
+            var tailBrush = Brushes.DarkOrange;
 
-            rect.X = 2;
-            painter.DrawEllipse(wheelBrush, mainPen, rect);
+            painter.DrawRectangle(bodyBrush, mainPen, new RectangleModel { X = 0, Y = 1, Width = 9, Height = 5 });
 
-            rect.X = 5;
-            painter.DrawEllipse(wheelBrush, mainPen, rect);
+            painter.DrawEllipse(bodyBrush, mainPen, new RectangleModel { X = 7, Y = 5, Width = 5, Height = 4.5 });
 
-            rect.X = 8;
-            painter.DrawEllipse(wheelBrush, mainPen, rect);
+            painter.DrawPolygon(earBrush, mainPen, new[] {
+                new PointModel { X = 7.5, Y = 8.5 },
+                new PointModel { X = 7.0, Y = 10.5 },
+                new PointModel { X = 9.0, Y = 9.0 }
+            });
 
-            var bodyBrush = Brushes.DarkGray;
+            painter.DrawPolygon(earBrush, mainPen, new[] {
+                new PointModel { X = 10.0, Y = 9.0 },
+                new PointModel { X = 12.0, Y = 10.5 },
+                new PointModel { X = 11.5, Y = 8.5 }
+            });
 
-            rect = new RectangleModel { X = 0, Y = 2, Width = 12, Height = 4, };
-            painter.DrawRectangle(bodyBrush, mainPen, rect);
+            painter.DrawEllipse(eyeBrush, mainPen, new RectangleModel { X = 8.2, Y = 7.0, Width = 1.2, Height = 1.2 });
+            painter.DrawEllipse(eyeBrush, mainPen, new RectangleModel { X = 10.2, Y = 7.0, Width = 1.2, Height = 1.2 });
 
-            rect = new RectangleModel { X = -4, Y = 2, Width = 4, Height = 8, };
-            painter.DrawRectangle(bodyBrush, mainPen, rect);
+            painter.DrawEllipse(pupilBrush, mainPen, new RectangleModel { X = 8.6, Y = 7.1, Width = 0.4, Height = 1.0 });
+            painter.DrawEllipse(pupilBrush, mainPen, new RectangleModel { X = 10.6, Y = 7.1, Width = 0.4, Height = 1.0 });
 
-            var windowBrush = Brushes.LightSkyBlue;
+            painter.DrawPolygon(noseBrush, mainPen, new[] {
+                new PointModel { X = 9.2, Y = 6.5 },
+                new PointModel { X = 10.2, Y = 6.5 },
+                new PointModel { X = 9.7, Y = 5.8 }
+            });
 
-            rect = new RectangleModel { X = -2, Y = 6, Width = 1.5, Height = 3, };
-            painter.DrawRectangle(windowBrush, mainPen, rect);
+            painter.DrawPie(tailBrush, mainPen, new RectangleModel { X = -4, Y = 3, Width = 6, Height = 5 }, 90, 180);
 
-            rect = new RectangleModel { X = 11, Y = 2, Width = 2, Height = 4, };
-            painter.DrawPie(bodyBrush, mainPen, rect, 270, 180);
+            painter.DrawRectangle(bodyBrush, mainPen, new RectangleModel { X = 1, Y = -1, Width = 1.5, Height = 2 });
+            painter.DrawRectangle(bodyBrush, mainPen, new RectangleModel { X = 6, Y = -1, Width = 1.5, Height = 2 });
 
-            var sweeperBrush = Brushes.Red;
-            var sweeperPoints = new[]
-            {
-                new PointModel { X = 11, Y = 2, },
-                new PointModel { X = 12, Y = 2, },
-                new PointModel { X = 13, Y = 0.5, },
-                new PointModel { X = 11, Y = 0.5, },
-            };
-
-            painter.DrawPolygon(sweeperBrush, mainPen, sweeperPoints);
-
-            var pipePoints = new[]
-            {
-                new PointModel { X = 8.5, Y = 9, },
-                new PointModel { X = 10.5, Y = 9, },
-                new PointModel { X = 10, Y = 6, },
-                new PointModel { X = 9, Y = 6, },
-            };
-
-            painter.DrawPolygon(bodyBrush, mainPen, pipePoints);
+            painter.DrawPolygon(bodyBrush, mainPen, new[] {
+                new PointModel { X = 8.5, Y = 1.5 },
+                new PointModel { X = 10.5, Y = 0.0 },
+                new PointModel { X = 11.5, Y = 1.0 },
+                new PointModel { X = 9.5, Y = 2.5 }
+            });
         }
     }
+
 }
