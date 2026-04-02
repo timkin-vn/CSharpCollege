@@ -19,105 +19,64 @@ namespace DrawingWindows.Services
         };
         public void DrawPicture(Painter painter)
         {
-            var mainPen = new Pen(Color.Black, 3);
-            var wheelBrush = Brushes.LightGray;
+            var mainPen = new Pen(Color.Black);
+            var bodyBrush = new SolidBrush(Color.Red);
             var rect = new RectangleModel
             {
-                X = -1,
+                X = 0,
                 Y = 0,
+                Width = 8,
+                Height = 5,
+            };
+            painter.DrawRectangle(bodyBrush, mainPen, rect);
+            var doorBrush = new SolidBrush(Color.Brown);
+            rect = new RectangleModel
+            {
+                X = 2,
+                Y = 0,
+                Width = 2,
+                Height = 4,
+            };
+            painter.DrawRectangle(doorBrush, mainPen, rect);
+
+            var windowBrush = new SolidBrush(Color.LightBlue);
+            rect = new RectangleModel
+            {
+                X = 4.5,
+                Y = 2,
                 Width = 2,
                 Height = 2,
             };
-            painter.DrawEllipse(wheelBrush, mainPen, rect);
-            rect.X = 2;
-            painter.DrawEllipse(wheelBrush, mainPen, rect);
-            rect.X = 5;
-            painter.DrawEllipse(wheelBrush, mainPen, rect);
-            rect.X = 8;
-            painter.DrawEllipse(wheelBrush, mainPen, rect);
-            var bodyBrush = Brushes.DarkGray;
-            rect = new RectangleModel
-            {
-                X = 0,
-                Y = 2,
-                Width = 12,
-                Height = 4,
-            };
-            painter.DrawRectangle(bodyBrush, mainPen, rect);
-            rect = new RectangleModel
-            {
-                X = -4,
-                Y = 2,
-                Width = 4,
-                Height = 8,
-            };
-            painter.DrawRectangle(bodyBrush, mainPen, rect);
-            var windowBrush = Brushes.LightSkyBlue;
-            rect = new RectangleModel
-            {
-                X = -2,
-                Y = 6,
-                Width = 1.5,
-                Height = 3,
-            };
             painter.DrawRectangle(windowBrush, mainPen, rect);
+            var pipeBrush = new SolidBrush(Color.Gray);
             rect = new RectangleModel
             {
-                X = 11,
-                Y = 2,
-                Width = 2,
                 Height = 4,
+                Width = 2,
+                X = 5,
+                Y = 6
             };
-            painter.DrawPie(bodyBrush, mainPen, rect, -90, 180);
-            var sweeperBrush = Brushes.Red;
-            var sweeperPoints = new[]
+            painter.DrawRectangle(pipeBrush, mainPen, rect);
+            var points = new PointModel[]
             {
                 new PointModel
                 {
-                    X = 11,
-                    Y = 2,
-                },
-                new PointModel
-                {
-                    X = 12,
-                    Y = 2,
-                },
-                new PointModel
-                {
-                    X = 13,
-                    Y = .5,
-                },
-                new PointModel
-                {
-                    X = 11,
-                    Y = .5,
-                }
-            };
-            painter.DrawPolygon(sweeperBrush, mainPen, sweeperPoints);
-            var pipePoints = new[]
-            {
-                new PointModel
-                {
-                    X = 8.5,
-                    Y = 9,
-                },
-                new PointModel
-                {
-                    X = 10.5,
-                    Y = 9,
-                },
-                new PointModel
-                {
-                    X = 10,
-                    Y = 6,
+                    X = -1,
+                    Y = 5,
                 },
                 new PointModel
                 {
                     X = 9,
-                    Y = 6,
-                }
+                    Y = 5,
+                },
+                new PointModel
+                {
+                    X = 4,
+                    Y = 8,
+                },
             };
-            painter.DrawPolygon(bodyBrush, mainPen, pipePoints);
+            var narBrush = new SolidBrush(Color.Violet);
+            painter.DrawPolygon(narBrush, mainPen, points);
         }
         
     }
