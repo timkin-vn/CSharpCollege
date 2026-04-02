@@ -46,6 +46,9 @@
             this.DivideButton = new System.Windows.Forms.Button();
             this.SubtractButton = new System.Windows.Forms.Button();
             this.MoveXToYButton = new System.Windows.Forms.Button();
+            this.SquareButton = new System.Windows.Forms.Button();
+            this.SqrtButton = new System.Windows.Forms.Button();
+            this.InverseButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // DisplayLabel
@@ -190,7 +193,7 @@
             this.EqualButton.TabIndex = 13;
             this.EqualButton.Text = "=";
             this.EqualButton.UseVisualStyleBackColor = true;
-            this.EqualButton.Click += new System.EventHandler(this.OperationButton_Click);
+            this.EqualButton.Click += new System.EventHandler(this.EqualButton_Click);
             // 
             // MultiplyButton
             // 
@@ -248,11 +251,47 @@
             this.MoveXToYButton.Visible = false;
             this.MoveXToYButton.Click += new System.EventHandler(this.MoveXToYButton_Click);
             // 
+            // SquareButton
+            // 
+            this.SquareButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.SquareButton.Location = new System.Drawing.Point(12, 378);
+            this.SquareButton.Name = "SquareButton";
+            this.SquareButton.Size = new System.Drawing.Size(120, 59);
+            this.SquareButton.TabIndex = 19;
+            this.SquareButton.Text = "x^2";
+            this.SquareButton.UseVisualStyleBackColor = true;
+            this.SquareButton.Click += new System.EventHandler(this.OperationButton_Click);
+            // 
+            // SqrtButton
+            // 
+            this.SqrtButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.SqrtButton.Location = new System.Drawing.Point(171, 378);
+            this.SqrtButton.Name = "SqrtButton";
+            this.SqrtButton.Size = new System.Drawing.Size(120, 59);
+            this.SqrtButton.TabIndex = 20;
+            this.SqrtButton.Text = "sqrt";
+            this.SqrtButton.UseVisualStyleBackColor = true;
+            this.SqrtButton.Click += new System.EventHandler(this.OperationButton_Click);
+            // 
+            // InverseButton
+            // 
+            this.InverseButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.InverseButton.Location = new System.Drawing.Point(331, 378);
+            this.InverseButton.Name = "InverseButton";
+            this.InverseButton.Size = new System.Drawing.Size(120, 59);
+            this.InverseButton.TabIndex = 21;
+            this.InverseButton.Text = "1/x";
+            this.InverseButton.UseVisualStyleBackColor = true;
+            this.InverseButton.Click += new System.EventHandler(this.OperationButton_Click);
+            // 
             // CalculatorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(463, 384);
+            this.ClientSize = new System.Drawing.Size(463, 449);
+            this.Controls.Add(this.InverseButton);
+            this.Controls.Add(this.SqrtButton);
+            this.Controls.Add(this.SquareButton);
             this.Controls.Add(this.MoveXToYButton);
             this.Controls.Add(this.SubtractButton);
             this.Controls.Add(this.DivideButton);
@@ -299,6 +338,8 @@
         private System.Windows.Forms.Button DivideButton;
         private System.Windows.Forms.Button SubtractButton;
         private System.Windows.Forms.Button MoveXToYButton;
+        private System.Windows.Forms.Button SquareButton;
+        private System.Windows.Forms.Button SqrtButton;
+        private System.Windows.Forms.Button InverseButton;
     }
 }
-

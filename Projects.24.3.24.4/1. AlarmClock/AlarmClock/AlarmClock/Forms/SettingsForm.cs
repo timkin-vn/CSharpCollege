@@ -22,6 +22,11 @@ namespace AlarmClock.Forms
 
         private void SettingsForm_Load(object sender, EventArgs e)
         {
+            if (ClockState == null)
+            {
+                ClockState = new AlarmClockState();
+            }
+
             if (ClockState.AlarmTime > DateTime.Now)
             {
                 AlarmTimeTextBox.Text = ClockState.AlarmTime.ToShortTimeString();

@@ -40,6 +40,13 @@ namespace Calculator.Business.Services
 
         public void PressOperation(CalculatorModel calculatorModel, string operationCode)
         {
+            if (IsUnaryOperation(operationCode))
+            {
+                CompleteUnaryOperation(calculatorModel, operationCode);
+                calculatorModel.IsLastDigitPressed = false;
+                return;
+            }
+
             CompleteOperation(calculatorModel);
 
             PressMoveXToY(calculatorModel);
@@ -50,7 +57,40 @@ namespace Calculator.Business.Services
         public void PressEqual(CalculatorModel calculatorModel)
         {
             CompleteOperation(calculatorModel);
+            calculatorModel.OperationCode = null;
             calculatorModel.IsLastDigitPressed = false;
+        }
+
+        private bool IsUnaryOperation(string operationCode)
+        {
+            switch (operationCode)
+            {
+                case "x^2":
+                case "sqrt":
+                case "1/x":
+                    return true;
+
+                default:
+                    return false;
+            }
+        }
+
+        private void CompleteUnaryOperation(CalculatorModel calculatorModel, string operationCode)
+        {
+            switch (operationCode)
+            {
+                case "x^2":
+                    calculatorModel.RegisterX = calculatorModel.RegisterX * calculatorModel.RegisterX;
+                    break;
+
+                case "sqrt":
+                    calculatorModel.RegisterX = Math.Sqrt(calculatorModel.RegisterX);
+                    break;
+
+                case "1/x":
+                    calculatorModel.RegisterX = 1 / calculatorModel.RegisterX;
+                    break;
+            }
         }
 
         private void CompleteOperation(CalculatorModel calculatorModel)

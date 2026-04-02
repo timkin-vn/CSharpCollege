@@ -53,5 +53,11 @@ namespace Calculator
             _calculatorService.PressOperation(_calculatorModel, operationCode);
             DisplayResult();
         }
+
+        private void EqualButton_Click(object sender, EventArgs e)
+        {
+            _calculatorService.PressEqual(_calculatorModel);
+            DisplayResult();
+        }
     }
 }

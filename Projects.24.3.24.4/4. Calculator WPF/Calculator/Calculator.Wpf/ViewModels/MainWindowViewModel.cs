@@ -37,6 +37,12 @@ namespace Calculator.Wpf.ViewModels
             OnPropertyChanged(nameof(DisplayValue));
         }
 
+        public void PressEqual()
+        {
+            _calculatorService.PressEqual(_calculatorModel);
+            OnPropertyChanged(nameof(DisplayValue));
+        }
+
         private void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

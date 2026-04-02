@@ -44,5 +44,10 @@ namespace Calculator.Wpf
             var operationCode = ((Button)sender).Content as string;
             ViewModel.PressOperatin(operationCode);
         }
+
+        private void EqualButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.PressEqual();
+        }
     }
 }
