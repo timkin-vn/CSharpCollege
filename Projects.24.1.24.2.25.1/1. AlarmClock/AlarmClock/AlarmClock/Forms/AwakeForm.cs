@@ -1,4 +1,4 @@
-﻿using AlarmClock.Models;
+using AlarmClock.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,11 +16,11 @@ namespace AlarmClock.Forms
     {
         private const string ImageFolderName = "Images";
 
-        private string[] _imageFileNames;
+        private List<string> _fileNames = new List<string>();
 
         private int _imageIndex;
 
-        public AlarmState AlarmState { get; set; }
+        internal AlarmSettings Settings { get; set; }
 
         public AwakeForm()
         {
@@ -29,32 +29,41 @@ namespace AlarmClock.Forms
 
         private void AwakeForm_Load(object sender, EventArgs e)
         {
-            Text = AlarmState.AlarmMessage;
+            AwakeLabel.Text = Settings.AlarmMessage;
             InitializeImages();
         }
 
-        private void InitializeImages()
+        private void AwakeButton_Click(object sender, EventArgs e)
         {
-            _imageFileNames = Directory.EnumerateFiles(ImageFolderName).ToArray();
-            _imageIndex = 0;
-            AwakePictureBox.Load(_imageFileNames[_imageIndex]);
+            Settings.IsAwakeActivated = false;
+            Settings.IsAlarmActive = false;
+
+            DialogResult = DialogResult.OK;
         }
 
         private void AwakeTimer_Tick(object sender, EventArgs e)
         {
             _imageIndex++;
-            if (_imageIndex >= _imageFileNames.Length)
+            if (_imageIndex >= _fileNames.Count)
             {
                 _imageIndex = 0;
             }
 
-            AwakePictureBox.Load(_imageFileNames[_imageIndex]);
+            AwakePicture.Load(_fileNames[_imageIndex]);
         }
 
-        private void AwakeForm_FormClosed(object sender, FormClosedEventArgs e)
+        private void InitializeImages()
         {
-            AlarmState.IsAlarmActive = false;
-            AlarmState.IsAwakeActivated = false;
+            _imageIndex = 0;
+            _fileNames.Clear();
+            _fileNames.AddRange(Directory.EnumerateFiles(ImageFolderName));
+
+            AwakePicture.Load(_fileNames[_imageIndex]);
+        }
+
+        private void AwakeLabel_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -1,0 +1,14 @@
+C:\Users\tyuty\Desktop\project\AlarmClock\bin\Release\AlarmClock.exe.config
+C:\Users\tyuty\Desktop\project\AlarmClock\bin\Release\AlarmClock.exe
+C:\Users\tyuty\Desktop\project\AlarmClock\bin\Release\AlarmClock.pdb
+C:\Users\tyuty\Desktop\project\AlarmClock\obj\Release\AlarmClock.csproj.AssemblyReference.cache
+C:\Users\tyuty\Desktop\project\AlarmClock\obj\Release\AlarmClock.ClockForm.resources
+C:\Users\tyuty\Desktop\project\AlarmClock\obj\Release\AlarmClock.Forms.AboutForm.resources
+C:\Users\tyuty\Desktop\project\AlarmClock\obj\Release\AlarmClock.Forms.AwakeForm.resources
+C:\Users\tyuty\Desktop\project\AlarmClock\obj\Release\AlarmClock.Forms.SettingsForm.resources
+C:\Users\tyuty\Desktop\project\AlarmClock\obj\Release\AlarmClock.Properties.Resources.resources
+C:\Users\tyuty\Desktop\project\AlarmClock\obj\Release\AlarmClock.csproj.GenerateResource.cache
+C:\Users\tyuty\Desktop\project\AlarmClock\obj\Release\AlarmClock.csproj.CoreCompileInputs.cache
+C:\Users\tyuty\Desktop\project\AlarmClock\obj\Release\AlarmClock.exe
+C:\Users\tyuty\Desktop\project\AlarmClock\obj\Release\AlarmClock.pdb
+C:\Users\tyuty\Desktop\project\AlarmClock\obj\Release\AlarmClock.Forms.Timerr.resources

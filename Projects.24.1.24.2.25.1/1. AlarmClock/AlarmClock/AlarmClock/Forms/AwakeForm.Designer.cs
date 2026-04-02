@@ -1,4 +1,4 @@
-﻿namespace AlarmClock.Forms
+namespace AlarmClock.Forms
 {
     partial class AwakeForm
     {
@@ -29,30 +29,42 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.AwakePictureBox = new System.Windows.Forms.PictureBox();
             this.AwakeButton = new System.Windows.Forms.Button();
+            this.AwakeLabel = new System.Windows.Forms.Label();
+            this.AwakePicture = new System.Windows.Forms.PictureBox();
             this.AwakeTimer = new System.Windows.Forms.Timer(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.AwakePictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AwakePicture)).BeginInit();
             this.SuspendLayout();
-            // 
-            // AwakePictureBox
-            // 
-            this.AwakePictureBox.Location = new System.Drawing.Point(12, 12);
-            this.AwakePictureBox.Name = "AwakePictureBox";
-            this.AwakePictureBox.Size = new System.Drawing.Size(573, 333);
-            this.AwakePictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.AwakePictureBox.TabIndex = 0;
-            this.AwakePictureBox.TabStop = false;
             // 
             // AwakeButton
             // 
-            this.AwakeButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.AwakeButton.Location = new System.Drawing.Point(240, 351);
+            this.AwakeButton.BackColor = System.Drawing.Color.SkyBlue;
+            this.AwakeButton.Location = new System.Drawing.Point(113, 415);
             this.AwakeButton.Name = "AwakeButton";
-            this.AwakeButton.Size = new System.Drawing.Size(113, 23);
-            this.AwakeButton.TabIndex = 1;
+            this.AwakeButton.Size = new System.Drawing.Size(107, 23);
+            this.AwakeButton.TabIndex = 0;
             this.AwakeButton.Text = "Я проснулся";
-            this.AwakeButton.UseVisualStyleBackColor = true;
+            this.AwakeButton.UseVisualStyleBackColor = false;
+            this.AwakeButton.Click += new System.EventHandler(this.AwakeButton_Click);
+            // 
+            // AwakeLabel
+            // 
+            this.AwakeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.AwakeLabel.Location = new System.Drawing.Point(12, 9);
+            this.AwakeLabel.Name = "AwakeLabel";
+            this.AwakeLabel.Size = new System.Drawing.Size(307, 75);
+            this.AwakeLabel.TabIndex = 1;
+            this.AwakeLabel.Text = "Просыпайся";
+            this.AwakeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.AwakeLabel.Click += new System.EventHandler(this.AwakeLabel_Click);
+            // 
+            // AwakePicture
+            // 
+            this.AwakePicture.Location = new System.Drawing.Point(12, 87);
+            this.AwakePicture.Name = "AwakePicture";
+            this.AwakePicture.Size = new System.Drawing.Size(307, 322);
+            this.AwakePicture.TabIndex = 2;
+            this.AwakePicture.TabStop = false;
             // 
             // AwakeTimer
             // 
@@ -64,24 +76,28 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(597, 386);
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(331, 450);
+            this.ControlBox = false;
+            this.Controls.Add(this.AwakePicture);
+            this.Controls.Add(this.AwakeLabel);
             this.Controls.Add(this.AwakeButton);
-            this.Controls.Add(this.AwakePictureBox);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "AwakeForm";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AwakeForm_FormClosed);
+            this.Text = "Просыпайся";
             this.Load += new System.EventHandler(this.AwakeForm_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.AwakePictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AwakePicture)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.PictureBox AwakePictureBox;
         private System.Windows.Forms.Button AwakeButton;
+        private System.Windows.Forms.Label AwakeLabel;
+        private System.Windows.Forms.PictureBox AwakePicture;
         private System.Windows.Forms.Timer AwakeTimer;
     }
 }

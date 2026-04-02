@@ -16,7 +16,7 @@ namespace AlarmClock
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new AlarmClockForm());
+            Application.Run(new ClockForm());
         }
     }
 }
