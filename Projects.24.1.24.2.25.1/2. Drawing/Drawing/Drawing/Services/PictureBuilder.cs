@@ -20,57 +20,36 @@ namespace Drawing.Services
 
         public void DrawPicture(Painter painter)
         {
-            var mainPen = new Pen(Color.Black, 3);
-            var wheelBrush = Brushes.LightGray;
+           
+            Pen pen = new Pen(Color.Black, 2);
 
-            var rect = new RectangleModel { X = -1, Y = 0, Width = 2, Height = 2, };
-            painter.DrawEllipse(wheelBrush, mainPen, rect);
+            
+            RectangleModel body = new RectangleModel { X = 0, Y = 3, Width = 10, Height = 5 };
+            painter.DrawRectangle(Brushes.Blue, pen, body);
 
-            rect.X = 2;
-            painter.DrawEllipse(wheelBrush, mainPen, rect);
+            
+            RectangleModel cabin = new RectangleModel { X = 10, Y = 3, Width = 4, Height = 4 };
+            painter.DrawRectangle(Brushes.Red, pen, cabin);
 
-            rect.X = 5;
-            painter.DrawEllipse(wheelBrush, mainPen, rect);
+            
+            RectangleModel window = new RectangleModel { X = 11, Y = 5, Width = 2, Height = 2 };
+            painter.DrawRectangle(Brushes.White, pen, window);
 
-            rect.X = 8;
-            painter.DrawEllipse(wheelBrush, mainPen, rect);
+            
+            RectangleModel wheel1 = new RectangleModel { X = 1, Y = 1, Width = 2, Height = 2 };
+            RectangleModel wheel2 = new RectangleModel { X = 7, Y = 1, Width = 2, Height = 2 };
+            RectangleModel wheel3 = new RectangleModel { X = 11, Y = 1, Width = 2, Height = 2 };
 
-            var bodyBrush = Brushes.DarkGray;
+            painter.DrawEllipse(Brushes.Black, pen, wheel1);
+            painter.DrawEllipse(Brushes.Black, pen, wheel2);
+            painter.DrawEllipse(Brushes.Black, pen, wheel3);
 
-            rect = new RectangleModel { X = 0, Y = 2, Width = 12, Height = 4, };
-            painter.DrawRectangle(bodyBrush, mainPen, rect);
+            
+            RectangleModel light = new RectangleModel { X = 13.5, Y = 3.5, Width = 0.5, Height = 1 };
+            painter.DrawEllipse(Brushes.Yellow, pen, light);
 
-            rect = new RectangleModel { X = -4, Y = 2, Width = 4, Height = 8, };
-            painter.DrawRectangle(bodyBrush, mainPen, rect);
-
-            var windowBrush = Brushes.LightSkyBlue;
-
-            rect = new RectangleModel { X = -2, Y = 6, Width = 1.5, Height = 3, };
-            painter.DrawRectangle(windowBrush, mainPen, rect);
-
-            rect = new RectangleModel { X = 11, Y = 2, Width = 2, Height = 4, };
-            painter.DrawPie(bodyBrush, mainPen, rect, 270, 180);
-
-            var sweeperBrush = Brushes.Red;
-            var sweeperPoints = new[]
-            {
-                new PointModel { X = 11, Y = 2, },
-                new PointModel { X = 12, Y = 2, },
-                new PointModel { X = 13, Y = 0.5, },
-                new PointModel { X = 11, Y = 0.5, },
-            };
-
-            painter.DrawPolygon(sweeperBrush, mainPen, sweeperPoints);
-
-            var pipePoints = new[]
-            {
-                new PointModel { X = 8.5, Y = 9, },
-                new PointModel { X = 10.5, Y = 9, },
-                new PointModel { X = 10, Y = 6, },
-                new PointModel { X = 9, Y = 6, },
-            };
-
-            painter.DrawPolygon(bodyBrush, mainPen, pipePoints);
+            // Важно
+            pen.Dispose();
         }
     }
 }
