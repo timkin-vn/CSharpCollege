@@ -38,10 +38,13 @@ namespace Calculator.Business.Services
 
         private void CompleteOperation(CalculatorModel calculatorModel)
         {
+            
+            if (string.IsNullOrEmpty(calculatorModel.OperationCode)) return;
+
             switch (calculatorModel.OperationCode)
             {
                 case "+":
-                    calculatorModel.RegisterX = calculatorModel.RegisterX + calculatorModel.RegisterY;
+                    calculatorModel.RegisterX = calculatorModel.RegisterY + calculatorModel.RegisterX;
                     break;
 
                 case "-":
@@ -49,13 +52,33 @@ namespace Calculator.Business.Services
                     break;
 
                 case "*":
-                    calculatorModel.RegisterX = calculatorModel.RegisterX * calculatorModel.RegisterY;
+                    calculatorModel.RegisterX = calculatorModel.RegisterY * calculatorModel.RegisterX;
                     break;
 
                 case "/":
-                    calculatorModel.RegisterX = calculatorModel.RegisterY / calculatorModel.RegisterX;
+                    
+                    if (calculatorModel.RegisterX != 0)
+                        calculatorModel.RegisterX = calculatorModel.RegisterY / calculatorModel.RegisterX;
+                    break;
+
+                
+
+                case "^":
+                    
+                    calculatorModel.RegisterX = Math.Pow(calculatorModel.RegisterY, calculatorModel.RegisterX);
+                    break;
+
+                case "sqrt":
+                    
+                    double rootPower = calculatorModel.RegisterX == 0 ? 2 : calculatorModel.RegisterX;
+
+                    
+                    calculatorModel.RegisterX = Math.Pow(calculatorModel.RegisterY, 1.0 / rootPower);
                     break;
             }
+
+            
+            calculatorModel.OperationCode = null;
         }
 
         public void PressOperation(CalculatorModel calculatorModel, string operationCode)
