@@ -1,0 +1,13 @@
+C:\Users\tyuty\Desktop\Calc\Calculator\Calculator\bin\Debug\Calculator.exe.config
+C:\Users\tyuty\Desktop\Calc\Calculator\Calculator\bin\Debug\Calculator.exe
+C:\Users\tyuty\Desktop\Calc\Calculator\Calculator\bin\Debug\Calculator.pdb
+C:\Users\tyuty\Desktop\Calc\Calculator\Calculator\bin\Debug\Calculator.Business.dll
+C:\Users\tyuty\Desktop\Calc\Calculator\Calculator\bin\Debug\Calculator.Business.pdb
+C:\Users\tyuty\Desktop\Calc\Calculator\Calculator\obj\Debug\Calculator.csproj.AssemblyReference.cache
+C:\Users\tyuty\Desktop\Calc\Calculator\Calculator\obj\Debug\Calculator.Properties.Resources.resources
+C:\Users\tyuty\Desktop\Calc\Calculator\Calculator\obj\Debug\Calculator.csproj.GenerateResource.cache
+C:\Users\tyuty\Desktop\Calc\Calculator\Calculator\obj\Debug\Calculator.csproj.CoreCompileInputs.cache
+C:\Users\tyuty\Desktop\Calc\Calculator\Calculator\obj\Debug\Calculator.csproj.Up2Date
+C:\Users\tyuty\Desktop\Calc\Calculator\Calculator\obj\Debug\Calculator.exe
+C:\Users\tyuty\Desktop\Calc\Calculator\Calculator\obj\Debug\Calculator.pdb
+C:\Users\tyuty\Desktop\Calc\Calculator\Calculator\obj\Debug\WindowsFormsApp2.Calculator.resources
