@@ -1,0 +1,9 @@
+C:\Users\tyuty\Desktop\Drawing\Drawing\Drawing\bin\Debug\Drawing.exe.config
+C:\Users\tyuty\Desktop\Drawing\Drawing\Drawing\bin\Debug\Drawing.exe
+C:\Users\tyuty\Desktop\Drawing\Drawing\Drawing\bin\Debug\Drawing.pdb
+C:\Users\tyuty\Desktop\Drawing\Drawing\Drawing\obj\Debug\Drawing.csproj.AssemblyReference.cache
+C:\Users\tyuty\Desktop\Drawing\Drawing\Drawing\obj\Debug\Drawing.Properties.Resources.resources
+C:\Users\tyuty\Desktop\Drawing\Drawing\Drawing\obj\Debug\Drawing.csproj.GenerateResource.cache
+C:\Users\tyuty\Desktop\Drawing\Drawing\Drawing\obj\Debug\Drawing.csproj.CoreCompileInputs.cache
+C:\Users\tyuty\Desktop\Drawing\Drawing\Drawing\obj\Debug\Drawing.exe
+C:\Users\tyuty\Desktop\Drawing\Drawing\Drawing\obj\Debug\Drawing.pdb
