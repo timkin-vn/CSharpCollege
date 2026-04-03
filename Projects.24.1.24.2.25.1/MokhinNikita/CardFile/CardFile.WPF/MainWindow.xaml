@@ -23,7 +23,7 @@
                 <Separator/>
                 <MenuItem Header="В_ыход" Click="ExitClick"/>
             </MenuItem>
-            <MenuItem Header="О_б этом" Click="About_Click"></MenuItem>
+            <MenuItem Header="_О картотеке" Click="About_Click"></MenuItem>
         </Menu>
         <Grid>
             <Grid.RowDefinitions>
@@ -52,6 +52,7 @@
             <StackPanel Grid.Row="2" Orientation="Horizontal">
                 <TextBox Text="{Binding SearchText}" Width="200" Margin="5"/>
                 <Button Margin="5" Padding="5" Content="Search" Click="SearchButton_Click"></Button>
+                <ComboBox Margin="5" Width="200" SelectedItem="{Binding OptionSelected, Mode=TwoWay}" ItemsSource="{Binding Items}"/>
             </StackPanel>
         </Grid>
     </DockPanel>

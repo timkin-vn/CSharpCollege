@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CardFile.WPF.Views" xmlns:viewmodels="clr-namespace:CardFile.WPF.ViewModels"
         mc:Ignorable="d"
-        Title="AboutWindow" Height="400" Width="400" ResizeMode="NoResize">
+        Title="О картотеке" Height="400" Width="400" ResizeMode="NoResize">
     <Window.DataContext>
         <viewmodels:AboutViewModel/>
     </Window.DataContext>

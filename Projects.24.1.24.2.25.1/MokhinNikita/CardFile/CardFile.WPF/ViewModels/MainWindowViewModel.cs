@@ -16,15 +16,31 @@ namespace CardFile.WPF.ViewModels
     {
         private readonly CardFileService _service = new CardFileService();
         public ObservableCollection<CardViewModel> Cards { get; set; } = new ObservableCollection<CardViewModel>();
+        public ObservableCollection<string> Items { get; set; }
         public CardViewModel SelectedCard { get; set; }
         public bool IsEditButtonEnabled => SelectedCard != null;
         public bool IsDeleteButtonEnabled => SelectedCard != null;
         public bool Changed { get; private set; } = false;
         public string FileName { get; private set; }
-        public string SearchText { get; set; } 
+        public string SearchText { get; set; }
+        private string _selected;
+        public string OptionSelected
+        {
+            get => _selected;
+            set
+            {
+                _selected = value;
+                OnPropertyChanged(nameof(OptionSelected));
+            }
+        }
         public string WindowTitle => string.IsNullOrEmpty(FileName) ? "Картотека" : $"Картотека: {Path.GetFileName(FileName)}";
         public MainWindowViewModel()
         {
+            Items = new ObservableCollection<string>()
+            {
+                "Имя", "Фамилия", "Отчество", "Подразделение", "Должность"
+            };
+            OptionSelected = Items[0];
             MapperInitialization.Preregister();
         }
         public void WindowLoaded()
@@ -56,7 +72,28 @@ namespace CardFile.WPF.ViewModels
             Cards.Clear();
             foreach (var card in cards)
             {
-                if(card.FirstName.StartsWith(box))
+                string field;
+                switch (OptionSelected)
+                {
+                    case "Имя":
+                        field = card.FirstName;
+                        break;
+                    case "Фамилия":
+                        field = card.LastName;
+                        break;
+                    case "Отчество":
+                        field = card.MiddleName;
+                        break;
+                    case "Подразделение":
+                        field = card.Department;
+                        break;
+                    case "Должность":
+                        field = card.Position;
+                        break;
+                    default:
+                        throw new InvalidOperationException("Wrong");
+                }
+                if(field.StartsWith(box))
                 {
                     Cards.Add(ToViewModel(card));
                 }
