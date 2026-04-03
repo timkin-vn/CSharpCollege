@@ -91,7 +91,7 @@ namespace CardFile.WPF.ViewModels
                         field = card.Position;
                         break;
                     default:
-                        throw new InvalidOperationException("Wrong");
+                        throw new InvalidOperationException("Тип этого меню не существует");
                 }
                 if(field.StartsWith(box))
                 {
