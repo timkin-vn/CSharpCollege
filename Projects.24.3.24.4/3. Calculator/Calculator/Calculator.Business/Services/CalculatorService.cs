@@ -92,7 +92,12 @@ namespace Calculator.Business.Services
                 case "/":
                     calculatorModel.RegisterX = calculatorModel.RegisterY / calculatorModel.RegisterX;
                     break;
-
+                case "%":
+                    if (calculatorModel.RegisterX != 0)
+                        calculatorModel.RegisterX = calculatorModel.RegisterY % calculatorModel.RegisterX;
+                    else
+                        calculatorModel.RegisterX = 0;
+                    break;
             }
         }
     }
