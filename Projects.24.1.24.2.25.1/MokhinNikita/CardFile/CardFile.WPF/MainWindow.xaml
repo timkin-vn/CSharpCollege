@@ -23,7 +23,7 @@
                 <Separator/>
                 <MenuItem Header="В_ыход" Click="ExitClick"/>
             </MenuItem>
-            <MenuItem Header="О_б этом" Checked="About_Click"></MenuItem>
+            <MenuItem Header="О_б этом" Click="About_Click"></MenuItem>
         </Menu>
         <Grid>
             <Grid.RowDefinitions>
