@@ -202,7 +202,7 @@ namespace CardFile.WPF
         private void About_Click(object sender, RoutedEventArgs e)
         {
             var window = new AboutWindow();
-            window.Show();
+            window.ShowDialog();
         }
     }
 }
