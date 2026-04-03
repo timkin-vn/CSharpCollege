@@ -27,29 +27,19 @@
                 <RowDefinition />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-
-            <!-- Измененные заголовки колонок под Книжный Магазин -->
             <DataGrid Grid.Row="0" ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" SelectionChanged="DataGrid_SelectionChanged"
                       AutoGenerateColumns="False" IsReadOnly="True"
                       CanUserAddRows="False" SelectionMode="Single" Margin="5">
                 <DataGrid.Columns>
-                    <!-- Выводит: Автор — "Название" -->
                     <DataGridTextColumn Header="Книга (Автор и Название)" Binding="{Binding Fio}" Width="2*" />
 
-                    <!-- Дата выхода книги -->
                     <DataGridTextColumn Header="Дата издания" Binding="{Binding BirthDateText}" Width="100" />
 
-                    <!-- Жанр книги -->
                     <DataGridTextColumn Header="Жанр" Binding="{Binding Department}" Width="120" />
 
-                    <!-- Издательство -->
                     <DataGridTextColumn Header="Издательство" Binding="{Binding Position}" Width="120" />
-
-                    <!-- Цена в формате валюты -->
+ 
                     <DataGridTextColumn Header="Цена" Binding="{Binding SalaryText}" Width="80" />
-
-                    <!-- Эти колонки можно оставить или скрыть (Visibility="Collapsed"), если они не нужны для книг -->
-                    <DataGridTextColumn Header="Поступление" Binding="{Binding EmploymentDateText}" Width="100" />
                 </DataGrid.Columns>
             </DataGrid>
 
