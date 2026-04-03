@@ -1,5 +1,9 @@
 ﻿using Calculator.Business.Models;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Calculator.Business.Services
 {
@@ -32,58 +36,12 @@ namespace Calculator.Business.Services
             calculatorModel.RegisterY = calculatorModel.RegisterX;
         }
 
-        private double FastPow(double x, double n)
-        {
-            double res = 1;
-            bool minus = n < 0;
-            long exp = (long)n;
-
-            if (minus) exp = -exp;
-
-            while (exp > 0)
-            {
-                if (exp % 2 == 1)
-                {
-                    res *= x;
-                }
-                x *= x;
-                exp /= 2;
-            }
-
-            return minus ? 1.0 / res : res;
-        }
-
-        private double Root(double x, double n)
-        {
-            if (x < 0 && n % 2 == 0) return -1;
-            if (x == 0) return 0;
-
-            bool neg = x < 0;
-            if (neg) x = -x;
-
-            double low = 0;
-            double high = x < 1 ? 1 : x;
-            double mid;
-
-            for (int i = 0; i < 100; i++)
-            {
-                mid = (low + high) / 2;
-                double pow = 1;
-                for (int j = 0; j < n; j++) pow *= mid;
-
-                if (pow > x) high = mid;
-                else low = mid;
-            }
-
-            return neg ? -(low + high) / 2 : (low + high) / 2;
-        }
-
         private void CompleteOperation(CalculatorModel calculatorModel)
         {
             switch (calculatorModel.OperationCode)
             {
                 case "+":
-                    calculatorModel.RegisterX = calculatorModel.RegisterY + calculatorModel.RegisterX;
+                    calculatorModel.RegisterX = calculatorModel.RegisterX + calculatorModel.RegisterY;
                     break;
 
                 case "-":
@@ -91,24 +49,11 @@ namespace Calculator.Business.Services
                     break;
 
                 case "*":
-                    calculatorModel.RegisterX = calculatorModel.RegisterY * calculatorModel.RegisterX;
+                    calculatorModel.RegisterX = calculatorModel.RegisterX * calculatorModel.RegisterY;
                     break;
 
                 case "/":
-                    if (calculatorModel.RegisterX != 0)
-                        calculatorModel.RegisterX = calculatorModel.RegisterY / calculatorModel.RegisterX;
-                    break;
-
-                case "mod":
-                    calculatorModel.RegisterX = calculatorModel.RegisterY % calculatorModel.RegisterX;
-                    break;
-
-                case "^":
-                    calculatorModel.RegisterX = FastPow(calculatorModel.RegisterY, calculatorModel.RegisterX);
-                    break;
-
-                case "√^n":
-                    calculatorModel.RegisterX = Root(calculatorModel.RegisterY, calculatorModel.RegisterX);
+                    calculatorModel.RegisterX = calculatorModel.RegisterY / calculatorModel.RegisterX;
                     break;
             }
         }
@@ -126,7 +71,6 @@ namespace Calculator.Business.Services
         {
             CompleteOperation(calculatorModel);
             calculatorModel.IsLastDigitPressed = false;
-            calculatorModel.OperationCode = null;
         }
     }
 }

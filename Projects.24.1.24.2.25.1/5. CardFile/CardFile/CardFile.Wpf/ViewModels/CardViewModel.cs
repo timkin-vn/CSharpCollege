@@ -7,24 +7,29 @@ namespace CardFile.Wpf.ViewModels
     {
         public int Id { get; set; }
 
-        public string FirstName { get; set; }
-        public string LastName { get; set; } 
-        public string MiddleName { get; set; } 
+        // Используем старые свойства под новые данные книги
+        public string FirstName { get; set; } // Название
+        public string LastName { get; set; }  // Автор
+        public string MiddleName { get; set; } // Доп. информация или серия
 
+        // Это свойство отвечает за текст в общем списке (ListBox)
+        // Было: Фамилия Имя Отчество -> Стало: Автор — "Название"
         public string Fio => $"{LastName} — \"{FirstName}\"";
 
-        public DateTime BirthDate { get; set; } 
+        public DateTime BirthDate { get; set; } // Дата издания
         public string BirthDateText => BirthDate.ToShortDateString();
 
-        public string Department { get; set; }
-        public string Position { get; set; } 
+        public string Department { get; set; } // Жанр
+        public string Position { get; set; }   // Издательство
 
         public DateTime EmploymentDate { get; set; }
         public DateTime? DismissalDate { get; set; }
 
-        public decimal Salary { get; set; }
+        public decimal Salary { get; set; } // Цена
+        // Выводит цену в формате валюты (например, "500,00 ₽")
         public string SalaryText => Salary.ToString("c");
 
+        // Логика работы (можно оставить как есть для совместимости)
         public bool IsWorkingTillNow { get; set; }
         public bool IsDismissalDateEnabled => !IsWorkingTillNow;
 

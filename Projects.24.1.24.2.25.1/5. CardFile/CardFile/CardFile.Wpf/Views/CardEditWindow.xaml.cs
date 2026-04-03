@@ -25,6 +25,7 @@ namespace CardFile.Wpf.Views
         public CardEditWindow()
         {
             InitializeComponent();
+            // Важно: если DataContext не задан в XAML, задаем его здесь
             if (DataContext == null)
             {
                 DataContext = new CardViewModel();
