@@ -1,0 +1,65 @@
+﻿<Window x:Class="CardFile.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CardFile.Wpf" 
+        xmlns:viewmodels="clr-namespace:CardFile.Wpf.ViewModels"
+        mc:Ignorable="d"
+        Title="{Binding WindowTitle}" Height="450" Width="900" Loaded="Window_Loaded" Initialized="Window_Initialized">
+    <Window.DataContext>
+        <viewmodels:MainWindowViewModel />
+    </Window.DataContext>
+
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_Файл">
+                <MenuItem Header="_Открыть базу книг..." Click="FileOpenMenuItem_Click" />
+                <MenuItem Header="_Сохранить" Click="FileSaveMenuItem_Click" />
+                <MenuItem Header="Со_хранить как..." Click="FileSaveAsMenuItem_Click" />
+                <Separator />
+                <MenuItem Header="В_ыход" Click="FileExitMenuItem_Click" />
+            </MenuItem>
+        </Menu>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- Измененные заголовки колонок под Книжный Магазин -->
+            <DataGrid Grid.Row="0" ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" SelectionChanged="DataGrid_SelectionChanged"
+                      AutoGenerateColumns="False" IsReadOnly="True"
+                      CanUserAddRows="False" SelectionMode="Single" Margin="5">
+                <DataGrid.Columns>
+                    <!-- Выводит: Автор — "Название" -->
+                    <DataGridTextColumn Header="Книга (Автор и Название)" Binding="{Binding Fio}" Width="2*" />
+
+                    <!-- Дата выхода книги -->
+                    <DataGridTextColumn Header="Дата издания" Binding="{Binding BirthDateText}" Width="100" />
+
+                    <!-- Жанр книги -->
+                    <DataGridTextColumn Header="Жанр" Binding="{Binding Department}" Width="120" />
+
+                    <!-- Издательство -->
+                    <DataGridTextColumn Header="Издательство" Binding="{Binding Position}" Width="120" />
+
+                    <!-- Цена в формате валюты -->
+                    <DataGridTextColumn Header="Цена" Binding="{Binding SalaryText}" Width="80" />
+
+                    <!-- Эти колонки можно оставить или скрыть (Visibility="Collapsed"), если они не нужны для книг -->
+                    <DataGridTextColumn Header="Поступление" Binding="{Binding EmploymentDateText}" Width="100" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Добавить книгу" Padding="10,5" Margin="5" VerticalAlignment="Center" Click="CreateButton_Click" />
+                <Button Content="Изменить" IsEnabled="{Binding IsEditButtonEnabled}" Padding="10,5" Margin="5" VerticalAlignment="Center" 
+                        Click="EditButton_Click" />
+                <Button Content="Списать/Удалить" IsEnabled="{Binding IsDeleteButtonEnabled}" Padding="10,5" Margin="5" VerticalAlignment="Center" 
+                        Click="DeleteButton_Click" />
+            </StackPanel>
+        </Grid>
+    </DockPanel>
+</Window>

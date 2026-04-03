@@ -1,0 +1,48 @@
+﻿<Window x:Class="CardFile.Wpf.Views.CardEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CardFile.Wpf.Views" xmlns:viewmodels="clr-namespace:CardFile.Wpf.ViewModels"
+        mc:Ignorable="d"
+        Title="Данные о книге" Height="500" Width="400" WindowStartupLocation="CenterOwner">
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <ScrollViewer Grid.Row="0">
+            <StackPanel>
+                <Label Content="Название книги:" />
+                <TextBox Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" />
+
+                <Label Content="Автор:" />
+                <TextBox Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" />
+
+                <Label Content="Жанр:" />
+                <TextBox Text="{Binding Department, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" />
+
+                <Label Content="Издательство:" />
+                <TextBox Text="{Binding Position, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" />
+
+                <Label Content="Дата издания:" />
+                <DatePicker SelectedDate="{Binding BirthDate}" Margin="0,0,0,10" />
+
+                <Label Content="Цена (руб):" />
+                <TextBox Text="{Binding Salary, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10" />
+
+                <CheckBox Content="Есть в наличии" 
+                          IsChecked="{Binding IsWorkingTillNow}" 
+                          Checked="IsWorkingTillNowCheckBox_Checked" 
+                          Unchecked="IsWorkingTillNowCheckBox_Unchecked" 
+                          Margin="0,10,0,0" />
+            </StackPanel>
+        </ScrollViewer>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
+            <Button Content="Сохранить" Width="90" Height="25" Margin="5" Click="OkButton_Click" IsDefault="True" />
+            <Button Content="Отмена" Width="90" Height="25" Margin="5" Click="CancelButton_Click" IsCancel="True" />
+        </StackPanel>
+    </Grid>
+</Window>
