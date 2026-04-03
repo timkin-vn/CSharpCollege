@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CardFile.Wpf" xmlns:viewmodels="clr-namespace:CardFile.Wpf.ViewModels"
         mc:Ignorable="d"
-        Title="Картотека" Height="450" Width="800"
+        Title="{Binding WindowTitle}" Height="450" Width="800"
         Loaded="Window_Loaded">
     <Window.DataContext>
         <viewmodels:MainWindowViewModel />

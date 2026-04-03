@@ -116,7 +116,28 @@ namespace CardFile.DataStore.DataCollection
 
         public bool Delete(int cardId)
         {
-            return false;
+            var index = _cards.FindIndex(c => c.Id == cardId);
+            if (index < 0)
+            {
+                return false;
+            }
+
+            _cards.RemoveAt(index);
+            return true;
+        }
+
+        public void ReplaceAll(IEnumerable<CardDto> cards)
+        {
+            _cards.Clear();
+            _cards.AddRange(cards);
+            NextId = _cards.Max(c => c.Id) + 1;
+        }
+
+        public void ReplaceAll(IEnumerable<CardDto> cards, int nextId)
+        {
+            _cards.Clear();
+            _cards.AddRange(cards);
+            NextId = nextId;
         }
     }
 }
