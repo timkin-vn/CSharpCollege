@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
+
 namespace CardFile.DataStore.FileDataAccess.FileManagers
 {
     internal class XmlFileManager : IFileManager
@@ -23,19 +24,19 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
                     var serializer = new XmlSerializer(typeof(XmlCardCollection));
                     var xmlCollection = (XmlCardCollection)serializer.Deserialize(reader);
 
-                    collection.ReplaceAll(Mapping.Mapper.Map<List<CardDto>>(xmlCollection.Cards), xmlCollection.NextId);
+                    var dtos = Mapping.Mapper.Map<List<CardDto>>(xmlCollection.Cards);
+                    collection.ReplaceAll(dtos, xmlCollection.NextId);
                 }
             }
         }
 
         public void SaveToFile(string fileName, CardCollection collection)
         {
-            var xmlCollection = new XmlCardCollection 
-            { 
+            var xmlCollection = new XmlCardCollection
+            {
                 NextId = collection.NextId,
                 Cards = Mapping.Mapper.Map<List<XmlCard>>(collection.GetAll()),
             };
-            //xmlCollection.Cards.AddRange(collection.GetAll().Select(c => Mapping.Mapper.Map<XmlCard>(c)));
 
             using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
             {

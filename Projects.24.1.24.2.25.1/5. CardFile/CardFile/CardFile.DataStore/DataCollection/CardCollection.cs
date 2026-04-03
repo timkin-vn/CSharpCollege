@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace CardFile.DataStore.DataCollection
 {
+    // Хранилище карточек товаров
     public class CardCollection
     {
         private readonly List<CardDto> _cards = new List<CardDto>();
-
         internal int NextId { get; set; } = 5;
 
         public CardCollection()
@@ -19,74 +19,76 @@ namespace CardFile.DataStore.DataCollection
             _cards.Add(new CardDto
             {
                 Id = 1,
-                FirstName = "Андрей",
-                MiddleName = "Геннадьевич",
-                LastName = "Захаров",
-                BirthDate = new DateTime(1985, 11, 7),
-                Department = "Отдел разработки",
-                Position = "Руководитель проекта",
-                EmploymentDate = new DateTime(2010, 4, 18),
-                DismissalDate = null,
-                Salary = 250000m,
+                ProductName = "Телефон",
+                ProductModel = "Galaxy Ultra",
+                ProductColor = "Черный",
+                ManufactureDate = new DateTime(2023, 1, 15),
+                Category = "Электроника",
+                Manufacturer = "Samsung",
+                ReceiptDate = new DateTime(2023, 2, 10),
+                WriteOffDate = null,
+                Price = 69999m,
             });
             _cards.Add(new CardDto
             {
                 Id = 2,
-                FirstName = "Нина",
-                MiddleName = "Аркадьевна",
-                LastName = "Шевченко",
-                BirthDate = new DateTime(1990, 8, 21),
-                Department = "Отдел тестирования",
-                Position = "Старший тестировщик",
-                EmploymentDate = new DateTime(2015, 2, 14),
-                DismissalDate = new DateTime(2024, 11, 3),
-                Salary = 200000m,
+                ProductName = "Ноутбук",
+                ProductModel = "MacBook",
+                ProductColor = "Бетон",
+                ManufactureDate = new DateTime(2023, 3, 20),
+                Category = "Компьютеры",
+                Manufacturer = "Apple",
+                ReceiptDate = new DateTime(2023, 4, 5),
+                WriteOffDate = new DateTime(2024, 1, 15),
+                Price = 119999m,
             });
             _cards.Add(new CardDto
             {
                 Id = 3,
-                FirstName = "Виктор",
-                MiddleName = "Петрович",
-                LastName = "Васильев",
-                BirthDate = new DateTime(2001, 3, 11),
-                Department = "Отдел разработки",
-                Position = "Ведущий разработчик",
-                EmploymentDate = new DateTime(2020, 9, 25),
-                DismissalDate = null,
-                Salary = 300000m,
+                ProductName = "Планшет",
+                ProductModel = "iPad",
+                ProductColor = "Панелька",
+                ManufactureDate = new DateTime(2023, 5, 10),
+                Category = "Электроника",
+                Manufacturer = "Apple",
+                ReceiptDate = new DateTime(2023, 6, 1),
+                WriteOffDate = null,
+                Price = 89999m,
             });
             _cards.Add(new CardDto
             {
                 Id = 4,
-                FirstName = "Ольга",
-                MiddleName = "Владимировна",
-                LastName = "Меднис",
-                BirthDate = new DateTime(1981, 9, 2),
-                Department = "Бухгалтерия",
-                Position = "Главный бухгалтер",
-                EmploymentDate = new DateTime(2010, 9, 25),
-                DismissalDate = new DateTime(2023, 3, 18),
-                Salary = 150000m,
+                ProductName = "Наушники",
+                ProductModel = "Шумоподавляющие",
+                ProductColor = "Жёлтый",
+                ManufactureDate = new DateTime(2023, 8, 1),
+                Category = "Аксессуары",
+                Manufacturer = "Pony",
+                ReceiptDate = new DateTime(2023, 9, 10),
+                WriteOffDate = null,
+                Price = 249m,
             });
 
             MapperInitialization.PreRegister();
         }
 
-        public IEnumerable<CardDto> GetAll()
+        public void ReplaceAll(IEnumerable<CardDto> newCards)
         {
-            //return _cards;
-
-            //var result = new List<CardDto>();
-
-            //foreach (var card in _cards)
-            //{
-            //    result.Add(card.Clone());
-            //}
-
-            //return result;
-
-            return _cards.Select(c => c.Clone()).ToList();
+            _cards.Clear();
+            _cards.AddRange(newCards.Select(c => c.Clone()));
+            if (_cards.Any())
+                NextId = _cards.Max(c => c.Id) + 1;
+            else
+                NextId = 1;
         }
+
+        public void ReplaceAll(IEnumerable<CardDto> newCards, int nextId)
+        {
+            NextId = nextId;
+            ReplaceAll(newCards);
+        }
+
+        public IEnumerable<CardDto> GetAll() => _cards.Select(c => c.Clone()).ToList();
 
         public int Save(CardDto card)
         {
@@ -100,10 +102,7 @@ namespace CardFile.DataStore.DataCollection
             }
 
             var index = _cards.FindIndex(c => c.Id == card.Id);
-            if (index < 0)
-            {
-                return -1;
-            }
+            if (index < 0) return -1;
 
             _cards[index] = card.Clone();
             return card.Id;
@@ -112,27 +111,9 @@ namespace CardFile.DataStore.DataCollection
         public bool Delete(int cardId)
         {
             var index = _cards.FindIndex(c => c.Id == cardId);
-            if (index < 0)
-            {
-                return false;
-            }
-
+            if (index < 0) return false;
             _cards.RemoveAt(index);
             return true;
-        }
-
-        internal void ReplaceAll(IEnumerable<CardDto> newCollection)
-        {
-            _cards.Clear();
-            _cards.AddRange(newCollection);
-            NextId = _cards.Max(c => c.Id) + 1;
-        }
-
-        internal void ReplaceAll(IEnumerable<CardDto> newCollection, int nextId)
-        {
-            _cards.Clear();
-            _cards.AddRange(newCollection);
-            NextId = nextId;
         }
     }
 }

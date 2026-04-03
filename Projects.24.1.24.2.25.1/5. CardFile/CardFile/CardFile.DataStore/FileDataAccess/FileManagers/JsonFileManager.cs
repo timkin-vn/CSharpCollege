@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
+
 namespace CardFile.DataStore.FileDataAccess.FileManagers
 {
     internal class JsonFileManager : IFileManager
@@ -26,7 +27,8 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
                         var serializer = new JsonSerializer();
                         var jsonCollection = serializer.Deserialize<JsonCardCollection>(jsonReader);
 
-                        collection.ReplaceAll(Mapping.Mapper.Map<List<CardDto>>(jsonCollection.Cards), jsonCollection.NextId);
+                        var dtos = Mapping.Mapper.Map<List<CardDto>>(jsonCollection.Cards);
+                        collection.ReplaceAll(dtos, jsonCollection.NextId);
                     }
                 }
             }
@@ -43,7 +45,7 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
             {
                 using (var writer = new StreamWriter(fs))
                 {
-                    var serializer = new JsonSerializer { Formatting = Formatting.Indented, };
+                    var serializer = new JsonSerializer { Formatting = Formatting.Indented };
                     serializer.Serialize(writer, jsonCollection);
                 }
             }

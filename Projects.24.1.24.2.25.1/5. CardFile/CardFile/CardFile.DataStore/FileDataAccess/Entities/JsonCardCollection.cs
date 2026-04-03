@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
+
 namespace CardFile.DataStore.FileDataAccess.Entities
 {
     public class JsonCardCollection
     {
         public int NextId { get; set; }
-
         public List<JsonCard> Cards { get; set; } = new List<JsonCard>();
     }
 }

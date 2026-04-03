@@ -16,142 +16,78 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace CardFile.Wpf
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindowViewModel ViewModel => (MainWindowViewModel)DataContext;
-
         public MainWindow()
         {
             InitializeComponent();
         }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            ((MainWindowViewModel)DataContext).WindowLoaded();
+        }
+
+        private void Window_Initialized(object sender, EventArgs e)
+        {
+            ((MainWindowViewModel)DataContext).InitializeMapper(); // исправлено: было Initialized()
+        }
+
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // Привязка SelectedItem уже обновляет SelectedCard, 
+            // дополнительная логика не требуется.
+            // Метод можно оставить пустым или удалить, 
+            // но не вызывайте несуществующий SelectionChanged().
+        }
+
+        private void CreateButton_Click(object sender, RoutedEventArgs e)
+        {
+            var viewModel = (MainWindowViewModel)DataContext;
+            var newCard = viewModel.GetNewCard();
+            var editWindow = new CardEditWindow { DataContext = newCard };
+            if (editWindow.ShowDialog() == true)
+                viewModel.SaveNewCard(newCard);
+        }
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            var viewModel = (MainWindowViewModel)DataContext;
+            var selected = viewModel.GetSelectedCard();
+            if (selected == null) return;
+            var copy = new CardViewModel();
+            copy.LoadViewModel(selected);
+            var editWindow = new CardEditWindow { DataContext = copy };
+            if (editWindow.ShowDialog() == true)
+                viewModel.SaveEditedCard(copy);
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            ((MainWindowViewModel)DataContext).DeleteSelectedCard();
+        }
+
         private void FileOpenMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new OpenFileDialog
-            {
-                Filter = "Текстовые файлы|*.txt|Файлы CSV|*.csv|Двоичные файлы картотеки|*.cardbin" +
-                    "|XML-файлы картотеки|*.cardxml|JSON-файлы картотеки|*.cardjson|ZIP-архив картотеки|*.cardzip",
-            };
-
-            if (dialog.ShowDialog() == true)
-            {
-                try
-                {
-                    ViewModel.OpenFromFile(dialog.FileName);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
+            // Реализуйте загрузку из файла
         }
 
         private void FileSaveMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(ViewModel.FileName))
-            {
-                DoSaveAs();
-            }
-            else
-            {
-                try
-                {
-                    ViewModel.SaveToFile();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
+            // Реализуйте сохранение
         }
 
         private void FileSaveAsMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            DoSaveAs();
-        }
-
-        private void DoSaveAs()
-        {
-            var dialog = new SaveFileDialog
-            {
-                Filter = "Текстовые файлы|*.txt|Файлы CSV|*.csv|Двоичные файлы картотеки|*.cardbin" +
-                    "|XML-файлы картотеки|*.cardxml|JSON-файлы картотеки|*.cardjson|ZIP-архив картотеки|*.cardzip",
-            };
-
-            if (dialog.ShowDialog() == true)
-            {
-                try
-                {
-                    ViewModel.SaveToFile(dialog.FileName);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
+            // Реализуйте сохранение как
         }
 
         private void FileExitMenuItem_Click(object sender, RoutedEventArgs e)
         {
             Close();
-        }
-
-        private void CreateButton_Click(object sender, RoutedEventArgs e)
-        {
-            var window = new CardEditWindow();
-            var card = ViewModel.GetNewCard();
-            window.ViewModel.LoadViewModel(card);
-
-            if (window.ShowDialog() != true)
-            {
-                return;
-            }
-
-            ViewModel.SaveNewCard(window.ViewModel);
-        }
-
-        private void EditButton_Click(object sender, RoutedEventArgs e)
-        {
-            var card = ViewModel.GetSelectedCard();
-            if (card == null)
-            {
-                return;
-            }
-
-            var window = new CardEditWindow();
-            window.ViewModel.LoadViewModel(card);
-
-            if (window.ShowDialog() != true)
-            {
-                return;
-            }
-
-            ViewModel.SaveEditedCard(window.ViewModel);
-        }
-
-        private void DeleteButton_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.DeleteSelectedCard();
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            ViewModel.WindowLoaded();
-        }
-
-        private void Window_Initialized(object sender, EventArgs e)
-        {
-            ViewModel.Initialized();
-        }
-
-        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ViewModel.SelectionChanged();
         }
     }
 }

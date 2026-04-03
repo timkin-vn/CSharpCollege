@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace CardFile.DataStore.FileDataAccess.FileManagers
 {
     internal class BinaryFileManager : IFileManager
@@ -26,31 +27,31 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
                             var newCard = new CardDto();
 
                             newCard.Id = reader.ReadInt32();
-                            newCard.FirstName = reader.ReadString();
-                            newCard.MiddleName = reader.ReadString();
-                            newCard.LastName = reader.ReadString();
+                            newCard.ProductName = reader.ReadString();
+                            newCard.ProductModel = reader.ReadString();
+                            newCard.ProductColor = reader.ReadString();
 
                             var ticks = reader.ReadInt64();
-                            newCard.BirthDate = new DateTime(ticks);
+                            newCard.ManufactureDate = new DateTime(ticks);
 
-                            newCard.Department = reader.ReadString();
-                            newCard.Position = reader.ReadString();
+                            newCard.Category = reader.ReadString();
+                            newCard.Manufacturer = reader.ReadString();
 
                             ticks = reader.ReadInt64();
-                            newCard.EmploymentDate = new DateTime(ticks);
+                            newCard.ReceiptDate = new DateTime(ticks);
 
-                            var isDismissalDatePresent = reader.ReadBoolean();
-                            if (isDismissalDatePresent)
+                            var isWriteOffPresent = reader.ReadBoolean();
+                            if (isWriteOffPresent)
                             {
                                 ticks = reader.ReadInt64();
-                                newCard.DismissalDate = new DateTime(ticks);
+                                newCard.WriteOffDate = new DateTime(ticks);
                             }
                             else
                             {
-                                newCard.DismissalDate = null;
+                                newCard.WriteOffDate = null;
                             }
 
-                            newCard.Salary = reader.ReadDecimal();
+                            newCard.Price = reader.ReadDecimal();
 
                             records.Add(newCard);
                         }
@@ -74,24 +75,24 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
                     foreach (var item in collection.GetAll())
                     {
                         writer.Write(item.Id);
-                        writer.Write(item.FirstName);
-                        writer.Write(item.MiddleName);
-                        writer.Write(item.LastName);
-                        writer.Write(item.BirthDate.Ticks);
-                        writer.Write(item.Department);
-                        writer.Write(item.Position);
-                        writer.Write(item.EmploymentDate.Ticks);
+                        writer.Write(item.ProductName ?? "");
+                        writer.Write(item.ProductModel ?? "");
+                        writer.Write(item.ProductColor ?? "");
+                        writer.Write(item.ManufactureDate.Ticks);
+                        writer.Write(item.Category ?? "");
+                        writer.Write(item.Manufacturer ?? "");
+                        writer.Write(item.ReceiptDate.Ticks);
 
-                        writer.Write(item.DismissalDate.HasValue);
-                        if (item.DismissalDate.HasValue)
+                        writer.Write(item.WriteOffDate.HasValue);
+                        if (item.WriteOffDate.HasValue)
                         {
-                            writer.Write(item.DismissalDate.Value.Ticks);
+                            writer.Write(item.WriteOffDate.Value.Ticks);
                         }
 
-                        writer.Write(item.Salary);
+                        writer.Write(item.Price);
                     }
                 }
-            }    
+            }
         }
     }
 }

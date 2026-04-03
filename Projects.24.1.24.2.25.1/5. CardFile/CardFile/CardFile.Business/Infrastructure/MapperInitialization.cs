@@ -8,19 +8,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace CardFile.Business.Infrastructure
 {
     internal static class MapperInitialization
     {
         public static void PreRegister()
         {
-            Mapping.InitializationAction += Configure;
-        }
-
-        private static void Configure(IMapperConfigurationExpression cfg)
-        {
-            cfg.CreateMap<Card, CardDto>();
-            cfg.CreateMap<CardDto, Card>();
+            // Маппинги вынесены в другие проекты
         }
     }
 }

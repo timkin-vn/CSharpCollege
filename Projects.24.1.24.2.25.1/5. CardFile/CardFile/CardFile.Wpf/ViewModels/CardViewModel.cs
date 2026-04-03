@@ -5,124 +5,78 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace CardFile.Wpf.ViewModels
 {
+    // Вьюмодель карточки товара
     public class CardViewModel : ViewModelBase
     {
-        /// <summary>
-        /// Id
-        /// </summary>
+        private bool _isNotWrittenOff;
         public int Id { get; set; }
 
-        /// <summary>
-        /// Имя
-        /// </summary>
-        public string FirstName { get; set; }
+        public string ProductName { get; set; }
+        public string ProductModel { get; set; }
+        public string ProductColor { get; set; }
+        public string FullProductName => $"{ProductName} {ProductModel} {ProductColor}".Trim();
 
-        /// <summary>
-        /// Отчество
-        /// </summary>
-        public string MiddleName { get; set; }
+        public DateTime ManufactureDate { get; set; }
+        public string ManufactureDateText => ManufactureDate.ToShortDateString();
 
-        /// <summary>
-        /// Фамилия
-        /// </summary>
-        public string LastName { get; set; }
+        public string Category { get; set; }
+        public string Manufacturer { get; set; }
 
-        public string Fio => $"{LastName} {FirstName} {MiddleName}";
+        public DateTime ReceiptDate { get; set; }
+        public string ReceiptDateText => ReceiptDate.ToShortDateString();
 
-        /// <summary>
-        /// Дата рождения
-        /// </summary>
-        public DateTime BirthDate { get; set; }
+        public DateTime? WriteOffDate { get; set; }
+        public string WriteOffDateText => WriteOffDate?.ToShortDateString() ?? "-";
 
-        public string BirthDateText => BirthDate.ToShortDateString();
+        public decimal Price { get; set; }
+        public string PriceText => Price.ToString("c");
 
-        /// <summary>
-        /// Подразделение
-        /// </summary>
-        public string Department { get; set; }
-
-        /// <summary>
-        /// Должность
-        /// </summary>
-        public string Position { get; set; }
-
-        /// <summary>
-        /// Дата трудоустройства
-        /// </summary>
-        public DateTime EmploymentDate { get; set; }
-
-        public string EmploymentDateText => EmploymentDate.ToShortDateString();
-
-        /// <summary>
-        /// Дата увольнения
-        /// </summary>
-        public DateTime? DismissalDate { get; set; }
-
-        public string DismissalDateText => DismissalDate?.ToShortDateString() ?? "-";
-
-        /// <summary>
-        /// Оклад
-        /// </summary>
-        public decimal Salary { get; set; }
-
-        public string SalaryText => Salary.ToString("c");
-
-        public bool IsWorkingTillNow { get; set; }
-
-        public bool IsDismissalDateEnabled => !IsWorkingTillNow;
-
-        public void IsWorkingTillNowChecked()
+        public bool IsNotWrittenOff
         {
-            DismissalDate = null;
-
-            OnPropertyChanged(nameof(DismissalDate));
-            OnPropertyChanged(nameof(IsDismissalDateEnabled));
+            get => _isNotWrittenOff;
+            set
+            {
+                if (_isNotWrittenOff != value)
+                {
+                    _isNotWrittenOff = value;
+                    if (_isNotWrittenOff)
+                        WriteOffDate = null;
+                    else
+                        WriteOffDate = DateTime.Today;
+                    OnPropertyChanged(nameof(WriteOffDate));
+                    OnPropertyChanged(nameof(IsWriteOffDateEnabled));
+                    OnPropertyChanged(nameof(IsNotWrittenOff));
+                }
+            }
         }
 
-        public void IsWorkingTillNowUnchecked()
-        {
-            DismissalDate = DateTime.Today;
-
-            OnPropertyChanged(nameof(DismissalDate));
-            OnPropertyChanged(nameof(IsDismissalDateEnabled));
-        }
+        public bool IsWriteOffDateEnabled => !IsNotWrittenOff;
 
         public void LoadViewModel(CardViewModel model)
         {
             Mapping.Mapper.Map(model, this);
-            //Id = model.Id;
-            //FirstName = model.FirstName;
-            //MiddleName = model.MiddleName;
-            //LastName = model.LastName;
-            //BirthDate = model.BirthDate;
-            //Department = model.Department;
-            //Position = model.Position;
-            //EmploymentDate = model.EmploymentDate;
-            //DismissalDate = model.DismissalDate;
-            //Salary = model.Salary;
-
-            IsWorkingTillNow = !model.DismissalDate.HasValue;
-
+            IsNotWrittenOff = !model.WriteOffDate.HasValue;
             UpdateAll();
         }
 
         private void UpdateAll()
         {
             OnPropertyChanged(nameof(Id));
-            OnPropertyChanged(nameof(FirstName));
-            OnPropertyChanged(nameof(MiddleName));
-            OnPropertyChanged(nameof(LastName));
-            OnPropertyChanged(nameof(Fio));
-            OnPropertyChanged(nameof(BirthDate));
-            OnPropertyChanged(nameof(Department));
-            OnPropertyChanged(nameof(Position));
-            OnPropertyChanged(nameof(EmploymentDate));
-            OnPropertyChanged(nameof(DismissalDate));
-            OnPropertyChanged(nameof(Salary));
-            OnPropertyChanged(nameof(IsWorkingTillNow));
-            OnPropertyChanged(nameof(IsDismissalDateEnabled));
+            OnPropertyChanged(nameof(ProductName));
+            OnPropertyChanged(nameof(ProductModel));
+            OnPropertyChanged(nameof(ProductColor));
+            OnPropertyChanged(nameof(FullProductName));
+            OnPropertyChanged(nameof(ManufactureDate));
+            OnPropertyChanged(nameof(Category));
+            OnPropertyChanged(nameof(Manufacturer));
+            OnPropertyChanged(nameof(ReceiptDate));
+            OnPropertyChanged(nameof(WriteOffDate));
+            OnPropertyChanged(nameof(Price));
+            OnPropertyChanged(nameof(IsNotWrittenOff));
+            OnPropertyChanged(nameof(IsWriteOffDateEnabled));
         }
     }
 }

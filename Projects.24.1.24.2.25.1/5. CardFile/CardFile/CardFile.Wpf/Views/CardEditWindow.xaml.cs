@@ -12,39 +12,41 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using CardFile.Wpf.Infrastructure; // Нужено
 
 namespace CardFile.Wpf.Views
 {
-    /// <summary>
-    /// Interaction logic for CardEditWindow.xaml
-    /// </summary>
+
+    // Логика окна редактирования.
+
     public partial class CardEditWindow : Window
     {
-        public CardViewModel ViewModel => (CardViewModel)DataContext;
-
-        public CardEditWindow()
-        {
-            InitializeComponent();
-        }
+        public CardEditWindow() => InitializeComponent();
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = true;
+            Close();
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
+            Close();
         }
 
-        private void IsWorkingTillNowCheckBox_Checked(object sender, RoutedEventArgs e)
+        private void IsNotWrittenOffChecked(object sender, RoutedEventArgs e)
         {
-            ViewModel.IsWorkingTillNowChecked();
+            var viewModel = DataContext as CardViewModel;
+            if (viewModel != null)
+                viewModel.IsNotWrittenOff = true;
         }
 
-        private void IsWorkingTillNowCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        private void IsNotWrittenOffUnchecked(object sender, RoutedEventArgs e)
         {
-            ViewModel.IsWorkingTillNowUnchecked();
+            var viewModel = DataContext as CardViewModel;
+            if (viewModel != null)
+                viewModel.IsNotWrittenOff = false;
         }
     }
 }

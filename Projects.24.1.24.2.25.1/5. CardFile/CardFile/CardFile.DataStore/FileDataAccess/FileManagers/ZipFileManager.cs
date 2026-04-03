@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
+
 namespace CardFile.DataStore.FileDataAccess.FileManagers
 {
     internal class ZipFileManager : IFileManager
@@ -31,7 +32,8 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
                                 var serializer = new XmlSerializer(typeof(XmlCardCollection));
                                 var xmlCollection = (XmlCardCollection)serializer.Deserialize(reader);
 
-                                collection.ReplaceAll(Mapping.Mapper.Map<List<CardDto>>(xmlCollection.Cards), xmlCollection.NextId);
+                                var dtos = Mapping.Mapper.Map<List<CardDto>>(xmlCollection.Cards);
+                                collection.ReplaceAll(dtos, xmlCollection.NextId);
                             }
                         }
                     }
