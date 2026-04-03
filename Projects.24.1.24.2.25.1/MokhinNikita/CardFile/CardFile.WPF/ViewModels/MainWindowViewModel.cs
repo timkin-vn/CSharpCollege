@@ -21,6 +21,7 @@ namespace CardFile.WPF.ViewModels
         public bool IsDeleteButtonEnabled => SelectedCard != null;
         public bool Changed { get; private set; } = false;
         public string FileName { get; private set; }
+        public string SearchText { get; set; } 
         public string WindowTitle => string.IsNullOrEmpty(FileName) ? "Картотека" : $"Картотека: {Path.GetFileName(FileName)}";
         public MainWindowViewModel()
         {
@@ -48,6 +49,30 @@ namespace CardFile.WPF.ViewModels
             {
                 Cards.Add(ToViewModel(card));
             }
+        }
+        public void LoadSearchedData(string box)
+        {
+            var cards = _service.GetAll();
+            Cards.Clear();
+            foreach (var card in cards)
+            {
+                if(card.FirstName.StartsWith(box))
+                {
+                    Cards.Add(ToViewModel(card));
+                }
+            }
+        }
+        public void SearchCard(string box)
+        {
+            if(!string.IsNullOrWhiteSpace(box))
+            {
+                LoadSearchedData(box);
+            }
+            else
+            {
+                LoadAllData();
+            }
+            OnPropertyChanged(nameof(Cards));
         }
         public void SaveEditedCard(CardViewModel card)
         {

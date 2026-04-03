@@ -23,6 +23,7 @@
                 <Separator/>
                 <MenuItem Header="В_ыход" Click="ExitClick"/>
             </MenuItem>
+            <MenuItem Header="О_б этом" Checked="About_Click"></MenuItem>
         </Menu>
         <Grid>
             <Grid.RowDefinitions>
@@ -47,6 +48,10 @@
                         Click="EditButton_Click"></Button>
                 <Button Content="Удалить" IsEnabled="{Binding IsDeleteButtonEnabled}" Padding="5" Margin="5" VerticalAlignment="Center"
                         Click="DeleteButton_Click"></Button>
+            </StackPanel>
+            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                <TextBox Text="{Binding SearchText}" Width="200" Margin="5"/>
+                <Button Margin="5" Padding="5" Content="Search" Click="SearchButton_Click"></Button>
             </StackPanel>
         </Grid>
     </DockPanel>

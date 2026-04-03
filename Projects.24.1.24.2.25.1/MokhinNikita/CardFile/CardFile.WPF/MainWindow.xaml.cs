@@ -193,5 +193,16 @@ namespace CardFile.WPF
         {
             return MessageBox.Show("Сохранить изменения", "Предупреждение", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
         }
+
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.SearchCard(ViewModel.SearchText);
+        }
+
+        private void About_Click(object sender, RoutedEventArgs e)
+        {
+            var window = new AboutWindow();
+            window.Show();
+        }
     }
 }
