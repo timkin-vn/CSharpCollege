@@ -17,5 +17,13 @@ namespace CardFile.WPF.ViewModels
                 return attribute?.Copyright ?? "No Copyright Info";
             }
         }
+        public string Version
+        {
+            get
+            {
+                var attribute = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyVersionAttribute>();
+                return attribute?.Version ?? "1.0.0";
+            }
+        }
     }
 }

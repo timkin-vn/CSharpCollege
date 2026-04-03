@@ -16,7 +16,8 @@
             <Button Content="Отмена" Margin="5" Padding="5" Click="Cancel_Click"></Button>
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Text="{Binding Copyright}"/>
+            <TextBlock Text="{Binding Copyright}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding Version}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </StackPanel>
     </DockPanel>
 </Window>
