@@ -55,5 +55,11 @@
         <Button Grid.Row="5" Grid.Column="0" Content="0" FontSize="36" Margin="10,5,5,10" Click="DigitButton_Click" />
 
         <Button Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="2" Content="=" FontSize="36" Margin="5,5,10,10" Click="OperationButton_Click" />
+
+		<Button Grid.Row="2" Grid.Column="3" Content="^2" Tag="pow2" FontSize="36" Margin="5" Click="UnaryOperationButton_Click" />
+
+		<Button Grid.Row="5" Grid.Column="1" Content="sqrt" Tag="sqrt" FontSize="36" Margin="5" Click="UnaryOperationButton_Click" />
+
+		<Button Grid.Row="5" Grid.Column="2" Content="unary-" Tag="+/-" FontSize="36" Margin="5" Click="UnaryOperationButton_Click" />
     </Grid>
 </Window>

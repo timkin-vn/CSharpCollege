@@ -53,6 +53,26 @@ namespace Calculator.Business.Services
             calculatorModel.IsLastDigitPressed = false;
         }
 
+        public void PressUnaryOperation(CalculatorModel calculatorModel, string operationCode)
+        {
+            if (operationCode == "sqrt")
+            {
+                if (calculatorModel.RegisterX >= 0)
+                    calculatorModel.RegisterX = Math.Sqrt(calculatorModel.RegisterX);
+                else
+                    calculatorModel.RegisterX = 0;
+            }
+            else if (operationCode == "pow2")
+            {
+                calculatorModel.RegisterX = calculatorModel.RegisterX * calculatorModel.RegisterX; ;
+            }
+            else if (operationCode == "+/-")
+            {
+                calculatorModel.RegisterX = -calculatorModel.RegisterX;
+            }
+            calculatorModel.IsLastDigitPressed = false;
+        }
+
         private void CompleteOperation(CalculatorModel calculatorModel)
         {
             switch (calculatorModel.OperationCode)
@@ -72,6 +92,7 @@ namespace Calculator.Business.Services
                 case "/":
                     calculatorModel.RegisterX = calculatorModel.RegisterY / calculatorModel.RegisterX;
                     break;
+
             }
         }
     }

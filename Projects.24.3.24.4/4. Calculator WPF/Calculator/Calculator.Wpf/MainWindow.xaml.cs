@@ -39,10 +39,17 @@ namespace Calculator.Wpf
             ViewModel.PressClear();
         }
 
+        private void UnaryOperationButton_Click(object sender, RoutedEventArgs e)
+        {
+            var btn = (Button)sender;
+            var operationCode = btn.Tag as string;
+            ViewModel.PressUnaryOperation(operationCode);
+        }
+
         private void OperationButton_Click(object sender, RoutedEventArgs e)
         {
             var operationCode = ((Button)sender).Content as string;
-            ViewModel.PressOperatin(operationCode);
+            ViewModel.ExecuteOperation(operationCode);
         }
     }
 }

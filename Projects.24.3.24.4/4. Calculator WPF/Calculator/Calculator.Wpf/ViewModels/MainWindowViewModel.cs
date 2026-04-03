@@ -31,7 +31,13 @@ namespace Calculator.Wpf.ViewModels
             OnPropertyChanged(nameof(DisplayValue));
         }
 
-        public void PressOperatin(string operationCode)
+        public void PressUnaryOperation(string operationCode)
+        {
+            _calculatorService.PressUnaryOperation(_calculatorModel, operationCode);
+            OnPropertyChanged(nameof(DisplayValue));
+        }
+
+        public void ExecuteOperation(string operationCode)
         {
             _calculatorService.PressOperation(_calculatorModel, operationCode);
             OnPropertyChanged(nameof(DisplayValue));
