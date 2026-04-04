@@ -8,6 +8,9 @@ namespace CardFile.Business.Models
 {
     public class Actor
     {
-
+        public int Id { get; set; }
+        public string Character { get; set; }
+        public string Author { get; set; }
+        public string Film { get; set; }
     }
 }
