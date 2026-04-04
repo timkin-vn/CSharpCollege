@@ -1,0 +1,28 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using AutoMapper;
+using CardFile.Common.Infrastructure;
+using CardFile.DataStore.Dtos;
+using CardFile.DataStore.FileDataAccess.Entities;
+
+namespace CardFile.DataStore.Infrastructure
+{
+    public static class MapperInitialization
+    {
+        public static void Preregister()
+        {
+            Mapping.InitializationAction += Configure;
+        }
+        private static void Configure(IMapperConfigurationExpression cfg)
+        {
+            cfg.CreateMap<CardDto, CardDto>();
+            cfg.CreateMap<CardDto, XmlCard>();
+            cfg.CreateMap<XmlCard, CardDto>();
+            cfg.CreateMap<CardDto, JsonCard>();
+            cfg.CreateMap<JsonCard, CardDto>();
+        }
+    }
+}
