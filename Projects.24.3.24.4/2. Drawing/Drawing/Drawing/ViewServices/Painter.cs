@@ -15,21 +15,21 @@ namespace Drawing.ViewServices
 
         private Scaler _scaler;
 
-        private PictureBuilder _builder = new PictureBuilder();
+        public PictureBuilder Builder { get; } = new PictureBuilder();
 
         public void Paint(Rectangle bounds, Graphics g)
         {
             _scaler = new Scaler
             {
                 TargetBounds = bounds,
-                SourceBounds = _builder.SourceBounds,
+                SourceBounds = Builder.SourceBounds,
             };
 
             _scaler.Initialize();
 
             _graphics = g;
 
-            _builder.DrawPicture(this);
+            Builder.DrawPicture(this);
 
             _graphics = null;
         }
