@@ -29,6 +29,12 @@ namespace Calculator
             _calculatorService.PressDigit(_calculatorModel, digitString);
             DisplayResult();
         }
+        
+        private void PointButton_Click(object sender, EventArgs e)
+        {
+            _calculatorService.PressDecimal(_calculatorModel);
+            DisplayResult();
+        }
 
         private void DisplayResult()
         {
@@ -51,6 +57,18 @@ namespace Calculator
         {
             var operationCode = ((Button)sender).Text;
             _calculatorService.PressOperation(_calculatorModel, operationCode);
+            DisplayResult();
+        }
+        
+        private void PiButton_Click(object sender, EventArgs e)
+        {
+            _calculatorService.PressPi(_calculatorModel);
+            DisplayResult();
+        }
+        
+        private void SqrtButton_Click(object sender, EventArgs e)
+        {
+            _calculatorService.PressSqrt(_calculatorModel);
             DisplayResult();
         }
     }

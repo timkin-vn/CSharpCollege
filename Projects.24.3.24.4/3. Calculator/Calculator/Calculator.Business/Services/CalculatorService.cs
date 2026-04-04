@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,20 +10,45 @@ namespace Calculator.Business.Services
 {
     public class CalculatorService
     {
+        private bool _isDecimal = false;
+        private int _decimalPower = 1;
+        
         public void PressDigit(CalculatorModel calculatorModel, string digitString)
         {
             if (!int.TryParse(digitString, out var digit))
             {
                 return;
             }
-
+            
             if (!calculatorModel.IsLastDigitPressed)
             {
                 calculatorModel.RegisterX = 0;
+                _isDecimal = false;
+                _decimalPower = 1;
             }
 
-            calculatorModel.RegisterX *= 10;
-            calculatorModel.RegisterX += digit;
+            if (!_isDecimal)
+            {
+                // regular input
+                calculatorModel.RegisterX = calculatorModel.RegisterX * 10 + digit;
+            }
+            else
+            {
+                // input after decimal
+                calculatorModel.RegisterX += digit * Math.Pow(10, -_decimalPower);
+                _decimalPower++;
+            }
+            
+            calculatorModel.IsLastDigitPressed = true;
+        }
+        
+        public void PressDecimal(CalculatorModel calculatorModel)
+        {
+            if (!_isDecimal)
+            {
+                _isDecimal = true;
+                _decimalPower = 1;
+            }
             calculatorModel.IsLastDigitPressed = true;
         }
 
@@ -30,12 +56,28 @@ namespace Calculator.Business.Services
         {
             calculatorModel.RegisterX = 0;
             calculatorModel.IsLastDigitPressed = false;
+            _isDecimal = false;
+            _decimalPower = 1;
         }
 
         public void PressMoveXToY(CalculatorModel calculatorModel)
         {
             calculatorModel.RegisterY = calculatorModel.RegisterX;
             calculatorModel.IsLastDigitPressed = false;
+        }
+        
+        public void PressPi(CalculatorModel calculatorModel)
+        {
+            calculatorModel.RegisterX = Math.PI;
+            calculatorModel.IsLastDigitPressed = false;
+            _isDecimal = false;
+        }
+        
+        public void PressSqrt(CalculatorModel calculatorModel)
+        {
+            calculatorModel.RegisterX = Math.Sqrt(calculatorModel.RegisterX);
+            calculatorModel.IsLastDigitPressed = false;
+            _isDecimal = false;
         }
 
         public void PressOperation(CalculatorModel calculatorModel, string operationCode)
@@ -71,6 +113,10 @@ namespace Calculator.Business.Services
 
                 case "/":
                     calculatorModel.RegisterX = calculatorModel.RegisterY / calculatorModel.RegisterX;
+                    break;
+                
+                case "^":
+                    calculatorModel.RegisterX = Math.Pow(calculatorModel.RegisterY, calculatorModel.RegisterX);
                     break;
             }
         }
