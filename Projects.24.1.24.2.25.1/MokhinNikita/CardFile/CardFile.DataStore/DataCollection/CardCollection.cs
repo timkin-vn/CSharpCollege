@@ -25,7 +25,8 @@ namespace CardFile.DataStore.DataCollection
                 Position = "Участник",
                 EmploymentDate = new DateTime(2020, 4, 18),
                 DismissalDate = null,
-                Salary = 10000m
+                Salary = 10000m,
+                Language = "Русский"
             });
             _cards.Add(new CardDto
             {
@@ -38,7 +39,8 @@ namespace CardFile.DataStore.DataCollection
                 Position = "Ментор",
                 EmploymentDate = new DateTime(2016, 4, 18),
                 DismissalDate = null,
-                Salary = 205000m
+                Salary = 205000m,
+                Language = "Русский"
             });
             MapperInitialization.Preregister();
         }
