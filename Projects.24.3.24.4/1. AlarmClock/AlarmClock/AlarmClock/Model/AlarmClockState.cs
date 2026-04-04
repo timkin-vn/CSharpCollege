@@ -8,10 +8,16 @@ namespace AlarmClock.Model
 {
     internal class AlarmClockState
     {
+        private DateTime _alarmTime = DateTime.Now.AddHours(1);
+
         /// <summary>
         /// Время срабатывания
         /// </summary>
-        public DateTime AlarmTime { get; set; }
+        public DateTime AlarmTime
+        {
+            get { return _alarmTime; }
+            set { _alarmTime = value; }
+        }
 
         /// <summary>
         /// Сообщение при срабатывании

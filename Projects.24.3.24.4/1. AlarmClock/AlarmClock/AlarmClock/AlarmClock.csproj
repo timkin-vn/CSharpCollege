@@ -71,6 +71,10 @@
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\AlarmClockState.cs" />
+    <Compile Include="Model\AppTheme.cs" />
+    <Compile Include="Model\ThemePalette.cs" />
+    <Compile Include="Model\ThemeManager.cs" />
+    <Compile Include="Model\ThemeColorTable.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ClockForm.resx">

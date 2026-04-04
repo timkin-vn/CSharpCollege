@@ -1,12 +1,6 @@
 ﻿using AlarmClock.Model;
+using AlarmClock.Properties;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AlarmClock.Forms
@@ -34,11 +28,23 @@ namespace AlarmClock.Forms
             AlarmMessageTextBox.Text = ClockState.AlarmMessage;
             IsAlarmActiveCheckBox.Checked = ClockState.IsAlarmActive;
             IsSoundActiveCheckBox.Checked = ClockState.IsSoundActive;
+
+            // Загрузка текущей темы
+            var currentTheme = ThemeManager.LoadTheme();
+            ThemeComboBox.SelectedIndex = currentTheme == AppTheme.Dark ? 1 : 0;
+        }
+
+        private void ThemeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var theme = ThemeComboBox.SelectedIndex == 1 ? AppTheme.Dark : AppTheme.Light;
+            ThemeManager.ApplyTheme(this, theme);
+            ThemeManager.SaveTheme(theme);
         }
 
         private void OkButton_Click(object sender, EventArgs e)
         {
-            if (!TimeSpan.TryParse(AlarmTimeTextBox.Text, out var alarmTime))
+            TimeSpan alarmTime;
+            if (!TimeSpan.TryParse(AlarmTimeTextBox.Text, out alarmTime))
             {
                 MessageBox.Show("Время задано неверно", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;

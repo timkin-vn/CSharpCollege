@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(msbuild *)",
+      "Bash(dir *)",
+      "Bash(\"c:\\program files (x86)\\microsoft visual studio\\installer\\vswhere.exe\" *)",
+      "Bash(cmd *)",
+      "Bash(dotnet *)",
+      "Bash(\"c:\\windows\\microsoft.net\\framework\\v4.0.30319\\msbuild.exe\" *)",
+      "Bash(do *)",
+      "Bash(del *)",
+      "Bash(start *)",
+      "Bash(\"c:\\users\\xx_sa\\documents\\csharpcollege\\projects.24.3.24.4\\1. alarmclock\\alarmclock\\alarmclock\\bin\\debug\\alarmclock.exe\")"
+    ]
+  },
+  "$version": 3
+}

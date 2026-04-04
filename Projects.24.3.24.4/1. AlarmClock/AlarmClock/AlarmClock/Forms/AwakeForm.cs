@@ -30,6 +30,11 @@ namespace AlarmClock.Forms
         private void AwakeForm_Load(object sender, EventArgs e)
         {
             AlarmMessageLabel.Text = ClockState.AlarmMessage;
+
+            // Применяем тему
+            var theme = ThemeManager.LoadTheme();
+            ThemeManager.ApplyTheme(this, theme);
+
             InitializeImages();
         }
 

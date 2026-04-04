@@ -1,14 +1,7 @@
 ﻿using AlarmClock.Forms;
 using AlarmClock.Model;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Media;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AlarmClock
@@ -20,6 +13,14 @@ namespace AlarmClock
         public ClockForm()
         {
             InitializeComponent();
+        }
+
+        private void ClockForm_Load(object sender, EventArgs e)
+        {
+            // Применяем сохранённую тему при загрузке
+            var theme = ThemeManager.LoadTheme();
+            ThemeManager.ApplyTheme(this, theme);
+            UpdateView();
         }
 
         private void ClockTimer_Tick(object sender, EventArgs e)
@@ -45,7 +46,7 @@ namespace AlarmClock
 
             if (_clockState.IsSoundActive && _clockState.IsAwakeActivated)
             {
-                SystemSounds.Beep.Play();
+                System.Media.SystemSounds.Beep.Play();
             }
         }
 
@@ -66,6 +67,7 @@ namespace AlarmClock
         private void AboutButton_Click(object sender, EventArgs e)
         {
             var aboutForm = new AboutForm();
+            aboutForm.FormClosed += (s, args) => ApplyCurrentTheme();
             aboutForm.ShowDialog();
         }
 
@@ -81,16 +83,34 @@ namespace AlarmClock
             UpdateView();
         }
 
+        private void DisableAlarmButton_Click(object sender, EventArgs e)
+        {
+            _clockState.IsAlarmActive = false;
+            _clockState.IsAwakeActivated = false;
+            UpdateView();
+        }
+
         private void UpdateView()
         {
             if (_clockState.IsAlarmActive)
             {
-                Text = $"Будильник. Ожидается срабатывание в {_clockState.AlarmTime.ToShortTimeString()}";
+                Text = string.Format("Будильник. Ожидается срабатывание в {0}", _clockState.AlarmTime.ToShortTimeString());
+                DisableAlarmButton.Enabled = true;
             }
             else
             {
                 Text = "Будильник";
+                DisableAlarmButton.Enabled = false;
             }
+        }
+
+        /// <summary>
+        /// Повторно применить тему после закрытия дочерней формы
+        /// </summary>
+        private void ApplyCurrentTheme()
+        {
+            var theme = ThemeManager.LoadTheme();
+            ThemeManager.ApplyTheme(this, theme);
         }
     }
 }

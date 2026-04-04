@@ -33,11 +33,12 @@
             this.SettingsButton = new System.Windows.Forms.Button();
             this.AboutButton = new System.Windows.Forms.Button();
             this.ExitButton = new System.Windows.Forms.Button();
+            this.DisableAlarmButton = new System.Windows.Forms.Button();
             this.ClockTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
-            // 
+            //
             // DisplayLabel
-            // 
+            //
             this.DisplayLabel.BackColor = System.Drawing.Color.Black;
             this.DisplayLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.DisplayLabel.ForeColor = System.Drawing.Color.GreenYellow;
@@ -47,9 +48,9 @@
             this.DisplayLabel.TabIndex = 0;
             this.DisplayLabel.Text = "00:00:00";
             this.DisplayLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
+            //
             // SettingsButton
-            // 
+            //
             this.SettingsButton.Location = new System.Drawing.Point(346, 9);
             this.SettingsButton.Name = "SettingsButton";
             this.SettingsButton.Size = new System.Drawing.Size(108, 23);
@@ -57,9 +58,9 @@
             this.SettingsButton.Text = "Настройки...";
             this.SettingsButton.UseVisualStyleBackColor = true;
             this.SettingsButton.Click += new System.EventHandler(this.SettingsButton_Click);
-            // 
+            //
             // AboutButton
-            // 
+            //
             this.AboutButton.Location = new System.Drawing.Point(346, 39);
             this.AboutButton.Name = "AboutButton";
             this.AboutButton.Size = new System.Drawing.Size(108, 23);
@@ -67,28 +68,39 @@
             this.AboutButton.Text = "О программе...";
             this.AboutButton.UseVisualStyleBackColor = true;
             this.AboutButton.Click += new System.EventHandler(this.AboutButton_Click);
-            // 
+            //
+            // DisableAlarmButton
+            //
+            this.DisableAlarmButton.Location = new System.Drawing.Point(346, 69);
+            this.DisableAlarmButton.Name = "DisableAlarmButton";
+            this.DisableAlarmButton.Size = new System.Drawing.Size(108, 23);
+            this.DisableAlarmButton.TabIndex = 4;
+            this.DisableAlarmButton.Text = "Откл. будильник";
+            this.DisableAlarmButton.UseVisualStyleBackColor = true;
+            this.DisableAlarmButton.Click += new System.EventHandler(this.DisableAlarmButton_Click);
+            //
             // ExitButton
-            // 
-            this.ExitButton.Location = new System.Drawing.Point(346, 69);
+            //
+            this.ExitButton.Location = new System.Drawing.Point(346, 99);
             this.ExitButton.Name = "ExitButton";
             this.ExitButton.Size = new System.Drawing.Size(108, 23);
             this.ExitButton.TabIndex = 3;
             this.ExitButton.Text = "Выход";
             this.ExitButton.UseVisualStyleBackColor = true;
             this.ExitButton.Click += new System.EventHandler(this.ExitButton_Click);
-            // 
+            //
             // ClockTimer
-            // 
+            //
             this.ClockTimer.Enabled = true;
             this.ClockTimer.Interval = 1000;
             this.ClockTimer.Tick += new System.EventHandler(this.ClockTimer_Tick);
-            // 
+            //
             // ClockForm
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(466, 106);
+            this.ClientSize = new System.Drawing.Size(466, 134);
+            this.Controls.Add(this.DisableAlarmButton);
             this.Controls.Add(this.ExitButton);
             this.Controls.Add(this.AboutButton);
             this.Controls.Add(this.SettingsButton);
@@ -107,6 +119,7 @@
         private System.Windows.Forms.Button SettingsButton;
         private System.Windows.Forms.Button AboutButton;
         private System.Windows.Forms.Button ExitButton;
+        private System.Windows.Forms.Button DisableAlarmButton;
         private System.Windows.Forms.Timer ClockTimer;
     }
 }

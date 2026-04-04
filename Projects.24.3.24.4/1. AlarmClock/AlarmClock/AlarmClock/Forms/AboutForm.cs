@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AlarmClock.Model;
+using System;
 using System.Windows.Forms;
 
 namespace AlarmClock.Forms
@@ -15,6 +9,12 @@ namespace AlarmClock.Forms
         public AboutForm()
         {
             InitializeComponent();
+        }
+
+        private void AboutForm_Load(object sender, EventArgs e)
+        {
+            var theme = ThemeManager.LoadTheme();
+            ThemeManager.ApplyTheme(this, theme);
         }
     }
 }
