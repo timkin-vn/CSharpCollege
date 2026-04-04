@@ -28,7 +28,7 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
                         }
 
                         var lineParts = line.Split(';');
-                        if (lineParts.Length != 10)
+                        if (lineParts.Length != 11)
                         {
                             throw new InvalidOperationException($"В строке файла {fileName} неверное количество полей");
                         }
@@ -83,6 +83,7 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
                         {
                             card.Salary = dec;
                         }
+                        card.Language = lineParts[10];
                         records.Add(card);
                     }
                     collection.ReplaceAll(records);
@@ -101,7 +102,7 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
                         writer.WriteLine($"{item.Id};{item.FirstName};{item.MiddleName};{item.LastName};" +
                             $"{item.BirthDate.ToShortDateString()};{item.Department};{item.Position};" +
                             $"{item.EmploymentDate.ToShortDateString()};{item.DismissalDate?.ToShortDateString() ?? "-"};" +
-                            $"{item.Salary}");
+                            $"{item.Salary};{item.Language}");
                     }
                 }
             }

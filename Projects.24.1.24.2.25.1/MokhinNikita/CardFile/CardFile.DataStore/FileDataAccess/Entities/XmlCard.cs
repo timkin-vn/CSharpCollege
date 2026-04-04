@@ -86,5 +86,7 @@ namespace CardFile.DataStore.FileDataAccess.Entities
         /// </summary>
         public decimal Salary { get; set; }
 
+        [XmlAttribute("Language")]
+        public string Languarge { get; set; }
     }
 }

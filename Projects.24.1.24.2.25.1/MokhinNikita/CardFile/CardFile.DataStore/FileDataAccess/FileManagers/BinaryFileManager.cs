@@ -44,7 +44,7 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
                                 card.DismissalDate = null;
                             }
                             card.Salary = reader.ReadDecimal();
-
+                            card.Language = reader.ReadString();
                             records.Add(card);
                         }
                     }
@@ -79,6 +79,7 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
                             writer.Write(item.DismissalDate.Value.Ticks);
                         }
                         writer.Write(item.Salary);
+                        writer.Write(item.Language);
                     }
                 }
             }

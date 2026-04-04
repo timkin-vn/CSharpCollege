@@ -12,7 +12,19 @@ namespace CardFile.DataStore.DataCollection
         private readonly List<ActorDto> _actors = new List<ActorDto>();
         public ActorCollection()
         {
-            _actors.Add(new ActorDto());
+            _actors.Add(new ActorDto()
+            {
+                Id = 1,
+                Author = "Гловер Дональд",
+                Character = "Yoshi"
+            });
+            _actors.Add(new ActorDto()
+            {
+                Id = 2,
+                Author = "",
+                Character = "",
+            });
+
         }
     }
 }
