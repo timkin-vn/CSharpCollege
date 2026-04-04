@@ -61,6 +61,7 @@ namespace CardFile.WPF.ViewModels
         /// </summary>
         public decimal Salary { get; set; }
         public string SalaryText => Salary.ToString("c");
+        public string Language { get; set; }
         public bool IsWorkingTillNow { get; set; }
 
         public bool IsDesmissalDateEnabled => !IsWorkingTillNow;
@@ -112,6 +113,7 @@ namespace CardFile.WPF.ViewModels
             OnPropertyChanged(nameof(SalaryText));
             OnPropertyChanged(nameof(BirthDateString));
             OnPropertyChanged(nameof(EmploymentDateString));
+            OnPropertyChanged(nameof(Language));
             OnPropertyChanged(nameof(DissimalDateString));
         }
     }

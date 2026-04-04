@@ -58,5 +58,6 @@ namespace CardFile.Business.Models
         /// </summary>
         public decimal Salary { get; set; }
 
+        public string Language { get; set; }
     }
 }

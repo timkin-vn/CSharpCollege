@@ -133,7 +133,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataCollection\ActorCollection.cs" />
     <Compile Include="DataCollection\CardCollection.cs" />
+    <Compile Include="Dtos\ActorDto.cs" />
     <Compile Include="Dtos\CardDto.cs" />
     <Compile Include="FileDataAccess\Entities\JsonCard.cs" />
     <Compile Include="FileDataAccess\Entities\JsonCardCollection.cs" />

@@ -59,6 +59,10 @@ namespace CardFile.DataStore.Dtos
         /// Оклад
         /// </summary>
         public decimal Salary { get; set; }
+        /// <summary>
+        /// Язык
+        /// </summary>
+        public string Language { get; set; }
         public CardDto Clone()
         {
             return Mapping.Mapper.Map<CardDto>(this);
