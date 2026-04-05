@@ -1,5 +1,6 @@
 ﻿using CardFile.Wpf.ViewModels;
 using CardFile.Wpf.Views;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,17 +32,72 @@ namespace CardFile.Wpf
 
         private void FileOpenMenuItem_Click(object sender, RoutedEventArgs e)
         {
+            var dialog = new OpenFileDialog
+            {
+                Filter = "Текстовые файлы картотеки|*.txt|Файлы CSV|*.csv|Двочиные файлы картотеки|*.cardbin" +
+                    "|XML-файлы картотеки|*.cardxml|JSON-файлы картотеки|*.cardjson|ZIP-файлы картотеки|*.cardzip",
+            };
 
+            if (dialog.ShowDialog() != true)
+            {
+                return;
+            }
+
+            try
+            {
+                ViewModel.OpenFromFile(dialog.FileName);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void FileSaveMenuItem_Click(object sender, RoutedEventArgs e)
         {
-
+            if (string.IsNullOrEmpty(ViewModel.FileName))
+            {
+                DoSaveAs();
+            }
+            else
+            {
+                try
+                {
+                    ViewModel.SaveToFile();
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
 
         private void FileSaveAsMenuItem_Click(object sender, RoutedEventArgs e)
         {
+            DoSaveAs();
+        }
 
+        private void DoSaveAs()
+        {
+            var dialog = new SaveFileDialog
+            {
+                Filter = "Текстовые файлы картотеки|*.txt|Файлы CSV|*.csv|Двочиные файлы картотеки|*.cardbin" +
+                    "|XML-файлы картотеки|*.cardxml|JSON-файлы картотеки|*.cardjson|ZIP-файлы картотеки|*.cardzip",
+            };
+
+            if (dialog.ShowDialog() != true)
+            {
+                return;
+            }
+
+            try
+            {
+                ViewModel.SaveToFile(dialog.FileName);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void FileExitMenuItem_Click(object sender, RoutedEventArgs e)

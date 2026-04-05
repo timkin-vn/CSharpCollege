@@ -3,6 +3,7 @@ using CardFile.Business.Models;
 using CardFile.Common.Infrastructure;
 using CardFile.DataStore.DataCollection;
 using CardFile.DataStore.Dtos;
+using CardFile.DataStore.FileDataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +34,19 @@ namespace CardFile.Business.Services
 
         public bool Delete(int cardId)
         {
-            return false;
+            return _collection.Delete(cardId);
+        }
+
+        public void SaveToFile(string fileName)
+        {
+            var fileService = new FileDataService();
+            fileService.SaveToFile(fileName, _collection);
+        }
+
+        public void OpenFromFile(string fileName)
+        {
+            var fileService = new FileDataService();
+            fileService.OpenFromFile(fileName, _collection);
         }
 
         private Card FromDto(CardDto card)

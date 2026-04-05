@@ -120,5 +120,19 @@ namespace CardFile.DataStore.DataCollection
             _cards.RemoveAt(index);
             return true;
         }
+
+        internal void ReplaceAll(IEnumerable<CardDto> newCollection)
+        {
+            _cards.Clear();
+            _cards.AddRange(newCollection);
+            NextId = _cards.Max(c => c.Id) + 1;
+        }
+
+        internal void ReplaceAll(IEnumerable<CardDto> newCollection, int nextId)
+        {
+            _cards.Clear();
+            _cards.AddRange(newCollection);
+            NextId = nextId;
+        }
     }
 }

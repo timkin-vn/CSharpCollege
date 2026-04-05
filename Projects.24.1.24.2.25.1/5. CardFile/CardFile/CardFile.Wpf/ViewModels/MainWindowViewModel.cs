@@ -5,6 +5,7 @@ using CardFile.Wpf.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,10 @@ namespace CardFile.Wpf.ViewModels
         public bool IsEditButtonEnabled => SelectedCard != null;
 
         public bool IsDeleteButtonEnabled => SelectedCard != null;
+
+        public string FileName { get; private set; }
+
+        public string WindowTitle => string.IsNullOrEmpty(FileName) ? "Картотека" : $"Картотека: {Path.GetFileName(FileName)}";
 
         public MainWindowViewModel()
         {
@@ -124,6 +129,36 @@ namespace CardFile.Wpf.ViewModels
             SelectedCard = null;
 
             OnPropertyChanged(nameof(SelectedCard));
+        }
+
+        public void SaveToFile(string fileName)
+        {
+            _service.SaveToFile(fileName);
+
+            FileName = fileName;
+            OnPropertyChanged(nameof(WindowTitle));
+        }
+
+        public void OpenFromFile(string fileName)
+        {
+            _service.OpenFromFile(fileName);
+            LoadAllData();
+
+            FileName = fileName;
+            OnPropertyChanged(nameof(WindowTitle));
+        }
+
+        public void SaveToFile()
+        {
+            try
+            {
+                _service.SaveToFile(FileName);
+            }
+            catch(Exception)
+            {
+                FileName = null;
+                throw;
+            }
         }
 
         private CardViewModel ToViewModel(Card card)
