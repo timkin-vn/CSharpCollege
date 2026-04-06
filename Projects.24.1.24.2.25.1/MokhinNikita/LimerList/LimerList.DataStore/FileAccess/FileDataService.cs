@@ -30,6 +30,10 @@ namespace LimerList.DataStore.FileAccess
                 case ".txt":
                 case ".csv":
                     return new TextFileManager();
+                case ".lzip":
+                    return new ZipFileManager();
+                case ".ljson":
+                    return new JsonFileManager();
                 default:
                     throw new FieldAccessException("Неизвестное расширение файла");
             }

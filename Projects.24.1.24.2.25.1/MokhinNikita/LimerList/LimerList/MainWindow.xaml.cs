@@ -24,7 +24,7 @@ namespace LimerList
     /// </summary>
     public partial class MainWindow : Window
     {
-        private const string FILE_FILTER = "Xml-Limer File|*.liml|Текстовый файл|.*txt|CSV-файл|*.csv|ZIP-файл|*.lzip";
+        private const string FILE_FILTER = "Xml-Limer File|*.liml|Текстовый файл|.*txt|CSV-файл|*.csv|ZIP-файл|*.lzip|JSON-файл|*.ljson";
         public MainViewModel ViewModel => (MainViewModel)DataContext;
         public MainWindow()
         {
