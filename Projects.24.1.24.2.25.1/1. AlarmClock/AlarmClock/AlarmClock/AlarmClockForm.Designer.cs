@@ -34,6 +34,7 @@
             this.ExitButton = new System.Windows.Forms.Button();
             this.AboutButton = new System.Windows.Forms.Button();
             this.ClockTimer = new System.Windows.Forms.Timer(this.components);
+<<<<<<< Updated upstream
             this.TimerDisplayLabel = new System.Windows.Forms.Label();
             this.StartTimerButton = new System.Windows.Forms.Button();
             this.TimerStopButton = new System.Windows.Forms.Button();
@@ -41,6 +42,12 @@
             this.ResetTimerButton = new System.Windows.Forms.Button();
             this.SetTimerButton = new System.Windows.Forms.Button();
             this.TimerTimer_Tick = new System.Windows.Forms.Timer(this.components);
+=======
+            this.Labletimer = new System.Windows.Forms.Label();
+            this.StartButton = new System.Windows.Forms.Button();
+            this.StopButton = new System.Windows.Forms.Button();
+            this.StopwatchTimer = new System.Windows.Forms.Timer(this.components);
+>>>>>>> Stashed changes
             this.SuspendLayout();
             // 
             // DisplayLabel
@@ -96,6 +103,7 @@
             this.ClockTimer.Interval = 1000;
             this.ClockTimer.Tick += new System.EventHandler(this.ClockTimer_Tick);
             // 
+<<<<<<< Updated upstream
             // TimerDisplayLabel
             // 
             this.TimerDisplayLabel.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
@@ -168,11 +176,51 @@
             // 
             this.TimerTimer_Tick.Interval = 1000;
             this.TimerTimer_Tick.Tick += new System.EventHandler(this.TimerTimer_Tick_Tick);
+=======
+            // Labletimer
+            // 
+            this.Labletimer.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.Labletimer.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Labletimer.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.Labletimer.Location = new System.Drawing.Point(20, 149);
+            this.Labletimer.Name = "Labletimer";
+            this.Labletimer.Size = new System.Drawing.Size(482, 103);
+            this.Labletimer.TabIndex = 4;
+            this.Labletimer.Text = "00:00.00";
+            this.Labletimer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Labletimer.Click += new System.EventHandler(this.Labletimer_Click);
+            // 
+            // StartButton
+            // 
+            this.StartButton.Location = new System.Drawing.Point(508, 164);
+            this.StartButton.Name = "StartButton";
+            this.StartButton.Size = new System.Drawing.Size(189, 38);
+            this.StartButton.TabIndex = 5;
+            this.StartButton.Text = "Start";
+            this.StartButton.UseVisualStyleBackColor = true;
+            this.StartButton.Click += new System.EventHandler(this.StartButton_Click);
+            // 
+            // StopButton
+            // 
+            this.StopButton.Location = new System.Drawing.Point(508, 208);
+            this.StopButton.Name = "StopButton";
+            this.StopButton.Size = new System.Drawing.Size(189, 44);
+            this.StopButton.TabIndex = 6;
+            this.StopButton.Text = "Stop";
+            this.StopButton.UseVisualStyleBackColor = true;
+            this.StopButton.Click += new System.EventHandler(this.StopButton_Click);
+            // 
+            // StopwatchTimer
+            // 
+            this.StopwatchTimer.Interval = 10;
+            this.StopwatchTimer.Tick += new System.EventHandler(this.StopwatchTimer_Tick);
+>>>>>>> Stashed changes
             // 
             // AlarmClockForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+<<<<<<< Updated upstream
             this.ClientSize = new System.Drawing.Size(718, 321);
             this.Controls.Add(this.SetTimerButton);
             this.Controls.Add(this.ResetTimerButton);
@@ -180,6 +228,12 @@
             this.Controls.Add(this.TimerStopButton);
             this.Controls.Add(this.StartTimerButton);
             this.Controls.Add(this.TimerDisplayLabel);
+=======
+            this.ClientSize = new System.Drawing.Size(718, 274);
+            this.Controls.Add(this.StopButton);
+            this.Controls.Add(this.StartButton);
+            this.Controls.Add(this.Labletimer);
+>>>>>>> Stashed changes
             this.Controls.Add(this.AboutButton);
             this.Controls.Add(this.ExitButton);
             this.Controls.Add(this.SettingsButton);
@@ -200,6 +254,7 @@
         private System.Windows.Forms.Button ExitButton;
         private System.Windows.Forms.Button AboutButton;
         private System.Windows.Forms.Timer ClockTimer;
+<<<<<<< Updated upstream
         private System.Windows.Forms.Label TimerDisplayLabel;
         private System.Windows.Forms.Button StartTimerButton;
         private System.Windows.Forms.Button TimerStopButton;
@@ -207,6 +262,12 @@
         private System.Windows.Forms.Button ResetTimerButton;
         private System.Windows.Forms.Button SetTimerButton;
         private System.Windows.Forms.Timer TimerTimer_Tick;
+=======
+        private System.Windows.Forms.Label Labletimer;
+        private System.Windows.Forms.Button StartButton;
+        private System.Windows.Forms.Button StopButton;
+        private System.Windows.Forms.Timer StopwatchTimer;
+>>>>>>> Stashed changes
     }
 }
 
