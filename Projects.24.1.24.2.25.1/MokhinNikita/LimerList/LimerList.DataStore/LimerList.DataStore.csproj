@@ -55,6 +55,7 @@
     <Compile Include="FileAccess\Entities\XmlLimer.cs" />
     <Compile Include="FileAccess\Entities\XmlLimerCollection.cs" />
     <Compile Include="FileAccess\FileDataService.cs" />
+    <Compile Include="FileAccess\FileManagers\BinaryFileManager.cs" />
     <Compile Include="FileAccess\FileManagers\IFileManager.cs" />
     <Compile Include="FileAccess\FileManagers\JsonFileManager.cs" />
     <Compile Include="FileAccess\FileManagers\TextFileManager.cs.cs" />

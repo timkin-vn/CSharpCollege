@@ -34,6 +34,8 @@ namespace LimerList.DataStore.FileAccess
                     return new ZipFileManager();
                 case ".ljson":
                     return new JsonFileManager();
+                case ".lbin":
+                    return new BinaryFileManager();
                 default:
                     throw new FieldAccessException("Неизвестное расширение файла");
             }
