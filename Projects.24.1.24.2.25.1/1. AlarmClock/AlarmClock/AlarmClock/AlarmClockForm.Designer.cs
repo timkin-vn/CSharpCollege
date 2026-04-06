@@ -2,15 +2,9 @@
 {
     partial class AlarmClockForm
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
-
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        private System.Windows.Forms.Label DateLabel;
+        /// <param name="disposing">
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -19,13 +13,7 @@
             }
             base.Dispose(disposing);
         }
-
         #region Windows Form Designer generated code
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
@@ -33,11 +21,11 @@
             this.SettingsButton = new System.Windows.Forms.Button();
             this.ExitButton = new System.Windows.Forms.Button();
             this.AboutButton = new System.Windows.Forms.Button();
+            this.StopwatchButton = new System.Windows.Forms.Button();   
             this.ClockTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
-            // 
-            // DisplayLabel
-            // 
+
+            // DisplayLabel (оставляем как было)
             this.DisplayLabel.BackColor = System.Drawing.Color.Black;
             this.DisplayLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.DisplayLabel.ForeColor = System.Drawing.Color.GreenYellow;
@@ -47,9 +35,8 @@
             this.DisplayLabel.TabIndex = 0;
             this.DisplayLabel.Text = "00:00:00";
             this.DisplayLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
+
             // SettingsButton
-            // 
             this.SettingsButton.Location = new System.Drawing.Point(341, 9);
             this.SettingsButton.Name = "SettingsButton";
             this.SettingsButton.Size = new System.Drawing.Size(126, 23);
@@ -57,19 +44,8 @@
             this.SettingsButton.Text = "Настройки...";
             this.SettingsButton.UseVisualStyleBackColor = true;
             this.SettingsButton.Click += new System.EventHandler(this.SettingsButton_Click);
-            // 
-            // ExitButton
-            // 
-            this.ExitButton.Location = new System.Drawing.Point(341, 67);
-            this.ExitButton.Name = "ExitButton";
-            this.ExitButton.Size = new System.Drawing.Size(126, 23);
-            this.ExitButton.TabIndex = 2;
-            this.ExitButton.Text = "Выход";
-            this.ExitButton.UseVisualStyleBackColor = true;
-            this.ExitButton.Click += new System.EventHandler(this.ExitButton_Click);
-            // 
+
             // AboutButton
-            // 
             this.AboutButton.Location = new System.Drawing.Point(341, 38);
             this.AboutButton.Name = "AboutButton";
             this.AboutButton.Size = new System.Drawing.Size(126, 23);
@@ -77,18 +53,35 @@
             this.AboutButton.Text = "О программе...";
             this.AboutButton.UseVisualStyleBackColor = true;
             this.AboutButton.Click += new System.EventHandler(this.AboutButton_Click);
-            // 
+
+            // ExitButton
+            this.ExitButton.Location = new System.Drawing.Point(341, 67);
+            this.ExitButton.Name = "ExitButton";
+            this.ExitButton.Size = new System.Drawing.Size(126, 23);
+            this.ExitButton.TabIndex = 2;
+            this.ExitButton.Text = "Выход";
+            this.ExitButton.UseVisualStyleBackColor = true;
+            this.ExitButton.Click += new System.EventHandler(this.ExitButton_Click);
+
+            // === НОВАЯ КНОПКА СЕКУНДОМЕР ===
+            this.StopwatchButton.Location = new System.Drawing.Point(341, 96);
+            this.StopwatchButton.Name = "StopwatchButton";
+            this.StopwatchButton.Size = new System.Drawing.Size(126, 23);
+            this.StopwatchButton.TabIndex = 4;
+            this.StopwatchButton.Text = "Секундомер";
+            this.StopwatchButton.UseVisualStyleBackColor = true;
+            this.StopwatchButton.Click += new System.EventHandler(this.StopwatchButton_Click);
+
             // ClockTimer
-            // 
             this.ClockTimer.Enabled = true;
             this.ClockTimer.Interval = 1000;
             this.ClockTimer.Tick += new System.EventHandler(this.ClockTimer_Tick);
-            // 
+
             // AlarmClockForm
-            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(479, 102);
+            this.ClientSize = new System.Drawing.Size(479, 130);
+            this.Controls.Add(this.StopwatchButton);
             this.Controls.Add(this.AboutButton);
             this.Controls.Add(this.ExitButton);
             this.Controls.Add(this.SettingsButton);
@@ -98,7 +91,6 @@
             this.Name = "AlarmClockForm";
             this.Text = "Будильник";
             this.ResumeLayout(false);
-
         }
 
         #endregion
@@ -108,6 +100,6 @@
         private System.Windows.Forms.Button ExitButton;
         private System.Windows.Forms.Button AboutButton;
         private System.Windows.Forms.Timer ClockTimer;
+        private System.Windows.Forms.Button StopwatchButton;
     }
 }
-

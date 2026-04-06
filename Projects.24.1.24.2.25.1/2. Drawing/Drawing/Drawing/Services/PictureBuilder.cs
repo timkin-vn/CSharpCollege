@@ -48,7 +48,7 @@ namespace Drawing.Services
             RectangleModel light = new RectangleModel { X = 13.5, Y = 3.5, Width = 0.5, Height = 1 };
             painter.DrawEllipse(Brushes.Yellow, pen, light);
 
-            // Важно
+            
             pen.Dispose();
         }
     }
