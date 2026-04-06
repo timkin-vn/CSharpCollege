@@ -36,6 +36,8 @@ namespace LimerList.DataStore.FileAccess
                     return new JsonFileManager();
                 case ".lbin":
                     return new BinaryFileManager();
+                case ".xlsx":
+                    return new ExcelFileManager();
                 default:
                     throw new FieldAccessException("Неизвестное расширение файла");
             }
