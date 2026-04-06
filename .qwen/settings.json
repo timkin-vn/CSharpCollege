@@ -10,7 +10,8 @@
       "Bash(do *)",
       "Bash(del *)",
       "Bash(start *)",
-      "Bash(\"c:\\users\\xx_sa\\documents\\csharpcollege\\projects.24.3.24.4\\1. alarmclock\\alarmclock\\alarmclock\\bin\\debug\\alarmclock.exe\")"
+      "Bash(\"c:\\users\\xx_sa\\documents\\csharpcollege\\projects.24.3.24.4\\1. alarmclock\\alarmclock\\alarmclock\\bin\\debug\\alarmclock.exe\")",
+      "Bash(taskkill *)"
     ]
   },
   "$version": 3

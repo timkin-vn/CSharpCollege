@@ -34,6 +34,8 @@
             this.AboutButton = new System.Windows.Forms.Button();
             this.ExitButton = new System.Windows.Forms.Button();
             this.DisableAlarmButton = new System.Windows.Forms.Button();
+            this.TimerButton = new System.Windows.Forms.Button();
+            this.StopTimerButton = new System.Windows.Forms.Button();
             this.ClockTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             //
@@ -79,9 +81,30 @@
             this.DisableAlarmButton.UseVisualStyleBackColor = true;
             this.DisableAlarmButton.Click += new System.EventHandler(this.DisableAlarmButton_Click);
             //
+            // TimerButton
+            //
+            this.TimerButton.Location = new System.Drawing.Point(346, 99);
+            this.TimerButton.Name = "TimerButton";
+            this.TimerButton.Size = new System.Drawing.Size(108, 23);
+            this.TimerButton.TabIndex = 5;
+            this.TimerButton.Text = "Таймер...";
+            this.TimerButton.UseVisualStyleBackColor = true;
+            this.TimerButton.Click += new System.EventHandler(this.TimerButton_Click);
+            //
+            // StopTimerButton
+            //
+            this.StopTimerButton.Location = new System.Drawing.Point(346, 99);
+            this.StopTimerButton.Name = "StopTimerButton";
+            this.StopTimerButton.Size = new System.Drawing.Size(108, 23);
+            this.StopTimerButton.TabIndex = 6;
+            this.StopTimerButton.Text = "Стоп таймер";
+            this.StopTimerButton.UseVisualStyleBackColor = true;
+            this.StopTimerButton.Visible = false;
+            this.StopTimerButton.Click += new System.EventHandler(this.StopTimerButton_Click);
+            //
             // ExitButton
             //
-            this.ExitButton.Location = new System.Drawing.Point(346, 99);
+            this.ExitButton.Location = new System.Drawing.Point(346, 129);
             this.ExitButton.Name = "ExitButton";
             this.ExitButton.Size = new System.Drawing.Size(108, 23);
             this.ExitButton.TabIndex = 3;
@@ -99,7 +122,9 @@
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(466, 134);
+            this.ClientSize = new System.Drawing.Size(466, 164);
+            this.Controls.Add(this.StopTimerButton);
+            this.Controls.Add(this.TimerButton);
             this.Controls.Add(this.DisableAlarmButton);
             this.Controls.Add(this.ExitButton);
             this.Controls.Add(this.AboutButton);
@@ -120,6 +145,8 @@
         private System.Windows.Forms.Button AboutButton;
         private System.Windows.Forms.Button ExitButton;
         private System.Windows.Forms.Button DisableAlarmButton;
+        private System.Windows.Forms.Button TimerButton;
+        private System.Windows.Forms.Button StopTimerButton;
         private System.Windows.Forms.Timer ClockTimer;
     }
 }
