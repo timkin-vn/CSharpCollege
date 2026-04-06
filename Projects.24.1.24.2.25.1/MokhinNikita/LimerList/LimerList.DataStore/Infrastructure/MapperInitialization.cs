@@ -21,6 +21,8 @@ namespace LimerList.DataStore.Infrastructure
             cfg.CreateMap<LimerDto, LimerDto>();
             cfg.CreateMap<LimerDto, XmlLimer>();
             cfg.CreateMap<XmlLimer, LimerDto>();
+            cfg.CreateMap<LimerDto, JsonLimer>();
+            cfg.CreateMap<JsonLimer, LimerDto>();
         }
     }
 }

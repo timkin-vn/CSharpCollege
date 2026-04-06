@@ -27,6 +27,9 @@ namespace LimerList.DataStore.FileAccess
             {
                 case ".liml":
                     return new XmlFileManager();
+                case ".txt":
+                case ".csv":
+                    return new TextFileManager();
                 default:
                     throw new FieldAccessException("Неизвестное расширение файла");
             }

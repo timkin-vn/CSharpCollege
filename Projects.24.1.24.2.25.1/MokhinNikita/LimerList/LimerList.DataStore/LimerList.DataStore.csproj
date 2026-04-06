@@ -34,8 +34,12 @@
     <Reference Include="AutoMapper, Version=10.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.10.1.1\lib\net461\AutoMapper.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,16 +50,22 @@
   <ItemGroup>
     <Compile Include="DataCollection\LimerCollection.cs" />
     <Compile Include="Dtos\LimerDto.cs" />
+    <Compile Include="FileAccess\Entities\JsonLimer.cs" />
+    <Compile Include="FileAccess\Entities\JsonLimerCollection.cs" />
     <Compile Include="FileAccess\Entities\XmlLimer.cs" />
     <Compile Include="FileAccess\Entities\XmlLimerCollection.cs" />
     <Compile Include="FileAccess\FileDataService.cs" />
     <Compile Include="FileAccess\FileManagers\IFileManager.cs" />
+    <Compile Include="FileAccess\FileManagers\JsonFileManager.cs" />
+    <Compile Include="FileAccess\FileManagers\TextFileManager.cs.cs" />
     <Compile Include="FileAccess\FileManagers\XmlFileManager.cs" />
+    <Compile Include="FileAccess\FileManagers\ZipFileManager.cs" />
     <Compile Include="Infrastructure\MapperInitialization.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
