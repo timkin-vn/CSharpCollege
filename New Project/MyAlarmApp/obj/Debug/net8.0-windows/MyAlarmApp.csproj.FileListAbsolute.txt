@@ -1,0 +1,14 @@
+C:\New Project\MyAlarmApp\bin\Debug\net8.0-windows\MyAlarmApp.exe
+C:\New Project\MyAlarmApp\bin\Debug\net8.0-windows\MyAlarmApp.deps.json
+C:\New Project\MyAlarmApp\bin\Debug\net8.0-windows\MyAlarmApp.runtimeconfig.json
+C:\New Project\MyAlarmApp\bin\Debug\net8.0-windows\MyAlarmApp.dll
+C:\New Project\MyAlarmApp\bin\Debug\net8.0-windows\MyAlarmApp.pdb
+C:\New Project\MyAlarmApp\obj\Debug\net8.0-windows\MyAlarmApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\New Project\MyAlarmApp\obj\Debug\net8.0-windows\MyAlarmApp.AssemblyInfoInputs.cache
+C:\New Project\MyAlarmApp\obj\Debug\net8.0-windows\MyAlarmApp.AssemblyInfo.cs
+C:\New Project\MyAlarmApp\obj\Debug\net8.0-windows\MyAlarmApp.csproj.CoreCompileInputs.cache
+C:\New Project\MyAlarmApp\obj\Debug\net8.0-windows\MyAlarmApp.dll
+C:\New Project\MyAlarmApp\obj\Debug\net8.0-windows\refint\MyAlarmApp.dll
+C:\New Project\MyAlarmApp\obj\Debug\net8.0-windows\MyAlarmApp.pdb
+C:\New Project\MyAlarmApp\obj\Debug\net8.0-windows\MyAlarmApp.genruntimeconfig.cache
+C:\New Project\MyAlarmApp\obj\Debug\net8.0-windows\ref\MyAlarmApp.dll
