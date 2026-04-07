@@ -1,0 +1,10 @@
+E:\College\CSharpCollege-BogdanYaroslav\Projects.24.3.24.4\2. Drawing\Drawing\Drawing\bin\Debug\Drawing.exe.config
+E:\College\CSharpCollege-BogdanYaroslav\Projects.24.3.24.4\2. Drawing\Drawing\Drawing\bin\Debug\Drawing.exe
+E:\College\CSharpCollege-BogdanYaroslav\Projects.24.3.24.4\2. Drawing\Drawing\Drawing\bin\Debug\Drawing.pdb
+E:\College\CSharpCollege-BogdanYaroslav\Projects.24.3.24.4\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.csproj.AssemblyReference.cache
+E:\College\CSharpCollege-BogdanYaroslav\Projects.24.3.24.4\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.DrawingForm.resources
+E:\College\CSharpCollege-BogdanYaroslav\Projects.24.3.24.4\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.Properties.Resources.resources
+E:\College\CSharpCollege-BogdanYaroslav\Projects.24.3.24.4\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.csproj.GenerateResource.cache
+E:\College\CSharpCollege-BogdanYaroslav\Projects.24.3.24.4\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.csproj.CoreCompileInputs.cache
+E:\College\CSharpCollege-BogdanYaroslav\Projects.24.3.24.4\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.exe
+E:\College\CSharpCollege-BogdanYaroslav\Projects.24.3.24.4\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.pdb

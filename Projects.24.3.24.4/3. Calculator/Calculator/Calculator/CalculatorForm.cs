@@ -21,6 +21,7 @@ namespace Calculator
         public CalculatorForm()
         {
             InitializeComponent();
+            DisplayResult();
         }
 
         private void DigitButton_Click(object sender, EventArgs e)
@@ -29,10 +30,16 @@ namespace Calculator
             _calculatorService.PressDigit(_calculatorModel, digitString);
             DisplayResult();
         }
+        
+        private void PointButton_Click(object sender, EventArgs e)
+        {
+            _calculatorService.PressDecimal(_calculatorModel);
+            DisplayResult();
+        }
 
         private void DisplayResult()
         {
-            DisplayLabel.Text = _calculatorModel.RegisterX.ToString();
+            DisplayLabel.Text = _calculatorModel.DisplayText;
         }
 
         private void ClearButton_Click(object sender, EventArgs e)
@@ -51,6 +58,30 @@ namespace Calculator
         {
             var operationCode = ((Button)sender).Text;
             _calculatorService.PressOperation(_calculatorModel, operationCode);
+            DisplayResult();
+        }
+
+        private void SinButton_Click(object sender, EventArgs e)
+        {
+            _calculatorService.PressSin(_calculatorModel);
+            DisplayResult();
+        }
+
+        private void CosButton_Click(object sender, EventArgs e)
+        {
+            _calculatorService.PressCos(_calculatorModel);
+            DisplayResult();
+        }
+
+        private void TanButton_Click(object sender, EventArgs e)
+        {
+            _calculatorService.PressTg(_calculatorModel);
+            DisplayResult();
+        }
+
+        private void CotButton_Click(object sender, EventArgs e)
+        {
+            _calculatorService.PressCtg(_calculatorModel);
             DisplayResult();
         }
     }

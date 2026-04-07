@@ -11,6 +11,8 @@ namespace Drawing.Services
 {
     internal class PictureBuilder
     {
+        public int CurrentPicture { get; set; } = 1;
+
         public RectangleModel SourceBounds { get; } = new RectangleModel
         {
             X = -5,
@@ -20,6 +22,14 @@ namespace Drawing.Services
         };
 
         public void DrawPicture(Painter painter)
+        {
+            if (CurrentPicture == 1) DrawCar(painter);
+            else if (CurrentPicture == 2) DrawHouse(painter);
+            else if (CurrentPicture == 3) DrawTree(painter);
+            else DrawCar(painter);
+        }
+
+        private void DrawCar(Painter painter)
         {
             var mainPen = new Pen(Color.Black, 3);
             var wheelBrush = Brushes.LightGray;
@@ -72,6 +82,37 @@ namespace Drawing.Services
             };
 
             painter.DrawPolygon(mainPen, bodyBrush, pipePoints);
+        }
+
+        private void DrawHouse(Painter painter)
+        {
+            var mainPen = new Pen(Color.Black, 3);
+            
+            var wallBrush = Brushes.BurlyWood;
+            painter.DrawRectangle(mainPen, wallBrush, new RectangleModel { X = 2, Y = 0, Width = 6, Height = 5 });
+            
+            var roofBrush = Brushes.Brown;
+            var roofPoints = new[]
+            {
+                new PointModel { X = 1, Y = 5 },
+                new PointModel { X = 5, Y = 9 },
+                new PointModel { X = 9, Y = 5 }
+            };
+            painter.DrawPolygon(mainPen, roofBrush, roofPoints);
+
+            var windowBrush = Brushes.LightSkyBlue;
+            painter.DrawRectangle(mainPen, windowBrush, new RectangleModel { X = 3.5, Y = 1.5, Width = 3, Height = 2 });
+        }
+
+        private void DrawTree(Painter painter)
+        {
+            var mainPen = new Pen(Color.Black, 3);
+
+            var trunkBrush = Brushes.SaddleBrown;
+            painter.DrawRectangle(mainPen, trunkBrush, new RectangleModel { X = 4, Y = 0, Width = 2, Height = 5 });
+
+            var leavesBrush = Brushes.ForestGreen;
+            painter.DrawEllipse(mainPen, leavesBrush, new RectangleModel { X = 1, Y = 4, Width = 8, Height = 6 });
         }
     }
 }

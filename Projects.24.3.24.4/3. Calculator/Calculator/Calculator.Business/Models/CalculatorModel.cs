@@ -15,5 +15,9 @@ namespace Calculator.Business.Models
         internal string OperationCode { get; set; }
 
         internal bool IsLastDigitPressed { get; set; }
+
+        public string DisplayText { get; set; } = "0";
+
+        internal string InputString { get; set; } = "";
     }
 }

@@ -17,12 +17,21 @@ namespace Drawing.ViewServices
 
         private PictureBuilder _builder = new PictureBuilder();
 
-        public void Paint(Rectangle bounds, Graphics g)
+        public void Paint(Rectangle bounds, Graphics g, int currentPicture = 1)
         {
+            _builder.CurrentPicture = currentPicture;
+
             _scaler = new Scaler
             {
                 TargetBounds = bounds,
-                SourceBounds = _builder.SourceBounds,
+                // Копируем SourceBounds, чтобы не искажались пропорции при каждом ресайзе
+                SourceBounds = new RectangleModel 
+                { 
+                    X = _builder.SourceBounds.X, 
+                    Y = _builder.SourceBounds.Y, 
+                    Width = _builder.SourceBounds.Width, 
+                    Height = _builder.SourceBounds.Height 
+                }
             };
 
             _scaler.Initialize();
@@ -81,11 +90,6 @@ namespace Drawing.ViewServices
 
         public void DrawPolygon(Pen pen, Brush brush, PointModel[] pointModels)
         {
-            //var points = new Point[pointModels.Length];
-            //for (int i = 0; i < pointModels.Length; i++)
-            //{
-            //    points[i] = _scaler.Scale(pointModels[i]);
-            //}
             var points = pointModels.Select(pm => _scaler.Scale(pm)).ToArray();
 
             if (brush != null)

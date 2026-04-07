@@ -1,0 +1,13 @@
+E:\College\CSharpCollege-BogdanYaroslav\Projects.24.3.24.4\3. Calculator\Calculator\Calculator\bin\Debug\Calculator.exe.config
+E:\College\CSharpCollege-BogdanYaroslav\Projects.24.3.24.4\3. Calculator\Calculator\Calculator\bin\Debug\Calculator.exe
+E:\College\CSharpCollege-BogdanYaroslav\Projects.24.3.24.4\3. Calculator\Calculator\Calculator\bin\Debug\Calculator.pdb
+E:\College\CSharpCollege-BogdanYaroslav\Projects.24.3.24.4\3. Calculator\Calculator\Calculator\bin\Debug\Calculator.Business.dll
+E:\College\CSharpCollege-BogdanYaroslav\Projects.24.3.24.4\3. Calculator\Calculator\Calculator\bin\Debug\Calculator.Business.pdb
+E:\College\CSharpCollege-BogdanYaroslav\Projects.24.3.24.4\3. Calculator\Calculator\Calculator\obj\Debug\Calculator.csproj.AssemblyReference.cache
+E:\College\CSharpCollege-BogdanYaroslav\Projects.24.3.24.4\3. Calculator\Calculator\Calculator\obj\Debug\Calculator.CalculatorForm.resources
+E:\College\CSharpCollege-BogdanYaroslav\Projects.24.3.24.4\3. Calculator\Calculator\Calculator\obj\Debug\Calculator.Properties.Resources.resources
+E:\College\CSharpCollege-BogdanYaroslav\Projects.24.3.24.4\3. Calculator\Calculator\Calculator\obj\Debug\Calculator.csproj.GenerateResource.cache
+E:\College\CSharpCollege-BogdanYaroslav\Projects.24.3.24.4\3. Calculator\Calculator\Calculator\obj\Debug\Calculator.csproj.CoreCompileInputs.cache
+E:\College\CSharpCollege-BogdanYaroslav\Projects.24.3.24.4\3. Calculator\Calculator\Calculator\obj\Debug\Calculator.csproj.Up2Date
+E:\College\CSharpCollege-BogdanYaroslav\Projects.24.3.24.4\3. Calculator\Calculator\Calculator\obj\Debug\Calculator.exe
+E:\College\CSharpCollege-BogdanYaroslav\Projects.24.3.24.4\3. Calculator\Calculator\Calculator\obj\Debug\Calculator.pdb

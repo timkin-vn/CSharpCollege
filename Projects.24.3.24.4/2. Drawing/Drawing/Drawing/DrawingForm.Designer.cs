@@ -35,9 +35,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.KeyPreview = true;
             this.Name = "DrawingForm";
-            this.Text = "Рисунок";
+            this.Text = "Рисунок (1, 2, 3 для переключения)";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.DrawingForm_Paint);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DrawingForm_KeyDown);
             this.Resize += new System.EventHandler(this.DrawingForm_Resize);
             this.ResumeLayout(false);
 
@@ -46,4 +48,3 @@
         #endregion
     }
 }
-
