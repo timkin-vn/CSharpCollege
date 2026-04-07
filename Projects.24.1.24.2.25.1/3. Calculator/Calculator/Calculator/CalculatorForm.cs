@@ -52,6 +52,12 @@ namespace Calculator
             DisplayValue();
         }
 
+        private void UnaryButton_Click(object sender, EventArgs e)
+        {
+            _service.PressUnaryOperation(_calculatorModel, ((Button)sender).Text);
+            DisplayValue();
+        }
+
         private void EqualButton_Click(object sender, EventArgs e)
         {
             _service.PressEqual(_calculatorModel);

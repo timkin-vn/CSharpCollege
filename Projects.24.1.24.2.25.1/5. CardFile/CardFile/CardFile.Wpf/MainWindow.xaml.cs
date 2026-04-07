@@ -1,142 +1,19 @@
-﻿using CardFile.Wpf.ViewModels;
-using CardFile.Wpf.Views;
-using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using CardFile.Wpf.ViewModels;
+using CardFile.Wpf.Views;
 
 namespace CardFile.Wpf
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindowViewModel ViewModel => (MainWindowViewModel)DataContext;
+        private MainWindowViewModel ViewModel => (MainWindowViewModel)DataContext;
 
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-        private void FileOpenMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            var dialog = new OpenFileDialog
-            {
-                Filter = "Текстовые файлы|*.txt|Файлы CSV|*.csv|Двоичные файлы картотеки|*.cardbin" +
-                    "|XML-файлы картотеки|*.cardxml|JSON-файлы картотеки|*.cardjson|ZIP-архив картотеки|*.cardzip",
-            };
-
-            if (dialog.ShowDialog() == true)
-            {
-                try
-                {
-                    ViewModel.OpenFromFile(dialog.FileName);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
-        }
-
-        private void FileSaveMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            if (string.IsNullOrEmpty(ViewModel.FileName))
-            {
-                DoSaveAs();
-            }
-            else
-            {
-                try
-                {
-                    ViewModel.SaveToFile();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
-        }
-
-        private void FileSaveAsMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            DoSaveAs();
-        }
-
-        private void DoSaveAs()
-        {
-            var dialog = new SaveFileDialog
-            {
-                Filter = "Текстовые файлы|*.txt|Файлы CSV|*.csv|Двоичные файлы картотеки|*.cardbin" +
-                    "|XML-файлы картотеки|*.cardxml|JSON-файлы картотеки|*.cardjson|ZIP-архив картотеки|*.cardzip",
-            };
-
-            if (dialog.ShowDialog() == true)
-            {
-                try
-                {
-                    ViewModel.SaveToFile(dialog.FileName);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
-        }
-
-        private void FileExitMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
-
-        private void CreateButton_Click(object sender, RoutedEventArgs e)
-        {
-            var window = new CardEditWindow();
-            var card = ViewModel.GetNewCard();
-            window.ViewModel.LoadViewModel(card);
-
-            if (window.ShowDialog() != true)
-            {
-                return;
-            }
-
-            ViewModel.SaveNewCard(window.ViewModel);
-        }
-
-        private void EditButton_Click(object sender, RoutedEventArgs e)
-        {
-            var card = ViewModel.GetSelectedCard();
-            if (card == null)
-            {
-                return;
-            }
-
-            var window = new CardEditWindow();
-            window.ViewModel.LoadViewModel(card);
-
-            if (window.ShowDialog() != true)
-            {
-                return;
-            }
-
-            ViewModel.SaveEditedCard(window.ViewModel);
-        }
-
-        private void DeleteButton_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.DeleteSelectedCard();
+            DataContext = new MainWindowViewModel();
+            ViewModel.Initialized();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -144,14 +21,87 @@ namespace CardFile.Wpf
             ViewModel.WindowLoaded();
         }
 
-        private void Window_Initialized(object sender, EventArgs e)
+        // Кнопка "Добавить"
+        private void AddCard(object sender, RoutedEventArgs e)
         {
-            ViewModel.Initialized();
+            var newCard = ViewModel.GetNewCard();
+            var dialog = new CardEditWindow();
+            dialog.ViewModel.LoadViewModel(newCard);
+            if (dialog.ShowDialog() == true)
+            {
+                ViewModel.SaveNewCard(dialog.ViewModel);
+            }
         }
 
-        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        // Кнопка "Изменить"
+        private void EditCard(object sender, RoutedEventArgs e)
         {
-            ViewModel.SelectionChanged();
+            if (ViewModel.SelectedCard == null) return;
+            var dialog = new CardEditWindow();
+            dialog.ViewModel.LoadViewModel(ViewModel.SelectedCard);
+            if (dialog.ShowDialog() == true)
+            {
+                ViewModel.SaveEditedCard(dialog.ViewModel);
+            }
+        }
+
+        // Кнопка "Удалить"
+        private void DeleteCard(object sender, RoutedEventArgs e)
+        {
+            if (ViewModel.SelectedCard == null) return;
+            if (MessageBox.Show($"Удалить игрока {ViewModel.SelectedCard.DisplayName}?", "Подтверждение", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                ViewModel.DeleteSelectedCard();
+            }
+        }
+
+        // Обработчики меню
+        private void NewFile_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.Cards.Clear();
+            ViewModel.ClearFileName();
+        }
+
+        private void OpenFile_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new Microsoft.Win32.OpenFileDialog
+            {
+                Filter = "XML files (*.xml)|*.xml|JSON files (*.json)|*.json|All files (*.*)|*.*"
+            };
+            if (dialog.ShowDialog() == true)
+            {
+                ViewModel.OpenFromFile(dialog.FileName);
+            }
+        }
+
+        private void SaveFile_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(ViewModel.FileName))
+            {
+                SaveAsFile_Click(sender, e);
+            }
+            else
+            {
+                ViewModel.SaveToFile();
+            }
+        }
+
+        private void SaveAsFile_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new Microsoft.Win32.SaveFileDialog
+            {
+                Filter = "XML files (*.xml)|*.xml|JSON files (*.json)|*.json",
+                DefaultExt = "xml"
+            };
+            if (dialog.ShowDialog() == true)
+            {
+                ViewModel.SaveToFile(dialog.FileName);
+            }
+        }
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

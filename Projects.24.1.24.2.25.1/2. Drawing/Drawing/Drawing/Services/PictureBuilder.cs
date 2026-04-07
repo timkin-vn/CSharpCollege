@@ -1,10 +1,5 @@
 ﻿using Drawing.Models;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Drawing.Services
 {
@@ -12,65 +7,50 @@ namespace Drawing.Services
     {
         public RectangleModel SourceBounds { get; } = new RectangleModel
         {
-            X = -5,
+            X = -3,
             Y = -1,
-            Width = 19,
-            Height = 12,
+            Width = 14,
+            Height = 6,
         };
 
         public void DrawPicture(Painter painter)
         {
-            var mainPen = new Pen(Color.Black, 3);
-            var wheelBrush = Brushes.LightGray;
-
-            var rect = new RectangleModel { X = -1, Y = 0, Width = 2, Height = 2, };
-            painter.DrawEllipse(wheelBrush, mainPen, rect);
-
-            rect.X = 2;
-            painter.DrawEllipse(wheelBrush, mainPen, rect);
-
-            rect.X = 5;
-            painter.DrawEllipse(wheelBrush, mainPen, rect);
-
-            rect.X = 8;
-            painter.DrawEllipse(wheelBrush, mainPen, rect);
-
-            var bodyBrush = Brushes.DarkGray;
-
-            rect = new RectangleModel { X = 0, Y = 2, Width = 12, Height = 4, };
-            painter.DrawRectangle(bodyBrush, mainPen, rect);
-
-            rect = new RectangleModel { X = -4, Y = 2, Width = 4, Height = 8, };
-            painter.DrawRectangle(bodyBrush, mainPen, rect);
-
+            var bodyBrush = Brushes.DodgerBlue;
             var windowBrush = Brushes.LightSkyBlue;
+            var wheelBrush = Brushes.Black;
+            var rimBrush = Brushes.LightGray;
+            var outlinePen = new Pen(Color.Black, 2);
+            var thinPen = new Pen(Color.Black, 1);
 
-            rect = new RectangleModel { X = -2, Y = 6, Width = 1.5, Height = 3, };
-            painter.DrawRectangle(windowBrush, mainPen, rect);
+            var body = new RectangleModel { X = -1.5, Y = 1, Width = 11, Height = 2.5 };
+            painter.DrawRectangle(bodyBrush, outlinePen, body);
 
-            rect = new RectangleModel { X = 11, Y = 2, Width = 2, Height = 4, };
-            painter.DrawPie(bodyBrush, mainPen, rect, 270, 180);
+            var roof = new RectangleModel { X = 1.5, Y = 3, Width = 5, Height = 1.5 };
+            painter.DrawRectangle(bodyBrush, outlinePen, roof);
 
-            var sweeperBrush = Brushes.Red;
-            var sweeperPoints = new[]
-            {
-                new PointModel { X = 11, Y = 2, },
-                new PointModel { X = 12, Y = 2, },
-                new PointModel { X = 13, Y = 0.5, },
-                new PointModel { X = 11, Y = 0.5, },
-            };
+            var frontWindow = new RectangleModel { X = 2, Y = 3.3, Width = 2, Height = 1 };
+            painter.DrawRectangle(windowBrush, thinPen, frontWindow);
+            var rearWindow = new RectangleModel { X = 4.5, Y = 3.3, Width = 1.8, Height = 1 };
+            painter.DrawRectangle(windowBrush, thinPen, rearWindow);
 
-            painter.DrawPolygon(sweeperBrush, mainPen, sweeperPoints);
+            var headlight = new RectangleModel { X = 9.5, Y = 1.5, Width = 0.7, Height = 0.7 };
+            painter.DrawEllipse(Brushes.Yellow, outlinePen, headlight);
 
-            var pipePoints = new[]
-            {
-                new PointModel { X = 8.5, Y = 9, },
-                new PointModel { X = 10.5, Y = 9, },
-                new PointModel { X = 10, Y = 6, },
-                new PointModel { X = 9, Y = 6, },
-            };
+            var taillight = new RectangleModel { X = -1.8, Y = 1.5, Width = 0.6, Height = 0.8 };
+            painter.DrawRectangle(Brushes.Red, outlinePen, taillight);
 
-            painter.DrawPolygon(bodyBrush, mainPen, pipePoints);
+            var rearWheel = new RectangleModel { X = 0.5, Y = -0.2, Width = 1.8, Height = 1.8 };
+            painter.DrawEllipse(wheelBrush, outlinePen, rearWheel);
+            var rearRim = new RectangleModel { X = 1, Y = 0.3, Width = 0.8, Height = 0.8 };
+            painter.DrawEllipse(rimBrush, thinPen, rearRim);
+
+            var frontWheel = new RectangleModel { X = 6.5, Y = -0.2, Width = 1.8, Height = 1.8 };
+            painter.DrawEllipse(wheelBrush, outlinePen, frontWheel);
+            var frontRim = new RectangleModel { X = 7, Y = 0.3, Width = 0.8, Height = 0.8 };
+            painter.DrawEllipse(rimBrush, thinPen, frontRim);
+
+            var handle = new RectangleModel { X = 3.5, Y = 2, Width = 1, Height = 0.2 };
+            painter.DrawRectangle(null, thinPen, handle);
         }
     }
 }

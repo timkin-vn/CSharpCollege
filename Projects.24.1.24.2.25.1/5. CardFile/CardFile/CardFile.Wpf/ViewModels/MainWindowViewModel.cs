@@ -3,12 +3,9 @@ using CardFile.Business.Services;
 using CardFile.Common.Infrastructure;
 using CardFile.Wpf.Infrastructure;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CardFile.Wpf.ViewModels
 {
@@ -18,15 +15,25 @@ namespace CardFile.Wpf.ViewModels
 
         public ObservableCollection<CardViewModel> Cards { get; } = new ObservableCollection<CardViewModel>();
 
-        public CardViewModel SelectedCard { get; set; }
+        private CardViewModel _selectedCard;
+        public CardViewModel SelectedCard
+        {
+            get => _selectedCard;
+            set
+            {
+                _selectedCard = value;
+                OnPropertyChanged(nameof(SelectedCard));
+                OnPropertyChanged(nameof(IsEditButtonEnabled));
+                OnPropertyChanged(nameof(IsDeleteButtonEnabled));
+            }
+        }
 
         public bool IsEditButtonEnabled => SelectedCard != null;
-
         public bool IsDeleteButtonEnabled => SelectedCard != null;
 
-        public string FileName { get; private set; }
+        public string FileName { get; set; } // public setter разрешён
 
-        public string WindowTitle => string.IsNullOrEmpty(FileName) ? "Картотека" : $"Картотека: {Path.GetFileName(FileName)}";
+        public string WindowTitle => string.IsNullOrEmpty(FileName) ? "Картотека игроков Dota 2" : $"Картотека: {Path.GetFileName(FileName)}";
 
         public MainWindowViewModel()
         {
@@ -43,31 +50,28 @@ namespace CardFile.Wpf.ViewModels
             Mapping.Initialize();
         }
 
-        public CardViewModel GetSelectedCard()
-        {
-            return SelectedCard;
-        }
-
         public CardViewModel GetNewCard()
         {
             return new CardViewModel
             {
-                BirthDate = new DateTime(2000, 6, 15),
-                EmploymentDate = new DateTime(2020, 6, 15),
+                BirthDate = new DateTime(2000, 1, 1),
+                TotalEarnings = 0,
+                Achievements = string.Empty,
+                Nickname = string.Empty,
+                RealName = string.Empty,
+                Country = string.Empty,
+                Team = string.Empty,
+                Role = string.Empty
             };
         }
 
         public void SaveEditedCard(CardViewModel card)
         {
             var index = Cards.ToList().FindIndex(c => c.Id == card.Id);
-
             if (index < 0)
-            {
                 throw new Exception("Карточка с таким Id не существует");
-            }
 
             var id = _service.Save(ToBusiness(card));
-
             if (id < 0)
             {
                 Cards.RemoveAt(index);
@@ -84,20 +88,10 @@ namespace CardFile.Wpf.ViewModels
             newCard.LoadViewModel(card);
 
             var id = _service.Save(ToBusiness(card));
-
-            if (id < 0)
-            {
-                return;
-            }
+            if (id < 0) return;
 
             newCard.Id = id;
             Cards.Add(newCard);
-        }
-
-        public void SelectionChanged()
-        {
-            OnPropertyChanged(nameof(IsDeleteButtonEnabled));
-            OnPropertyChanged(nameof(IsEditButtonEnabled));
         }
 
         private void LoadAllData()
@@ -112,29 +106,20 @@ namespace CardFile.Wpf.ViewModels
 
         public void DeleteSelectedCard()
         {
-            if (SelectedCard == null)
-            {
-                return;
-            }
+            if (SelectedCard == null) return;
 
             _service.Delete(SelectedCard.Id);
             var index = Cards.ToList().FindIndex(c => c.Id == SelectedCard.Id);
-
             if (index < 0)
-            {
                 throw new Exception("Карточка с таким Id не существует");
-            }
 
             Cards.RemoveAt(index);
             SelectedCard = null;
-
-            OnPropertyChanged(nameof(SelectedCard));
         }
 
         public void SaveToFile(string fileName)
         {
             _service.SaveToFile(fileName);
-
             FileName = fileName;
             OnPropertyChanged(nameof(WindowTitle));
         }
@@ -143,7 +128,6 @@ namespace CardFile.Wpf.ViewModels
         {
             _service.OpenFromFile(fileName);
             LoadAllData();
-
             FileName = fileName;
             OnPropertyChanged(nameof(WindowTitle));
         }
@@ -154,47 +138,28 @@ namespace CardFile.Wpf.ViewModels
             {
                 _service.SaveToFile(FileName);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 FileName = null;
+                OnPropertyChanged(nameof(WindowTitle));
                 throw;
             }
+        }
+
+        public void ClearFileName()
+        {
+            FileName = null;
+            OnPropertyChanged(nameof(WindowTitle));
         }
 
         private CardViewModel ToViewModel(Card card)
         {
             return Mapping.Mapper.Map<CardViewModel>(card);
-            //return new CardViewModel
-            //{
-            //    Id = card.Id,
-            //    FirstName = card.FirstName,
-            //    MiddleName = card.MiddleName,
-            //    LastName = card.LastName,
-            //    BirthDate = card.BirthDate,
-            //    Department = card.Department,
-            //    Position = card.Position,
-            //    EmploymentDate = card.EmploymentDate,
-            //    DismissalDate = card.DismissalDate,
-            //    Salary = card.Salary,
-            //};
         }
 
         private Card ToBusiness(CardViewModel card)
         {
             return Mapping.Mapper.Map<Card>(card);
-            //return new Card
-            //{
-            //    Id = card.Id,
-            //    FirstName = card.FirstName,
-            //    MiddleName = card.MiddleName,
-            //    LastName = card.LastName,
-            //    BirthDate = card.BirthDate,
-            //    Department = card.Department,
-            //    Position = card.Position,
-            //    EmploymentDate = card.EmploymentDate,
-            //    DismissalDate = card.DismissalDate,
-            //    Salary = card.Salary,
-            //};
         }
     }
 }

@@ -3,15 +3,12 @@ using CardFile.DataStore.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CardFile.DataStore.DataCollection
 {
     public class CardCollection
     {
         private readonly List<CardDto> _cards = new List<CardDto>();
-
         internal int NextId { get; set; } = 5;
 
         public CardCollection()
@@ -19,54 +16,50 @@ namespace CardFile.DataStore.DataCollection
             _cards.Add(new CardDto
             {
                 Id = 1,
-                FirstName = "Андрей",
-                MiddleName = "Геннадьевич",
-                LastName = "Захаров",
-                BirthDate = new DateTime(1985, 11, 7),
-                Department = "Отдел разработки",
-                Position = "Руководитель проекта",
-                EmploymentDate = new DateTime(2010, 4, 18),
-                DismissalDate = null,
-                Salary = 250000m,
+                Nickname = "Ame",
+                RealName = "Wang Chunyu",
+                Country = "Китай",
+                BirthDate = new DateTime(1997, 4, 7),
+                Team = "Xtreme Gaming",
+                Role = "Керри",
+                TotalEarnings = 4500000m,
+                Achievements = "Финалист TI8, TI9, TI10; чемпион мейджоров"
             });
             _cards.Add(new CardDto
             {
                 Id = 2,
-                FirstName = "Нина",
-                MiddleName = "Аркадьевна",
-                LastName = "Шевченко",
-                BirthDate = new DateTime(1990, 8, 21),
-                Department = "Отдел тестирования",
-                Position = "Старший тестировщик",
-                EmploymentDate = new DateTime(2015, 2, 14),
-                DismissalDate = new DateTime(2024, 11, 3),
-                Salary = 200000m,
+                Nickname = "Yatoro",
+                RealName = "Ilya Muliarchuk",
+                Country = "Украина",
+                BirthDate = new DateTime(2003, 3, 12),
+                Team = "Team Spirit",
+                Role = "Керри",
+                TotalEarnings = 6090000m,
+                Achievements = "Двукратный чемпион The International (TI10, TI12), победитель Riyadh Masters 2025"
             });
             _cards.Add(new CardDto
             {
                 Id = 3,
-                FirstName = "Виктор",
-                MiddleName = "Петрович",
-                LastName = "Васильев",
-                BirthDate = new DateTime(2001, 3, 11),
-                Department = "Отдел разработки",
-                Position = "Ведущий разработчик",
-                EmploymentDate = new DateTime(2020, 9, 25),
-                DismissalDate = null,
-                Salary = 300000m,
+                Nickname = "Satanic",
+                RealName = "Alan Gallyamov",
+                Country = "Россия",
+                BirthDate = new DateTime(2007, 10, 13),
+                Team = "PARIVISION",
+                Role = "Керри",
+                TotalEarnings = 423000m,
+                Achievements = "Победитель ESL One Raleigh 2025, DreamLeague Season 26"
             });
             _cards.Add(new CardDto
             {
                 Id = 4,
-                FirstName = "Ольга",
-                MiddleName = "Владимировна",
-                LastName = "Меднис",
-                BirthDate = new DateTime(1981, 9, 2),
-                Department = "Бухгалтерия",
-                Position = "Главный бухгалтер",
-                EmploymentDate = new DateTime(2010, 9, 25),
-                DismissalDate = new DateTime(2023, 3, 18),
-                Salary = 150000m,
+                Nickname = "Nightfall",
+                RealName = "Egor Grigorenko",
+                Country = "Россия",
+                BirthDate = new DateTime(2002, 5, 16),
+                Team = "Aurora Gaming",
+                Role = "Керри",
+                TotalEarnings = 1400000m,
+                Achievements = "Победитель множества онлайн-турниров, топ-рейтинг Liquipedia"
             });
 
             MapperInitialization.PreRegister();
@@ -74,17 +67,6 @@ namespace CardFile.DataStore.DataCollection
 
         public IEnumerable<CardDto> GetAll()
         {
-            //return _cards;
-
-            //var result = new List<CardDto>();
-
-            //foreach (var card in _cards)
-            //{
-            //    result.Add(card.Clone());
-            //}
-
-            //return result;
-
             return _cards.Select(c => c.Clone()).ToList();
         }
 
@@ -100,10 +82,7 @@ namespace CardFile.DataStore.DataCollection
             }
 
             var index = _cards.FindIndex(c => c.Id == card.Id);
-            if (index < 0)
-            {
-                return -1;
-            }
+            if (index < 0) return -1;
 
             _cards[index] = card.Clone();
             return card.Id;
@@ -112,11 +91,7 @@ namespace CardFile.DataStore.DataCollection
         public bool Delete(int cardId)
         {
             var index = _cards.FindIndex(c => c.Id == cardId);
-            if (index < 0)
-            {
-                return false;
-            }
-
+            if (index < 0) return false;
             _cards.RemoveAt(index);
             return true;
         }

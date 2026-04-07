@@ -2,11 +2,6 @@
 using CardFile.Business.Models;
 using CardFile.Common.Infrastructure;
 using CardFile.DataStore.Dtos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CardFile.Business.Infrastructure
 {

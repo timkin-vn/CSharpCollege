@@ -40,11 +40,14 @@
             this.Digit9Button = new System.Windows.Forms.Button();
             this.Digit8Button = new System.Windows.Forms.Button();
             this.ClearButton = new System.Windows.Forms.Button();
+            this.FactorialButton = new System.Windows.Forms.Button();
             this.MultiplyButton = new System.Windows.Forms.Button();
             this.DivideButton = new System.Windows.Forms.Button();
             this.AddButton = new System.Windows.Forms.Button();
             this.SubtractButton = new System.Windows.Forms.Button();
             this.EqualButton = new System.Windows.Forms.Button();
+            this.SqrtButton = new System.Windows.Forms.Button();
+            this.SquareButton = new System.Windows.Forms.Button();
             this.MoveXToYButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -175,11 +178,22 @@
             this.ClearButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ClearButton.Location = new System.Drawing.Point(414, 140);
             this.ClearButton.Name = "ClearButton";
-            this.ClearButton.Size = new System.Drawing.Size(220, 63);
+            this.ClearButton.Size = new System.Drawing.Size(107, 63);
             this.ClearButton.TabIndex = 11;
             this.ClearButton.Text = "C";
             this.ClearButton.UseVisualStyleBackColor = true;
             this.ClearButton.Click += new System.EventHandler(this.ClearButton_Click);
+            // 
+            // FactorialButton
+            // 
+            this.FactorialButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.FactorialButton.Location = new System.Drawing.Point(527, 140);
+            this.FactorialButton.Name = "FactorialButton";
+            this.FactorialButton.Size = new System.Drawing.Size(107, 63);
+            this.FactorialButton.TabIndex = 18;
+            this.FactorialButton.Text = "!";
+            this.FactorialButton.UseVisualStyleBackColor = true;
+            this.FactorialButton.Click += new System.EventHandler(this.UnaryButton_Click);
             // 
             // MultiplyButton
             // 
@@ -234,7 +248,29 @@
             this.EqualButton.TabIndex = 16;
             this.EqualButton.Text = "=";
             this.EqualButton.UseVisualStyleBackColor = true;
-            this.EqualButton.Click += new System.EventHandler(this.OperationButton_Click);
+            this.EqualButton.Click += new System.EventHandler(this.EqualButton_Click);
+            // 
+            // SqrtButton
+            // 
+            this.SqrtButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.SqrtButton.Location = new System.Drawing.Point(126, 347);
+            this.SqrtButton.Name = "SqrtButton";
+            this.SqrtButton.Size = new System.Drawing.Size(107, 63);
+            this.SqrtButton.TabIndex = 19;
+            this.SqrtButton.Text = "√";
+            this.SqrtButton.UseVisualStyleBackColor = true;
+            this.SqrtButton.Click += new System.EventHandler(this.UnaryButton_Click);
+            // 
+            // SquareButton
+            // 
+            this.SquareButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.SquareButton.Location = new System.Drawing.Point(239, 347);
+            this.SquareButton.Name = "SquareButton";
+            this.SquareButton.Size = new System.Drawing.Size(107, 63);
+            this.SquareButton.TabIndex = 20;
+            this.SquareButton.Text = "x²";
+            this.SquareButton.UseVisualStyleBackColor = true;
+            this.SquareButton.Click += new System.EventHandler(this.UnaryButton_Click);
             // 
             // MoveXToYButton
             // 
@@ -254,11 +290,14 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(646, 422);
             this.Controls.Add(this.MoveXToYButton);
+            this.Controls.Add(this.SquareButton);
+            this.Controls.Add(this.SqrtButton);
             this.Controls.Add(this.EqualButton);
             this.Controls.Add(this.SubtractButton);
             this.Controls.Add(this.AddButton);
             this.Controls.Add(this.DivideButton);
             this.Controls.Add(this.MultiplyButton);
+            this.Controls.Add(this.FactorialButton);
             this.Controls.Add(this.ClearButton);
             this.Controls.Add(this.Digit8Button);
             this.Controls.Add(this.Digit9Button);
@@ -293,11 +332,14 @@
         private System.Windows.Forms.Button Digit9Button;
         private System.Windows.Forms.Button Digit8Button;
         private System.Windows.Forms.Button ClearButton;
+        private System.Windows.Forms.Button FactorialButton;
         private System.Windows.Forms.Button MultiplyButton;
         private System.Windows.Forms.Button DivideButton;
         private System.Windows.Forms.Button AddButton;
         private System.Windows.Forms.Button SubtractButton;
         private System.Windows.Forms.Button EqualButton;
+        private System.Windows.Forms.Button SqrtButton;
+        private System.Windows.Forms.Button SquareButton;
         private System.Windows.Forms.Button MoveXToYButton;
     }
 }

@@ -3,51 +3,50 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CardFile.Wpf" xmlns:viewmodels="clr-namespace:CardFile.Wpf.ViewModels"
+        xmlns:local="clr-namespace:CardFile.Wpf.ViewModels"
         mc:Ignorable="d"
-        Title="{Binding WindowTitle}" Height="450" Width="800" Loaded="Window_Loaded" Initialized="Window_Initialized">
+        Title="{Binding WindowTitle}" 
+        Height="550" Width="900"
+        Loaded="Window_Loaded">
     <Window.DataContext>
-        <viewmodels:MainWindowViewModel />
+        <local:MainWindowViewModel />
     </Window.DataContext>
 
     <DockPanel>
         <Menu DockPanel.Dock="Top">
-            <MenuItem Header="_Файл">
-                <MenuItem Header="_Открыть..." Click="FileOpenMenuItem_Click" />
-                <MenuItem Header="_Сохранить" Click="FileSaveMenuItem_Click" />
-                <MenuItem Header="Со_хранить как..." Click="FileSaveAsMenuItem_Click" />
+            <MenuItem Header="Файл">
+                <MenuItem Header="Создать" Click="NewFile_Click" />
+                <MenuItem Header="Открыть..." Click="OpenFile_Click" />
+                <MenuItem Header="Сохранить" Click="SaveFile_Click" />
+                <MenuItem Header="Сохранить как..." Click="SaveAsFile_Click" />
                 <Separator />
-                <MenuItem Header="В_ыход" Click="FileExitMenuItem_Click" />
+                <MenuItem Header="Выход" Click="Exit_Click" />
             </MenuItem>
         </Menu>
-        
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
 
-            <DataGrid Grid.Row="0" ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" SelectionChanged="DataGrid_SelectionChanged"
-                      AutoGenerateColumns="False" IsReadOnly="True"
-                      CanUserAddRows="False" SelectionMode="Single" Margin="5">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="ФИО" Binding="{Binding Fio}" />
-                    <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDateText}" />
-                    <DataGridTextColumn Header="Подразделение" Binding="{Binding Department}" />
-                    <DataGridTextColumn Header="Должность" Binding="{Binding Position}" />
-                    <DataGridTextColumn Header="Дата трудоустройства" Binding="{Binding EmploymentDateText}" />
-                    <DataGridTextColumn Header="Дата увольнения" Binding="{Binding DismissalDateText}" />
-                    <DataGridTextColumn Header="Оклад" Binding="{Binding SalaryText}" />
-                </DataGrid.Columns>
-            </DataGrid>
-            
-            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Создать" Padding="5" Margin="5" VerticalAlignment="Center" Click="CreateButton_Click" />
-                <Button Content="Правка" IsEnabled="{Binding IsEditButtonEnabled}" Padding="5" Margin="5" VerticalAlignment="Center" 
-                        Click="EditButton_Click" />
-                <Button Content="Удалить" IsEnabled="{Binding IsDeleteButtonEnabled}" Padding="5" Margin="5" VerticalAlignment="Center" 
-                        Click="DeleteButton_Click" />
-            </StackPanel>
-        </Grid>
+        <ToolBar DockPanel.Dock="Top">
+            <Button Content="Добавить" Click="AddCard" ToolTip="Добавить игрока" />
+            <Button Content="Изменить" IsEnabled="{Binding IsEditButtonEnabled}" Click="EditCard" ToolTip="Редактировать выбранного игрока" />
+            <Button Content="Удалить" IsEnabled="{Binding IsDeleteButtonEnabled}" Click="DeleteCard" ToolTip="Удалить выбранного игрока" />
+        </ToolBar>
+
+        <DataGrid ItemsSource="{Binding Cards}" 
+                  SelectedItem="{Binding SelectedCard, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  SelectionMode="Single"
+                  Margin="5">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50" />
+                <DataGridTextColumn Header="Никнейм" Binding="{Binding Nickname}" Width="120" />
+                <DataGridTextColumn Header="Реальное имя" Binding="{Binding RealName}" Width="150" />
+                <DataGridTextColumn Header="Страна" Binding="{Binding Country}" Width="100" />
+                <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDateText}" Width="100" />
+                <DataGridTextColumn Header="Команда" Binding="{Binding Team}" Width="120" />
+                <DataGridTextColumn Header="Роль" Binding="{Binding Role}" Width="100" />
+                <DataGridTextColumn Header="Призовые ($)" Binding="{Binding EarningsText}" Width="120" />
+                <DataGridTextColumn Header="Достижения" Binding="{Binding Achievements}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
     </DockPanel>
 </Window>
