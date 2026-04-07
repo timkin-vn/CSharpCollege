@@ -11,7 +11,10 @@ namespace Calculator.Business.Services
     {
         public void PressDigit(CalculatorModel calculatorModel, string digitString)
         {
-            if (!int.TryParse(digitString, out var digit)) return;
+            if (!int.TryParse(digitString, out var digit))
+            {
+                return;
+            }
 
             if (!calculatorModel.IsLastDigitPressed)
             {
@@ -25,8 +28,6 @@ namespace Calculator.Business.Services
         public void PressClear(CalculatorModel calculatorModel)
         {
             calculatorModel.RegisterX = 0;
-            calculatorModel.RegisterY = 0;
-            calculatorModel.OperationCode = null;
             calculatorModel.IsLastDigitPressed = false;
         }
 
@@ -37,70 +38,32 @@ namespace Calculator.Business.Services
 
         private void CompleteOperation(CalculatorModel calculatorModel)
         {
-            if (string.IsNullOrEmpty(calculatorModel.OperationCode)) return;
-
             switch (calculatorModel.OperationCode)
             {
                 case "+":
-                    calculatorModel.RegisterX = calculatorModel.RegisterY + calculatorModel.RegisterX;
+                    calculatorModel.RegisterX = calculatorModel.RegisterX + calculatorModel.RegisterY;
                     break;
+
                 case "-":
                     calculatorModel.RegisterX = calculatorModel.RegisterY - calculatorModel.RegisterX;
                     break;
+
                 case "*":
-                    calculatorModel.RegisterX = calculatorModel.RegisterY * calculatorModel.RegisterX;
-                    break;
-                case "/":
-                    if (calculatorModel.RegisterX != 0)
-                        calculatorModel.RegisterX = calculatorModel.RegisterY / calculatorModel.RegisterX;
-                    break;
-                case "^":
-                    calculatorModel.RegisterX = Math.Pow(calculatorModel.RegisterY, calculatorModel.RegisterX);
-                    break;
-                case "sqrt":
-                    double rootPower = calculatorModel.RegisterX == 0 ? 2 : calculatorModel.RegisterX;
-                    calculatorModel.RegisterX = Math.Pow(calculatorModel.RegisterY, 1.0 / rootPower);
+                    calculatorModel.RegisterX = calculatorModel.RegisterX * calculatorModel.RegisterY;
                     break;
 
-                
-                case "x²":
-                    calculatorModel.RegisterX = Math.Pow(calculatorModel.RegisterX, 2);
-                    break;
-                case "π":
-                    calculatorModel.RegisterX = Math.PI;
-                    break;
-                case "!":
-                    calculatorModel.RegisterX = CalculateFactorial((int)calculatorModel.RegisterX);
+                case "/":
+                    calculatorModel.RegisterX = calculatorModel.RegisterY / calculatorModel.RegisterX;
                     break;
             }
-
-            calculatorModel.OperationCode = null;
-        }
-
-        
-        private double CalculateFactorial(int n)
-        {
-            if (n < 0) return 0;
-            if (n == 0) return 1;
-            double result = 1;
-            for (int i = 1; i <= n; i++) result *= i;
-            return result;
         }
 
         public void PressOperation(CalculatorModel calculatorModel, string operationCode)
         {
-            
-            if (operationCode == "x²" || operationCode == "π" || operationCode == "!")
-            {
-                calculatorModel.OperationCode = operationCode;
-                CompleteOperation(calculatorModel);
-            }
-            else
-            {
-                CompleteOperation(calculatorModel);
-                MoveXToY(calculatorModel);
-                calculatorModel.OperationCode = operationCode;
-            }
+            CompleteOperation(calculatorModel);
+
+            MoveXToY(calculatorModel);
+            calculatorModel.OperationCode = operationCode;
             calculatorModel.IsLastDigitPressed = false;
         }
 
