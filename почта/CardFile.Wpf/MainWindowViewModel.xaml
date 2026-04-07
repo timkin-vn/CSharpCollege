@@ -1,0 +1,84 @@
+﻿<Window x:Class="CardFile.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CardFile.Wpf" 
+        xmlns:viewmodels="clr-namespace:CardFile.Wpf.ViewModels"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        Title="{Binding WindowTitle}" Height="500" Width="850" 
+        Loaded="Window_Loaded" Initialized="Window_Initialized">
+
+    <Window.DataContext>
+        <viewmodels:MainWindowViewModel />
+    </Window.DataContext>
+
+    <DockPanel>
+        <!-- Меню -->
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_Файл">
+                <MenuItem Header="_Открыть..." Click="FileOpenMenuItem_Click" />
+                <MenuItem Header="_Сохранить" Click="FileSaveMenuItem_Click" />
+                <MenuItem Header="Со_хранить как..." Click="FileSaveAsMenuItem_Click" />
+                <Separator />
+                <MenuItem Header="В_ыход" Click="FileExitMenuItem_Click" />
+            </MenuItem>
+        </Menu>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <!-- Панель поиска и сортировки -->
+                <RowDefinition />
+                <!-- Таблица писем -->
+                <RowDefinition Height="Auto" />
+                <!-- Кнопки управления -->
+            </Grid.RowDefinitions>
+
+            <!--  Панель инструментов: Поиск и Сортировка -->
+            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="5" Background="#F0F0F0">
+                <TextBlock Text="Поиск по отправителю:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                <TextBox Text="{Binding SearchSender, UpdateSourceTrigger=PropertyChanged}" 
+                         Width="200" Margin="0,0,10,0" ToolTip="Введите часть email или имени отправителя"/>
+
+                <TextBlock Text="Сортировка:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                <ComboBox SelectedItem="{Binding SortBy}" Width="120" Margin="0,0,10,0">
+                    <sys:String>Дата</sys:String>
+                    <sys:String>Отправитель</sys:String>
+                    <sys:String>Тема</sys:String>
+                </ComboBox>
+
+                <ToggleButton Content="А-Я / 0-9" IsChecked="{Binding SortAscending}" 
+                              Width="80" Margin="0,0,5,0" ToolTip="Направление сортировки (по возрастанию/убыванию)"/>
+            </StackPanel>
+
+            <!-- Открыть) -->
+            <DataGrid Grid.Row="1" 
+                      ItemsSource="{Binding LettersView}" 
+                      SelectedItem="{Binding SelectedLetter}" 
+                      SelectionChanged="DataGrid_SelectionChanged"
+                      MouseDoubleClick="DataGrid_MouseDoubleClick"
+                      AutoGenerateColumns="False" 
+                      IsReadOnly="True"
+                      CanUserAddRows="False" 
+                      SelectionMode="Single" 
+                      Margin="5">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Отправитель" Binding="{Binding Sender}" Width="*" />
+                    <DataGridTextColumn Header="Получатель" Binding="{Binding Receiver}" Width="*" />
+                    <DataGridTextColumn Header="Тема" Binding="{Binding Subject}" Width="2*" />
+                    <DataGridTextColumn Header="Дата" Binding="{Binding DateText}" Width="Auto" />
+                    <DataGridCheckBoxColumn Header="Прочитано" Binding="{Binding IsRead}" Width="Auto" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <!--  Кнопки управления -->
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Создать" Padding="5" Margin="5" VerticalAlignment="Center" Click="CreateButton_Click" />
+                <Button Content="Правка" IsEnabled="{Binding IsEditButtonEnabled}" Padding="5" Margin="5" VerticalAlignment="Center" Click="EditButton_Click" />
+                <Button Content="Удалить" IsEnabled="{Binding IsDeleteButtonEnabled}" Padding="5" Margin="5" VerticalAlignment="Center" Click="DeleteButton_Click" />
+            </StackPanel>
+        </Grid>
+    </DockPanel>
+</Window>
