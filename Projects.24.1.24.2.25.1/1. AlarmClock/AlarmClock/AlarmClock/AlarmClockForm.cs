@@ -16,66 +16,37 @@ namespace AlarmClock
     public partial class AlarmClockForm : Form
     {
         private AlarmState _alarmState = new AlarmState();
-        private bool _stopwatchRunning = false;
-        private TimeSpan _stopwatchTime = TimeSpan.Zero;
-        private DateTime _stopwatchStartTime;
-
-        private DateTime _customTime = new DateTime(2025, 1, 1, 0, 0, 0);
 
         public AlarmClockForm()
         {
             InitializeComponent();
-            UpdateControls();
         }
-        private void StopwatchButton_Click(object sender, EventArgs e)
-        {
-            if (!_stopwatchRunning)
-            {
-                // Запуск секундомера
-                _stopwatchRunning = true;
-                _stopwatchStartTime = DateTime.Now;
-                StopwatchButton.Text = "Стоп";
-                this.Text = "Будильник — секундомер работает";
-            }
-            else
-            {
-                // Остановка секундомера
-                _stopwatchRunning = false;
-                _stopwatchTime = DateTime.Now - _stopwatchStartTime;
-                StopwatchButton.Text = "Секундомер";
-                this.Text = "Будильник";
-            }
-        }
+
         private void ClockTimer_Tick(object sender, EventArgs e)
         {
-            if (_stopwatchRunning)
+            DisplayLabel.Text = DateTime.Now.ToLongTimeString();
+
+            if (!_alarmState.IsAlarmActive)
             {
-                TimeSpan elapsed = DateTime.Now - _stopwatchStartTime;
-                DisplayLabel.Text = elapsed.ToString(@"hh\:mm\:ss");
+                return;
             }
-            else
+
+            if (!_alarmState.IsAwakeActivated && 
+                DateTime.Now.Hour == _alarmState.AlarmTime.Hour &&
+                DateTime.Now.Minute == _alarmState.AlarmTime.Minute)
             {
-                // Обычный режим — показываем системное время
-                DisplayLabel.Text = DateTime.Now.ToLongTimeString();
+                _alarmState.IsAwakeActivated = true;
 
-                // ... твой оригинальный код будильника остаётся без изменений ...
-                if (!_alarmState.IsAlarmActive) return;
+                var awakeForm = new AwakeForm();
+                awakeForm.AlarmState = _alarmState;
+                awakeForm.FormClosed += AwakeForm_FormClosed;
 
-                if (!_alarmState.IsAwakeActivated &&
-                    DateTime.Now.Hour == _alarmState.AlarmTime.Hour &&
-                    DateTime.Now.Minute == _alarmState.AlarmTime.Minute)
-                {
-                    _alarmState.IsAwakeActivated = true;
-                    var awakeForm = new AwakeForm();
-                    awakeForm.AlarmState = _alarmState;
-                    awakeForm.FormClosed += AwakeForm_FormClosed;
-                    awakeForm.ShowDialog();
-                }
+                awakeForm.ShowDialog();
+            }
 
-                if (_alarmState.IsSoundActive && _alarmState.IsAwakeActivated)
-                {
-                    SystemSounds.Beep.Play();
-                }
+            if (_alarmState.IsSoundActive && _alarmState.IsAwakeActivated)
+            {
+                SystemSounds.Beep.Play();
             }
         }
 
@@ -100,6 +71,7 @@ namespace AlarmClock
         {
             var form = new SettingsForm();
             form.AlarmState = _alarmState;
+
             if (form.ShowDialog() == DialogResult.OK)
             {
                 UpdateControls();
