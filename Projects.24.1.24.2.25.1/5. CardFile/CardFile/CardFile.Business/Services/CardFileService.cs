@@ -12,29 +12,29 @@ using System.Threading.Tasks;
 
 namespace CardFile.Business.Services
 {
-    public class CardFileService
+    public class CarFileService
     {
         private readonly CardCollection _collection = new CardCollection();
 
-        public CardFileService()
+        public CarFileService()
         {
             MapperInitialization.PreRegister();
         }
 
-        public IEnumerable<Card> GetAll()
+        public IEnumerable<Car> GetAll()
         {
-            var cards = _collection.GetAll();
-            return cards.Select(FromDto).ToList();
+            var items = _collection.GetAll();
+            return items.Select(FromDto).ToList();
         }
 
-        public int Save(Card card)
+        public int Save(Car car)
         {
-            return _collection.Save(ToDto(card));
+            return _collection.Save(ToDto(car));
         }
 
-        public bool Delete(int cardId)
+        public bool Delete(int carId)
         {
-            return _collection.Delete(cardId);
+            return _collection.Delete(carId);
         }
 
         public void SaveToFile(string fileName)
@@ -48,41 +48,15 @@ namespace CardFile.Business.Services
             var fileDataService = new FileDataService();
             fileDataService.OpenFromFile(fileName, _collection);
         }
-        
-        private Card FromDto(CardDto card)
+
+        private Car FromDto(CardDto dto)
         {
-            return Mapping.Mapper.Map<Card>(card);
-            //return new Card
-            //{
-            //    Id = card.Id,
-            //    FirstName = card.FirstName,
-            //    MiddleName = card.MiddleName,
-            //    LastName = card.LastName,
-            //    BirthDate = card.BirthDate,
-            //    Department = card.Department,
-            //    Position = card.Position,
-            //    EmploymentDate = card.EmploymentDate,
-            //    DismissalDate = card.DismissalDate,
-            //    Salary = card.Salary,
-            //};
+            return Mapping.Mapper.Map<Car>(dto);
         }
 
-        private CardDto ToDto(Card card)
+        private CardDto ToDto(Car car)
         {
-            return Mapping.Mapper.Map<CardDto>(card);
-            //return new CardDto
-            //{
-            //    Id = card.Id,
-            //    FirstName = card.FirstName,
-            //    MiddleName = card.MiddleName,
-            //    LastName = card.LastName,
-            //    BirthDate = card.BirthDate,
-            //    Department = card.Department,
-            //    Position = card.Position,
-            //    EmploymentDate = card.EmploymentDate,
-            //    DismissalDate = card.DismissalDate,
-            //    Salary = card.Salary,
-            //};
+            return Mapping.Mapper.Map<CardDto>(car);
         }
     }
 }

@@ -9,101 +9,59 @@ namespace CardFile.Wpf.ViewModels
 {
     public class CardViewModel : ViewModelBase
     {
-        /// <summary>
-        /// Id
-        /// </summary>
         public int Id { get; set; }
 
-        /// <summary>
-        /// Имя
-        /// </summary>
-        public string FirstName { get; set; }
+        public string Brand { get; set; }
 
-        /// <summary>
-        /// Отчество
-        /// </summary>
-        public string MiddleName { get; set; }
+        public string Model { get; set; }
 
-        /// <summary>
-        /// Фамилия
-        /// </summary>
-        public string LastName { get; set; }
+        public string Color { get; set; }
 
-        public string Fio => $"{LastName} {FirstName} {MiddleName}";
+        public DateTime ReleaseDate { get; set; }
 
-        /// <summary>
-        /// Дата рождения
-        /// </summary>
-        public DateTime BirthDate { get; set; }
+        public string ReleaseDateText => ReleaseDate.ToString("yyyy");
 
-        public string BirthDateText => BirthDate.ToShortDateString();
+        public string BodyType { get; set; }
 
-        /// <summary>
-        /// Подразделение
-        /// </summary>
-        public string Department { get; set; }
+        public string Configuration { get; set; }
 
-        /// <summary>
-        /// Должность
-        /// </summary>
-        public string Position { get; set; }
+        public DateTime ArrivalDate { get; set; }
 
-        /// <summary>
-        /// Дата трудоустройства
-        /// </summary>
-        public DateTime EmploymentDate { get; set; }
+        public string ArrivalDateText => ArrivalDate.ToShortDateString();
 
-        public string EmploymentDateText => EmploymentDate.ToShortDateString();
+        public DateTime? SaleDate { get; set; }
 
-        /// <summary>
-        /// Дата увольнения
-        /// </summary>
-        public DateTime? DismissalDate { get; set; }
+        public string SaleDateText => SaleDate?.ToShortDateString() ?? "-";
 
-        public string DismissalDateText => DismissalDate?.ToShortDateString() ?? "-";
+        public decimal Price { get; set; }
 
-        /// <summary>
-        /// Оклад
-        /// </summary>
-        public decimal Salary { get; set; }
+        public string PriceText => Price.ToString("N2") + " руб.";
 
-        public string SalaryText => Salary.ToString("c");
+        public bool IsInStock { get; set; }
 
-        public bool IsWorkingTillNow { get; set; }
+        public bool IsSaleDateEnabled => !IsInStock;
 
-        public bool IsDismissalDateEnabled => !IsWorkingTillNow;
-
-        public void IsWorkingTillNowChecked()
+        public void IsInStockChecked()
         {
-            DismissalDate = null;
+            SaleDate = null;
 
-            OnPropertyChanged(nameof(DismissalDate));
-            OnPropertyChanged(nameof(IsDismissalDateEnabled));
+            OnPropertyChanged(nameof(SaleDate));
+            OnPropertyChanged(nameof(IsSaleDateEnabled));
         }
 
-        public void IsWorkingTillNowUnchecked()
+        public void IsInStockUnchecked()
         {
-            DismissalDate = DateTime.Today;
+            SaleDate = DateTime.Today;
 
-            OnPropertyChanged(nameof(DismissalDate));
-            OnPropertyChanged(nameof(IsDismissalDateEnabled));
+            OnPropertyChanged(nameof(SaleDate));
+            OnPropertyChanged(nameof(IsSaleDateEnabled));
         }
 
         public void LoadViewModel(CardViewModel model)
         {
             Mapping.Mapper.Map(model, this);
-            //Id = model.Id;
-            //FirstName = model.FirstName;
-            //MiddleName = model.MiddleName;
-            //LastName = model.LastName;
-            //BirthDate = model.BirthDate;
-            //Department = model.Department;
-            //Position = model.Position;
-            //EmploymentDate = model.EmploymentDate;
-            //DismissalDate = model.DismissalDate;
-            //Salary = model.Salary;
 
-            IsWorkingTillNow = !model.DismissalDate.HasValue;
+            IsInStock = !model.SaleDate.HasValue;
 
             UpdateAll();
         }
@@ -111,18 +69,17 @@ namespace CardFile.Wpf.ViewModels
         private void UpdateAll()
         {
             OnPropertyChanged(nameof(Id));
-            OnPropertyChanged(nameof(FirstName));
-            OnPropertyChanged(nameof(MiddleName));
-            OnPropertyChanged(nameof(LastName));
-            OnPropertyChanged(nameof(Fio));
-            OnPropertyChanged(nameof(BirthDate));
-            OnPropertyChanged(nameof(Department));
-            OnPropertyChanged(nameof(Position));
-            OnPropertyChanged(nameof(EmploymentDate));
-            OnPropertyChanged(nameof(DismissalDate));
-            OnPropertyChanged(nameof(Salary));
-            OnPropertyChanged(nameof(IsWorkingTillNow));
-            OnPropertyChanged(nameof(IsDismissalDateEnabled));
+            OnPropertyChanged(nameof(Brand));
+            OnPropertyChanged(nameof(Model));
+            OnPropertyChanged(nameof(Color));
+            OnPropertyChanged(nameof(ReleaseDate));
+            OnPropertyChanged(nameof(BodyType));
+            OnPropertyChanged(nameof(Configuration));
+            OnPropertyChanged(nameof(ArrivalDate));
+            OnPropertyChanged(nameof(SaleDate));
+            OnPropertyChanged(nameof(Price));
+            OnPropertyChanged(nameof(IsInStock));
+            OnPropertyChanged(nameof(IsSaleDateEnabled));
         }
     }
 }

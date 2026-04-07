@@ -14,19 +14,19 @@ namespace CardFile.Wpf.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private readonly CardFileService _service = new CardFileService();
+        private readonly CarFileService _service = new CarFileService();
 
-        public ObservableCollection<CardViewModel> Cards { get; } = new ObservableCollection<CardViewModel>();
+        public ObservableCollection<CardViewModel> Cars { get; } = new ObservableCollection<CardViewModel>();
 
-        public CardViewModel SelectedCard { get; set; }
+        public CardViewModel SelectedCar { get; set; }
 
-        public bool IsEditButtonEnabled => SelectedCard != null;
+        public bool IsEditButtonEnabled => SelectedCar != null;
 
-        public bool IsDeleteButtonEnabled => SelectedCard != null;
+        public bool IsDeleteButtonEnabled => SelectedCar != null;
 
         public string FileName { get; private set; }
 
-        public string WindowTitle => string.IsNullOrEmpty(FileName) ? "Картотека" : $"Картотека: {Path.GetFileName(FileName)}";
+        public string WindowTitle => string.IsNullOrEmpty(FileName) ? "Автосалон" : $"Автосалон: {Path.GetFileName(FileName)}";
 
         public MainWindowViewModel()
         {
@@ -43,55 +43,55 @@ namespace CardFile.Wpf.ViewModels
             Mapping.Initialize();
         }
 
-        public CardViewModel GetSelectedCard()
+        public CardViewModel GetSelectedCar()
         {
-            return SelectedCard;
+            return SelectedCar;
         }
 
-        public CardViewModel GetNewCard()
+        public CardViewModel GetNewCar()
         {
             return new CardViewModel
             {
-                BirthDate = new DateTime(2000, 6, 15),
-                EmploymentDate = new DateTime(2020, 6, 15),
+                ReleaseDate = new DateTime(2020, 1, 1),
+                ArrivalDate = DateTime.Now,
             };
         }
 
-        public void SaveEditedCard(CardViewModel card)
+        public void SaveEditedCar(CardViewModel car)
         {
-            var index = Cards.ToList().FindIndex(c => c.Id == card.Id);
+            var index = Cars.ToList().FindIndex(c => c.Id == car.Id);
 
             if (index < 0)
             {
-                throw new Exception("Карточка с таким Id не существует");
+                throw new Exception("Автомобиль с таким Id не существует");
             }
 
-            var id = _service.Save(ToBusiness(card));
+            var id = _service.Save(ToBusiness(car));
 
             if (id < 0)
             {
-                Cards.RemoveAt(index);
+                Cars.RemoveAt(index);
             }
             else
             {
-                Cards[index].LoadViewModel(card);
+                Cars[index].LoadViewModel(car);
             }
         }
 
-        public void SaveNewCard(CardViewModel card)
+        public void SaveNewCar(CardViewModel car)
         {
-            var newCard = new CardViewModel();
-            newCard.LoadViewModel(card);
+            var newCarVm = new CardViewModel();
+            newCarVm.LoadViewModel(car);
 
-            var id = _service.Save(ToBusiness(card));
+            var id = _service.Save(ToBusiness(car));
 
             if (id < 0)
             {
                 return;
             }
 
-            newCard.Id = id;
-            Cards.Add(newCard);
+            newCarVm.Id = id;
+            Cars.Add(newCarVm);
         }
 
         public void SelectionChanged()
@@ -102,33 +102,35 @@ namespace CardFile.Wpf.ViewModels
 
         private void LoadAllData()
         {
-            var cards = _service.GetAll();
-            Cards.Clear();
-            foreach (var card in cards)
+            var cars = _service.GetAll();
+            Cars.Clear();
+            foreach (var car in cars)
             {
-                Cards.Add(ToViewModel(card));
+                Cars.Add(ToViewModel(car));
             }
         }
 
-        public void DeleteSelectedCard()
+        public void DeleteSelectedCar()
         {
-            if (SelectedCard == null)
+            if (SelectedCar == null)
             {
                 return;
             }
 
-            _service.Delete(SelectedCard.Id);
-            var index = Cards.ToList().FindIndex(c => c.Id == SelectedCard.Id);
+            _service.Delete(SelectedCar.Id);
+            var index = Cars.ToList().FindIndex(c => c.Id == SelectedCar.Id);
 
             if (index < 0)
             {
-                throw new Exception("Карточка с таким Id не существует");
+                throw new Exception("Автомобиль с таким Id не существует");
             }
 
-            Cards.RemoveAt(index);
-            SelectedCard = null;
+            Cars.RemoveAt(index);
+            SelectedCar = null;
 
-            OnPropertyChanged(nameof(SelectedCard));
+            OnPropertyChanged(nameof(SelectedCar));
+            OnPropertyChanged(nameof(IsDeleteButtonEnabled));
+            OnPropertyChanged(nameof(IsEditButtonEnabled));
         }
 
         public void SaveToFile(string fileName)
@@ -154,47 +156,21 @@ namespace CardFile.Wpf.ViewModels
             {
                 _service.SaveToFile(FileName);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 FileName = null;
                 throw;
             }
         }
 
-        private CardViewModel ToViewModel(Card card)
+        private CardViewModel ToViewModel(Car car)
         {
-            return Mapping.Mapper.Map<CardViewModel>(card);
-            //return new CardViewModel
-            //{
-            //    Id = card.Id,
-            //    FirstName = card.FirstName,
-            //    MiddleName = card.MiddleName,
-            //    LastName = card.LastName,
-            //    BirthDate = card.BirthDate,
-            //    Department = card.Department,
-            //    Position = card.Position,
-            //    EmploymentDate = card.EmploymentDate,
-            //    DismissalDate = card.DismissalDate,
-            //    Salary = card.Salary,
-            //};
+            return Mapping.Mapper.Map<CardViewModel>(car);
         }
 
-        private Card ToBusiness(CardViewModel card)
+        private Car ToBusiness(CardViewModel carVm)
         {
-            return Mapping.Mapper.Map<Card>(card);
-            //return new Card
-            //{
-            //    Id = card.Id,
-            //    FirstName = card.FirstName,
-            //    MiddleName = card.MiddleName,
-            //    LastName = card.LastName,
-            //    BirthDate = card.BirthDate,
-            //    Department = card.Department,
-            //    Position = card.Position,
-            //    EmploymentDate = card.EmploymentDate,
-            //    DismissalDate = card.DismissalDate,
-            //    Salary = card.Salary,
-            //};
+            return Mapping.Mapper.Map<Car>(carVm);
         }
     }
 }

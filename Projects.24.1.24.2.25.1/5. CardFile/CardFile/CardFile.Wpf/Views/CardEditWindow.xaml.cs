@@ -15,9 +15,6 @@ using System.Windows.Shapes;
 
 namespace CardFile.Wpf.Views
 {
-    /// <summary>
-    /// Interaction logic for CardEditWindow.xaml
-    /// </summary>
     public partial class CardEditWindow : Window
     {
         public CardViewModel ViewModel => (CardViewModel)DataContext;
@@ -37,14 +34,14 @@ namespace CardFile.Wpf.Views
             DialogResult = false;
         }
 
-        private void IsWorkingTillNowCheckBox_Checked(object sender, RoutedEventArgs e)
+        private void IsInStockCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            ViewModel.IsWorkingTillNowChecked();
+            ViewModel.IsInStockChecked();
         }
 
-        private void IsWorkingTillNowCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        private void IsInStockCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            ViewModel.IsWorkingTillNowUnchecked();
+            ViewModel.IsInStockUnchecked();
         }
     }
 }

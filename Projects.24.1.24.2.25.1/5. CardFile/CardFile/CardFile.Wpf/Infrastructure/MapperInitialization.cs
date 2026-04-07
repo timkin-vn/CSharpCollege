@@ -19,8 +19,8 @@ namespace CardFile.Wpf.Infrastructure
 
         private static void Configure(IMapperConfigurationExpression cfg)
         {
-            cfg.CreateMap<Card, CardViewModel>();
-            cfg.CreateMap<CardViewModel, Card>();
+            cfg.CreateMap<Car, CardViewModel>();
+            cfg.CreateMap<CardViewModel, Car>();
             cfg.CreateMap<CardViewModel, CardViewModel>();
         }
     }

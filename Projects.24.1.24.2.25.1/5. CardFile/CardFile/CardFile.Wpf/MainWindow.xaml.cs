@@ -18,9 +18,6 @@ using System.Windows.Shapes;
 
 namespace CardFile.Wpf
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindowViewModel ViewModel => (MainWindowViewModel)DataContext;
@@ -34,8 +31,7 @@ namespace CardFile.Wpf
         {
             var dialog = new OpenFileDialog
             {
-                Filter = "Текстовые файлы|*.txt|Файлы CSV|*.csv|Двоичные файлы картотеки|*.cardbin" +
-                    "|XML-файлы картотеки|*.cardxml|JSON-файлы картотеки|*.cardjson|ZIP-архив картотеки|*.cardzip",
+                Filter = "Файлы автосалона (*.json)|*.json|Все файлы (*.*)|*.*",
             };
 
             if (dialog.ShowDialog() == true)
@@ -79,8 +75,7 @@ namespace CardFile.Wpf
         {
             var dialog = new SaveFileDialog
             {
-                Filter = "Текстовые файлы|*.txt|Файлы CSV|*.csv|Двоичные файлы картотеки|*.cardbin" +
-                    "|XML-файлы картотеки|*.cardxml|JSON-файлы картотеки|*.cardjson|ZIP-архив картотеки|*.cardzip",
+                Filter = "Файлы автосалона (*.json)|*.json",
             };
 
             if (dialog.ShowDialog() == true)
@@ -104,39 +99,42 @@ namespace CardFile.Wpf
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
             var window = new CardEditWindow();
-            var card = ViewModel.GetNewCard();
-            window.ViewModel.LoadViewModel(card);
+            var car = ViewModel.GetNewCar();
+            window.ViewModel.LoadViewModel(car);
 
             if (window.ShowDialog() != true)
             {
                 return;
             }
 
-            ViewModel.SaveNewCard(window.ViewModel);
+            ViewModel.SaveNewCar(window.ViewModel);
         }
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            var card = ViewModel.GetSelectedCard();
-            if (card == null)
+            var car = ViewModel.GetSelectedCar();
+            if (car == null)
             {
                 return;
             }
 
             var window = new CardEditWindow();
-            window.ViewModel.LoadViewModel(card);
+            window.ViewModel.LoadViewModel(car);
 
             if (window.ShowDialog() != true)
             {
                 return;
             }
 
-            ViewModel.SaveEditedCard(window.ViewModel);
+            ViewModel.SaveEditedCar(window.ViewModel);
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.DeleteSelectedCard();
+            if (MessageBox.Show("Удалить выбранный автомобиль?", "Подтверждение", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                ViewModel.DeleteSelectedCar();
+            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
