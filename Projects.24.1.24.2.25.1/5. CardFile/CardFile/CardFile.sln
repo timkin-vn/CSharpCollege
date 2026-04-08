@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36930.0
+# Visual Studio Version 18
+VisualStudioVersion = 18.4.11626.88 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardFile.Wpf", "CardFile.Wpf\CardFile.Wpf.csproj", "{BCD07BC9-47AD-4879-8E9E-EA479D5AA7EF}"
 EndProject
@@ -10,6 +10,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardFile.DataStore", "CardFile.DataStore\CardFile.DataStore.csproj", "{01116DEB-E417-477F-9FAA-C42BE32ECB01}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardFile.Common", "CardFile.Common\CardFile.Common.csproj", "{7AAC6EBC-8D04-4DD2-8002-56F72E6102DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardFile.Wpf.Mur", "..\..\..\..\..\..\OneDrive\Рабочий стол\myproj\murzin dmitry CardFile\CardFile\CardFile.Wpf\CardFile.Wpf.Mur.csproj", "{BBD599B8-1503-4121-9277-209A78621FD3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardFile.DataStore.Mur", "..\..\..\..\..\..\OneDrive\Рабочий стол\myproj\murzin dmitry CardFile\CardFile\CardFile.DataStore\CardFile.DataStore.Mur.csproj", "{C3E45E46-5556-4189-A9FB-C958EBE02563}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardFile.Common.Mur", "..\..\..\..\..\..\OneDrive\Рабочий стол\myproj\murzin dmitry CardFile\CardFile\CardFile.Common\CardFile.Common.Mur.csproj", "{512B7E40-4864-41D8-A74D-F373FE144315}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardFile.Business.Mur", "..\..\..\..\..\..\OneDrive\Рабочий стол\myproj\murzin dmitry CardFile\CardFile\CardFile.Business\CardFile.Business.Mur.csproj", "{7DFDE913-BDCA-47C7-A382-3A903500E278}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +41,22 @@ Global
 		{7AAC6EBC-8D04-4DD2-8002-56F72E6102DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7AAC6EBC-8D04-4DD2-8002-56F72E6102DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7AAC6EBC-8D04-4DD2-8002-56F72E6102DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBD599B8-1503-4121-9277-209A78621FD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBD599B8-1503-4121-9277-209A78621FD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBD599B8-1503-4121-9277-209A78621FD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBD599B8-1503-4121-9277-209A78621FD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3E45E46-5556-4189-A9FB-C958EBE02563}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3E45E46-5556-4189-A9FB-C958EBE02563}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3E45E46-5556-4189-A9FB-C958EBE02563}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3E45E46-5556-4189-A9FB-C958EBE02563}.Release|Any CPU.Build.0 = Release|Any CPU
+		{512B7E40-4864-41D8-A74D-F373FE144315}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{512B7E40-4864-41D8-A74D-F373FE144315}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{512B7E40-4864-41D8-A74D-F373FE144315}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{512B7E40-4864-41D8-A74D-F373FE144315}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DFDE913-BDCA-47C7-A382-3A903500E278}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DFDE913-BDCA-47C7-A382-3A903500E278}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DFDE913-BDCA-47C7-A382-3A903500E278}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DFDE913-BDCA-47C7-A382-3A903500E278}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
