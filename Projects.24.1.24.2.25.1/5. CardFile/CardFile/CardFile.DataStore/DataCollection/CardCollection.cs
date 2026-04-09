@@ -3,8 +3,6 @@ using CardFile.DataStore.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CardFile.DataStore.DataCollection
 {
@@ -19,54 +17,45 @@ namespace CardFile.DataStore.DataCollection
             _cards.Add(new CardDto
             {
                 Id = 1,
-                FirstName = "Андрей",
-                MiddleName = "Геннадьевич",
-                LastName = "Захаров",
-                BirthDate = new DateTime(1985, 11, 7),
-                Department = "Отдел разработки",
-                Position = "Руководитель проекта",
-                EmploymentDate = new DateTime(2010, 4, 18),
-                DismissalDate = null,
-                Salary = 250000m,
+                Title = "Купить продукты",
+                Text = "Молоко, хлеб, яйца, сыр.",
+                Category = "Дом",
+                CreatedAt = new DateTime(2026, 4, 1),
+                IsDone = false,
+                IsPinned = true,
             });
+
             _cards.Add(new CardDto
             {
                 Id = 2,
-                FirstName = "Нина",
-                MiddleName = "Аркадьевна",
-                LastName = "Шевченко",
-                BirthDate = new DateTime(1990, 8, 21),
-                Department = "Отдел тестирования",
-                Position = "Старший тестировщик",
-                EmploymentDate = new DateTime(2015, 2, 14),
-                DismissalDate = new DateTime(2024, 11, 3),
-                Salary = 200000m,
+                Title = "Подготовить отчет",
+                Text = "Собрать материал и оформить отчет по практике.",
+                Category = "Учеба",
+                CreatedAt = new DateTime(2026, 4, 3),
+                IsDone = false,
+                IsPinned = false,
             });
+
             _cards.Add(new CardDto
             {
                 Id = 3,
-                FirstName = "Виктор",
-                MiddleName = "Петрович",
-                LastName = "Васильев",
-                BirthDate = new DateTime(2001, 3, 11),
-                Department = "Отдел разработки",
-                Position = "Ведущий разработчик",
-                EmploymentDate = new DateTime(2020, 9, 25),
-                DismissalDate = null,
-                Salary = 300000m,
+                Title = "Позвонить другу",
+                Text = "Уточнить время встречи на выходных.",
+                Category = "Личное",
+                CreatedAt = new DateTime(2026, 4, 4),
+                IsDone = true,
+                IsPinned = false,
             });
+
             _cards.Add(new CardDto
             {
                 Id = 4,
-                FirstName = "Ольга",
-                MiddleName = "Владимировна",
-                LastName = "Меднис",
-                BirthDate = new DateTime(1981, 9, 2),
-                Department = "Бухгалтерия",
-                Position = "Главный бухгалтер",
-                EmploymentDate = new DateTime(2010, 9, 25),
-                DismissalDate = new DateTime(2023, 3, 18),
-                Salary = 150000m,
+                Title = "Повторить WPF",
+                Text = "Посмотреть DataGrid, привязки и работу с окнами редактирования.",
+                Category = "Программирование",
+                CreatedAt = new DateTime(2026, 4, 5),
+                IsDone = false,
+                IsPinned = true,
             });
 
             MapperInitialization.PreRegister();
@@ -74,17 +63,6 @@ namespace CardFile.DataStore.DataCollection
 
         public IEnumerable<CardDto> GetAll()
         {
-            //return _cards;
-
-            //var result = new List<CardDto>();
-
-            //foreach (var card in _cards)
-            //{
-            //    result.Add(card.Clone());
-            //}
-
-            //return result;
-
             return _cards.Select(c => c.Clone()).ToList();
         }
 
@@ -125,7 +103,8 @@ namespace CardFile.DataStore.DataCollection
         {
             _cards.Clear();
             _cards.AddRange(newCollection);
-            NextId = _cards.Max(c => c.Id) + 1;
+
+            NextId = _cards.Any() ? _cards.Max(c => c.Id) + 1 : 1;
         }
 
         internal void ReplaceAll(IEnumerable<CardDto> newCollection, int nextId)

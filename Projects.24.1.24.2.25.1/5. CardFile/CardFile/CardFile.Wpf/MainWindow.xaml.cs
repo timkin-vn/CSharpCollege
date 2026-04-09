@@ -2,25 +2,11 @@
 using CardFile.Wpf.Views;
 using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CardFile.Wpf
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindowViewModel ViewModel => (MainWindowViewModel)DataContext;
@@ -34,8 +20,8 @@ namespace CardFile.Wpf
         {
             var dialog = new OpenFileDialog
             {
-                Filter = "Текстовые файлы|*.txt|Файлы CSV|*.csv|Двоичные файлы картотеки|*.cardbin" +
-                    "|XML-файлы картотеки|*.cardxml|JSON-файлы картотеки|*.cardjson|ZIP-архив картотеки|*.cardzip",
+                Filter = "Текстовые файлы|*.txt|Файлы CSV|*.csv|Двоичные файлы заметок|*.cardbin" +
+                         "|XML-файлы заметок|*.cardxml|JSON-файлы заметок|*.cardjson|ZIP-архив заметок|*.cardzip",
             };
 
             if (dialog.ShowDialog() == true)
@@ -79,8 +65,8 @@ namespace CardFile.Wpf
         {
             var dialog = new SaveFileDialog
             {
-                Filter = "Текстовые файлы|*.txt|Файлы CSV|*.csv|Двоичные файлы картотеки|*.cardbin" +
-                    "|XML-файлы картотеки|*.cardxml|JSON-файлы картотеки|*.cardjson|ZIP-архив картотеки|*.cardzip",
+                Filter = "Текстовые файлы|*.txt|Файлы CSV|*.csv|Двоичные файлы заметок|*.cardbin" +
+                         "|XML-файлы заметок|*.cardxml|JSON-файлы заметок|*.cardjson|ZIP-архив заметок|*.cardzip",
             };
 
             if (dialog.ShowDialog() == true)
@@ -137,6 +123,16 @@ namespace CardFile.Wpf
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.DeleteSelectedCard();
+        }
+
+        private void ToggleDoneButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ToggleDoneSelectedCard();
+        }
+
+        private void TogglePinnedButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.TogglePinnedSelectedCard();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

@@ -1,128 +1,97 @@
 ﻿using CardFile.Common.Infrastructure;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CardFile.Wpf.ViewModels
 {
     public class CardViewModel : ViewModelBase
     {
         /// <summary>
-        /// Id
+        /// Id заметки
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// Имя
+        /// Заголовок
         /// </summary>
-        public string FirstName { get; set; }
+        public string Title { get; set; }
 
         /// <summary>
-        /// Отчество
+        /// Текст заметки
         /// </summary>
-        public string MiddleName { get; set; }
+        public string Text { get; set; }
 
         /// <summary>
-        /// Фамилия
+        /// Категория
         /// </summary>
-        public string LastName { get; set; }
-
-        public string Fio => $"{LastName} {FirstName} {MiddleName}";
+        public string Category { get; set; }
 
         /// <summary>
-        /// Дата рождения
+        /// Дата создания
         /// </summary>
-        public DateTime BirthDate { get; set; }
+        public DateTime CreatedAt { get; set; }
 
-        public string BirthDateText => BirthDate.ToShortDateString();
+        public string CreatedAtText => CreatedAt.ToShortDateString();
 
         /// <summary>
-        /// Подразделение
+        /// Выполнено
         /// </summary>
-        public string Department { get; set; }
+        public bool IsDone { get; set; }
 
         /// <summary>
-        /// Должность
+        /// Закреплено
         /// </summary>
-        public string Position { get; set; }
+        public bool IsPinned { get; set; }
 
-        /// <summary>
-        /// Дата трудоустройства
-        /// </summary>
-        public DateTime EmploymentDate { get; set; }
+        public string DoneText => IsDone ? "Да" : "Нет";
 
-        public string EmploymentDateText => EmploymentDate.ToShortDateString();
+        public string PinnedText => IsPinned ? "Да" : "Нет";
 
-        /// <summary>
-        /// Дата увольнения
-        /// </summary>
-        public DateTime? DismissalDate { get; set; }
-
-        public string DismissalDateText => DismissalDate?.ToShortDateString() ?? "-";
-
-        /// <summary>
-        /// Оклад
-        /// </summary>
-        public decimal Salary { get; set; }
-
-        public string SalaryText => Salary.ToString("c");
-
-        public bool IsWorkingTillNow { get; set; }
-
-        public bool IsDismissalDateEnabled => !IsWorkingTillNow;
-
-        public void IsWorkingTillNowChecked()
+        public string ShortText
         {
-            DismissalDate = null;
+            get
+            {
+                if (string.IsNullOrWhiteSpace(Text))
+                {
+                    return string.Empty;
+                }
 
-            OnPropertyChanged(nameof(DismissalDate));
-            OnPropertyChanged(nameof(IsDismissalDateEnabled));
-        }
-
-        public void IsWorkingTillNowUnchecked()
-        {
-            DismissalDate = DateTime.Today;
-
-            OnPropertyChanged(nameof(DismissalDate));
-            OnPropertyChanged(nameof(IsDismissalDateEnabled));
+                return Text.Length > 50 ? Text.Substring(0, 50) + "..." : Text;
+            }
         }
 
         public void LoadViewModel(CardViewModel model)
         {
             Mapping.Mapper.Map(model, this);
-            //Id = model.Id;
-            //FirstName = model.FirstName;
-            //MiddleName = model.MiddleName;
-            //LastName = model.LastName;
-            //BirthDate = model.BirthDate;
-            //Department = model.Department;
-            //Position = model.Position;
-            //EmploymentDate = model.EmploymentDate;
-            //DismissalDate = model.DismissalDate;
-            //Salary = model.Salary;
-
-            IsWorkingTillNow = !model.DismissalDate.HasValue;
-
             UpdateAll();
+        }
+
+        public void ToggleDone()
+        {
+            IsDone = !IsDone;
+            OnPropertyChanged(nameof(IsDone));
+            OnPropertyChanged(nameof(DoneText));
+        }
+
+        public void TogglePinned()
+        {
+            IsPinned = !IsPinned;
+            OnPropertyChanged(nameof(IsPinned));
+            OnPropertyChanged(nameof(PinnedText));
         }
 
         private void UpdateAll()
         {
             OnPropertyChanged(nameof(Id));
-            OnPropertyChanged(nameof(FirstName));
-            OnPropertyChanged(nameof(MiddleName));
-            OnPropertyChanged(nameof(LastName));
-            OnPropertyChanged(nameof(Fio));
-            OnPropertyChanged(nameof(BirthDate));
-            OnPropertyChanged(nameof(Department));
-            OnPropertyChanged(nameof(Position));
-            OnPropertyChanged(nameof(EmploymentDate));
-            OnPropertyChanged(nameof(DismissalDate));
-            OnPropertyChanged(nameof(Salary));
-            OnPropertyChanged(nameof(IsWorkingTillNow));
-            OnPropertyChanged(nameof(IsDismissalDateEnabled));
+            OnPropertyChanged(nameof(Title));
+            OnPropertyChanged(nameof(Text));
+            OnPropertyChanged(nameof(Category));
+            OnPropertyChanged(nameof(CreatedAt));
+            OnPropertyChanged(nameof(CreatedAtText));
+            OnPropertyChanged(nameof(IsDone));
+            OnPropertyChanged(nameof(IsPinned));
+            OnPropertyChanged(nameof(DoneText));
+            OnPropertyChanged(nameof(PinnedText));
+            OnPropertyChanged(nameof(ShortText));
         }
     }
 }

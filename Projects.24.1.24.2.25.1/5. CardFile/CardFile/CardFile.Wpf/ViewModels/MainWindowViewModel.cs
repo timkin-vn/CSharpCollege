@@ -3,12 +3,9 @@ using CardFile.Business.Services;
 using CardFile.Common.Infrastructure;
 using CardFile.Wpf.Infrastructure;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CardFile.Wpf.ViewModels
 {
@@ -24,9 +21,23 @@ namespace CardFile.Wpf.ViewModels
 
         public bool IsDeleteButtonEnabled => SelectedCard != null;
 
+        public bool IsToggleDoneButtonEnabled => SelectedCard != null;
+
+        public bool IsTogglePinnedButtonEnabled => SelectedCard != null;
+
+        public string ToggleDoneButtonText
+            => SelectedCard == null
+                ? "Выполнено"
+                : (SelectedCard.IsDone ? "Снять выполнение" : "Отметить выполненной");
+
+        public string TogglePinnedButtonText
+            => SelectedCard == null
+                ? "Закрепить"
+                : (SelectedCard.IsPinned ? "Открепить" : "Закрепить");
+
         public string FileName { get; private set; }
 
-        public string WindowTitle => string.IsNullOrEmpty(FileName) ? "Картотека" : $"Картотека: {Path.GetFileName(FileName)}";
+        public string WindowTitle => string.IsNullOrEmpty(FileName) ? "Менеджер заметок" : $"Менеджер заметок: {Path.GetFileName(FileName)}";
 
         public MainWindowViewModel()
         {
@@ -52,8 +63,10 @@ namespace CardFile.Wpf.ViewModels
         {
             return new CardViewModel
             {
-                BirthDate = new DateTime(2000, 6, 15),
-                EmploymentDate = new DateTime(2020, 6, 15),
+                CreatedAt = DateTime.Today,
+                Category = "Общее",
+                IsDone = false,
+                IsPinned = false,
             };
         }
 
@@ -63,7 +76,7 @@ namespace CardFile.Wpf.ViewModels
 
             if (index < 0)
             {
-                throw new Exception("Карточка с таким Id не существует");
+                throw new Exception("Заметка с таким Id не существует");
             }
 
             var id = _service.Save(ToBusiness(card));
@@ -75,6 +88,8 @@ namespace CardFile.Wpf.ViewModels
             else
             {
                 Cards[index].LoadViewModel(card);
+                OnPropertyChanged(nameof(ToggleDoneButtonText));
+                OnPropertyChanged(nameof(TogglePinnedButtonText));
             }
         }
 
@@ -98,12 +113,17 @@ namespace CardFile.Wpf.ViewModels
         {
             OnPropertyChanged(nameof(IsDeleteButtonEnabled));
             OnPropertyChanged(nameof(IsEditButtonEnabled));
+            OnPropertyChanged(nameof(IsToggleDoneButtonEnabled));
+            OnPropertyChanged(nameof(IsTogglePinnedButtonEnabled));
+            OnPropertyChanged(nameof(ToggleDoneButtonText));
+            OnPropertyChanged(nameof(TogglePinnedButtonText));
         }
 
         private void LoadAllData()
         {
             var cards = _service.GetAll();
             Cards.Clear();
+
             foreach (var card in cards)
             {
                 Cards.Add(ToViewModel(card));
@@ -122,13 +142,40 @@ namespace CardFile.Wpf.ViewModels
 
             if (index < 0)
             {
-                throw new Exception("Карточка с таким Id не существует");
+                throw new Exception("Заметка с таким Id не существует");
             }
 
             Cards.RemoveAt(index);
             SelectedCard = null;
 
             OnPropertyChanged(nameof(SelectedCard));
+            SelectionChanged();
+        }
+
+        public void ToggleDoneSelectedCard()
+        {
+            if (SelectedCard == null)
+            {
+                return;
+            }
+
+            SelectedCard.ToggleDone();
+            _service.Save(ToBusiness(SelectedCard));
+
+            OnPropertyChanged(nameof(ToggleDoneButtonText));
+        }
+
+        public void TogglePinnedSelectedCard()
+        {
+            if (SelectedCard == null)
+            {
+                return;
+            }
+
+            SelectedCard.TogglePinned();
+            _service.Save(ToBusiness(SelectedCard));
+
+            OnPropertyChanged(nameof(TogglePinnedButtonText));
         }
 
         public void SaveToFile(string fileName)
@@ -154,7 +201,7 @@ namespace CardFile.Wpf.ViewModels
             {
                 _service.SaveToFile(FileName);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 FileName = null;
                 throw;
@@ -164,37 +211,11 @@ namespace CardFile.Wpf.ViewModels
         private CardViewModel ToViewModel(Card card)
         {
             return Mapping.Mapper.Map<CardViewModel>(card);
-            //return new CardViewModel
-            //{
-            //    Id = card.Id,
-            //    FirstName = card.FirstName,
-            //    MiddleName = card.MiddleName,
-            //    LastName = card.LastName,
-            //    BirthDate = card.BirthDate,
-            //    Department = card.Department,
-            //    Position = card.Position,
-            //    EmploymentDate = card.EmploymentDate,
-            //    DismissalDate = card.DismissalDate,
-            //    Salary = card.Salary,
-            //};
         }
 
         private Card ToBusiness(CardViewModel card)
         {
             return Mapping.Mapper.Map<Card>(card);
-            //return new Card
-            //{
-            //    Id = card.Id,
-            //    FirstName = card.FirstName,
-            //    MiddleName = card.MiddleName,
-            //    LastName = card.LastName,
-            //    BirthDate = card.BirthDate,
-            //    Department = card.Department,
-            //    Position = card.Position,
-            //    EmploymentDate = card.EmploymentDate,
-            //    DismissalDate = card.DismissalDate,
-            //    Salary = card.Salary,
-            //};
         }
     }
 }

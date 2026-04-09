@@ -1,61 +1,42 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CardFile.Business.Models
 {
     public class Card
     {
         /// <summary>
-        /// Id
+        /// Id заметки
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// Имя
+        /// Заголовок
         /// </summary>
-        public string FirstName { get; set; }
+        public string Title { get; set; }
 
         /// <summary>
-        /// Отчество
+        /// Текст заметки
         /// </summary>
-        public string MiddleName { get; set; }
+        public string Text { get; set; }
 
         /// <summary>
-        /// Фамилия
+        /// Категория
         /// </summary>
-        public string LastName { get; set; }
+        public string Category { get; set; }
 
         /// <summary>
-        /// Дата рождения
+        /// Дата создания
         /// </summary>
-        public DateTime BirthDate { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         /// <summary>
-        /// Подразделение
+        /// Выполнено
         /// </summary>
-        public string Department { get; set; }
+        public bool IsDone { get; set; }
 
         /// <summary>
-        /// Должность
+        /// Закреплено
         /// </summary>
-        public string Position { get; set; }
-
-        /// <summary>
-        /// Дата трудоустройства
-        /// </summary>
-        public DateTime EmploymentDate { get; set; }
-
-        /// <summary>
-        /// Дата увольнения
-        /// </summary>
-        public DateTime? DismissalDate { get; set; }
-
-        /// <summary>
-        /// Оклад
-        /// </summary>
-        public decimal Salary { get; set; }
+        public bool IsPinned { get; set; }
     }
 }

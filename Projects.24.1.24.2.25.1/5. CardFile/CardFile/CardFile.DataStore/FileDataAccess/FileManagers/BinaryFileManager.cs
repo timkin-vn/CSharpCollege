@@ -3,9 +3,6 @@ using CardFile.DataStore.Dtos;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CardFile.DataStore.FileDataAccess.FileManagers
 {
@@ -26,31 +23,15 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
                             var newCard = new CardDto();
 
                             newCard.Id = reader.ReadInt32();
-                            newCard.FirstName = reader.ReadString();
-                            newCard.MiddleName = reader.ReadString();
-                            newCard.LastName = reader.ReadString();
+                            newCard.Title = reader.ReadString();
+                            newCard.Text = reader.ReadString();
+                            newCard.Category = reader.ReadString();
 
                             var ticks = reader.ReadInt64();
-                            newCard.BirthDate = new DateTime(ticks);
+                            newCard.CreatedAt = new DateTime(ticks);
 
-                            newCard.Department = reader.ReadString();
-                            newCard.Position = reader.ReadString();
-
-                            ticks = reader.ReadInt64();
-                            newCard.EmploymentDate = new DateTime(ticks);
-
-                            var isDismissalDatePresent = reader.ReadBoolean();
-                            if (isDismissalDatePresent)
-                            {
-                                ticks = reader.ReadInt64();
-                                newCard.DismissalDate = new DateTime(ticks);
-                            }
-                            else
-                            {
-                                newCard.DismissalDate = null;
-                            }
-
-                            newCard.Salary = reader.ReadDecimal();
+                            newCard.IsDone = reader.ReadBoolean();
+                            newCard.IsPinned = reader.ReadBoolean();
 
                             records.Add(newCard);
                         }
@@ -74,24 +55,15 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
                     foreach (var item in collection.GetAll())
                     {
                         writer.Write(item.Id);
-                        writer.Write(item.FirstName);
-                        writer.Write(item.MiddleName);
-                        writer.Write(item.LastName);
-                        writer.Write(item.BirthDate.Ticks);
-                        writer.Write(item.Department);
-                        writer.Write(item.Position);
-                        writer.Write(item.EmploymentDate.Ticks);
-
-                        writer.Write(item.DismissalDate.HasValue);
-                        if (item.DismissalDate.HasValue)
-                        {
-                            writer.Write(item.DismissalDate.Value.Ticks);
-                        }
-
-                        writer.Write(item.Salary);
+                        writer.Write(item.Title ?? string.Empty);
+                        writer.Write(item.Text ?? string.Empty);
+                        writer.Write(item.Category ?? string.Empty);
+                        writer.Write(item.CreatedAt.Ticks);
+                        writer.Write(item.IsDone);
+                        writer.Write(item.IsPinned);
                     }
                 }
-            }    
+            }
         }
     }
 }
