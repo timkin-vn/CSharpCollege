@@ -57,5 +57,23 @@ namespace Calculator
             _service.PressEqual(_calculatorModel);
             DisplayValue();
         }
+
+        private void buttonPower_Click(object sender, EventArgs e)
+        {
+            
+            _service.PressOperation(_calculatorModel, "^");
+
+            
+            DisplayValue();
+        }
+
+        private void buttonSqrt_Click(object sender, EventArgs e)
+        {
+            
+            _service.PressOperation(_calculatorModel, "sqrt");
+
+            
+            DisplayValue();
+        }
     }
 }
