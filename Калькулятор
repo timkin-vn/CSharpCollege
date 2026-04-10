@@ -1,0 +1,100 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+class Program
+{
+    static List<string> history = new List<string>();
+    static object locker = new object();
+
+    static void Main()
+    {
+        Console.WriteLine("Продвинутый Калькулятор");
+        Console.WriteLine("Формат: 10 + 5");
+        Console.WriteLine("Команды: 'history' - история операций, 'exit' - выход.");
+        Console.WriteLine("Можно вводить выражения последовательно, калькулятор работает в фоне.\n");
+
+        while (true)
+        {
+            Console.Write("> ");
+            string input = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(input)) continue;
+
+            if (input.ToLower() == "exit") break;
+
+            if (input.ToLower() == "history")
+            {
+                ShowHistory();
+                continue;
+            }
+
+            Task.Run(() => Calculate(input));
+        }
+
+        Console.WriteLine("\nРабота завершена. Нажмите любую клавишу...");
+        Console.ReadKey();
+    }
+
+    static void Calculate(string input)
+    {
+        try
+        {
+            string[] parts = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+            if (parts.Length != 3)
+                throw new Exception("Неверный формат. Нужно: число пробел оператор пробел число (например: 10 + 5)");
+
+            if (!double.TryParse(parts[0], out double a) || !double.TryParse(parts[2], out double b))
+                throw new Exception("Ошибка: введены не числа!");
+
+            string op = parts[1];
+            double result = 0;
+
+            switch (op)
+            {
+                case "+":
+                    result = a + b;
+                    break;
+                case "-":
+                    result = a - b;
+                    break;
+                case "*":
+                    result = a * b;
+                    break;
+                case "/":
+                    if (b == 0)
+                        throw new Exception("Критическая ошибка: деление на ноль невозможно!");
+                    result = a / b;
+                    break;
+                default:
+                    throw new Exception($"Оператор '{op}' не поддерживается. Используйте +, -, * или /");
+            }
+
+            string entry = $"{a} {op} {b} = {result}";
+
+            Console.WriteLine($"\n[Результат]: {entry}");
+
+            lock (locker)
+            {
+                history.Add(entry);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"\n[ОШИБКА]: {ex.Message}");
+        }
+    }
+
+    static void ShowHistory()
+    {
+        Console.WriteLine("\История операций");
+        lock (locker)
+        {
+            if (history.Count == 0)
+                Console.WriteLine("История пока пуста.");
+            else
+                history.ForEach(Console.WriteLine);
+        }
+    }
+}
