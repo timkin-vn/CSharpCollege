@@ -3,138 +3,162 @@ using CardFile.Business.Services;
 using CardFile.Common.Infrastructure;
 using CardFile.Wpf.Infrastructure;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CardFile.Wpf.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private readonly CardFileService _service = new CardFileService();
+        private readonly LibraryService _service = new LibraryService();
+        private string _searchText;
+        private bool _showDeleted;
 
-        public ObservableCollection<CardViewModel> Cards { get; } = new ObservableCollection<CardViewModel>();
+        public ObservableCollection<BookViewModel> Books { get; } = new ObservableCollection<BookViewModel>();
+        public BookViewModel SelectedBook { get; set; }
 
-        public CardViewModel SelectedCard { get; set; }
+        public string SearchText
+        {
+            get => _searchText;
+            set
+            {
+                _searchText = value;
+                OnPropertyChanged(nameof(SearchText));
+                Refresh();
+            }
+        }
 
-        public bool IsEditButtonEnabled => SelectedCard != null;
+        public bool ShowDeleted
+        {
+            get => _showDeleted;
+            set
+            {
+                _showDeleted = value;
+                OnPropertyChanged(nameof(ShowDeleted));
+                Refresh();
+            }
+        }
 
-        public bool IsDeleteButtonEnabled => SelectedCard != null;
+        public bool IsEditEnabled => SelectedBook != null && !SelectedBook.IsDeleted;
+        public bool IsDeleteEnabled => SelectedBook != null && !SelectedBook.IsDeleted;
+        public bool IsRestoreEnabled => SelectedBook != null && SelectedBook.IsDeleted;
+        public bool IsIssueEnabled => SelectedBook != null && !SelectedBook.IsDeleted && SelectedBook.Copies > 0;
 
         public string FileName { get; private set; }
-
-        public string WindowTitle => string.IsNullOrEmpty(FileName) ? "Картотека" : $"Картотека: {Path.GetFileName(FileName)}";
+        public string WindowTitle => string.IsNullOrEmpty(FileName) ? "Библиотечный каталог" : $"Библиотека: {Path.GetFileName(FileName)}";
 
         public MainWindowViewModel()
         {
             MapperInitialization.PreRegister();
         }
 
-        public void WindowLoaded()
-        {
-            LoadAllData();
-        }
-
-        public void Initialized()
+        public void Initialize()
         {
             Mapping.Initialize();
+            Refresh();
         }
 
-        public CardViewModel GetSelectedCard()
+        public void Refresh()
         {
-            return SelectedCard;
-        }
+            System.Collections.Generic.IEnumerable<Book> books;
 
-        public CardViewModel GetNewCard()
-        {
-            return new CardViewModel
+            if (ShowDeleted)
             {
-                BirthDate = new DateTime(2000, 6, 15),
-                EmploymentDate = new DateTime(2020, 6, 15),
-            };
-        }
-
-        public void SaveEditedCard(CardViewModel card)
-        {
-            var index = Cards.ToList().FindIndex(c => c.Id == card.Id);
-
-            if (index < 0)
-            {
-                throw new Exception("Карточка с таким Id не существует");
-            }
-
-            var id = _service.Save(ToBusiness(card));
-
-            if (id < 0)
-            {
-                Cards.RemoveAt(index);
+                books = _service.GetDeleted();
             }
             else
             {
-                Cards[index].LoadViewModel(card);
+                books = _service.GetAll();
+            }
+
+            if (!string.IsNullOrWhiteSpace(SearchText))
+            {
+                books = _service.Search(SearchText);
+            }
+
+            Books.Clear();
+            foreach (var book in books)
+            {
+                Books.Add(ToViewModel(book));
             }
         }
 
-        public void SaveNewCard(CardViewModel card)
+        public BookViewModel NewBook()
         {
-            var newCard = new CardViewModel();
-            newCard.LoadViewModel(card);
-
-            var id = _service.Save(ToBusiness(card));
-
-            if (id < 0)
+            return new BookViewModel
             {
-                return;
-            }
-
-            newCard.Id = id;
-            Cards.Add(newCard);
+                AddedDate = DateTime.Today,
+                Year = DateTime.Today.Year,
+                Copies = 1
+            };
         }
 
-        public void SelectionChanged()
+        public void SaveBook(BookViewModel book)
         {
-            OnPropertyChanged(nameof(IsDeleteButtonEnabled));
-            OnPropertyChanged(nameof(IsEditButtonEnabled));
+            if (book.Id == 0)
+            {
+                int id = _service.Save(ToBusiness(book));
+                if (id > 0)
+                {
+                    book.Id = id;
+                    Books.Add(book);
+                }
+            }
+            else
+            {
+                _service.Save(ToBusiness(book));
+                for (int i = 0; i < Books.Count; i++)
+                {
+                    if (Books[i].Id == book.Id)
+                    {
+                        Books[i].LoadViewModel(book);
+                        break;
+                    }
+                }
+            }
+            Refresh();
         }
 
-        private void LoadAllData()
+        public void DeleteBook()
         {
-            var cards = _service.GetAll();
-            Cards.Clear();
-            foreach (var card in cards)
+            if (SelectedBook == null) return;
+            _service.Delete(SelectedBook.Id);
+            Refresh();
+            SelectedBook = null;
+            OnPropertyChanged(nameof(SelectedBook));
+        }
+
+        public void RestoreBook()
+        {
+            if (SelectedBook == null) return;
+            _service.Restore(SelectedBook.Id);
+            Refresh();
+            SelectedBook = null;
+            OnPropertyChanged(nameof(SelectedBook));
+        }
+
+        public void IssueBook()
+        {
+            if (SelectedBook == null) return;
+            if (_service.Issue(SelectedBook.Id))
             {
-                Cards.Add(ToViewModel(card));
+                Refresh();
             }
         }
 
-        public void DeleteSelectedCard()
+        public void ReturnBook()
         {
-            if (SelectedCard == null)
+            if (SelectedBook == null) return;
+            if (_service.Return(SelectedBook.Id))
             {
-                return;
+                Refresh();
             }
-
-            _service.Delete(SelectedCard.Id);
-            var index = Cards.ToList().FindIndex(c => c.Id == SelectedCard.Id);
-
-            if (index < 0)
-            {
-                throw new Exception("Карточка с таким Id не существует");
-            }
-
-            Cards.RemoveAt(index);
-            SelectedCard = null;
-
-            OnPropertyChanged(nameof(SelectedCard));
         }
 
         public void SaveToFile(string fileName)
         {
             _service.SaveToFile(fileName);
-
             FileName = fileName;
             OnPropertyChanged(nameof(WindowTitle));
         }
@@ -142,9 +166,8 @@ namespace CardFile.Wpf.ViewModels
         public void OpenFromFile(string fileName)
         {
             _service.OpenFromFile(fileName);
-            LoadAllData();
-
             FileName = fileName;
+            Refresh();
             OnPropertyChanged(nameof(WindowTitle));
         }
 
@@ -154,47 +177,29 @@ namespace CardFile.Wpf.ViewModels
             {
                 _service.SaveToFile(FileName);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 FileName = null;
                 throw;
             }
         }
 
-        private CardViewModel ToViewModel(Card card)
+        public void SelectionChanged()
         {
-            return Mapping.Mapper.Map<CardViewModel>(card);
-            //return new CardViewModel
-            //{
-            //    Id = card.Id,
-            //    FirstName = card.FirstName,
-            //    MiddleName = card.MiddleName,
-            //    LastName = card.LastName,
-            //    BirthDate = card.BirthDate,
-            //    Department = card.Department,
-            //    Position = card.Position,
-            //    EmploymentDate = card.EmploymentDate,
-            //    DismissalDate = card.DismissalDate,
-            //    Salary = card.Salary,
-            //};
+            OnPropertyChanged(nameof(IsEditEnabled));
+            OnPropertyChanged(nameof(IsDeleteEnabled));
+            OnPropertyChanged(nameof(IsRestoreEnabled));
+            OnPropertyChanged(nameof(IsIssueEnabled));
         }
 
-        private Card ToBusiness(CardViewModel card)
+        private BookViewModel ToViewModel(Book book)
         {
-            return Mapping.Mapper.Map<Card>(card);
-            //return new Card
-            //{
-            //    Id = card.Id,
-            //    FirstName = card.FirstName,
-            //    MiddleName = card.MiddleName,
-            //    LastName = card.LastName,
-            //    BirthDate = card.BirthDate,
-            //    Department = card.Department,
-            //    Position = card.Position,
-            //    EmploymentDate = card.EmploymentDate,
-            //    DismissalDate = card.DismissalDate,
-            //    Salary = card.Salary,
-            //};
+            return Mapping.Mapper.Map<BookViewModel>(book);
+        }
+
+        private Book ToBusiness(BookViewModel book)
+        {
+            return Mapping.Mapper.Map<Book>(book);
         }
     }
 }

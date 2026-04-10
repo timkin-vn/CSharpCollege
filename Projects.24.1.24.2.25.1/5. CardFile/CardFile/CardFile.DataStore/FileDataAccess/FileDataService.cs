@@ -11,13 +11,13 @@ namespace CardFile.DataStore.FileDataAccess
 {
     public class FileDataService
     {
-        public void SaveToFile(string fileName, CardCollection collection)
+        public void SaveToFile(string fileName, BookCollection collection)
         {
             var manager = GetFileManager(fileName);
             manager.SaveToFile(fileName, collection);
         }
 
-        public void OpenFromFile(string fileName, CardCollection collection)
+        public void OpenFromFile(string fileName, BookCollection collection)
         {
             var manager = GetFileManager(fileName);
             manager.OpenFromFile(fileName, collection);

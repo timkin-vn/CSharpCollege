@@ -1,87 +1,35 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
 
 namespace CardFile.DataStore.FileDataAccess.Entities
 {
     public class JsonCard
     {
-        /// <summary>
-        /// Id
-        /// </summary>
         public int Id { get; set; }
+        public string Title { get; set; }
+        public string Author { get; set; }
+        public string Genre { get; set; }
+        public int Year { get; set; }
+        public int Copies { get; set; }
 
-        /// <summary>
-        /// Имя
-        /// </summary>
-        public string FirstName { get; set; }
-
-        /// <summary>
-        /// Отчество
-        /// </summary>
-        public string MiddleName { get; set; }
-
-        /// <summary>
-        /// Фамилия
-        /// </summary>
-        public string LastName { get; set; }
-
-        /// <summary>
-        /// Дата рождения
-        /// </summary>
         [JsonIgnore]
-        public DateTime BirthDate { get; set; }
+        public DateTime AddedDate { get; set; }
 
-        [JsonProperty("BirthDate")]
-        public string BirthDateText
+        [JsonProperty("AddedDate")]
+        public string AddedDateText
         {
-            get => BirthDate.ToShortDateString();
-            set => BirthDate = DateTime.Parse(value);
+            get => AddedDate.ToShortDateString();
+            set => AddedDate = DateTime.Parse(value);
         }
 
-        /// <summary>
-        /// Подразделение
-        /// </summary>
-        public string Department { get; set; }
-
-        /// <summary>
-        /// Должность
-        /// </summary>
-        public string Position { get; set; }
-
-        /// <summary>
-        /// Дата трудоустройства
-        /// </summary>
         [JsonIgnore]
-        public DateTime EmploymentDate { get; set; }
+        public DateTime? DeletedDate { get; set; }
 
-        [JsonProperty("EmploymentDate")]
-        public string EmploymentDateText
+        [JsonProperty("DeletedDate")]
+        public string DeletedDateText
         {
-            get => EmploymentDate.ToShortDateString();
-            set => EmploymentDate = DateTime.Parse(value);
+            get => DeletedDate?.ToShortDateString() ?? "-";
+            set => DeletedDate = (value == "-") ? (DateTime?)null : DateTime.Parse(value);
         }
-
-        /// <summary>
-        /// Дата увольнения
-        /// </summary>
-        [JsonIgnore]
-        public DateTime? DismissalDate { get; set; }
-
-        [JsonProperty("DismissalDate")]
-        public string DismissalDateText
-        {
-            get => DismissalDate?.ToShortDateString() ?? "-";
-            set => DismissalDate = (value == "-") ? (DateTime?)null : DateTime.Parse(value);
-        }
-
-        /// <summary>
-        /// Оклад
-        /// </summary>
-        public decimal Salary { get; set; }
     }
 }

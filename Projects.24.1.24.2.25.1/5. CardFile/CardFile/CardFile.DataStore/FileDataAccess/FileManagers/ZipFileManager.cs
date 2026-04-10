@@ -6,16 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace CardFile.DataStore.FileDataAccess.FileManagers
 {
     internal class ZipFileManager : IFileManager
     {
-        public void OpenFromFile(string fileName, CardCollection collection)
+        public void OpenFromFile(string fileName, BookCollection collection)
         {
             using (var fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
             {
@@ -31,7 +28,7 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
                                 var serializer = new XmlSerializer(typeof(XmlCardCollection));
                                 var xmlCollection = (XmlCardCollection)serializer.Deserialize(reader);
 
-                                collection.ReplaceAll(Mapping.Mapper.Map<List<CardDto>>(xmlCollection.Cards), xmlCollection.NextId);
+                                collection.ReplaceAll(Mapping.Mapper.Map<List<BookDto>>(xmlCollection.Cards), xmlCollection.NextId);
                             }
                         }
                     }
@@ -43,7 +40,7 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
             }
         }
 
-        public void SaveToFile(string fileName, CardCollection collection)
+        public void SaveToFile(string fileName, BookCollection collection)
         {
             var xmlCollection = new XmlCardCollection
             {

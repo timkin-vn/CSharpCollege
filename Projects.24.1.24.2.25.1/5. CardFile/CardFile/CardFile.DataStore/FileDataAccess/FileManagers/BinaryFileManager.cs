@@ -3,56 +3,47 @@ using CardFile.DataStore.Dtos;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CardFile.DataStore.FileDataAccess.FileManagers
 {
     internal class BinaryFileManager : IFileManager
     {
-        public void OpenFromFile(string fileName, CardCollection collection)
+        public void OpenFromFile(string fileName, BookCollection collection)
         {
             using (var fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
             {
                 using (var reader = new BinaryReader(fs))
                 {
-                    var records = new List<CardDto>();
+                    var records = new List<BookDto>();
 
                     try
                     {
                         while (reader.BaseStream.Position < reader.BaseStream.Length)
                         {
-                            var newCard = new CardDto();
+                            var newBook = new BookDto();
 
-                            newCard.Id = reader.ReadInt32();
-                            newCard.FirstName = reader.ReadString();
-                            newCard.MiddleName = reader.ReadString();
-                            newCard.LastName = reader.ReadString();
+                            newBook.Id = reader.ReadInt32();
+                            newBook.Title = reader.ReadString();
+                            newBook.Author = reader.ReadString();
+                            newBook.Genre = reader.ReadString();
+                            newBook.Year = reader.ReadInt32();
+                            newBook.Copies = reader.ReadInt32();
 
                             var ticks = reader.ReadInt64();
-                            newCard.BirthDate = new DateTime(ticks);
+                            newBook.AddedDate = new DateTime(ticks);
 
-                            newCard.Department = reader.ReadString();
-                            newCard.Position = reader.ReadString();
-
-                            ticks = reader.ReadInt64();
-                            newCard.EmploymentDate = new DateTime(ticks);
-
-                            var isDismissalDatePresent = reader.ReadBoolean();
-                            if (isDismissalDatePresent)
+                            var hasDeletedDate = reader.ReadBoolean();
+                            if (hasDeletedDate)
                             {
                                 ticks = reader.ReadInt64();
-                                newCard.DismissalDate = new DateTime(ticks);
+                                newBook.DeletedDate = new DateTime(ticks);
                             }
                             else
                             {
-                                newCard.DismissalDate = null;
+                                newBook.DeletedDate = null;
                             }
 
-                            newCard.Salary = reader.ReadDecimal();
-
-                            records.Add(newCard);
+                            records.Add(newBook);
                         }
                     }
                     catch
@@ -65,7 +56,7 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
             }
         }
 
-        public void SaveToFile(string fileName, CardCollection collection)
+        public void SaveToFile(string fileName, BookCollection collection)
         {
             using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
             {
@@ -74,24 +65,21 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
                     foreach (var item in collection.GetAll())
                     {
                         writer.Write(item.Id);
-                        writer.Write(item.FirstName);
-                        writer.Write(item.MiddleName);
-                        writer.Write(item.LastName);
-                        writer.Write(item.BirthDate.Ticks);
-                        writer.Write(item.Department);
-                        writer.Write(item.Position);
-                        writer.Write(item.EmploymentDate.Ticks);
+                        writer.Write(item.Title);
+                        writer.Write(item.Author);
+                        writer.Write(item.Genre);
+                        writer.Write(item.Year);
+                        writer.Write(item.Copies);
+                        writer.Write(item.AddedDate.Ticks);
 
-                        writer.Write(item.DismissalDate.HasValue);
-                        if (item.DismissalDate.HasValue)
+                        writer.Write(item.DeletedDate.HasValue);
+                        if (item.DeletedDate.HasValue)
                         {
-                            writer.Write(item.DismissalDate.Value.Ticks);
+                            writer.Write(item.DeletedDate.Value.Ticks);
                         }
-
-                        writer.Write(item.Salary);
                     }
                 }
-            }    
+            }
         }
     }
 }

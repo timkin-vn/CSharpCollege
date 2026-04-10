@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,6 +31,11 @@ namespace Drawing.Services
         public void Paint(Graphics g)
         {
             _graphics = g;
+
+            _graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            _graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+            _graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            _graphics.CompositingQuality = CompositingQuality.HighQuality;
 
             _builder.DrawPicture(this);
 

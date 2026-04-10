@@ -17,5 +17,13 @@ namespace AlarmClock.Models
         public bool IsSoundActive { get; set; }
 
         public bool IsAwakeActivated { get; set; }
+
+        public bool IsSnoozeEnabled { get; set; }
+
+        public void Snooze()
+        {
+            AlarmTime = DateTime.Now.AddMinutes(5);
+            IsAwakeActivated = false;
+        }
     }
 }

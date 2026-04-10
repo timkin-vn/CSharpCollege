@@ -9,8 +9,8 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
 {
     public interface IFileManager
     {
-        void SaveToFile(string fileName, CardCollection collection);
+        void SaveToFile(string fileName, BookCollection collection);
 
-        void OpenFromFile(string fileName, CardCollection collection);
+        void OpenFromFile(string fileName, BookCollection collection);
     }
 }

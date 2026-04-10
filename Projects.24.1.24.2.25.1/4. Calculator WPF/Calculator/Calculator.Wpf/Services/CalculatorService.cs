@@ -1,15 +1,11 @@
-﻿using Calculator.Business.Models;
+﻿using CalculatorWPF.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Calculator.Business.Services
+namespace CalculatorWPF.Services
 {
     public class CalculatorService
     {
-        // нажали на числа от 0 до 9
         public void PressDigit(CalculatorModel calculatorModel, string digitString)
         {
             if (!int.TryParse(digitString, out var digit))
@@ -20,23 +16,26 @@ namespace Calculator.Business.Services
             if (!calculatorModel.IsLastDigitPressed)
             {
                 calculatorModel.RegisterX = 0;
+                calculatorModel.IsDrob = false;
             }
 
-            if(calculatorModel.IsDrob == false) calculatorModel.RegisterX = calculatorModel.RegisterX * 10 + digit; // если целая часть, то прибавляем число к целой части
-            else // если дробная часть
+            if (!calculatorModel.IsDrob)
             {
-                string chText = Convert.ToString(calculatorModel.RegisterX); // конвертирую число в текст
-                bool isZap = false;
-                for(int i = 0; i < chText.Length; i++) // ищу стоит ли в числе запятая
-                    if (chText[i] == ',')
-                    {
-                        isZap = true;
-                        break;
-                    }
-                // добавляю запятую к числу в виде текста и само число добавления
-                if (isZap == false) chText += "," + digitString;
-                else chText += digitString;
-                calculatorModel.RegisterX = Convert.ToDouble(chText); // конечное число в виде текста перевожу к double
+                calculatorModel.RegisterX = calculatorModel.RegisterX * 10 + digit;
+            }
+            else
+            {
+                string chText = Convert.ToString(calculatorModel.RegisterX, System.Globalization.CultureInfo.InvariantCulture);
+                chText = chText.Replace('.', ',');
+
+                bool isZap = chText.Contains(',');
+
+                if (!isZap)
+                    chText += "," + digitString;
+                else
+                    chText += digitString;
+
+                calculatorModel.RegisterX = Convert.ToDouble(chText, System.Globalization.CultureInfo.InvariantCulture);
             }
             calculatorModel.IsLastDigitPressed = true;
         }
@@ -44,6 +43,8 @@ namespace Calculator.Business.Services
         public void PressClear(CalculatorModel calculatorModel)
         {
             calculatorModel.RegisterX = 0;
+            calculatorModel.RegisterY = 0;
+            calculatorModel.OperationCode = "";
             calculatorModel.IsLastDigitPressed = false;
             calculatorModel.IsDrob = false;
         }
@@ -58,19 +59,19 @@ namespace Calculator.Business.Services
             switch (calculatorModel.OperationCode)
             {
                 case "+":
-                    calculatorModel.RegisterX = calculatorModel.RegisterX + calculatorModel.RegisterY;
+                    calculatorModel.RegisterX = calculatorModel.RegisterY + calculatorModel.RegisterX;
                     break;
-
                 case "-":
                     calculatorModel.RegisterX = calculatorModel.RegisterY - calculatorModel.RegisterX;
                     break;
-
                 case "*":
-                    calculatorModel.RegisterX = calculatorModel.RegisterX * calculatorModel.RegisterY;
+                    calculatorModel.RegisterX = calculatorModel.RegisterY * calculatorModel.RegisterX;
                     break;
-
                 case "/":
-                    calculatorModel.RegisterX = calculatorModel.RegisterY / calculatorModel.RegisterX;
+                    if (calculatorModel.RegisterX != 0)
+                        calculatorModel.RegisterX = calculatorModel.RegisterY / calculatorModel.RegisterX;
+                    else
+                        calculatorModel.RegisterX = 0;
                     break;
             }
             calculatorModel.IsDrob = false;
@@ -78,7 +79,10 @@ namespace Calculator.Business.Services
 
         public void PressOperation(CalculatorModel calculatorModel, string operationCode)
         {
-            CompleteOperation(calculatorModel);
+            if (!string.IsNullOrEmpty(calculatorModel.OperationCode) && calculatorModel.IsLastDigitPressed)
+            {
+                CompleteOperation(calculatorModel);
+            }
 
             MoveXToY(calculatorModel);
             calculatorModel.OperationCode = operationCode;
@@ -88,9 +92,13 @@ namespace Calculator.Business.Services
 
         public void PressEqual(CalculatorModel calculatorModel)
         {
-            CompleteOperation(calculatorModel);
-            calculatorModel.IsLastDigitPressed = false;
-            calculatorModel.IsDrob = false;
+            if (!string.IsNullOrEmpty(calculatorModel.OperationCode))
+            {
+                CompleteOperation(calculatorModel);
+                calculatorModel.OperationCode = "";
+                calculatorModel.IsLastDigitPressed = false;
+                calculatorModel.IsDrob = false;
+            }
         }
 
         public void PressSquare(CalculatorModel calculatorModel)

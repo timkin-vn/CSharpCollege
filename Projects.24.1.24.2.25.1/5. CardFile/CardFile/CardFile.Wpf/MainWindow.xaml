@@ -3,51 +3,107 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CardFile.Wpf" xmlns:viewmodels="clr-namespace:CardFile.Wpf.ViewModels"
+        xmlns:local="clr-namespace:CardFile.Wpf" 
+        xmlns:viewmodels="clr-namespace:CardFile.Wpf.ViewModels"
         mc:Ignorable="d"
-        Title="{Binding WindowTitle}" Height="450" Width="800" Loaded="Window_Loaded" Initialized="Window_Initialized">
-    <Window.DataContext>
-        <viewmodels:MainWindowViewModel />
-    </Window.DataContext>
+        Title="{Binding WindowTitle}" Height="550" Width="900" 
+        Loaded="Window_Loaded" Initialized="Window_Initialized">
 
-    <DockPanel>
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="_Файл">
-                <MenuItem Header="_Открыть..." Click="FileOpenMenuItem_Click" />
-                <MenuItem Header="_Сохранить" Click="FileSaveMenuItem_Click" />
-                <MenuItem Header="Со_хранить как..." Click="FileSaveAsMenuItem_Click" />
-                <Separator />
-                <MenuItem Header="В_ыход" Click="FileExitMenuItem_Click" />
-            </MenuItem>
-        </Menu>
-        
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+	<Window.DataContext>
+		<viewmodels:MainWindowViewModel />
+	</Window.DataContext>
 
-            <DataGrid Grid.Row="0" ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" SelectionChanged="DataGrid_SelectionChanged"
+	<Window.Resources>
+		<Style x:Key="ColoredButton" TargetType="Button">
+			<Setter Property="Padding" Value="5"/>
+			<Setter Property="Margin" Value="5"/>
+			<Setter Property="Foreground" Value="White"/>
+			<Setter Property="FontWeight" Value="Bold"/>
+			<Setter Property="Cursor" Value="Hand"/>
+			<Setter Property="BorderThickness" Value="0"/>
+			<Style.Triggers>
+				<Trigger Property="IsEnabled" Value="False">
+					<Setter Property="Foreground" Value="#CCCCCC"/>
+					<Setter Property="Opacity" Value="0.6"/>
+				</Trigger>
+				<Trigger Property="IsMouseOver" Value="True">
+					<Setter Property="Opacity" Value="0.8"/>
+				</Trigger>
+			</Style.Triggers>
+		</Style>
+
+		<Style x:Key="NormalButton" TargetType="Button">
+			<Setter Property="Padding" Value="5"/>
+			<Setter Property="Margin" Value="5"/>
+			<Setter Property="Cursor" Value="Hand"/>
+		</Style>
+	</Window.Resources>
+
+	<DockPanel>
+		<Menu DockPanel.Dock="Top">
+			<MenuItem Header="_Файл">
+				<MenuItem Header="_Открыть..." Click="FileOpenMenuItem_Click" />
+				<MenuItem Header="_Сохранить" Click="FileSaveMenuItem_Click" />
+				<MenuItem Header="Со_хранить как..." Click="FileSaveAsMenuItem_Click" />
+				<Separator />
+				<MenuItem Header="В_ыход" Click="FileExitMenuItem_Click" />
+			</MenuItem>
+			<MenuItem Header="_Вид">
+				<MenuItem Header="Показать списанные" IsCheckable="True" IsChecked="{Binding ShowDeleted}" />
+			</MenuItem>
+			<MenuItem Header="_Справка">
+				<MenuItem Header="О программе" Click="AboutMenuItem_Click" />
+			</MenuItem>
+		</Menu>
+
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+
+			<Border Grid.Row="0" Background="#F0F0F0" Padding="5" BorderBrush="#CCCCCC" BorderThickness="0,0,0,1">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="*" />
+					</Grid.ColumnDefinitions>
+
+					<TextBlock Grid.Column="0" Text="Поиск по названию или автору:" VerticalAlignment="Center" Margin="5,0" />
+					<TextBox Grid.Column="1" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" 
+                             Margin="5" VerticalAlignment="Center" />
+				</Grid>
+			</Border>
+
+			<DataGrid Grid.Row="1" ItemsSource="{Binding Books}" SelectedItem="{Binding SelectedBook}" 
+                      SelectionChanged="DataGrid_SelectionChanged"
                       AutoGenerateColumns="False" IsReadOnly="True"
                       CanUserAddRows="False" SelectionMode="Single" Margin="5">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="ФИО" Binding="{Binding Fio}" />
-                    <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDateText}" />
-                    <DataGridTextColumn Header="Подразделение" Binding="{Binding Department}" />
-                    <DataGridTextColumn Header="Должность" Binding="{Binding Position}" />
-                    <DataGridTextColumn Header="Дата трудоустройства" Binding="{Binding EmploymentDateText}" />
-                    <DataGridTextColumn Header="Дата увольнения" Binding="{Binding DismissalDateText}" />
-                    <DataGridTextColumn Header="Оклад" Binding="{Binding SalaryText}" />
-                </DataGrid.Columns>
-            </DataGrid>
-            
-            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Создать" Padding="5" Margin="5" VerticalAlignment="Center" Click="CreateButton_Click" />
-                <Button Content="Правка" IsEnabled="{Binding IsEditButtonEnabled}" Padding="5" Margin="5" VerticalAlignment="Center" 
+				<DataGrid.Columns>
+					<DataGridTextColumn Header="Название" Binding="{Binding Title}" Width="200" />
+					<DataGridTextColumn Header="Автор" Binding="{Binding Author}" Width="150" />
+					<DataGridTextColumn Header="Год" Binding="{Binding Year}" Width="60" />
+					<DataGridTextColumn Header="Жанр" Binding="{Binding Genre}" Width="120" />
+					<DataGridTextColumn Header="Экземпляры" Binding="{Binding Copies}" Width="80" />
+					<DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="100" />
+					<DataGridTextColumn Header="Дата добавления" Binding="{Binding AddedDateText}" Width="100" />
+				</DataGrid.Columns>
+			</DataGrid>
+
+			<StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+				<Button Content="Добавить книгу" Style="{StaticResource NormalButton}" Click="CreateButton_Click" />
+				<Button Content="Редактировать" IsEnabled="{Binding IsEditEnabled}" Style="{StaticResource NormalButton}" 
                         Click="EditButton_Click" />
-                <Button Content="Удалить" IsEnabled="{Binding IsDeleteButtonEnabled}" Padding="5" Margin="5" VerticalAlignment="Center" 
-                        Click="DeleteButton_Click" />
-            </StackPanel>
-        </Grid>
-    </DockPanel>
+				<Button Content="Выдать книгу" IsEnabled="{Binding IsIssueEnabled}" Style="{StaticResource ColoredButton}" 
+                        Background="#4CAF50" Click="IssueButton_Click" />
+				<Button Content="Вернуть книгу" IsEnabled="{Binding IsIssueEnabled}" Style="{StaticResource ColoredButton}" 
+                        Background="#2196F3" Click="ReturnButton_Click" />
+				<Button Content="Списать" IsEnabled="{Binding IsDeleteEnabled}" Style="{StaticResource ColoredButton}" 
+                        Background="#F44336" Click="DeleteButton_Click" />
+				<Button Content="Восстановить" IsEnabled="{Binding IsRestoreEnabled}" Style="{StaticResource ColoredButton}" 
+                        Background="#FF9800" Click="RestoreButton_Click" />
+			</StackPanel>
+		</Grid>
+	</DockPanel>
 </Window>

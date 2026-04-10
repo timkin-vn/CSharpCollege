@@ -16,6 +16,8 @@ namespace Drawing
         public DrawingForm()
         {
             InitializeComponent();
+            DoubleBuffered = true;
+            ResizeRedraw = true;
         }
 
         private void DrawingForm_Paint(object sender, PaintEventArgs e)

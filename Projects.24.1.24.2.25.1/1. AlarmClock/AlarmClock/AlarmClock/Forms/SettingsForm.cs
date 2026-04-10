@@ -34,6 +34,8 @@ namespace AlarmClock.Forms
             AlarmMessageTextBox.Text = AlarmState.AlarmMessage;
             IsAlarmActiveCheckBox.Checked = AlarmState.IsAlarmActive;
             IsSoundActiveCheckBox.Checked = AlarmState.IsSoundActive;
+
+            checkBox1.Checked = AlarmState.IsSnoozeEnabled;
         }
 
         private void OkButton_Click(object sender, EventArgs e)
@@ -57,7 +59,14 @@ namespace AlarmClock.Forms
             AlarmState.IsAlarmActive = IsAlarmActiveCheckBox.Checked;
             AlarmState.IsSoundActive = IsSoundActiveCheckBox.Checked;
 
+            AlarmState.IsSnoozeEnabled = checkBox1.Checked;
+
             DialogResult = DialogResult.OK;
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

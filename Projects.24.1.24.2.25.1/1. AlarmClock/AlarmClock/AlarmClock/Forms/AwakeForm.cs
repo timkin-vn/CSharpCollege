@@ -31,6 +31,8 @@ namespace AlarmClock.Forms
         {
             Text = AlarmState.AlarmMessage;
             InitializeImages();
+
+            button1.Enabled = AlarmState.IsSnoozeEnabled;
         }
 
         private void InitializeImages()
@@ -55,6 +57,18 @@ namespace AlarmClock.Forms
         {
             AlarmState.IsAlarmActive = false;
             AlarmState.IsAwakeActivated = false;
+
+            if (DialogResult != DialogResult.Retry)
+            {
+                AlarmState.IsAlarmActive = false;
+                AlarmState.IsAwakeActivated = false;
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            AlarmState.Snooze();
+            Close();
         }
     }
 }

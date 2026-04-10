@@ -20,7 +20,7 @@ namespace CardFile.Wpf.Views
     /// </summary>
     public partial class CardEditWindow : Window
     {
-        public CardViewModel ViewModel => (CardViewModel)DataContext;
+        public BookViewModel ViewModel => (BookViewModel)DataContext;
 
         public CardEditWindow()
         {

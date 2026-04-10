@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace CardFile.DataStore.FileDataAccess.Entities
@@ -10,84 +6,41 @@ namespace CardFile.DataStore.FileDataAccess.Entities
     public class XmlCard
     {
         [XmlAttribute("Id")]
-        /// <summary>
-        /// Id
-        /// </summary>
         public int Id { get; set; }
 
-        [XmlAttribute("FirstName")]
-        /// <summary>
-        /// Имя
-        /// </summary>
-        public string FirstName { get; set; }
+        [XmlAttribute("Title")]
+        public string Title { get; set; }
 
-        [XmlAttribute("MiddleName")]
-        /// <summary>
-        /// Отчество
-        /// </summary>
-        public string MiddleName { get; set; }
+        [XmlAttribute("Author")]
+        public string Author { get; set; }
 
-        [XmlAttribute("LastName")]
-        /// <summary>
-        /// Фамилия
-        /// </summary>
-        public string LastName { get; set; }
+        [XmlAttribute("Genre")]
+        public string Genre { get; set; }
+
+        [XmlAttribute("Year")]
+        public int Year { get; set; }
+
+        [XmlAttribute("Copies")]
+        public int Copies { get; set; }
 
         [XmlIgnore]
-        /// <summary>
-        /// Дата рождения
-        /// </summary>
-        public DateTime BirthDate { get; set; }
+        public DateTime AddedDate { get; set; }
 
-        [XmlAttribute("BirthDate")]
-        public string BirthDateText
+        [XmlAttribute("AddedDate")]
+        public string AddedDateText
         {
-            get => BirthDate.ToShortDateString();
-            set => BirthDate = DateTime.Parse(value);
-        }
-
-        [XmlAttribute("Department")]
-        /// <summary>
-        /// Подразделение
-        /// </summary>
-        public string Department { get; set; }
-
-        [XmlAttribute("Position")]
-        /// <summary>
-        /// Должность
-        /// </summary>
-        public string Position { get; set; }
-
-        [XmlIgnore]
-        /// <summary>
-        /// Дата трудоустройства
-        /// </summary>
-        public DateTime EmploymentDate { get; set; }
-
-        [XmlAttribute("EmploymentDate")]
-        public string EmploymentDateText
-        {
-            get => EmploymentDate.ToShortDateString();
-            set => EmploymentDate = DateTime.Parse(value);
+            get => AddedDate.ToShortDateString();
+            set => AddedDate = DateTime.Parse(value);
         }
 
         [XmlIgnore]
-        /// <summary>
-        /// Дата увольнения
-        /// </summary>
-        public DateTime? DismissalDate { get; set; }
+        public DateTime? DeletedDate { get; set; }
 
-        [XmlAttribute("DismissalDate")]
-        public string DismissalDateText
+        [XmlAttribute("DeletedDate")]
+        public string DeletedDateText
         {
-            get => DismissalDate?.ToShortDateString() ?? "-";
-            set => DismissalDate = (value == "-") ? (DateTime?)null : DateTime.Parse(value);
+            get => DeletedDate?.ToShortDateString() ?? "-";
+            set => DeletedDate = (value == "-") ? (DateTime?)null : DateTime.Parse(value);
         }
-
-        [XmlAttribute("Salary")]
-        /// <summary>
-        /// Оклад
-        /// </summary>
-        public decimal Salary { get; set; }
     }
 }

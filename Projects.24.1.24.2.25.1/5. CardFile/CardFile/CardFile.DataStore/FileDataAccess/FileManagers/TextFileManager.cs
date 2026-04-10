@@ -3,21 +3,18 @@ using CardFile.DataStore.Dtos;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CardFile.DataStore.FileDataAccess.FileManagers
 {
     public class TextFileManager : IFileManager
     {
-        public void OpenFromFile(string fileName, CardCollection collection)
+        public void OpenFromFile(string fileName, BookCollection collection)
         {
             using (var fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
             {
                 using (var reader = new StreamReader(fs))
                 {
-                    var records = new List<CardDto>();
+                    var records = new List<BookDto>();
 
                     while (!reader.EndOfStream)
                     {
@@ -28,70 +25,67 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
                         }
 
                         var lineParts = line.Split(';');
-                        if (lineParts.Length != 10)
+                        if (lineParts.Length != 8)
                         {
                             throw new Exception($"В строке файла {fileName} неверное количество полей");
                         }
 
-                        var newCard = new CardDto();
+                        var newBook = new BookDto();
 
                         if (int.TryParse(lineParts[0], out var id))
                         {
-                            newCard.Id = id;
+                            newBook.Id = id;
                         }
                         else
                         {
                             throw new Exception($"В строке файла {fileName} неверное значение Id");
                         }
 
-                        newCard.FirstName = lineParts[1];
-                        newCard.MiddleName = lineParts[2];
-                        newCard.LastName = lineParts[3];
+                        newBook.Title = lineParts[1];
+                        newBook.Author = lineParts[2];
+                        newBook.Genre = lineParts[3];
 
-                        if (DateTime.TryParse(lineParts[4], out var birthDate))
+                        if (int.TryParse(lineParts[4], out var year))
                         {
-                            newCard.BirthDate = birthDate;
+                            newBook.Year = year;
                         }
                         else
                         {
-                            throw new Exception($"В строке файла {fileName} неверное значение BirthDate");
+                            throw new Exception($"В строке файла {fileName} неверное значение Year");
                         }
 
-                        newCard.Department = lineParts[5];
-                        newCard.Position = lineParts[6];
-
-                        if (DateTime.TryParse(lineParts[7], out var employmentDate))
+                        if (int.TryParse(lineParts[5], out var copies))
                         {
-                            newCard.EmploymentDate = employmentDate;
+                            newBook.Copies = copies;
                         }
                         else
                         {
-                            throw new Exception($"В строке файла {fileName} неверное значение EmploymentDate");
+                            throw new Exception($"В строке файла {fileName} неверное значение Copies");
                         }
 
-                        if (lineParts[8] == "-")
+                        if (DateTime.TryParse(lineParts[6], out var addedDate))
                         {
-                            newCard.DismissalDate = null;
-                        }
-                        else if (DateTime.TryParse(lineParts[8], out var dismissalDate))
-                        {
-                            newCard.DismissalDate = dismissalDate;
+                            newBook.AddedDate = addedDate;
                         }
                         else
                         {
-                            throw new Exception($"В строке файла {fileName} неверное значение DismissalDate");
+                            throw new Exception($"В строке файла {fileName} неверное значение AddedDate");
                         }
 
-                        if (decimal.TryParse(lineParts[9], out var salary))
+                        if (lineParts[7] == "-")
                         {
-                            newCard.Salary = salary;
+                            newBook.DeletedDate = null;
+                        }
+                        else if (DateTime.TryParse(lineParts[7], out var deletedDate))
+                        {
+                            newBook.DeletedDate = deletedDate;
                         }
                         else
                         {
-                            throw new Exception($"В строке файла {fileName} неверное значение Salary");
+                            throw new Exception($"В строке файла {fileName} неверное значение DeletedDate");
                         }
 
-                        records.Add(newCard);
+                        records.Add(newBook);
                     }
 
                     collection.ReplaceAll(records);
@@ -99,7 +93,7 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
             }
         }
 
-        public void SaveToFile(string fileName, CardCollection collection)
+        public void SaveToFile(string fileName, BookCollection collection)
         {
             using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
             {
@@ -107,10 +101,9 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
                 {
                     foreach (var item in collection.GetAll())
                     {
-                        writer.WriteLine($"{item.Id};{item.FirstName};{item.MiddleName};{item.LastName};" +
-                            $"{item.BirthDate.ToShortDateString()};{item.Department};{item.Position};" +
-                            $"{item.EmploymentDate.ToShortDateString()};{item.DismissalDate?.ToShortDateString() ?? "-"};" +
-                            $"{item.Salary}");
+                        writer.WriteLine($"{item.Id};{item.Title};{item.Author};{item.Genre};" +
+                            $"{item.Year};{item.Copies};{item.AddedDate.ToShortDateString()};" +
+                            $"{item.DeletedDate?.ToShortDateString() ?? "-"}");
                     }
                 }
             }

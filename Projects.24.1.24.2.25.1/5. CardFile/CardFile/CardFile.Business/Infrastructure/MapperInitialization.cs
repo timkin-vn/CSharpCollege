@@ -19,8 +19,8 @@ namespace CardFile.Business.Infrastructure
 
         private static void Configure(IMapperConfigurationExpression cfg)
         {
-            cfg.CreateMap<Card, CardDto>();
-            cfg.CreateMap<CardDto, Card>();
+            cfg.CreateMap<Book, BookDto>();
+            cfg.CreateMap<BookDto, Book>();
         }
     }
 }

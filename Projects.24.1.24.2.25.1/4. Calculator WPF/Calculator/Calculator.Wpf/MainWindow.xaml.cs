@@ -1,48 +1,68 @@
-﻿using Calculator.Wpf.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CalculatorWPF.Models;
+using CalculatorWPF.Services;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace Calculator.Wpf
+namespace CalculatorWPF
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindowViewModel ViewModel => (MainWindowViewModel)DataContext;
+        private CalculatorModel _calculatorModel;
+        private CalculatorService _service;
 
         public MainWindow()
         {
             InitializeComponent();
+            _calculatorModel = new CalculatorModel();
+            _service = new CalculatorService();
         }
 
         private void DigitButton_Click(object sender, RoutedEventArgs e)
         {
-            var digitString = ((Button)sender).Content as string;
-            ViewModel.PressDigit(digitString);
+            var button = sender as Button;
+            _service.PressDigit(_calculatorModel, button.Content.ToString());
+            DisplayValue();
+        }
+
+        private void CommaButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!_calculatorModel.IsDrob)
+            {
+                _calculatorModel.IsDrob = true;
+                DisplayLabel.Text += ",";
+            }
         }
 
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.PressClear();
+            _service.PressClear(_calculatorModel);
+            DisplayValue();
         }
 
         private void OperationButton_Click(object sender, RoutedEventArgs e)
         {
-            var operationCode = ((Button)sender).Content as string;
-            ViewModel.PressOperation(operationCode);
+            var button = sender as Button;
+            _service.PressOperation(_calculatorModel, button.Content.ToString());
+            DisplayValue();
+        }
+
+        private void EqualButton_Click(object sender, RoutedEventArgs e)
+        {
+            _service.PressEqual(_calculatorModel);
+            DisplayValue();
+        }
+
+        private void SquareButton_Click(object sender, RoutedEventArgs e)
+        {
+            _service.PressSquare(_calculatorModel);
+            DisplayValue();
+        }
+
+        private void DisplayValue()
+        {
+            string displayText = _calculatorModel.RegisterX.ToString();
+            displayText = displayText.Replace('.', ',');
+            DisplayLabel.Text = displayText;
         }
     }
 }

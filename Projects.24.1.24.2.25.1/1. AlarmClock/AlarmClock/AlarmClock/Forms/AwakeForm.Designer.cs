@@ -32,6 +32,7 @@
             this.AwakePictureBox = new System.Windows.Forms.PictureBox();
             this.AwakeButton = new System.Windows.Forms.Button();
             this.AwakeTimer = new System.Windows.Forms.Timer(this.components);
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.AwakePictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -60,11 +61,23 @@
             this.AwakeTimer.Interval = 5000;
             this.AwakeTimer.Tick += new System.EventHandler(this.AwakeTimer_Tick);
             // 
+            // button1
+            // 
+            this.button1.Enabled = false;
+            this.button1.Location = new System.Drawing.Point(12, 351);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(222, 23);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "Отложить будильник на 5 минут";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // AwakeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(597, 386);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.AwakeButton);
             this.Controls.Add(this.AwakePictureBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -83,5 +96,6 @@
         private System.Windows.Forms.PictureBox AwakePictureBox;
         private System.Windows.Forms.Button AwakeButton;
         private System.Windows.Forms.Timer AwakeTimer;
+        private System.Windows.Forms.Button button1;
     }
 }

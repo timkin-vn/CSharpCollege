@@ -57,5 +57,20 @@ namespace Calculator
             _service.PressEqual(_calculatorModel);
             DisplayValue();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (_calculatorModel.IsDrob == false)
+            {
+                _calculatorModel.IsDrob = true;
+                DisplayLabel.Text += ",";
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            _service.PressSquare(_calculatorModel);
+            DisplayValue();
+        }
     }
 }

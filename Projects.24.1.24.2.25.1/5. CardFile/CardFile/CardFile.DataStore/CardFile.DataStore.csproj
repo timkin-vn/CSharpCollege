@@ -113,8 +113,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataCollection\CardCollection.cs" />
-    <Compile Include="Dtos\CardDto.cs" />
+    <Compile Include="DataCollection\BookCollection.cs" />
+    <Compile Include="Dtos\BookDto.cs" />
     <Compile Include="FileDataAccess\Entities\JsonCard.cs" />
     <Compile Include="FileDataAccess\Entities\JsonCardCollection.cs" />
     <Compile Include="FileDataAccess\Entities\XmlCard.cs" />

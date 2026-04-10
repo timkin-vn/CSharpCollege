@@ -3,19 +3,15 @@ using CardFile.DataStore.DataCollection;
 using CardFile.DataStore.Dtos;
 using CardFile.DataStore.FileDataAccess.Entities;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
 
 namespace CardFile.DataStore.FileDataAccess.FileManagers
 {
     internal class JsonFileManager : IFileManager
     {
-        public void OpenFromFile(string fileName, CardCollection collection)
+        public void OpenFromFile(string fileName, BookCollection collection)
         {
             using (var fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
             {
@@ -26,13 +22,13 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
                         var serializer = new JsonSerializer();
                         var jsonCollection = serializer.Deserialize<JsonCardCollection>(jsonReader);
 
-                        collection.ReplaceAll(Mapping.Mapper.Map<List<CardDto>>(jsonCollection.Cards), jsonCollection.NextId);
+                        collection.ReplaceAll(Mapping.Mapper.Map<List<BookDto>>(jsonCollection.Cards), jsonCollection.NextId);
                     }
                 }
             }
         }
 
-        public void SaveToFile(string fileName, CardCollection collection)
+        public void SaveToFile(string fileName, BookCollection collection)
         {
             var jsonCollection = new JsonCardCollection
             {
@@ -43,7 +39,7 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
             {
                 using (var writer = new StreamWriter(fs))
                 {
-                    var serializer = new JsonSerializer { Formatting = Formatting.Indented, };
+                    var serializer = new JsonSerializer { Formatting = Formatting.Indented };
                     serializer.Serialize(writer, jsonCollection);
                 }
             }
