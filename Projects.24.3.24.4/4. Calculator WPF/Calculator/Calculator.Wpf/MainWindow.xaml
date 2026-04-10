@@ -3,13 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Calculator.Wpf" xmlns:viewmodels="clr-namespace:Calculator.Wpf.ViewModels"
+        xmlns:viewmodels="clr-namespace:Calculator.Wpf.ViewModels"
         mc:Ignorable="d"
-        Title="Калькулятор" Height="450" Width="800" MinHeight="450" MinWidth="400" MaxHeight="600" MaxWidth="1200">
+        Title="Калькулятор" Height="450" Width="800" MinHeight="450" MinWidth="400" MaxHeight="600" MaxWidth="1200"
+        KeyDown="Window_KeyDown">
     <Window.DataContext>
         <viewmodels:MainWindowViewModel />
     </Window.DataContext>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -35,25 +36,23 @@
         <Button Grid.Row="2" Grid.Column="0" Content="7" FontSize="36" Margin="10,5,5,5" Click="DigitButton_Click" />
         <Button Grid.Row="2" Grid.Column="1" Content="8" FontSize="36" Margin="5" Click="DigitButton_Click" />
         <Button Grid.Row="2" Grid.Column="2" Content="9" FontSize="36" Margin="5" Click="DigitButton_Click" />
-        
         <Button Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2" Content="C" FontSize="36" Margin="5,5,10,5" Click="ClearButton_Click" />
 
         <Button Grid.Row="3" Grid.Column="0" Content="4" FontSize="36" Margin="10,5,5,5" Click="DigitButton_Click" />
         <Button Grid.Row="3" Grid.Column="1" Content="5" FontSize="36" Margin="5" Click="DigitButton_Click" />
         <Button Grid.Row="3" Grid.Column="2" Content="6" FontSize="36" Margin="5" Click="DigitButton_Click" />
-        
         <Button Grid.Row="3" Grid.Column="4" Content="+" FontSize="36" Margin="5" Click="OperationButton_Click" />
         <Button Grid.Row="3" Grid.Column="5" Content="-" FontSize="36" Margin="5,5,10,5" Click="OperationButton_Click" />
 
         <Button Grid.Row="4" Grid.Column="0" Content="1" FontSize="36" Margin="10,5,5,5" Click="DigitButton_Click" />
         <Button Grid.Row="4" Grid.Column="1" Content="2" FontSize="36" Margin="5" Click="DigitButton_Click" />
         <Button Grid.Row="4" Grid.Column="2" Content="3" FontSize="36" Margin="5" Click="DigitButton_Click" />
-
         <Button Grid.Row="4" Grid.Column="4" Content="*" FontSize="36" Margin="5" Click="OperationButton_Click" />
         <Button Grid.Row="4" Grid.Column="5" Content="/" FontSize="36" Margin="5,5,10,5" Click="OperationButton_Click" />
 
         <Button Grid.Row="5" Grid.Column="0" Content="0" FontSize="36" Margin="10,5,5,10" Click="DigitButton_Click" />
-
-        <Button Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="2" Content="=" FontSize="36" Margin="5,5,10,10" Click="OperationButton_Click" />
+        <Button Grid.Row="5" Grid.Column="1" Content="←" FontSize="32" Margin="5,5,5,10" Click="BackspaceButton_Click" />
+        <Button Grid.Row="5" Grid.Column="2" Content="+/-" FontSize="24" Margin="5,5,5,10" Click="SignButton_Click" />
+        <Button Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="2" Content="=" FontSize="36" Margin="5,5,10,10" Click="EqualButton_Click" />
     </Grid>
 </Window>

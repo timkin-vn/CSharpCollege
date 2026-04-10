@@ -1,127 +1,72 @@
 ﻿using CardFile.Common.Infrastructure;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CardFile.Wpf.ViewModels
 {
     public class CardViewModel : ViewModelBase
     {
-        /// <summary>
-        /// Id
-        /// </summary>
         public int Id { get; set; }
+        public string Artist { get; set; }
+        public string AlbumTitle { get; set; }
+        public string Genre { get; set; }
+        public DateTime ReleaseDate { get; set; }
+        public string Label { get; set; }
+        public string Format { get; set; }
+        public DateTime PurchaseDate { get; set; }
+        public DateTime? LastListenDate { get; set; }
+        public decimal Price { get; set; }
 
-        /// <summary>
-        /// Имя
-        /// </summary>
-        public string FirstName { get; set; }
+        public string AlbumInfo => $"{Artist} — {AlbumTitle}";
+        public string ReleaseDateText => ReleaseDate.ToShortDateString();
+        public string PurchaseDateText => PurchaseDate.ToShortDateString();
+        public string LastListenDateText => LastListenDate?.ToShortDateString() ?? "Не слушал";
+        public string PriceText => Price.ToString("c");
 
-        /// <summary>
-        /// Отчество
-        /// </summary>
-        public string MiddleName { get; set; }
+        public bool IsNotListenedYet { get; set; }
+        public bool IsLastListenDateEnabled => !IsNotListenedYet;
 
-        /// <summary>
-        /// Фамилия
-        /// </summary>
-        public string LastName { get; set; }
-
-        public string Fio => $"{LastName} {FirstName} {MiddleName}";
-
-        /// <summary>
-        /// Дата рождения
-        /// </summary>
-        public DateTime BirthDate { get; set; }
-
-        public string BirthDateText => BirthDate.ToShortDateString();
-
-        /// <summary>
-        /// Подразделение
-        /// </summary>
-        public string Department { get; set; }
-
-        /// <summary>
-        /// Должность
-        /// </summary>
-        public string Position { get; set; }
-
-        /// <summary>
-        /// Дата трудоустройства
-        /// </summary>
-        public DateTime EmploymentDate { get; set; }
-
-        public string EmploymentDateText => EmploymentDate.ToShortDateString();
-
-        /// <summary>
-        /// Дата увольнения
-        /// </summary>
-        public DateTime? DismissalDate { get; set; }
-
-        public string DismissalDateText => DismissalDate?.ToShortDateString() ?? "-";
-
-        /// <summary>
-        /// Оклад
-        /// </summary>
-        public decimal Salary { get; set; }
-
-        public string SalaryText => Salary.ToString("c");
-
-        public bool IsWorkingTillNow { get; set; }
-
-        public bool IsDismissalDateEnabled => !IsWorkingTillNow;
-
-        public void IsWorkingTillNowChecked()
+        public void IsNotListenedYetChecked()
         {
-            DismissalDate = null;
-
-            OnPropertyChanged(nameof(DismissalDate));
-            OnPropertyChanged(nameof(IsDismissalDateEnabled));
+            LastListenDate = null;
+            OnPropertyChanged(nameof(LastListenDate));
+            OnPropertyChanged(nameof(LastListenDateText));
+            OnPropertyChanged(nameof(IsLastListenDateEnabled));
         }
 
-        public void IsWorkingTillNowUnchecked()
+        public void IsNotListenedYetUnchecked()
         {
-            DismissalDate = DateTime.Today;
-
-            OnPropertyChanged(nameof(DismissalDate));
-            OnPropertyChanged(nameof(IsDismissalDateEnabled));
+            LastListenDate = DateTime.Today;
+            OnPropertyChanged(nameof(LastListenDate));
+            OnPropertyChanged(nameof(LastListenDateText));
+            OnPropertyChanged(nameof(IsLastListenDateEnabled));
         }
 
         public void LoadViewModel(CardViewModel card)
         {
             Mapping.Mapper.Map(card, this);
-            //Id = card.Id;
-            //FirstName = card.FirstName;
-            //MiddleName = card.MiddleName;
-            //LastName = card.LastName;
-            //BirthDate = card.BirthDate;
-            //Department = card.Department;
-            //Position = card.Position;
-            //EmploymentDate = card.EmploymentDate;
-            //DismissalDate = card.DismissalDate;
-            //Salary = card.Salary;
-
-            IsWorkingTillNow = !card.DismissalDate.HasValue;
+            IsNotListenedYet = !card.LastListenDate.HasValue;
             UpdateAll();
         }
 
         private void UpdateAll()
         {
             OnPropertyChanged(nameof(Id));
-            OnPropertyChanged(nameof(FirstName));
-            OnPropertyChanged(nameof(MiddleName));
-            OnPropertyChanged(nameof(LastName));
-            OnPropertyChanged(nameof(Fio));
-            OnPropertyChanged(nameof(BirthDate));
-            OnPropertyChanged(nameof(Department));
-            OnPropertyChanged(nameof(Position));
-            OnPropertyChanged(nameof(EmploymentDate));
-            OnPropertyChanged(nameof(DismissalDate));
-            OnPropertyChanged(nameof(Salary));
-            OnPropertyChanged(nameof(IsWorkingTillNow));
-            OnPropertyChanged(nameof(IsDismissalDateEnabled));
+            OnPropertyChanged(nameof(Artist));
+            OnPropertyChanged(nameof(AlbumTitle));
+            OnPropertyChanged(nameof(Genre));
+            OnPropertyChanged(nameof(ReleaseDate));
+            OnPropertyChanged(nameof(Label));
+            OnPropertyChanged(nameof(Format));
+            OnPropertyChanged(nameof(PurchaseDate));
+            OnPropertyChanged(nameof(LastListenDate));
+            OnPropertyChanged(nameof(Price));
+            OnPropertyChanged(nameof(AlbumInfo));
+            OnPropertyChanged(nameof(ReleaseDateText));
+            OnPropertyChanged(nameof(PurchaseDateText));
+            OnPropertyChanged(nameof(LastListenDateText));
+            OnPropertyChanged(nameof(PriceText));
+            OnPropertyChanged(nameof(IsNotListenedYet));
+            OnPropertyChanged(nameof(IsLastListenDateEnabled));
         }
     }
 }

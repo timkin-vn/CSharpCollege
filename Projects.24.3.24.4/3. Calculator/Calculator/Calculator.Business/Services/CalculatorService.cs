@@ -1,9 +1,5 @@
 ﻿using Calculator.Business.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Calculator.Business.Services
 {
@@ -50,7 +46,33 @@ namespace Calculator.Business.Services
         public void PressEqual(CalculatorModel calculatorModel)
         {
             CompleteOperation(calculatorModel);
+            calculatorModel.OperationCode = null;
             calculatorModel.IsLastDigitPressed = false;
+        }
+
+        public void PressBackspace(CalculatorModel calculatorModel)
+        {
+            if (!calculatorModel.IsLastDigitPressed)
+            {
+                return;
+            }
+
+            var isNegative = calculatorModel.RegisterX < 0;
+            var value = Math.Abs(calculatorModel.RegisterX);
+
+            value = Math.Truncate(value / 10);
+            calculatorModel.RegisterX = isNegative ? -value : value;
+        }
+
+        public void PressToggleSign(CalculatorModel calculatorModel)
+        {
+            if (calculatorModel.RegisterX == 0)
+            {
+                return;
+            }
+
+            calculatorModel.RegisterX *= -1;
+            calculatorModel.IsLastDigitPressed = true;
         }
 
         private void CompleteOperation(CalculatorModel calculatorModel)
@@ -58,7 +80,7 @@ namespace Calculator.Business.Services
             switch (calculatorModel.OperationCode)
             {
                 case "+":
-                    calculatorModel.RegisterX = calculatorModel.RegisterX + calculatorModel.RegisterY;
+                    calculatorModel.RegisterX = calculatorModel.RegisterY + calculatorModel.RegisterX;
                     break;
 
                 case "-":
@@ -66,11 +88,11 @@ namespace Calculator.Business.Services
                     break;
 
                 case "*":
-                    calculatorModel.RegisterX = calculatorModel.RegisterX * calculatorModel.RegisterY;
+                    calculatorModel.RegisterX = calculatorModel.RegisterY * calculatorModel.RegisterX;
                     break;
 
                 case "/":
-                    calculatorModel.RegisterX = calculatorModel.RegisterY / calculatorModel.RegisterX;
+                    calculatorModel.RegisterX = calculatorModel.RegisterX == 0 ? 0 : calculatorModel.RegisterY / calculatorModel.RegisterX;
                     break;
             }
         }

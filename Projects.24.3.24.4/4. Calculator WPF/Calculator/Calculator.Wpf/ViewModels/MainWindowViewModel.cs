@@ -1,11 +1,6 @@
-﻿using Calculator.Business.Models;
-using Calculator.Business.Services;
-using System;
-using System.Collections.Generic;
+﻿using Calculator.Business.Services;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Calculator.Business.Models;
 
 namespace Calculator.Wpf.ViewModels
 {
@@ -22,18 +17,41 @@ namespace Calculator.Wpf.ViewModels
         public void PressDigit(string digitString)
         {
             _calculatorService.PressDigit(_calculatorModel, digitString);
-            OnPropertyChanged(nameof(DisplayValue)); // "DisplayValue"
+            UpdateDisplay();
         }
 
         public void PressClear()
         {
             _calculatorService.PressClear(_calculatorModel);
-            OnPropertyChanged(nameof(DisplayValue));
+            UpdateDisplay();
         }
 
-        public void PressOperatin(string operationCode)
+        public void PressOperation(string operationCode)
         {
             _calculatorService.PressOperation(_calculatorModel, operationCode);
+            UpdateDisplay();
+        }
+
+        public void PressEqual()
+        {
+            _calculatorService.PressEqual(_calculatorModel);
+            UpdateDisplay();
+        }
+
+        public void PressBackspace()
+        {
+            _calculatorService.PressBackspace(_calculatorModel);
+            UpdateDisplay();
+        }
+
+        public void PressToggleSign()
+        {
+            _calculatorService.PressToggleSign(_calculatorModel);
+            UpdateDisplay();
+        }
+
+        private void UpdateDisplay()
+        {
             OnPropertyChanged(nameof(DisplayValue));
         }
 
