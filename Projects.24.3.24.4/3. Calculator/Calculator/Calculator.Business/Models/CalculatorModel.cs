@@ -10,6 +10,11 @@ namespace Calculator.Business.Models
     {
         public double RegisterX { get; internal set; }
 
+        public void SetRegisterX(double value)
+        {
+            RegisterX = value;
+        }
+
         internal double RegisterY { get; set; }
 
         internal string OperationCode { get; set; }
