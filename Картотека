@@ -1,0 +1,103 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace LibraryCatalog
+{
+    class BookCard
+    {
+        public int Id { get; set; }
+        public string Author { get; set; }
+        public string Title { get; set; }
+        public string Publisher { get; set; }
+        public string FullTitle => $"{Author}: «{Title}»";
+        public int YearPublished { get; set; }
+        public double Rating { get; set; }
+        public decimal PurchasePrice { get; set; }
+        public bool IsInStock { get; set; }
+        public int PageCount { get; set; }
+        public DateTime? WriteOffDate { get; set; }
+        public Genre BookGenre { get; set; }
+    }
+    
+    enum Genre
+    {
+        Детектив,
+        Фантастика,
+        Роман,
+        Поэзия,
+        НаучнаяЛитература,
+        ДетскаяЛитература
+    }
+
+    class Program
+    {
+        static List<BookCard> catalog = new List<BookCard>();
+
+        static async Task Main()
+        {
+            Console.WriteLine("Загрузка библиотечного каталога...");
+            await Task.Run(() => FillCatalog());
+            
+            Console.WriteLine("\nКаталог загружен. Список книг:");
+            Console.WriteLine(new string('=', 70));
+            
+            foreach (var book in catalog)
+            {
+                string status = book.IsInStock ? "В фонде" : "Списана";
+                string writeOff = book.WriteOffDate.HasValue 
+                    ? $" (списана {book.WriteOffDate.Value:dd.MM.yyyy})" 
+                    : "";
+                
+                Console.WriteLine($"ID: {book.Id} | {book.FullTitle}");
+                Console.WriteLine($"Издательство: {book.Publisher}, {book.YearPublished} г.");
+                Console.WriteLine($"Жанр: {book.BookGenre} | Страниц: {book.PageCount}");
+                Console.WriteLine($"Рейтинг: {book.Rating:F1}/10 | Цена: {book.PurchasePrice:C}");
+                Console.WriteLine($"Статус: {status}{writeOff}");
+                Console.WriteLine(new string('-', 70));
+            }
+            
+            Console.WriteLine($"\nВсего карточек в каталоге: {catalog.Count}");
+            Console.WriteLine("Нажмите любую клавишу для выхода...");
+            Console.ReadKey();
+        }
+        
+        static void FillCatalog()
+        {
+            var booksData = new[]
+            {
+                new { Author = "Достоевский Ф.М.", Title = "Преступление и наказание", Publisher = "Азбука", Year = 1866, Genre = Genre.Роман, Pages = 672, Rating = 9.2, Price = 450m, InStock = true, WriteOff = (DateTime?)null },
+                new { Author = "Булгаков М.А.", Title = "Мастер и Маргарита", Publisher = "Эксмо", Year = 1967, Genre = Genre.Роман, Pages = 512, Rating = 9.5, Price = 520m, InStock = true, WriteOff = (DateTime?)null },
+                new { Author = "Лукьяненко С.В.", Title = "Ночной дозор", Publisher = "АСТ", Year = 1998, Genre = Genre.Фантастика, Pages = 448, Rating = 8.0, Price = 380m, InStock = true, WriteOff = (DateTime?)null },
+                new { Author = "Агата Кристи", Title = "Убийство в Восточном экспрессе", Publisher = "Эксмо", Year = 1934, Genre = Genre.Детектив, Pages = 320, Rating = 8.8, Price = 350m, InStock = false, WriteOff = new DateTime(2023, 5, 15) },
+                new { Author = "Пушкин А.С.", Title = "Евгений Онегин", Publisher = "Детская литература", Year = 1833, Genre = Genre.Поэзия, Pages = 288, Rating = 9.0, Price = 300m, InStock = true, WriteOff = (DateTime?)null },
+                new { Author = "Хокинг С.", Title = "Краткая история времени", Publisher = "Амфора", Year = 1988, Genre = Genre.НаучнаяЛитература, Pages = 256, Rating = 8.5, Price = 650m, InStock = true, WriteOff = (DateTime?)null },
+                new { Author = "Роулинг Дж.К.", Title = "Гарри Поттер и философский камень", Publisher = "Росмэн", Year = 1997, Genre = Genre.ДетскаяЛитература, Pages = 432, Rating = 9.1, Price = 490m, InStock = true, WriteOff = (DateTime?)null },
+                new { Author = "Кинг С.", Title = "Сияние", Publisher = "АСТ", Year = 1977, Genre = Genre.Детектив, Pages = 528, Rating = 8.3, Price = 420m, InStock = false, WriteOff = new DateTime(2024, 1, 20) },
+                new { Author = "Оруэлл Дж.", Title = "1984", Publisher = "Азбука", Year = 1949, Genre = Genre.Фантастика, Pages = 368, Rating = 9.4, Price = 400m, InStock = true, WriteOff = (DateTime?)null },
+                new { Author = "Толкин Дж.Р.Р.", Title = "Хоббит", Publisher = "АСТ", Year = 1937, Genre = Genre.Фантастика, Pages = 384, Rating = 8.9, Price = 470m, InStock = true, WriteOff = (DateTime?)null }
+            };
+            
+            int id = 1;
+            foreach (var data in booksData)
+            {
+                catalog.Add(new BookCard
+                {
+                    Id = id++,
+                    Author = data.Author,
+                    Title = data.Title,
+                    Publisher = data.Publisher,
+                    YearPublished = data.Year,
+                    Rating = data.Rating,
+                    PurchasePrice = data.Price,
+                    IsInStock = data.InStock,
+                    PageCount = data.Pages,
+                    WriteOffDate = data.WriteOff,
+                    BookGenre = data.Genre
+                });
+                
+                System.Threading.Thread.Sleep(100);
+            }
+        }
+    }
+}
