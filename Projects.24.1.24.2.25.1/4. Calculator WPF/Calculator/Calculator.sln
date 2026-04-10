@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36930.0 d17.14
+# Visual Studio Version 18
+VisualStudioVersion = 18.4.11626.88 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator.Wpf", "Calculator.Wpf\Calculator.Wpf.csproj", "{C1ADF330-FF7D-45A5-BC0C-FFA808D36333}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator.Business", "..\..\3. Calculator\Calculator\Calculator.Business\Calculator.Business.csproj", "{55BB961E-1BB2-40D2-B6F9-457FA9A2828E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator.WpfMur", "..\..\..\..\..\..\OneDrive\Рабочий стол\myproj\murtzin-dmitry Calculator WPF\Calculator\Calculator.Wpf\Calculator.WpfMur.csproj", "{62327976-9055-4BE3-94B3-908F45286438}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator.BusinessMur", "..\..\..\..\..\..\OneDrive\Рабочий стол\myproj\murtzin-dmitry Calculator WPF\Calculator\Calculator.Business\Calculator.BusinessMur.csproj", "{2E55723A-8FD9-4CE5-97A3-54D6D5CCAD7B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{55BB961E-1BB2-40D2-B6F9-457FA9A2828E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55BB961E-1BB2-40D2-B6F9-457FA9A2828E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55BB961E-1BB2-40D2-B6F9-457FA9A2828E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62327976-9055-4BE3-94B3-908F45286438}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62327976-9055-4BE3-94B3-908F45286438}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62327976-9055-4BE3-94B3-908F45286438}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62327976-9055-4BE3-94B3-908F45286438}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E55723A-8FD9-4CE5-97A3-54D6D5CCAD7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E55723A-8FD9-4CE5-97A3-54D6D5CCAD7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E55723A-8FD9-4CE5-97A3-54D6D5CCAD7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E55723A-8FD9-4CE5-97A3-54D6D5CCAD7B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
