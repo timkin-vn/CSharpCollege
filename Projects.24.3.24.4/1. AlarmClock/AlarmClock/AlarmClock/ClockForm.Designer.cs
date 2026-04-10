@@ -43,16 +43,16 @@
             this.DisplayLabel.ForeColor = System.Drawing.Color.GreenYellow;
             this.DisplayLabel.Location = new System.Drawing.Point(12, 9);
             this.DisplayLabel.Name = "DisplayLabel";
-            this.DisplayLabel.Size = new System.Drawing.Size(328, 83);
+            this.DisplayLabel.Size = new System.Drawing.Size(328, 78);
             this.DisplayLabel.TabIndex = 0;
             this.DisplayLabel.Text = "00:00:00";
             this.DisplayLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // SettingsButton
             // 
-            this.SettingsButton.Location = new System.Drawing.Point(346, 9);
+            this.SettingsButton.Location = new System.Drawing.Point(12, 248);
             this.SettingsButton.Name = "SettingsButton";
-            this.SettingsButton.Size = new System.Drawing.Size(108, 23);
+            this.SettingsButton.Size = new System.Drawing.Size(328, 23);
             this.SettingsButton.TabIndex = 1;
             this.SettingsButton.Text = "Настройки...";
             this.SettingsButton.UseVisualStyleBackColor = true;
@@ -60,9 +60,9 @@
             // 
             // AboutButton
             // 
-            this.AboutButton.Location = new System.Drawing.Point(346, 39);
+            this.AboutButton.Location = new System.Drawing.Point(12, 277);
             this.AboutButton.Name = "AboutButton";
-            this.AboutButton.Size = new System.Drawing.Size(108, 23);
+            this.AboutButton.Size = new System.Drawing.Size(158, 23);
             this.AboutButton.TabIndex = 2;
             this.AboutButton.Text = "О программе...";
             this.AboutButton.UseVisualStyleBackColor = true;
@@ -70,9 +70,9 @@
             // 
             // ExitButton
             // 
-            this.ExitButton.Location = new System.Drawing.Point(346, 69);
+            this.ExitButton.Location = new System.Drawing.Point(172, 277);
             this.ExitButton.Name = "ExitButton";
-            this.ExitButton.Size = new System.Drawing.Size(108, 23);
+            this.ExitButton.Size = new System.Drawing.Size(164, 23);
             this.ExitButton.TabIndex = 3;
             this.ExitButton.Text = "Выход";
             this.ExitButton.UseVisualStyleBackColor = true;
@@ -88,7 +88,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(466, 106);
+            this.ClientSize = new System.Drawing.Size(348, 312);
             this.Controls.Add(this.ExitButton);
             this.Controls.Add(this.AboutButton);
             this.Controls.Add(this.SettingsButton);
@@ -98,7 +98,6 @@
             this.Name = "ClockForm";
             this.Text = "Будильник";
             this.ResumeLayout(false);
-
         }
 
         #endregion

@@ -25,6 +25,7 @@ namespace AlarmClock.Forms
         public AwakeForm()
         {
             InitializeComponent();
+            GenerateMathProblem();
         }
 
         private void AwakeForm_Load(object sender, EventArgs e)
@@ -40,8 +41,23 @@ namespace AlarmClock.Forms
             AwakePictureBox.Load(_imageFileNames[_imageIndex]);
         }
 
+        private int correctAnswer;
+        
         private void AwakeTimer_Tick(object sender, EventArgs e)
         {
+            if (int.TryParse(InputProblem.Text, out int userAnswer))
+            {
+                if (userAnswer == correctAnswer)
+                {
+                    InputProblem.Text = "Верно!";
+                    ActiveForm.Close();
+                }
+                else
+                {
+                    ProblemText.BackColor = Color.White;
+                }
+            }
+            
             _imageIndex++;
             if (_imageIndex >= _imageFileNames.Length)
             {
@@ -49,6 +65,23 @@ namespace AlarmClock.Forms
             }
 
             AwakePictureBox.Load(_imageFileNames[_imageIndex]);
+        }
+
+        private void GenerateMathProblem()
+        {
+            Random rnd = new Random();
+            int a = rnd.Next(5, 20);
+            int b = rnd.Next(5, 20);
+            correctAnswer = a + b;
+            
+
+            ProblemText.Text = $"{a} + {b} = ?";
+            InputProblem.Focus();
+        }
+
+        private void AlarmMessageLabel_Click(object sender, EventArgs e)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

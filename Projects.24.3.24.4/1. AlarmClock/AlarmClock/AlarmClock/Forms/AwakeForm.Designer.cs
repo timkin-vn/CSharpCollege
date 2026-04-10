@@ -30,9 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             this.AlarmMessageLabel = new System.Windows.Forms.Label();
-            this.AwakeButton = new System.Windows.Forms.Button();
             this.AwakePictureBox = new System.Windows.Forms.PictureBox();
             this.AwakeTimer = new System.Windows.Forms.Timer(this.components);
+            this.InputProblem = new System.Windows.Forms.TextBox();
+            this.ProblemText = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.AwakePictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -41,27 +42,18 @@
             this.AlarmMessageLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.AlarmMessageLabel.Location = new System.Drawing.Point(12, 9);
             this.AlarmMessageLabel.Name = "AlarmMessageLabel";
-            this.AlarmMessageLabel.Size = new System.Drawing.Size(584, 38);
+            this.AlarmMessageLabel.Size = new System.Drawing.Size(456, 38);
             this.AlarmMessageLabel.TabIndex = 0;
             this.AlarmMessageLabel.Text = "Сообщение";
             this.AlarmMessageLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // AwakeButton
-            // 
-            this.AwakeButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.AwakeButton.Location = new System.Drawing.Point(248, 415);
-            this.AwakeButton.Name = "AwakeButton";
-            this.AwakeButton.Size = new System.Drawing.Size(118, 23);
-            this.AwakeButton.TabIndex = 1;
-            this.AwakeButton.Text = "Я проснулся";
-            this.AwakeButton.UseVisualStyleBackColor = true;
+            this.AlarmMessageLabel.Click += new System.EventHandler(this.AlarmMessageLabel_Click);
             // 
             // AwakePictureBox
             // 
             this.AwakePictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.AwakePictureBox.Location = new System.Drawing.Point(13, 51);
+            this.AwakePictureBox.Location = new System.Drawing.Point(12, 51);
             this.AwakePictureBox.Name = "AwakePictureBox";
-            this.AwakePictureBox.Size = new System.Drawing.Size(583, 358);
+            this.AwakePictureBox.Size = new System.Drawing.Size(456, 248);
             this.AwakePictureBox.TabIndex = 2;
             this.AwakePictureBox.TabStop = false;
             // 
@@ -71,13 +63,30 @@
             this.AwakeTimer.Interval = 5000;
             this.AwakeTimer.Tick += new System.EventHandler(this.AwakeTimer_Tick);
             // 
+            // InputProblem
+            // 
+            this.InputProblem.Location = new System.Drawing.Point(12, 348);
+            this.InputProblem.Name = "InputProblem";
+            this.InputProblem.Size = new System.Drawing.Size(456, 20);
+            this.InputProblem.TabIndex = 3;
+            this.InputProblem.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // ProblemText
+            // 
+            this.ProblemText.Location = new System.Drawing.Point(12, 302);
+            this.ProblemText.Name = "ProblemText";
+            this.ProblemText.Size = new System.Drawing.Size(453, 43);
+            this.ProblemText.TabIndex = 4;
+            this.ProblemText.Text = "label1";
+            // 
             // AwakeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(608, 450);
+            this.ClientSize = new System.Drawing.Size(480, 381);
+            this.Controls.Add(this.ProblemText);
+            this.Controls.Add(this.InputProblem);
             this.Controls.Add(this.AwakePictureBox);
-            this.Controls.Add(this.AwakeButton);
             this.Controls.Add(this.AlarmMessageLabel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -87,13 +96,16 @@
             this.Load += new System.EventHandler(this.AwakeForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.AwakePictureBox)).EndInit();
             this.ResumeLayout(false);
-
+            this.PerformLayout();
         }
+
+        private System.Windows.Forms.Label ProblemText;
+
+        private System.Windows.Forms.TextBox InputProblem;
 
         #endregion
 
         private System.Windows.Forms.Label AlarmMessageLabel;
-        private System.Windows.Forms.Button AwakeButton;
         private System.Windows.Forms.PictureBox AwakePictureBox;
         private System.Windows.Forms.Timer AwakeTimer;
     }

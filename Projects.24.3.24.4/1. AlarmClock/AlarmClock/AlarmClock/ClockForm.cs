@@ -24,11 +24,23 @@ namespace AlarmClock
 
         private void ClockTimer_Tick(object sender, EventArgs e)
         {
-            DisplayLabel.Text = DateTime.Now.ToLongTimeString();
+            if (_clockState.IsAlarmActive)
+            {
+                TimeSpan remaining = _clockState.AlarmTime - DateTime.Now;
+
+                if (remaining.TotalSeconds > 0)
+                {
+                    DisplayLabel.Text = remaining.ToString(@"hh\:mm\:ss");
+                }
+                else
+                {
+                    DisplayLabel.Text = DateTime.Now.ToString(@"hh\:mm\:ss");
+                }
+            }
 
             if (!_clockState.IsAlarmActive)
             {
-                return;
+                DisplayLabel.Text = DateTime.Now.ToString(@"hh\:mm\:ss");
             }
 
             if (!_clockState.IsAwakeActivated &&
@@ -38,6 +50,7 @@ namespace AlarmClock
                 _clockState.IsAwakeActivated = true;
 
                 var awakeForm = new AwakeForm { ClockState = _clockState };
+                
                 awakeForm.FormClosed += AwakeForm_FormClosed;
 
                 awakeForm.ShowDialog();
