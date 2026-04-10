@@ -1,14 +1,10 @@
-﻿using CardFile.Business.Models;
+using CardFile.Business.Models;
 using CardFile.Business.Services;
 using CardFile.Common.Infrastructure;
 using CardFile.Wpf.Infrastructure;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CardFile.Wpf.ViewModels
 {
@@ -32,7 +28,6 @@ namespace CardFile.Wpf.ViewModels
         public void WindowLoaded()
         {
             Mapping.Initialize();
-
             LoadAllData();
         }
 
@@ -45,8 +40,12 @@ namespace CardFile.Wpf.ViewModels
         {
             return new CardViewModel
             {
-                BirthDate = new DateTime(2000, 6, 15),
-                EmploymentDate = new DateTime(2020, 6, 15),
+                ReleaseDate = new DateTime(2020, 1, 1),
+                PurchaseDate = DateTime.Today,
+                PersonalRating = 8,
+                Price = 1999m,
+                IsDigital = true,
+                IsNotCompleted = true
             };
         }
 
@@ -59,7 +58,7 @@ namespace CardFile.Wpf.ViewModels
                 throw new Exception("Карточка с таким Id не существует");
             }
 
-            var id =_service.Save(ToBusiness(card));
+            var id = _service.Save(ToBusiness(card));
 
             if (id < 0)
             {
@@ -127,37 +126,11 @@ namespace CardFile.Wpf.ViewModels
         private CardViewModel ToViewModel(Card card)
         {
             return Mapping.Mapper.Map<CardViewModel>(card);
-            //return new CardViewModel
-            //{
-            //    Id = card.Id,
-            //    FirstName = card.FirstName,
-            //    LastName = card.LastName,
-            //    MiddleName = card.MiddleName,
-            //    BirthDate = card.BirthDate,
-            //    Department = card.Department,
-            //    Position = card.Position,
-            //    EmploymentDate = card.EmploymentDate,
-            //    DismissalDate = card.DismissalDate,
-            //    Salary = card.Salary,
-            //};
         }
 
         private Card ToBusiness(CardViewModel card)
         {
             return Mapping.Mapper.Map<Card>(card);
-            //return new Card
-            //{
-            //    Id = card.Id,
-            //    FirstName = card.FirstName,
-            //    LastName = card.LastName,
-            //    MiddleName = card.MiddleName,
-            //    BirthDate = card.BirthDate,
-            //    Department = card.Department,
-            //    Position = card.Position,
-            //    EmploymentDate = card.EmploymentDate,
-            //    DismissalDate = card.DismissalDate,
-            //    Salary = card.Salary,
-            //};
         }
     }
 }
