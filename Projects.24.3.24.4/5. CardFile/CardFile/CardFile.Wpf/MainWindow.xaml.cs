@@ -1,27 +1,13 @@
 ﻿using CardFile.Wpf.ViewModels;
 using CardFile.Wpf.Views;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CardFile.Wpf
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
+
         public MainWindowViewModel ViewModel => (MainWindowViewModel)DataContext;
 
         public MainWindow()
@@ -29,55 +15,41 @@ namespace CardFile.Wpf
             InitializeComponent();
         }
 
-        private void FileOpenMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void FileSaveMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void FileSaveAsMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void FileExitMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
-
         private void CreateCardButton_Click(object sender, RoutedEventArgs e)
         {
             var card = ViewModel.GetNewCard();
             var window = new CardEditWindow();
-            window.ViewModel.LoadViewModel(card);
-            if (window.ShowDialog() != true)
-            {
-                return;
-            }
 
-            ViewModel.SaveNewCard(window.ViewModel);
+
+            var editViewModel = new CardViewModel();
+            editViewModel.LoadViewModel(card);
+
+   
+            window.DataContext = editViewModel;
+
+            if (window.ShowDialog() == true)
+            {
+  
+                ViewModel.SaveNewCard((CardViewModel)window.DataContext);
+            }
         }
 
         private void EditCardButton_Click(object sender, RoutedEventArgs e)
         {
             var card = ViewModel.GetSelectedCard();
-            if (card == null)
-            {
-                return;
-            }
+            if (card == null) return;
 
             var window = new CardEditWindow();
-            window.ViewModel.LoadViewModel(card);
-            if (window.ShowDialog() != true)
-            {
-                return;
-            }
 
-            ViewModel.SaveEditedCard(window.ViewModel);
+            var editViewModel = new CardViewModel();
+            editViewModel.LoadViewModel(card);
+
+            window.DataContext = editViewModel;
+
+            if (window.ShowDialog() == true)
+            {
+                ViewModel.SaveEditedCard((CardViewModel)window.DataContext);
+            }
         }
 
         private void DeleteCardButton_Click(object sender, RoutedEventArgs e)
@@ -94,5 +66,13 @@ namespace CardFile.Wpf
         {
             ViewModel.SelectionChanged();
         }
+
+        
+        private void FileExitMenuItem_Click(object sender, RoutedEventArgs e) => Close();
+        private void FileOpenMenuItem_Click(object sender, RoutedEventArgs e) { ViewModel.Open(); }
+        private void FileSaveMenuItem_Click(object sender, RoutedEventArgs e) {
+            ViewModel.SaveAs();
+        }
+        private void FileSaveAsMenuItem_Click(object sender, RoutedEventArgs e) { ViewModel.SaveAs(); }
     }
 }

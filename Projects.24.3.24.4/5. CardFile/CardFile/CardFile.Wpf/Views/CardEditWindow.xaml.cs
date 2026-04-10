@@ -46,5 +46,9 @@ namespace CardFile.Wpf.Views
         {
             ViewModel.IsWorkingTillNowUnchecked();
         }
+        private void Accept_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = true;
+        }
     }
 }

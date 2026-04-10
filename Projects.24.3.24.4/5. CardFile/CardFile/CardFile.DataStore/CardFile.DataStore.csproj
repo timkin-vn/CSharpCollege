@@ -107,7 +107,6 @@
   <ItemGroup>
     <Compile Include="DataCollection\CardCollection.cs" />
     <Compile Include="Dtos\CardDto.cs" />
-    <Compile Include="Infrastructure\MapperInitialization.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -119,6 +118,9 @@
       <Project>{23600345-6EF5-4070-A0EF-42C605556D09}</Project>
       <Name>CardFile.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Infrastructure\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.ValueTuple.4.6.1\build\net471\System.ValueTuple.targets" Condition="Exists('..\packages\System.ValueTuple.4.6.1\build\net471\System.ValueTuple.targets')" />

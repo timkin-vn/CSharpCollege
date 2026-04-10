@@ -31,13 +31,11 @@
             <DataGrid ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" AutoGenerateColumns="False" IsReadOnly="True"
                       CanUserAddRows="False" Grid.Row="0" Margin="5" SelectionChanged="DataGrid_SelectionChanged">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ФИО" Binding="{Binding Fio}" />
-                    <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDateText}" />
-                    <DataGridTextColumn Header="Подразделение" Binding="{Binding Department}" />
-                    <DataGridTextColumn Header="Должность" Binding="{Binding Position}" />
-                    <DataGridTextColumn Header="Дата трудоустройства" Binding="{Binding EmploymentDateText}" />
-                    <DataGridTextColumn Header="Дата увольнения" Binding="{Binding DismissalDateText}" />
-                    <DataGridTextColumn Header="Оклад" Binding="{Binding SalaryText}" />
+                    <DataGridTextColumn Header="Автомобиль" Binding="{Binding FullTitle}" Width="*" />
+                    <DataGridTextColumn Header="Год" Binding="{Binding Year}" />
+                    <DataGridTextColumn Header="Цена" Binding="{Binding Price, StringFormat={}{0:N0} руб.}" />
+                    <DataGridTextColumn Header="Пробег" Binding="{Binding Mileage}" />
+                    <DataGridTextColumn Header="Последнее ТО" Binding="{Binding LastServiceDate, StringFormat=\{0:dd.MM.yyyy\}, TargetNullValue='—'}" />
                 </DataGrid.Columns>
             </DataGrid>
 
