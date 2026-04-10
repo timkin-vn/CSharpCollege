@@ -21,75 +21,62 @@ namespace CardFile.DataStore.DataCollection
             _cards.Add(new CardDto
             {
                 Id = 1,
-                FirstName = "Андрей",
-                MiddleName = "Геннадьевич",
-                LastName = "Захаров",
-                BirthDate = new DateTime(1985, 11, 7),
-                Department = "Отдел разработки",
-                Position = "Руководитель проекта",
-                EmploymentDate = new DateTime(2010, 4, 18),
-                DismissalDate = null,
-                Salary = 250000m,
+                ClientFirstName = "Андрей",
+                ClientLastName = "Захаров",
+                ProductName = "Ноутбук Lenovo IdeaPad",
+                OrderDate = new DateTime(2026, 3, 11),
+                Address = "г. Нижний Новгород, ул. Горького, д. 14",
+                DeliveryMethod = "Курьер",
+                ShippingDate = new DateTime(2026, 3, 12),
+                ReceivedDate = new DateTime(2026, 3, 14),
+                TotalAmount = 74990m,
             });
 
             _cards.Add(new CardDto
             {
                 Id = 2,
-                FirstName = "Нина",
-                MiddleName = "Аркадьевна",
-                LastName = "Шевченко",
-                BirthDate = new DateTime(1990, 8, 21),
-                Department = "Отдел тестирования",
-                Position = "Старший тестировщик",
-                EmploymentDate = new DateTime(2015, 2, 14),
-                DismissalDate = new DateTime(2024, 11, 3),
-                Salary = 200000m,
+                ClientFirstName = "Нина",
+                ClientLastName = "Шевченко",
+                ProductName = "Смартфон Samsung Galaxy A55",
+                OrderDate = new DateTime(2026, 3, 18),
+                Address = "г. Казань, ул. Баумана, д. 8",
+                DeliveryMethod = "Пункт выдачи",
+                ShippingDate = new DateTime(2026, 3, 19),
+                ReceivedDate = new DateTime(2026, 3, 22),
+                TotalAmount = 38990m,
             });
 
             _cards.Add(new CardDto
             {
                 Id = 3,
-                FirstName = "Виктор",
-                MiddleName = "Петрович",
-                LastName = "Васильев",
-                BirthDate = new DateTime(2001, 3, 11),
-                Department = "Отдел разработки",
-                Position = "Ведущий разработчик",
-                EmploymentDate = new DateTime(2020, 9, 25),
-                DismissalDate = null,
-                Salary = 300000m,
+                ClientFirstName = "Виктор",
+                ClientLastName = "Васильев",
+                ProductName = "Игровая мышь Logitech G102",
+                OrderDate = new DateTime(2026, 4, 2),
+                Address = "г. Самара, ул. Ленина, д. 25",
+                DeliveryMethod = "Почта",
+                ShippingDate = new DateTime(2026, 4, 3),
+                ReceivedDate = null,
+                TotalAmount = 2490m,
             });
 
             _cards.Add(new CardDto
             {
                 Id = 4,
-                FirstName = "Ольга",
-                MiddleName = "Владимировна",
-                LastName = "Меднис",
-                BirthDate = new DateTime(1981, 9, 2),
-                Department = "Бухгалтерия",
-                Position = "Главный бухгалтер",
-                EmploymentDate = new DateTime(2010, 9, 25),
-                DismissalDate = new DateTime(2023, 3, 18),
-                Salary = 150000m,
+                ClientFirstName = "Ольга",
+                ClientLastName = "Меднис",
+                ProductName = "Наушники Sony WH-CH720N",
+                OrderDate = new DateTime(2026, 4, 5),
+                Address = "г. Москва, ул. Тверская, д. 19",
+                DeliveryMethod = "Курьер",
+                ShippingDate = new DateTime(2026, 4, 6),
+                ReceivedDate = null,
+                TotalAmount = 9990m,
             });
         }
 
         public IEnumerable<CardDto> GetAll()
         {
-            //return _cards;
-
-            //return new List<CardDto>(_cards);
-
-            //var result = new List<CardDto>();
-
-            //foreach (var card in _cards)
-            //{
-            //    result.Add(card.Clone());
-            //}
-
-            //return result;
-
             return _cards.Select(c => c.Clone()).ToList();
         }
 

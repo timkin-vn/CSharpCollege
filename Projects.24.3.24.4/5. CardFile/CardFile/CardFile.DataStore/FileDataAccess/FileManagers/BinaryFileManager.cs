@@ -3,9 +3,6 @@ using CardFile.DataStore.Dtos;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CardFile.DataStore.FileDataAccess.FileManagers
 {
@@ -14,82 +11,62 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
         public void OpenFromFile(string fileName, CardCollection collection)
         {
             using (var fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+            using (var reader = new BinaryReader(fs))
             {
-                using (var reader = new BinaryReader(fs))
+                var records = new List<CardDto>();
+
+                try
                 {
-                    var records = new List<CardDto>();
-
-                    try
+                    while (reader.BaseStream.Position < reader.BaseStream.Length)
                     {
-                        while (reader.BaseStream.Position < reader.BaseStream.Length)
-                        {
-                            var newCard = new CardDto();
+                        var newCard = new CardDto();
+                        newCard.Id = reader.ReadInt32();
+                        newCard.ClientFirstName = reader.ReadString();
+                        newCard.ClientLastName = reader.ReadString();
+                        newCard.ProductName = reader.ReadString();
+                        newCard.OrderDate = new DateTime(reader.ReadInt64());
+                        newCard.Address = reader.ReadString();
+                        newCard.DeliveryMethod = reader.ReadString();
+                        newCard.ShippingDate = new DateTime(reader.ReadInt64());
 
-                            newCard.Id = reader.ReadInt32();
-                            newCard.FirstName = reader.ReadString();
-                            newCard.MiddleName = reader.ReadString();
-                            newCard.LastName = reader.ReadString();
+                        var isNullableDatePresent = reader.ReadBoolean();
+                        if (isNullableDatePresent)
+                            newCard.ReceivedDate = new DateTime(reader.ReadInt64());
+                        else
+                            newCard.ReceivedDate = null;
 
-                            var ticks = reader.ReadInt64();
-                            newCard.BirthDate = new DateTime(ticks);
-
-                            newCard.Department = reader.ReadString();
-                            newCard.Position = reader.ReadString();
-
-                            ticks = reader.ReadInt64();
-                            newCard.EmploymentDate = new DateTime(ticks);
-
-                            var isDismissalDatePresent = reader.ReadBoolean();
-                            if (isDismissalDatePresent)
-                            {
-                                ticks = reader.ReadInt64();
-                                newCard.DismissalDate = new DateTime(ticks);
-                            }
-                            else
-                            {
-                                newCard.DismissalDate = null;
-                            }
-
-                            newCard.Salary = reader.ReadDecimal();
-
-                            records.Add(newCard);
-                        }
+                        newCard.TotalAmount = reader.ReadDecimal();
+                        records.Add(newCard);
                     }
-                    catch
-                    {
-                        throw new Exception($"Неверные данные в файле {fileName}");
-                    }
-
-                    collection.ReplaceAll(records);
                 }
+                catch
+                {
+                    throw new Exception($"Неверные данные в файле {fileName}");
+                }
+
+                collection.ReplaceAll(records);
             }
         }
 
         public void SaveToFile(string fileName, CardCollection collection)
         {
             using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
+            using (var writer = new BinaryWriter(fs))
             {
-                using (var writer = new BinaryWriter(fs))
+                foreach (var item in collection.GetAll())
                 {
-                    foreach (var item in collection.GetAll())
-                    {
-                        writer.Write(item.Id);
-                        writer.Write(item.FirstName);
-                        writer.Write(item.MiddleName);
-                        writer.Write(item.LastName);
-                        writer.Write(item.BirthDate.Ticks);
-                        writer.Write(item.Department);
-                        writer.Write(item.Position);
-                        writer.Write(item.EmploymentDate.Ticks);
-
-                        writer.Write(item.DismissalDate.HasValue);
-                        if (item.DismissalDate.HasValue)
-                        {
-                            writer.Write(item.DismissalDate.Value.Ticks);
-                        }
-
-                        writer.Write(item.Salary);
-                    }
+                    writer.Write(item.Id);
+                    writer.Write(item.ClientFirstName);
+                    writer.Write(item.ClientLastName);
+                    writer.Write(item.ProductName);
+                    writer.Write(item.OrderDate.Ticks);
+                    writer.Write(item.Address);
+                    writer.Write(item.DeliveryMethod);
+                    writer.Write(item.ShippingDate.Ticks);
+                    writer.Write(item.ReceivedDate.HasValue);
+                    if (item.ReceivedDate.HasValue)
+                        writer.Write(item.ReceivedDate.Value.Ticks);
+                    writer.Write(item.TotalAmount);
                 }
             }
         }

@@ -1,93 +1,59 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace CardFile.DataStore.FileDataAccess.Entities
 {
     public class XmlCard
     {
-        /// <summary>
-        /// Id
-        /// </summary>
         [XmlAttribute("Id")]
         public int Id { get; set; }
 
-        /// <summary>
-        /// Имя
-        /// </summary>
-        [XmlAttribute("FirstName")]
-        public string FirstName { get; set; }
+        [XmlAttribute("ClientFirstName")]
+        public string ClientFirstName { get; set; }
 
-        /// <summary>
-        /// Отчество
-        /// </summary>
-        [XmlAttribute("MiddleName")]
-        public string MiddleName { get; set; }
+        [XmlAttribute("ClientLastName")]
+        public string ClientLastName { get; set; }
 
-        /// <summary>
-        /// Фамилия
-        /// </summary>
-        [XmlAttribute("LastName")]
-        public string LastName { get; set; }
+        [XmlAttribute("ProductName")]
+        public string ProductName { get; set; }
 
-        /// <summary>
-        /// Дата рождения
-        /// </summary>
         [XmlIgnore]
-        public DateTime BirthDate { get; set; }
+        public DateTime OrderDate { get; set; }
 
-        [XmlAttribute("BirthDate")]
-        public string BirthDateText
+        [XmlAttribute("OrderDate")]
+        public string OrderDateText
         {
-            get => BirthDate.ToShortDateString();
-            set => BirthDate = DateTime.Parse(value);
+            get => OrderDate.ToShortDateString();
+            set => OrderDate = DateTime.Parse(value);
         }
 
-        /// <summary>
-        /// Подразделение
-        /// </summary>
-        [XmlAttribute("Department")]
-        public string Department { get; set; }
+        [XmlAttribute("Address")]
+        public string Address { get; set; }
 
-        /// <summary>
-        /// Должность
-        /// </summary>
-        [XmlAttribute("Position")]
-        public string Position { get; set; }
+        [XmlAttribute("DeliveryMethod")]
+        public string DeliveryMethod { get; set; }
 
-        /// <summary>
-        /// Дата трудоустройства
-        /// </summary>
         [XmlIgnore]
-        public DateTime EmploymentDate { get; set; }
+        public DateTime ShippingDate { get; set; }
 
-        [XmlAttribute("EmploymentDate")]
-        public string EmploymentDateText
+        [XmlAttribute("ShippingDate")]
+        public string ShippingDateText
         {
-            get => EmploymentDate.ToShortDateString();
-            set => EmploymentDate = DateTime.Parse(value);
+            get => ShippingDate.ToShortDateString();
+            set => ShippingDate = DateTime.Parse(value);
         }
 
-        /// <summary>
-        /// Дата увольнения
-        /// </summary>
         [XmlIgnore]
-        public DateTime? DismissalDate { get; set; }
+        public DateTime? ReceivedDate { get; set; }
 
-        [XmlAttribute("DismissalDate")]
-        public string DismissalDateText
+        [XmlAttribute("ReceivedDate")]
+        public string ReceivedDateText
         {
-            get => DismissalDate?.ToShortDateString() ?? "-";
-            set => DismissalDate = (value == "-") ? (DateTime?)null : DateTime.Parse(value);
+            get => ReceivedDate?.ToShortDateString() ?? "-";
+            set => ReceivedDate = value == "-" ? (DateTime?)null : DateTime.Parse(value);
         }
 
-        /// <summary>
-        /// Оклад
-        /// </summary>
-        [XmlAttribute("Salary")]
-        public decimal Salary { get; set; }
+        [XmlAttribute("TotalAmount")]
+        public decimal TotalAmount { get; set; }
     }
 }
