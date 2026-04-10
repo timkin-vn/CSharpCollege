@@ -1,0 +1,31 @@
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+class Program
+{
+    static void Main()
+    {
+        Console.WriteLine("Будильник");
+        Console.Write("Через сколько секунд подать сигнал? ");
+        
+        if (int.TryParse(Console.ReadLine(), out int seconds))
+        {
+            
+            Task.Run(() => StartAlarm(seconds));
+
+            Console.WriteLine($"Будильник установлен на {seconds} сек. Можешь продолжать работу...");
+            Console.WriteLine("Нажми Enter, чтобы закрыть программу в любой момент.");
+            Console.ReadLine();
+        }
+    }
+
+    static void StartAlarm(int delay)
+    {
+        
+        Thread.Sleep(delay * 1000);
+
+        Console.Beep(800, 1000); // Издает системный звук (частота, длительность)
+        Console.WriteLine("\nВремя вышло.");
+    }
+}
