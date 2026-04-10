@@ -20,6 +20,8 @@ namespace Drawing.Services
             Height = 12,
         };
 
+
+
         public void DrawPicture(Painter painter)
         {
             var pen = new Pen(Color.Black, 0.1f);
