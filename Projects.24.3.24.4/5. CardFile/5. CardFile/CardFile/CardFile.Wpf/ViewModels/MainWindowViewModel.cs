@@ -4,13 +4,14 @@ using CardFile.Common.Infrastructure;
 using CardFile.Wpf.Infrastructure;
 using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 
 namespace CardFile.Wpf.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private CardFileService _service = new CardFileService();
+        private readonly CardFileService _service = new CardFileService();
 
         public ObservableCollection<CardViewModel> Cards { get; } = new ObservableCollection<CardViewModel>();
 
@@ -28,7 +29,7 @@ namespace CardFile.Wpf.ViewModels
         public void WindowLoaded()
         {
             Mapping.Initialize();
-            LoadAllData();
+            LoadDefaultFileOrSeedData();
         }
 
         public CardViewModel GetSelectedCard()
@@ -63,11 +64,11 @@ namespace CardFile.Wpf.ViewModels
             if (id < 0)
             {
                 Cards.RemoveAt(index);
+                return;
             }
-            else
-            {
-                Cards[index].LoadViewModel(card);
-            }
+
+            Cards[index].LoadViewModel(card);
+            SaveToCurrentOrDefaultFile();
         }
 
         public void SaveNewCard(CardViewModel card)
@@ -84,6 +85,7 @@ namespace CardFile.Wpf.ViewModels
 
             newCard.Id = id;
             Cards.Add(newCard);
+            SaveToCurrentOrDefaultFile();
         }
 
         public void DeleteSelectedCard()
@@ -93,7 +95,6 @@ namespace CardFile.Wpf.ViewModels
                 return;
             }
 
-            _service.Delete(SelectedCard.Id);
             var index = Cards.ToList().FindIndex(c => c.Id == SelectedCard.Id);
 
             if (index < 0)
@@ -101,8 +102,14 @@ namespace CardFile.Wpf.ViewModels
                 throw new Exception("Карточка с таким Id не существует");
             }
 
+            if (!_service.Delete(SelectedCard.Id))
+            {
+                return;
+            }
+
             Cards.RemoveAt(index);
             SelectedCard = null;
+            SaveToCurrentOrDefaultFile();
 
             OnPropertyChanged(nameof(SelectedCard));
         }
@@ -111,6 +118,22 @@ namespace CardFile.Wpf.ViewModels
         {
             OnPropertyChanged(nameof(IsDeleteButtonEnabled));
             OnPropertyChanged(nameof(IsEditButtonEnabled));
+        }
+
+        public void OpenFile(string filePath)
+        {
+            _service.LoadFromFile(filePath);
+            LoadAllData();
+        }
+
+        public void SaveFile()
+        {
+            SaveToFile(GetCurrentFileOrDefaultPath());
+        }
+
+        public void SaveFileAs(string filePath)
+        {
+            SaveToFile(filePath);
         }
 
         private void LoadAllData()
@@ -131,6 +154,41 @@ namespace CardFile.Wpf.ViewModels
         private Card ToBusiness(CardViewModel card)
         {
             return Mapping.Mapper.Map<Card>(card);
+        }
+
+        private void LoadDefaultFileOrSeedData()
+        {
+            var defaultFilePath = GetDefaultFilePath();
+            if (File.Exists(defaultFilePath))
+            {
+                _service.LoadFromFile(defaultFilePath);
+            }
+
+            LoadAllData();
+        }
+
+        private void SaveToCurrentOrDefaultFile()
+        {
+            SaveToFile(GetCurrentFileOrDefaultPath());
+        }
+
+        private void SaveToFile(string filePath)
+        {
+            _service.SaveToFile(filePath);
+        }
+
+        private string GetCurrentFileOrDefaultPath()
+        {
+            return _service.GetCurrentFilePath() ?? GetDefaultFilePath();
+        }
+
+        private string GetDefaultFilePath()
+        {
+            var folderPath = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                "CardFile");
+
+            return Path.Combine(folderPath, "cards.json");
         }
     }
 }

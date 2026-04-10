@@ -2,20 +2,106 @@ using CardFile.DataStore.Dtos;
 using CardFile.DataStore.Infrastructure;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.Json;
 
 namespace CardFile.DataStore.DataCollection
 {
     public class CardCollection
     {
+        private static readonly JsonSerializerOptions JsonOptions = new JsonSerializerOptions
+        {
+            WriteIndented = true
+        };
+
         private readonly List<CardDto> _cards = new List<CardDto>();
+        private string _currentFilePath;
 
         internal int NextId { get; set; } = 5;
 
         public CardCollection()
         {
             MapperInitialization.PreRegister();
+            LoadDefaultData();
+        }
 
+        public string CurrentFilePath => _currentFilePath;
+
+        public IEnumerable<CardDto> GetAll()
+        {
+            return _cards.Select(c => c.Clone()).ToList();
+        }
+
+        public int Save(CardDto card)
+        {
+            if (card.Id == 0)
+            {
+                var newCard = card.Clone();
+                var id = NextId++;
+                newCard.Id = id;
+                _cards.Add(newCard);
+                return id;
+            }
+
+            var index = _cards.FindIndex(c => c.Id == card.Id);
+            if (index < 0)
+            {
+                return -1;
+            }
+
+            _cards[index] = card.Clone();
+            return card.Id;
+        }
+
+        public bool Delete(int cardId)
+        {
+            var index = _cards.FindIndex(c => c.Id == cardId);
+            if (index < 0)
+            {
+                return false;
+            }
+
+            _cards.RemoveAt(index);
+            return true;
+        }
+
+        public void LoadFromFile(string filePath)
+        {
+            if (!File.Exists(filePath))
+            {
+                throw new FileNotFoundException("Файл картотеки не найден.", filePath);
+            }
+
+            var json = File.ReadAllText(filePath);
+            var cards = JsonSerializer.Deserialize<List<CardDto>>(json) ?? new List<CardDto>();
+
+            _cards.Clear();
+            _cards.AddRange(cards.Select(card => card.Clone()));
+            NextId = _cards.Count == 0 ? 1 : _cards.Max(card => card.Id) + 1;
+            _currentFilePath = filePath;
+        }
+
+        public void SaveToFile(string filePath)
+        {
+            if (string.IsNullOrWhiteSpace(filePath))
+            {
+                throw new ArgumentException("Путь к файлу не задан.", nameof(filePath));
+            }
+
+            var directory = Path.GetDirectoryName(filePath);
+            if (!string.IsNullOrWhiteSpace(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            var json = JsonSerializer.Serialize(_cards.Select(card => card.Clone()).ToList(), JsonOptions);
+            File.WriteAllText(filePath, json);
+            _currentFilePath = filePath;
+        }
+
+        private void LoadDefaultData()
+        {
             _cards.Add(new CardDto
             {
                 Id = 1,
@@ -79,37 +165,6 @@ namespace CardFile.DataStore.DataCollection
                 PersonalRating = 8,
                 IsDigital = false
             });
-        }
-
-        public IEnumerable<CardDto> GetAll()
-        {
-            return _cards.Select(c => c.Clone()).ToList();
-        }
-
-        public int Save(CardDto card)
-        {
-            if (card.Id == 0)
-            {
-                var newCard = card.Clone();
-                var id = NextId++;
-                newCard.Id = id;
-                _cards.Add(newCard);
-                return id;
-            }
-
-            var index = _cards.FindIndex(c => c.Id == card.Id);
-            if (index < 0)
-            {
-                return -1;
-            }
-
-            _cards[index] = card.Clone();
-            return card.Id;
-        }
-
-        public bool Delete(int cardId)
-        {
-            return false;
         }
     }
 }
