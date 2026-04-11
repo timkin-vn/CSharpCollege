@@ -1,0 +1,10 @@
+C:\Users\sokol\OneDrive\Desktop\2. Drawing\Drawing\Drawing\bin\Debug\Drawing.exe.config
+C:\Users\sokol\OneDrive\Desktop\2. Drawing\Drawing\Drawing\bin\Debug\Drawing.exe
+C:\Users\sokol\OneDrive\Desktop\2. Drawing\Drawing\Drawing\bin\Debug\Drawing.pdb
+C:\Users\sokol\OneDrive\Desktop\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.csproj.AssemblyReference.cache
+C:\Users\sokol\OneDrive\Desktop\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.DrawingForm.resources
+C:\Users\sokol\OneDrive\Desktop\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.Properties.Resources.resources
+C:\Users\sokol\OneDrive\Desktop\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.csproj.GenerateResource.cache
+C:\Users\sokol\OneDrive\Desktop\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.csproj.CoreCompileInputs.cache
+C:\Users\sokol\OneDrive\Desktop\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.exe
+C:\Users\sokol\OneDrive\Desktop\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.pdb
