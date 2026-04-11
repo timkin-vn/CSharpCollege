@@ -1,21 +1,14 @@
 ﻿using AlarmClock.Forms;
 using AlarmClock.Models;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Media;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AlarmClock
 {
     public partial class AlarmClockForm : Form
     {
-        private AlarmState _alarmState = new AlarmState();
+        private Models.AlarmState _alarmState = new Models.AlarmState();
 
         public AlarmClockForm()
         {
@@ -27,11 +20,9 @@ namespace AlarmClock
             DisplayLabel.Text = DateTime.Now.ToLongTimeString();
 
             if (!_alarmState.IsAlarmActive)
-            {
                 return;
-            }
 
-            if (!_alarmState.IsAwakeActivated && 
+            if (!_alarmState.IsAwakeActivated &&
                 DateTime.Now.Hour == _alarmState.AlarmTime.Hour &&
                 DateTime.Now.Minute == _alarmState.AlarmTime.Minute)
             {
@@ -80,7 +71,11 @@ namespace AlarmClock
 
         private void UpdateControls()
         {
-            if (_alarmState.IsAlarmActive)
+            if (_alarmState.IsSnoozed)
+            {
+                Text = $"Будильник отложен до {_alarmState.AlarmTime.ToShortTimeString()}";
+            }
+            else if (_alarmState.IsAlarmActive)
             {
                 Text = $"Будильник (ожидает срабатывания в {_alarmState.AlarmTime.ToShortTimeString()})";
             }
