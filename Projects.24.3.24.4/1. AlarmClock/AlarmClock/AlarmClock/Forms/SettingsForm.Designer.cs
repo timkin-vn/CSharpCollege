@@ -2,30 +2,18 @@
 {
     partial class SettingsForm
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
             {
                 components.Dispose();
             }
+
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
@@ -36,6 +24,8 @@
             this.IsSoundActiveCheckBox = new System.Windows.Forms.CheckBox();
             this.OkButton = new System.Windows.Forms.Button();
             this.CancelButton = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.SnoozeMinutesTextBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -73,29 +63,29 @@
             // IsAlarmActiveCheckBox
             // 
             this.IsAlarmActiveCheckBox.AutoSize = true;
-            this.IsAlarmActiveCheckBox.Location = new System.Drawing.Point(15, 64);
+            this.IsAlarmActiveCheckBox.Location = new System.Drawing.Point(15, 90);
             this.IsAlarmActiveCheckBox.Name = "IsAlarmActiveCheckBox";
             this.IsAlarmActiveCheckBox.Size = new System.Drawing.Size(126, 17);
-            this.IsAlarmActiveCheckBox.TabIndex = 4;
+            this.IsAlarmActiveCheckBox.TabIndex = 5;
             this.IsAlarmActiveCheckBox.Text = "Будильник включен";
             this.IsAlarmActiveCheckBox.UseVisualStyleBackColor = true;
             // 
             // IsSoundActiveCheckBox
             // 
             this.IsSoundActiveCheckBox.AutoSize = true;
-            this.IsSoundActiveCheckBox.Location = new System.Drawing.Point(15, 87);
+            this.IsSoundActiveCheckBox.Location = new System.Drawing.Point(15, 113);
             this.IsSoundActiveCheckBox.Name = "IsSoundActiveCheckBox";
             this.IsSoundActiveCheckBox.Size = new System.Drawing.Size(158, 17);
-            this.IsSoundActiveCheckBox.TabIndex = 5;
+            this.IsSoundActiveCheckBox.TabIndex = 6;
             this.IsSoundActiveCheckBox.Text = "Звуковой сигнал включен";
             this.IsSoundActiveCheckBox.UseVisualStyleBackColor = true;
             // 
             // OkButton
             // 
-            this.OkButton.Location = new System.Drawing.Point(158, 117);
+            this.OkButton.Location = new System.Drawing.Point(158, 146);
             this.OkButton.Name = "OkButton";
             this.OkButton.Size = new System.Drawing.Size(75, 23);
-            this.OkButton.TabIndex = 6;
+            this.OkButton.TabIndex = 7;
             this.OkButton.Text = "OK";
             this.OkButton.UseVisualStyleBackColor = true;
             this.OkButton.Click += new System.EventHandler(this.OkButton_Click);
@@ -103,18 +93,38 @@
             // CancelButton
             // 
             this.CancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelButton.Location = new System.Drawing.Point(239, 117);
+            this.CancelButton.Location = new System.Drawing.Point(239, 146);
             this.CancelButton.Name = "CancelButton";
             this.CancelButton.Size = new System.Drawing.Size(75, 23);
-            this.CancelButton.TabIndex = 7;
+            this.CancelButton.TabIndex = 8;
             this.CancelButton.Text = "Отмена";
             this.CancelButton.UseVisualStyleBackColor = true;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 67);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(116, 13);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "Отложить на (минут):";
+            // 
+            // SnoozeMinutesTextBox
+            // 
+            this.SnoozeMinutesTextBox.Location = new System.Drawing.Point(137, 64);
+            this.SnoozeMinutesTextBox.Name = "SnoozeMinutesTextBox";
+            this.SnoozeMinutesTextBox.Size = new System.Drawing.Size(100, 20);
+            this.SnoozeMinutesTextBox.TabIndex = 4;
+            // 
             // SettingsForm
             // 
+            this.AcceptButton = this.OkButton;
+            this.CancelButton = this.CancelButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(326, 152);
+            this.ClientSize = new System.Drawing.Size(326, 181);
+            this.Controls.Add(this.SnoozeMinutesTextBox);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.OkButton);
             this.Controls.Add(this.IsSoundActiveCheckBox);
@@ -131,10 +141,7 @@
             this.Load += new System.EventHandler(this.SettingsForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
-
-        #endregion
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
@@ -144,5 +151,7 @@
         private System.Windows.Forms.CheckBox IsSoundActiveCheckBox;
         private System.Windows.Forms.Button OkButton;
         private System.Windows.Forms.Button CancelButton;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox SnoozeMinutesTextBox;
     }
 }
