@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Drawing.Models
 {
-    internal class SizeModel
+    public class SizeModel
     {
         public double Width { get; set; }
 

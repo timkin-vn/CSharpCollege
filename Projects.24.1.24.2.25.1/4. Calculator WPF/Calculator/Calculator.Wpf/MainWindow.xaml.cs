@@ -26,6 +26,7 @@ namespace Calculator.Wpf
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new MainWindowViewModel();
         }
 
         private void DigitButton_Click(object sender, RoutedEventArgs e)
@@ -44,5 +45,10 @@ namespace Calculator.Wpf
             var operationCode = ((Button)sender).Content as string;
             ViewModel.PressOperation(operationCode);
         }
+        private void SqrtButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.PressSqrt();
+        }
+
     }
 }

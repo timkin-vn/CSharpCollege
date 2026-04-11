@@ -37,13 +37,6 @@ namespace Calculator.Business.Services
             model.IsLastDigitPressed = false;
         }
 
-        
-        public void PressSquare(CalculatorModel model)
-        {
-            model.RegisterX = model.RegisterX * model.RegisterX;
-            model.IsLastDigitPressed = false;
-        }
-
         public void MoveXToY(CalculatorModel model)
         {
             model.RegisterY = model.RegisterX;
@@ -58,6 +51,20 @@ namespace Calculator.Business.Services
             model.IsLastDigitPressed = false;
         }
 
+        public void PressSqrt(CalculatorModel model)
+        {
+            if (model.RegisterX >= 0)
+            {
+                model.RegisterX = Math.Sqrt(model.RegisterX);
+            }
+            else
+            {
+                model.RegisterX = 0;
+            }
+
+            model.IsLastDigitPressed = false;
+        }
+
         private void ExecuteCalculation(CalculatorModel model)
         {
             switch (model.OperationCode)
@@ -68,6 +75,7 @@ namespace Calculator.Business.Services
                 case "/":
                     model.RegisterX = model.RegisterX != 0 ? model.RegisterY / model.RegisterX : 0;
                     break;
+                case "%": model.RegisterX = (model.RegisterY * model.RegisterX) / 100; break;
             }
         }
     }
