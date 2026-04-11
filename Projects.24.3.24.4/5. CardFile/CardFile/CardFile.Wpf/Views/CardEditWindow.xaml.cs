@@ -1,23 +1,8 @@
 ﻿using CardFile.Wpf.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace CardFile.Wpf.Views
 {
-    /// <summary>
-    /// Interaction logic for CardEditWindow.xaml
-    /// </summary>
     public partial class CardEditWindow : Window
     {
         public CardViewModel ViewModel => (CardViewModel)DataContext;
@@ -39,12 +24,12 @@ namespace CardFile.Wpf.Views
 
         private void IsWorkingTillNowCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            ViewModel.IsWorkingTillNowChecked();
+            ViewModel.IsInTransitChecked();
         }
 
         private void IsWorkingTillNowCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            ViewModel.IsWorkingTillNowUnchecked();
+            ViewModel.IsInTransitUnchecked();
         }
     }
 }

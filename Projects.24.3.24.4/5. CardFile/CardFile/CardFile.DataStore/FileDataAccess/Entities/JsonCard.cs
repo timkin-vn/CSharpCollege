@@ -1,83 +1,48 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CardFile.DataStore.FileDataAccess.Entities
 {
     public class JsonCard
     {
         public int Id { get; set; }
+        public string ClientFirstName { get; set; }
+        public string ClientLastName { get; set; }
+        public string ProductName { get; set; }
 
-        /// <summary>
-        /// Имя
-        /// </summary>
-        public string FirstName { get; set; }
-
-        /// <summary>
-        /// Отчество
-        /// </summary>
-        public string MiddleName { get; set; }
-
-        /// <summary>
-        /// Фамилия
-        /// </summary>
-        public string LastName { get; set; }
-
-        /// <summary>
-        /// Дата рождения
-        /// </summary>
         [JsonIgnore]
-        public DateTime BirthDate { get; set; }
+        public DateTime OrderDate { get; set; }
 
-        [JsonProperty("BirthDate")]
-        public string BirthDateText
+        [JsonProperty("OrderDate")]
+        public string OrderDateText
         {
-            get => BirthDate.ToShortDateString();
-            set => BirthDate = DateTime.Parse(value);
+            get => OrderDate.ToShortDateString();
+            set => OrderDate = DateTime.Parse(value);
         }
 
-        /// <summary>
-        /// Подразделение
-        /// </summary>
-        public string Department { get; set; }
+        public string Address { get; set; }
+        public string DeliveryMethod { get; set; }
 
-        /// <summary>
-        /// Должность
-        /// </summary>
-        public string Position { get; set; }
-
-        /// <summary>
-        /// Дата трудоустройства
-        /// </summary>
         [JsonIgnore]
-        public DateTime EmploymentDate { get; set; }
+        public DateTime ShippingDate { get; set; }
 
-        [JsonProperty("EmploymentDate")]
-        public string EmploymentDateText
+        [JsonProperty("ShippingDate")]
+        public string ShippingDateText
         {
-            get => EmploymentDate.ToShortDateString();
-            set => EmploymentDate = DateTime.Parse(value);
+            get => ShippingDate.ToShortDateString();
+            set => ShippingDate = DateTime.Parse(value);
         }
 
-        /// <summary>
-        /// Дата увольнения
-        /// </summary>
         [JsonIgnore]
-        public DateTime? DismissalDate { get; set; }
+        public DateTime? ReceivedDate { get; set; }
 
-        [JsonProperty("DismissalDate")]
-        public string DismissalDateText
+        [JsonProperty("ReceivedDate")]
+        public string ReceivedDateText
         {
-            get => DismissalDate?.ToShortDateString() ?? "-";
-            set => DismissalDate = (value == "-") ? (DateTime?)null : DateTime.Parse(value);
+            get => ReceivedDate?.ToShortDateString() ?? "-";
+            set => ReceivedDate = value == "-" ? (DateTime?)null : DateTime.Parse(value);
         }
 
-        /// <summary>
-        /// Оклад
-        /// </summary>
-        public decimal Salary { get; set; }
+        public decimal TotalAmount { get; set; }
     }
 }

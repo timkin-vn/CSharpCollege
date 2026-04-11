@@ -2,25 +2,11 @@
 using CardFile.Wpf.Views;
 using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CardFile.Wpf
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindowViewModel ViewModel => (MainWindowViewModel)DataContext;
@@ -39,9 +25,7 @@ namespace CardFile.Wpf
             };
 
             if (dialog.ShowDialog() != true)
-            {
                 return;
-            }
 
             try
             {
@@ -56,16 +40,14 @@ namespace CardFile.Wpf
         private void FileSaveMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(ViewModel.FileName))
-            {
                 DoSaveAs();
-            }
             else
             {
                 try
                 {
                     ViewModel.SaveToFile();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
@@ -86,9 +68,7 @@ namespace CardFile.Wpf
             };
 
             if (dialog.ShowDialog() != true)
-            {
                 return;
-            }
 
             try
             {
@@ -111,9 +91,7 @@ namespace CardFile.Wpf
             var window = new CardEditWindow();
             window.ViewModel.LoadViewModel(card);
             if (window.ShowDialog() != true)
-            {
                 return;
-            }
 
             ViewModel.SaveNewCard(window.ViewModel);
         }
@@ -122,16 +100,12 @@ namespace CardFile.Wpf
         {
             var card = ViewModel.GetSelectedCard();
             if (card == null)
-            {
                 return;
-            }
 
             var window = new CardEditWindow();
             window.ViewModel.LoadViewModel(card);
             if (window.ShowDialog() != true)
-            {
                 return;
-            }
 
             ViewModel.SaveEditedCard(window.ViewModel);
         }
@@ -150,5 +124,6 @@ namespace CardFile.Wpf
         {
             ViewModel.SelectionChanged();
         }
+
     }
 }
