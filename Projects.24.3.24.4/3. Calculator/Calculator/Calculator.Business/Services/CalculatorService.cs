@@ -287,5 +287,11 @@ namespace Calculator.Business.Services
         {
             calculatorModel.DisplayText = value.ToString(CultureInfo.CurrentCulture);
         }
+
+        public void PressMoveXToY(CalculatorModel calculatorModel)
+        {
+            calculatorModel.RegisterY = GetDisplayValue(calculatorModel);
+            calculatorModel.IsNewInput = true;
+        }
     }
 }

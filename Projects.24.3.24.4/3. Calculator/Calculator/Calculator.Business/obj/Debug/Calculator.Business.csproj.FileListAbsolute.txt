@@ -4,3 +4,9 @@ E:\College\18_realizations\леха\3. Calculator\Calculator\Calculator.Business
 E:\College\18_realizations\леха\3. Calculator\Calculator\Calculator.Business\bin\Debug\Calculator.Business.pdb
 E:\College\18_realizations\леха\3. Calculator\Calculator\Calculator.Business\obj\Debug\Calculator.Business.dll
 E:\College\18_realizations\леха\3. Calculator\Calculator\Calculator.Business\obj\Debug\Calculator.Business.pdb
+C:\Users\maxim\Downloads\ProjectsCSsharp-College\3. Calculator\Calculator\Calculator.Business\bin\Debug\Calculator.Business.dll
+C:\Users\maxim\Downloads\ProjectsCSsharp-College\3. Calculator\Calculator\Calculator.Business\bin\Debug\Calculator.Business.pdb
+C:\Users\maxim\Downloads\ProjectsCSsharp-College\3. Calculator\Calculator\Calculator.Business\obj\Debug\Calculator.Business.csproj.AssemblyReference.cache
+C:\Users\maxim\Downloads\ProjectsCSsharp-College\3. Calculator\Calculator\Calculator.Business\obj\Debug\Calculator.Business.csproj.CoreCompileInputs.cache
+C:\Users\maxim\Downloads\ProjectsCSsharp-College\3. Calculator\Calculator\Calculator.Business\obj\Debug\Calculator.Business.dll
+C:\Users\maxim\Downloads\ProjectsCSsharp-College\3. Calculator\Calculator\Calculator.Business\obj\Debug\Calculator.Business.pdb
