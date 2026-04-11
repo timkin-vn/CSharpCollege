@@ -1,0 +1,6 @@
+E:\College\18_realizations\леха\3. Calculator\Calculator\Calculator.Business\obj\Debug\Calculator.Business.csproj.AssemblyReference.cache
+E:\College\18_realizations\леха\3. Calculator\Calculator\Calculator.Business\obj\Debug\Calculator.Business.csproj.CoreCompileInputs.cache
+E:\College\18_realizations\леха\3. Calculator\Calculator\Calculator.Business\bin\Debug\Calculator.Business.dll
+E:\College\18_realizations\леха\3. Calculator\Calculator\Calculator.Business\bin\Debug\Calculator.Business.pdb
+E:\College\18_realizations\леха\3. Calculator\Calculator\Calculator.Business\obj\Debug\Calculator.Business.dll
+E:\College\18_realizations\леха\3. Calculator\Calculator\Calculator.Business\obj\Debug\Calculator.Business.pdb
