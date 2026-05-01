@@ -92,7 +92,10 @@ namespace ColorBlastRect.BusinessModels
                 case EditMode.ResizeR:
                     Right = loc.X;
                     break;
-
+                case EditMode.ResizeT:
+                    Height = Bottom - loc.Y;
+                    Top = loc.Y;
+                    break;
                 case EditMode.Moving:
                     Left = loc.X - _dx;
                     Top = loc.Y - _dy;
@@ -138,7 +141,7 @@ namespace ColorBlastRect.BusinessModels
                     Width = Marker.MarkerHalfSize * 2,
                     Height = Marker.MarkerHalfSize * 2,
                 },
-                IsActive = false,
+                IsActive = true,
                 EditMode = EditMode.ResizeT,
                 Cursor = Cursors.SizeNS,
             },
