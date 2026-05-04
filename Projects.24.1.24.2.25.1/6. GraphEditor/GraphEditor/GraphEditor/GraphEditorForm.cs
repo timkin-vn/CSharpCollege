@@ -10,17 +10,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace GraphEditor
 {
     public partial class GraphEditorForm : Form
     {
         private readonly PictureViewService _viewService = new PictureViewService();
-
-        private bool _isMouseDown;
+        private bool _suppressTextBoxEvents = false;
 
         public GraphEditorForm()
         {
             InitializeComponent();
+            UpdateUIState();
         }
 
         private void GraphEditorForm_Paint(object sender, PaintEventArgs e)
@@ -30,128 +31,127 @@ namespace GraphEditor
 
         private void GraphEditorForm_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button != MouseButtons.Left)
-            {
-                return;
-            }
-
-            _isMouseDown = true;
             _viewService.MouseDown(e.Location);
-            Refresh();
-            UpdateViewControls();
-        }
-
-        private void GraphEditorForm_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (e.Button != MouseButtons.Left)
-            {
-                return;
-            }
-
-            _isMouseDown = false;
-            _viewService.MouseUp();
-            Refresh();
-            UpdateViewControls();
+            UpdateUIState();
+            Invalidate();
         }
 
         private void GraphEditorForm_MouseMove(object sender, MouseEventArgs e)
         {
-            Cursor = _viewService.GetCursor(e.Location);
-
-            if (!_isMouseDown)
-            {
-                return;
-            }
-
             _viewService.MouseMove(e.Location);
-            Refresh();
-            UpdateViewControls();
+            Cursor = _viewService.GetCursor(e.Location);
+            Invalidate();
+        }
+
+        private void GraphEditorForm_MouseUp(object sender, MouseEventArgs e)
+        {
+            _viewService.MouseUp();
+            UpdateUIState();
+            Invalidate();
         }
 
         private void CreateRectangleButton_Click(object sender, EventArgs e)
         {
             _viewService.CreateButtonClicked();
-            UpdateViewControls();
-        }
-
-        private void UpdateViewControls()
-        {
-            CreateRectangleButton.Checked = _viewService.CreateMode;
-            DeleteRectangleButton.Enabled = _viewService.CanDelete;
-            Text = string.IsNullOrEmpty(_viewService.FileName) ?
-                "Графический редактор" :
-                $"Графический редактор | {Path.GetFileName(_viewService.FileName)}";
+            UpdateUIState();
+            Invalidate();
         }
 
         private void DeleteRectangleButton_Click(object sender, EventArgs e)
         {
             _viewService.DeleteButtonClicked();
-            Refresh();
-            UpdateViewControls();
+            UpdateUIState();
+            Invalidate();
         }
 
         private void FillColorMenuItem_Click(object sender, EventArgs e)
         {
             FillColorDialog.Color = _viewService.GetCurrentFillColor();
-            if (FillColorDialog.ShowDialog() != DialogResult.OK)
+            if (FillColorDialog.ShowDialog() == DialogResult.OK)
             {
-                return;
+                _viewService.SetFillColor(FillColorDialog.Color);
+                Invalidate();
             }
-
-            _viewService.SetFillColor(FillColorDialog.Color);
-            Refresh();
         }
 
         private void MoveForwardMenuItem_Click(object sender, EventArgs e)
         {
             _viewService.MoveForward();
-            Refresh();
+            Invalidate();
         }
 
+        // Новые обработчики
+        private void OpacityTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (_suppressTextBoxEvents) return;
+            if (int.TryParse(OpacityTextBox.Text, out int opacity))
+            {
+                _viewService.SetOpacity(opacity);
+                Invalidate();
+            }
+        }
+
+        private void CornerRadiusTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (_suppressTextBoxEvents) return;
+            if (int.TryParse(CornerRadiusTextBox.Text, out int radius))
+            {
+                _viewService.SetCornerRadius(radius);
+                Invalidate();
+            }
+        }
+
+        private void MoveBackwardMenuItem_Click(object sender, EventArgs e)
+        {
+            _viewService.MoveBackward();
+            Invalidate();
+        }
+
+        private void MoveToFrontMenuItem_Click(object sender, EventArgs e)
+        {
+            _viewService.MoveToFront();
+            Invalidate();
+        }
+
+        private void MoveToBackMenuItem_Click(object sender, EventArgs e)
+        {
+            _viewService.MoveToBack();
+            Invalidate();
+        }
+
+        // Обработчики меню Файл
         private void FileCreateMenuItem_Click(object sender, EventArgs e)
         {
             _viewService.CreateNewPicture();
-            Refresh();
-            UpdateViewControls();
+            UpdateUIState();
+            Invalidate();
         }
 
         private void FileOpenMenuItem_Click(object sender, EventArgs e)
         {
-            if (FileOpenDialog.ShowDialog() != DialogResult.OK)
+            if (FileOpenDialog.ShowDialog() == DialogResult.OK)
             {
-                return;
+                _viewService.Open(FileOpenDialog.FileName);
+                UpdateUIState();
+                Invalidate();
             }
-
-            _viewService.Open(FileOpenDialog.FileName);
-            UpdateViewControls();
-            Refresh();
         }
 
         private void FileSaveMenuItem_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(_viewService.FileName))
-            {
-                DoSaveAs();
-            }
-            else
-            {
-                _viewService.Save();
-            }
+            _viewService.Save();
         }
 
         private void FileSaveAsMenuItem_Click(object sender, EventArgs e)
         {
-            DoSaveAs();
+            if (FileSaveDialog.ShowDialog() == DialogResult.OK)
+                _viewService.Save(FileSaveDialog.FileName);
         }
 
         private void FileExportMenuItem_Click(object sender, EventArgs e)
         {
-            if (FileExportDialog.ShowDialog() != DialogResult.OK)
-            {
-                return;
-            }
-
-            _viewService.Export(FileExportDialog.FileName, ClientRectangle, BackColor);
+            if (FileExportDialog.ShowDialog() == DialogResult.OK)
+                _viewService.Export(FileExportDialog.FileName, ClientRectangle, BackColor);
         }
 
         private void FileExitMenuItem_Click(object sender, EventArgs e)
@@ -159,15 +159,27 @@ namespace GraphEditor
             Close();
         }
 
-        private void DoSaveAs()
+        // Вспомогательный метод
+        private void UpdateUIState()
         {
-            if (FileSaveDialog.ShowDialog() != DialogResult.OK)
-            {
-                return;
-            }
+            DeleteRectangleButton.Enabled = _viewService.CanDelete;
 
-            _viewService.Save(FileSaveDialog.FileName);
-            UpdateViewControls();
+            _suppressTextBoxEvents = true;
+            bool hasSelection = _viewService.CanDelete;
+            OpacityTextBox.Enabled = hasSelection && !_viewService.CreateMode;
+            CornerRadiusTextBox.Enabled = hasSelection && !_viewService.CreateMode;
+
+            if (hasSelection)
+            {
+                OpacityTextBox.Text = _viewService.SelectedOpacity.ToString();
+                CornerRadiusTextBox.Text = _viewService.SelectedCornerRadius.ToString();
+            }
+            else
+            {
+                OpacityTextBox.Text = "";
+                CornerRadiusTextBox.Text = "";
+            }
+            _suppressTextBoxEvents = false;
         }
     }
 }

@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
+
 namespace GraphEditor.Business.Services
 {
     internal class FileService
@@ -17,19 +18,15 @@ namespace GraphEditor.Business.Services
         public void Save(string fileName, PictureModel model)
         {
             using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
+            using (var archive = new ZipArchive(fs, ZipArchiveMode.Create))
             {
-                using (var archive = new ZipArchive(fs, ZipArchiveMode.Create))
+                var entry = archive.CreateEntry(Path.GetFileNameWithoutExtension(fileName) + ".xml");
+                using (var es = entry.Open())
+                using (var writer = new StreamWriter(es))
                 {
-                    var entry = archive.CreateEntry(Path.GetFileNameWithoutExtension(fileName) + ".xml");
-                    using (var es = entry.Open())
-                    {
-                        using (var writer = new StreamWriter(es))
-                        {
-                            var xml = ToXml(model);
-                            var serializer = new XmlSerializer(typeof(XmlPicture));
-                            serializer.Serialize(writer, xml);
-                        }
-                    }
+                    var xml = ToXml(model);
+                    var serializer = new XmlSerializer(typeof(XmlPicture));
+                    serializer.Serialize(writer, xml);
                 }
             }
         }
@@ -39,19 +36,15 @@ namespace GraphEditor.Business.Services
             try
             {
                 using (var fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+                using (var archive = new ZipArchive(fs, ZipArchiveMode.Read))
                 {
-                    using (var archive = new ZipArchive(fs, ZipArchiveMode.Read))
+                    var entry = archive.GetEntry(Path.GetFileNameWithoutExtension(fileName) + ".xml");
+                    using (var es = entry.Open())
+                    using (var reader = new StreamReader(es))
                     {
-                        var entry = archive.GetEntry(Path.GetFileNameWithoutExtension(fileName) + ".xml");
-                        using (var es = entry.Open())
-                        {
-                            using (var reader = new StreamReader(es))
-                            {
-                                var serializer = new XmlSerializer(typeof(XmlPicture));
-                                var xml = (XmlPicture)serializer.Deserialize(reader);
-                                return FromXml(xml);
-                            }
-                        }
+                        var serializer = new XmlSerializer(typeof(XmlPicture));
+                        var xml = (XmlPicture)serializer.Deserialize(reader);
+                        return FromXml(xml);
                     }
                 }
             }
@@ -72,6 +65,8 @@ namespace GraphEditor.Business.Services
                         Top = r.Top,
                         Width = r.Width,
                         Height = r.Height,
+                        Opacity = r.Opacity,
+                        CornerRadius = r.CornerRadius,
                         BorderColor = new XmlColor
                         {
                             Red = r.BorderColor.R,
@@ -100,6 +95,8 @@ namespace GraphEditor.Business.Services
                         Top = r.Top,
                         Width = r.Width,
                         Height = r.Height,
+                        Opacity = r.Opacity,
+                        CornerRadius = r.CornerRadius,
                         BorderColor = Color.FromArgb(r.BorderColor.Red, r.BorderColor.Green, r.BorderColor.Blue),
                         FillColor = Color.FromArgb(r.FillColor.Red, r.FillColor.Green, r.FillColor.Blue),
                     })

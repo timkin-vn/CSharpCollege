@@ -51,6 +51,15 @@
             this.FileOpenDialog = new System.Windows.Forms.OpenFileDialog();
             this.FileSaveDialog = new System.Windows.Forms.SaveFileDialog();
             this.FileExportDialog = new System.Windows.Forms.SaveFileDialog();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.OpacityLabel = new System.Windows.Forms.ToolStripLabel();
+            this.OpacityTextBox = new System.Windows.Forms.ToolStripTextBox();
+            this.CornerRadiusLabel = new System.Windows.Forms.ToolStripLabel();
+            this.CornerRadiusTextBox = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.MoveBackwardMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MoveToFrontMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MoveToBackMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -62,7 +71,13 @@
             this.DeleteRectangleButton,
             this.toolStripSeparator1,
             this.toolStripSplitButton1,
-            this.toolStripDropDownButton1});
+            this.toolStripDropDownButton1,
+            this.toolStripSeparator2,
+            this.OpacityLabel,
+            this.OpacityTextBox,
+            this.CornerRadiusLabel,
+            this.CornerRadiusTextBox,
+            this.toolStripSeparator3});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(800, 25);
@@ -116,7 +131,11 @@
             // 
             this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MoveForwardMenuItem});
+            this.MoveForwardMenuItem,
+            this.MoveBackwardMenuItem,
+            new System.Windows.Forms.ToolStripSeparator(),
+            this.MoveToFrontMenuItem,
+            this.MoveToBackMenuItem});
             this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
@@ -126,7 +145,7 @@
             // MoveForwardMenuItem
             // 
             this.MoveForwardMenuItem.Name = "MoveForwardMenuItem";
-            this.MoveForwardMenuItem.Size = new System.Drawing.Size(113, 22);
+            this.MoveForwardMenuItem.Size = new System.Drawing.Size(165, 22);
             this.MoveForwardMenuItem.Text = "Вперед";
             this.MoveForwardMenuItem.Click += new System.EventHandler(this.MoveForwardMenuItem_Click);
             // 
@@ -219,6 +238,61 @@
             // 
             this.FileExportDialog.Filter = "Файлы PNG|*.png";
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // OpacityLabel
+            // 
+            this.OpacityLabel.Name = "OpacityLabel";
+            this.OpacityLabel.Size = new System.Drawing.Size(82, 22);
+            this.OpacityLabel.Text = "Прозрачность:";
+            // 
+            // OpacityTextBox
+            // 
+            this.OpacityTextBox.Name = "OpacityTextBox";
+            this.OpacityTextBox.Size = new System.Drawing.Size(40, 25);
+            this.OpacityTextBox.TextChanged += new System.EventHandler(this.OpacityTextBox_TextChanged);
+            // 
+            // CornerRadiusLabel
+            // 
+            this.CornerRadiusLabel.Name = "CornerRadiusLabel";
+            this.CornerRadiusLabel.Size = new System.Drawing.Size(46, 22);
+            this.CornerRadiusLabel.Text = "Радиус:";
+            // 
+            // CornerRadiusTextBox
+            // 
+            this.CornerRadiusTextBox.Name = "CornerRadiusTextBox";
+            this.CornerRadiusTextBox.Size = new System.Drawing.Size(40, 25);
+            this.CornerRadiusTextBox.TextChanged += new System.EventHandler(this.CornerRadiusTextBox_TextChanged);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // MoveBackwardMenuItem
+            // 
+            this.MoveBackwardMenuItem.Name = "MoveBackwardMenuItem";
+            this.MoveBackwardMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.MoveBackwardMenuItem.Text = "Назад";
+            this.MoveBackwardMenuItem.Click += new System.EventHandler(this.MoveBackwardMenuItem_Click);
+            // 
+            // MoveToFrontMenuItem
+            // 
+            this.MoveToFrontMenuItem.Name = "MoveToFrontMenuItem";
+            this.MoveToFrontMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.MoveToFrontMenuItem.Text = "На передний план";
+            this.MoveToFrontMenuItem.Click += new System.EventHandler(this.MoveToFrontMenuItem_Click);
+            // 
+            // MoveToBackMenuItem
+            // 
+            this.MoveToBackMenuItem.Name = "MoveToBackMenuItem";
+            this.MoveToBackMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.MoveToBackMenuItem.Text = "На задний план";
+            this.MoveToBackMenuItem.Click += new System.EventHandler(this.MoveToBackMenuItem_Click);
+            // 
             // GraphEditorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -267,6 +341,14 @@
         private System.Windows.Forms.OpenFileDialog FileOpenDialog;
         private System.Windows.Forms.SaveFileDialog FileSaveDialog;
         private System.Windows.Forms.SaveFileDialog FileExportDialog;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripLabel OpacityLabel;
+        private System.Windows.Forms.ToolStripTextBox OpacityTextBox;
+        private System.Windows.Forms.ToolStripLabel CornerRadiusLabel;
+        private System.Windows.Forms.ToolStripTextBox CornerRadiusTextBox;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem MoveBackwardMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem MoveToFrontMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem MoveToBackMenuItem;
     }
 }
-
