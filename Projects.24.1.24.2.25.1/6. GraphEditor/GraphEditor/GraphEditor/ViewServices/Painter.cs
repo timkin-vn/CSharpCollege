@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Drawing.Drawing2D; // Иначе не работает
+using System.Drawing.Drawing2D;
 
 namespace GraphEditor.ViewServices
 {
@@ -35,16 +35,16 @@ namespace GraphEditor.ViewServices
             }
         }
 
+        // этот метод с BorderOpacity
         private void DrawRectangle(Graphics g, RectangleViewModel rect)
         {
-            // Цвет заливки с учётом прозрачности
             Color fillColor = Color.FromArgb(rect.Opacity, rect.FillColor);
+            Color borderColor = Color.FromArgb(rect.BorderOpacity, rect.BorderColor);
             using (var brush = new SolidBrush(fillColor))
-            using (var pen = new Pen(rect.BorderColor, 3))
+            using (var pen = new Pen(borderColor, 3))
             {
                 if (rect.CornerRadius > 0)
                 {
-                    // Скруглённый прямоугольник
                     using (var path = GetRoundedRectPath(rect.Rectangle, rect.CornerRadius))
                     {
                         g.FillPath(brush, path);
@@ -59,28 +59,19 @@ namespace GraphEditor.ViewServices
             }
         }
 
-        // Вспомогательный метод создания GraphicsPath для скруглённого прямоугольника
         private GraphicsPath GetRoundedRectPath(Rectangle rect, int radius)
         {
             int diameter = radius * 2;
             GraphicsPath path = new GraphicsPath();
             path.StartFigure();
 
-            // Верхняя левая дуга
             path.AddArc(rect.X, rect.Y, diameter, diameter, 180, 90);
-            // Верхняя линия
             path.AddLine(rect.X + radius, rect.Y, rect.Right - radius, rect.Y);
-            // Верхняя правая дуга
             path.AddArc(rect.Right - diameter, rect.Y, diameter, diameter, 270, 90);
-            // Правая линия
             path.AddLine(rect.Right, rect.Y + radius, rect.Right, rect.Bottom - radius);
-            // Нижняя правая дуга
             path.AddArc(rect.Right - diameter, rect.Bottom - diameter, diameter, diameter, 0, 90);
-            // Нижняя линия
             path.AddLine(rect.Right - radius, rect.Bottom, rect.X + radius, rect.Bottom);
-            // Нижняя левая дуга
             path.AddArc(rect.X, rect.Bottom - diameter, diameter, diameter, 90, 90);
-            // Левая линия
             path.AddLine(rect.X, rect.Bottom - radius, rect.X, rect.Y + radius);
 
             path.CloseFigure();

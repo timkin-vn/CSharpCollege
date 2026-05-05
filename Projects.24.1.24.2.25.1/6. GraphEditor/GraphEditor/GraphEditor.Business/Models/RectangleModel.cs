@@ -26,6 +26,8 @@ namespace GraphEditor.Business.Models
         public int Opacity { get; set; } = 255;           // 0-255
         public int CornerRadius { get; set; } = 0;         // радиус скругления
 
+        public int BorderOpacity { get; set; } = 255;   // прозрачность границы 0-255
+
         public bool IsInside(PointModel loc) =>
             loc.X >= Left && loc.X <= Right && loc.Y >= Top && loc.Y <= Bottom;
 

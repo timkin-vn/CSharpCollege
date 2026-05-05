@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 
+
 namespace GraphEditor.Business.Services
 {
     internal class FileService
@@ -67,6 +68,7 @@ namespace GraphEditor.Business.Services
                         Height = r.Height,
                         Opacity = r.Opacity,
                         CornerRadius = r.CornerRadius,
+                        BorderOpacity = r.BorderOpacity,
                         BorderColor = new XmlColor
                         {
                             Red = r.BorderColor.R,
@@ -97,6 +99,7 @@ namespace GraphEditor.Business.Services
                         Height = r.Height,
                         Opacity = r.Opacity,
                         CornerRadius = r.CornerRadius,
+                        BorderOpacity = r.BorderOpacity,
                         BorderColor = Color.FromArgb(r.BorderColor.Red, r.BorderColor.Green, r.BorderColor.Blue),
                         FillColor = Color.FromArgb(r.FillColor.Red, r.FillColor.Green, r.FillColor.Blue),
                     })

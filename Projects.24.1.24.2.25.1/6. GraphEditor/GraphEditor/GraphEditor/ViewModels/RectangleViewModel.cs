@@ -25,6 +25,7 @@ namespace GraphEditor.ViewModels
         public Color BorderColor { get; set; } = Color.Blue;
         public int Opacity { get; set; } = 255;
         public int CornerRadius { get; set; } = 0;
+        public int BorderOpacity { get; set; } = 255;
 
         public IEnumerable<MarkerViewModel> Markers => new[]
         {
@@ -101,7 +102,9 @@ namespace GraphEditor.ViewModels
                 Dy = model.Dy,
                 Opacity = model.Opacity,
                 CornerRadius = model.CornerRadius,
+                BorderOpacity = model.BorderOpacity,
             };
         }
     }
+
 }

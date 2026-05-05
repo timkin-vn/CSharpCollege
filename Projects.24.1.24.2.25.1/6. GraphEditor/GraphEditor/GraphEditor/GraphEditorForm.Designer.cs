@@ -57,6 +57,8 @@
             this.CornerRadiusLabel = new System.Windows.Forms.ToolStripLabel();
             this.CornerRadiusTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.BorderOpacityLabel = new System.Windows.Forms.ToolStripLabel();
+            this.BorderOpacityTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.MoveBackwardMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MoveToFrontMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MoveToBackMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -77,7 +79,9 @@
             this.OpacityTextBox,
             this.CornerRadiusLabel,
             this.CornerRadiusTextBox,
-            this.toolStripSeparator3});
+            this.toolStripSeparator3,
+            this.BorderOpacityLabel,
+            this.BorderOpacityTextBox});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(800, 25);
@@ -272,6 +276,18 @@
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
+            // BorderOpacityLabel
+            // 
+            this.BorderOpacityLabel.Name = "BorderOpacityLabel";
+            this.BorderOpacityLabel.Size = new System.Drawing.Size(130, 22);
+            this.BorderOpacityLabel.Text = "Прозрачность границы:";
+            // 
+            // BorderOpacityTextBox
+            // 
+            this.BorderOpacityTextBox.Name = "BorderOpacityTextBox";
+            this.BorderOpacityTextBox.Size = new System.Drawing.Size(40, 25);
+            this.BorderOpacityTextBox.TextChanged += new System.EventHandler(this.BorderOpacityTextBox_TextChanged);
+            // 
             // MoveBackwardMenuItem
             // 
             this.MoveBackwardMenuItem.Name = "MoveBackwardMenuItem";
@@ -347,6 +363,8 @@
         private System.Windows.Forms.ToolStripLabel CornerRadiusLabel;
         private System.Windows.Forms.ToolStripTextBox CornerRadiusTextBox;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripLabel BorderOpacityLabel;
+        private System.Windows.Forms.ToolStripTextBox BorderOpacityTextBox;
         private System.Windows.Forms.ToolStripMenuItem MoveBackwardMenuItem;
         private System.Windows.Forms.ToolStripMenuItem MoveToFrontMenuItem;
         private System.Windows.Forms.ToolStripMenuItem MoveToBackMenuItem;

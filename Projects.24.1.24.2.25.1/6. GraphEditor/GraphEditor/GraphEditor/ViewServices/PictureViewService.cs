@@ -81,16 +81,14 @@ namespace GraphEditor.ViewServices
             _businessService.SelectAndSetMoveMode(ToModel(loc));
             LoadViewModel();
         }
-        // доп 
-        public int SelectedOpacity =>
-            _viewModel?.SelectedRectangle?.Opacity ?? 255;
 
-        public int SelectedCornerRadius =>
-            _viewModel?.SelectedRectangle?.CornerRadius ?? 0;
+        public int SelectedOpacity => _viewModel?.SelectedRectangle?.Opacity ?? 255;
+        public int SelectedCornerRadius => _viewModel?.SelectedRectangle?.CornerRadius ?? 0;
+        public int SelectedBorderOpacity => _viewModel?.SelectedRectangle?.BorderOpacity ?? 255;
+
         public void MouseMove(Point loc) { _businessService.UpdateMovingPoint(ToModel(loc)); LoadViewModel(); }
         public void MouseUp() { _businessService.ResetMode(); CreateMode = false; LoadViewModel(); }
 
-        // Управление слоями
         public void MoveForward() { _businessService.MoveForward(); LoadViewModel(); }
         public void MoveBackward() { _businessService.MoveBackward(); LoadViewModel(); }
         public void MoveToFront() { _businessService.MoveToFront(); LoadViewModel(); }
@@ -98,6 +96,7 @@ namespace GraphEditor.ViewServices
 
         public void SetOpacity(int opacity) { _businessService.SetOpacity(opacity); LoadViewModel(); }
         public void SetCornerRadius(int radius) { _businessService.SetCornerRadius(radius); LoadViewModel(); }
+        public void SetBorderOpacity(int opacity) { _businessService.SetBorderOpacity(opacity); LoadViewModel(); }
 
         public void Paint(Graphics g) => new Painter().Paint(g, _viewModel, true);
 

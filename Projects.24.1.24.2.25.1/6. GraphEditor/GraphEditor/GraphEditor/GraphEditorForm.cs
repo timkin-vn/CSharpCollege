@@ -168,18 +168,32 @@ namespace GraphEditor
             bool hasSelection = _viewService.CanDelete;
             OpacityTextBox.Enabled = hasSelection && !_viewService.CreateMode;
             CornerRadiusTextBox.Enabled = hasSelection && !_viewService.CreateMode;
+            BorderOpacityTextBox.Enabled = hasSelection && !_viewService.CreateMode; // <--
 
             if (hasSelection)
             {
                 OpacityTextBox.Text = _viewService.SelectedOpacity.ToString();
                 CornerRadiusTextBox.Text = _viewService.SelectedCornerRadius.ToString();
+                BorderOpacityTextBox.Text = _viewService.SelectedBorderOpacity.ToString(); // <--
             }
             else
             {
                 OpacityTextBox.Text = "";
                 CornerRadiusTextBox.Text = "";
+                BorderOpacityTextBox.Text = ""; // <--
             }
             _suppressTextBoxEvents = false;
         }
+
+        private void BorderOpacityTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (_suppressTextBoxEvents) return;
+            if (int.TryParse(BorderOpacityTextBox.Text, out int opacity))
+            {
+                _viewService.SetBorderOpacity(opacity);
+                Invalidate();
+            }
+        }
+
     }
 }

@@ -105,6 +105,13 @@ namespace GraphEditor.Business.Services
                 PictureModel.SelectedRectangle.CornerRadius = Math.Max(0, radius);
         }
 
+        public void SetBorderOpacity(int opacity)
+        {
+            if (PictureModel.SelectedRectangle != null)
+                PictureModel.SelectedRectangle.BorderOpacity = Math.Max(0, Math.Min(255, opacity));
+        }
+
+
         // Остальные методы без изменений
         public void Open(string fileName) { PictureModel = new FileService().Open(fileName); }
         public void ResetMode()

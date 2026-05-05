@@ -34,5 +34,8 @@ namespace GraphEditor.Business.Models.Xml
 
         [XmlElement("BorderColor")]
         public XmlColor BorderColor { get; set; }
+
+        [XmlAttribute("BorderOpacity")]
+        public int BorderOpacity { get; set; } = 255;
     }
 }
