@@ -34,12 +34,12 @@ namespace GraphEditor.ViewServices
         {
             new Painter().Paint(g, _pictureViewModel);
         }
-        public void MouseDown(Point loc)
+        public void MouseDown(Point loc, FigureType type)
         {
             
             if(CreateMode)
             {
-                _service.CreateAndSetCreateMode(ToModel(loc));
+                _service.CreateAndSetCreateMode(ToModel(loc), type);
                 LoadViewModel();
                 return;
             }

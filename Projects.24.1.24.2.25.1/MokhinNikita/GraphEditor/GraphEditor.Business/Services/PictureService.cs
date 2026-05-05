@@ -26,6 +26,7 @@ namespace GraphEditor.Business.Services
                 Top = 200,
                 Left = 200,
                 FillColor = Color.Beige,
+                Figure = FigureType.Ellipse,
             });
             var rect = new RectangleModel
             {
@@ -55,7 +56,7 @@ namespace GraphEditor.Business.Services
         {
             PictureModel.Selected.EditMode = mode;
         }
-        public void CreateAndSetCreateMode(PointModel loc)
+        public void CreateAndSetCreateMode(PointModel loc, FigureType type)
         {
             var newRectangle = new RectangleModel
             {
@@ -63,6 +64,7 @@ namespace GraphEditor.Business.Services
                 Top = loc.Y,
                 Width = 0,
                 Height = 0,
+                Figure = type,
             };
             PictureModel.Rectangles.Add(newRectangle);
             PictureModel.Selected = newRectangle;

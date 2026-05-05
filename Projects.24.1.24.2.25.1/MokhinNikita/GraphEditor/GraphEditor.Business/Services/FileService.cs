@@ -82,6 +82,7 @@ namespace GraphEditor.Business.Services
                                       Blue = r.FillColor.B,
                                   },
                                   BorderWidth = r.BorderWidth,
+                                  Type = r.Figure,
 
                               }).ToList(),
             };
@@ -99,6 +100,7 @@ namespace GraphEditor.Business.Services
                     BorderColor = System.Drawing.Color.FromArgb(r.BorderColor.Red, r.BorderColor.Green, r.BorderColor.Blue),
                     FillColor = System.Drawing.Color.FromArgb(r.FillColor.Red, r.FillColor.Green, r.FillColor.Blue),
                     BorderWidth = r.BorderWidth,
+                    Figure = r.Type
                 }).ToList()
             };
         }

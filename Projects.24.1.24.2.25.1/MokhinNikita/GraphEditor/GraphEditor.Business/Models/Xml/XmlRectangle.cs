@@ -26,5 +26,11 @@ namespace GraphEditor.Business.Models.Xml
         public XmlColor BorderColor { get; set; }
         [XmlAttribute(nameof(BorderWidth))]
         public int BorderWidth { get; set; }
+
+        [XmlIgnore]
+        public FigureType Type { get; set; }
+
+        [XmlAttribute(nameof(Type))]
+        public string TypeName => Type.ToString();
     }
 }

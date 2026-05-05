@@ -20,6 +20,8 @@ namespace GraphEditor.Business.Models
         public EditMode EditMode { get; set; }
         public int BorderWidth { get; set; } = 3;
 
+        public FigureType Figure { get; set; } = FigureType.Rectangle;
+
         public bool IsInside(PointModel loc) => loc.X >= Left && loc.X <= Right && loc.Y >= Top && loc.Y <= Bottom;
 
         public Color FillColor { get; set; } = Color.Red;

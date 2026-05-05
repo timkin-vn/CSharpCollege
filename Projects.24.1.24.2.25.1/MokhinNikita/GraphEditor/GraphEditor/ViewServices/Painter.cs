@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GraphEditor.Business.Models;
 using GraphEditor.ViewModels;
 
 namespace GraphEditor.ViewServices
@@ -21,9 +22,16 @@ namespace GraphEditor.ViewServices
             {
                 pen = new Pen(item.BorderColor, item.BorderWidth);
                 var brush = new SolidBrush(item.FillColor);
-
-                g.FillRectangle(brush, item.Rectangle);
-                g.DrawRectangle(pen, item.Rectangle);
+                switch (item.Figure) {
+                    case FigureType.Rectangle:
+                        g.FillRectangle(brush, item.Rectangle);
+                        g.DrawRectangle(pen, item.Rectangle);
+                        break;
+                    case FigureType.Ellipse:
+                        g.FillEllipse(brush, item.Rectangle);
+                        g.DrawEllipse(pen, item.Rectangle);
+                        break;
+                }
 
             }
             if(isInteractive)

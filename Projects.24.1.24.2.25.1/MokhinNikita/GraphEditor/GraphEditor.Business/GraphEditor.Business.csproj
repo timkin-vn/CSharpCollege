@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\EditMode.cs" />
+    <Compile Include="Models\FigureType.cs" />
     <Compile Include="Models\PictureModel.cs" />
     <Compile Include="Models\PointModel.cs" />
     <Compile Include="Models\RectangleModel.cs" />

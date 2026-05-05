@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GraphEditor.Business.Models;
 using GraphEditor.Views;
 using GraphEditor.ViewServices;
 
@@ -16,9 +17,24 @@ namespace GraphEditor
     {
         private PictureViewService _pictureViewService = new PictureViewService();
         private bool _isMouseDown;
+        private FigureType[] figureTypes =
+        {
+            FigureType.Rectangle,
+            FigureType.Ellipse,
+        };
+        private FigureType _figureType;
         public GraphEditorForm()
         {
             InitializeComponent();
+            FigureTypeComboBox.SelectedIndex = 0;
+            FigureTypeComboBox.SelectedIndexChanged += FigureTypeComboBox_SelectedIndexChanged;
+            UpdateViewControls();
+            _figureType = figureTypes[FigureTypeComboBox.SelectedIndex];
+        }
+
+        private void FigureTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _figureType = figureTypes[FigureTypeComboBox.SelectedIndex];
         }
 
         private void GraphEditorForm_Paint(object sender, PaintEventArgs e)
@@ -47,7 +63,7 @@ namespace GraphEditor
         {
             if (e.Button != MouseButtons.Left) return;
             _isMouseDown = true;
-            _pictureViewService.MouseDown(e.Location);
+            _pictureViewService.MouseDown(e.Location, _figureType);
             Refresh();
         }
 
@@ -61,6 +77,7 @@ namespace GraphEditor
             createRectangleButton.Checked = _pictureViewService.CreateMode;
             deleteButton.Enabled = _pictureViewService.CanDelete;
             Text = string.IsNullOrEmpty(_pictureViewService.FileName) ? "Графический редактор" : $"Графический редактор: {_pictureViewService.FileName}";
+            FigureTypeComboBox.Enabled = _pictureViewService.CreateMode;
         }
 
         private void deleteButton_Click(object sender, EventArgs e)
