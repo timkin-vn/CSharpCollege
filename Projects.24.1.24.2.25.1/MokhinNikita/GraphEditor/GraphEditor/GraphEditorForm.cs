@@ -21,6 +21,8 @@ namespace GraphEditor
         {
             FigureType.Rectangle,
             FigureType.Ellipse,
+            FigureType.Pentagon,
+            FigureType.Rhombus,
         };
         private FigureType _figureType;
         public GraphEditorForm()

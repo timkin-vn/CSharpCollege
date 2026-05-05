@@ -306,7 +306,9 @@
             // 
             this.FigureTypeComboBox.Items.AddRange(new object[] {
             "Прямоугольник",
-            "Эллипс"});
+            "Эллипс",
+            "Пятиугольник",
+            "Ромб"});
             this.FigureTypeComboBox.Name = "FigureTypeComboBox";
             this.FigureTypeComboBox.Size = new System.Drawing.Size(121, 25);
             // 

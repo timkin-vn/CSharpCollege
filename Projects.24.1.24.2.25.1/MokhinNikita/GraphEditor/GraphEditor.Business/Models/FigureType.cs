@@ -8,6 +8,6 @@ namespace GraphEditor.Business.Models
 {
     public enum FigureType
     {
-        Rectangle, Ellipse
+        Rectangle, Ellipse, Pentagon, Rhombus
     }
 }
