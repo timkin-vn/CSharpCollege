@@ -1,10 +1,8 @@
-﻿using GraphEditor.ViewModels;
-using System;
-using System.Collections.Generic;
+﻿using GraphEditor.Business.Models;
+using GraphEditor.ViewModels;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GraphEditor.ViewServices
 {
@@ -12,35 +10,61 @@ namespace GraphEditor.ViewServices
     {
         public void Paint(Graphics g, PictureViewModel viewModel, bool isInteractive)
         {
-            if (viewModel == null || viewModel.Rectangles == null || !viewModel.Rectangles.Any())
-            {
+            if (viewModel?.Figures == null || !viewModel.Figures.Any())
                 return;
-            }
 
-            Pen pen;
-            foreach (var rectangle in viewModel.Rectangles)
+            foreach (var figure in viewModel.Figures)
             {
-                pen = new Pen(rectangle.BorderColor, 3);
-                var brush = new SolidBrush(rectangle.FillColor);
+                using (var pen = new Pen(figure.BorderColor, 3))
+                using (var brush = new SolidBrush(figure.FillColor))
+                {
+                    var rect = figure.Rectangle;
 
-                g.FillRectangle(brush, rectangle.Rectangle);
-                g.DrawRectangle(pen, rectangle.Rectangle);
+                    switch (figure.Type)
+                    {
+                        case FigureType.Rectangle:
+                            g.FillRectangle(brush, rect);
+                            g.DrawRectangle(pen, rect);
+                            break;
+                        case FigureType.Ellipse:
+                            g.FillEllipse(brush, rect);
+                            g.DrawEllipse(pen, rect);
+                            break;
+                        case FigureType.RoundedRectangle:
+                            using (var path = GetRoundedRectanglePath(rect, figure.CornerRadius))
+                            {
+                                g.FillPath(brush, path);
+                                g.DrawPath(pen, path);
+                            }
+                            break;
+                    }
+                }
             }
 
             if (isInteractive)
             {
-                pen = Pens.Black;
+                var pen = Pens.Black;
                 var activeBrush = Brushes.Black;
                 var inactiveBrush = Brushes.White;
 
                 foreach (var marker in viewModel.Markers)
                 {
                     var brush = marker.IsActive ? activeBrush : inactiveBrush;
-
                     g.FillRectangle(brush, marker.Rectangle);
                     g.DrawRectangle(pen, marker.Rectangle);
                 }
             }
+        }
+
+        private GraphicsPath GetRoundedRectanglePath(Rectangle rect, int radius)
+        {
+            var path = new GraphicsPath();
+            path.AddArc(rect.X, rect.Y, radius * 2, radius * 2, 180, 90);
+            path.AddArc(rect.Right - radius * 2, rect.Y, radius * 2, radius * 2, 270, 90);
+            path.AddArc(rect.Right - radius * 2, rect.Bottom - radius * 2, radius * 2, radius * 2, 0, 90);
+            path.AddArc(rect.X, rect.Bottom - radius * 2, radius * 2, radius * 2, 90, 90);
+            path.CloseFigure();
+            return path;
         }
     }
 }

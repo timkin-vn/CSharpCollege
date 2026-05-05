@@ -1,13 +1,8 @@
-﻿using GraphEditor.ViewServices;
+﻿using GraphEditor.Business.Models;
+using GraphEditor.ViewServices;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GraphEditor
@@ -15,12 +10,16 @@ namespace GraphEditor
     public partial class GraphEditorForm : Form
     {
         private readonly PictureViewService _viewService = new PictureViewService();
-
         private bool _isMouseDown;
 
         public GraphEditorForm()
         {
             InitializeComponent();
+            // Устанавливаем обработчик для комбобокса после инициализации компонентов
+            if (FigureTypeComboBox != null)
+            {
+                FigureTypeComboBox.SelectedIndexChanged += FigureTypeComboBox_SelectedIndexChanged;
+            }
         }
 
         private void GraphEditorForm_Paint(object sender, PaintEventArgs e)
@@ -168,6 +167,27 @@ namespace GraphEditor
 
             _viewService.Save(FileSaveDialog.FileName);
             UpdateViewControls();
+        }
+
+        private void FigureTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var selected = FigureTypeComboBox.SelectedItem.ToString();
+            FigureType type;
+
+            switch (selected)
+            {
+                case "Эллипс":
+                    type = FigureType.Ellipse;
+                    break;
+                case "Скруглённый прямоугольник":
+                    type = FigureType.RoundedRectangle;
+                    break;
+                default:
+                    type = FigureType.Rectangle;
+                    break;
+            }
+
+            _viewService.SetFigureType(type);
         }
     }
 }

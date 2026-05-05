@@ -1,33 +1,31 @@
 ﻿using GraphEditor.Business.Models;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GraphEditor.Business.Services
 {
     public class PictureService
     {
         public PictureModel PictureModel { get; private set; } = new PictureModel();
-
         public static Color DefaultFillColor { get; set; } = Color.Yellow;
-
         public static Color DefaultBorderColor { get; set; } = Color.Blue;
+        public FigureType CurrentFigureType { get; set; } = FigureType.Rectangle;
 
         public PictureService()
         {
-            PictureModel.Rectangles.Add(new RectangleModel { Left = 150, Top = 50, Width = 200, Height = 100, FillColor = Color.LightSkyBlue, });
-            var newRectangle = new RectangleModel { Left = 200, Top = 100, Width = 200, Height = 150, };
-            PictureModel.Rectangles.Add(newRectangle);
-            PictureModel.SelectedRectangle = newRectangle;
-            PictureModel.Rectangles.Add(new RectangleModel { Left = 250, Top = 150, Width = 200, Height = 200, FillColor = Color.DarkMagenta, });
+            PictureModel.Figures.Add(new FigureModel { Left = 150, Top = 50, Width = 200, Height = 100, FillColor = Color.LightSkyBlue, Type = FigureType.Rectangle });
+            var newFigure = new FigureModel { Left = 200, Top = 100, Width = 200, Height = 150, Type = FigureType.Ellipse };
+            PictureModel.Figures.Add(newFigure);
+            PictureModel.SelectedFigure = newFigure;
+            PictureModel.Figures.Add(new FigureModel { Left = 250, Top = 150, Width = 200, Height = 200, FillColor = Color.DarkMagenta, Type = FigureType.RoundedRectangle });
         }
+
+        public void SetFigureType(FigureType type) => CurrentFigureType = type;
 
         public void CreateAndSetCreateMode(PointModel loc)
         {
-            var newRectangle = new RectangleModel
+            var newFigure = new FigureModel
             {
                 Left = loc.X,
                 Top = loc.Y,
@@ -35,119 +33,86 @@ namespace GraphEditor.Business.Services
                 Height = 0,
                 FillColor = DefaultFillColor,
                 BorderColor = DefaultBorderColor,
+                Type = CurrentFigureType,
             };
-
-            PictureModel.Rectangles.Add(newRectangle);
-            PictureModel.SelectedRectangle = newRectangle;
-            newRectangle.EditMode = EditMode.Creating;
+            PictureModel.Figures.Add(newFigure);
+            PictureModel.SelectedFigure = newFigure;
+            newFigure.EditMode = EditMode.Creating;
         }
 
         public void CreateNewPicture()
         {
-            PictureModel.Rectangles.Clear();
-            PictureModel.SelectedRectangle = null;
+            PictureModel.Figures.Clear();
+            PictureModel.SelectedFigure = null;
         }
 
         public void DeleteRectangle()
         {
-            if (PictureModel.SelectedRectangle == null)
-            {
-                return;
-            }
-
-            PictureModel.Rectangles.Remove(PictureModel.SelectedRectangle);
-            PictureModel.SelectedRectangle = null;
+            if (PictureModel.SelectedFigure == null) return;
+            PictureModel.Figures.Remove(PictureModel.SelectedFigure);
+            PictureModel.SelectedFigure = null;
         }
 
         public void MoveForward()
         {
-            if (PictureModel.SelectedRectangle == null)
-            {
-                return;
-            }
-
-            var selectedIndex = PictureModel.Rectangles.IndexOf(PictureModel.SelectedRectangle);
-            if (selectedIndex < 0 || selectedIndex == PictureModel.Rectangles.Count - 1)
-            {
-                return;
-            }
-
-            var rect = PictureModel.Rectangles[selectedIndex + 1];
-            PictureModel.Rectangles[selectedIndex + 1] = PictureModel.Rectangles[selectedIndex];
-            PictureModel.Rectangles[selectedIndex] = rect;
+            if (PictureModel.SelectedFigure == null) return;
+            var selectedIndex = PictureModel.Figures.IndexOf(PictureModel.SelectedFigure);
+            if (selectedIndex < 0 || selectedIndex == PictureModel.Figures.Count - 1) return;
+            var fig = PictureModel.Figures[selectedIndex + 1];
+            PictureModel.Figures[selectedIndex + 1] = PictureModel.Figures[selectedIndex];
+            PictureModel.Figures[selectedIndex] = fig;
         }
 
-        public void Open(string fileName)
-        {
-            PictureModel = new FileService().Open(fileName);
-        }
+        public void Open(string fileName) => PictureModel = new FileService().Open(fileName);
 
         public void ResetMode()
         {
-            var selectedRect = PictureModel.SelectedRectangle;
-            if (selectedRect != null)
+            var selectedFig = PictureModel.SelectedFigure;
+            if (selectedFig != null)
             {
-                selectedRect.Normalize();
-                selectedRect.EditMode = EditMode.None;
+                selectedFig.Normalize();
+                selectedFig.EditMode = EditMode.None;
             }
         }
 
-        public void Save(string fileName)
-        {
-            new FileService().Save(fileName, PictureModel);
-        }
+        public void Save(string fileName) => new FileService().Save(fileName, PictureModel);
 
         public void SelectAndSetMoveMode(PointModel loc)
         {
-            var selectedRect = PictureModel.Rectangles.LastOrDefault(r => r.IsInside(loc));
-            PictureModel.SelectedRectangle = selectedRect;
-
-            if (selectedRect == null)
-            {
-                return;
-            }
-
-            selectedRect.EditMode = EditMode.Moving;
-            selectedRect.Dx = loc.X - selectedRect.Left;
-            selectedRect.Dy = loc.Y - selectedRect.Top;
+            var selectedFig = PictureModel.Figures.LastOrDefault(r => r.IsInside(loc));
+            PictureModel.SelectedFigure = selectedFig;
+            if (selectedFig == null) return;
+            selectedFig.EditMode = EditMode.Moving;
+            selectedFig.Dx = loc.X - selectedFig.Left;
+            selectedFig.Dy = loc.Y - selectedFig.Top;
         }
 
         public void SetFillColor(Color color)
         {
-            if (PictureModel.SelectedRectangle != null)
-            {
-                PictureModel.SelectedRectangle.FillColor = color;
-            }
+            if (PictureModel.SelectedFigure != null)
+                PictureModel.SelectedFigure.FillColor = color;
         }
 
-        public void SetResizeMode(EditMode mode)
-        {
-            PictureModel.SelectedRectangle.EditMode = mode;
-        }
+        public void SetResizeMode(EditMode mode) => PictureModel.SelectedFigure.EditMode = mode;
 
         public void UpdateMovingPoint(PointModel loc)
         {
-            var selectedRect = PictureModel.SelectedRectangle;
-            if (selectedRect == null)
-            {
-                return;
-            }
+            var selectedFig = PictureModel.SelectedFigure;
+            if (selectedFig == null) return;
 
-            switch (selectedRect.EditMode)
+            switch (selectedFig.EditMode)
             {
                 case EditMode.Creating:
                 case EditMode.ResizeBR:
-                    selectedRect.Width = loc.X - selectedRect.Left;
-                    selectedRect.Height = loc.Y - selectedRect.Top;
+                    selectedFig.Width = loc.X - selectedFig.Left;
+                    selectedFig.Height = loc.Y - selectedFig.Top;
                     break;
-
                 case EditMode.ResizeR:
-                    selectedRect.Width = loc.X - selectedRect.Left;
+                    selectedFig.Width = loc.X - selectedFig.Left;
                     break;
-
                 case EditMode.Moving:
-                    selectedRect.Left = loc.X - selectedRect.Dx;
-                    selectedRect.Top = loc.Y - selectedRect.Dy;
+                    selectedFig.Left = loc.X - selectedFig.Dx;
+                    selectedFig.Top = loc.Y - selectedFig.Dy;
                     break;
             }
         }

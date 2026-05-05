@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace GraphEditor.Business.Models.Xml
@@ -21,6 +17,12 @@ namespace GraphEditor.Business.Models.Xml
 
         [XmlAttribute("Height")]
         public int Height { get; set; }
+
+        [XmlAttribute("Type")]
+        public FigureType Type { get; set; }
+
+        [XmlAttribute("CornerRadius")]
+        public int CornerRadius { get; set; }
 
         [XmlElement("FillColor")]
         public XmlColor FillColor { get; set; }

@@ -31,6 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GraphEditorForm));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.CreateRectangleButton = new System.Windows.Forms.ToolStripButton();
+            this.FigureTypeLabel = new System.Windows.Forms.ToolStripLabel();
+            this.FigureTypeComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.DeleteRectangleButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
@@ -59,6 +61,8 @@
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CreateRectangleButton,
+            this.FigureTypeLabel,
+            this.FigureTypeComboBox,
             this.DeleteRectangleButton,
             this.toolStripSeparator1,
             this.toolStripSplitButton1,
@@ -78,6 +82,23 @@
             this.CreateRectangleButton.Size = new System.Drawing.Size(54, 22);
             this.CreateRectangleButton.Text = "Создать";
             this.CreateRectangleButton.Click += new System.EventHandler(this.CreateRectangleButton_Click);
+            // 
+            // FigureTypeLabel
+            // 
+            this.FigureTypeLabel.Name = "FigureTypeLabel";
+            this.FigureTypeLabel.Size = new System.Drawing.Size(35, 22);
+            this.FigureTypeLabel.Text = "Фигура:";
+            // 
+            // FigureTypeComboBox
+            // 
+            this.FigureTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.FigureTypeComboBox.Items.AddRange(new object[] {
+            "Прямоугольник",
+            "Эллипс",
+            "Скруглённый прямоугольник"});
+            this.FigureTypeComboBox.Name = "FigureTypeComboBox";
+            this.FigureTypeComboBox.SelectedIndex = 0;
+            this.FigureTypeComboBox.Size = new System.Drawing.Size(120, 25);
             // 
             // DeleteRectangleButton
             // 
@@ -247,6 +268,8 @@
 
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton CreateRectangleButton;
+        private System.Windows.Forms.ToolStripLabel FigureTypeLabel;
+        private System.Windows.Forms.ToolStripComboBox FigureTypeComboBox;
         private System.Windows.Forms.ToolStripButton DeleteRectangleButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSplitButton toolStripSplitButton1;
@@ -269,4 +292,3 @@
         private System.Windows.Forms.SaveFileDialog FileExportDialog;
     }
 }
-
