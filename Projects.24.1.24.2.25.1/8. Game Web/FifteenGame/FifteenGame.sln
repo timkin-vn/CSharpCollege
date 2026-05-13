@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36930.0 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FifteenGame.Web", "FifteenGame.Web\FifteenGame.Web.csproj", "{3F340656-5F06-42D3-888A-567804707388}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FifteenGame.Business", "..\..\7. Game WPF\FifteenGame\FifteenGame.Business\FifteenGame.Business.csproj", "{AD95481B-918D-4FD0-AC9D-7468ABCCBF7E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3F340656-5F06-42D3-888A-567804707388}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F340656-5F06-42D3-888A-567804707388}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F340656-5F06-42D3-888A-567804707388}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F340656-5F06-42D3-888A-567804707388}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD95481B-918D-4FD0-AC9D-7468ABCCBF7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD95481B-918D-4FD0-AC9D-7468ABCCBF7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD95481B-918D-4FD0-AC9D-7468ABCCBF7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD95481B-918D-4FD0-AC9D-7468ABCCBF7E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C83E2999-EA59-4A41-A116-0757D2AC6A84}
+	EndGlobalSection
+EndGlobal
