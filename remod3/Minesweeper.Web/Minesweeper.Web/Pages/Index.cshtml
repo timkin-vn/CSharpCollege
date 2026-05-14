@@ -1,0 +1,51 @@
+@page
+@model Minesweeper.Web.Pages.IndexModel
+@{
+    ViewData["Title"] = "Сапёр";
+}
+
+<div class="controls panel">
+    <div class="control-group">
+        <label for="difficulty">Сложность</label>
+        <select id="difficulty" name="difficulty">
+            <option value="beginner" selected="@(Model.View.DifficultyKey == "beginner" ? "selected" : null)">Новичок (9×9, 10 мин)</option>
+            <option value="intermediate" selected="@(Model.View.DifficultyKey == "intermediate" ? "selected" : null)">Любитель (16×16, 40 мин)</option>
+            <option value="expert" selected="@(Model.View.DifficultyKey == "expert" ? "selected" : null)">Профессионал (30×16, 99 мин)</option>
+            <option value="custom" selected="@(Model.View.DifficultyKey == "custom" ? "selected" : null)">Пользовательская…</option>
+        </select>
+    </div>
+    <div class="control-group custom-settings @(Model.View.DifficultyKey == "custom" ? "active" : string.Empty)" id="custom-settings">
+        <label>Поля для пользовательской сложности</label>
+        <div class="custom-fields">
+            <input type="number" id="rows" min="5" max="60" value="@Model.View.Rows" aria-label="Строки" />
+            <input type="number" id="columns" min="5" max="60" value="@Model.View.Columns" aria-label="Столбцы" />
+            <input type="number" id="mines" min="1" max="999" value="@Model.View.Mines" aria-label="Количество мин" />
+        </div>
+    </div>
+    <div class="control-group buttons">
+        <button id="new-game" type="button">Новая игра</button>
+        <span class="hint">ЛКМ - открыть, ПКМ - флаг, двойной клик - хорда</span>
+    </div>
+</div>
+
+<div class="status panel">
+    <div>
+        <strong>Сложность:</strong>
+        <span class="badge" id="status-difficulty">@Model.View.Difficulty</span>
+    </div>
+    <div>
+        <strong>Мины:</strong>
+        <span class="badge"><span id="status-mines">@Model.View.FlagsLeft</span> из @Model.View.Mines</span>
+    </div>
+    <div>
+        <strong>Время:</strong>
+        <span class="badge" id="status-time">@Model.View.Seconds</span> c
+    </div>
+    <div id="status-text">@Model.View.StatusText</div>
+</div>
+
+<div class="board-wrapper panel">
+    <div id="board" role="grid" aria-label="Поле сапёра"></div>
+</div>
+
+<script id="initial-state" type="application/json">@Html.Raw(Model.InitialJson)</script>
