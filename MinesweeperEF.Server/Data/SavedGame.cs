@@ -13,5 +13,10 @@ public sealed class SavedGame {
     public int Cols { get; set; }
     public int Mines { get; set; }
 
-    public string StateJson { get; set; } = "{}";
+    public int FlagsLeft { get; set; }
+    public bool HasStarted { get; set; }
+    public bool GameOver { get; set; }
+    public bool HasWon { get; set; }
+
+    public ICollection<GameCell> Cells { get; set; } = [];
 }

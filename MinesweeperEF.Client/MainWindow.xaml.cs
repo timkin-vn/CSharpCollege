@@ -1,11 +1,7 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using MinesweeperEF.Business.Cells;
-using MinesweeperEF.Business.Models;
 using MinesweeperEF.Client.BusinessProxy;
 using MinesweeperEF.Client.BusinessProxy.Services;
 using MinesweeperEF.Contracts.Games;
@@ -19,7 +15,7 @@ public partial class MainWindow {
 
     private Guid? _currentGameId;
     private string _currentGameName = "";
-    private GameStateDto? _currentState;
+    private GameSnapshotDto? _currentSnapshot;
 
     private static readonly Brush RevealedBrush = new SolidColorBrush(Color.FromRgb(230, 230, 230));
     private static readonly Brush[] NumberBrushes = [
@@ -33,10 +29,6 @@ public partial class MainWindow {
         Brushes.Black,
         Brushes.DarkSlateGray
     ];
-    private static readonly JsonSerializerOptions JsonOptions = new() {
-        PropertyNameCaseInsensitive = true,
-        NumberHandling = JsonNumberHandling.AllowReadingFromString
-    };
 
     public MainWindow() {
         InitializeComponent();
@@ -45,7 +37,7 @@ public partial class MainWindow {
 
     private bool EnsureApiInitialized() {
         if (_api is not null) return true;
-    
+
         var url = ApiUrlBox.Text.Trim();
         if (string.IsNullOrWhiteSpace(url)) {
             MessageBox.Show("Укажите URL API");
@@ -82,7 +74,7 @@ public partial class MainWindow {
             MessageBox.Show($"Ошибка входа: {ex.Message}");
         }
     }
-    
+
     private void ClearForm_Click(object sender, RoutedEventArgs e) {
         RowsBox.Text = "16";
         ColsBox.Text = "16";
@@ -139,23 +131,19 @@ public partial class MainWindow {
 
     private void RenderSnapshot(GameSnapshotDto snapshot) {
         _currentGameId = snapshot.GameId;
-        _currentState = JsonSerializer.Deserialize<GameStateDto>(snapshot.StateJson, JsonOptions);
-        if (_currentState is null) {
-            MessageBox.Show("Не удалось прочитать состояние поля");
-            return;
-        }
-        
-        BoardInfoText.Text = $"{_currentState.Settings.Rows} x {_currentState.Settings.Columns}";
+        _currentSnapshot = snapshot;
+
+        BoardInfoText.Text = $"{snapshot.Rows} x {snapshot.Cols}";
         GameNameText.Text = string.IsNullOrWhiteSpace(_currentGameName) ? "Новая игра" : _currentGameName;
 
         BoardGrid.Children.Clear();
-        BoardGrid.Rows = _currentState.Settings.Rows;
-        BoardGrid.Columns = _currentState.Settings.Columns;
+        BoardGrid.Rows = snapshot.Rows;
+        BoardGrid.Columns = snapshot.Cols;
 
-        for (var r = 0; r < _currentState.Settings.Rows; r++) {
-            for (var c = 0; c < _currentState.Settings.Columns; c++) {
-                var idx = r * _currentState.Settings.Columns + c;
-                var cell = _currentState.Cells[idx];
+        for (var r = 0; r < snapshot.Rows; r++) {
+            for (var c = 0; c < snapshot.Cols; c++) {
+                var idx = r * snapshot.Cols + c;
+                var cell = snapshot.Cells[idx];
 
                 var btn = new Button {
                     Tag = (r, c),
@@ -187,7 +175,7 @@ public partial class MainWindow {
     }
 
     private void UpdateStatus(GameSnapshotDto? snapshot) {
-        if (snapshot is null || _currentState is null) {
+        if (snapshot is null || _currentSnapshot is null) {
             StatusText.Text = "Нет активной игры";
             FlagsText.Text = string.Empty;
             BoardInfoText.Text = string.Empty;
@@ -201,18 +189,18 @@ public partial class MainWindow {
 
         StatusText.Text = status;
         FlagsText.Text = $"Флагов осталось: {snapshot.FlagsLeft}";
-        
+
         if (IsDebugMode && snapshot is { GameOver: true, HasWon: false }) {
             StatusText.Foreground = new SolidColorBrush(Color.FromRgb(255, 183, 77));
         } else {
             StatusText.Foreground = (Brush)FindResource("AccentBrush");
         }
-        
+
         var showRevealMines = !IsDebugMode && snapshot is { GameOver: true, HasWon: false };
         RevealMinesButton.Visibility = showRevealMines ? Visibility.Visible : Visibility.Collapsed;
     }
 
-    private void UpdateButtonVisual(Button btn, CellDto cell) {
+    private void UpdateButtonVisual(Button btn, CellSnapshotDto cell) {
         btn.Background = Brushes.LightGray;
         btn.Content = string.Empty;
 
@@ -251,7 +239,7 @@ public partial class MainWindow {
     private bool IsDebugMode => DebugModeCheck?.IsChecked == true;
 
     private async void Cell_Click(object sender, RoutedEventArgs e) {
-        if (_games is null || _currentState is null || _currentGameId is null) return;
+        if (_games is null || _currentSnapshot is null || _currentGameId is null) return;
         if (sender is not Button btn || btn.Tag is not ValueTuple<int, int> coords) return;
 
         if (_isDoubleClick) {
@@ -260,20 +248,18 @@ public partial class MainWindow {
         }
 
         await Task.Delay(200);
-        
+
         if (_isDoubleClick) {
             _isDoubleClick = false;
             return;
         }
 
         var (row, col) = coords;
-
-        const GameActionType action = GameActionType.Reveal;
-        await SendActionAsync(action, row, col, IsDebugMode);
+        await SendActionAsync(GameActionType.Reveal, row, col, IsDebugMode);
     }
-    
+
     private async void Cell_DoubleClick(object sender, MouseButtonEventArgs e) {
-        if (_games is null || _currentState is null || _currentGameId is null) return;
+        if (_games is null || _currentSnapshot is null || _currentGameId is null) return;
         if (sender is not Button btn || btn.Tag is not ValueTuple<int, int> coords) return;
 
         _isDoubleClick = true;
@@ -284,7 +270,7 @@ public partial class MainWindow {
     }
 
     private async void Cell_RightClick(object sender, MouseButtonEventArgs e) {
-        if (_games is null || _currentState is null || _currentGameId is null) return;
+        if (_games is null || _currentSnapshot is null || _currentGameId is null) return;
         if (sender is not Button btn || btn.Tag is not ValueTuple<int, int> coords) return;
         e.Handled = true;
 
@@ -297,14 +283,13 @@ public partial class MainWindow {
 
         try {
             var snapshot = await _games.ActionAsync(_currentGameId.Value, type, row, col, debugMode);
-            
             RenderSnapshot(snapshot);
         }
         catch (Exception ex) {
             MessageBox.Show($"Ошибка хода: {ex.Message}");
         }
     }
-    
+
     private async void RevealMines_Click(object sender, RoutedEventArgs e) {
         if (_games is null || _currentGameId is null) return;
 
@@ -316,7 +301,7 @@ public partial class MainWindow {
             MessageBox.Show($"Не удалось открыть все мины: {ex.Message}");
         }
     }
-    
+
     private bool TryReadSettings(out int rows, out int cols, out int mines) {
         rows = cols = mines = 0;
 

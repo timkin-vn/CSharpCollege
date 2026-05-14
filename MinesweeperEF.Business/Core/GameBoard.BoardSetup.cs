@@ -1,3 +1,4 @@
+using MinesweeperEF.Business.Cells;
 using MinesweeperEF.Business.Models;
 
 namespace MinesweeperEF.Business.Core;
@@ -8,9 +9,7 @@ public sealed partial class GameBoard {
         PrepareBoard();
     }
 
-    public void NewGame() {
-        PrepareBoard();
-    }
+    public void NewGame() { PrepareBoard(); }
 
     private void PrepareBoard() {
         _cells = new BoardCell[Settings.Rows, Settings.Columns];
