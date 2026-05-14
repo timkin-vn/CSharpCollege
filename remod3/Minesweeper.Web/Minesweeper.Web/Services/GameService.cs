@@ -7,15 +7,8 @@ using Minesweeper.Web.Models;
 
 namespace Minesweeper.Web.Services;
 
-public sealed class GameService {
-    private readonly IMemoryCache _cache;
-    private readonly IHttpContextAccessor _contextAccessor;
+public sealed class GameService(IMemoryCache cache, IHttpContextAccessor contextAccessor) {
     private const string CacheKeyPrefix = "minesweeper:session:";
-
-    public GameService(IMemoryCache cache, IHttpContextAccessor contextAccessor) {
-        _cache = cache;
-        _contextAccessor = contextAccessor;
-    }
 
     public GameViewModel GetView() => BuildView(GetOrCreateState());
 
@@ -43,32 +36,28 @@ public sealed class GameService {
     }
 
     private GameState GetOrCreateState() {
-        var context = _contextAccessor.HttpContext ?? throw new InvalidOperationException("HTTP контекст недоступен");
+        var context = contextAccessor.HttpContext ?? throw new InvalidOperationException("HTTP контекст недоступен");
         context.Session.SetString("active", "1");
         var cacheKey = CacheKeyPrefix + context.Session.Id;
-        return _cache.GetOrCreate(cacheKey, _ => new GameState(GameSettings.Intermediate()))!;
+        return cache.GetOrCreate(cacheKey, _ => new GameState(GameSettings.Intermediate()))!;
     }
 
     private static void ApplyUpdates(GameState state, GameActionResult result) {
-        if (result.Updates.Count > 0) {
-            foreach (var update in result.Updates) {
-                var cell = state.Cells[update.Row, update.Column];
-                cell.State = update.State;
-                cell.AdjacentMines = update.AdjacentMines;
-                state.Cells[update.Row, update.Column] = cell;
-            }
+        foreach (var update in result.Updates) {
+            var cell = state.Cells[update.Row, update.Column];
+            cell.State = update.State;
+            cell.AdjacentMines = update.AdjacentMines;
         }
 
         if (state.Board.HasStarted && state.StartedAt is null && !state.Completed)
             state.StartedAt = DateTimeOffset.UtcNow;
 
-        if (result.GameOver) {
-            state.Completed = true;
-            state.HasWon = result.HasWon;
-            state.HitMine = result.HitMine;
-            state.ElapsedSeconds = CalculateElapsed(state);
-            state.StartedAt = null;
-        }
+        if (!result.GameOver) return;
+        state.Completed = true;
+        state.HasWon = result.HasWon;
+        state.HitMine = result.HitMine;
+        state.ElapsedSeconds = CalculateElapsed(state);
+        state.StartedAt = null;
     }
 
     private static int CalculateElapsed(GameState state) {
@@ -83,7 +72,7 @@ public sealed class GameService {
         return request.Preset?.ToLowerInvariant() switch {
             "beginner" => GameSettings.Beginner(),
             "expert" => GameSettings.Expert(),
-            _ when request.Rows.HasValue && request.Columns.HasValue && request.Mines.HasValue =>
+            _ when request is { Rows: not null, Columns: not null, Mines: not null } =>
                 new GameSettings(
                     Math.Clamp(request.Rows.Value, 5, 60),
                     Math.Clamp(request.Columns.Value, 5, 60),
