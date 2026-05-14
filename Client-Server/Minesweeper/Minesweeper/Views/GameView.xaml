@@ -1,0 +1,125 @@
+﻿<Window x:Class="Minesweeper.WpfClient.Views.GameView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        Title="Сапёр" Height="600" Width="800"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок с информацией об игроке -->
+        <Border Grid.Row="0" Background="#FF3498DB" Padding="10">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding WelcomeMessage}" 
+                           FontSize="14" 
+                           FontWeight="Bold"
+                           Foreground="White"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Статистика игры -->
+        <Border Grid.Row="1" Background="#FFF0F8FF" Padding="10">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding GameStats}" 
+                           FontSize="12"
+                           Foreground="#FF2C3E50"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Игровое поле -->
+        <ScrollViewer Grid.Row="2" 
+                      HorizontalScrollBarVisibility="Auto" 
+                      VerticalScrollBarVisibility="Auto"
+                      Background="#FFECF0F1">
+            <ItemsControl ItemsSource="{Binding Cells}" 
+                          HorizontalAlignment="Center" 
+                          VerticalAlignment="Center"
+                          Margin="10">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="{Binding CurrentGame.FieldSize}" 
+                                     Rows="{Binding CurrentGame.FieldSize}"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="#FFBDC3C7" 
+                                BorderThickness="1"
+                                Width="30" Height="30"
+                                Background="{Binding BackgroundColor}"
+                                MouseLeftButtonDown="Cell_MouseLeftButtonDown"
+                                MouseRightButtonDown="Cell_MouseRightButtonDown"
+                                Tag="{Binding}"
+                                Cursor="Hand">
+                            <TextBlock Text="{Binding DisplayText}"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="14" FontWeight="Bold"
+                                       Foreground="{Binding ForegroundColor}"/>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <!-- Панель управления -->
+        <Border Grid.Row="3" Background="#FF2C3E50" Padding="10">
+            <Grid>
+                <StackPanel Orientation="Horizontal" 
+                            HorizontalAlignment="Left" 
+                            VerticalAlignment="Center">
+                    <Button Content="Новая игра" 
+                            Command="{Binding NewGameCommand}"
+                            Width="120" 
+                            Height="35"
+                            FontSize="14" 
+                            FontWeight="Bold"
+                            Margin="5"
+                            Background="#FF27AE60"
+                            Foreground="White"
+                            BorderThickness="0"
+                            Cursor="Hand">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" 
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center">
+                    <TextBlock Text="{Binding StatusMessage}" 
+                               FontSize="14" 
+                               FontWeight="Bold"
+                               Foreground="White"
+                               Margin="0,0,20,0" 
+                               VerticalAlignment="Center"/>
+
+                    <Button Content="Выход" 
+                            Command="{Binding ExitCommand}"
+                            Width="100" 
+                            Height="35"
+                            FontSize="14" 
+                            FontWeight="Bold"
+                            Background="#FF95A5A6"
+                            Foreground="White"
+                            BorderThickness="0"
+                            Cursor="Hand">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

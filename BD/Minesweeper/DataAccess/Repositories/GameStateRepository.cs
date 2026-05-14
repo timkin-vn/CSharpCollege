@@ -18,7 +18,7 @@ namespace Minesweeper.Common.Repositories
                 var sql = @"SELECT id, user_id, game_data, is_game_over, is_game_won, play_time 
                    FROM game_states 
                    WHERE user_id = @userId AND is_game_over = false 
-                   ORDER BY id DESC  -- Сортируем по ID (последняя созданная запись)
+                   ORDER BY id DESC 
                    LIMIT 1";
 
                 using (var cmd = new NpgsqlCommand(sql, connection))
