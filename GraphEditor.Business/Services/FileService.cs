@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 
 namespace GraphEditor.Business.Services;
 
-internal class FileService {
+internal sealed class FileService {
     public static void SaveToFile(string fileName, PictureModel model) {
         using var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write);
         using var archive = new ZipArchive(fs, ZipArchiveMode.Create);
@@ -17,7 +17,7 @@ internal class FileService {
         serializer.Serialize(writer, xml);
     }
 
-    public PictureModel OpenFile(string fileName) {
+    public static PictureModel OpenFile(string fileName) {
         try {
             using var fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
             using var archive = new ZipArchive(fs, ZipArchiveMode.Read);

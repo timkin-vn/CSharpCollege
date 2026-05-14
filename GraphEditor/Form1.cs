@@ -1,6 +1,6 @@
+using GraphEditor.Business.Models;
 using GraphEditor.ViewServices;
 using GraphEditor.Export;
-using GraphEditor.Business.Models;
 
 namespace GraphEditor;
 
@@ -23,7 +23,7 @@ public sealed partial class GraphEditorForm : Form {
             Visible = false,
             Multiline = true,
             BorderStyle = BorderStyle.FixedSingle,
-            Font = Font,
+            Font = Font
         };
         _textEditor.Leave += TextEditorOnLeave;
         _textEditor.KeyDown += TextEditorOnKeyDown;
@@ -204,17 +204,17 @@ public sealed partial class GraphEditorForm : Form {
     }
     
     private void SetTextMenuItem_Click(object sender, EventArgs e) {
-        if (_service.PictureModel.SelectedRectangle == null) {
-            MessageBox.Show($@"Сначала выберите фигуру.", "info");
+        if (!_service.HasSelection) {
+            MessageBox.Show($@"Сначала выберите фигуру.", @"info");
             return;
         }
-        
+
         HideTextEditor(true);
 
         var input = Microsoft.VisualBasic.Interaction.InputBox(
             "Введите текст для прямоугольника:",
             "Задать текст",
-            _service.PictureModel.SelectedRectangle.Text ?? "");
+            _service.SelectedText ?? "");
 
         if (string.IsNullOrWhiteSpace(input)) return;
         _service.SetText(input);
@@ -223,7 +223,7 @@ public sealed partial class GraphEditorForm : Form {
 
     private void GroupMenuItem_Click(object sender, EventArgs e) {
         HideTextEditor(true);
-        if (_service.PictureModel.SelectedRectangleIds.Count < 2) {
+        if (_service.SelectedCount < 2) {
             MessageBox.Show(@"Выберите как минимум две фигуры (используйте Ctrl+клик).", @"info");
             return;
         }
@@ -236,15 +236,12 @@ public sealed partial class GraphEditorForm : Form {
 
     private void UngroupMenuItem_Click(object sender, EventArgs e) {
         HideTextEditor(true);
-        var selectedIds = _service.PictureModel.SelectedRectangleIds;
-        if (!selectedIds.Any()) {
+        if (!_service.HasSelection) {
             MessageBox.Show(@"Сначала выберите фигуру.", @"info");
             return;
         }
 
-        var group = _service.PictureModel.Groups.FirstOrDefault(g => g.RectangleIds.Any(selectedIds.Contains));
-        if (group != null) {
-            _service.Ungroup(group.Id);
+        if (_service.Ungroup()) {
             Refresh();
             UpdateVisualState();
         } else {

@@ -25,6 +25,8 @@ internal class PictureViewService {
     public bool CanRedo => _businessService.CanRedo;
     public bool HasClipboard => _businessService.HasClipboard;
     public bool HasSelection => PictureModel.SelectedRectangleIds.Any();
+    public int SelectedCount => PictureModel.SelectedRectangleIds.Count;
+    public string? SelectedText => PictureModel.SelectedRectangle?.Text;
 
     public string FileName { get; private set; }
 
@@ -38,7 +40,7 @@ internal class PictureViewService {
             return activeMarker.Cursor;
         }
 
-        var activeRect = _viewModel.Rectangles?.LastOrDefault(r => IsInside(loc, r.Rectangle));
+        var activeRect = _viewModel.Rectangles.LastOrDefault(r => IsInside(loc, r.Rectangle));
         return activeRect != null ? Cursors.SizeAll : Cursors.Default;
     }
 
@@ -148,9 +150,13 @@ internal class PictureViewService {
         return result;
     }
 
-    public void Ungroup(Guid groupId) {
-        _businessService.Ungroup(groupId);
+    public bool Ungroup() {
+        var selectedIds = PictureModel.SelectedRectangleIds;
+        var group = PictureModel.Groups.FirstOrDefault(g => g.RectangleIds.Any(selectedIds.Contains));
+        if (group == null) return false;
+        _businessService.Ungroup(group.Id);
         RefreshViewModel();
+        return true;
     }
 
     public void Undo() {
@@ -237,7 +243,7 @@ internal class PictureViewService {
             return false;
         }
 
-        var viewRect = _viewModel.Rectangles?.FirstOrDefault(r => r.Id == rect.Id);
+        var viewRect = _viewModel.Rectangles.FirstOrDefault(r => r.Id == rect.Id);
         if (viewRect == null) {
             bounds = default;
             text = string.Empty;

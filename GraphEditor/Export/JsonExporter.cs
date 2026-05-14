@@ -11,13 +11,13 @@ public static class JsonExporter {
     };
 
     public static void Export(PictureModel picture, string filePath) {
-        var dto = PictureDto.FromModel(picture);
+        var dto = PictureDto.FromModel();
         var json = JsonSerializer.Serialize(dto, Options);
         File.WriteAllText(filePath, json);
     }
 
-    public class PictureDto {
-        public static PictureDto FromModel(PictureModel m) => new() { };
+    private class PictureDto {
+        public static PictureDto FromModel() => new();
     }
 
     private sealed class ColorConverter : JsonConverter<Color> {

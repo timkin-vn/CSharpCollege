@@ -8,8 +8,6 @@ public class DeleteRectanglesCommand : ICommand {
     private readonly List<(int Index, RectangleModel Rect)> _positionInfo;
     private readonly List<(GroupModel Group, List<Guid> RemovedIds)> _groupInfo;
 
-    public string Description => "Delete rectangles";
-
     public DeleteRectanglesCommand(PictureModel picture, IEnumerable<RectangleModel> rectangles) {
         _picture = picture;
         _deletedRectangles = rectangles.ToList();

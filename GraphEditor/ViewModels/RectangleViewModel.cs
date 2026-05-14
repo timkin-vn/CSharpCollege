@@ -3,7 +3,7 @@ using GraphEditor.Business.Models;
 namespace GraphEditor.ViewModels;
 
 internal class RectangleViewModel {
-    private static readonly int MarkerHalfSize = MarkerViewModel.MarkerHalfSize;
+    private const int MarkerHalfSize = MarkerViewModel.MarkerHalfSize;
 
     public Guid Id { get; private init; }
 
@@ -17,11 +17,9 @@ internal class RectangleViewModel {
 
     public Color FillColor { get; private init; } = Color.Yellow;
 
-    public Brush FillBrush { get; private init; } = Brushes.Yellow;
-
     public Color BorderColor { get; private init; } = Color.Blue;
 
-    public Pen BorderPen { get; private init; } = Pens.Blue;
+    public float BorderWidth { get; private init; } = 1.5f;
 
     public string? Text { get; private init; }
 
@@ -61,7 +59,7 @@ internal class RectangleViewModel {
             Rectangle = new Rectangle(centerX - MarkerHalfSize, centerY - MarkerHalfSize, MarkerHalfSize * 2, MarkerHalfSize * 2),
             EditMode = mode,
             Cursor = cursor,
-            IsActive = isActive,
+            IsActive = isActive
         };
 
     public static RectangleViewModel FromBusiness(RectangleModel model, bool isSelected) {
@@ -72,15 +70,14 @@ internal class RectangleViewModel {
             Width = model.Width,
             Height = model.Height,
             FillColor = model.FillColor,
-            FillBrush = new SolidBrush(model.FillColor),
             BorderColor = model.BorderColor,
-            BorderPen = new Pen(model.BorderColor, model.BorderWidth <= 0 ? 1.5f : model.BorderWidth),
+            BorderWidth = model.BorderWidth <= 0 ? 1.5f : model.BorderWidth,
             Text = model.Text,
             TextColor = model.TextColor,
             FontFamily = model.FontFamily,
             FontSize = model.FontSize,
             TextAlign = model.TextAlign,
-            IsSelected = isSelected,
+            IsSelected = isSelected
         };
     }
 }
