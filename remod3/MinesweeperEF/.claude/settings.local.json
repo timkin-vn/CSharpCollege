@@ -1,8 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "WebFetch(domain:github.com)",
-      "Bash(Get-ChildItem \"C:\\\\Users\\\\slend\\\\RiderProjects\\\\MinesweeperEF\\\\MinesweeperEF.Server\\\\Data\\\\\" -Force | Select-Object Name)"
-    ]
-  }
-}

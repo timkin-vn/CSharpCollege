@@ -1,6 +1,0 @@
-@MinesweeperEF.Server_HostAddress = http://localhost:5234
-
-GET {{MinesweeperEF.Server_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
