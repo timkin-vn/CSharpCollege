@@ -1,0 +1,324 @@
+﻿<Window x:Class="MinesweeperEF.Client.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MinesweeperEF" Height="750" Width="1200" MinHeight="600" MinWidth="900"
+        Background="#0B1B2B" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <SolidColorBrush x:Key="CardBrush" Color="#13283D" />
+        <SolidColorBrush x:Key="AccentBrush" Color="#4FC3F7" />
+        <SolidColorBrush x:Key="TextBrush" Color="#E6E8EB" />
+        <SolidColorBrush x:Key="DarkBgBrush" Color="#0A1A29" />
+        
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+            <Setter Property="FontSize" Value="13" />
+        </Style>
+        
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+            <Setter Property="FontSize" Value="13" />
+        </Style>
+        
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="4" />
+            <Setter Property="Padding" Value="12,7" />
+            <Setter Property="Background" Value="#1F3A54" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderBrush" Value="#4FC3F7" />
+            <Setter Property="BorderThickness" Value="1.5" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="Medium" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#2A4F6F" />
+                                <Setter Property="BorderBrush" Value="#5FD3FF" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#1A344C" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style x:Key="FieldBox" TargetType="TextBox">
+            <Setter Property="Margin" Value="0,4,0,0" />
+            <Setter Property="Padding" Value="8,6" />
+            <Setter Property="MinHeight" Value="32" />
+            <Setter Property="Background" Value="#0F2638" />
+            <Setter Property="Foreground" Value="#E6E8EB" />
+            <Setter Property="BorderBrush" Value="#2C4F6F" />
+            <Setter Property="BorderThickness" Value="1.5" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+        
+        <Style x:Key="SecretBox" TargetType="PasswordBox">
+            <Setter Property="Margin" Value="0,4,0,0" />
+            <Setter Property="Padding" Value="8,6" />
+            <Setter Property="MinHeight" Value="32" />
+            <Setter Property="Background" Value="#0F2638" />
+            <Setter Property="Foreground" Value="#E6E8EB" />
+            <Setter Property="BorderBrush" Value="#2C4F6F" />
+            <Setter Property="BorderThickness" Value="1.5" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+        
+        <Style x:Key="Card" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource CardBrush}" />
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="Padding" Value="16" />
+            <Setter Property="Margin" Value="0,0,0,12" />
+            <Setter Property="BorderBrush" Value="#234464" />
+            <Setter Property="BorderThickness" Value="1.5" />
+        </Style>
+        
+        <Style x:Key="SectionTitle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="{StaticResource AccentBrush}" />
+            <Setter Property="Margin" Value="0,0,0,12" />
+        </Style>
+        
+        <Style x:Key="LabelText" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontWeight" Value="Medium" />
+            <Setter Property="Margin" Value="0,0,0,4" />
+            <Setter Property="Foreground" Value="#B0C4D4" />
+        </Style>
+    </Window.Resources>
+
+    <DockPanel Margin="16">
+            <Border DockPanel.Dock="Top" Style="{StaticResource Card}" Padding="20,16">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                        <TextBlock Text="🌊 Сапёр EF" FontSize="22" FontWeight="Bold" 
+                                   Foreground="{StaticResource AccentBrush}" />
+                        <TextBlock Text="Подключитесь к серверу и начните партию" 
+                                   FontSize="11" FontStyle="Italic" Foreground="#8FA7BA" Margin="0,3,0,0" />
+                    </StackPanel>
+
+                    <Grid Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="160" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="120" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="120" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Grid.Column="0" Text="API:" VerticalAlignment="Center" 
+                                   FontWeight="SemiBold" Margin="0,0,6,0" />
+                        <TextBox Grid.Column="1" x:Name="ApiUrlBox" Text="http://localhost:5234" 
+                                 Style="{StaticResource FieldBox}" Margin="0,0,12,0" />
+                        
+                        <TextBlock Grid.Column="2" Text="Логин:" VerticalAlignment="Center" 
+                                   FontWeight="SemiBold" Margin="0,0,6,0" />
+                        <TextBox Grid.Column="3" x:Name="UserBox" 
+                                 Style="{StaticResource FieldBox}" Margin="0,0,12,0" />
+                        
+                        <TextBlock Grid.Column="4" Text="Пароль:" VerticalAlignment="Center" 
+                                   FontWeight="SemiBold" Margin="0,0,6,0" />
+                        <PasswordBox Grid.Column="5" x:Name="PassBox" 
+                                     Style="{StaticResource SecretBox}" Margin="0,0,12,0" />
+                        
+                        <StackPanel Grid.Column="6" Orientation="Horizontal" Margin="6,0,0,0">
+                            <Button Content="Регистрация" MinWidth="95" Height="38" Click="Register_Click" />
+                            <Button Content="Вход" MinWidth="75" Height="38" Click="Login_Click" />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="340" MinWidth="300" />
+                    <ColumnDefinition Width="*" MinWidth="400" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <ScrollViewer Grid.Column="0" Margin="0,0,16,0" 
+                              VerticalScrollBarVisibility="Auto" 
+                              HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel>
+                    <Border Style="{StaticResource Card}">
+                        <StackPanel>
+                            <Grid Margin="0,0,0,12">
+                                <TextBlock Text="⚡ Новая игра" Style="{StaticResource SectionTitle}" 
+                                           VerticalAlignment="Center" />
+                                <CheckBox x:Name="DebugModeCheck" Content="🐛 Debug" 
+                                          HorizontalAlignment="Right" VerticalAlignment="Center"
+                                          Foreground="#FFB74D" FontWeight="SemiBold" FontSize="12"
+                                          ToolTip="Позволяет продолжить игру после взрыва" />
+                            </Grid>
+                            
+                            <Grid Margin="0,0,0,12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                
+                                <StackPanel Grid.Column="0" Margin="0,0,6,0">
+                                    <TextBlock Text="Строк" Style="{StaticResource LabelText}" />
+                                    <TextBox x:Name="RowsBox" Text="16" Style="{StaticResource FieldBox}" />
+                                </StackPanel>
+                                
+                                <StackPanel Grid.Column="1" Margin="3,0">
+                                    <TextBlock Text="Столбцов" Style="{StaticResource LabelText}" />
+                                    <TextBox x:Name="ColsBox" Text="16" Style="{StaticResource FieldBox}" />
+                                </StackPanel>
+                                
+                                <StackPanel Grid.Column="2" Margin="6,0,0,0">
+                                    <TextBlock Text="Мин" Style="{StaticResource LabelText}" />
+                                    <TextBox x:Name="MinesBox" Text="40" Style="{StaticResource FieldBox}" />
+                                </StackPanel>
+                            </Grid>
+                            
+                            <TextBlock Text="Имя партии" Style="{StaticResource LabelText}" />
+                            <TextBox x:Name="NameBox" Text="Game" Style="{StaticResource FieldBox}" Margin="0,4,0,14" />
+                            
+                            <UniformGrid Columns="2" Rows="1">
+                                <Button Content="🚀 Старт" Height="40" Click="NewGame_Click" 
+                                        FontSize="13" FontWeight="SemiBold" Margin="0,0,4,0" />
+                                <Button Content="Очистить" Height="40" Click="ClearForm_Click" 
+                                        Background="#1A2F45" BorderBrush="#3A5F7F" Margin="4,0,0,0" />
+                            </UniformGrid>
+                            
+                            <TextBlock Text="💡 Размер: до 22×30, мин меньше клеток" 
+                                       FontStyle="Italic" FontSize="10" Foreground="#7A95AA" 
+                                       TextWrapping="Wrap" Margin="0,10,0,0" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Style="{StaticResource Card}">
+                        <StackPanel>
+                            <Grid Margin="0,0,0,12">
+                                <TextBlock Text="💾 Сохраненные игры" Style="{StaticResource SectionTitle}" 
+                                           VerticalAlignment="Center" />
+                                <Button Content="🔄" Width="32" Height="28" 
+                                        HorizontalAlignment="Right" Click="RefreshGames_Click" 
+                                        FontSize="14" Padding="4" ToolTip="Обновить список" />
+                            </Grid>
+                            
+                            <ListBox x:Name="GamesList" Height="260" SelectionChanged="GamesList_SelectionChanged"
+                                     Background="{StaticResource DarkBgBrush}" 
+                                     BorderBrush="#234464" BorderThickness="1.5"
+                                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="#162838" CornerRadius="6" Padding="10,8" 
+                                                Margin="3,2" BorderBrush="#2A4F6F" BorderThickness="1"
+                                                HorizontalAlignment="Stretch">
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding Name}" FontWeight="Bold" 
+                                                           FontSize="13" Foreground="#E6E8EB" />
+                                                <TextBlock Text="{Binding Status}" FontSize="11" 
+                                                           Foreground="#8FA7BA" Margin="0,3,0,2" />
+                                                <TextBlock Text="{Binding UpdatedAt}" FontSize="10" 
+                                                           Foreground="#6A8199" />
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                        <Setter Property="Padding" Value="0" />
+                                        <Setter Property="Margin" Value="0" />
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                            </ListBox>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+
+                <Border Grid.Column="1" Style="{StaticResource Card}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Border Grid.Row="0" Background="#0F2638" CornerRadius="8"
+                                Padding="16,12" Margin="0,0,0,12" BorderBrush="#2A4F6F" BorderThickness="1.5">
+                            <StackPanel>
+                                <UniformGrid Columns="4" Rows="1">
+                                    <StackPanel Margin="0,0,8,0">
+                                        <TextBlock Text="📊 Статус" FontWeight="SemiBold" FontSize="11"
+                                                   Foreground="#8FA7BA" />
+                                        <TextBlock x:Name="StatusText" FontSize="14" FontWeight="Bold"
+                                                   Foreground="{StaticResource AccentBrush}" Margin="0,3,0,0" />
+                                    </StackPanel>
+
+                                    <StackPanel Margin="8,0">
+                                        <TextBlock Text="🚩 Флаги" FontWeight="SemiBold" FontSize="11"
+                                                   Foreground="#8FA7BA" />
+                                        <TextBlock x:Name="FlagsText" FontSize="14" FontWeight="Bold"
+                                                   Margin="0,3,0,0" />
+                                    </StackPanel>
+
+                                    <StackPanel Margin="8,0">
+                                        <TextBlock Text="📏 Поле" FontWeight="SemiBold" FontSize="11"
+                                                   Foreground="#8FA7BA" />
+                                        <TextBlock x:Name="BoardInfoText" FontSize="14" FontWeight="Bold"
+                                                   Margin="0,3,0,0" />
+                                    </StackPanel>
+
+                                    <StackPanel Margin="8,0,0,0">
+                                        <TextBlock Text="🎮 Игра" FontWeight="SemiBold" FontSize="11"
+                                                   Foreground="#8FA7BA" />
+                                        <TextBlock x:Name="GameNameText" FontSize="14" FontWeight="Bold"
+                                                   Margin="0,3,0,0" TextTrimming="CharacterEllipsis" />
+                                    </StackPanel>
+                                </UniformGrid>
+
+                                <Button x:Name="RevealMinesButton" Content="Показать мины"
+                                        Visibility="Collapsed" Height="32" Margin="0,12,0,0"
+                                        HorizontalAlignment="Left" Padding="12,0"
+                                        Click="RevealMines_Click"
+                                        ToolTip="Показать все скрытые мины после поражения" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Grid.Row="1" Background="{StaticResource DarkBgBrush}" 
+                                BorderBrush="#234464" BorderThickness="2" CornerRadius="10">
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" 
+                                          VerticalScrollBarVisibility="Auto" 
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Padding="6">
+                                <Viewbox Stretch="None" StretchDirection="DownOnly">
+                                    <UniformGrid x:Name="BoardGrid" Rows="1" Columns="1" />
+                                </Viewbox>
+                            </ScrollViewer>
+                        </Border>
+                    </Grid>
+                </Border>
+            </Grid>
+        </DockPanel>
+</Window>
