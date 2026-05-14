@@ -1,0 +1,96 @@
+@model Minesweeper.Web.Models.GameViewModel
+@using Minesweeper.Web.Business.Cells
+@{
+    ViewData["Title"] = "Сапёр";
+}
+
+<form class="controls panel" method="post" asp-controller="Game" asp-action="NewGame">
+    <div class="control-group">
+        <label for="difficulty">Сложность</label>
+        @{
+            var difficultyItems = new SelectList(new[] {
+                new SelectListItem("Новичок (9×9, 10 мин)", "beginner"),
+                new SelectListItem("Любитель (16×16, 40 мин)", "intermediate"),
+                new SelectListItem("Профессионал (30×16, 99 мин)", "expert"),
+                new SelectListItem("Пользовательская…", "custom")
+            }, "Value", "Text", Model.DifficultyKey);
+        }
+        <select id="difficulty" name="Preset" asp-items="@difficultyItems"></select>
+    </div>
+    <div id="custom-settings" class="control-group custom-settings @(Model.DifficultyKey == "custom" ? "active" : null)">
+        <label>Пользовательские настройки</label>
+        <div class="custom-fields">
+            <input type="number" name="Rows" min="5" max="60" value="@Model.Rows" aria-label="Строки" />
+            <input type="number" name="Columns" min="5" max="60" value="@Model.Columns" aria-label="Столбцы" />
+            <input type="number" name="Mines" min="1" max="999" value="@Model.Mines" aria-label="Количество мин" />
+        </div>
+    </div>
+    <div class="control-group buttons">
+        <button type="submit">Новая игра</button>
+        <span class="hint">ЛКМ — открыть, ПКМ — флаг, двойной клик — хорда</span>
+    </div>
+</form>
+
+<div class="status panel">
+    <div>
+        <strong>Сложность:</strong>
+        <span class="badge">@Model.Difficulty</span>
+    </div>
+    <div>
+        <strong>Мины:</strong>
+        <span class="badge">@Model.FlagsLeft из @Model.Mines</span>
+    </div>
+    <div>
+        <strong>Время:</strong>
+        <span class="badge"
+              id="status-time"
+              data-seconds="@Model.Seconds"
+              data-started="@Model.HasStarted.ToString().ToLower()"
+              data-game-over="@Model.GameOver.ToString().ToLower()">@Model.Seconds</span> с
+    </div>
+    <div id="status-text">@Model.StatusText</div>
+</div>
+
+<form id="game-form" method="post" asp-controller="Game" asp-action="Action">
+    <input type="hidden" name="Action" id="f-action" value="reveal" />
+    <input type="hidden" name="Row" id="f-row" value="0" />
+    <input type="hidden" name="Column" id="f-col" value="0" />
+</form>
+
+<div class="board-wrapper panel">
+    <div id="board" role="grid" aria-label="Поле сапёра"
+         style="grid-template-columns: repeat(@Model.Columns, 36px)">
+        @for (var r = 0; r < Model.Rows; r++) {
+            @for (var c = 0; c < Model.Columns; c++) {
+                var cell = Model.Cells[r][c];
+                var row = r;
+                var col = c;
+                var cellText = cell.State switch {
+                    CellState.Flagged    => "🚩",
+                    CellState.Questioned => "?",
+                    CellState.Mine       => "💣",
+                    CellState.Exploded   => "💥",
+                    CellState.Revealed when cell.AdjacentMines > 0 => cell.AdjacentMines.ToString(),
+                    _                    => ""
+                };
+                var cellCss = cell.State switch {
+                    CellState.Flagged    => "flagged",
+                    CellState.Questioned => "questioned",
+                    CellState.Mine       => "mine revealed",
+                    CellState.Exploded   => "exploded",
+                    CellState.Revealed when cell.AdjacentMines > 0 => $"revealed number-{cell.AdjacentMines}",
+                    CellState.Revealed   => "revealed",
+                    _                    => ""
+                };
+                <button type="button" class="cell @cellCss"
+                        onclick="submitCell('reveal', @row, @col)"
+                        oncontextmenu="submitCell('flag', @row, @col); return false;"
+                        ondblclick="submitCell('chord', @row, @col)">@cellText</button>
+            }
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/game.js" asp-append-version="true"></script>
+}
