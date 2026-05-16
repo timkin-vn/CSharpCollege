@@ -1,0 +1,34 @@
+﻿<Window x:Class="FifteenGame.Wpf.Views.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ТРИ В РЯД - Вход" Height="600" Width="400" 
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Background="{StaticResource MainBackground}">
+    <Grid>
+        <Border Background="{StaticResource PanelBackground}" CornerRadius="20" Margin="30" Padding="20"
+                VerticalAlignment="Center">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="20" ShadowDepth="5" Opacity="0.3"/>
+            </Border.Effect>
+
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="ТРИ В РЯД" FontSize="28" FontWeight="Bold" 
+                           Foreground="#2B32B2" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+
+                <TextBlock Text="Логин:" Foreground="{StaticResource TextPrimary}" Margin="0,5"/>
+                <TextBox Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,15"/>
+
+                <TextBlock Text="Пароль:" Foreground="{StaticResource TextPrimary}" Margin="0,5"/>
+                <PasswordBox x:Name="UserPasswordBox" Margin="0,0,0,25"/>
+
+                <Button Content="ВОЙТИ" Command="{Binding LoginCommand}" 
+                        CommandParameter="{Binding ElementName=UserPasswordBox}" 
+                        Style="{StaticResource GameButtonStyle}" Margin="0,0,0,10" Height="40"/>
+
+                <Button Content="РЕГИСТРАЦИЯ" Command="{Binding RegisterCommand}" 
+                        CommandParameter="{Binding ElementName=UserPasswordBox}"
+                        Background="#2B32B2" Style="{StaticResource GameButtonStyle}" Height="40"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
