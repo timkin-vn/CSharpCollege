@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CardFile.Common.Infrastructure;
+using System;
 
-namespace CardFile.Business.Models
+namespace CardFile.DataStore.Dtos
 {
-    public class Card
+    public class CardDto
     {
+        // DTO = Data Transfer Object
+
         /// <summary>
         /// Id
         /// </summary>
@@ -57,5 +56,23 @@ namespace CardFile.Business.Models
         /// Оклад
         /// </summary>
         public decimal Salary { get; set; }
+
+        public CardDto Clone()
+        {
+            return Mapping.Mapper.Map<CardDto>(this);
+            //return new CardDto
+            //{
+            //    Id = Id,
+            //    FirstName = FirstName,
+            //    MiddleName = MiddleName,
+            //    LastName = LastName,
+            //    BirthDate = BirthDate,
+            //    Department = Department,
+            //    Position = Position,
+            //    EmploymentDate = EmploymentDate,
+            //    DismissalDate = DismissalDate,
+            //    Salary = Salary,
+            //};
+        }
     }
 }

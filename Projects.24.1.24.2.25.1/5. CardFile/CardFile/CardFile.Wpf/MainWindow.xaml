@@ -1,11 +1,10 @@
 ﻿<Window x:Class="CardFile.Wpf.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CardFile.Wpf" xmlns:viewmodels="clr-namespace:CardFile.Wpf.ViewModels"
-        mc:Ignorable="d"
-        Title="{Binding WindowTitle}" Height="450" Width="800" Loaded="Window_Loaded" Initialized="Window_Initialized">
+        xmlns:viewmodels="clr-namespace:CardFile.Wpf.ViewModels"
+        Title="{Binding WindowTitle}" Height="450" Width="900"
+        Loaded="Window_Loaded">
+
     <Window.DataContext>
         <viewmodels:MainWindowViewModel />
     </Window.DataContext>
@@ -20,33 +19,36 @@
                 <MenuItem Header="В_ыход" Click="FileExitMenuItem_Click" />
             </MenuItem>
         </Menu>
-        
+
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <DataGrid Grid.Row="0" ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" SelectionChanged="DataGrid_SelectionChanged"
+            <DataGrid ItemsSource="{Binding Students}" SelectedItem="{Binding SelectedStudent}" 
                       AutoGenerateColumns="False" IsReadOnly="True"
-                      CanUserAddRows="False" SelectionMode="Single" Margin="5">
+                      CanUserAddRows="False" Grid.Row="0" Margin="5" 
+                      SelectionChanged="DataGrid_SelectionChanged">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ФИО" Binding="{Binding Fio}" />
-                    <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDateText}" />
-                    <DataGridTextColumn Header="Подразделение" Binding="{Binding Department}" />
-                    <DataGridTextColumn Header="Должность" Binding="{Binding Position}" />
-                    <DataGridTextColumn Header="Дата трудоустройства" Binding="{Binding EmploymentDateText}" />
-                    <DataGridTextColumn Header="Дата увольнения" Binding="{Binding DismissalDateText}" />
-                    <DataGridTextColumn Header="Оклад" Binding="{Binding SalaryText}" />
+                    <DataGridTextColumn Header="ФИО" Binding="{Binding Fio}" Width="120"/>
+                    <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDateText}" Width="100"/>
+                    <DataGridTextColumn Header="Факультет" Binding="{Binding Faculty}" Width="120"/>
+                    <DataGridTextColumn Header="Курс" Binding="{Binding Course}" Width="50"/>
+                    <DataGridTextColumn Header="Группа" Binding="{Binding Group}" Width="80"/>
+                    <DataGridTextColumn Header="№ зачётной книжки" Binding="{Binding RecordBookNumber}" Width="120"/>
+                    <DataGridTextColumn Header="Ср. балл" Binding="{Binding AverageGradeText}" Width="70"/>
+                    <DataGridTextColumn Header="Дата поступления" Binding="{Binding AdmissionDateText}" Width="100"/>
+                    <DataGridTextColumn Header="Дата отчисления" Binding="{Binding DismissalDateText}" Width="100"/>
                 </DataGrid.Columns>
             </DataGrid>
-            
+
             <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Создать" Padding="5" Margin="5" VerticalAlignment="Center" Click="CreateButton_Click" />
-                <Button Content="Правка" IsEnabled="{Binding IsEditButtonEnabled}" Padding="5" Margin="5" VerticalAlignment="Center" 
-                        Click="EditButton_Click" />
-                <Button Content="Удалить" IsEnabled="{Binding IsDeleteButtonEnabled}" Padding="5" Margin="5" VerticalAlignment="Center" 
-                        Click="DeleteButton_Click" />
+                <Button Content="Создать" Padding="5" Margin="5" Click="CreateStudentButton_Click" />
+                <Button Content="Правка" IsEnabled="{Binding IsEditButtonEnabled}" Padding="5" Margin="5" 
+                        Click="EditStudentButton_Click" />
+                <Button Content="Удалить" IsEnabled="{Binding IsDeleteButtonEnabled}" Padding="5" Margin="5" 
+                        Click="DeleteStudentButton_Click" />
             </StackPanel>
         </Grid>
     </DockPanel>

@@ -1,116 +1,53 @@
 ﻿using CardFile.DataStore.DataCollection;
 using CardFile.DataStore.Dtos;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CardFile.DataStore.FileDataAccess.FileManagers
 {
     public class TextFileManager : IFileManager
     {
-        public void OpenFromFile(string fileName, CardCollection collection)
+        public void SaveToFile(string fileName, StudentCollection collection)
         {
-            using (var fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+            var students = collection.GetAll().ToList();
+            using (var writer = new StreamWriter(fileName, false, Encoding.UTF8))
             {
-                using (var reader = new StreamReader(fs))
+                foreach (var student in students)
                 {
-                    var records = new List<CardDto>();
-
-                    while (!reader.EndOfStream)
-                    {
-                        var line = reader.ReadLine();
-                        if (string.IsNullOrEmpty(line))
-                        {
-                            continue;
-                        }
-
-                        var lineParts = line.Split(';');
-                        if (lineParts.Length != 10)
-                        {
-                            throw new Exception($"В строке файла {fileName} неверное количество полей");
-                        }
-
-                        var newCard = new CardDto();
-
-                        if (int.TryParse(lineParts[0], out var id))
-                        {
-                            newCard.Id = id;
-                        }
-                        else
-                        {
-                            throw new Exception($"В строке файла {fileName} неверное значение Id");
-                        }
-
-                        newCard.FirstName = lineParts[1];
-                        newCard.MiddleName = lineParts[2];
-                        newCard.LastName = lineParts[3];
-
-                        if (DateTime.TryParse(lineParts[4], out var birthDate))
-                        {
-                            newCard.BirthDate = birthDate;
-                        }
-                        else
-                        {
-                            throw new Exception($"В строке файла {fileName} неверное значение BirthDate");
-                        }
-
-                        newCard.Department = lineParts[5];
-                        newCard.Position = lineParts[6];
-
-                        if (DateTime.TryParse(lineParts[7], out var employmentDate))
-                        {
-                            newCard.EmploymentDate = employmentDate;
-                        }
-                        else
-                        {
-                            throw new Exception($"В строке файла {fileName} неверное значение EmploymentDate");
-                        }
-
-                        if (lineParts[8] == "-")
-                        {
-                            newCard.DismissalDate = null;
-                        }
-                        else if (DateTime.TryParse(lineParts[8], out var dismissalDate))
-                        {
-                            newCard.DismissalDate = dismissalDate;
-                        }
-                        else
-                        {
-                            throw new Exception($"В строке файла {fileName} неверное значение DismissalDate");
-                        }
-
-                        if (decimal.TryParse(lineParts[9], out var salary))
-                        {
-                            newCard.Salary = salary;
-                        }
-                        else
-                        {
-                            throw new Exception($"В строке файла {fileName} неверное значение Salary");
-                        }
-
-                        records.Add(newCard);
-                    }
-
-                    collection.ReplaceAll(records);
+                    writer.WriteLine($"{student.Id}|{student.LastName}|{student.FirstName}|{student.MiddleName}|{student.BirthDate}|{student.Faculty}|{student.Course}|{student.Group}|{student.RecordBookNumber}|{student.AverageGrade}|{student.AdmissionDate}|{student.DismissalDate}");
                 }
             }
         }
 
-        public void SaveToFile(string fileName, CardCollection collection)
+        public void OpenFromFile(string fileName, StudentCollection collection)
         {
-            using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
+            collection.GetAll().ToList().Clear();
+            using (var reader = new StreamReader(fileName, Encoding.UTF8))
             {
-                using (var writer = new StreamWriter(fs))
+                string line;
+                while ((line = reader.ReadLine()) != null)
                 {
-                    foreach (var item in collection.GetAll())
+                    var parts = line.Split('|');
+                    if (parts.Length >= 12)
                     {
-                        writer.WriteLine($"{item.Id};{item.FirstName};{item.MiddleName};{item.LastName};" +
-                            $"{item.BirthDate.ToShortDateString()};{item.Department};{item.Position};" +
-                            $"{item.EmploymentDate.ToShortDateString()};{item.DismissalDate?.ToShortDateString() ?? "-"};" +
-                            $"{item.Salary}");
+                        var student = new StudentDto
+                        {
+                            Id = int.Parse(parts[0]),
+                            LastName = parts[1],
+                            FirstName = parts[2],
+                            MiddleName = parts[3],
+                            BirthDate = DateTime.Parse(parts[4]),
+                            Faculty = parts[5],
+                            Course = int.Parse(parts[6]),
+                            Group = parts[7],
+                            RecordBookNumber = parts[8],
+                            AverageGrade = double.Parse(parts[9]),
+                            AdmissionDate = DateTime.Parse(parts[10]),
+                            DismissalDate = string.IsNullOrEmpty(parts[11]) ? (DateTime?)null : DateTime.Parse(parts[11])
+                        };
+                        collection.Save(student);
                     }
                 }
             }

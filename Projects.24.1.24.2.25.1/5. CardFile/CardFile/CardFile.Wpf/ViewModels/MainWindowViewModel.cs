@@ -1,97 +1,62 @@
 ﻿using CardFile.Business.Models;
 using CardFile.Business.Services;
-using CardFile.Common.Infrastructure;
-using CardFile.Wpf.Infrastructure;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CardFile.Wpf.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private readonly CardFileService _service = new CardFileService();
-
-        public ObservableCollection<CardViewModel> Cards { get; } = new ObservableCollection<CardViewModel>();
-
-        public CardViewModel SelectedCard { get; set; }
-
-        public bool IsEditButtonEnabled => SelectedCard != null;
-
-        public bool IsDeleteButtonEnabled => SelectedCard != null;
-
+        private StudentFileService _service = new StudentFileService();
+        public ObservableCollection<StudentViewModel> Students { get; } = new ObservableCollection<StudentViewModel>();
+        public StudentViewModel SelectedStudent { get; set; }
+        public bool IsEditButtonEnabled => SelectedStudent != null;
+        public bool IsDeleteButtonEnabled => SelectedStudent != null;
         public string FileName { get; private set; }
+        public string WindowTitle => string.IsNullOrEmpty(FileName) ? "Картотека студентов" : $"Картотека студентов: {Path.GetFileName(FileName)}";
 
-        public string WindowTitle => string.IsNullOrEmpty(FileName) ? "Картотека" : $"Картотека: {Path.GetFileName(FileName)}";
+        public void WindowLoaded() => LoadAllData();
 
-        public MainWindowViewModel()
+        public StudentViewModel GetSelectedStudent() => SelectedStudent;
+
+        public StudentViewModel GetNewStudent() => new StudentViewModel
         {
-            MapperInitialization.PreRegister();
+            BirthDate = new DateTime(2005, 1, 1),
+            AdmissionDate = DateTime.Today,
+            Course = 1,
+            AverageGrade = 4.0
+        };
+
+        public void SaveEditedStudent(StudentViewModel student)
+        {
+            var index = Students.ToList().FindIndex(s => s.Id == student.Id);
+            if (index < 0) throw new Exception("Студент с таким Id не существует");
+
+            var id = _service.Save(ToBusiness(student));
+            if (id < 0) Students.RemoveAt(index);
+            else Students[index].LoadViewModel(student);
         }
 
-        public void WindowLoaded()
+        public void SaveNewStudent(StudentViewModel student)
         {
-            LoadAllData();
+            var newStudent = new StudentViewModel();
+            newStudent.LoadViewModel(student);
+            var id = _service.Save(ToBusiness(student));
+            if (id < 0) return;
+            newStudent.Id = id;
+            Students.Add(newStudent);
         }
 
-        public void Initialized()
+        public void DeleteSelectedStudent()
         {
-            Mapping.Initialize();
-        }
-
-        public CardViewModel GetSelectedCard()
-        {
-            return SelectedCard;
-        }
-
-        public CardViewModel GetNewCard()
-        {
-            return new CardViewModel
-            {
-                BirthDate = new DateTime(2000, 6, 15),
-                EmploymentDate = new DateTime(2020, 6, 15),
-            };
-        }
-
-        public void SaveEditedCard(CardViewModel card)
-        {
-            var index = Cards.ToList().FindIndex(c => c.Id == card.Id);
-
-            if (index < 0)
-            {
-                throw new Exception("Карточка с таким Id не существует");
-            }
-
-            var id = _service.Save(ToBusiness(card));
-
-            if (id < 0)
-            {
-                Cards.RemoveAt(index);
-            }
-            else
-            {
-                Cards[index].LoadViewModel(card);
-            }
-        }
-
-        public void SaveNewCard(CardViewModel card)
-        {
-            var newCard = new CardViewModel();
-            newCard.LoadViewModel(card);
-
-            var id = _service.Save(ToBusiness(card));
-
-            if (id < 0)
-            {
-                return;
-            }
-
-            newCard.Id = id;
-            Cards.Add(newCard);
+            if (SelectedStudent == null) return;
+            _service.Delete(SelectedStudent.Id);
+            var index = Students.ToList().FindIndex(s => s.Id == SelectedStudent.Id);
+            Students.RemoveAt(index);
+            SelectedStudent = null;
+            OnPropertyChanged(nameof(SelectedStudent));
         }
 
         public void SelectionChanged()
@@ -100,101 +65,64 @@ namespace CardFile.Wpf.ViewModels
             OnPropertyChanged(nameof(IsEditButtonEnabled));
         }
 
-        private void LoadAllData()
-        {
-            var cards = _service.GetAll();
-            Cards.Clear();
-            foreach (var card in cards)
-            {
-                Cards.Add(ToViewModel(card));
-            }
-        }
-
-        public void DeleteSelectedCard()
-        {
-            if (SelectedCard == null)
-            {
-                return;
-            }
-
-            _service.Delete(SelectedCard.Id);
-            var index = Cards.ToList().FindIndex(c => c.Id == SelectedCard.Id);
-
-            if (index < 0)
-            {
-                throw new Exception("Карточка с таким Id не существует");
-            }
-
-            Cards.RemoveAt(index);
-            SelectedCard = null;
-
-            OnPropertyChanged(nameof(SelectedCard));
-        }
-
         public void SaveToFile(string fileName)
         {
             _service.SaveToFile(fileName);
-
-            FileName = fileName;
-            OnPropertyChanged(nameof(WindowTitle));
-        }
-
-        public void OpenFromFile(string fileName)
-        {
-            _service.OpenFromFile(fileName);
-            LoadAllData();
-
             FileName = fileName;
             OnPropertyChanged(nameof(WindowTitle));
         }
 
         public void SaveToFile()
         {
-            try
-            {
-                _service.SaveToFile(FileName);
-            }
-            catch(Exception)
-            {
-                FileName = null;
-                throw;
-            }
+            if (string.IsNullOrEmpty(FileName))
+                throw new InvalidOperationException("Файл не выбран");
+            _service.SaveToFile(FileName);
         }
 
-        private CardViewModel ToViewModel(Card card)
+        public void OpenFromFile(string fileName)
         {
-            return Mapping.Mapper.Map<CardViewModel>(card);
-            //return new CardViewModel
-            //{
-            //    Id = card.Id,
-            //    FirstName = card.FirstName,
-            //    MiddleName = card.MiddleName,
-            //    LastName = card.LastName,
-            //    BirthDate = card.BirthDate,
-            //    Department = card.Department,
-            //    Position = card.Position,
-            //    EmploymentDate = card.EmploymentDate,
-            //    DismissalDate = card.DismissalDate,
-            //    Salary = card.Salary,
-            //};
+            _service.OpenFromFile(fileName);
+            LoadAllData();
+            FileName = fileName;
+            OnPropertyChanged(nameof(WindowTitle));
+        }
+        private void LoadAllData()
+        {
+            Students.Clear();
+            foreach (var student in _service.GetAll())
+                Students.Add(ToViewModel(student));
         }
 
-        private Card ToBusiness(CardViewModel card)
+        private StudentViewModel ToViewModel(Student student) => new StudentViewModel
         {
-            return Mapping.Mapper.Map<Card>(card);
-            //return new Card
-            //{
-            //    Id = card.Id,
-            //    FirstName = card.FirstName,
-            //    MiddleName = card.MiddleName,
-            //    LastName = card.LastName,
-            //    BirthDate = card.BirthDate,
-            //    Department = card.Department,
-            //    Position = card.Position,
-            //    EmploymentDate = card.EmploymentDate,
-            //    DismissalDate = card.DismissalDate,
-            //    Salary = card.Salary,
-            //};
-        }
+            Id = student.Id,
+            LastName = student.LastName,
+            FirstName = student.FirstName,
+            MiddleName = student.MiddleName,
+            BirthDate = student.BirthDate,
+            Faculty = student.Faculty,
+            Course = student.Course,
+            Group = student.Group,
+            RecordBookNumber = student.RecordBookNumber,
+            AverageGrade = student.AverageGrade,
+            AdmissionDate = student.AdmissionDate,
+            DismissalDate = student.DismissalDate
+        };
+
+        private Student ToBusiness(StudentViewModel student) => new Student
+        {
+            Id = student.Id,
+            LastName = student.LastName,
+            FirstName = student.FirstName,
+            MiddleName = student.MiddleName,
+            BirthDate = student.BirthDate,
+            Faculty = student.Faculty,
+            Course = student.Course,
+            Group = student.Group,
+            RecordBookNumber = student.RecordBookNumber,
+            AverageGrade = student.AverageGrade,
+            AdmissionDate = student.AdmissionDate,
+            DismissalDate = student.DismissalDate
+        };
     }
 }
