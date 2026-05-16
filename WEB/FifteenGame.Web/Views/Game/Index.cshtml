@@ -1,0 +1,176 @@
+﻿@using FifteenGame.Business.Models
+@model FifteenGame.Business.Models.GameModel
+@{
+    ViewBag.Title = "Морской бой";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Морской бой</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background: #f0f8ff;
+            font-family: Arial;
+        }
+
+        .board {
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+
+        .cell {
+            width: 42px;
+            height: 42px;
+            border: 2px solid #333;
+            text-align: center;
+            font-size: 28px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+            .cell:hover {
+                opacity: 0.8;
+            }
+        
+        .empty {
+            background: #87CEEB;
+        }
+
+        .ship {
+            background: #222;
+            color: white;
+        }
+
+        .miss {
+            background: #87CEEB;
+        }
+
+            .miss::after {
+                content: "•";
+                color: blue;
+            }
+
+        .hit {
+            background: #FF4500;
+            color: white;
+        }
+
+            .hit::after {
+                content: "✖";
+            }
+
+        .killed {
+            background: #8B0000;
+            color: white;
+        }
+
+            .killed::after {
+                content: "✖";
+            }
+
+        h1, h2, h3, h4 {
+            text-align: center;
+        }
+    </style>
+</head>
+
+
+<body>
+    
+    <div class="container">
+        <h1 class="my-4">МОРСКОЙ БОЙ</h1>
+        @if (Model.GameOver)
+        {
+            <div class="alert @(Model.PlayerWon ? "alert-success" : "alert-danger") text-center">
+                <h2>@(Model.PlayerWon ? "ПОБЕДА!" : "Вы проиграли!")</h2>
+                <a href="@Url.Action("NewGame")" class="btn btn-primary btn-lg">Новая игра</a>
+            </div>
+        }
+        else if (Model.IsSetupPhase)
+        {
+            <div class="alert alert-info text-center">
+                <h3>Расстановка кораблей (@Model.ShipsToPlace осталось)</h3>
+                <p>
+                    Корабль:
+                    <strong>@(Model.CurrentPlacingShip?.Type ?? ShipType.Single)-палубный</strong> |
+                    @(Model.IsHorizontal ? "Горизонтально" : "Вертикально")
+                    <button class="btn btn-warning btn-sm"
+                            onclick="location.href='@Url.Action("RotateShip")'">
+                        Поворот
+                    </button>
+                </p>
+                <button class="btn btn-success btn-lg"
+                        onclick="location.href='@Url.Action("AutoPlace")'">
+                    Авторасстановка
+                </button>
+            </div>
+        }
+        else
+        {
+            <h2 class="my-3 @(Model.IsPlayerTurn ? "text-success" : "text-warning")">
+                @(Model.IsPlayerTurn ? "ВАШ ХОД" : "Ход компьютера...")
+            </h2>
+        }
+        <div class="row">
+            <!-- ПОЛЕ ИГРОКА -->
+            <div class="col-md-6 text-center">
+                <h4>Ваше поле</h4>
+                <table class="board">
+                    @for (int y = 0; y < 10; y++)
+                    {
+                        <tr>
+                            @for (int x = 0; x < 10; x++)
+                            {
+                                var fog = Model.ComputerFog[x, y]; 
+                                var own = Model.PlayerField[x, y]; 
+                                string cls =
+                                    fog == CellState.Miss ? "miss" :
+                                    fog == CellState.Hit ? "hit" :
+                                    fog == CellState.Killed ? "killed" :
+                                    own == CellState.Ship ? "ship" :
+                                    "empty";
+                                <td class="cell @cls"
+                                    @if (Model.IsSetupPhase && fog == CellState.Empty) { @: onclick="location.href='@Url.Action("PlaceShip", new { x, y })'"
+                                    }>
+                                </td>
+                            }
+                        </tr>
+                    }
+                </table>
+            </div>
+            <!-- ПОЛЕ ПРОТИВНИКА -->
+            <div class="col-md-6 text-center">
+                <h4>Поле противника</h4>
+                <table class="board">
+                    @for (int y = 0; y < 10; y++)
+                    {
+                        <tr>
+                            @for (int x = 0; x < 10; x++)
+                            {
+                                var state = Model.PlayerFog[x, y]; 
+                                string cls =
+                                    state == CellState.Miss ? "miss" :
+                                    state == CellState.Hit ? "hit" :
+                                    state == CellState.Killed ? "killed" :
+                                    "empty";
+                                <td class="cell @cls"
+                                    @if (!Model.IsSetupPhase && state == CellState.Empty) { @: onclick="location.href='@Url.Action("Shoot", new { x, y })'"
+                                    }>
+                                </td>
+                            }
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <a href="@Url.Action("NewGame")" class="btn btn-danger btn-lg">
+                Новая игра
+            </a>
+        </div>
+    </div>
+</body>
+</html>
