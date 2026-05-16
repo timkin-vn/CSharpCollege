@@ -42,7 +42,16 @@ namespace Calculator.Wpf
         private void OperationButton_Click(object sender, RoutedEventArgs e)
         {
             var operationCode = ((Button)sender).Content as string;
-            ViewModel.PressOperatin(operationCode);
+            ViewModel.PressOperation(operationCode);
         }
+
+        private void CommaButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.PressComma();
+        }
+
+        private void Sin_Click(object sender, RoutedEventArgs e) => ViewModel.PressSin();
+        private void Cos_Click(object sender, RoutedEventArgs e) => ViewModel.PressCos();
+        private void Tan_Click(object sender, RoutedEventArgs e) => ViewModel.PressTan();
     }
-}
+ }
