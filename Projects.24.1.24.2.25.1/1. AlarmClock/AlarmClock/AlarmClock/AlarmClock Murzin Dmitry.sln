@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.4.11626.88
+VisualStudioVersion = 18.4.11626.88 stable
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmClock", "AlarmClock\AlarmClock.csproj", "{60C23B65-018C-4EAD-8F18-E58A9BCC1DB0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmClock Murzin Dmirty", "AlarmClock\AlarmClock Murzin Dmirty.csproj", "{CC4CC8CB-78CC-42D8-838A-405913423ADB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmClock Murzin Dmitry", "AlarmClock Murzin Dmitry.csproj", "{CC4CC8CB-78CC-42D8-838A-405913423ADB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,10 +11,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{60C23B65-018C-4EAD-8F18-E58A9BCC1DB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{60C23B65-018C-4EAD-8F18-E58A9BCC1DB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{60C23B65-018C-4EAD-8F18-E58A9BCC1DB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{60C23B65-018C-4EAD-8F18-E58A9BCC1DB0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CC4CC8CB-78CC-42D8-838A-405913423ADB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CC4CC8CB-78CC-42D8-838A-405913423ADB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC4CC8CB-78CC-42D8-838A-405913423ADB}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -26,6 +20,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {D7103904-13C3-49C0-AFDA-9CF3F404214D}
+		SolutionGuid = {755FA698-35FA-4DE9-8FF8-580C84442830}
 	EndGlobalSection
 EndGlobal

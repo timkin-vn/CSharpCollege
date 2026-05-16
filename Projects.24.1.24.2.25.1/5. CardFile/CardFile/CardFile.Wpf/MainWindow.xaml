@@ -3,12 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CardFile.Wpf" xmlns:viewmodels="clr-namespace:CardFile.Wpf.ViewModels"
+        xmlns:local="clr-namespace:CardFile.Wpf" 
+        xmlns:viewmodels="clr-namespace:CardFile.Wpf.ViewModels"
         mc:Ignorable="d"
-        Title="{Binding WindowTitle}" Height="450" Width="800" Loaded="Window_Loaded" Initialized="Window_Initialized">
-    <Window.DataContext>
-        <viewmodels:MainWindowViewModel />
-    </Window.DataContext>
+        Title="{Binding WindowTitle}" Height="500" Width="900" 
+        Loaded="Window_Loaded" 
+        Initialized="Window_Initialized">
 
     <DockPanel>
         <Menu DockPanel.Dock="Top">
@@ -20,33 +20,48 @@
                 <MenuItem Header="В_ыход" Click="FileExitMenuItem_Click" />
             </MenuItem>
         </Menu>
-        
+
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <DataGrid Grid.Row="0" ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" SelectionChanged="DataGrid_SelectionChanged"
-                      AutoGenerateColumns="False" IsReadOnly="True"
-                      CanUserAddRows="False" SelectionMode="Single" Margin="5">
+            <Border Grid.Row="0" Background="#F0F0F0" Padding="10" Margin="5" CornerRadius="3">
+                <DockPanel>
+                    <TextBlock Text="Поиск:" VerticalAlignment="Center" Margin="0,0,10,0" FontWeight="Bold"/>
+                    <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" 
+                             VerticalContentAlignment="Center" Height="25" />
+                </DockPanel>
+            </Border>
+
+            <DataGrid Grid.Row="1" 
+                      ItemsSource="{Binding Companies}" 
+                      SelectedItem="{Binding SelectedCompany}" 
+                      SelectionChanged="DataGrid_SelectionChanged"
+                      IsSynchronizedWithCurrentItem="True" 
+                      AutoGenerateColumns="False" 
+                      IsReadOnly="True"
+                      CanUserAddRows="False" 
+                      SelectionMode="Single" 
+                      Margin="5">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ФИО" Binding="{Binding Fio}" />
-                    <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDateText}" />
-                    <DataGridTextColumn Header="Подразделение" Binding="{Binding Department}" />
-                    <DataGridTextColumn Header="Должность" Binding="{Binding Position}" />
-                    <DataGridTextColumn Header="Дата трудоустройства" Binding="{Binding EmploymentDateText}" />
-                    <DataGridTextColumn Header="Дата увольнения" Binding="{Binding DismissalDateText}" />
-                    <DataGridTextColumn Header="Оклад" Binding="{Binding SalaryText}" />
+                    <DataGridTextColumn Header="Название организации" Binding="{Binding Name}" Width="*" />
+                    <DataGridTextColumn Header="ИНН" Binding="{Binding TaxId}" Width="120" />
+                    <DataGridTextColumn Header="Отрасль" Binding="{Binding Industry}" Width="150" />
+                    <DataGridTextColumn Header="Директор" Binding="{Binding CEO}" Width="150" />
+                    <DataGridTextColumn Header="Сотрудников" Binding="{Binding EmployeeCount}" Width="100" />
+                    <DataGridTextColumn Header="Выручка" Binding="{Binding AnnualRevenue, StringFormat={}{0:N2} руб.}" Width="120" />
                 </DataGrid.Columns>
             </DataGrid>
-            
-            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Создать" Padding="5" Margin="5" VerticalAlignment="Center" Click="CreateButton_Click" />
-                <Button Content="Правка" IsEnabled="{Binding IsEditButtonEnabled}" Padding="5" Margin="5" VerticalAlignment="Center" 
-                        Click="EditButton_Click" />
-                <Button Content="Удалить" IsEnabled="{Binding IsDeleteButtonEnabled}" Padding="5" Margin="5" VerticalAlignment="Center" 
-                        Click="DeleteButton_Click" />
+
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+                <Button Content="Добавить компанию" Padding="10,5" Margin="5" Click="CreateButton_Click" />
+                <Button Content="Изменить" IsEnabled="{Binding IsEditButtonEnabled}" 
+                        Padding="10,5" Margin="5" Click="EditButton_Click" />
+                <Button Content="Удалить" IsEnabled="{Binding IsDeleteButtonEnabled}" 
+                        Padding="10,5" Margin="5" Click="DeleteButton_Click" />
             </StackPanel>
         </Grid>
     </DockPanel>
