@@ -41,5 +41,7 @@ namespace GraphEditor.Business.Models
                 Height = -Height;
             }
         }
+
+        public byte Opacity { get; set; } = 255;
     }
 }

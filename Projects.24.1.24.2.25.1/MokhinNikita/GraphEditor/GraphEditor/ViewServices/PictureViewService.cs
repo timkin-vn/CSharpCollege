@@ -146,6 +146,12 @@ namespace GraphEditor.ViewServices
             _service.SetBorderWidth(width);
             LoadViewModel();
         }
+        public void SetOpacity(byte opacity)
+        {
+            if (_pictureViewModel?.Selected == null) return;
+            _service.SetOpacity(opacity);
+            LoadViewModel();
+        }
         public void MoveForward()
         {
             _service.MoveForward();

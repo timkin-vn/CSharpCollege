@@ -26,6 +26,8 @@ namespace GraphEditor.ViewModels
 
         public Color BorderColor { get; set; } = Color.Yellow;
         public FigureType Figure { get; set; } = FigureType.Rectangle;
+
+        public byte Opacity { get; set; } = 255;
         public static ReactangleViewModel FromBusiness(RectangleModel rect)
         {
             return new ReactangleViewModel
@@ -41,6 +43,7 @@ namespace GraphEditor.ViewModels
                 BorderColor = rect.BorderColor,
                 BorderWidth = rect.BorderWidth,
                 Figure = rect.Figure,
+                Opacity = rect.Opacity
             };
         }
         public Rectangle Rectangle => new Rectangle

@@ -32,5 +32,8 @@ namespace GraphEditor.Business.Models.Xml
 
         [XmlAttribute(nameof(Type))]
         public string TypeName => Type.ToString();
+
+        [XmlAttribute(nameof(Opacity))]
+        public byte Opacity { get; set; }
     }
 }

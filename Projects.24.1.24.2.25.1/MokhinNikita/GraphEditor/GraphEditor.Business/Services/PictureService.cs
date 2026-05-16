@@ -136,6 +136,14 @@ namespace GraphEditor.Business.Services
                 PictureModel.Selected.BorderWidth = width;
             }
         }
+
+        public void SetOpacity(byte opacity)
+        {
+            if (PictureModel.Selected != null)
+            {
+                PictureModel.Selected.Opacity = opacity;
+            }
+        }
         public void MoveForward()
         {
             if(PictureModel.Selected == null)

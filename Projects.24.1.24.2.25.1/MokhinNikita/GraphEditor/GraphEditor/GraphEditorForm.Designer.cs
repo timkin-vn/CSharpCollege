@@ -44,6 +44,7 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.WeightBorderToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.FigureTypeComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.FillColorDialog = new System.Windows.Forms.ColorDialog();
             this.BorderColorDialog = new System.Windows.Forms.ColorDialog();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -61,7 +62,10 @@
             this.FileSaveDialog = new System.Windows.Forms.SaveFileDialog();
             this.FileOpenDialog = new System.Windows.Forms.OpenFileDialog();
             this.FileExportDialog = new System.Windows.Forms.SaveFileDialog();
-            this.FigureTypeComboBox = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.OpacityTextBox1 = new System.Windows.Forms.ToolStripTextBox();
+            this.ConfirmOpacityBtn = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -77,7 +81,11 @@
             this.toolStripSeparator2,
             this.WeightBorderToolStripButton,
             this.toolStripSeparator3,
-            this.FigureTypeComboBox});
+            this.FigureTypeComboBox,
+            this.toolStripSeparator4,
+            this.toolStripLabel1,
+            this.OpacityTextBox1,
+            this.ConfirmOpacityBtn});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(800, 25);
@@ -197,6 +205,17 @@
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
+            // FigureTypeComboBox
+            // 
+            this.FigureTypeComboBox.Items.AddRange(new object[] {
+            "Прямоугольник",
+            "Эллипс",
+            "Пятиугольник",
+            "Ромб",
+            "Равнобедренный Треугольник"});
+            this.FigureTypeComboBox.Name = "FigureTypeComboBox";
+            this.FigureTypeComboBox.Size = new System.Drawing.Size(121, 25);
+            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -302,15 +321,34 @@
             // 
             this.FileExportDialog.Filter = "Файл PNG|*.png";
             // 
-            // FigureTypeComboBox
+            // toolStripSeparator4
             // 
-            this.FigureTypeComboBox.Items.AddRange(new object[] {
-            "Прямоугольник",
-            "Эллипс",
-            "Пятиугольник",
-            "Ромб"});
-            this.FigureTypeComboBox.Name = "FigureTypeComboBox";
-            this.FigureTypeComboBox.Size = new System.Drawing.Size(121, 25);
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(86, 22);
+            this.toolStripLabel1.Text = "Прозрачность";
+            // 
+            // OpacityTextBox1
+            // 
+            this.OpacityTextBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.OpacityTextBox1.MaxLength = 3;
+            this.OpacityTextBox1.Name = "OpacityTextBox1";
+            this.OpacityTextBox1.Size = new System.Drawing.Size(25, 25);
+            this.OpacityTextBox1.Text = "255";
+            // 
+            // ConfirmOpacityBtn
+            // 
+            this.ConfirmOpacityBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.ConfirmOpacityBtn.Image = ((System.Drawing.Image)(resources.GetObject("ConfirmOpacityBtn.Image")));
+            this.ConfirmOpacityBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ConfirmOpacityBtn.Name = "ConfirmOpacityBtn";
+            this.ConfirmOpacityBtn.Size = new System.Drawing.Size(27, 22);
+            this.ConfirmOpacityBtn.Text = "ОК";
+            this.ConfirmOpacityBtn.Click += new System.EventHandler(this.ConfirmOpacityBtn_Click);
             // 
             // GraphEditorForm
             // 
@@ -371,6 +409,10 @@
         private System.Windows.Forms.ToolStripMenuItem справкаToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem AboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripComboBox FigureTypeComboBox;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        private System.Windows.Forms.ToolStripTextBox OpacityTextBox1;
+        private System.Windows.Forms.ToolStripButton ConfirmOpacityBtn;
     }
 }
 

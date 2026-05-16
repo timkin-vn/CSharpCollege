@@ -80,6 +80,7 @@ namespace GraphEditor
             deleteButton.Enabled = _pictureViewService.CanDelete;
             Text = string.IsNullOrEmpty(_pictureViewService.FileName) ? "Графический редактор" : $"Графический редактор: {_pictureViewService.FileName}";
             FigureTypeComboBox.Enabled = _pictureViewService.CreateMode;
+            OpacityTextBox1.Enabled = _pictureViewService.CanDelete;
         }
 
         private void deleteButton_Click(object sender, EventArgs e)
@@ -197,6 +198,17 @@ namespace GraphEditor
         {
             AboutDialog dialog = new AboutDialog();
             dialog.ShowDialog();
+        }
+
+        private void ConfirmOpacityBtn_Click(object sender, EventArgs e)
+        {
+            if(!byte.TryParse(OpacityTextBox1.Text, out var opacity))
+            {
+                MessageBox.Show("Введен неверный формат", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            _pictureViewService.SetOpacity(opacity);
+            Refresh();
         }
     }
 }

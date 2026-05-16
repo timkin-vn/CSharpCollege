@@ -21,7 +21,7 @@ namespace GraphEditor.ViewServices
             foreach (var item in viewModel.Rectangles)
             {
                 pen = new Pen(item.BorderColor, item.BorderWidth);
-                var brush = new SolidBrush(item.FillColor);
+                var brush = new SolidBrush(Color.FromArgb(item.Opacity, item.FillColor));
                 switch (item.Figure) {
                     case FigureType.Rectangle:
                         g.FillRectangle(brush, item.Rectangle);
