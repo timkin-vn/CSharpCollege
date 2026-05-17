@@ -28,7 +28,7 @@ namespace FifteenGame.Wpf
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = ViewModel; ;
+            DataContext = new MainWindowViewModel();
         }
 
         // Этот обработчик должен быть привязан к кнопке/ячейке (например, Button в XAML)
