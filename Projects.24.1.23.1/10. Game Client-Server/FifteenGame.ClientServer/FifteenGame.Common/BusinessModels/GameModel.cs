@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FifteenGame.Business.Models
+namespace FifteenGame.Common.BusinessModels
 {
     public class GameModel
     {
