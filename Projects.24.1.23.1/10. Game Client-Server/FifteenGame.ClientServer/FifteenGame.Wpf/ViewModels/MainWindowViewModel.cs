@@ -1,122 +1,108 @@
-﻿using FifteenGame.Common.BusinessModels;
-using FifteenGame.Common.Definitions;
+﻿using FifteenGame.Business.Models;
+using FifteenGame.Common.BusinessModels;
 using FifteenGame.Common.Infrastructure;
 using FifteenGame.Common.Services;
 using Ninject;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
 
 namespace FifteenGame.Wpf.ViewModels
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
         private IGameService _service = NinjectKernel.Instance.Get<IGameService>();
-
         private GameModel _model = new GameModel();
-
+        private CellViewModel _firstSelected;
         private UserModel _user;
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        public ObservableCollection<CellViewModel> Cells { get; set; } = new ObservableCollection<CellViewModel>();
+        public ObservableCollection<CellViewModel> Cells { get; } = new ObservableCollection<CellViewModel>();
 
         public string UserName => _user?.Name ?? "<нет>";
-
-        public int MoveCount => _model?.MoveCount ?? 0;
+        public int MatchesCount => _model?.MatchesCount ?? 0;
 
         public MainWindowViewModel()
         {
-            Initialize();
+            _model = new GameModel();
+            _service.Initialize(_model);
+            UpdateCells();
         }
 
         public void SetUser(UserModel user)
         {
             _user = user;
             OnPropertyChanged(nameof(UserName));
-
             _model = _service.GetByUserId(_user.Id);
-            FromModel(_model);
+            UpdateCells();
         }
 
-        public void Initialize()
+        public void SelectCell(CellViewModel cell)
         {
-            _model = new GameModel { MoveCount = 0, };
-            FromModel(_model);
-        }
-
-        public void ReInitialize()
-        {
-            _model = _service.GetByUserId(_user.Id);
-            FromModel(_model);
-        }
-
-        public void MakeMove(MoveDirection direction, Action gameFinishAction)
-        {
-            _model = _service.MakeMove(_model.Id, direction);
-            FromModel(_model);
-
-            if (_service.IsGameOver(_model.Id))
+            if (_firstSelected == null)
             {
-                _service.RemoveGame(_model.Id);
-                gameFinishAction?.Invoke();
+                _firstSelected = cell;
+                cell.IsSelected = true;
+                OnPropertyChanged(nameof(Cells));
             }
-        }
-
-        private void FromModel(GameModel model)
-        {
-            Cells.Clear();
-            for (int row = 0; row < Constants.RowCount; row++)
+            else
             {
-                for (int column = 0; column < Constants.ColumnCount; column++)
-                {
-                    if (model[row, column] != Constants.FreeCellValue)
-                    {
-                        var direction = MoveDirection.None;
-                        if (row == model.FreeCellRow)
-                        {
-                            if (column == model.FreeCellColumn - 1)
-                            {
-                                direction = MoveDirection.Right;
-                            }
-                            else if (column == model.FreeCellColumn + 1)
-                            {
-                                direction = MoveDirection.Left;
-                            }
-                        }
-                        else if (column == model.FreeCellColumn)
-                        {
-                            if (row == model.FreeCellRow - 1)
-                            {
-                                direction = MoveDirection.Down;
-                            }
-                            else if (row == model.FreeCellRow + 1)
-                            {
-                                direction = MoveDirection.Up;
-                            }
-                        }
+                var success = _service.Swap(_model, _firstSelected.Row, _firstSelected.Column, cell.Row, cell.Column);
+                _firstSelected.IsSelected = false;
+                _firstSelected = null;
 
-                        Cells.Add(new CellViewModel
-                        {
-                            Row = row,
-                            Column = column,
-                            Num = model[row, column],
-                            Direction = direction
-                        });
+                if (success)
+                {
+                    var matches = _service.CheckMatches(_model);
+                    if (matches.Any())
+                    {
+                        _service.AddMatches(_model, matches.Count);
+                        _service.RemoveMatches(_model, matches);
+                        _service.ProcessMatches(_model);
+                        UpdateCells();
+                        CheckGameFinish();
+                    }
+                    else
+                    {
+                        UpdateCells();
                     }
                 }
             }
+        }
 
-            OnPropertyChanged(nameof(MoveCount));
+        private void UpdateCells()
+        {
+            Cells.Clear();
+            for (int row = 0; row < GameModel.RowCount; row++)
+                for (int col = 0; col < GameModel.ColumnCount; col++)
+                    Cells.Add(new CellViewModel { Row = row, Column = col, Num = _model[row, col] });
+            OnPropertyChanged(nameof(MatchesCount));
+        }
+
+        private void CheckGameFinish()
+        {
+            if (_model.IsFinished)
+            {
+                var result = MessageBox.Show(
+                    $"Поздравляем!\n\nВы собрали {MatchesCount} фишек.\n\nПовторить?",
+                    "Игра окончена", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    _model.MatchesCount = 0;
+                    _service.Initialize(_model);
+                    UpdateCells();
+                }
+                else
+                {
+                    Application.Current.Shutdown();
+                }
+            }
         }
 
         private void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
