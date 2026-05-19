@@ -9,15 +9,9 @@ namespace FifteenGame.Common.BusinessDtos
     public class GameReply
     {
         public int Id { get; set; }
-
         public int UserId { get; set; }
-
-        public int MoveCount { get; set; }
-
-        public int FreeCellRow { get; set; }
-
-        public int FreeCellColumn { get; set; }
-
+        public int MatchesCount { get; set; }
+        public bool IsFinished { get; set; }
         public int[] Cells { get; set; }
     }
 }

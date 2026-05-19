@@ -1,4 +1,5 @@
-﻿using FifteenGame.Common.BusinessModels;
+﻿using FifteenGame.Business.Models;
+using FifteenGame.Common.BusinessModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,17 @@ namespace FifteenGame.Common.Services
 {
     public interface IGameService
     {
+        void Initialize(GameModel model);
 
-        GameModel MakeMove(int gameId, MoveDirection direction);
+        bool Swap(GameModel model, int r1, int c1, int r2, int c2);
 
-        bool IsGameOver(int gameId);
+        List<(int row, int col)> CheckMatches(GameModel model);
+
+        void RemoveMatches(GameModel model, List<(int row, int col)> matches);
+
+        void ProcessMatches(GameModel model);
+
+        void AddMatches(GameModel model, int count);
 
         GameModel GetByUserId(int userId);
 
