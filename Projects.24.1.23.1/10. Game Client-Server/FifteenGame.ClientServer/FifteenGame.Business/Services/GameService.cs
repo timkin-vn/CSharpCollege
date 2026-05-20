@@ -225,6 +225,10 @@ namespace FifteenGame.Business.Services
 
             return dto;
         }
+        public void Save(GameModel model)
+        {
+            _repository.Save(ToDto(model));
+        }
 
     }
 }

@@ -61,6 +61,7 @@ namespace FifteenGame.Wpf.ViewModels
                         _service.AddMatches(_model, matches.Count);
                         _service.RemoveMatches(_model, matches);
                         _service.ProcessMatches(_model);
+                        _service.Save(_model);
                         UpdateCells();
                         CheckGameFinish();
                     }

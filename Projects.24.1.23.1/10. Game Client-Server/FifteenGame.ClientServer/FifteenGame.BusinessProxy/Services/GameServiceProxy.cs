@@ -72,6 +72,25 @@ namespace FifteenGame.BusinessProxy.Services
             foreach (var (r, c) in matches) model[r, c] = 0;
         }
 
+        public void Save(GameModel model)
+        {
+            var reply = new GameReply
+            {
+                Id = model.Id,
+                UserId = model.UserId,
+                MatchesCount = model.MatchesCount,
+                IsFinished = model.IsFinished,
+                Cells = new int[GameModel.RowCount * GameModel.ColumnCount],
+            };
+            int i = 0;
+            for (int row = 0; row < GameModel.RowCount; row++)
+                for (int col = 0; col < GameModel.ColumnCount; col++)
+                    reply.Cells[i++] = model[row, col];
+
+            var content = JsonContent.Create(reply);
+            HttpConnection.HttpClient.PostAsync("api/game/save", content).Result.EnsureSuccessStatusCode();
+        }
+
         public void ProcessMatches(GameModel model)
         {
             for (int col = 0; col < GameModel.ColumnCount; col++)

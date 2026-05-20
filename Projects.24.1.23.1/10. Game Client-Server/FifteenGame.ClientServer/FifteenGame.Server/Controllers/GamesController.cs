@@ -39,6 +39,30 @@ namespace FifteenGame.Server.Controllers
             _gameService.RemoveGame(request.GameId);
         }
 
+        [HttpPost]
+        [Route("api/game/save")]
+        public void Save([FromBody] GameReply request)
+        {
+            var model = FromDto(request);
+            _gameService.Save(model);
+        }
+
+        private GameModel FromDto(GameReply reply)
+        {
+            var model = new GameModel
+            {
+                Id = reply.Id,
+                UserId = reply.UserId,
+                MatchesCount = reply.MatchesCount,
+                IsFinished = reply.IsFinished,
+            };
+            int i = 0;
+            for (int row = 0; row < GameModel.RowCount; row++)
+                for (int col = 0; col < GameModel.ColumnCount; col++)
+                    model[row, col] = reply.Cells[i++];
+            return model;
+        }
+
         private GameReply ToDto(GameModel model)
         {
             var dto = new GameReply
