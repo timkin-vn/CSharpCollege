@@ -14,7 +14,7 @@ namespace FifteenGame.DataAccess.Repositories
     public class GameRepository : IGameRepository
     {
         private const string ConnectionString =
-            @"Server=localhost;Port=5432;Database=FifteenGame1Dev23.1.24.1;User Id=postgres;Password=greyratto1346COOL;";
+            @"Server=localhost;Port=6322;Database=FifteenGame;User Id=postgres;Password=chinchilla322;";
 
         public GameDto GetByGameId(int gameId)
         {

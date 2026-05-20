@@ -130,6 +130,11 @@ namespace FifteenGame.Business.Services
             }
         }
 
+        public void Save(GameModel model)
+        {
+            _repository.Save(ToDto(model));
+        }
+
         public void ProcessMatches(GameModel model)
         {
             for (int col = 0; col < GameModel.ColumnCount; col++)

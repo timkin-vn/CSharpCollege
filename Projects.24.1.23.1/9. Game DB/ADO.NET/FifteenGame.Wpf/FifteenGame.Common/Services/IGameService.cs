@@ -22,5 +22,7 @@ namespace FifteenGame.Common.Services
         GameModel GetByGameId(int gameId);
 
         void RemoveGame(int gameId);
+
+        void Save(GameModel model);
     }
 }
