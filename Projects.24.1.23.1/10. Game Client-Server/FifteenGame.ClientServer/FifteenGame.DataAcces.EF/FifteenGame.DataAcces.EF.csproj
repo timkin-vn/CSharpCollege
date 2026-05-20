@@ -111,6 +111,10 @@
     <Compile Include="Migrations\202511121215362_Games.Designer.cs">
       <DependentUpon>202511121215362_Games.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202605200053242_Match3Game.cs" />
+    <Compile Include="Migrations\202605200053242_Match3Game.Designer.cs">
+      <DependentUpon>202605200053242_Match3Game.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\GameRepositoryEF.cs" />
@@ -132,6 +136,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202511121215362_Games.resx">
       <DependentUpon>202511121215362_Games.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202605200053242_Match3Game.resx">
+      <DependentUpon>202605200053242_Match3Game.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
