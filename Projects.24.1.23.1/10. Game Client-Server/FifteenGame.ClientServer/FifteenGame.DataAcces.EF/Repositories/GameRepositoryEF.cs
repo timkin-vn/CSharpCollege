@@ -1,14 +1,10 @@
-﻿using FifteenGame.Common.Definitions;
-using FifteenGame.Common.Dto;
+﻿using FifteenGame.Common.Dto;
 using FifteenGame.Common.Repositories;
 using FifteenGame.DataAcces.EF.DataContext;
 using FifteenGame.DataAcces.EF.Entites;
-using FifteenGame.DataAcces.EF.Migrations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FifteenGame.DataAcces.EF.Repositories
 {
@@ -19,12 +15,7 @@ namespace FifteenGame.DataAcces.EF.Repositories
             using (var context = new FifteenGameDataContext())
             {
                 var game = context.Games.Include("GameCells").FirstOrDefault(g => g.Id == gameId);
-                if (game == null)
-                {
-                    return null;
-                }
-
-                return ToDto(game);
+                return game == null ? null : ToDto(game);
             }
         }
 
@@ -32,8 +23,9 @@ namespace FifteenGame.DataAcces.EF.Repositories
         {
             using (var context = new FifteenGameDataContext())
             {
-                var games = context.Games.Include("GameCells").Where(g => g.UserId == userId);
-                return games.Select(ToDto).ToList();
+                return context.Games.Include("GameCells")
+                    .Where(g => g.UserId == userId)
+                    .Select(ToDto).ToList();
             }
         }
 
@@ -42,11 +34,7 @@ namespace FifteenGame.DataAcces.EF.Repositories
             using (var context = new FifteenGameDataContext())
             {
                 var game = context.Games.Include("GameCells").FirstOrDefault(g => g.Id == gameId);
-                if (game == null)
-                {
-                    return;
-                }
-
+                if (game == null) return;
                 context.Games.Remove(game);
                 context.SaveChanges();
             }
@@ -54,35 +42,21 @@ namespace FifteenGame.DataAcces.EF.Repositories
 
         public int Save(GameDto gameDto)
         {
-            if (gameDto.Id == 0)
-            {
-                return Create(gameDto);
-            }
-
-            return Update(gameDto);
+            return gameDto.Id == 0 ? Create(gameDto) : Update(gameDto);
         }
 
-        public GameDto ToDto(Game game)
+        private GameDto ToDto(Game game)
         {
             var result = new GameDto
             {
                 Id = game.Id,
                 UserId = game.UserId,
-                MoveCount = game.MoveCount,
+                MatchesCount = game.MatchesCount,
+                IsFinished = game.IsFinished,
             };
 
-            for (int row = 0; row < Constants.RowCount; row++)
-            {
-                for (int column = 0; column < Constants.ColumnCount; column++)
-                {
-                    result.Cells[row, column] = Constants.FreeCellValue;
-                }
-            }
-
             foreach (var cell in game.GameCells)
-            {
                 result.Cells[cell.Row, cell.Column] = cell.Value;
-            }
 
             return result;
         }
@@ -91,42 +65,28 @@ namespace FifteenGame.DataAcces.EF.Repositories
         {
             using (var context = new FifteenGameDataContext())
             {
-                var user = context.Users.FirstOrDefault(u => u.Id == gameDto.UserId);
-                if (user == null)
-                {
-                    throw new Exception("Нет такого пользователя");
-                }
+                var user = context.Users.FirstOrDefault(u => u.Id == gameDto.UserId)
+                    ?? throw new Exception("Нет такого пользователя");
 
                 var newGame = new Game
                 {
                     User = user,
-                    MoveCount = gameDto.MoveCount,
+                    MatchesCount = gameDto.MatchesCount,
+                    IsFinished = gameDto.IsFinished,
                     GameCells = new List<GameCell>(),
                 };
 
-                context.Games.Add(newGame);
-
-                for (int row = 0; row < Constants.RowCount; row++)
-                {
-                    for (int column = 0; column < Constants.ColumnCount; column++)
-                    {
-                        if (gameDto.Cells[row, column] == Constants.FreeCellValue)
-                        {
-                            continue;
-                        }
-
+                for (int row = 0; row < 8; row++)
+                    for (int col = 0; col < 8; col++)
                         newGame.GameCells.Add(new GameCell
                         {
                             Row = row,
-                            Column = column,
-                            Value = gameDto.Cells[row, column],
+                            Column = col,
+                            Value = gameDto.Cells[row, col]
                         });
-                    }
-                }
 
                 context.Games.Add(newGame);
                 context.SaveChanges();
-
                 return newGame.Id;
             }
         }
@@ -135,41 +95,16 @@ namespace FifteenGame.DataAcces.EF.Repositories
         {
             using (var context = new FifteenGameDataContext())
             {
-                var game = context.Games.Include("GameCells").FirstOrDefault(g => g.Id == gameDto.Id);
-                if (game == null)
-                {
-                    throw new Exception("Нет такой игры");
-                }
+                var game = context.Games.Include("GameCells").FirstOrDefault(g => g.Id == gameDto.Id)
+                    ?? throw new Exception("Нет такой игры");
 
-                game.MoveCount = gameDto.MoveCount;
+                game.MatchesCount = gameDto.MatchesCount;
+                game.IsFinished = gameDto.IsFinished;
+
+                foreach (var cell in game.GameCells)
+                    cell.Value = gameDto.Cells[cell.Row, cell.Column];
+
                 context.SaveChanges();
-
-                int row = -1;
-                int column = -1;
-                GameCell selectedCell = null;
-
-                for (row = 0; row < Constants.RowCount; row++)
-                {
-                    for (column = 0; column < Constants.ColumnCount; column++)
-                    {
-                        if (gameDto.Cells[row, column] == Constants.FreeCellValue)
-                        {
-                            continue;
-                        }
-
-                        selectedCell = game.GameCells.First(c => c.Value == gameDto.Cells[row, column]);
-                        if (selectedCell.Row != row || selectedCell.Column != column)
-                        {
-                            goto cellFound;
-                        }
-                    }
-                }
-
-            cellFound:
-                selectedCell.Row = row;
-                selectedCell.Column = column;
-                context.SaveChanges();
-
                 return gameDto.Id;
             }
         }

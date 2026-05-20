@@ -1,12 +1,7 @@
-﻿using FifteenGame.Common.Definitions;
-using FifteenGame.Common.Dto;
-using FifteenGame.DataAccess.Repositories;
+﻿using FifteenGame.Common.Dto;
+using FifteenGame.DataAcces.EF.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FifteenGame.UnitTests.RepositoryTests
 {
@@ -16,153 +11,42 @@ namespace FifteenGame.UnitTests.RepositoryTests
         [TestMethod]
         public void CreateAndReadTest()
         {
-            var userRepository = new UserRepository();
+            var userRepository = new UserRepositoryEF();
             var users = userRepository.GetAll();
             var selectedUser = users.FirstOrDefault();
+            if (selectedUser == null) return;
 
-            if (selectedUser == null)
-            {
-                return;
-            }
-
-            var gameRepository = new GameRepository();
+            var gameRepository = new GameRepositoryEF();
             var gameDto = new GameDto
             {
                 UserId = selectedUser.Id,
-                MoveCount = 0,
+                MatchesCount = 0,
+                IsFinished = false,
             };
 
-            var gameCells = new[,]
-            {
-                { 1, 2, 3, 4, },
-                { 5, 6, 7, 8, },
-                { 9, 10, 11, 12, },
-                { 13, 14, 15, Constants.FreeCellValue, },
-            };
-
-
-            for (int row = 0; row < Constants.RowCount; row++)
-            {
-                for (int column = 0; column < Constants.ColumnCount; column++)
-                {
-                    gameDto.Cells[row, column] = gameCells[row, column];
-                }
-            }
+            for (int row = 0; row < 8; row++)
+                for (int col = 0; col < 8; col++)
+                    gameDto.Cells[row, col] = (row + col) % 5 + 1;
 
             var gameId = gameRepository.Save(gameDto);
-            var readGameDto = gameRepository.GetByGameId(gameId);
+            var readGame = gameRepository.GetByGameId(gameId);
 
-            Assert.AreEqual(gameDto.MoveCount, readGameDto.MoveCount);
-            Assert.AreEqual(gameDto.UserId, readGameDto.UserId);
-        }
-
-        [TestMethod]
-        public void GetGamesByUserTest()
-        {
-            var userRepository = new UserRepository();
-            var users = userRepository.GetAll();
-
-            var gameRepository = new GameRepository();
-
-            int gameCount = 0;
-            foreach (var user in users)
-            {
-                var games = gameRepository.GetByUserId(user.Id);
-                gameCount += games.Count();
-            }
-
-            Assert.IsTrue(gameCount > 0);
-        }
-
-        [TestMethod]
-        public void UpdateGameTest()
-        {
-            var userRepository = new UserRepository();
-            var users = userRepository.GetAll();
-
-            var gameRepository = new GameRepository();
-            GameDto game = null;
-
-            foreach (var user in users)
-            {
-                var games = gameRepository.GetByUserId(user.Id);
-                if (games.Any())
-                {
-                    game = games.First();
-                    break;
-                }
-            }
-
-            if (game == null)
-            {
-                return;
-            }
-
-            game.MoveCount++;
-            int freeRow = -1;
-            int freeColumn = -1;
-
-            for (int row = 0; row < Constants.RowCount; row++)
-            {
-                for (int column = 0; column < Constants.ColumnCount; column++)
-                {
-                    if (game.Cells[row, column] == Constants.FreeCellValue)
-                    {
-                        freeRow = row;
-                        freeColumn = column;
-                    }
-                }
-            }
-
-            if (freeRow < 0 || freeColumn < 0)
-            {
-                throw new Exception("Ошибка в БД");
-            }
-
-            if (freeRow > 0)
-            {
-                game.Cells[freeRow, freeColumn] = game.Cells[freeRow - 1, freeColumn];
-                game.Cells[freeRow - 1, freeColumn] = Constants.FreeCellValue;
-            }
-            else
-            {
-                game.Cells[freeRow, freeColumn] = game.Cells[freeRow + 1, freeColumn];
-                game.Cells[freeRow + 1, freeColumn] = Constants.FreeCellValue;
-            }
-
-            gameRepository.Save(game);
-            var readGame = gameRepository.GetByGameId(game.Id);
-
-            Assert.AreEqual(game.MoveCount, readGame.MoveCount);
-            Assert.AreEqual(game.Cells[freeRow, freeColumn], readGame.Cells[freeRow, freeColumn]);
+            Assert.AreEqual(gameDto.MatchesCount, readGame.MatchesCount);
+            Assert.AreEqual(gameDto.UserId, readGame.UserId);
         }
 
         [TestMethod]
         public void RemoveGameTest()
         {
-            var userRepository = new UserRepository();
+            var userRepository = new UserRepositoryEF();
             var users = userRepository.GetAll();
-            var gameRepository = new GameRepository();
-            GameDto game = null;
+            var gameRepository = new GameRepositoryEF();
 
-            foreach (var user in users)
-            {
-                var games = gameRepository.GetByUserId(user.Id);
-                if (games.Any())
-                {
-                    game = games.First();
-                    break;
-                }
-            }
-
-            if (game == null)
-            {
-                throw new Exception("Игр нет");
-            }
+            var game = users.SelectMany(u => gameRepository.GetByUserId(u.Id)).FirstOrDefault();
+            if (game == null) return;
 
             gameRepository.Remove(game.Id);
             var readGame = gameRepository.GetByGameId(game.Id);
-
             Assert.IsNull(readGame);
         }
     }

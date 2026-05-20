@@ -1,15 +1,8 @@
-﻿using FifteenGame.Business.Services;
-using FifteenGame.Common.BusinessDtos;
+﻿using FifteenGame.Common.BusinessDtos;
 using FifteenGame.Common.BusinessModels;
-using FifteenGame.Common.Definitions;
 using FifteenGame.Common.Infrastructure;
 using FifteenGame.Common.Services;
 using Ninject;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace FifteenGame.Server.Controllers
@@ -39,29 +32,6 @@ namespace FifteenGame.Server.Controllers
             return ToDto(gameModel);
         }
 
-        [HttpPost]
-        [Route("api/game/make-move")]
-        public GameReply MakeMove([FromBody] MakeMoveRequest request)
-        {
-            if (!Enum.TryParse<MoveDirection>(request.Direction, out var moveDirection))
-            {
-                return null;
-            }
-
-            var gameModel = _gameService.MakeMove(request.GameId, moveDirection);
-            return ToDto(gameModel);
-        }
-
-        [HttpPost]
-        [Route("api/game/is-over")]
-        public BooleanReply IsOver([FromBody] GameIdRequest request)
-        {
-            return new BooleanReply
-            {
-                IsTrue = _gameService.IsGameOver(request.GameId),
-            };
-        }
-
         [HttpDelete]
         [Route("api/game/remove")]
         public void Remove([FromBody] GameIdRequest request)
@@ -75,20 +45,15 @@ namespace FifteenGame.Server.Controllers
             {
                 Id = model.Id,
                 UserId = model.UserId,
-                MoveCount = model.MoveCount,
-                FreeCellColumn = model.FreeCellColumn,
-                FreeCellRow = model.FreeCellRow,
-                Cells = new int[Constants.RowCount * Constants.ColumnCount],
+                MatchesCount = model.MatchesCount,
+                IsFinished = model.IsFinished,
+                Cells = new int[GameModel.RowCount * GameModel.ColumnCount],
             };
 
-            int cellIndex = 0;
-            for (int row = 0; row < Constants.RowCount; row++)
-            {
-                for (int column = 0; column < Constants.ColumnCount; column++)
-                {
-                    dto.Cells[cellIndex++] = model[row, column];
-                }
-            }
+            int i = 0;
+            for (int row = 0; row < GameModel.RowCount; row++)
+                for (int col = 0; col < GameModel.ColumnCount; col++)
+                    dto.Cells[i++] = model[row, col];
 
             return dto;
         }
