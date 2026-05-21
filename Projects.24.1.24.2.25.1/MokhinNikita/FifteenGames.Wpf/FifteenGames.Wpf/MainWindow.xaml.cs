@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using FifteenGames.Common.BusinessModels;
 using FifteenGames.Wpf.ViewModels;
+using FifteenGames.Wpf.Views;
 
 namespace FifteenGames.Wpf
 {
@@ -39,6 +40,12 @@ namespace FifteenGames.Wpf
             {
                 ViewModel.Initialize();
             }
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            var dialog = new UserLoginWindow();
+            dialog.ShowDialog();
         }
     }
 }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FifteenGames.Wpf" xmlns:viewmodels="clr-namespace:FifteenGames.Wpf.ViewModels"
         mc:Ignorable="d"
-        Title="Игра 15" Height="450" Width="800" MinHeight="450" MinWidth="450">
+        Title="Игра 15" Height="450" Width="800" MinHeight="450" MinWidth="450" Loaded="Window_Loaded">
     <Window.DataContext>
         <viewmodels:MainViewModel/>
     </Window.DataContext>
