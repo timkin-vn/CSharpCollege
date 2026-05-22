@@ -47,8 +47,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\DrawingTool.cs" />
     <Compile Include="Models\EditMode.cs" />
     <Compile Include="Models\PictureModel.cs" />
+    <Compile Include="Models\ShapeType.cs" />
     <Compile Include="Models\PointModel.cs" />
     <Compile Include="Models\RectangleModel.cs" />
     <Compile Include="Models\Xml\XmlColor.cs" />

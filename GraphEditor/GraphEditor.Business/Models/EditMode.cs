@@ -19,6 +19,8 @@ namespace GraphEditor.Business.Models
         ResizeTR,
         ResizeBL,
         ResizeBR,
+        ResizeLineStart,
+        ResizeLineEnd,
         Rotating,
     }
 }

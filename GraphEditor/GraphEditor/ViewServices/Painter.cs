@@ -107,6 +107,12 @@ namespace GraphEditor.ViewServices
 
         private void DrawRectangle(Graphics g, RectangleViewModel rectangle, bool isSelected)
         {
+            if (rectangle.ShapeType == ShapeType.Line)
+            {
+                DrawLineShape(g, rectangle, isSelected);
+                return;
+            }
+
             if (rectangle.ShowShadow)
             {
                 DrawShadow(g, rectangle);
@@ -132,7 +138,11 @@ namespace GraphEditor.ViewServices
             float borderWidth = isSelected ? 4f : 3f;
             using (var pen = new Pen(borderColor, borderWidth))
             {
-                if (rectangle.RotationAngle != 0)
+                if (rectangle.ShapeType == ShapeType.Ellipse)
+                {
+                    DrawEllipseShape(g, rectangle, fillBrush, pen);
+                }
+                else if (rectangle.RotationAngle != 0)
                 {
                     DrawRotatedRectangle(g, rectangle, fillBrush, pen);
                 }
@@ -147,6 +157,41 @@ namespace GraphEditor.ViewServices
                 sb.Dispose();
             else if (fillBrush is LinearGradientBrush lgb)
                 lgb.Dispose();
+        }
+
+        private void DrawEllipseShape(Graphics g, RectangleViewModel rectangle, Brush fillBrush, Pen pen)
+        {
+            if (rectangle.RotationAngle != 0)
+            {
+                var oldTransform = g.Transform;
+                var rect = rectangle.Rectangle;
+                float centerX = rect.X + rect.Width / 2f;
+                float centerY = rect.Y + rect.Height / 2f;
+                g.TranslateTransform(centerX, centerY);
+                g.RotateTransform(rectangle.RotationAngle);
+                g.TranslateTransform(-centerX, -centerY);
+                g.FillEllipse(fillBrush, rect);
+                g.DrawEllipse(pen, rect);
+                g.Transform = oldTransform;
+            }
+            else
+            {
+                g.FillEllipse(fillBrush, rectangle.Rectangle);
+                g.DrawEllipse(pen, rectangle.Rectangle);
+            }
+        }
+
+        private void DrawLineShape(Graphics g, RectangleViewModel rectangle, bool isSelected)
+        {
+            Color borderColor = rectangle.Opacity < 255
+                ? Color.FromArgb(rectangle.Opacity, rectangle.BorderColor)
+                : rectangle.BorderColor;
+
+            float borderWidth = isSelected ? 4f : 3f;
+            using (var pen = new Pen(borderColor, borderWidth))
+            {
+                g.DrawLine(pen, rectangle.Left, rectangle.Top, rectangle.Right, rectangle.Bottom);
+            }
         }
 
         private void DrawRotatedRectangle(Graphics g, RectangleViewModel rectangle, Brush brush, Pen pen)
@@ -190,6 +235,10 @@ namespace GraphEditor.ViewServices
                     g.FillRectangle(shadowBrush, shadowRect);
                     g.Transform = oldTransform;
                 }
+                else if (rectangle.ShapeType == ShapeType.Ellipse)
+                {
+                    g.FillEllipse(shadowBrush, shadowRect);
+                }
                 else
                 {
                     g.FillRectangle(shadowBrush, shadowRect);
@@ -206,6 +255,16 @@ namespace GraphEditor.ViewServices
 
         private void DrawSelectionHighlight(Graphics g, RectangleViewModel rectangle)
         {
+            if (rectangle.ShapeType == ShapeType.Line)
+            {
+                using (var pen = new Pen(SelectionColor, SelectionLineWidth))
+                {
+                    pen.DashStyle = DashStyle.Dash;
+                    g.DrawLine(pen, rectangle.Left, rectangle.Top, rectangle.Right, rectangle.Bottom);
+                }
+                return;
+            }
+
             var rect = rectangle.Rectangle;
             int padding = 3;
             var highlightRect = new Rectangle(

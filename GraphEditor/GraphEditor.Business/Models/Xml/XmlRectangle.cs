@@ -27,5 +27,8 @@ namespace GraphEditor.Business.Models.Xml
 
         [XmlElement("BorderColor")]
         public XmlColor BorderColor { get; set; }
+
+        [XmlAttribute("ShapeType")]
+        public ShapeType ShapeType { get; set; } = ShapeType.Rectangle;
     }
 }

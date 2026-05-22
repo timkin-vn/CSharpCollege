@@ -22,9 +22,14 @@ namespace GraphEditor.ViewServices
             LoadViewModel();
         }
 
-        public bool CreateMode { get; set; }
+        public DrawingTool ActiveTool { get; private set; } = DrawingTool.Select;
 
-        public bool CanDelete => !CreateMode && _businessService.PictureModel.SelectedRectangle != null;
+        public bool IsShapeTool => ActiveTool != DrawingTool.Select;
+
+        public bool IsCreating =>
+            _businessService.PictureModel.SelectedRectangle?.EditMode == EditMode.Creating;
+
+        public bool CanDelete => _businessService.PictureModel.SelectedRectangle != null;
 
         public string FileName { get; set; }
 
@@ -39,9 +44,23 @@ namespace GraphEditor.ViewServices
         private const float MaxZoom = 5.0f;
         private const float ZoomStep = 0.1f;
 
-        public void CreateButtonClicked()
+        public void SetActiveTool(DrawingTool tool)
         {
-            CreateMode = !CreateMode;
+            ActiveTool = tool;
+            _businessService.ResetMode();
+        }
+
+        private ShapeType GetShapeTypeForTool()
+        {
+            switch (ActiveTool)
+            {
+                case DrawingTool.Ellipse:
+                    return ShapeType.Ellipse;
+                case DrawingTool.Line:
+                    return ShapeType.Line;
+                default:
+                    return ShapeType.Rectangle;
+            }
         }
 
         public void CreateNewPicture()
@@ -80,7 +99,8 @@ namespace GraphEditor.ViewServices
                 ShadowColor = selected.ShadowColor,
                 GradientType = selected.GradientType,
                 FillColor2 = selected.FillColor2,
-                GradientAngle = selected.GradientAngle
+                GradientAngle = selected.GradientAngle,
+                ShapeType = selected.ShapeType,
             };
 
             _businessService.PictureModel.Rectangles.Add(duplicate);
@@ -124,14 +144,14 @@ namespace GraphEditor.ViewServices
             if (_viewModel == null)
                 return Cursors.Default;
 
-            if (CreateMode)
+            if (IsShapeTool)
                 return Cursors.Cross;
 
             var activeMarker = _viewModel.Markers.FirstOrDefault(m => m.IsActive && IsInside(loc, m.Rectangle));
             if (activeMarker != null)
                 return activeMarker.Cursor;
 
-            var activeRect = _viewModel.Rectangles.FirstOrDefault(r => IsInside(loc, r.Rectangle));
+            var activeRect = _viewModel.Rectangles.LastOrDefault(r => r.ContainsPoint(loc));
             if (activeRect != null)
                 return Cursors.Hand;
 
@@ -147,9 +167,9 @@ namespace GraphEditor.ViewServices
         {
             Point snappedLoc = SnapToGridEnabled ? SnapToGrid(loc) : loc;
 
-            if (CreateMode)
+            if (IsShapeTool)
             {
-                _businessService.CreateAndSetCreateMode(ToModel(snappedLoc));
+                _businessService.CreateAndSetCreateMode(ToModel(snappedLoc), GetShapeTypeForTool());
                 LoadViewModel();
                 return;
             }
@@ -178,8 +198,34 @@ namespace GraphEditor.ViewServices
 
         public void MouseUp()
         {
+            RemoveTinyShapeIfNeeded();
             _businessService.ResetMode();
-            CreateMode = false;
+            LoadViewModel();
+        }
+
+        private void RemoveTinyShapeIfNeeded()
+        {
+            var selected = _businessService.PictureModel.SelectedRectangle;
+            if (selected == null)
+                return;
+
+            bool isTiny = Math.Abs(selected.Width) < 3 && Math.Abs(selected.Height) < 3;
+            if (!isTiny)
+                return;
+
+            _businessService.PictureModel.Rectangles.Remove(selected);
+            _businessService.PictureModel.SelectedRectangle = null;
+        }
+
+        public void CancelCreating()
+        {
+            var selected = _businessService.PictureModel.SelectedRectangle;
+            if (selected == null || selected.EditMode != EditMode.Creating)
+                return;
+
+            _businessService.PictureModel.Rectangles.Remove(selected);
+            _businessService.PictureModel.SelectedRectangle = null;
+            _businessService.ResetMode();
             LoadViewModel();
         }
 

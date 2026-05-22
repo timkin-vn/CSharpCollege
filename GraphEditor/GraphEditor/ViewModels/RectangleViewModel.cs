@@ -11,6 +11,8 @@ namespace GraphEditor.ViewModels
 {
     internal class RectangleViewModel
     {
+        public ShapeType ShapeType { get; set; } = ShapeType.Rectangle;
+
         public int Dx { get; set; }
         public int Dy { get; set; }
         public int Left { get; set; }
@@ -37,6 +39,48 @@ namespace GraphEditor.ViewModels
         {
             get
             {
+                if (ShapeType == ShapeType.Line)
+                    return GetLineMarkers();
+
+                return GetRectangleMarkers();
+            }
+        }
+
+        private IEnumerable<MarkerViewModel> GetLineMarkers()
+        {
+            return new[]
+            {
+                new MarkerViewModel
+                {
+                    Rectangle = new Rectangle
+                    {
+                        X = Left - MarkerViewModel.MarkerHalfSize,
+                        Y = Top - MarkerViewModel.MarkerHalfSize,
+                        Width = MarkerViewModel.MarkerHalfSize * 2,
+                        Height = MarkerViewModel.MarkerHalfSize * 2,
+                    },
+                    IsActive = true,
+                    EditMode = EditMode.ResizeLineStart,
+                    Cursor = Cursors.SizeAll,
+                },
+                new MarkerViewModel
+                {
+                    Rectangle = new Rectangle
+                    {
+                        X = Right - MarkerViewModel.MarkerHalfSize,
+                        Y = Bottom - MarkerViewModel.MarkerHalfSize,
+                        Width = MarkerViewModel.MarkerHalfSize * 2,
+                        Height = MarkerViewModel.MarkerHalfSize * 2,
+                    },
+                    IsActive = true,
+                    EditMode = EditMode.ResizeLineEnd,
+                    Cursor = Cursors.SizeAll,
+                },
+            };
+        }
+
+        private IEnumerable<MarkerViewModel> GetRectangleMarkers()
+        {
                 var markers = new[]
                 {
                     new MarkerViewModel
@@ -158,7 +202,6 @@ namespace GraphEditor.ViewModels
                     },
                 };
                 return markers;
-            }
         }
 
         public Rectangle Rectangle => new Rectangle
@@ -168,6 +211,19 @@ namespace GraphEditor.ViewModels
             Width = Width < 0 ? -Width : Width,
             Height = Height < 0 ? -Height : Height,
         };
+
+        public bool ContainsPoint(Point point)
+        {
+            var model = new RectangleModel
+            {
+                ShapeType = ShapeType,
+                Left = Left,
+                Top = Top,
+                Width = Width,
+                Height = Height,
+            };
+            return model.IsInside(new PointModel { X = point.X, Y = point.Y });
+        }
 
         public static RectangleViewModel FromBusiness(RectangleModel model)
         {
@@ -191,6 +247,7 @@ namespace GraphEditor.ViewModels
                 GradientType = model.GradientType,
                 FillColor2 = model.FillColor2,
                 GradientAngle = model.GradientAngle,
+                ShapeType = model.ShapeType,
             };
         }
     }

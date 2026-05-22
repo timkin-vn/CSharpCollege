@@ -1,4 +1,5 @@
-﻿using GraphEditor.ViewServices;
+﻿using GraphEditor.Business.Models;
+using GraphEditor.ViewServices;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,25 +23,19 @@ namespace GraphEditor
         {
             InitializeComponent();
 
-            // Включаем обработку клавиш на уровне формы
             this.KeyPreview = true;
             this.KeyDown += GraphEditorForm_KeyDown;
 
-            // Подключаем обработчик колеса мыши
             this.MouseWheel += GraphEditorForm_MouseWheel;
 
-            // Начальное состояние кнопки сетки
             GridToggleButton.Checked = _viewService.ShowGrid;
+            UpdateViewControls();
         }
-
-        // ==================== ОТРИСОВКА ====================
 
         private void GraphEditorForm_Paint(object sender, PaintEventArgs e)
         {
             _viewService.Paint(e.Graphics);
         }
-
-        // ==================== МЫШЬ ====================
 
         private void GraphEditorForm_MouseDown(object sender, MouseEventArgs e)
         {
@@ -82,12 +77,10 @@ namespace GraphEditor
             UpdateViewControls();
         }
 
-        // НОВОЕ: Обработчик колеса мыши для масштабирования
         private void GraphEditorForm_MouseWheel(object sender, MouseEventArgs e)
         {
             if (Control.ModifierKeys == Keys.Control)
             {
-                // Ctrl + колесо = масштабирование
                 if (e.Delta > 0)
                     _viewService.ZoomIn();
                 else
@@ -96,41 +89,34 @@ namespace GraphEditor
             }
         }
 
-        // ==================== ГОРЯЧИЕ КЛАВИШИ ====================
-
         private void GraphEditorForm_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Control && e.KeyCode == Keys.S)
             {
-                // Ctrl+S - Сохранить
                 FileSaveMenuItem_Click(this, EventArgs.Empty);
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
             else if (e.Control && e.KeyCode == Keys.O)
             {
-                // Ctrl+O - Открыть
                 FileOpenMenuItem_Click(this, EventArgs.Empty);
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
             else if (e.Control && e.KeyCode == Keys.N)
             {
-                // Ctrl+N - Новый
                 FileCreateMenuItem_Click(this, EventArgs.Empty);
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
             else if (e.Control && e.KeyCode == Keys.E)
             {
-                // Ctrl+E - Экспорт
                 FileExportMenuItem_Click(this, EventArgs.Empty);
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
             else if (e.KeyCode == Keys.Delete)
             {
-                // Delete - Удалить выбранный прямоугольник
                 if (_viewService.CanDelete)
                 {
                     DeleteRectangleButton_Click(this, EventArgs.Empty);
@@ -139,18 +125,21 @@ namespace GraphEditor
             }
             else if (e.KeyCode == Keys.Escape)
             {
-                // Escape - Отменить создание
-                if (_viewService.CreateMode)
+                if (_viewService.IsCreating)
                 {
-                    _viewService.CreateButtonClicked();
+                    _viewService.CancelCreating();
                     UpdateViewControls();
                     Refresh();
+                    e.Handled = true;
+                }
+                else if (_viewService.IsShapeTool)
+                {
+                    SetDrawingTool(DrawingTool.Select);
                     e.Handled = true;
                 }
             }
             else if (e.Control && e.KeyCode == Keys.G)
             {
-                // Ctrl+G - Включить/выключить сетку
                 _viewService.ShowGrid = !_viewService.ShowGrid;
                 GridToggleButton.Checked = _viewService.ShowGrid;
                 Refresh();
@@ -159,7 +148,6 @@ namespace GraphEditor
             }
             else if (e.Control && e.KeyCode == Keys.B)
             {
-                // Ctrl+B - Включить/выключить привязку к сетке
                 _viewService.SnapToGridEnabled = !_viewService.SnapToGridEnabled;
                 SnapToggleButton.Checked = _viewService.SnapToGridEnabled;
                 e.Handled = true;
@@ -167,21 +155,18 @@ namespace GraphEditor
             }
             else if (e.Control && e.KeyCode == Keys.Up)
             {
-                // Ctrl+Up - Переместить вверх по Z-порядку
                 _viewService.MoveForward();
                 Refresh();
                 e.Handled = true;
             }
             else if (e.Control && e.KeyCode == Keys.Down)
             {
-                // Ctrl+Down - Переместить вниз по Z-порядку
                 _viewService.MoveBackward();
                 Refresh();
                 e.Handled = true;
             }
             else if (e.Control && e.KeyCode == Keys.D)
             {
-                // Ctrl+D - Дублировать выделенную фигуру
                 _viewService.DuplicateSelected();
                 Refresh();
                 UpdateViewControls();
@@ -190,12 +175,31 @@ namespace GraphEditor
             }
         }
 
-        // ==================== ИНСТРУМЕНТЫ ====================
-
-        private void CreateRectangleButton_Click(object sender, EventArgs e)
+        private void SelectToolButton_Click(object sender, EventArgs e)
         {
-            _viewService.CreateButtonClicked();
+            SetDrawingTool(DrawingTool.Select);
+        }
+
+        private void RectangleToolButton_Click(object sender, EventArgs e)
+        {
+            SetDrawingTool(DrawingTool.Rectangle);
+        }
+
+        private void EllipseToolButton_Click(object sender, EventArgs e)
+        {
+            SetDrawingTool(DrawingTool.Ellipse);
+        }
+
+        private void LineToolButton_Click(object sender, EventArgs e)
+        {
+            SetDrawingTool(DrawingTool.Line);
+        }
+
+        private void SetDrawingTool(DrawingTool tool)
+        {
+            _viewService.SetActiveTool(tool);
             UpdateViewControls();
+            Refresh();
         }
 
         private void DeleteRectangleButton_Click(object sender, EventArgs e)
@@ -204,8 +208,6 @@ namespace GraphEditor
             Refresh();
             UpdateViewControls();
         }
-
-        // ==================== ЦВЕТА ====================
 
         private void FillColorMenuItem_Click(object sender, EventArgs e)
         {
@@ -219,7 +221,6 @@ namespace GraphEditor
             Refresh();
         }
 
-        // НОВОЕ: Цвет границы
         private void BorderColorMenuItem_Click(object sender, EventArgs e)
         {
             using (var colorDialog = new ColorDialog())
@@ -235,38 +236,30 @@ namespace GraphEditor
             }
         }
 
-        // ==================== Z-ПОРЯДОК ====================
-
         private void MoveForwardMenuItem_Click(object sender, EventArgs e)
         {
             _viewService.MoveForward();
             Refresh();
         }
 
-        // НОВОЕ: Переместить назад
         private void MoveBackwardMenuItem_Click(object sender, EventArgs e)
         {
             _viewService.MoveBackward();
             Refresh();
         }
 
-        // НОВОЕ: На самый верх
         private void MoveToFrontMenuItem_Click(object sender, EventArgs e)
         {
             _viewService.MoveToFront();
             Refresh();
         }
 
-        // НОВОЕ: В самый низ
         private void MoveToBackMenuItem_Click(object sender, EventArgs e)
         {
             _viewService.MoveToBack();
             Refresh();
         }
 
-        // ==================== СЕТКА ====================
-
-        // НОВОЕ: Переключение сетки
         private void GridToggleButton_Click(object sender, EventArgs e)
         {
             _viewService.ShowGrid = !_viewService.ShowGrid;
@@ -274,16 +267,12 @@ namespace GraphEditor
             Refresh();
         }
 
-        // НОВОЕ: Переключение привязки к сетке
         private void SnapToggleButton_Click(object sender, EventArgs e)
         {
             _viewService.SnapToGridEnabled = !_viewService.SnapToGridEnabled;
             SnapToggleButton.Checked = _viewService.SnapToGridEnabled;
         }
 
-        // ==================== ПРОЗРАЧНОСТЬ ====================
-
-        // НОВОЕ: Изменение прозрачности
         private void OpacityTrackBar_Scroll(object sender, EventArgs e)
         {
             if (_viewService.GetSelectedRectangle() == null)
@@ -295,9 +284,6 @@ namespace GraphEditor
             Refresh();
         }
 
-        // ==================== ТЕНЬ ====================
-
-        // НОВОЕ: Переключение тени
         private void ShadowToggleButton_Click(object sender, EventArgs e)
         {
             if (_viewService.GetSelectedRectangle() == null)
@@ -308,11 +294,9 @@ namespace GraphEditor
             Refresh();
         }
 
-        // ==================== ФАЙЛОВЫЕ ОПЕРАЦИИ ====================
-
         private void FileCreateMenuItem_Click(object sender, EventArgs e)
         {
-            // Проверяем, есть ли несохранённые изменения
+
             if (_viewService.HasRectangles())
             {
                 var result = MessageBox.Show(
@@ -338,7 +322,7 @@ namespace GraphEditor
 
         private void FileOpenMenuItem_Click(object sender, EventArgs e)
         {
-            // Проверяем несохранённые изменения
+
             if (_viewService.HasRectangles())
             {
                 var result = MessageBox.Show(
@@ -402,7 +386,7 @@ namespace GraphEditor
 
         private void FileExitMenuItem_Click(object sender, EventArgs e)
         {
-            // Проверяем несохранённые изменения перед выходом
+
             if (_viewService.HasRectangles())
             {
                 var result = MessageBox.Show(
@@ -424,39 +408,26 @@ namespace GraphEditor
             Close();
         }
 
-        // ==================== О ПРОГРАММЕ ====================
-
-        // НОВОЕ: Диалог "О программе"
         private void AboutMenuItem_Click(object sender, EventArgs e)
         {
             MessageBox.Show(
-                "Графический редактор v1.1\n\n" +
-                "Возможности:\n" +
-                "• Создание и редактирование прямоугольников\n" +
-                "• Масштабирование по 8 маркерам\n" +
-                "• Поворот фигур\n" +
-                "• Настройка прозрачности\n" +
-                "• Тени и градиенты\n" +
-                "• Сетка с привязкой\n" +
-                "• Z-порядок (вперёд/назад)\n" +
-                "• Дублирование фигур\n\n" +
+                "Графический редактор v1.2\n\n" +
+                "Инструменты (как в Paint):\n" +
+                "• Выделение — перемещение и изменение фигур\n" +
+                "• Прямоугольник, овал, линия\n\n" +
+                "Дополнительно:\n" +
+                "• Поворот, прозрачность, тень\n" +
+                "• Сетка с привязкой, Z-порядок\n" +
+                "• Сохранение и экспорт в PNG\n\n" +
                 "Горячие клавиши:\n" +
-                "Ctrl+S - Сохранить\n" +
-                "Ctrl+O - Открыть\n" +
-                "Ctrl+N - Новый документ\n" +
-                "Ctrl+E - Экспорт в PNG\n" +
-                "Ctrl+D - Дублировать\n" +
-                "Ctrl+G - Сетка\n" +
-                "Ctrl+B - Привязка к сетке\n" +
-                "Ctrl+Up/Down - Z-порядок\n" +
-                "Delete - Удалить фигуру\n" +
-                "Escape - Отмена создания",
+                "Ctrl+S/O/N/E — файл\n" +
+                "Ctrl+D — дублировать\n" +
+                "Delete — удалить\n" +
+                "Escape — отмена / выбор",
                 "О программе",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
         }
-
-        // ==================== ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ ====================
 
         private void DoSaveAs()
         {
@@ -471,15 +442,17 @@ namespace GraphEditor
 
         private void UpdateViewControls()
         {
-            CreateRectangleButton.Checked = _viewService.CreateMode;
+            SelectToolButton.Checked = _viewService.ActiveTool == DrawingTool.Select;
+            RectangleToolButton.Checked = _viewService.ActiveTool == DrawingTool.Rectangle;
+            EllipseToolButton.Checked = _viewService.ActiveTool == DrawingTool.Ellipse;
+            LineToolButton.Checked = _viewService.ActiveTool == DrawingTool.Line;
+
             DeleteRectangleButton.Enabled = _viewService.CanDelete;
             GridToggleButton.Checked = _viewService.ShowGrid;
             SnapToggleButton.Checked = _viewService.SnapToGridEnabled;
 
-            // Обновляем состояние кнопок Z-порядка
             MoveForwardMenuItem.Enabled = _viewService.CanDelete;
 
-            // Обновляем слайдер прозрачности
             var selectedRect = _viewService.GetSelectedRectangle();
             if (selectedRect != null)
             {
@@ -495,13 +468,11 @@ namespace GraphEditor
                 ShadowToggleButton.Enabled = false;
             }
 
-            // Обновляем заголовок окна
             Text = string.IsNullOrEmpty(_viewService.FileName) ?
                 "Графический редактор" :
                 $"Графический редактор | {Path.GetFileName(_viewService.FileName)}";
         }
 
-        // Обработчик закрытия формы (крестик)
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);

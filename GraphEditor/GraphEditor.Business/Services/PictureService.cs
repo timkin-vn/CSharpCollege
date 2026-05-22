@@ -17,28 +17,24 @@ namespace GraphEditor.Business.Services
 
         public PictureService()
         {
-            PictureModel.Rectangles.Add(new RectangleModel { Left = 150, Top = 50, Width = 200, Height = 100, FillColor = Color.LightSkyBlue, });
-            var newRectangle = new RectangleModel { Left = 200, Top = 100, Width = 200, Height = 150, };
-            PictureModel.Rectangles.Add(newRectangle);
-            PictureModel.SelectedRectangle = newRectangle;
-            PictureModel.Rectangles.Add(new RectangleModel { Left = 250, Top = 150, Width = 200, Height = 200, FillColor = Color.DarkMagenta, });
         }
 
-        public void CreateAndSetCreateMode(PointModel loc)
+        public void CreateAndSetCreateMode(PointModel loc, ShapeType shapeType)
         {
-            var newRectangle = new RectangleModel
+            var newShape = new RectangleModel
             {
                 Left = loc.X,
                 Top = loc.Y,
                 Width = 0,
                 Height = 0,
+                ShapeType = shapeType,
                 FillColor = DefaultFillColor,
                 BorderColor = DefaultBorderColor,
             };
 
-            PictureModel.Rectangles.Add(newRectangle);
-            PictureModel.SelectedRectangle = newRectangle;
-            newRectangle.EditMode = EditMode.Creating;
+            PictureModel.Rectangles.Add(newShape);
+            PictureModel.SelectedRectangle = newShape;
+            newShape.EditMode = EditMode.Creating;
         }
 
         public void CreateNewPicture()
@@ -241,7 +237,30 @@ namespace GraphEditor.Business.Services
                     r.Top = loc.Y - r.Dy;
                     break;
 
+                case EditMode.ResizeLineStart:
+                    if (r.ShapeType == ShapeType.Line)
+                    {
+                        int endX = r.EndX;
+                        int endY = r.EndY;
+                        r.Left = loc.X;
+                        r.Top = loc.Y;
+                        r.Width = endX - r.Left;
+                        r.Height = endY - r.Top;
+                    }
+                    break;
+
+                case EditMode.ResizeLineEnd:
+                    if (r.ShapeType == ShapeType.Line)
+                    {
+                        r.Width = loc.X - r.Left;
+                        r.Height = loc.Y - r.Top;
+                    }
+                    break;
+
                 case EditMode.Rotating:
+                    if (r.ShapeType == ShapeType.Line)
+                        break;
+
                     float centerX = r.Left + r.Width / 2f;
                     float centerY = r.Top + r.Height / 2f;
                     float angle = (float)(Math.Atan2(loc.Y - centerY, loc.X - centerX) * 180 / Math.PI);

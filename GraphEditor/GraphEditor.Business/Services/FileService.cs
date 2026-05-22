@@ -84,6 +84,7 @@ namespace GraphEditor.Business.Services
                             Green = r.FillColor.G,
                             Blue = r.FillColor.B,
                         },
+                        ShapeType = r.ShapeType,
                     })
                 .ToList(),
             };
@@ -102,6 +103,7 @@ namespace GraphEditor.Business.Services
                         Height = r.Height,
                         BorderColor = Color.FromArgb(r.BorderColor.Red, r.BorderColor.Green, r.BorderColor.Blue),
                         FillColor = Color.FromArgb(r.FillColor.Red, r.FillColor.Green, r.FillColor.Blue),
+                        ShapeType = r.ShapeType,
                     })
                     .ToList(),
                 SelectedRectangle = null,

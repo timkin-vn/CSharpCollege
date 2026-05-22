@@ -29,8 +29,12 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GraphEditorForm));
+            this.shapeToolStrip = new System.Windows.Forms.ToolStrip();
+            this.SelectToolButton = new System.Windows.Forms.ToolStripButton();
+            this.RectangleToolButton = new System.Windows.Forms.ToolStripButton();
+            this.EllipseToolButton = new System.Windows.Forms.ToolStripButton();
+            this.LineToolButton = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.CreateRectangleButton = new System.Windows.Forms.ToolStripButton();
             this.DeleteRectangleButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
@@ -70,17 +74,73 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.OpacityLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.OpacityTrackBar = new System.Windows.Forms.TrackBar();
+            this.shapeToolStrip.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.OpacityTrackBar)).BeginInit();
             this.SuspendLayout();
             // 
+            // shapeToolStrip
+            // 
+            this.shapeToolStrip.Dock = System.Windows.Forms.DockStyle.Left;
+            this.shapeToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.shapeToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.SelectToolButton,
+            this.RectangleToolButton,
+            this.EllipseToolButton,
+            this.LineToolButton});
+            this.shapeToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
+            this.shapeToolStrip.Location = new System.Drawing.Point(0, 24);
+            this.shapeToolStrip.Name = "shapeToolStrip";
+            this.shapeToolStrip.Size = new System.Drawing.Size(58, 482);
+            this.shapeToolStrip.TabIndex = 4;
+            // 
+            // SelectToolButton
+            // 
+            this.SelectToolButton.Checked = true;
+            this.SelectToolButton.CheckOnClick = true;
+            this.SelectToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.SelectToolButton.Name = "SelectToolButton";
+            this.SelectToolButton.Size = new System.Drawing.Size(56, 19);
+            this.SelectToolButton.Text = "▶";
+            this.SelectToolButton.ToolTipText = "Выделение (Escape)";
+            this.SelectToolButton.Click += new System.EventHandler(this.SelectToolButton_Click);
+            // 
+            // RectangleToolButton
+            // 
+            this.RectangleToolButton.CheckOnClick = true;
+            this.RectangleToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.RectangleToolButton.Name = "RectangleToolButton";
+            this.RectangleToolButton.Size = new System.Drawing.Size(56, 19);
+            this.RectangleToolButton.Text = "▭";
+            this.RectangleToolButton.ToolTipText = "Прямоугольник";
+            this.RectangleToolButton.Click += new System.EventHandler(this.RectangleToolButton_Click);
+            // 
+            // EllipseToolButton
+            // 
+            this.EllipseToolButton.CheckOnClick = true;
+            this.EllipseToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.EllipseToolButton.Name = "EllipseToolButton";
+            this.EllipseToolButton.Size = new System.Drawing.Size(56, 19);
+            this.EllipseToolButton.Text = "○";
+            this.EllipseToolButton.ToolTipText = "Овал";
+            this.EllipseToolButton.Click += new System.EventHandler(this.EllipseToolButton_Click);
+            // 
+            // LineToolButton
+            // 
+            this.LineToolButton.CheckOnClick = true;
+            this.LineToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.LineToolButton.Name = "LineToolButton";
+            this.LineToolButton.Size = new System.Drawing.Size(56, 19);
+            this.LineToolButton.Text = "╱";
+            this.LineToolButton.ToolTipText = "Линия";
+            this.LineToolButton.Click += new System.EventHandler(this.LineToolButton_Click);
+            // 
             // toolStrip1
             // 
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.CreateRectangleButton,
             this.DeleteRectangleButton,
             this.toolStripSeparator1,
             this.toolStripSplitButton1,
@@ -91,22 +151,11 @@
             this.SnapToggleButton,
             this.toolStripSeparator3,
             this.ShadowToggleButton});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 24);
+            this.toolStrip1.Location = new System.Drawing.Point(58, 24);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(900, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(842, 25);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
-            // 
-            // CreateRectangleButton
-            // 
-            this.CreateRectangleButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.CreateRectangleButton.Image = ((System.Drawing.Image)(resources.GetObject("CreateRectangleButton.Image")));
-            this.CreateRectangleButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.CreateRectangleButton.Name = "CreateRectangleButton";
-            this.CreateRectangleButton.Size = new System.Drawing.Size(54, 22);
-            this.CreateRectangleButton.Text = "Создать";
-            this.CreateRectangleButton.ToolTipText = "Создать новый прямоугольник";
-            this.CreateRectangleButton.Click += new System.EventHandler(this.CreateRectangleButton_Click);
             // 
             // DeleteRectangleButton
             // 
@@ -117,7 +166,7 @@
             this.DeleteRectangleButton.Name = "DeleteRectangleButton";
             this.DeleteRectangleButton.Size = new System.Drawing.Size(55, 22);
             this.DeleteRectangleButton.Text = "Удалить";
-            this.DeleteRectangleButton.ToolTipText = "Удалить выделенный прямоугольник (Delete)";
+            this.DeleteRectangleButton.ToolTipText = "Удалить выделенную фигуру (Delete)";
             this.DeleteRectangleButton.Click += new System.EventHandler(this.DeleteRectangleButton_Click);
             // 
             // toolStripSeparator1
@@ -445,6 +494,7 @@
             this.Controls.Add(this.OpacityTrackBar);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.toolStrip1);
+            this.Controls.Add(this.shapeToolStrip);
             this.Controls.Add(this.menuStrip1);
             this.DoubleBuffered = true;
             this.MainMenuStrip = this.menuStrip1;
@@ -456,6 +506,8 @@
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GraphEditorForm_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.GraphEditorForm_MouseMove);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.GraphEditorForm_MouseUp);
+            this.shapeToolStrip.ResumeLayout(false);
+            this.shapeToolStrip.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
@@ -470,8 +522,12 @@
 
         #endregion
 
+        private System.Windows.Forms.ToolStrip shapeToolStrip;
+        private System.Windows.Forms.ToolStripButton SelectToolButton;
+        private System.Windows.Forms.ToolStripButton RectangleToolButton;
+        private System.Windows.Forms.ToolStripButton EllipseToolButton;
+        private System.Windows.Forms.ToolStripButton LineToolButton;
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton CreateRectangleButton;
         private System.Windows.Forms.ToolStripButton DeleteRectangleButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSplitButton toolStripSplitButton1;
