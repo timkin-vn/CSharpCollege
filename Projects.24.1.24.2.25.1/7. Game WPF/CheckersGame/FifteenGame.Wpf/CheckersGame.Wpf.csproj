@@ -98,9 +98,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FifteenGame.Business\FifteenGame.Business.csproj">
+    <ProjectReference Include="..\FifteenGame.Business\CheckersGame.Business.csproj">
       <Project>{ad95481b-918d-4fd0-ac9d-7468abccbf7e}</Project>
-      <Name>FifteenGame.Business</Name>
+      <Name>CheckersGame.Business</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

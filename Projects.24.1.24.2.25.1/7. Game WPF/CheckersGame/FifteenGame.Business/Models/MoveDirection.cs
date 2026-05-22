@@ -4,14 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FifteenGame.Business.Models
+namespace CheckersGame.Business.Models
 {
     public enum MoveDirection
     {
-        None,
-        Left,
-        Right,
-        Up,
-        Down,
+        TopLeft,
+        TopRight,
+        BottomLeft,
+        BottomRight
     }
 }
