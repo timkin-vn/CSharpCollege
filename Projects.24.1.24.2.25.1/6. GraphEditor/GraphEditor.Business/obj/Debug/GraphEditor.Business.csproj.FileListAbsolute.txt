@@ -1,0 +1,6 @@
+C:\Users\illiy\OneDrive\Рабочий стол\CSharpCollege-Malkin\Projects.24.1.24.2.25.1\6. GraphEditor\GraphEditor\GraphEditor.Business\bin\Debug\GraphEditor.Business.dll
+C:\Users\illiy\OneDrive\Рабочий стол\CSharpCollege-Malkin\Projects.24.1.24.2.25.1\6. GraphEditor\GraphEditor\GraphEditor.Business\bin\Debug\GraphEditor.Business.pdb
+C:\Users\illiy\OneDrive\Рабочий стол\CSharpCollege-Malkin\Projects.24.1.24.2.25.1\6. GraphEditor\GraphEditor\GraphEditor.Business\obj\Debug\GraphEditor.Business.csproj.AssemblyReference.cache
+C:\Users\illiy\OneDrive\Рабочий стол\CSharpCollege-Malkin\Projects.24.1.24.2.25.1\6. GraphEditor\GraphEditor\GraphEditor.Business\obj\Debug\GraphEditor.Business.csproj.CoreCompileInputs.cache
+C:\Users\illiy\OneDrive\Рабочий стол\CSharpCollege-Malkin\Projects.24.1.24.2.25.1\6. GraphEditor\GraphEditor\GraphEditor.Business\obj\Debug\GraphEditor.Business.dll
+C:\Users\illiy\OneDrive\Рабочий стол\CSharpCollege-Malkin\Projects.24.1.24.2.25.1\6. GraphEditor\GraphEditor\GraphEditor.Business\obj\Debug\GraphEditor.Business.pdb
