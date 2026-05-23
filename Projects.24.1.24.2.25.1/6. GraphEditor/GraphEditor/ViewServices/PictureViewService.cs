@@ -82,9 +82,9 @@ namespace GraphEditor.ViewServices
             LoadViewModel();
         }
 
-        public int SelectedOpacity => _viewModel?.SelectedRectangle?.Opacity ?? 255;
+        public int SelectedOpacity => _viewModel?.SelectedRectangle?.Opacity ?? 100;
         public int SelectedCornerRadius => _viewModel?.SelectedRectangle?.CornerRadius ?? 0;
-        public int SelectedBorderOpacity => _viewModel?.SelectedRectangle?.BorderOpacity ?? 255;
+        public int SelectedBorderOpacity => _viewModel?.SelectedRectangle?.BorderOpacity ?? 100;
 
         public void MouseMove(Point loc) { _businessService.UpdateMovingPoint(ToModel(loc)); LoadViewModel(); }
         public void MouseUp() { _businessService.ResetMode(); CreateMode = false; LoadViewModel(); }

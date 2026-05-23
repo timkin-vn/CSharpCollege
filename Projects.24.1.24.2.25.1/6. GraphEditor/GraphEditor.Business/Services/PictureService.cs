@@ -31,7 +31,7 @@ namespace GraphEditor.Business.Services
                 Height = 0,
                 FillColor = DefaultFillColor,
                 BorderColor = DefaultBorderColor,
-                Opacity = 255,
+                Opacity = 100,
                 CornerRadius = 0
             };
             PictureModel.Rectangles.Add(newRectangle);
@@ -91,7 +91,7 @@ namespace GraphEditor.Business.Services
         public void SetOpacity(int opacity)
         {
             if (PictureModel.SelectedRectangle != null)
-                PictureModel.SelectedRectangle.Opacity = Math.Max(0, Math.Min(255, opacity));
+                PictureModel.SelectedRectangle.Opacity = Math.Max(0, Math.Min(100, opacity));
         }
 
         public void SetCornerRadius(int radius)
@@ -103,7 +103,7 @@ namespace GraphEditor.Business.Services
         public void SetBorderOpacity(int opacity)
         {
             if (PictureModel.SelectedRectangle != null)
-                PictureModel.SelectedRectangle.BorderOpacity = Math.Max(0, Math.Min(255, opacity));
+                PictureModel.SelectedRectangle.BorderOpacity = Math.Max(0, Math.Min(100, opacity));
         }
 
 

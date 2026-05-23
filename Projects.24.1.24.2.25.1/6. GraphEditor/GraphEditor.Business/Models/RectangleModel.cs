@@ -37,9 +37,9 @@ namespace GraphEditor.Business.Models
         public Color FillColor { get; set; } = Color.Yellow;
         public Color BorderColor { get; set; } = Color.Blue;
 
-        public int Opacity { get; set; } = 255;
+        public int Opacity { get; set; } = 100;
         public int CornerRadius { get; set; } = 0;
-        public int BorderOpacity { get; set; } = 255;
+        public int BorderOpacity { get; set; } = 100;
 
         public bool IsInside(PointModel pos) => pos.X >= Left && pos.X <= Right && pos.Y >= Top && pos.Y <= Bottom;
 

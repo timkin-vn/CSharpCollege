@@ -11,3 +11,16 @@ C:\Users\illiy\OneDrive\Рабочий стол\CSharpCollege-Malkin\Projects.24
 C:\Users\illiy\OneDrive\Рабочий стол\CSharpCollege-Malkin\Projects.24.1.24.2.25.1\6. GraphEditor\GraphEditor\GraphEditor\obj\Release\GraphEdi.B75FE3B2.Up2Date
 C:\Users\illiy\OneDrive\Рабочий стол\CSharpCollege-Malkin\Projects.24.1.24.2.25.1\6. GraphEditor\GraphEditor\GraphEditor\obj\Release\GraphEditor.exe
 C:\Users\illiy\OneDrive\Рабочий стол\CSharpCollege-Malkin\Projects.24.1.24.2.25.1\6. GraphEditor\GraphEditor\GraphEditor\obj\Release\GraphEditor.pdb
+C:\Users\illiy\OneDrive\Рабочий стол\Projects.24.1.24.2.25.1\6. GraphEditor\GraphEditor\bin\Release\GraphEditor.exe.config
+C:\Users\illiy\OneDrive\Рабочий стол\Projects.24.1.24.2.25.1\6. GraphEditor\GraphEditor\bin\Release\GraphEditor.exe
+C:\Users\illiy\OneDrive\Рабочий стол\Projects.24.1.24.2.25.1\6. GraphEditor\GraphEditor\bin\Release\GraphEditor.pdb
+C:\Users\illiy\OneDrive\Рабочий стол\Projects.24.1.24.2.25.1\6. GraphEditor\GraphEditor\bin\Release\GraphEditor.Business.dll
+C:\Users\illiy\OneDrive\Рабочий стол\Projects.24.1.24.2.25.1\6. GraphEditor\GraphEditor\bin\Release\GraphEditor.Business.pdb
+C:\Users\illiy\OneDrive\Рабочий стол\Projects.24.1.24.2.25.1\6. GraphEditor\GraphEditor\obj\Release\GraphEditor.csproj.AssemblyReference.cache
+C:\Users\illiy\OneDrive\Рабочий стол\Projects.24.1.24.2.25.1\6. GraphEditor\GraphEditor\obj\Release\GraphEditor.GraphEditorForm.resources
+C:\Users\illiy\OneDrive\Рабочий стол\Projects.24.1.24.2.25.1\6. GraphEditor\GraphEditor\obj\Release\GraphEditor.Properties.Resources.resources
+C:\Users\illiy\OneDrive\Рабочий стол\Projects.24.1.24.2.25.1\6. GraphEditor\GraphEditor\obj\Release\GraphEditor.csproj.GenerateResource.cache
+C:\Users\illiy\OneDrive\Рабочий стол\Projects.24.1.24.2.25.1\6. GraphEditor\GraphEditor\obj\Release\GraphEditor.csproj.CoreCompileInputs.cache
+C:\Users\illiy\OneDrive\Рабочий стол\Projects.24.1.24.2.25.1\6. GraphEditor\GraphEditor\obj\Release\GraphEdi.B75FE3B2.Up2Date
+C:\Users\illiy\OneDrive\Рабочий стол\Projects.24.1.24.2.25.1\6. GraphEditor\GraphEditor\obj\Release\GraphEditor.exe
+C:\Users\illiy\OneDrive\Рабочий стол\Projects.24.1.24.2.25.1\6. GraphEditor\GraphEditor\obj\Release\GraphEditor.pdb

@@ -37,8 +37,8 @@ namespace GraphEditor.ViewServices
 
         private void DrawRectangle(Graphics g, RectangleViewModel rect)
         {
-            Color fillColor = Color.FromArgb(rect.Opacity, rect.FillColor);
-            Color borderColor = Color.FromArgb(rect.BorderOpacity, rect.BorderColor);
+            Color fillColor = Color.FromArgb((int)(rect.Opacity*2.55), rect.FillColor);
+            Color borderColor = Color.FromArgb((int)(rect.BorderOpacity * 2.55), rect.BorderColor);
             using (var brush = new SolidBrush(fillColor))
             using (var pen = new Pen(borderColor, 3))
             {
