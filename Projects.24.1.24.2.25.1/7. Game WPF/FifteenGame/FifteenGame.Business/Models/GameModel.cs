@@ -1,29 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FifteenGame.Business.Models
 {
     public class GameModel
     {
-        public const int RowCount = 4;
+        public const int Size = 4;
+        public int[,] Cells { get; private set; }
+        public int Score { get; set; }
+        public bool IsWin { get; set; }
 
-        public const int ColumnCount = 4;
-
-        public const int FreeCellValue = -1;
-
-        private int[,] _cells = new int[RowCount, ColumnCount];
-
-        public int this[int row, int column]
+        public GameModel()
         {
-            get => _cells[row, column];
-            internal set => _cells[row, column] = value;
+            Cells = new int[Size, Size];
+            Score = 0;
+            IsWin = false;
         }
 
-        public int FreeCellRow { get; internal set; }
-
-        public int FreeCellColumn { get; internal set; }
+        public int this[int row, int col]
+        {
+            get => Cells[row, col];
+            set => Cells[row, col] = value;
+        }
     }
 }

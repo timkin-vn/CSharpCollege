@@ -1,17 +1,18 @@
 ﻿using FifteenGame.Business.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace FifteenGame.Web.Models
 {
     public class GameViewModel
     {
-        public int RowCount => GameModel.RowCount;
+        public int Size => GameModel.Size;
+        public int[,] Cells { get; set; }
+        public int Score { get; set; }
+        public bool IsGameOver { get; set; }
+        public bool IsWin { get; set; }
 
-        public int ColumnCount => GameModel.ColumnCount;
-
-        public CellViewModel[,] Cells { get; set; } = new CellViewModel[GameModel.RowCount, GameModel.ColumnCount];
+        public GameViewModel()
+        {
+            Cells = new int[GameModel.Size, GameModel.Size];
+        }
     }
 }

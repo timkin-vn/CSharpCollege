@@ -2,9 +2,6 @@
 using FifteenGame.Business.Services;
 using FifteenGame.Web.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace FifteenGame.Web.Controllers
@@ -13,13 +10,11 @@ namespace FifteenGame.Web.Controllers
     {
         private readonly GameService _service = new GameService();
 
-        // GET: Game
         public ActionResult Index()
         {
             var model = GetGameModel();
-            _service.Shuffle(model);
+            _service.Initialize(model);
             SaveGameModel(model);
-
             return View(ToViewModel(model));
         }
 
@@ -31,22 +26,35 @@ namespace FifteenGame.Web.Controllers
                 _service.MakeMove(model, direction);
                 SaveGameModel(model);
 
+                // Проверка победы (появление 2048)
+                for (int i = 0; i < GameModel.Size; i++)
+                    for (int j = 0; j < GameModel.Size; j++)
+                        if (model[i, j] == 2048 && !model.IsWin)
+                        {
+                            model.IsWin = true;
+                            SaveGameModel(model);
+                            ViewBag.Message = "Вы победили! Нажмите «New Game».";
+                        }
+
                 if (_service.IsGameOver(model))
-                {
-                    ViewBag.IsGameOver = true;
-                }
+                    ViewBag.Message = "Игра окончена! Ходов больше нет.";
             }
 
             return View("Index", ToViewModel(model));
         }
 
+        public ActionResult NewGame()
+        {
+            var model = new GameModel();
+            _service.Initialize(model);
+            SaveGameModel(model);
+            return RedirectToAction("Index");
+        }
+
         private GameModel GetGameModel()
         {
-            if (Session.IsNewSession)
-            {
+            if (Session["GameModel"] == null)
                 Session["GameModel"] = new GameModel();
-            }
-
             return (GameModel)Session["GameModel"];
         }
 
@@ -57,40 +65,16 @@ namespace FifteenGame.Web.Controllers
 
         private GameViewModel ToViewModel(GameModel model)
         {
-            var result = new GameViewModel();
-
-            for (int row = 0; row < GameModel.RowCount; row++)
+            var result = new GameViewModel
             {
-                for (int column = 0; column < GameModel.ColumnCount; column++)
-                {
-                    result.Cells[row, column] = new CellViewModel
-                    {
-                        Value = model[row, column],
-                        Direction = MoveDirection.None,
-                        IsEmpty = model[row, column] == GameModel.FreeCellValue,
-                    };
-                }
-            }
+                Score = model.Score,
+                IsWin = model.IsWin,
+                IsGameOver = _service.IsGameOver(model)
+            };
 
-            if (model.FreeCellColumn > 0)
-            {
-                result.Cells[model.FreeCellRow, model.FreeCellColumn - 1].Direction = MoveDirection.Right;
-            }
-
-            if (model.FreeCellColumn < GameModel.ColumnCount - 1)
-            {
-                result.Cells[model.FreeCellRow, model.FreeCellColumn + 1].Direction = MoveDirection.Left;
-            }
-
-            if (model.FreeCellRow > 0)
-            {
-                result.Cells[model.FreeCellRow - 1, model.FreeCellColumn].Direction = MoveDirection.Down;
-            }
-
-            if (model.FreeCellRow < GameModel.RowCount - 1)
-            {
-                result.Cells[model.FreeCellRow + 1, model.FreeCellColumn].Direction = MoveDirection.Up;
-            }
+            for (int row = 0; row < GameModel.Size; row++)
+                for (int col = 0; col < GameModel.Size; col++)
+                    result.Cells[row, col] = model[row, col];
 
             return result;
         }

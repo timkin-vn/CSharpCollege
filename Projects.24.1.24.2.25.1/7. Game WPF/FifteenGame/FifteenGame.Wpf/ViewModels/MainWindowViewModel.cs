@@ -1,85 +1,96 @@
 ﻿using FifteenGame.Business.Models;
 using FifteenGame.Business.Services;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
 
 namespace FifteenGame.Wpf.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
         private GameService _service = new GameService();
-
         private GameModel _model = new GameModel();
 
         public ObservableCollection<CellViewModel> Cells { get; } = new ObservableCollection<CellViewModel>();
 
-        public MainWindowViewModel()
+        private int _score;
+        public int Score
         {
-            Initialize();
-        }
-
-        public void Initialize()
-        {
-            _service.Shuffle(_model);
-            LoadViewModel(_model);
-        }
-
-        public void MakeMove(MoveDirection direction, Action gameFinishedAction)
-        {
-            _service.MakeMove(_model, direction);
-            LoadViewModel(_model);
-            if (_service.IsGameOver(_model))
+            get => _score;
+            set
             {
-                gameFinishedAction?.Invoke();
+                _score = value;
+                OnPropertyChanged(nameof(Score));
             }
         }
 
-        private void LoadViewModel(GameModel model)
+        private string _gameStatus;
+        public string GameStatus
+        {
+            get => _gameStatus;
+            set
+            {
+                _gameStatus = value;
+                OnPropertyChanged(nameof(GameStatus));
+            }
+        }
+
+        public MainWindowViewModel()
+        {
+            NewGame();
+        }
+
+        public void NewGame()
+        {
+            _service.Initialize(_model);
+            Score = _model.Score;
+            GameStatus = "";
+            LoadCells();
+        }
+
+        public void MakeMove(MoveDirection direction)
+        {
+            if (_model.IsWin)
+            {
+                GameStatus = "You won! Press New Game.";
+                return;
+            }
+
+            bool moved = _service.MakeMove(_model, direction);
+            if (!moved) return;
+
+            Score = _model.Score;
+            LoadCells();
+
+            // Проверка победы
+            for (int i = 0; i < GameModel.Size; i++)
+                for (int j = 0; j < GameModel.Size; j++)
+                    if (_model[i, j] == 2048 && !_model.IsWin)
+                    {
+                        _model.IsWin = true;
+                        GameStatus = "Congratulations! You've reached 2048!";
+                        MessageBox.Show("Вы победили! Нажмите New Game для продолжения.", "Победа!", MessageBoxButton.OK, MessageBoxImage.Information);
+                        return;
+                    }
+
+            if (_service.IsGameOver(_model))
+            {
+                GameStatus = "Game Over! No moves left.";
+                MessageBox.Show("Игра окончена! Нет доступных ходов.", "Game Over", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
+        private void LoadCells()
         {
             Cells.Clear();
-            for (int row = 0; row < GameModel.RowCount; row++)
+            for (int row = 0; row < GameModel.Size; row++)
             {
-                for (int column = 0; column < GameModel.ColumnCount; column++)
+                for (int col = 0; col < GameModel.Size; col++)
                 {
-                    if (model[row, column] == GameModel.FreeCellValue)
-                    {
-                        continue;
-                    }
-
-                    var direction = MoveDirection.None;
-                    if (row == model.FreeCellRow)
-                    {
-                        if (column == model.FreeCellColumn - 1)
-                        {
-                            direction = MoveDirection.Right;
-                        }
-                        else if (column == model.FreeCellColumn + 1)
-                        {
-                            direction = MoveDirection.Left;
-                        }
-                    }
-                    else if (column == model.FreeCellColumn)
-                    {
-                        if (row == model.FreeCellRow - 1)
-                        {
-                            direction = MoveDirection.Down;
-                        }
-                        else if (row == model.FreeCellRow + 1)
-                        {
-                            direction = MoveDirection.Up;
-                        }
-                    }
-
                     Cells.Add(new CellViewModel
                     {
                         Row = row,
-                        Column = column,
-                        Value = model[row, column],
-                        Direction = direction,
+                        Column = col,
+                        Value = _model[row, col]
                     });
                 }
             }

@@ -1,62 +1,161 @@
 ﻿@model FifteenGame.Web.Models.GameViewModel
 
 @{
-    ViewBag.Title = "Игра 15";
-    bool isGameOver = (bool?)ViewBag.IsGameOver ?? false;
+    ViewBag.Title = "2048 Game";
+    bool gameEnded = Model.IsGameOver || Model.IsWin;
 }
 
-<main>
-    <h2>Игра 15</h2>
-
-    @if (isGameOver)
-    {
-        <h2 class="text-danger">Поздравляем! Игра завершена.</h2>
-
-        <div>
-            @Html.ActionLink("Повторить", "Index", new {}, new { @class = "btn btn-success" })
-        </div>
+<style>
+    .tile {
+        width: 100px;
+        height: 100px;
+        margin: 5px;
+        background-color: #cdc1b4;
+        border-radius: 8px;
+        font-size: 36px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.1s ease;
     }
 
+    .tile-0 {
+        background-color: #cdc1b4;
+        color: #776e65;
+    }
+
+    .tile-2 {
+        background-color: #eee4da;
+        color: #776e65;
+    }
+
+    .tile-4 {
+        background-color: #ede0c8;
+        color: #776e65;
+    }
+
+    .tile-8 {
+        background-color: #f2b179;
+        color: #f9f6f2;
+    }
+
+    .tile-16 {
+        background-color: #f59563;
+        color: #f9f6f2;
+    }
+
+    .tile-32 {
+        background-color: #f67c5f;
+        color: #f9f6f2;
+    }
+
+    .tile-64 {
+        background-color: #f65e3b;
+        color: #f9f6f2;
+    }
+
+    .tile-128 {
+        background-color: #edcf72;
+        color: #f9f6f2;
+        font-size: 32px;
+    }
+
+    .tile-256 {
+        background-color: #edcc61;
+        color: #f9f6f2;
+        font-size: 32px;
+    }
+
+    .tile-512 {
+        background-color: #edc850;
+        color: #f9f6f2;
+        font-size: 32px;
+    }
+
+    .tile-1024 {
+        background-color: #edc53f;
+        color: #f9f6f2;
+        font-size: 28px;
+    }
+
+    .tile-2048 {
+        background-color: #edc22e;
+        color: #f9f6f2;
+        font-size: 28px;
+    }
+</style>
+
+<main>
     <div class="container">
-        @for (int row = 0; row < Model.RowCount; row++)
+        <div class="row mb-3">
+            <div class="col-6">
+                <h2>2048 Game</h2>
+            </div>
+            <div class="col-3">
+                <h4>Score: @Model.Score</h4>
+            </div>
+            <div class="col-3">
+                @Html.ActionLink("New Game", "NewGame", "Game", null, new { @class = "btn btn-primary" })
+            </div>
+        </div>
+
+        @if (gameEnded)
         {
-            <div class="row">
-                <div class="col-2"></div>
-
-                @for (int column = 0; column < Model.ColumnCount; column++)
+            <div class="alert alert-info">
+                @if (Model.IsWin)
                 {
-                    if (Model.Cells[row, column].IsEmpty)
-                    {
-                        <div class="col-2"></div>
-                        continue;
-                    }
-
-                    if (isGameOver || Model.Cells[row, column].Direction == FifteenGame.Business.Models.MoveDirection.None)
-                    {
-                        @*<div class="col-2 d-grid p-2 text-center">
-                            <div class="btn btn-success fs-3">@Model.Cells[row, column].Text</div>
-                        </div>*@
-
-                        <div class="col-2 d-grid p-2 text-center">
-                            <img src="@Url.Content($"~/Content/img/{@Model.Cells[row, column].Text}.png")"
-                                 style="width: 150px; height: 150px; display: block; margin: auto;" />
-                        </div>
-
-                        continue;
-                    }
-
-                    <div class="col-2 d-grid p-2 text-center">
-                        @*@Html.ActionLink(Model.Cells[row, column].Text, "MakeMove",
-                            new { directionText = Model.Cells[row, column].DirectionText },
-                            new { @class = "btn btn-success fs-3" })*@
-
-                        <a href="@Url.Action("MakeMove", "Game", new { directionText = Model.Cells[row, column].DirectionText })">
-                            <img src="@Url.Content($"~/Content/img/{@Model.Cells[row, column].Text}.png")"
-                                    style="width: 150px; height: 150px; display: block; margin: auto;" />
-                        </a>
-                    </div>
+                    <strong>Поздравляем! Вы набрали 2048!</strong>
                 }
+                else if (Model.IsGameOver)
+                {
+                    <strong>Игра окончена! Нет доступных ходов.</strong>
+                }
+                <br />
+                Нажмите «New Game», чтобы начать заново.
             </div>
         }
+
+        <div style="display: inline-block;">
+            @for (int row = 0; row < Model.Size; row++)
+            {
+                <div class="d-flex">
+                    @for (int col = 0; col < Model.Size; col++)
+                    {
+                        int value = Model.Cells[row, col];
+                        string tileClass = value == 0 ? "tile-0" : "tile-" + value;
+
+                        <div class="tile @tileClass">
+                            @if (value != 0)
+                            {
+                                @value
+                            }
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="mt-4">
+            <p>Используйте клавиши <strong>← ↑ ↓ →</strong> для перемещения плиток.</p>
+        </div>
     </div>
 </main>
+
+@section scripts {
+    <script>
+        document.addEventListener('keydown', function(e) {
+            var key = e.key;
+            var direction = null;
+            if (key === 'ArrowLeft') direction = 'Left';
+            else if (key === 'ArrowRight') direction = 'Right';
+            else if (key === 'ArrowUp') direction = 'Up';
+            else if (key === 'ArrowDown') direction = 'Down';
+
+            if (direction) {
+                e.preventDefault();
+                window.location.href = '@Url.Action("MakeMove", "Game")?directionText=' + direction;
+            }
+        });
+    </script>
+}
