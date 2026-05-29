@@ -1,0 +1,6 @@
+C:\Users\danil\Desktop\С#\Minesweeper\Minesweeper.Business\bin\Debug\Minesweeper.Business.dll
+C:\Users\danil\Desktop\С#\Minesweeper\Minesweeper.Business\bin\Debug\Minesweeper.Business.pdb
+C:\Users\danil\Desktop\С#\Minesweeper\Minesweeper.Business\obj\Debug\Minesweeper.Business.csproj.AssemblyReference.cache
+C:\Users\danil\Desktop\С#\Minesweeper\Minesweeper.Business\obj\Debug\Minesweeper.Business.csproj.CoreCompileInputs.cache
+C:\Users\danil\Desktop\С#\Minesweeper\Minesweeper.Business\obj\Debug\Minesweeper.Business.dll
+C:\Users\danil\Desktop\С#\Minesweeper\Minesweeper.Business\obj\Debug\Minesweeper.Business.pdb
