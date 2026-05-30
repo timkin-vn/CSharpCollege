@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="LightsOutGame.Business/LightsOutGame.Business.csproj" />
+  <Project Path="LightsOutGame.Web/LightsOutGame.Web.csproj" />
+</Solution>
