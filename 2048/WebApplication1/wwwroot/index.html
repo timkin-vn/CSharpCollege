@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Игра 2048</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="game-container">
+        <div class="header">
+            <h1 class="title">2048</h1>
+            <div class="score-container">
+                <div class="score-label">Счёт</div>
+                <div class="score-value" id="scoreDisplay">0</div>
+            </div>
+            <button class="new-game-btn" id="newGameBtn">✨ Новая игра</button>
+        </div>
+
+        <div class="game-board" id="gameBoard"></div>
+
+        <!-- Кнопки управления -->
+        <div class="controls">
+            <button class="control-btn up" data-direction="up">
+                <span class="arrow">▲</span> Вверх
+            </button>
+            <div class="controls-row">
+                <button class="control-btn left" data-direction="left">
+                    <span class="arrow">◀</span> Влево
+                </button>
+                <button class="control-btn down" data-direction="down">
+                    <span class="arrow">▼</span> Вниз
+                </button>
+                <button class="control-btn right" data-direction="right">
+                    <span class="arrow">▶</span> Вправо
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/Game.js"></script>
+</body>
+</html>
