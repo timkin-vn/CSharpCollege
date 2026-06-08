@@ -8,8 +8,17 @@ namespace GraphEditor.Business.Models
 {
     public class PictureModel
     {
-        public IList<RectangleModel> Rectangles { get; set; } = new List<RectangleModel>();
+        public IList<ShapeModel> Shapes { get; set; } = new List<ShapeModel>();
 
-        public RectangleModel SelectedRectangle { get; set; }
+        public IList<RectangleModel> Rectangles => Shapes.OfType<RectangleModel>().ToList();
+
+        public ShapeModel SelectedShape { get; set; }
+
+        public ShapeModel SelectedRectangle
+        {
+            get => SelectedShape;
+            set => SelectedShape = value;
+        }
+        public enum ShapeType { Rectangle, Ellipse }
     }
 }

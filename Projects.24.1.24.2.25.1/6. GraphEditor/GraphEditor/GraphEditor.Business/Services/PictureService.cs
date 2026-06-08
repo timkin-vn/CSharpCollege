@@ -3,79 +3,102 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GraphEditor.Business.Services
 {
+    public enum ShapeType { Rectangle, Ellipse }
+
     public class PictureService
     {
         public PictureModel PictureModel { get; private set; } = new PictureModel();
 
         public static Color DefaultFillColor { get; set; } = Color.Yellow;
-
         public static Color DefaultBorderColor { get; set; } = Color.Blue;
+
+        public ShapeType CurrentShapeType { get; set; } = ShapeType.Rectangle;
 
         public PictureService()
         {
-            PictureModel.Rectangles.Add(new RectangleModel { Left = 150, Top = 50, Width = 200, Height = 100, FillColor = Color.LightSkyBlue, });
-            var newRectangle = new RectangleModel { Left = 200, Top = 100, Width = 200, Height = 150, };
-            PictureModel.Rectangles.Add(newRectangle);
-            PictureModel.SelectedRectangle = newRectangle;
-            PictureModel.Rectangles.Add(new RectangleModel { Left = 250, Top = 150, Width = 200, Height = 200, FillColor = Color.DarkMagenta, });
+            
+            var rect = new RectangleModel { Left = 150, Top = 50, Width = 200, Height = 100, FillColor = Color.LightSkyBlue };
+            var ellipse = new EllipseModel { Left = 250, Top = 150, Width = 200, Height = 200, FillColor = Color.DarkMagenta };
+
+            PictureModel.Shapes.Add(rect);
+            PictureModel.Shapes.Add(ellipse);
+            PictureModel.SelectedShape = ellipse;
         }
 
         public void CreateAndSetCreateMode(PointModel loc)
         {
-            var newRectangle = new RectangleModel
-            {
-                Left = loc.X,
-                Top = loc.Y,
-                Width = 0,
-                Height = 0,
-                FillColor = DefaultFillColor,
-                BorderColor = DefaultBorderColor,
-            };
+            ShapeModel newShape = CurrentShapeType == ShapeType.Ellipse
+    ? (ShapeModel)new EllipseModel()
+    : new RectangleModel();
 
-            PictureModel.Rectangles.Add(newRectangle);
-            PictureModel.SelectedRectangle = newRectangle;
-            newRectangle.EditMode = EditMode.Creating;
+            newShape.Left = loc.X;
+            newShape.Top = loc.Y;
+            newShape.Width = 0;
+            newShape.Height = 0;
+            newShape.FillColor = DefaultFillColor;
+            newShape.BorderColor = DefaultBorderColor;
+            newShape.EditMode = EditMode.Creating;
+
+            PictureModel.Shapes.Add(newShape);
+            PictureModel.SelectedShape = newShape;
         }
 
         public void CreateNewPicture()
         {
-            PictureModel.Rectangles.Clear();
-            PictureModel.SelectedRectangle = null;
+            PictureModel.Shapes.Clear();
+            PictureModel.SelectedShape = null;
         }
 
-        public void DeleteRectangle()
+        public void DeleteShape()
         {
-            if (PictureModel.SelectedRectangle == null)
-            {
-                return;
-            }
-
-            PictureModel.Rectangles.Remove(PictureModel.SelectedRectangle);
-            PictureModel.SelectedRectangle = null;
+            if (PictureModel.SelectedShape == null) return;
+            PictureModel.Shapes.Remove(PictureModel.SelectedShape);
+            PictureModel.SelectedShape = null;
         }
 
-        public void MoveForward()
+        public void MoveForward() 
         {
-            if (PictureModel.SelectedRectangle == null)
-            {
-                return;
-            }
+            var selected = PictureModel.SelectedShape;
+            if (selected == null) return;
 
-            var selectedIndex = PictureModel.Rectangles.IndexOf(PictureModel.SelectedRectangle);
-            if (selectedIndex < 0 || selectedIndex == PictureModel.Rectangles.Count - 1)
-            {
-                return;
-            }
+            var index = PictureModel.Shapes.IndexOf(selected);
+            if (index < 0 || index == PictureModel.Shapes.Count - 1) return;
 
-            var rect = PictureModel.Rectangles[selectedIndex + 1];
-            PictureModel.Rectangles[selectedIndex + 1] = PictureModel.Rectangles[selectedIndex];
-            PictureModel.Rectangles[selectedIndex] = rect;
+            PictureModel.Shapes.RemoveAt(index);
+            PictureModel.Shapes.Insert(index + 1, selected);
         }
+
+        public void MoveBackward()
+        {
+            var selected = PictureModel.SelectedShape;
+            if (selected == null) return;
+
+            var index = PictureModel.Shapes.IndexOf(selected);
+            if (index <= 0) return;
+
+            PictureModel.Shapes.RemoveAt(index);
+            PictureModel.Shapes.Insert(index - 1, selected);
+        }
+
+        public void BringToFront()
+        {
+            var selected = PictureModel.SelectedShape;
+            if (selected == null) return;
+            PictureModel.Shapes.Remove(selected);
+            PictureModel.Shapes.Add(selected);
+        }
+
+        public void SendToBack()
+        {
+            var selected = PictureModel.SelectedShape;
+            if (selected == null) return;
+            PictureModel.Shapes.Remove(selected);
+            PictureModel.Shapes.Insert(0, selected);
+        }
+
 
         public void Open(string fileName)
         {
@@ -84,11 +107,11 @@ namespace GraphEditor.Business.Services
 
         public void ResetMode()
         {
-            var selectedRect = PictureModel.SelectedRectangle;
-            if (selectedRect != null)
+            var selected = PictureModel.SelectedShape;
+            if (selected != null)
             {
-                selectedRect.Normalize();
-                selectedRect.EditMode = EditMode.None;
+                selected.Normalize();
+                selected.EditMode = EditMode.None;
             }
         }
 
@@ -99,55 +122,58 @@ namespace GraphEditor.Business.Services
 
         public void SelectAndSetMoveMode(PointModel loc)
         {
-            var selectedRect = PictureModel.Rectangles.LastOrDefault(r => r.IsInside(loc));
-            PictureModel.SelectedRectangle = selectedRect;
+            var selected = PictureModel.Shapes.LastOrDefault(r => r.IsInside(loc));
+            PictureModel.SelectedShape = selected;
 
-            if (selectedRect == null)
-            {
-                return;
-            }
+            if (selected == null) return;
 
-            selectedRect.EditMode = EditMode.Moving;
-            selectedRect.Dx = loc.X - selectedRect.Left;
-            selectedRect.Dy = loc.Y - selectedRect.Top;
+            selected.EditMode = EditMode.Moving;
+            selected.Dx = loc.X - selected.Left;
+            selected.Dy = loc.Y - selected.Top;
         }
 
         public void SetFillColor(Color color)
         {
-            if (PictureModel.SelectedRectangle != null)
-            {
-                PictureModel.SelectedRectangle.FillColor = color;
-            }
+            if (PictureModel.SelectedShape != null)
+                PictureModel.SelectedShape.FillColor = color;
         }
 
         public void SetResizeMode(EditMode mode)
         {
-            PictureModel.SelectedRectangle.EditMode = mode;
+            if (PictureModel.SelectedShape != null)
+                PictureModel.SelectedShape.EditMode = mode;
         }
 
-        public void UpdateMovingPoint(PointModel loc)
+        public void UpdateMovingPoint(PointModel loc, bool isShiftPressed = false)
         {
-            var selectedRect = PictureModel.SelectedRectangle;
-            if (selectedRect == null)
-            {
-                return;
-            }
+            var selected = PictureModel.SelectedShape;
+            if (selected == null) return;
 
-            switch (selectedRect.EditMode)
+            switch (selected.EditMode)
             {
                 case EditMode.Creating:
                 case EditMode.ResizeBR:
-                    selectedRect.Width = loc.X - selectedRect.Left;
-                    selectedRect.Height = loc.Y - selectedRect.Top;
+                    int newWidth = loc.X - selected.Left;
+                    int newHeight = loc.Y - selected.Top;
+
+                    if (isShiftPressed)
+                    {
+                        int size = Math.Max(Math.Abs(newWidth), Math.Abs(newHeight));
+                        newWidth = Math.Sign(newWidth) * size;
+                        newHeight = Math.Sign(newHeight) * size;
+                    }
+
+                    selected.Width = newWidth;
+                    selected.Height = newHeight;
                     break;
 
                 case EditMode.ResizeR:
-                    selectedRect.Width = loc.X - selectedRect.Left;
+                    selected.Width = loc.X - selected.Left;
                     break;
 
                 case EditMode.Moving:
-                    selectedRect.Left = loc.X - selectedRect.Dx;
-                    selectedRect.Top = loc.Y - selectedRect.Dy;
+                    selected.Left = loc.X - selected.Dx;
+                    selected.Top = loc.Y - selected.Dy;
                     break;
             }
         }

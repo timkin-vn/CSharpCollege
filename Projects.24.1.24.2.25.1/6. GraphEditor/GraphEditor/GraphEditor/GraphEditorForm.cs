@@ -1,4 +1,5 @@
-﻿using GraphEditor.ViewServices;
+﻿using GraphEditor.Business.Services;
+using GraphEditor.ViewServices;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -167,6 +168,20 @@ namespace GraphEditor
             }
 
             _viewService.Save(FileSaveDialog.FileName);
+            UpdateViewControls();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            _viewService.CurrentShapeType = ShapeType.Ellipse;
+            _viewService.CreateMode = true;
+            UpdateViewControls();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            _viewService.CurrentShapeType = ShapeType.Rectangle;
+            _viewService.CreateMode = true;
             UpdateViewControls();
         }
     }

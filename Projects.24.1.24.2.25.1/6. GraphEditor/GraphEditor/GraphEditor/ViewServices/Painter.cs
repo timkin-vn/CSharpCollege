@@ -1,10 +1,7 @@
-﻿using GraphEditor.ViewModels;
-using System;
-using System.Collections.Generic;
+﻿using GraphEditor.Business.Models;
+using GraphEditor.ViewModels;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GraphEditor.ViewServices
 {
@@ -12,31 +9,45 @@ namespace GraphEditor.ViewServices
     {
         public void Paint(Graphics g, PictureViewModel viewModel, bool isInteractive)
         {
-            if (viewModel == null || viewModel.Rectangles == null || !viewModel.Rectangles.Any())
+            if (viewModel == null || viewModel.Rectangles == null)
             {
                 return;
             }
 
-            Pen pen;
-            foreach (var rectangle in viewModel.Rectangles)
-            {
-                pen = new Pen(rectangle.BorderColor, 3);
-                var brush = new SolidBrush(rectangle.FillColor);
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
-                g.FillRectangle(brush, rectangle.Rectangle);
-                g.DrawRectangle(pen, rectangle.Rectangle);
+            foreach (var shapeVm in viewModel.Rectangles)
+            {
+               
+                int alpha = 128;
+
+                Color transparentFillColor = Color.FromArgb(alpha, shapeVm.FillColor);
+
+                using (var pen = new Pen(shapeVm.BorderColor, 3))
+                using (var brush = new SolidBrush(transparentFillColor)) 
+                {
+                    if (shapeVm.SourceShape is EllipseModel)
+                    {
+                        g.FillEllipse(brush, shapeVm.Rectangle);
+                        g.DrawEllipse(pen, shapeVm.Rectangle);
+                    }
+                    else
+                    {
+                        g.FillRectangle(brush, shapeVm.Rectangle);
+                        g.DrawRectangle(pen, shapeVm.Rectangle);
+                    }
+                }
             }
 
-            if (isInteractive)
+            if (isInteractive && viewModel.Markers != null)
             {
-                pen = Pens.Black;
+                var pen = Pens.Black;
                 var activeBrush = Brushes.Black;
                 var inactiveBrush = Brushes.White;
 
                 foreach (var marker in viewModel.Markers)
                 {
                     var brush = marker.IsActive ? activeBrush : inactiveBrush;
-
                     g.FillRectangle(brush, marker.Rectangle);
                     g.DrawRectangle(pen, marker.Rectangle);
                 }

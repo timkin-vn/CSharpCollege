@@ -1,46 +1,51 @@
-﻿using FifteenGame.Business.Models;
-using FifteenGame.Wpf.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Game2048.Wpf.Models;
+using Game2048.Wpf.ViewModels;
 
-namespace FifteenGame.Wpf
+namespace Game2048.Wpf
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindowViewModel ViewModel => (MainWindowViewModel)DataContext;
+        private readonly MainWindowViewModel _viewModel;
 
         public MainWindow()
         {
             InitializeComponent();
+            _viewModel = new MainWindowViewModel();
+            DataContext = _viewModel;
         }
 
-        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            var direction = (MoveDirection)((FrameworkElement)sender).Tag;
-            ViewModel.MakeMove(direction, OnGameFinished);
-        }
+            MoveDirection? direction = null;
 
-        private void OnGameFinished()
-        {
-            if (MessageBox.Show("Игра окончена. Повторить?", "Поздравляем!", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
+            switch (e.Key)
             {
-                ViewModel.Initialize();
+                case Key.Up:
+                    direction = MoveDirection.Up;
+                    break;
+                case Key.Down:
+                    direction = MoveDirection.Down;
+                    break;
+                case Key.Left:
+                    direction = MoveDirection.Left;
+                    break;
+                case Key.Right:
+                    direction = MoveDirection.Right;
+                    break;
             }
+
+            if (direction.HasValue)
+            {
+                _viewModel.HandleKeyPress(direction.Value);
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.RestartGame();
         }
     }
 }

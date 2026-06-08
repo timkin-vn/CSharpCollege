@@ -7,8 +7,8 @@
     <ProjectGuid>{AD95481B-918D-4FD0-AC9D-7468ABCCBF7E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FifteenGame.Business</RootNamespace>
-    <AssemblyName>FifteenGame.Business</AssemblyName>
+    <RootNamespace>Game2048.Business</RootNamespace>
+    <AssemblyName>Game2048.Business</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

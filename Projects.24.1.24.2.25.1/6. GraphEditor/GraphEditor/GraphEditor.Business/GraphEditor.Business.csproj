@@ -48,9 +48,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\EditMode.cs" />
+    <Compile Include="Models\EllipseModel.cs" />
     <Compile Include="Models\PictureModel.cs" />
     <Compile Include="Models\PointModel.cs" />
     <Compile Include="Models\RectangleModel.cs" />
+    <Compile Include="Models\ShapeModel.cs" />
     <Compile Include="Models\Xml\XmlColor.cs" />
     <Compile Include="Models\Xml\XmlPicture.cs" />
     <Compile Include="Models\Xml\XmlRectangle.cs" />

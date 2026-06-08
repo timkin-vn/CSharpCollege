@@ -27,11 +27,14 @@ namespace GraphEditor.ViewModels
 
         public int Bottom => Top + Height;
 
+        public ShapeModel SourceShape { get; set; }
+
         public EditMode EditMode { get; set; }
 
         public Color FillColor { get; set; } = Color.Yellow;
 
         public Color BorderColor { get; set; } = Color.Blue;
+        public int Alpha { get; set; } = 255;
 
         public IEnumerable<MarkerViewModel> Markers => new[]
         {
@@ -149,7 +152,7 @@ namespace GraphEditor.ViewModels
             Height = Height < 0 ? -Height : Height,
         };
 
-        public static RectangleViewModel FromBusiness(RectangleModel model)
+        public static RectangleViewModel FromBusiness(ShapeModel model) 
         {
             return new RectangleViewModel
             {
@@ -162,7 +165,9 @@ namespace GraphEditor.ViewModels
                 BorderColor = model.BorderColor,
                 Dx = model.Dx,
                 Dy = model.Dy,
+                SourceShape = model
             };
         }
+
     }
 }

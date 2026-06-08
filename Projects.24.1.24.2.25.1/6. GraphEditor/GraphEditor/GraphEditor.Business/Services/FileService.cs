@@ -91,21 +91,23 @@ namespace GraphEditor.Business.Services
 
         private PictureModel FromXml(XmlPicture xml)
         {
-            return new PictureModel
-            {
-                Rectangles = xml.Rectangles
-                    .Select(r => new RectangleModel
-                    {
-                        Left = r.Left,
-                        Top = r.Top,
-                        Width = r.Width,
-                        Height = r.Height,
-                        BorderColor = Color.FromArgb(r.BorderColor.Red, r.BorderColor.Green, r.BorderColor.Blue),
-                        FillColor = Color.FromArgb(r.FillColor.Red, r.FillColor.Green, r.FillColor.Blue),
-                    })
-                    .ToList(),
-                SelectedRectangle = null,
-            };
+            var model = new PictureModel();
+
+            model.Shapes = xml.Rectangles
+                .Select(r => (ShapeModel)new RectangleModel 
+                {
+                    Left = r.Left,
+                    Top = r.Top,
+                    Width = r.Width,
+                    Height = r.Height,
+                    BorderColor = Color.FromArgb(r.BorderColor.Red, r.BorderColor.Green, r.BorderColor.Blue),
+                    FillColor = Color.FromArgb(r.FillColor.Red, r.FillColor.Green, r.FillColor.Blue),
+                })
+                .ToList();
+
+            model.SelectedShape = null;
+            return model;
         }
+
     }
 }

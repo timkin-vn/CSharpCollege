@@ -15,7 +15,6 @@ namespace GraphEditor.ViewServices
     internal class PictureViewService
     {
         private readonly PictureService _businessService = new PictureService();
-
         private PictureViewModel _viewModel;
 
         public PictureViewService()
@@ -25,9 +24,15 @@ namespace GraphEditor.ViewServices
 
         public bool CreateMode { get; set; }
 
-        public bool CanDelete => !CreateMode && _businessService.PictureModel.SelectedRectangle != null;
+        public bool CanDelete => !CreateMode && _businessService.PictureModel.SelectedShape != null;
 
         public string FileName { get; set; }
+
+        public ShapeType CurrentShapeType
+        {
+            get => _businessService.CurrentShapeType;
+            set => _businessService.CurrentShapeType = value;
+        }
 
         public void CreateButtonClicked()
         {
@@ -40,9 +45,10 @@ namespace GraphEditor.ViewServices
             FileName = string.Empty;
             LoadViewModel();
         }
+
         public void DeleteButtonClicked()
         {
-            _businessService.DeleteRectangle();
+            _businessService.DeleteShape();
             LoadViewModel();
         }
 
@@ -55,39 +61,25 @@ namespace GraphEditor.ViewServices
                     g.Clear(backColor);
                     new Painter().Paint(g, _viewModel, false);
                 }
-
                 bmp.Save(fileName, ImageFormat.Png);
             }
         }
 
         public Color GetCurrentFillColor()
         {
-            return _viewModel?.SelectedRectangle?.FillColor ?? PictureService.DefaultFillColor;
+            return _businessService.PictureModel.SelectedShape?.FillColor ?? PictureService.DefaultFillColor;
         }
 
         public Cursor GetCursor(Point loc)
         {
-            if (_viewModel == null)
-            {
-                return Cursors.Default;
-            }
-
-            if (CreateMode)
-            {
-                return Cursors.Cross;
-            }
+            if (_viewModel == null) return Cursors.Default;
+            if (CreateMode) return Cursors.Cross;
 
             var activeMarker = _viewModel.Markers.FirstOrDefault(m => m.IsActive && IsInside(loc, m.Rectangle));
-            if (activeMarker != null)
-            {
-                return activeMarker.Cursor;
-            }
+            if (activeMarker != null) return activeMarker.Cursor;
 
             var activeRect = _viewModel.Rectangles.FirstOrDefault(r => IsInside(loc, r.Rectangle));
-            if (activeRect != null)
-            {
-                return Cursors.Hand;
-            }
+            if (activeRect != null) return Cursors.Hand;
 
             return Cursors.Default;
         }
@@ -118,7 +110,8 @@ namespace GraphEditor.ViewServices
 
         public void MouseMove(Point loc)
         {
-            _businessService.UpdateMovingPoint(ToModel(loc));
+            bool isShiftPressed = (Control.ModifierKeys & Keys.Shift) == Keys.Shift;
+            _businessService.UpdateMovingPoint(ToModel(loc), isShiftPressed);
             LoadViewModel();
         }
 
@@ -135,6 +128,12 @@ namespace GraphEditor.ViewServices
             LoadViewModel();
         }
 
+        public void MoveBackward()
+        {
+            _businessService.MoveBackward();
+            LoadViewModel();
+        }
+
         public void Open(string fileName)
         {
             _businessService.Open(fileName);
@@ -147,10 +146,7 @@ namespace GraphEditor.ViewServices
             new Painter().Paint(g, _viewModel, true);
         }
 
-        public void Save()
-        {
-            _businessService.Save(FileName);
-        }
+        public void Save() => _businessService.Save(FileName);
 
         public void Save(string fileName)
         {
@@ -160,34 +156,37 @@ namespace GraphEditor.ViewServices
 
         public void SetFillColor(Color color)
         {
-            if (_viewModel?.SelectedRectangle == null)
-            {
-                return;
-            }
+            if (_businessService.PictureModel.SelectedShape == null) return;
 
             _businessService.SetFillColor(color);
             LoadViewModel();
         }
 
         private bool IsInside(Point loc, Rectangle rect) =>
-            loc.X >= rect.X && loc.X <= rect.Right &&
-            loc.Y >= rect.Y && loc.Y <= rect.Bottom;
+            loc.X >= rect.X && loc.X <= rect.Right && loc.Y >= rect.Y && loc.Y <= rect.Bottom;
 
         private void LoadViewModel()
         {
             var model = _businessService.PictureModel;
+
             _viewModel = new PictureViewModel
             {
-                Rectangles = model.Rectangles.Select(r => RectangleViewModel.FromBusiness(r)).ToList(),
+                Rectangles = model.Shapes
+                    .Select(r => RectangleViewModel.FromBusiness(r))
+                    .ToList(),
             };
 
-            if (model.SelectedRectangle != null)
+            if (model.SelectedShape != null)
             {
-                var index = model.Rectangles.IndexOf(model.SelectedRectangle);
-                _viewModel.SelectedRectangle = _viewModel.Rectangles[index];
+                var index = model.Shapes.IndexOf(model.SelectedShape);
+                if (index >= 0 && index < _viewModel.Rectangles.Count)
+                {
+                    _viewModel.SelectedRectangle = _viewModel.Rectangles[index];
+                }
             }
         }
 
         private PointModel ToModel(Point point) => new PointModel { X = point.X, Y = point.Y };
+
     }
 }
