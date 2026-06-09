@@ -13,7 +13,7 @@ namespace FifteenGame.Common.Contracts.Services
 
         GameModel GetByUserId(int userId);
 
-        bool IsGameOver(int gameId);
+        bool? IsGameOver(int gameId);
 
         GameModel MakeMove(int gameId, MoveDirection direction);
 

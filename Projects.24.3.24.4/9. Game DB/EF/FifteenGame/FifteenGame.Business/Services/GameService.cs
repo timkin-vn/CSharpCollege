@@ -193,6 +193,11 @@ namespace FifteenGame.Business.Services
 
         private GameModel FromDto(GameDto dto)
         {
+            if (dto == null)
+            {
+                return null;
+            }
+
             var result = new GameModel
             {
                 Id = dto.Id,

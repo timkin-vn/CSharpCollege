@@ -62,9 +62,14 @@ namespace FifteenGame.Business.Services
             model.FreeCellColumn = Constants.ColumnCount - 1;
         }
 
-        public bool IsGameOver(int gameId)
+        public bool? IsGameOver(int gameId)
         {
             var dto = _repository.GetByGameId(gameId);
+            if (dto == null)
+            {
+                return null;
+            }
+
             return IsGameOver(FromDto(dto));
         }
 
@@ -193,6 +198,11 @@ namespace FifteenGame.Business.Services
 
         private GameModel FromDto(GameDto dto)
         {
+            if (dto == null)
+            {
+                return null;
+            }
+
             var result = new GameModel
             {
                 Id = dto.Id,

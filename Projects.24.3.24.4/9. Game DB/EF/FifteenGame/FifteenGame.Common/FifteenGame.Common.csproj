@@ -44,6 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusinessDtos\BooleanReply.cs" />
+    <Compile Include="BusinessDtos\GameReply.cs" />
+    <Compile Include="BusinessDtos\MakeMoveRequest.cs" />
+    <Compile Include="BusinessDtos\UserNameRequest.cs" />
+    <Compile Include="BusinessDtos\UserReply.cs" />
+    <Compile Include="BusinessDtos\UsersReply.cs" />
     <Compile Include="BusinessModels\GameModel.cs" />
     <Compile Include="BusinessModels\MoveDirection.cs" />
     <Compile Include="BusinessModels\UserModel.cs" />
