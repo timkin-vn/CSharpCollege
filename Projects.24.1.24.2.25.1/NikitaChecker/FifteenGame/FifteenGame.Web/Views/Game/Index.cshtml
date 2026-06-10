@@ -1,0 +1,314 @@
+﻿@model FifteenGame.Web.Models.GameViewModel
+
+@{
+    ViewBag.Title = "Игра в шашки";
+}
+
+<style>
+    .game-container {
+        text-align: center;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .game-info {
+        margin-bottom: 20px;
+        padding: 15px;
+        background: #f0f0f0;
+        border-radius: 8px;
+        display: inline-block;
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .current-player {
+        font-size: 18px;
+        font-weight: bold;
+        margin: 10px 0;
+    }
+
+    .player-white {
+        color: #666;
+        background: #fff;
+        padding: 5px 15px;
+        border-radius: 20px;
+        display: inline-block;
+    }
+
+    .player-black {
+        color: #fff;
+        background: #333;
+        padding: 5px 15px;
+        border-radius: 20px;
+        display: inline-block;
+    }
+
+    .board {
+        display: inline-block;
+        border: 3px solid #333;
+        background: #000;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    .board-row {
+        display: flex;
+    }
+
+    .cell {
+        width: 70px;
+        height: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        position: relative;
+        transition: all 0.2s;
+    }
+
+    .cell-light {
+        background-color: #f0d9b5;
+    }
+
+    .cell-dark {
+        background-color: #b58863;
+    }
+
+    .valid-from {
+        background-color: #4caf50 !important;
+        box-shadow: inset 0 0 0 3px #fff;
+    }
+
+    .valid-to {
+        background-color: #ff9800 !important;
+        position: relative;
+    }
+
+        .valid-to::after {
+            content: '●';
+            position: absolute;
+            font-size: 30px;
+            color: rgba(255,255,255,0.8);
+        }
+
+    .checker {
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 35px;
+        cursor: pointer;
+        transition: all 0.2s;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    }
+
+        .checker:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 12px rgba(0,0,0,0.3);
+        }
+
+    .checker-white {
+        background: radial-gradient(circle at 30% 30%, #fff, #e0e0e0);
+        border: 2px solid #999;
+        color: #333;
+    }
+
+    .checker-black {
+        background: radial-gradient(circle at 30% 30%, #444, #111);
+        border: 2px solid #555;
+        color: #fff;
+    }
+
+    .checker.king {
+        font-size: 28px;
+    }
+
+    .selected {
+        border: 4px solid #ffeb3b !important;
+        transform: scale(1.08);
+    }
+
+    .controls {
+        margin-top: 25px;
+    }
+
+    .btn {
+        padding: 10px 25px;
+        font-size: 16px;
+        margin: 0 10px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        transition: all 0.3s;
+        font-weight: bold;
+    }
+
+    .btn-restart {
+        background: #f44336;
+        color: white;
+    }
+
+    .btn-restart:hover {
+        background: #d32f2f;
+        transform: translateY(-2px); 
+    }
+
+    .error-message {
+        margin-top: 15px;
+        padding: 10px;
+        background: #ffebee;
+        color: #c62828;
+        border-radius: 5px;
+        display: inline-block;
+    }
+
+    .winner-message {
+        margin-top: 15px;
+        padding: 15px;
+        background: #4caf50;
+        color: white;
+        border-radius: 8px;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .game-container {
+        animation: fadeIn 0.5s ease;
+    }
+</style>
+
+<div class="game-container">
+    <h1>🎯 Русские шашки</h1>
+
+    <div class="game-info">
+        <div class="current-player">
+            @if (!Model.IsGameOver)
+            {
+                if (Model.CurrentPlayer == "White")
+                {
+                    <span class="player-white">⚪ Ход белых</span>
+                }
+                else
+                {
+                    <span class="player-black">⚫ Ход черных</span>
+                }
+            }
+        </div>
+    </div>
+
+    @if (Model.IsGameOver)
+    {
+        <div class="winner-message">
+            🏆 Победитель: @(Model.Winner == "White" ? "Белые" : "Черные")! 🏆
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="error-message">
+            ⚠️ @TempData["ErrorMessage"]
+        </div>
+    }
+
+    <div class="board" id="board">
+        @for (int row = 0; row < 8; row++)
+        {
+            <div class="board-row">
+                @for (int col = 0; col < 8; col++)
+                {
+                    var cell = Model.Cells[row, col];
+                    var cellClass = ((row + col) % 2 == 0) ? "cell-light" : "cell-dark";
+
+                    if (cell.IsValidFrom) { cellClass += " valid-from"; }
+                    if (cell.IsValidTo && !cell.HasChecker) { cellClass += " valid-to"; }
+
+                    <div class="cell @cellClass"
+                         data-row="@row"
+                         data-col="@col">
+                        @if (cell.HasChecker)
+                        {
+                            <div class="checker checker-@cell.CheckerColor.ToLower() @(cell.IsKing ? "king" : "")"
+                                 data-row="@row"
+                                 data-col="@col">
+                                @if (cell.CheckerColor == "White")
+                                {
+                                    @(cell.IsKing ? "♕" : "⚪")
+                                }
+                                else
+                                {
+                                    @(cell.IsKing ? "♚" : "⚫")
+                                }
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    <div class="controls">
+        <button class="btn btn-restart" onclick="restartGame()">🔄 Начать заново</button>
+    </div>
+</div>
+
+<form id="moveForm" action="@Url.Action("MakeMove", "Game")" method="post">
+    <input type="hidden" name="fromRow" id="fromRow" />
+    <input type="hidden" name="fromCol" id="fromCol" />
+    <input type="hidden" name="toRow" id="toRow" />
+    <input type="hidden" name="toCol" id="toCol" />
+</form>
+
+<form id="restartForm" action="@Url.Action("Restart", "Game")" method="post"></form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>var selectedRow = null;
+    var selectedCol = null;
+
+    $(document).ready(function() {
+        $('.checker').on('click', function(e) {
+            e.stopPropagation();
+            var row = parseInt($(this).data('row'));
+            var col = parseInt($(this).data('col'));
+
+            var cell = $('.cell[data-row="' + row + '"][data-col="' + col + '"]');
+            if (cell.hasClass('valid-from')) {
+                $('.checker').removeClass('selected');
+                $(this).addClass('selected');
+                selectedRow = row;
+                selectedCol = col;
+            } else {
+                $('.checker').removeClass('selected');
+                selectedRow = null;
+                selectedCol = null;
+            }
+        });
+
+        $('.cell').on('click', function() {
+            var toRow = parseInt($(this).data('row'));
+            var toCol = parseInt($(this).data('col'));
+
+            if (selectedRow !== null && selectedCol !== null) {
+                $('#fromRow').val(selectedRow);
+                $('#fromCol').val(selectedCol);
+                $('#toRow').val(toRow);
+                $('#toCol').val(toCol);
+                $('#moveForm').submit();
+            }
+        });
+    });
+
+    function restartGame() {
+        $('#restartForm').submit();
+    }</script>
