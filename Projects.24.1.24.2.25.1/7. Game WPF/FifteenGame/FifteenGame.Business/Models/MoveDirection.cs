@@ -13,4 +13,5 @@ namespace Game2048.Wpf.Models
         Left,
         Right
     }
+
 }
