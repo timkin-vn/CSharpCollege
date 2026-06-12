@@ -122,7 +122,14 @@ namespace Game2048.Wpf.Models
             }
             return moved;
         }
-
+        /// <summary>
+        /// Выполняет дискретный ход в игре. 
+        /// Состояние игрового поля меняется мгновенно за одну итерацию (один тик).
+        /// Плавные переходы и анимации передвижения отсутствуют согласно требованиям дискретности.
+        /// </summary>
+        /// <param name="direction">Направление движения.</param>
+        /// <returns>True, если хотя бы одна клетка дискретно изменила положение или значение.</returns>
+        
         public bool MakeMove(MoveDirection direction)
         {
             if (IsGameOver) return false;
