@@ -1,0 +1,6 @@
+@LightsOutGame.Web_HostAddress = http://localhost:5105
+
+GET {{LightsOutGame.Web_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title - Lights Out Game</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <span class="brand">💡 Lights Out Game</span>
+            <a href="@Url.Action("Index", "Home")">Главная</a>
+            <a href="@Url.Action("Index", "Game")">Играть</a>
+            <a href="@Url.Action("About", "Home")">О программе</a>
+        </nav>
+    </header>
+
+    <div class="body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Lights Out Game</p>
+        </footer>
+    </div>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
