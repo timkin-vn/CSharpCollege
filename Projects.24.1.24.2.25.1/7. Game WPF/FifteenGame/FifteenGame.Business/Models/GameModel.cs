@@ -8,7 +8,10 @@ namespace Game2048.Wpf.Models
 {
     public class GameModel
     {
-        public int[,] Board { get; private set; } = new int[4, 4];
+        public const int BoardSize = 4;
+        public const int TargetScore = 2048;
+
+        public int[,] Board { get; private set; } = new int[BoardSize, BoardSize];
         public int Score { get; private set; }
         public bool IsGameOver { get; private set; }
         public bool IsWin { get; private set; }
@@ -22,7 +25,7 @@ namespace Game2048.Wpf.Models
 
         public void Reset()
         {
-            Board = new int[4, 4];
+            Board = new int[BoardSize, BoardSize];
             Score = 0;
             IsGameOver = false;
             IsWin = false;
@@ -33,8 +36,8 @@ namespace Game2048.Wpf.Models
         public void AddRandomTile()
         {
             int emptyCount = 0;
-            for (int r = 0; r < 4; r++)
-                for (int c = 0; c < 4; c++)
+            for (int r = 0; r < BoardSize; r++)
+                for (int c = 0; c < BoardSize; c++)
                     if (Board[r, c] == 0) emptyCount++;
 
             if (emptyCount == 0) return;
@@ -42,9 +45,9 @@ namespace Game2048.Wpf.Models
             int targetIndex = _random.Next(emptyCount);
             int currentIndex = 0;
 
-            for (int r = 0; r < 4; r++)
+            for (int r = 0; r < BoardSize; r++)
             {
-                for (int c = 0; c < 4; c++)
+                for (int c = 0; c < BoardSize; c++)
                 {
                     if (Board[r, c] == 0)
                     {
@@ -61,21 +64,21 @@ namespace Game2048.Wpf.Models
 
         private void RotateClockwise()
         {
-            int[,] rotated = new int[4, 4];
-            for (int r = 0; r < 4; r++)
-                for (int c = 0; c < 4; c++)
-                    rotated[c, 3 - r] = Board[r, c];
+            int[,] rotated = new int[BoardSize, BoardSize];
+            for (int r = 0; r < BoardSize; r++)
+                for (int c = 0; c < BoardSize; c++)
+                    rotated[c, (BoardSize - 1) - r] = Board[r, c];
             Board = rotated;
         }
 
         private bool SlideLeftRow(int r)
         {
             bool moved = false;
-            for (int c = 0; c < 3; c++)
+            for (int c = 0; c < BoardSize - 1; c++)
             {
                 if (Board[r, c] == 0)
                 {
-                    for (int next = c + 1; next < 4; next++)
+                    for (int next = c + 1; next < BoardSize; next++)
                     {
                         if (Board[r, next] != 0)
                         {
@@ -88,7 +91,7 @@ namespace Game2048.Wpf.Models
                 }
             }
 
-            for (int c = 0; c < 3; c++)
+            for (int c = 0; c < BoardSize - 1; c++)
             {
                 if (Board[r, c] != 0 && Board[r, c] == Board[r, c + 1])
                 {
@@ -101,11 +104,11 @@ namespace Game2048.Wpf.Models
 
             if (moved)
             {
-                for (int c = 0; c < 3; c++)
+                for (int c = 0; c < BoardSize - 1; c++)
                 {
                     if (Board[r, c] == 0)
                     {
-                        for (int next = c + 1; next < 4; next++)
+                        for (int next = c + 1; next < BoardSize; next++)
                         {
                             if (Board[r, next] != 0)
                             {
@@ -149,7 +152,7 @@ namespace Game2048.Wpf.Models
             for (int i = 0; i < rotations; i++) RotateClockwise();
 
             bool anyMoved = false;
-            for (int r = 0; r < 4; r++)
+            for (int r = 0; r < BoardSize; r++)
             {
                 if (SlideLeftRow(r)) anyMoved = true;
             }
@@ -168,20 +171,20 @@ namespace Game2048.Wpf.Models
 
         private void CheckGameStatus()
         {
-            for (int r = 0; r < 4; r++)
-                for (int c = 0; c < 4; c++)
-                    if (Board[r, c] == 2048) { IsGameOver = true; IsWin = true; return; }
+            for (int r = 0; r < BoardSize; r++)
+                for (int c = 0; c < BoardSize; c++)
+                    if (Board[r, c] == TargetScore) { IsGameOver = true; IsWin = true; return; }
 
-            for (int r = 0; r < 4; r++)
-                for (int c = 0; c < 4; c++)
+            for (int r = 0; r < BoardSize; r++)
+                for (int c = 0; c < BoardSize; c++)
                     if (Board[r, c] == 0) return;
 
-            for (int r = 0; r < 4; r++)
+            for (int r = 0; r < BoardSize; r++)
             {
-                for (int c = 0; c < 4; c++)
+                for (int c = 0; c < BoardSize; c++)
                 {
-                    if (r < 3 && Board[r, c] == Board[r + 1, c]) return;
-                    if (c < 3 && Board[r, c] == Board[r, c + 1]) return;
+                    if (r < BoardSize - 1 && Board[r, c] == Board[r + 1, c]) return;
+                    if (c < BoardSize - 1 && Board[r, c] == Board[r, c + 1]) return;
                 }
             }
             IsGameOver = true;

@@ -47,5 +47,26 @@ namespace Game2048.Wpf
         {
             _viewModel.RestartGame();
         }
+
+        // Обработчики кликов для 4 кнопок-стрелок на форме
+        private void BtnMoveUp_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.HandleKeyPress(MoveDirection.Up);
+        }
+
+        private void BtnMoveLeft_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.HandleKeyPress(MoveDirection.Left);
+        }
+
+        private void BtnMoveDown_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.HandleKeyPress(MoveDirection.Down);
+        }
+
+        private void BtnMoveRight_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.HandleKeyPress(MoveDirection.Right);
+        }
     }
 }

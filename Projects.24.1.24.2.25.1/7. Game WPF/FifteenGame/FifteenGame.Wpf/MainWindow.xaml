@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="Игра 2048"
-        Height="520"
+        Height="660"
         Width="400"
         Background="#FAF8EF"
         KeyDown="Window_KeyDown">
@@ -17,10 +17,16 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Шапка: Счет и статус -->
+        <!-- Шапка: Название, Кнопка сброса, Счет и статус -->
         <StackPanel Grid.Row="0" Margin="0,0,0,15">
             <Grid>
-                <TextBlock Text="2048" FontSize="36" FontWeight="Bold" Foreground="#776E65"/>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="2048" FontSize="36" FontWeight="Bold" Foreground="#776E65"/>
+                    <Button Content="Заново" Margin="15,0,0,0" Padding="10,5" 
+                            Background="#8F7A66" Foreground="White" FontWeight="Bold" FontSize="14"
+                            Click="Button_Click" BorderThickness="0" VerticalAlignment="Center"/>
+                </StackPanel>
+
                 <Border Background="#BBADA0" CornerRadius="3" HorizontalAlignment="Right" Padding="15,5">
                     <StackPanel>
                         <TextBlock Text="СЧЕТ" FontSize="10" Foreground="#EEE4DA" HorizontalAlignment="Center"/>
@@ -54,9 +60,37 @@
             </ItemsControl>
         </Border>
 
-        <!-- Кнопка сброса -->
-        <Button Grid.Row="2" Content="Начать заново" Margin="0,15,0,0" Padding="10" 
-                Background="#8F7A66" Foreground="White" FontWeight="Bold" FontSize="16"
-                Click="Button_Click" BorderThickness="0"/>
+        <!-- Пульт управления: 4 кнопки для стрелок (ОШИБКА Grid.DimX УДАЛЕНА) -->
+        <Grid Grid.Row="2" Margin="0,15,0,0" HorizontalAlignment="Center" Width="180" Height="120">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Кнопка ВВЕРХ -->
+            <Button x:Name="BtnMoveUp" Grid.Row="0" Grid.Column="1" Content="▲" Margin="3"
+                    Background="#8F7A66" Foreground="White" FontSize="18" FontWeight="Bold"
+                    BorderThickness="0" Click="BtnMoveUp_Click"/>
+
+            <!-- Кнопка ВЛЕВО -->
+            <Button x:Name="BtnMoveLeft" Grid.Row="1" Grid.Column="0" Content="◀" Margin="3"
+                    Background="#8F7A66" Foreground="White" FontSize="18" FontWeight="Bold"
+                    BorderThickness="0" Click="BtnMoveLeft_Click"/>
+
+            <!-- Кнопка ВНИЗ -->
+            <Button x:Name="BtnMoveDown" Grid.Row="1" Grid.Column="1" Content="▼" Margin="3"
+                    Background="#8F7A66" Foreground="White" FontSize="18" FontWeight="Bold"
+                    BorderThickness="0" Click="BtnMoveDown_Click"/>
+
+            <!-- Кнопка ВПРАВО -->
+            <Button x:Name="BtnMoveRight" Grid.Row="1" Grid.Column="2" Content="▶" Margin="3"
+                    Background="#8F7A66" Foreground="White" FontSize="18" FontWeight="Bold"
+                    BorderThickness="0" Click="BtnMoveRight_Click"/>
+        </Grid>
     </Grid>
 </Window>
