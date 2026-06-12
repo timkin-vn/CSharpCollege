@@ -1,10 +1,6 @@
 ﻿using GraphEditor.ViewModels;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GraphEditor.ViewServices
 {
@@ -17,19 +13,30 @@ namespace GraphEditor.ViewServices
                 return;
             }
 
-            Pen pen;
             foreach (var rectangle in viewModel.Rectangles)
             {
-                pen = new Pen(rectangle.BorderColor, 3);
-                var brush = new SolidBrush(rectangle.FillColor);
+                using (var pen = new Pen(rectangle.BorderColor, 3))
+                using (var brush = new SolidBrush(rectangle.FillColor))
+                {
+                    g.FillRectangle(brush, rectangle.Rectangle);
+                    g.DrawRectangle(pen, rectangle.Rectangle);
+                }
+            }
 
-                g.FillRectangle(brush, rectangle.Rectangle);
-                g.DrawRectangle(pen, rectangle.Rectangle);
+            if (viewModel.SelectedRectangles != null)
+            {
+                foreach (var rectangle in viewModel.SelectedRectangles)
+                {
+                    using (var selectPen = new Pen(Color.Red, 2))
+                    {
+                        g.DrawRectangle(selectPen, rectangle.Rectangle);
+                    }
+                }
             }
 
             if (isInteractive)
             {
-                pen = Pens.Black;
+                var pen = Pens.Black;
                 var activeBrush = Brushes.Black;
                 var inactiveBrush = Brushes.White;
 
