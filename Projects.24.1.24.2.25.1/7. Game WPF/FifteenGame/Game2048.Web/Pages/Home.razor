@@ -1,0 +1,130 @@
+﻿@page "/"
+@using Game2048.Business.Models
+
+<div class="game-container" @onkeydown="HandleKeyDown" tabindex="0">
+    
+    <!-- Шапка: Название, Кнопка сброса, Счет -->
+    <div class="header">
+        <div class="title-section">
+            <span class="logo">2048</span>
+            <button class="btn-restart" @onclick="RestartGame">Заново</button>
+        </div>
+        <div class="score-box">
+            <div class="score-label">СЧЕТ</div>
+            <div class="score-value">@_gameModel.Score</div>
+        </div>
+    </div>
+
+    <!-- Статус игры -->
+    <div class="status-text">
+        @if (_gameModel.IsWin)
+        {
+            <span class="win">Вы победили! 2048 собрано!</span>
+        }
+        else if (_gameModel.IsGameOver)
+        {
+            <span class="fail">Игра окончена. Ходов больше нет.</span>
+        }
+        else
+        {
+            <span>Игра в процессе...</span>
+        }
+    </div>
+
+    <!-- Клеточное поле 4х4 (Дискретное отображение, без плавных анимаций) -->
+    <div class="board">
+        @for (int r = 0; r < GameModel.BoardSize; r++)
+        {
+            @for (int c = 0; c < GameModel.BoardSize; c++)
+            {
+                var val = _gameModel.Board[r, c];
+                <div class="cell tile-@val">
+                    @(val == 0 ? "" : val.ToString())
+                </div>
+            }
+        }
+    </div>
+
+    <!-- Пошаговый пульт управления (4 кнопки-стрелки) -->
+    <div class="dpad-container">
+        <div class="dpad">
+            <button class="btn-arrow up" @onclick="() => ExecuteMove(MoveDirection.Up)">▲</button>
+            <button class="btn-arrow left" @onclick="() => ExecuteMove(MoveDirection.Left)">◀</button>
+            <button class="btn-arrow down" @onclick="() => ExecuteMove(MoveDirection.Down)">▼</button>
+            <button class="btn-arrow right" @onclick="() => ExecuteMove(MoveDirection.Right)">▶</button>
+        </div>
+    </div>
+</div>
+
+@code {
+    // Используем ваш готовый C# класс из Game2048.Business
+    private GameModel _gameModel = new GameModel();
+
+    private void ExecuteMove(MoveDirection direction)
+    {
+        _gameModel.MakeMove(direction);
+    }
+
+    private void RestartGame()
+    {
+        _gameModel.Reset();
+    }
+
+    // Управление с клавиатуры в браузере
+    private void HandleKeyDown(KeyboardEventArgs e)
+    {
+        MoveDirection? direction = e.Key switch
+        {
+            "ArrowUp" => MoveDirection.Up,
+            "ArrowDown" => MoveDirection.Down,
+            "ArrowLeft" => MoveDirection.Left,
+            "ArrowRight" => MoveDirection.Right,
+            _ => null
+        };
+
+        if (direction.HasValue)
+        {
+            ExecuteMove(direction.Value);
+        }
+    }
+}
+
+<style>
+    /* CSS стилизация, воссоздающая дизайн вашего WPF приложения */
+    .game-container { width: 400px; margin: 20px auto; font-family: 'Arial', sans-serif; background: #FAF8EF; padding: 20px; border-radius: 8px; outline: none; }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+    .logo { font-size: 36px; font-weight: bold; color: #776E65; }
+    .btn-restart { margin-left: 15px; padding: 10px 15px; background: #8F7A66; color: white; border: none; font-weight: bold; border-radius: 4px; cursor: pointer; }
+    .score-box { background: #BBADA0; padding: 5px 20px; border-radius: 4px; text-align: center; color: white; min-width: 60px; }
+    .score-label { font-size: 10px; color: #EEE4DA; font-weight: bold; }
+    .score-value { font-size: 20px; font-weight: bold; }
+    .status-text { font-size: 14px; font-weight: bold; color: #776E65; margin-bottom: 15px; }
+    .win { color: #2ecc71; } .fail { color: #e74c3c; }
+
+    /* Дискретная сетка без анимаций движения */
+    .board { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; background: #BBADA0; padding: 10px; border-radius: 6px; }
+    .cell { height: 75px; background: #CDC1B4; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; color: #776E65; transition: none !important; }
+    
+    /* Стилизация номиналов плиток */
+    .tile-2 { background: #eee4da; color: #776E65; }
+    .tile-4 { background: #ede0c8; color: #776E65; }
+    .tile-8 { background: #f2b179; color: white; }
+    .tile-16 { background: #f59563; color: white; }
+    .tile-32 { background: #f67c5f; color: white; }
+    .tile-64 { background: #f65e3b; color: white; }
+    .tile-128 { background: #edcf72; color: white; font-size: 20px; }
+    .tile-256 { background: #edcc61; color: white; font-size: 20px; }
+    .tile-512 { background: #edc850; color: white; font-size: 20px; }
+    .tile-1024 { background: #edc53f; color: white; font-size: 18px; }
+    .tile-2048 { background: #edc22e; color: white; font-size: 18px; }
+    
+    /* Стили пульта управления */
+    .dpad-container { display: flex; justify-content: center; margin-top: 20px; }
+    .dpad { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); width: 180px; height: 120px; gap: 6px; }
+    .btn-arrow { background: #8F7A66; color: white; border: none; font-size: 18px; font-weight: bold; border-radius: 4px; cursor: pointer; }
+    .btn-arrow:active { background: #705F50; }
+    .up { grid-column: 2; grid-row: 1; }
+    .left { grid-column: 1; grid-row: 2; }
+    .down { grid-column: 2; grid-row: 2; }
+    .right { grid-column: 3; grid-row: 2; }
+</style>

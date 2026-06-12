@@ -37,11 +37,7 @@
             <TextBlock Text="{Binding StatusText}" FontSize="14" FontWeight="Bold" Foreground="#776E65" Margin="0,5,0,0"/>
         </StackPanel>
 
-        <!-- 
-            КЛЕТОЧНОЕ ПОЛЕ 4х4
-            Обеспечивает 100% дискретное отображение. Данные обновляются мгновенно через Binding.
-            В шаблоне отсутствуют анимации сдвига (Storyboard/DoubleAnimation), что исключает плавные переходы.
-        -->
+        <!-- КЛЕТОЧНОЕ ПОЛЕ 4х4 -->
         <Border Grid.Row="1" Background="#BBADA0" CornerRadius="6" Padding="10">
             <ItemsControl ItemsSource="{Binding Cells}">
                 <ItemsControl.ItemsPanel>
@@ -64,11 +60,7 @@
             </ItemsControl>
         </Border>
 
-        <!-- 
-            ПУЛЬТ УПРАВЛЕНИЯ КНОПКАМИ-СТРЕЛКАМИ
-            Реализует пошаговый режим игры. Приложение реагирует только на точечный клик 
-            пользователя по кнопкам, выполняет один дискретный шаг и возвращается в режим ожидания.
-        -->
+        <!-- ПУЛЬТ УПРАВЛЕНИЯ КНОПКАМИ-СТРЕЛКАМИ -->
         <Grid Grid.Row="2" Margin="0,15,0,0" HorizontalAlignment="Center" Width="180" Height="120">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>

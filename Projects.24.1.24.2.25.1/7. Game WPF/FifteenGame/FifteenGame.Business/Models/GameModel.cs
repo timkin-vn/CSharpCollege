@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Game2048.Wpf.Models
+namespace Game2048.Business.Models
 {
+    public enum MoveDirection { Left, Down, Right, Up }
+
     public class GameModel
     {
         public const int BoardSize = 4;
@@ -122,14 +119,7 @@ namespace Game2048.Wpf.Models
             }
             return moved;
         }
-        /// <summary>
-        /// Выполняет дискретный ход в игре. 
-        /// Состояние игрового поля меняется мгновенно за одну итерацию (один тик).
-        /// Плавные переходы и анимации передвижения отсутствуют согласно требованиям дискретности.
-        /// </summary>
-        /// <param name="direction">Направление движения.</param>
-        /// <returns>True, если хотя бы одна клетка дискретно изменила положение или значение.</returns>
-        
+
         public bool MakeMove(MoveDirection direction)
         {
             if (IsGameOver) return false;
@@ -175,6 +165,7 @@ namespace Game2048.Wpf.Models
 
             return anyMoved;
         }
+
 
         private void CheckGameStatus()
         {

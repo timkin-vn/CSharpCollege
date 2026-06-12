@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
-using Game2048.Wpf.Models;
+using Game2048.Business.Models; 
 using Game2048.Wpf.ViewModels;
 
 namespace Game2048.Wpf
@@ -48,7 +48,6 @@ namespace Game2048.Wpf
             _viewModel.RestartGame();
         }
 
-        // Обработчики кликов для 4 кнопок-стрелок на форме
         private void BtnMoveUp_Click(object sender, RoutedEventArgs e)
         {
             _viewModel.HandleKeyPress(MoveDirection.Up);

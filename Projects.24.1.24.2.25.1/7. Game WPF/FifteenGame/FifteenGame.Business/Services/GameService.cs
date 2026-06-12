@@ -1,4 +1,4 @@
-﻿using Game2048.Wpf.Models;
+﻿using Game2048.Business.Models; 
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,6 @@ namespace Game2048.Business.Services
 {
     public class GameService
     {
-        
         public void Initialize(GameModel model)
         {
             model.Reset();
