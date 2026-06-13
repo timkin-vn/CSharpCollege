@@ -46,6 +46,8 @@
             this.DivideButton = new System.Windows.Forms.Button();
             this.SubtractButton = new System.Windows.Forms.Button();
             this.MoveXToYButton = new System.Windows.Forms.Button();
+            this.PiButton = new System.Windows.Forms.Button();
+            this.EButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // DisplayLabel
@@ -248,11 +250,35 @@
             this.MoveXToYButton.Visible = false;
             this.MoveXToYButton.Click += new System.EventHandler(this.MoveXToYButton_Click);
             // 
+            // PiButton
+            // 
+            this.PiButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.PiButton.Location = new System.Drawing.Point(295, 378);
+            this.PiButton.Name = "PiButton";
+            this.PiButton.Size = new System.Drawing.Size(76, 58);
+            this.PiButton.TabIndex = 19;
+            this.PiButton.Text = "π";
+            this.PiButton.UseVisualStyleBackColor = true;
+            this.PiButton.Click += new System.EventHandler(this.PiButton_Click);
+            // 
+            // EButton
+            // 
+            this.EButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.EButton.Location = new System.Drawing.Point(376, 378);
+            this.EButton.Name = "EButton";
+            this.EButton.Size = new System.Drawing.Size(75, 58);
+            this.EButton.TabIndex = 20;
+            this.EButton.Text = "e";
+            this.EButton.UseVisualStyleBackColor = true;
+            this.EButton.Click += new System.EventHandler(this.EButton_Click);
+            // 
             // CalculatorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(463, 384);
+            this.ClientSize = new System.Drawing.Size(457, 463);
+            this.Controls.Add(this.EButton);
+            this.Controls.Add(this.PiButton);
             this.Controls.Add(this.MoveXToYButton);
             this.Controls.Add(this.SubtractButton);
             this.Controls.Add(this.DivideButton);
@@ -275,6 +301,7 @@
             this.MaximizeBox = false;
             this.Name = "CalculatorForm";
             this.Text = "Калькулятор";
+            this.Load += new System.EventHandler(this.CalculatorForm_Load);
             this.ResumeLayout(false);
 
         }
@@ -299,6 +326,8 @@
         private System.Windows.Forms.Button DivideButton;
         private System.Windows.Forms.Button SubtractButton;
         private System.Windows.Forms.Button MoveXToYButton;
+        private System.Windows.Forms.Button PiButton;
+        private System.Windows.Forms.Button EButton;
     }
 }
 

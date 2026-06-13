@@ -74,5 +74,17 @@ namespace Calculator.Business.Services
                     break;
             }
         }
+
+        public void PressPi(CalculatorModel model)
+        {
+            model.RegisterX = Math.PI;
+            model.IsLastDigitPressed = false;
+        }
+
+        public void PressE(CalculatorModel model)
+        {
+            model.RegisterX = Math.E;
+            model.IsLastDigitPressed = false;
+        }
     }
 }
