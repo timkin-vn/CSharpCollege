@@ -1,0 +1,74 @@
+﻿@model MinesweeperWeb.Models.GameViewModel
+@{
+    ViewData["Title"] = "Сапёр";
+}
+
+<div class="container mt-4">
+    <h2>💣 Сапёр</h2>
+
+    <!-- Статус игры -->
+    <div class="alert @(Model.IsGameOver ? (Model.State == Minesweeper.Business.Models.GameState.Won ? "alert-success" : "alert-danger") : "alert-info")">
+        <strong>@Model.StatusMessage</strong> |
+        Осталось мин: @Model.RemainingMines |
+        Флагов поставлено: @Model.FlagsPlaced
+    </div>
+
+    <!-- Кнопка новой игры (если игра завершена) -->
+    @if (Model.IsGameOver)
+    {
+        <form asp-action="NewGame" method="post">
+            <button type="submit" class="btn btn-primary mb-3">🔄 Новая игра</button>
+        </form>
+    }
+
+    <!-- Игровое поле -->
+    <div class="game-board">
+        @for (int row = 0; row < Model.RowCount; row++)
+        {
+            <div class="game-row">
+                @for (int col = 0; col < Model.ColumnCount; col++)
+                {
+                    var cell = Model.Cells[row, col];
+                    <form method="post" style="display: inline;">
+                        <button type="submit"
+                                asp-action="Click"
+                                asp-route-row="@row"
+                                asp-route-col="@col"
+                                class="cell @cell.CssClass"
+                                disabled="@(Model.IsGameOver)"
+                                data-row="@row"
+                                data-col="@col">
+                            @cell.DisplayText
+                        </button>
+                    </form>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Правый клик -> ставит/снимает флаг
+        document.querySelectorAll('.cell').forEach(cell => {
+            cell.addEventListener('contextmenu', function(e) {
+                e.preventDefault(); // Отменяем стандартное контекстное меню
+
+                if (!this.disabled) {
+                    const form = this.closest('form');
+                    if (form) {
+                        // Получаем координаты из data-атрибутов
+                        const r = this.getAttribute('data-row');
+                        const c = this.getAttribute('data-col');
+
+                        // Явно задаем правильный URL для действия Flag
+                        form.action = `/Game/Flag?row=${r}&col=${c}`;
+
+                        // Отправляем форму напрямую, игнорируя formaction самой кнопки
+                        form.submit();
+                    }
+                }
+            });
+        });
+    </script>
+}
