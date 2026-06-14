@@ -1,98 +1,87 @@
-﻿using FifteenGame.Business.Models;
-using FifteenGame.Business.Services;
-using FifteenGame.Web.Models;
+﻿//using FifteenGame.Business.Models;
+//using FifteenGame.Business.Services;
+//using FifteenGame.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CheckersGame.Business.Models;
+using CheckersGame.Business.Services;
 
 namespace FifteenGame.Web.Controllers
 {
     public class GameController : Controller
     {
-        private readonly GameService _service = new GameService();
+        private readonly GameService _gameService = new GameService();
+        private const string GameSessionKey = "CheckersGameModel";
+        private const string SelectedPieceKey = "SelectedPiece";
 
-        // GET: Game
+        private GameModel GetModel()
+        {
+            var model = Session[GameSessionKey] as GameModel;
+            if (model == null)
+            {
+                model = new GameModel();
+                _gameService.Initialize(model);
+                Session[GameSessionKey] = model;
+            }
+            return model;
+        }
+
+        private (int row, int col)? GetSelectedPiece()
+        {
+            return Session[SelectedPieceKey] as (int row, int col)?;
+        }
+
+        private void SetSelectedPiece((int row, int col)? piece)
+        {
+            Session[SelectedPieceKey] = piece;
+        }
+
         public ActionResult Index()
         {
-            var model = GetGameModel();
-            _service.Shuffle(model);
-            SaveGameModel(model);
-
-            return View(ToViewModel(model));
+            SetSelectedPiece(null);
+            return View(GetModel());
         }
 
-        public ActionResult MakeMove(string directionText)
+        public ActionResult Select(int row, int col)
         {
-            var model = GetGameModel();
-            if (Enum.TryParse<MoveDirection>(directionText, out var direction))
+            var model = GetModel();
+            var moves = _gameService.GetAvailableMoves(model, row, col);
+            if (moves.Count > 0)
             {
-                _service.MakeMove(model, direction);
-                SaveGameModel(model);
-
-                if (_service.IsGameOver(model))
-                {
-                    ViewBag.IsGameOver = true;
-                }
+                SetSelectedPiece((row, col));
             }
-
-            return View("Index", ToViewModel(model));
+            else
+            {
+                SetSelectedPiece(null);
+            }
+            return View("Index", model);
         }
 
-        private GameModel GetGameModel()
+        public ActionResult Move(int toRow, int toCol)
         {
-            if (Session.IsNewSession)
-            {
-                Session["GameModel"] = new GameModel();
-            }
+            var model = GetModel();
+            var selected = GetSelectedPiece();
+            if (selected == null)
+                return RedirectToAction("Index");
 
-            return (GameModel)Session["GameModel"];
+            bool success = _gameService.MakeMove(model, selected.Value.row, selected.Value.col, toRow, toCol);
+            SetSelectedPiece(null);
+            if (success)
+            {
+                ViewBag.Message = model.IsGameOver() ? $"Победитель: {model.Winner}" : null;
+            }
+            return View("Index", model);
         }
 
-        private void SaveGameModel(GameModel model)
+        public ActionResult FinishCapture()
         {
-            Session["GameModel"] = model;
-        }
-
-        private GameViewModel ToViewModel(GameModel model)
-        {
-            var result = new GameViewModel();
-
-            for (int row = 0; row < GameModel.RowCount; row++)
-            {
-                for (int column = 0; column < GameModel.ColumnCount; column++)
-                {
-                    result.Cells[row, column] = new CellViewModel
-                    {
-                        Value = model[row, column],
-                        Direction = MoveDirection.None,
-                        IsEmpty = model[row, column] == GameModel.FreeCellValue,
-                    };
-                }
-            }
-
-            if (model.FreeCellColumn > 0)
-            {
-                result.Cells[model.FreeCellRow, model.FreeCellColumn - 1].Direction = MoveDirection.Right;
-            }
-
-            if (model.FreeCellColumn < GameModel.ColumnCount - 1)
-            {
-                result.Cells[model.FreeCellRow, model.FreeCellColumn + 1].Direction = MoveDirection.Left;
-            }
-
-            if (model.FreeCellRow > 0)
-            {
-                result.Cells[model.FreeCellRow - 1, model.FreeCellColumn].Direction = MoveDirection.Down;
-            }
-
-            if (model.FreeCellRow < GameModel.RowCount - 1)
-            {
-                result.Cells[model.FreeCellRow + 1, model.FreeCellColumn].Direction = MoveDirection.Up;
-            }
-
-            return result;
+            var model = GetModel();
+            _gameService.FinishCapture(model);
+            SetSelectedPiece(null);
+            return View("Index", model);
         }
     }
 }

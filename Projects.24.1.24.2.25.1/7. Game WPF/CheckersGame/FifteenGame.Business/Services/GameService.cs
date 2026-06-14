@@ -2,9 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 
 namespace CheckersGame.Business.Services
 {
@@ -54,31 +51,55 @@ namespace CheckersGame.Business.Services
             return moves.Any(m => IsCaptureMove(fromRow, fromCol, m.row, m.col, model));
         }
 
+        // Проверяет, является ли ход взятием (без учёта доступности из списка)
         private bool IsCaptureMove(int fromRow, int fromCol, int toRow, int toCol, GameModel model)
         {
             int dr = Math.Sign(toRow - fromRow);
             int dc = Math.Sign(toCol - fromCol);
+            if (dr == 0 || dc == 0) return false; // не диагональ
+
             Piece piece = model[fromRow, fromCol];
             if (piece == Piece.None) return false;
             bool isBlack = piece == Piece.Black || piece == Piece.BlackKing;
+            bool isKing = piece == Piece.BlackKing || piece == Piece.WhiteKing;
 
             int r = fromRow + dr, c = fromCol + dc;
+            bool foundOpponent = false;
+
             while (r != toRow || c != toCol)
             {
+                if (r < 0 || r >= GameModel.BoardSize || c < 0 || c >= GameModel.BoardSize)
+                    return false;
+
                 if (model[r, c] != Piece.None)
                 {
                     bool isOpponent = isBlack ? (model[r, c] == Piece.White || model[r, c] == Piece.WhiteKing)
                                               : (model[r, c] == Piece.Black || model[r, c] == Piece.BlackKing);
-                    return isOpponent;
+                    if (!isOpponent) return false;   // встретили свою фигуру — нельзя бить
+                    if (foundOpponent) return false; // уже нашли противника, второй раз — ошибка
+                    foundOpponent = true;
                 }
                 r += dr;
                 c += dc;
             }
-            return false;
+
+            // Если мы вышли из цикла, проверим, что клетка назначения пуста
+            if (model[toRow, toCol] != Piece.None) return false;
+
+            if (isKing)
+                return foundOpponent; // для дамки обязателен ровно один противник на пути
+            else
+            {
+                // Простая шашка: расстояние ровно 2 и противник на средней клетке
+                int dist = Math.Abs(toRow - fromRow);
+                if (dist != 2) return false;
+                return foundOpponent;
+            }
         }
 
         public List<(int row, int col)> GetAvailableMoves(GameModel model, int fromRow, int fromCol)
         {
+            // Если идёт серия взятий, ходить может только бьющая фигура
             if (model.IsCaptureInProgress &&
                 (fromRow != model.CaptureRow || fromCol != model.CaptureCol))
                 return new List<(int, int)>();
@@ -106,6 +127,7 @@ namespace CheckersGame.Business.Services
 
                 if (!isKing)
                 {
+                    // Простые шашки
                     int nr = fromRow + dr;
                     int nc = fromCol + dc;
                     if (nr < 0 || nr >= GameModel.BoardSize || nc < 0 || nc >= GameModel.BoardSize)
@@ -134,6 +156,7 @@ namespace CheckersGame.Business.Services
                 }
                 else
                 {
+                    // Дамки
                     int r = fromRow + dr;
                     int c = fromCol + dc;
                     bool opponentFound = false;
@@ -145,6 +168,8 @@ namespace CheckersGame.Business.Services
                         {
                             if (!opponentFound)
                                 moves.Add((r, c));
+                            else
+                                captures.Add((r, c)); // после противника все пустые клетки — взятия
                         }
                         else
                         {
@@ -159,28 +184,23 @@ namespace CheckersGame.Business.Services
                                 oppR = r;
                                 oppC = c;
                             }
-                            else break;
+                            else break; // встретили вторую фигуру – дальше нельзя
                         }
                         r += dr;
                         c += dc;
                     }
-
-                    if (opponentFound)
-                    {
-                        r = oppR + dr;
-                        c = oppC + dc;
-                        while (r >= 0 && r < GameModel.BoardSize && c >= 0 && c < GameModel.BoardSize)
-                        {
-                            if (model[r, c] != Piece.None) break;
-                            captures.Add((r, c));
-                            r += dr;
-                            c += dc;
-                        }
-                    }
                 }
             }
 
-            return captures.Count > 0 ? captures : moves;
+            // Правило обязательного взятия: если есть взятия, возвращаем только их
+            if (captures.Count > 0)
+                return captures;
+
+            // Во время серии взятий простые ходы запрещены
+            if (model.IsCaptureInProgress)
+                return new List<(int, int)>();
+
+            return moves;
         }
 
         public bool MakeMove(GameModel model, int fromRow, int fromCol, int toRow, int toCol)
@@ -196,6 +216,7 @@ namespace CheckersGame.Business.Services
             bool isCapture = IsCaptureMove(fromRow, fromCol, toRow, toCol, model);
             if (isCapture)
             {
+                // Удаляем побитую шашку (ищем противника по пути)
                 int midR = fromRow + dr;
                 int midC = fromCol + dc;
                 while (midR != toRow || midC != toCol)
@@ -214,6 +235,7 @@ namespace CheckersGame.Business.Services
             model[toRow, toCol] = piece;
             model[fromRow, fromCol] = Piece.None;
 
+            // Превращение в дамку
             if (piece == Piece.Black && toRow == GameModel.BoardSize - 1)
                 model[toRow, toCol] = Piece.BlackKing;
             else if (piece == Piece.White && toRow == 0)
@@ -221,6 +243,7 @@ namespace CheckersGame.Business.Services
 
             if (isCapture)
             {
+                // Проверяем, можно ли бить дальше той же фигурой
                 var subsequentCaptures = GetAvailableMoves(model, toRow, toCol)
                     .Where(m => IsCaptureMove(toRow, toCol, m.row, m.col, model)).ToList();
                 if (subsequentCaptures.Any())

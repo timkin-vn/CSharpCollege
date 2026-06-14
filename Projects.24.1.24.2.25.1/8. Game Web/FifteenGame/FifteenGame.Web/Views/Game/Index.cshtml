@@ -1,62 +1,97 @@
-﻿@model FifteenGame.Web.Models.GameViewModel
-
+﻿@using CheckersGame.Business.Models
+@model GameModel
 @{
-    ViewBag.Title = "Игра 15";
-    bool isGameOver = (bool?)ViewBag.IsGameOver ?? false;
+    ViewBag.Title = "Шашки";
+    var selected = Session["SelectedPiece"] as (int row, int col)?;
+    var gameService = new CheckersGame.Business.Services.GameService();
+    var availableMoves = selected != null
+        ? gameService.GetAvailableMoves(Model, selected.Value.row, selected.Value.col)
+        : new List<(int, int)>();
+    bool isCaptureInProgress = Model.IsCaptureInProgress;
 }
 
-<main>
-    <h2>Игра 15</h2>
+<h2>Шашки</h2>
+<h4>Ходит: @(Model.CurrentPlayer == Player.White ? "Белые" : "Чёрные")</h4>
 
-    @if (isGameOver)
+@if (!string.IsNullOrEmpty(ViewBag.Message as string))
+{
+    <h3 class="text-success">@ViewBag.Message</h3>
+    @Html.ActionLink("Новая игра", "Index", null, new { @class = "btn btn-primary" })
+}
+
+@if (isCaptureInProgress)
+{
+    <p class="text-warning">
+        Серия взятий! Бьёт та же фигура с позиции (@Model.CaptureRow, @Model.CaptureCol).<br />
+        @Html.ActionLink("Завершить взятия", "FinishCapture", null, new { @class = "btn btn-sm btn-danger" })
+    </p>
+}
+
+<table class="table-bordered mx-auto" style="border-collapse: collapse;">
+    @for (int r = 0; r < GameModel.BoardSize; r++)
     {
-        <h2 class="text-danger">Поздравляем! Игра завершена.</h2>
+        <tr>
+            @for (int c = 0; c < GameModel.BoardSize; c++)
+            {
+                var piece = Model[r, c];
+                bool isBlackCell = (r + c) % 2 == 0;
+                string bgColor = isBlackCell ? "#3e3e3e" : "#f0d9b5";
+                string cellStyle = $"width:60px; height:60px; background-color:{bgColor}; text-align:center; vertical-align:middle;";
 
-        <div>
-            @Html.ActionLink("Повторить", "Index", new {}, new { @class = "btn btn-success" })
-        </div>
+                bool isTarget = availableMoves.Contains((r, c));
+
+                <td style="@cellStyle">
+                    @if (piece != Piece.None)
+                    {
+                        string symbol = "";
+                        switch (piece)
+                        {
+                            case Piece.White:
+                                symbol = "⚪";
+                                break;
+                            case Piece.Black:
+                                symbol = "⚫";
+                                break;
+                            case Piece.WhiteKing:
+                                symbol = "♔";
+                                break;
+                            case Piece.BlackKing:
+                                symbol = "♚";
+                                break;
+                            default:
+                                symbol = "";
+                                break;
+                        }
+
+                        bool canSelect = !isCaptureInProgress
+                            && ((Model.CurrentPlayer == Player.White && (piece == Piece.White || piece == Piece.WhiteKing))
+                             || (Model.CurrentPlayer == Player.Black && (piece == Piece.Black || piece == Piece.BlackKing)));
+
+                        if (canSelect)
+                        {
+                            @Html.ActionLink(symbol, "Select", new { row = r, col = c },
+                                new { @class = "btn btn-link", style = "font-size:30px; text-decoration:none;" })
+                        }
+                        else
+                        {
+                            <span style="font-size:30px;">@symbol</span>
+                        }
+                    }
+                    else if (isTarget)
+                    {
+                        @Html.ActionLink("·", "Move", new { toRow = r, toCol = c },
+                            new { @class = "btn btn-link", style = "font-size:30px; text-decoration:none; color:green;" })
+                    }
+                </td>
+            }
+        </tr>
     }
+</table>
 
-    <div class="container">
-        @for (int row = 0; row < Model.RowCount; row++)
-        {
-            <div class="row">
-                <div class="col-2"></div>
-
-                @for (int column = 0; column < Model.ColumnCount; column++)
-                {
-                    if (Model.Cells[row, column].IsEmpty)
-                    {
-                        <div class="col-2"></div>
-                        continue;
-                    }
-
-                    if (isGameOver || Model.Cells[row, column].Direction == FifteenGame.Business.Models.MoveDirection.None)
-                    {
-                        @*<div class="col-2 d-grid p-2 text-center">
-                            <div class="btn btn-success fs-3">@Model.Cells[row, column].Text</div>
-                        </div>*@
-
-                        <div class="col-2 d-grid p-2 text-center">
-                            <img src="@Url.Content($"~/Content/img/{@Model.Cells[row, column].Text}.png")"
-                                 style="width: 150px; height: 150px; display: block; margin: auto;" />
-                        </div>
-
-                        continue;
-                    }
-
-                    <div class="col-2 d-grid p-2 text-center">
-                        @*@Html.ActionLink(Model.Cells[row, column].Text, "MakeMove",
-                            new { directionText = Model.Cells[row, column].DirectionText },
-                            new { @class = "btn btn-success fs-3" })*@
-
-                        <a href="@Url.Action("MakeMove", "Game", new { directionText = Model.Cells[row, column].DirectionText })">
-                            <img src="@Url.Content($"~/Content/img/{@Model.Cells[row, column].Text}.png")"
-                                    style="width: 150px; height: 150px; display: block; margin: auto;" />
-                        </a>
-                    </div>
-                }
-            </div>
-        }
-    </div>
-</main>
+@if (selected != null && !isCaptureInProgress)
+{
+    <p>
+        Выбрана фигура: строка @selected.Value.row, колонка @selected.Value.col.
+        @Html.ActionLink("Отменить", "Index", null, new { @class = "btn btn-sm btn-secondary" })
+    </p>
+}
