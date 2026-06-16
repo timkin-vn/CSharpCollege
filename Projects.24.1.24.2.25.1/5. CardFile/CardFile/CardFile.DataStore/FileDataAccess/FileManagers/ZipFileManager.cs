@@ -1,69 +1,39 @@
-﻿using CardFile.Common.Infrastructure;
-using CardFile.DataStore.DataCollection;
+﻿using CardFile.DataStore.DataCollection;
 using CardFile.DataStore.Dtos;
-using CardFile.DataStore.FileDataAccess.Entities;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
+using System.Text.Json;
 
 namespace CardFile.DataStore.FileDataAccess.FileManagers
 {
-    internal class ZipFileManager : IFileManager
+    public class ZipFileManager : IFileManager
     {
-        public void OpenFromFile(string fileName, CardCollection collection)
+        public void SaveToFile(string fileName, StudentCollection collection)
         {
-            using (var fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
-            {
-                using (var archive = new ZipArchive(fs, ZipArchiveMode.Read))
-                {
-                    try
-                    {
-                        var entry = archive.GetEntry(Path.GetFileNameWithoutExtension(fileName) + ".xml");
-                        using (var es = entry.Open())
-                        {
-                            using (var reader = new StreamReader(es))
-                            {
-                                var serializer = new XmlSerializer(typeof(XmlCardCollection));
-                                var xmlCollection = (XmlCardCollection)serializer.Deserialize(reader);
+            var json = JsonSerializer.Serialize(collection.GetAll());
+            var tempFile = Path.GetTempFileName();
+            File.WriteAllText(tempFile, json);
 
-                                collection.ReplaceAll(Mapping.Mapper.Map<List<CardDto>>(xmlCollection.Cards), xmlCollection.NextId);
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        throw new Exception("Неверный формат файла");
-                    }
-                }
+            using (var zip = ZipFile.Open(fileName, ZipArchiveMode.Create))
+            {
+                zip.CreateEntryFromFile(tempFile, "data.json");
             }
+
+            File.Delete(tempFile);
         }
 
-        public void SaveToFile(string fileName, CardCollection collection)
+        public void OpenFromFile(string fileName, StudentCollection collection)
         {
-            var xmlCollection = new XmlCardCollection
+            using (var zip = ZipFile.OpenRead(fileName))
             {
-                NextId = collection.NextId,
-                Cards = Mapping.Mapper.Map<List<XmlCard>>(collection.GetAll()),
-            };
-
-            using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
-            {
-                using (var archive = new ZipArchive(fs, ZipArchiveMode.Create))
+                var entry = zip.GetEntry("data.json");
+                using (var stream = entry.Open())
+                using (var reader = new StreamReader(stream))
                 {
-                    var entry = archive.CreateEntry(Path.GetFileNameWithoutExtension(fileName) + ".xml");
-                    using (var es = entry.Open())
-                    {
-                        using (var writer = new StreamWriter(es))
-                        {
-                            var serializer = new XmlSerializer(typeof(XmlCardCollection));
-                            serializer.Serialize(writer, xmlCollection);
-                        }
-                    }
+                    var json = reader.ReadToEnd();
+                    var students = JsonSerializer.Deserialize<List<StudentDto>>(json);
+                    collection.ReplaceAll(students);
                 }
             }
         }
