@@ -6,27 +6,33 @@
         xmlns:local="clr-namespace:CheckersGame.Wpf"
         xmlns:viewmodels="clr-namespace:CheckersGame.Wpf.ViewModels"
         mc:Ignorable="d"
-        Title="Шашки" 
-        ResizeMode="NoResize"
-        Width="600" Height="680"
-        MinWidth="600" MinHeight="680"
-        MaxWidth="600" MaxHeight="680"
+        Title="Classic Checkers"
+        Width="640"
+        Height="720"
+        MinWidth="640"
+        MinHeight="720"
+        MaxWidth="640"
+        MaxHeight="720"
         WindowStartupLocation="CenterScreen"
-        Background="#F0E6D2">
+        Background="#EAF2F8">
 
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+
         <Style x:Key="CellBackgroundStyle" TargetType="Rectangle">
-            <Setter Property="Fill" Value="#8B5A2B"/>
+            <Setter Property="Fill" Value="#3F5873"/>
+
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsDarkCell}" Value="True">
-                    <Setter Property="Fill" Value="#F5DEB3"/>
+                    <Setter Property="Fill" Value="#DCE6F2"/>
                 </DataTrigger>
+
                 <DataTrigger Binding="{Binding IsValidTarget}" Value="True">
                     <Setter Property="Fill" Value="#90EE90"/>
                 </DataTrigger>
+
                 <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                    <Setter Property="Stroke" Value="#FFD700"/>
+                    <Setter Property="Stroke" Value="#00BFFF"/>
                     <Setter Property="StrokeThickness" Value="4"/>
                 </DataTrigger>
             </Style.Triggers>
@@ -39,19 +45,39 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Заголовок -->
-        <Border Grid.Row="0" Background="#DEB887" CornerRadius="8" Padding="10" Margin="0,0,0,10">
+        <!-- Верхняя панель -->
+        <Border Grid.Row="0"
+                Background="#5D7B9D"
+                CornerRadius="8"
+                Padding="10"
+                Margin="0,0,0,10">
+
             <StackPanel HorizontalAlignment="Center">
-                <TextBlock Text="{Binding CurrentPlayerText}" FontSize="20" FontWeight="Bold" Foreground="#2F1E0E"/>
-                <TextBlock Text="Шашки" FontSize="14" Foreground="#5C3D2E" HorizontalAlignment="Center"/>
+
+                <TextBlock Text="{Binding CurrentPlayerText}"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Foreground="White"
+                           HorizontalAlignment="Center"/>
+
+                <TextBlock Text="Checkers Game"
+                           FontSize="14"
+                           Foreground="#E6EEF7"
+                           HorizontalAlignment="Center"/>
+
             </StackPanel>
         </Border>
 
         <!-- Игровая доска -->
-        <ItemsControl Grid.Row="1" ItemsSource="{Binding Cells}" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <ItemsControl Grid.Row="1"
+                      ItemsSource="{Binding Cells}"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center">
+
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid Width="560" Height="560">
+
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
@@ -62,6 +88,7 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
+
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
@@ -72,57 +99,82 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
+
                     </Grid>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
 
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid Tag="{Binding}" MouseDown="Grid_MouseDown">
-                        <!-- Фон клетки -->
+
+                    <Grid Tag="{Binding}"
+                          MouseDown="Grid_MouseDown">
+
+                        <!-- Клетка -->
                         <Rectangle Style="{StaticResource CellBackgroundStyle}"/>
 
                         <!-- Шашка -->
-                        <Ellipse Width="60" Height="60" Visibility="{Binding HasPiece, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Ellipse Width="60"
+                                 Height="60"
+                                 Visibility="{Binding HasPiece, Converter={StaticResource BoolToVisibilityConverter}}">
+
                             <Ellipse.Style>
                                 <Style TargetType="Ellipse">
-                                    <Setter Property="Fill" Value="#1A1A1A"/>
-                                    <Setter Property="Stroke" Value="#333333"/>
+
+                                    <Setter Property="Fill" Value="#2C3E50"/>
+                                    <Setter Property="Stroke" Value="#1B2631"/>
                                     <Setter Property="StrokeThickness" Value="1"/>
+
                                     <Style.Triggers>
+
                                         <DataTrigger Binding="{Binding HasWhitePiece}" Value="True">
-                                            <Setter Property="Fill" Value="#F0F0F0"/>
-                                            <Setter Property="Stroke" Value="#888888"/>
+                                            <Setter Property="Fill" Value="#FFFFFF"/>
+                                            <Setter Property="Stroke" Value="#5D6D7E"/>
                                         </DataTrigger>
+
                                         <DataTrigger Binding="{Binding IsKing}" Value="True">
                                             <Setter Property="Stroke" Value="#FFD700"/>
                                             <Setter Property="StrokeThickness" Value="3"/>
+
                                             <Setter Property="Effect">
                                                 <Setter.Value>
-                                                    <DropShadowEffect Color="#FFD700" BlurRadius="8" ShadowDepth="0"/>
+                                                    <DropShadowEffect Color="#FFD700"
+                                                                      BlurRadius="8"
+                                                                      ShadowDepth="0"/>
                                                 </Setter.Value>
                                             </Setter>
                                         </DataTrigger>
+
                                     </Style.Triggers>
+
                                 </Style>
                             </Ellipse.Style>
+
                         </Ellipse>
 
-                        <!-- Рамка для выбранной клетки -->
+                        <!-- Выбранная клетка -->
                         <Border IsHitTestVisible="False">
+
                             <Border.Style>
                                 <Style TargetType="Border">
+
                                     <Style.Triggers>
+
                                         <DataTrigger Binding="{Binding IsSelected}" Value="True">
                                             <Setter Property="BorderBrush" Value="Red"/>
                                             <Setter Property="BorderThickness" Value="3"/>
                                             <Setter Property="CornerRadius" Value="2"/>
                                         </DataTrigger>
+
                                     </Style.Triggers>
+
                                 </Style>
                             </Border.Style>
+
                         </Border>
+
                     </Grid>
+
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
 
@@ -132,6 +184,9 @@
                     <Setter Property="Grid.Column" Value="{Binding Column}"/>
                 </Style>
             </ItemsControl.ItemContainerStyle>
+
         </ItemsControl>
+
     </Grid>
+
 </Window>

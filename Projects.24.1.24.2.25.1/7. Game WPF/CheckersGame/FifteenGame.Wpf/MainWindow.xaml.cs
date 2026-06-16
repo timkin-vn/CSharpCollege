@@ -27,11 +27,11 @@ namespace CheckersGame.Wpf
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            var grid = sender as FrameworkElement;
-            if (grid?.Tag is CellViewModel cellViewModel)
+            var clickedCell = sender as FrameworkElement;
+            if (clickedCell?.Tag is CellViewModel cellViewModel)
             {
-                var mainVM = DataContext as MainWindowViewModel;
-                mainVM?.CellClicked(cellViewModel);
+                var gameViewModel = DataContext as MainWindowViewModel;
+                gameViewModel?.CellClicked(cellViewModel);
             }
         }
     }
