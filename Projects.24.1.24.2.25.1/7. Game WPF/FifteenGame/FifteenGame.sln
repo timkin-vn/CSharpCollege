@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36930.0 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FifteenGame.Wpf", "FifteenGame.Wpf\FifteenGame.Wpf.csproj", "{C8C1252D-7FDE-4704-AA46-545F238C041E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FifteenGame.Business", "FifteenGame.Business\FifteenGame.Business.csproj", "{AD95481B-918D-4FD0-AC9D-7468ABCCBF7E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C8C1252D-7FDE-4704-AA46-545F238C041E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8C1252D-7FDE-4704-AA46-545F238C041E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8C1252D-7FDE-4704-AA46-545F238C041E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8C1252D-7FDE-4704-AA46-545F238C041E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD95481B-918D-4FD0-AC9D-7468ABCCBF7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD95481B-918D-4FD0-AC9D-7468ABCCBF7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD95481B-918D-4FD0-AC9D-7468ABCCBF7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD95481B-918D-4FD0-AC9D-7468ABCCBF7E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2C5E41B9-E445-4E28-B6BA-64C11E31F8FC}
+	EndGlobalSection
+EndGlobal
