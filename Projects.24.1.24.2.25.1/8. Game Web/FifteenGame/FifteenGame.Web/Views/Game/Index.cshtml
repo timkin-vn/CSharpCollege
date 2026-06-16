@@ -1,0 +1,160 @@
+﻿@model FifteenGame.Web.Models.GameViewModel
+@{
+    ViewBag.Title = "2048";
+    bool isFinished = Model.IsGameOver || Model.IsWin;
+}
+
+<style>
+    .tile {
+        width: 95px;
+        height: 95px;
+        margin: 6px;
+        background-color: #123e2b;
+        border-radius: 15px;
+        font-size: 34px;
+        font-weight: 800;
+        font-family: 'Courier New', Courier, monospace;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.15s ease-in-out;
+        box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    }
+
+    .tile-0 {
+        background-color: #1a4331;
+        color: transparent;
+    }
+
+    .tile-2 {
+        background-color: #2bb673;
+        color: #ffffff;
+    }
+
+    .tile-4 {
+        background-color: #229b5c;
+        color: #ffffff;
+    }
+
+    .tile-8 {
+        background-color: #19824c;
+        color: #ffffff;
+    }
+
+    .tile-16 {
+        background-color: #0f693c;
+        color: #e0f2f1;
+    }
+
+    .tile-32 {
+        background-color: #05512d;
+        color: #e0f2f1;
+    }
+
+    .tile-64 {
+        background-color: #003a1f;
+        color: #a7ffeb;
+    }
+
+    .tile-128 {
+        background-color: #00ff88;
+        color: #05512d;
+        font-size: 30px;
+    }
+
+    .tile-256 {
+        background-color: #39ff14;
+        color: #05512d;
+        font-size: 30px;
+    }
+
+    .tile-512 {
+        background-color: #00e5ff;
+        color: #05512d;
+        font-size: 30px;
+    }
+
+    .tile-1024 {
+        background-color: #1de9b6;
+        color: #05512d;
+        font-size: 26px;
+    }
+
+    .tile-2048 {
+        background-color: #64ffda;
+        color: #05512d;
+        font-size: 26px;
+    }
+</style>
+
+<main>
+    <div class="container mt-4">
+        <div class="row align-items-center mb-4">
+            <div class="col-md-5">
+                <h2 class="text-success font-weight-bold">2048</h2>
+            </div>
+            <div class="col-md-4 text-md-right">
+                <span class="h5 bg-light p-2 rounded border">Рекорд: <strong>@Model.Score</strong></span>
+            </div>
+            <div class="col-md-3 text-right">
+                @Html.ActionLink("Перезапуск", "NewGame", "Game", null, new { @class = "btn btn-outline-success" })
+            </div>
+        </div>
+
+        @if (isFinished)
+        {
+            <div class="alert alert-success border-success text-center">
+                @if (Model.IsWin)
+                {
+                    <h4 class="alert-heading">Победа!</h4>
+                    <p>2048!</p>
+                }
+                else if (Model.IsGameOver)
+                {
+                    <h4 class="alert-heading">Финал!</h4>
+                    <p>Ходов больше нет, попробуйте еще раз.</p>
+                }
+            </div>
+        }
+
+        <div class="p-3 bg-dark d-inline-block rounded-lg shadow">
+            @for (int r = 0; r < Model.Size; r++)
+            {
+                <div class="d-flex">
+                    @for (int c = 0; c < Model.Size; c++)
+                    {
+                        int points = Model.Matrix[r, c];
+                        string styleKey = points == 0 ? "tile-0" : "tile-" + points;
+
+                        <div class="tile @styleKey">
+                            @(points != 0 ? points.ToString() : "")
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="mt-4 text-muted">
+            <small>Навигация: кнопки <strong>W, A, S, D</strong> или стрелки клавиатуры.</small>
+        </div>
+    </div>
+</main>
+
+@section scripts {
+    <script>
+        document.addEventListener('keydown', function(event) {
+            var code = event.code;
+            var targetDir = null;
+
+            if (code === 'ArrowLeft' || code === 'KeyA') targetDir = 'Left';
+            else if (code === 'ArrowRight' || code === 'KeyD') targetDir = 'Right';
+            else if (code === 'ArrowUp' || code === 'KeyW') targetDir = 'Up';
+            else if (code === 'ArrowDown' || code === 'KeyS') targetDir = 'Down';
+
+            if (targetDir) {
+                event.preventDefault();
+                window.location.href = '@Url.Action("MakeMove", "Game")?directionText=' + targetDir;
+            }
+        });
+    </script>
+}
