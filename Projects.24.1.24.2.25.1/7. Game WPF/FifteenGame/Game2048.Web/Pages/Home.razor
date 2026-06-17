@@ -1,5 +1,7 @@
 ﻿@page "/"
 @using Game2048.Business.Models
+@using Game2048.Web.Services
+@inject GameHttpProxy GameProxy
 
 <div class="game-container" @onkeydown="HandleKeyDown" tabindex="0">
     
@@ -7,7 +9,7 @@
     <div class="header">
         <div class="title-section">
             <span class="logo">2048</span>
-            <button class="btn-restart" @onclick="RestartGame">Заново</button>
+            <button class="btn-restart" @onclick="async () => await RestartGame()">Заново</button>
         </div>
         <div class="score-box">
             <div class="score-label">СЧЕТ</div>
@@ -31,7 +33,7 @@
         }
     </div>
 
-    <!-- Клеточное поле 4х4 (Дискретное отображение, без плавных анимаций) -->
+    <!-- Клеточное поле 4х4 -->
     <div class="board">
         @for (int r = 0; r < GameModel.BoardSize; r++)
         {
@@ -45,33 +47,40 @@
         }
     </div>
 
-    <!-- Пошаговый пульт управления (4 кнопки-стрелки) -->
     <div class="dpad-container">
         <div class="dpad">
-            <button class="btn-arrow up" @onclick="() => ExecuteMove(MoveDirection.Up)">▲</button>
-            <button class="btn-arrow left" @onclick="() => ExecuteMove(MoveDirection.Left)">◀</button>
-            <button class="btn-arrow down" @onclick="() => ExecuteMove(MoveDirection.Down)">▼</button>
-            <button class="btn-arrow right" @onclick="() => ExecuteMove(MoveDirection.Right)">▶</button>
+            <button class="btn-arrow up" @onclick="async () => await ExecuteMove(MoveDirection.Up)">▲</button>
+            <button class="btn-arrow left" @onclick="async () => await ExecuteMove(MoveDirection.Left)">◀</button>
+            <button class="btn-arrow down" @onclick="async () => await ExecuteMove(MoveDirection.Down)">▼</button>
+            <button class="btn-arrow right" @onclick="async () => await ExecuteMove(MoveDirection.Right)">▶</button>
         </div>
     </div>
 </div>
 
 @code {
-    // Используем ваш готовый C# класс из Game2048.Business
     private GameModel _gameModel = new GameModel();
 
-    private void ExecuteMove(MoveDirection direction)
+    protected override async Task OnInitializedAsync()
     {
-        _gameModel.MakeMove(direction);
+        _gameModel = await GameProxy.RestartGameAsync();
     }
 
-    private void RestartGame()
+    private async Task ExecuteMove(MoveDirection direction)
     {
-        _gameModel.Reset();
+        if (_gameModel.IsGameOver) return;
+
+        _gameModel = await GameProxy.ExecuteMoveAsync(direction);
+        
+        StateHasChanged();
     }
 
-    // Управление с клавиатуры в браузере
-    private void HandleKeyDown(KeyboardEventArgs e)
+    private async Task RestartGame()
+    {
+        _gameModel = await GameProxy.RestartGameAsync();
+        StateHasChanged();
+    }
+
+    private async Task HandleKeyDown(KeyboardEventArgs e)
     {
         MoveDirection? direction = e.Key switch
         {
@@ -84,13 +93,12 @@
 
         if (direction.HasValue)
         {
-            ExecuteMove(direction.Value);
+            await ExecuteMove(direction.Value);
         }
     }
 }
 
 <style>
-    /* CSS стилизация, воссоздающая дизайн вашего WPF приложения */
     .game-container { width: 400px; margin: 20px auto; font-family: 'Arial', sans-serif; background: #FAF8EF; padding: 20px; border-radius: 8px; outline: none; }
     .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
     .logo { font-size: 36px; font-weight: bold; color: #776E65; }
@@ -101,11 +109,9 @@
     .status-text { font-size: 14px; font-weight: bold; color: #776E65; margin-bottom: 15px; }
     .win { color: #2ecc71; } .fail { color: #e74c3c; }
 
-    /* Дискретная сетка без анимаций движения */
     .board { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; background: #BBADA0; padding: 10px; border-radius: 6px; }
     .cell { height: 75px; background: #CDC1B4; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; color: #776E65; transition: none !important; }
     
-    /* Стилизация номиналов плиток */
     .tile-2 { background: #eee4da; color: #776E65; }
     .tile-4 { background: #ede0c8; color: #776E65; }
     .tile-8 { background: #f2b179; color: white; }
@@ -118,7 +124,6 @@
     .tile-1024 { background: #edc53f; color: white; font-size: 18px; }
     .tile-2048 { background: #edc22e; color: white; font-size: 18px; }
     
-    /* Стили пульта управления */
     .dpad-container { display: flex; justify-content: center; margin-top: 20px; }
     .dpad { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); width: 180px; height: 120px; gap: 6px; }
     .btn-arrow { background: #8F7A66; color: white; border: none; font-size: 18px; font-weight: bold; border-radius: 4px; cursor: pointer; }
