@@ -3,11 +3,6 @@ using FifteenGame.Common.Contracts.Repositories;
 using FifteenGame.Common.Contracts.Services;
 using FifteenGame.DataAccess.Repositories;
 using Ninject.Modules;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FifteenGame.Wpf.Infrastructure
 {

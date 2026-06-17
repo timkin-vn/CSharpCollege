@@ -1,11 +1,8 @@
 ﻿using FifteenGame.Common.BusinessModels;
 using FifteenGame.Common.Contracts.Repositories;
 using FifteenGame.Common.Contracts.Services;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FifteenGame.Business.Services
 {
@@ -21,11 +18,7 @@ namespace FifteenGame.Business.Services
         public IEnumerable<UserModel> GetAllUsers()
         {
             return _repository.GetAll()
-                .Select(u => new UserModel
-                {
-                    Id = u.Id,
-                    Name = u.Name,
-                })
+                .Select(u => new UserModel { Id = u.Id, Name = u.Name })
                 .ToList();
         }
 
@@ -38,22 +31,13 @@ namespace FifteenGame.Business.Services
                 userDto = _repository.Create(userName);
             }
 
-            return new UserModel
-            {
-                Id = userDto.Id,
-                Name = userDto.Name,
-            };
+            return new UserModel { Id = userDto.Id, Name = userDto.Name };
         }
 
         public UserModel GetUserByName(string userName)
         {
             var userDto = _repository.GetByName(userName);
-
-            return userDto == null ? null : new UserModel
-            {
-                Id = userDto.Id,
-                Name = userDto.Name,
-            };
+            return userDto == null ? null : new UserModel { Id = userDto.Id, Name = userDto.Name };
         }
     }
 }

@@ -3,54 +3,56 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FifteenGame.Wpf" xmlns:viewmodels="clr-namespace:FifteenGame.Wpf.ViewModels"
+        xmlns:local="clr-namespace:FifteenGame.Wpf"
+        xmlns:viewmodels="clr-namespace:FifteenGame.Wpf.ViewModels"
         mc:Ignorable="d"
-        Title="Игра 15" Height="550" Width="800" MinHeight="550" MinWidth="450" Loaded="Window_Loaded">
+        Title="2048 Game" Height="600" Width="500" MinHeight="550" MinWidth="450"
+        KeyDown="Window_KeyDown" Loaded="Window_Loaded">
     <Window.DataContext>
         <viewmodels:MainWindowViewModel />
     </Window.DataContext>
-    
-    <Grid>
+
+    <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-
-        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
-            <TextBlock Text="Количество ходов: " Margin="5" FontSize="18" />
-            <TextBlock Text="{Binding MoveCount}" Margin="5" FontSize="18" />
+        <!-- Верхняя панель -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
+            <TextBlock Text="Игрок: " FontSize="18" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding UserName}" FontSize="18" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,20,0"/>
+            <TextBlock Text="Ходы: " FontSize="18" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding MoveCount}" FontSize="18" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,20,0"/>
+            <TextBlock Text="Счёт: " FontSize="18" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding Score}" FontSize="18" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,20,0"/>
+            <Button Content="Новая игра" FontSize="14" Padding="10,5" Click="NewGame_Click"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
-            <TextBlock Text="Игрок: " Margin="5" FontSize="18" />
-            <TextBlock Text="{Binding UserName}" Margin="5" FontSize="18" />
-        </StackPanel>
+        <!-- Статус игры (без конвертера) -->
+        <TextBlock Grid.Row="1" Text="{Binding GameStatus}" FontSize="20" FontWeight="Bold"
+                   Foreground="Red"
+                   HorizontalAlignment="Center" Margin="0,0,0,10"/>
 
-        <ItemsControl Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Cells}">
+        <!-- Игровое поле 4x4 -->
+        <ItemsControl Grid.Row="3" ItemsSource="{Binding Cells}" HorizontalAlignment="Center" VerticalAlignment="Center">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="100" />
-                            <RowDefinition Height="100" />
-                            <RowDefinition Height="100" />
-                            <RowDefinition Height="100" />
+                            <RowDefinition Height="100"/>
+                            <RowDefinition Height="100"/>
+                            <RowDefinition Height="100"/>
+                            <RowDefinition Height="100"/>
                         </Grid.RowDefinitions>
-
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
                         </Grid.ColumnDefinitions>
                     </Grid>
                 </ItemsPanelTemplate>
@@ -58,19 +60,24 @@
 
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid Tag="{Binding Direction}" MouseDown="Grid_MouseDown">
-                        <Rectangle Margin="5" Stroke="Brown" StrokeThickness="3" RadiusX="10" RadiusY="10" Fill="LightBlue" />
-                        <TextBlock Text="{Binding Text}" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    </Grid>
+                    <Border Margin="5" Background="{Binding BackgroundBrush}" CornerRadius="8" BorderBrush="Gray" BorderThickness="1">
+                        <TextBlock Text="{Binding Text}" FontSize="32" FontWeight="Bold"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                                   Foreground="Black"/>
+                    </Border>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
 
             <ItemsControl.ItemContainerStyle>
                 <Style TargetType="ContentPresenter">
-                    <Setter Property="Grid.Row" Value="{Binding Row}" />
-                    <Setter Property="Grid.Column" Value="{Binding Column}" />
+                    <Setter Property="Grid.Row" Value="{Binding Row}"/>
+                    <Setter Property="Grid.Column" Value="{Binding Column}"/>
                 </Style>
             </ItemsControl.ItemContainerStyle>
         </ItemsControl>
+
+        <!-- Подсказка -->
+        <TextBlock Grid.Row="4" Text="Используйте стрелки для управления" FontSize="14"
+                   HorizontalAlignment="Center" Margin="0,10,0,0" Opacity="0.6"/>
     </Grid>
 </Window>

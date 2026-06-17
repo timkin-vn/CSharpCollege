@@ -6,9 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Npgsql.Replication.PgOutput.Messages.RelationMessage;
 
 namespace FifteenGame.DataAccess.Repositories
 {
@@ -22,7 +19,9 @@ namespace FifteenGame.DataAccess.Repositories
 select
     g.""Id"",
     g.""UserId"",
+    g.""Score"",
     g.""MoveCount"",
+    g.""IsWin"",
     c.""Row"",
     c.""Column"",
     c.""Value""
@@ -52,21 +51,20 @@ where
                                 {
                                     Id = reader.GetInt32(0),
                                     UserId = reader.GetInt32(1),
-                                    MoveCount = reader.GetInt32(2),
+                                    Score = reader.GetInt32(2),
+                                    MoveCount = reader.GetInt32(3),
+                                    IsWin = reader.GetBoolean(4),
                                 };
 
+                                // Инициализируем пустые клетки
                                 for (int row = 0; row < Constants.RowCount; row++)
-                                {
-                                    for (int column = 0; column < Constants.ColumnCount; column++)
-                                    {
-                                        result.Cells[row, column] = Constants.FreeCellValue;
-                                    }
-                                }
+                                    for (int col = 0; col < Constants.ColumnCount; col++)
+                                        result.Cells[row, col] = 0;
                             }
 
-                            var rowVal = reader.GetInt32(3);
-                            var columnVal = reader.GetInt32(4);
-                            var value = reader.GetInt32(5);
+                            var rowVal = reader.GetInt32(5);
+                            var columnVal = reader.GetInt32(6);
+                            var value = reader.GetInt32(7);
 
                             result.Cells[rowVal, columnVal] = value;
                         }
@@ -83,7 +81,9 @@ where
 select
     g.""Id"",
     g.""UserId"",
+    g.""Score"",
     g.""MoveCount"",
+    g.""IsWin"",
     c.""Row"",
     c.""Column"",
     c.""Value""
@@ -99,7 +99,7 @@ order by
             using (var connection = new NpgsqlConnection(ConnectionString))
             {
                 connection.Open();
-                List<GameDto> result = new List<GameDto>();
+                var result = new List<GameDto>();
 
                 using (var command = new NpgsqlCommand(selectQuery, connection) { CommandType = System.Data.CommandType.Text })
                 {
@@ -119,23 +119,21 @@ order by
                                 {
                                     Id = id,
                                     UserId = reader.GetInt32(1),
-                                    MoveCount = reader.GetInt32(2),
+                                    Score = reader.GetInt32(2),
+                                    MoveCount = reader.GetInt32(3),
+                                    IsWin = reader.GetBoolean(4),
                                 };
 
-                                result.Add(gameDto);
-
                                 for (int row = 0; row < Constants.RowCount; row++)
-                                {
-                                    for (int column = 0; column < Constants.ColumnCount; column++)
-                                    {
-                                        gameDto.Cells[row, column] = Constants.FreeCellValue;
-                                    }
-                                }
+                                    for (int col = 0; col < Constants.ColumnCount; col++)
+                                        gameDto.Cells[row, col] = 0;
+
+                                result.Add(gameDto);
                             }
 
-                            var rowVal = reader.GetInt32(3);
-                            var columnVal = reader.GetInt32(4);
-                            var value = reader.GetInt32(5);
+                            var rowVal = reader.GetInt32(5);
+                            var columnVal = reader.GetInt32(6);
+                            var value = reader.GetInt32(7);
 
                             gameDto.Cells[rowVal, columnVal] = value;
                         }
@@ -148,15 +146,8 @@ order by
 
         public void Remove(int gameId)
         {
-            var deleteCellsQuery = @"
-delete from ""Cells""
-where ""GameId"" = @gameId
-";
-
-            var deleteGameQuey = @"
-delete from ""Games""
-where ""Id"" = @gameId
-";
+            var deleteCellsQuery = @"delete from ""Cells"" where ""GameId"" = @gameId";
+            var deleteGameQuery = @"delete from ""Games"" where ""Id"" = @gameId";
 
             using (var connection = new NpgsqlConnection(ConnectionString))
             {
@@ -168,7 +159,7 @@ where ""Id"" = @gameId
                     command.ExecuteNonQuery();
                 }
 
-                using (var command = new NpgsqlCommand(deleteGameQuey, connection) { CommandType = System.Data.CommandType.Text })
+                using (var command = new NpgsqlCommand(deleteGameQuery, connection) { CommandType = System.Data.CommandType.Text })
                 {
                     command.Parameters.AddWithValue("gameId", gameId);
                     command.ExecuteNonQuery();
@@ -179,18 +170,16 @@ where ""Id"" = @gameId
         public int Save(GameDto gameDto)
         {
             if (gameDto.Id == 0)
-            {
                 return Create(gameDto);
-            }
-
-            return Update(gameDto);
+            else
+                return Update(gameDto);
         }
 
         private int Create(GameDto gameDto)
         {
             var insertGameQuery = @"
-insert into ""Games"" (""UserId"", ""MoveCount"")
-values (@userId, @moveCount)
+insert into ""Games"" (""UserId"", ""Score"", ""MoveCount"", ""IsWin"")
+values (@userId, @score, @moveCount, @isWin)
 returning ""Id""
 ";
 
@@ -207,27 +196,24 @@ values (@gameId, @row, @column, @value)
                 using (var command = new NpgsqlCommand(insertGameQuery, connection) { CommandType = System.Data.CommandType.Text })
                 {
                     command.Parameters.AddWithValue("userId", gameDto.UserId);
+                    command.Parameters.AddWithValue("score", gameDto.Score);
                     command.Parameters.AddWithValue("moveCount", gameDto.MoveCount);
-                    var insertResult = command.ExecuteScalar();
-                    gameId = (int)insertResult;
+                    command.Parameters.AddWithValue("isWin", gameDto.IsWin);
+                    gameId = (int)command.ExecuteScalar();
                 }
 
                 for (int row = 0; row < Constants.RowCount; row++)
                 {
-                    for (int column = 0; column < Constants.ColumnCount; column++)
+                    for (int col = 0; col < Constants.ColumnCount; col++)
                     {
-                        if (gameDto.Cells[row, column] == Constants.FreeCellValue)
-                        {
-                            continue;
-                        }
+                        if (gameDto.Cells[row, col] == 0) continue;
 
                         using (var command = new NpgsqlCommand(insertCellQuery, connection) { CommandType = System.Data.CommandType.Text })
                         {
                             command.Parameters.AddWithValue("gameId", gameId);
                             command.Parameters.AddWithValue("row", row);
-                            command.Parameters.AddWithValue("column", column);
-                            command.Parameters.AddWithValue("value", gameDto.Cells[row, column]);
-
+                            command.Parameters.AddWithValue("column", col);
+                            command.Parameters.AddWithValue("value", gameDto.Cells[row, col]);
                             command.ExecuteNonQuery();
                         }
                     }
@@ -242,28 +228,18 @@ values (@gameId, @row, @column, @value)
             var updateGameQuery = @"
 update ""Games""
 set
-    ""MoveCount"" = @moveCount
+    ""Score"" = @score,
+    ""MoveCount"" = @moveCount,
+    ""IsWin"" = @isWin
 where
     ""Id"" = @gameId
 ";
 
-            var selectCellsQuery = @"
-select
-    ""Id"",
-    ""Row"",
-    ""Column"",
-    ""Value""
-from ""Cells""
-where ""GameId"" = @gameId
-";
-
-            var updateCellQuery = @"
-update ""Cells""
-set
-    ""Row"" = @row,
-    ""Column"" = @column
-where
-    ""Id"" = @cellId
+            // Удаляем все старые клетки и вставляем новые
+            var deleteCellsQuery = @"delete from ""Cells"" where ""GameId"" = @gameId";
+            var insertCellQuery = @"
+insert into ""Cells"" (""GameId"", ""Row"", ""Column"", ""Value"")
+values (@gameId, @row, @column, @value)
 ";
 
             using (var connection = new NpgsqlConnection(ConnectionString))
@@ -271,70 +247,43 @@ where
                 connection.Open();
                 int gameId = gameDto.Id;
 
+                // Обновляем игру
                 using (var command = new NpgsqlCommand(updateGameQuery, connection) { CommandType = System.Data.CommandType.Text })
                 {
                     command.Parameters.AddWithValue("gameId", gameId);
+                    command.Parameters.AddWithValue("score", gameDto.Score);
                     command.Parameters.AddWithValue("moveCount", gameDto.MoveCount);
+                    command.Parameters.AddWithValue("isWin", gameDto.IsWin);
                     command.ExecuteNonQuery();
                 }
 
-                var cells = new List<Cell>();
-                using (var command = new NpgsqlCommand(selectCellsQuery, connection) { CommandType = System.Data.CommandType.Text })
+                // Удаляем все клетки
+                using (var command = new NpgsqlCommand(deleteCellsQuery, connection) { CommandType = System.Data.CommandType.Text })
                 {
                     command.Parameters.AddWithValue("gameId", gameId);
-
-                    using (var reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            cells.Add(new Cell
-                            {
-                                Id = reader.GetInt32(0),
-                                Row = reader.GetInt32(1),
-                                Column = reader.GetInt32(2),
-                                Value = reader.GetInt32(3),
-                            });
-                        }
-                    }
+                    command.ExecuteNonQuery();
                 }
 
+                // Вставляем новые клетки
                 for (int row = 0; row < Constants.RowCount; row++)
                 {
-                    for (int column = 0; column < Constants.ColumnCount; column++)
+                    for (int col = 0; col < Constants.ColumnCount; col++)
                     {
-                        var value = gameDto.Cells[row, column];
-                        if (value == Constants.FreeCellValue)
-                        {
-                            continue;
-                        }
+                        if (gameDto.Cells[row, col] == 0) continue;
 
-                        var selectedCell = cells.First(c => c.Value == value);
-                        if (selectedCell.Row != row || selectedCell.Column != column)
+                        using (var command = new NpgsqlCommand(insertCellQuery, connection) { CommandType = System.Data.CommandType.Text })
                         {
-                            using (var command = new NpgsqlCommand(updateCellQuery, connection) { CommandType = System.Data.CommandType.Text })
-                            {
-                                command.Parameters.AddWithValue("row", row);
-                                command.Parameters.AddWithValue("column", column);
-                                command.Parameters.AddWithValue("cellId", selectedCell.Id);
-                                command.ExecuteNonQuery();
-                            }
+                            command.Parameters.AddWithValue("gameId", gameId);
+                            command.Parameters.AddWithValue("row", row);
+                            command.Parameters.AddWithValue("column", col);
+                            command.Parameters.AddWithValue("value", gameDto.Cells[row, col]);
+                            command.ExecuteNonQuery();
                         }
                     }
                 }
 
                 return gameId;
             }
-        }
-
-        class Cell
-        {
-            public int Id { get; set; }
-
-            public int Row { get; set; }
-
-            public int Column { get; set; }
-
-            public int Value { get; set; }
         }
     }
 }

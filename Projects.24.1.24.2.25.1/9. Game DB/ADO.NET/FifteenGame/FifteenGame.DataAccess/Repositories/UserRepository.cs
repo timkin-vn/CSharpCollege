@@ -5,45 +5,32 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FifteenGame.DataAccess.Repositories
 {
     public class UserRepository : IUserRepository
     {
         private readonly string ConnectionString = ConfigurationManager.ConnectionStrings["Main"].ConnectionString;
-        //private const string ConnectionString =
-        //    @"Server=localhost;Port=5432;Database=FifteenGame.1.Dev.24.1.24.2.25.1;User Id=postgres;Password=Qwerty123;";
 
         public IEnumerable<UserDto> GetAll()
         {
-            var selectQuery = @"
-select
-    ""Id"",
-    ""Name""
-from ""Users""
-";
+            var selectQuery = @"select ""Id"", ""Name"" from ""Users""";
 
             using (var connection = new NpgsqlConnection(ConnectionString))
             {
                 connection.Open();
                 var result = new List<UserDto>();
 
-                using (var command = new NpgsqlCommand(selectQuery, connection))
+                using (var command = new NpgsqlCommand(selectQuery, connection) { CommandType = System.Data.CommandType.Text })
+                using (var reader = command.ExecuteReader())
                 {
-                    command.CommandType = System.Data.CommandType.Text;
-
-                    using (var reader = command.ExecuteReader())
+                    while (reader.Read())
                     {
-                        while (reader.Read())
+                        result.Add(new UserDto
                         {
-                            result.Add(new UserDto
-                            {
-                                Id = reader.GetInt32(0),
-                                Name = reader.GetString(1),
-                            });
-                        }
+                            Id = reader.GetInt32(0),
+                            Name = reader.GetString(1),
+                        });
                     }
                 }
 
@@ -59,56 +46,41 @@ values (@userName)
 returning ""Id""
 ";
 
-            var selectQuery = @"
-select
-    ""Id"",
-    ""Name""
-from ""Users""
-where ""Id"" = @userId
-";
+            var selectQuery = @"select ""Id"", ""Name"" from ""Users"" where ""Id"" = @userId";
 
             using (var connection = new NpgsqlConnection(ConnectionString))
             {
                 connection.Open();
-                int userId;
 
                 using (var command = new NpgsqlCommand(insertQuery, connection) { CommandType = System.Data.CommandType.Text })
                 {
                     command.Parameters.AddWithValue("userName", userName);
-                    var insertResult = command.ExecuteScalar();
-                    userId = (int)insertResult;
-                }
+                    var userId = (int)command.ExecuteScalar();
 
-                using (var command = new NpgsqlCommand(selectQuery, connection) { CommandType = System.Data.CommandType.Text })
-                {
-                    command.Parameters.AddWithValue("userId", userId);
-
-                    using (var reader = command.ExecuteReader())
+                    using (var selectCommand = new NpgsqlCommand(selectQuery, connection) { CommandType = System.Data.CommandType.Text })
                     {
-                        if (reader.Read())
+                        selectCommand.Parameters.AddWithValue("userId", userId);
+                        using (var reader = selectCommand.ExecuteReader())
                         {
-                            return new UserDto
+                            if (reader.Read())
                             {
-                                Id = reader.GetInt32(0),
-                                Name = reader.GetString(1),
-                            };
+                                return new UserDto
+                                {
+                                    Id = reader.GetInt32(0),
+                                    Name = reader.GetString(1),
+                                };
+                            }
                         }
-
-                        return null;
                     }
                 }
+
+                return null;
             }
         }
 
         public UserDto GetById(int userId)
         {
-            var selectQuery = @"
-select
-    ""Id"",
-    ""Name""
-from ""Users""
-where ""Id"" = @userId
-";
+            var selectQuery = @"select ""Id"", ""Name"" from ""Users"" where ""Id"" = @userId";
 
             using (var connection = new NpgsqlConnection(ConnectionString))
             {
@@ -128,22 +100,16 @@ where ""Id"" = @userId
                                 Name = reader.GetString(1),
                             };
                         }
-
-                        return null;
                     }
                 }
+
+                return null;
             }
         }
 
         public UserDto GetByName(string userName)
         {
-            var selectQuery = @"
-select
-    ""Id"",
-    ""Name""
-from ""Users""
-where ""Name"" = @userName
-";
+            var selectQuery = @"select ""Id"", ""Name"" from ""Users"" where ""Name"" = @userName";
 
             using (var connection = new NpgsqlConnection(ConnectionString))
             {
@@ -163,10 +129,10 @@ where ""Name"" = @userName
                                 Name = reader.GetString(1),
                             };
                         }
-
-                        return null;
                     }
                 }
+
+                return null;
             }
         }
     }

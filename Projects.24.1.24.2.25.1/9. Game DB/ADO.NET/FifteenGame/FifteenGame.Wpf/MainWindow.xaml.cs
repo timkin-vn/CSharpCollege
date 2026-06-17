@@ -1,26 +1,11 @@
 ﻿using FifteenGame.Common.BusinessModels;
 using FifteenGame.Wpf.ViewModels;
 using FifteenGame.Wpf.Views;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace FifteenGame.Wpf
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindowViewModel ViewModel => (MainWindowViewModel)DataContext;
@@ -30,25 +15,40 @@ namespace FifteenGame.Wpf
             InitializeComponent();
         }
 
-        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            var direction = (MoveDirection)((FrameworkElement)sender).Tag;
-            ViewModel.MakeMove(direction, OnGameFinished);
+            try
+            {
+                var loginWindow = new UserLoginWindow();
+                loginWindow.Owner = this;
+                loginWindow.ViewModel.MainViewModel = ViewModel; // ← Важно! Передаём ссылку
+                loginWindow.ShowDialog();
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show($"Ошибка загрузки: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.Left: ViewModel.MakeMove(MoveDirection.Left, OnGameFinished); break;
+                case Key.Right: ViewModel.MakeMove(MoveDirection.Right, OnGameFinished); break;
+                case Key.Up: ViewModel.MakeMove(MoveDirection.Up, OnGameFinished); break;
+                case Key.Down: ViewModel.MakeMove(MoveDirection.Down, OnGameFinished); break;
+            }
+        }
+
+        private void NewGame_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.NewGame();
         }
 
         private void OnGameFinished()
         {
-            if (MessageBox.Show("Игра окончена. Повторить?", "Поздравляем!", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
-            {
-                ViewModel.Initialize();
-            }
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            var dialog = new UserLoginWindow();
-            dialog.ViewModel.MainViewModel = ViewModel;
-            dialog.ShowDialog();
+            // Игра завершена (победа или поражение)
         }
     }
 }
