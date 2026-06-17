@@ -1,87 +1,50 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
 
 namespace CardFile.DataStore.FileDataAccess.Entities
 {
     public class JsonCard
     {
         /// <summary>
-        /// Id
+        /// Уникальный идентификатор фильма
         /// </summary>
+        [JsonProperty("Id")]
         public int Id { get; set; }
 
         /// <summary>
-        /// Имя
+        /// Название фильма
         /// </summary>
-        public string FirstName { get; set; }
+        [JsonProperty("Title")]
+        public string Title { get; set; }
 
         /// <summary>
-        /// Отчество
+        /// Режиссер
         /// </summary>
-        public string MiddleName { get; set; }
+        [JsonProperty("Director")]
+        public string Director { get; set; }
 
         /// <summary>
-        /// Фамилия
+        /// Год выпуска киноленты
         /// </summary>
-        public string LastName { get; set; }
+        [JsonProperty("Year")]
+        public int Year { get; set; }
 
         /// <summary>
-        /// Дата рождения
+        /// Жанр фильма
         /// </summary>
-        [JsonIgnore]
-        public DateTime BirthDate { get; set; }
-
-        [JsonProperty("BirthDate")]
-        public string BirthDateText
-        {
-            get => BirthDate.ToShortDateString();
-            set => BirthDate = DateTime.Parse(value);
-        }
+        [JsonProperty("Genre")]
+        public string Genre { get; set; }
 
         /// <summary>
-        /// Подразделение
+        /// Длительность фильма в минутах
         /// </summary>
-        public string Department { get; set; }
+        [JsonProperty("Duration")]
+        public int Duration { get; set; }
 
         /// <summary>
-        /// Должность
+        /// Рейтинг фильма (например, 8.6)
         /// </summary>
-        public string Position { get; set; }
-
-        /// <summary>
-        /// Дата трудоустройства
-        /// </summary>
-        [JsonIgnore]
-        public DateTime EmploymentDate { get; set; }
-
-        [JsonProperty("EmploymentDate")]
-        public string EmploymentDateText
-        {
-            get => EmploymentDate.ToShortDateString();
-            set => EmploymentDate = DateTime.Parse(value);
-        }
-
-        /// <summary>
-        /// Дата увольнения
-        /// </summary>
-        [JsonIgnore]
-        public DateTime? DismissalDate { get; set; }
-
-        [JsonProperty("DismissalDate")]
-        public string DismissalDateText
-        {
-            get => DismissalDate?.ToShortDateString() ?? "-";
-            set => DismissalDate = (value == "-") ? (DateTime?)null : DateTime.Parse(value);
-        }
-
-        /// <summary>
-        /// Оклад
-        /// </summary>
-        public decimal Salary { get; set; }
+        [JsonProperty("Rating")]
+        public decimal Rating { get; set; }
     }
 }

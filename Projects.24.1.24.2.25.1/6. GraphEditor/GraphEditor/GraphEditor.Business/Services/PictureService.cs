@@ -18,11 +18,31 @@ namespace GraphEditor.Business.Services
 
         public PictureService()
         {
-            PictureModel.Rectangles.Add(new RectangleModel { Left = 150, Top = 50, Width = 200, Height = 100, FillColor = Color.LightSkyBlue, });
-            var newRectangle = new RectangleModel { Left = 200, Top = 100, Width = 200, Height = 150, };
+            // Задаем прозрачность 128 (около 50%) для первого прямоугольника
+            PictureModel.Rectangles.Add(new RectangleModel
+            {
+                Left = 150,
+                Top = 50,
+                Width = 200,
+                Height = 100,
+                FillColor = Color.FromArgb(128, Color.LightSkyBlue),
+                BorderThickness = 2.0f
+            });
+
+            var newRectangle = new RectangleModel { Left = 200, Top = 100, Width = 200, Height = 150, BorderThickness = 1.0f };
             PictureModel.Rectangles.Add(newRectangle);
             PictureModel.SelectedRectangle = newRectangle;
-            PictureModel.Rectangles.Add(new RectangleModel { Left = 250, Top = 150, Width = 200, Height = 200, FillColor = Color.DarkMagenta, });
+
+            // Задаем прозрачность 180 для третьего прямоугольника и жирную рамку
+            PictureModel.Rectangles.Add(new RectangleModel
+            {
+                Left = 250,
+                Top = 150,
+                Width = 200,
+                Height = 200,
+                FillColor = Color.FromArgb(180, Color.DarkMagenta),
+                BorderThickness = 4.0f
+            });
         }
 
         public void CreateAndSetCreateMode(PointModel loc)

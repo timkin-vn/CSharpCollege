@@ -52,10 +52,15 @@ namespace CardFile.Wpf.ViewModels
         {
             return new CardViewModel
             {
-                BirthDate = new DateTime(2000, 6, 15),
-                EmploymentDate = new DateTime(2020, 6, 15),
+                Title = "Новый фильм",
+                Director = "Неизвестно",
+                Year = DateTime.Today.Year,
+                Genre = "Драма",
+                Duration = 120,
+                Rating = 7.0m
             };
         }
+
 
         public void SaveEditedCard(CardViewModel card)
         {

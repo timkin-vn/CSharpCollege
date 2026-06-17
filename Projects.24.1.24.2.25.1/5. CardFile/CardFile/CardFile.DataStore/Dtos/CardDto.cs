@@ -9,74 +9,17 @@ namespace CardFile.DataStore.Dtos
 {
     public class CardDto
     {
-        // DTO = Data Transfer Object
-
-        /// <summary>
-        /// Id
-        /// </summary>
         public int Id { get; set; }
-
-        /// <summary>
-        /// Имя
-        /// </summary>
-        public string FirstName { get; set; }
-
-        /// <summary>
-        /// Отчество
-        /// </summary>
-        public string MiddleName { get; set; }
-
-        /// <summary>
-        /// Фамилия
-        /// </summary>
-        public string LastName { get; set; }
-
-        /// <summary>
-        /// Дата рождения
-        /// </summary>
-        public DateTime BirthDate { get; set; }
-
-        /// <summary>
-        /// Подразделение
-        /// </summary>
-        public string Department { get; set; }
-
-        /// <summary>
-        /// Должность
-        /// </summary>
-        public string Position { get; set; }
-
-        /// <summary>
-        /// Дата трудоустройства
-        /// </summary>
-        public DateTime EmploymentDate { get; set; }
-
-        /// <summary>
-        /// Дата увольнения
-        /// </summary>
-        public DateTime? DismissalDate { get; set; }
-
-        /// <summary>
-        /// Оклад
-        /// </summary>
-        public decimal Salary { get; set; }
+        public string Title { get; set; }        // Название фильма
+        public string Director { get; set; }     // Режиссер
+        public int Year { get; set; }             // Год выпуска
+        public string Genre { get; set; }        // Жанр
+        public int Duration { get; set; }        // Длительность (мин)
+        public decimal Rating { get; set; }       // Рейтинг (например, 8.4)
 
         public CardDto Clone()
         {
             return Mapping.Mapper.Map<CardDto>(this);
-            //return new CardDto
-            //{
-            //    Id = Id,
-            //    FirstName = FirstName,
-            //    MiddleName = MiddleName,
-            //    LastName = LastName,
-            //    BirthDate = BirthDate,
-            //    Department = Department,
-            //    Position = Position,
-            //    EmploymentDate = EmploymentDate,
-            //    DismissalDate = DismissalDate,
-            //    Salary = Salary,
-            //};
         }
     }
 }

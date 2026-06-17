@@ -1,10 +1,7 @@
 ﻿using GraphEditor.ViewModels;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GraphEditor.ViewServices
 {
@@ -12,33 +9,34 @@ namespace GraphEditor.ViewServices
     {
         public void Paint(Graphics g, PictureViewModel viewModel, bool isInteractive)
         {
-            if (viewModel == null || viewModel.Rectangles == null || !viewModel.Rectangles.Any())
-            {
+            if (g == null || viewModel == null || viewModel.Rectangles == null || !viewModel.Rectangles.Any())
                 return;
-            }
 
-            Pen pen;
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+
             foreach (var rectangle in viewModel.Rectangles)
             {
-                pen = new Pen(rectangle.BorderColor, 3);
-                var brush = new SolidBrush(rectangle.FillColor);
-
-                g.FillRectangle(brush, rectangle.Rectangle);
-                g.DrawRectangle(pen, rectangle.Rectangle);
+                using (var brush = new SolidBrush(rectangle.FillColor))
+                using (var pen = new Pen(rectangle.BorderColor, rectangle.BorderThickness))
+                {
+                    pen.Alignment = PenAlignment.Center;
+                    g.FillRectangle(brush, rectangle.Rectangle);
+                    g.DrawRectangle(pen, rectangle.Rectangle);
+                }
             }
 
-            if (isInteractive)
+            if (isInteractive && viewModel.Markers != null)
             {
-                pen = Pens.Black;
-                var activeBrush = Brushes.Black;
-                var inactiveBrush = Brushes.White;
-
-                foreach (var marker in viewModel.Markers)
+                using (var pen = new Pen(Color.Black, 1f))
+                using (var activeBrush = new SolidBrush(Color.Black))
+                using (var inactiveBrush = new SolidBrush(Color.White))
                 {
-                    var brush = marker.IsActive ? activeBrush : inactiveBrush;
-
-                    g.FillRectangle(brush, marker.Rectangle);
-                    g.DrawRectangle(pen, marker.Rectangle);
+                    foreach (var marker in viewModel.Markers)
+                    {
+                        var brush = marker.IsActive ? activeBrush : inactiveBrush;
+                        g.FillRectangle(brush, marker.Rectangle);
+                        g.DrawRectangle(pen, marker.Rectangle);
+                    }
                 }
             }
         }

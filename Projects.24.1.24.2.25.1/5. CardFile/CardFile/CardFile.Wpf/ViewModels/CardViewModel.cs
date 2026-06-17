@@ -9,120 +9,64 @@ namespace CardFile.Wpf.ViewModels
 {
     public class CardViewModel : ViewModelBase
     {
-        /// <summary>
-        /// Id
-        /// </summary>
-        public int Id { get; set; }
+        private int _id;
+        private string _title;
+        private string _director;
+        private int _year;
+        private string _genre;
+        private int _duration;
+        private decimal _rating;
 
-        /// <summary>
-        /// Имя
-        /// </summary>
-        public string FirstName { get; set; }
-
-        /// <summary>
-        /// Отчество
-        /// </summary>
-        public string MiddleName { get; set; }
-
-        /// <summary>
-        /// Фамилия
-        /// </summary>
-        public string LastName { get; set; }
-
-        public string Fio => $"{LastName} {FirstName} {MiddleName}";
-
-        /// <summary>
-        /// Дата рождения
-        /// </summary>
-        public DateTime BirthDate { get; set; }
-
-        public string BirthDateText => BirthDate.ToShortDateString();
-
-        /// <summary>
-        /// Подразделение
-        /// </summary>
-        public string Department { get; set; }
-
-        /// <summary>
-        /// Должность
-        /// </summary>
-        public string Position { get; set; }
-
-        /// <summary>
-        /// Дата трудоустройства
-        /// </summary>
-        public DateTime EmploymentDate { get; set; }
-
-        public string EmploymentDateText => EmploymentDate.ToShortDateString();
-
-        /// <summary>
-        /// Дата увольнения
-        /// </summary>
-        public DateTime? DismissalDate { get; set; }
-
-        public string DismissalDateText => DismissalDate?.ToShortDateString() ?? "-";
-
-        /// <summary>
-        /// Оклад
-        /// </summary>
-        public decimal Salary { get; set; }
-
-        public string SalaryText => Salary.ToString("c");
-
-        public bool IsWorkingTillNow { get; set; }
-
-        public bool IsDismissalDateEnabled => !IsWorkingTillNow;
-
-        public void IsWorkingTillNowChecked()
+        public int Id
         {
-            DismissalDate = null;
-
-            OnPropertyChanged(nameof(DismissalDate));
-            OnPropertyChanged(nameof(IsDismissalDateEnabled));
+            get => _id;
+            set { _id = value; OnPropertyChanged(nameof(Id)); }
         }
 
-        public void IsWorkingTillNowUnchecked()
+        public string Title
         {
-            DismissalDate = DateTime.Today;
-
-            OnPropertyChanged(nameof(DismissalDate));
-            OnPropertyChanged(nameof(IsDismissalDateEnabled));
+            get => _title;
+            set { _title = value; OnPropertyChanged(nameof(Title)); }
         }
+
+        public string Director
+        {
+            get => _director;
+            set { _director = value; OnPropertyChanged(nameof(Director)); }
+        }
+
+        public int Year
+        {
+            get => _year;
+            set { _year = value; OnPropertyChanged(nameof(Year)); }
+        }
+
+        public string Genre
+        {
+            get => _genre;
+            set { _genre = value; OnPropertyChanged(nameof(Genre)); }
+        }
+
+        public int Duration
+        {
+            get => _duration;
+            set { _duration = value; OnPropertyChanged(nameof(Duration)); }
+        }
+
+        public decimal Rating
+        {
+            get => _rating;
+            set { _rating = value; OnPropertyChanged(nameof(Rating)); }
+        }
+
+        // Вычисляемые свойства для удобного вывода в DataGrid
+        public string DisplayInfo => $"{Title} ({Year})";
+        public string DurationText => $"{Duration} мин.";
+        public string RatingText => Rating.ToString("0.0");
 
         public void LoadViewModel(CardViewModel model)
         {
             Mapping.Mapper.Map(model, this);
-            //Id = model.Id;
-            //FirstName = model.FirstName;
-            //MiddleName = model.MiddleName;
-            //LastName = model.LastName;
-            //BirthDate = model.BirthDate;
-            //Department = model.Department;
-            //Position = model.Position;
-            //EmploymentDate = model.EmploymentDate;
-            //DismissalDate = model.DismissalDate;
-            //Salary = model.Salary;
-
-            IsWorkingTillNow = !model.DismissalDate.HasValue;
-
-            UpdateAll();
-        }
-
-        private void UpdateAll()
-        {
-            OnPropertyChanged(nameof(Id));
-            OnPropertyChanged(nameof(FirstName));
-            OnPropertyChanged(nameof(MiddleName));
-            OnPropertyChanged(nameof(LastName));
-            OnPropertyChanged(nameof(Fio));
-            OnPropertyChanged(nameof(BirthDate));
-            OnPropertyChanged(nameof(Department));
-            OnPropertyChanged(nameof(Position));
-            OnPropertyChanged(nameof(EmploymentDate));
-            OnPropertyChanged(nameof(DismissalDate));
-            OnPropertyChanged(nameof(Salary));
-            OnPropertyChanged(nameof(IsWorkingTillNow));
-            OnPropertyChanged(nameof(IsDismissalDateEnabled));
         }
     }
 }

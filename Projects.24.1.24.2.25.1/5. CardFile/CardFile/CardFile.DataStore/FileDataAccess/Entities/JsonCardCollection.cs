@@ -9,8 +9,14 @@ namespace CardFile.DataStore.FileDataAccess.Entities
 {
     public class JsonCardCollection
     {
+        /// <summary>
+        /// Следующий свободный идентификатор для генерации ID в базе данных фильмов
+        /// </summary>
         public int NextId { get; set; }
 
+        /// <summary>
+        /// Список всех сохраненных фильмов в формате JSON-сущностей
+        /// </summary>
         public List<JsonCard> Cards { get; set; } = new List<JsonCard>();
     }
 }

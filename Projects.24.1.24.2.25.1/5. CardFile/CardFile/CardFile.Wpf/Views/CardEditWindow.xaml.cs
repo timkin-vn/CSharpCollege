@@ -1,5 +1,4 @@
-﻿using CardFile.Wpf.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,12 +11,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using CardFile.Wpf.ViewModels;
 
 namespace CardFile.Wpf.Views
 {
-    /// <summary>
-    /// Interaction logic for CardEditWindow.xaml
-    /// </summary>
     public partial class CardEditWindow : Window
     {
         public CardViewModel ViewModel => (CardViewModel)DataContext;
@@ -35,16 +32,6 @@ namespace CardFile.Wpf.Views
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
-        }
-
-        private void IsWorkingTillNowCheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-            ViewModel.IsWorkingTillNowChecked();
-        }
-
-        private void IsWorkingTillNowCheckBox_Unchecked(object sender, RoutedEventArgs e)
-        {
-            ViewModel.IsWorkingTillNowUnchecked();
         }
     }
 }

@@ -16,57 +16,46 @@ namespace CardFile.DataStore.DataCollection
 
         public CardCollection()
         {
+            // Наполняем базу тестовыми фильмами вместо сотрудников
             _cards.Add(new CardDto
             {
                 Id = 1,
-                FirstName = "Андрей",
-                MiddleName = "Геннадьевич",
-                LastName = "Захаров",
-                BirthDate = new DateTime(1985, 11, 7),
-                Department = "Отдел разработки",
-                Position = "Руководитель проекта",
-                EmploymentDate = new DateTime(2010, 4, 18),
-                DismissalDate = null,
-                Salary = 250000m,
+                Title = "Интерстеллар",
+                Director = "Кристофер Нолан",
+                Year = 2014,
+                Genre = "Фантастика",
+                Duration = 169,
+                Rating = 8.6m
             });
             _cards.Add(new CardDto
             {
                 Id = 2,
-                FirstName = "Нина",
-                MiddleName = "Аркадьевна",
-                LastName = "Шевченко",
-                BirthDate = new DateTime(1990, 8, 21),
-                Department = "Отдел тестирования",
-                Position = "Старший тестировщик",
-                EmploymentDate = new DateTime(2015, 2, 14),
-                DismissalDate = new DateTime(2024, 11, 3),
-                Salary = 200000m,
+                Title = "Начало",
+                Director = "Кристофер Нолан",
+                Year = 2010,
+                Genre = "Фантастика",
+                Duration = 148,
+                Rating = 8.7m
             });
             _cards.Add(new CardDto
             {
                 Id = 3,
-                FirstName = "Виктор",
-                MiddleName = "Петрович",
-                LastName = "Васильев",
-                BirthDate = new DateTime(2001, 3, 11),
-                Department = "Отдел разработки",
-                Position = "Ведущий разработчик",
-                EmploymentDate = new DateTime(2020, 9, 25),
-                DismissalDate = null,
-                Salary = 300000m,
+                Title = "Зеленая миля",
+                Director = "Фрэнк Дарабонт",
+                Year = 1999,
+                Genre = "Драма",
+                Duration = 189,
+                Rating = 9.1m
             });
             _cards.Add(new CardDto
             {
                 Id = 4,
-                FirstName = "Ольга",
-                MiddleName = "Владимировна",
-                LastName = "Меднис",
-                BirthDate = new DateTime(1981, 9, 2),
-                Department = "Бухгалтерия",
-                Position = "Главный бухгалтер",
-                EmploymentDate = new DateTime(2010, 9, 25),
-                DismissalDate = new DateTime(2023, 3, 18),
-                Salary = 150000m,
+                Title = "Побег из Шоушенка",
+                Director = "Фрэнк Дарабонт",
+                Year = 1994,
+                Genre = "Драма",
+                Duration = 142,
+                Rating = 9.1m
             });
 
             MapperInitialization.PreRegister();
@@ -74,17 +63,6 @@ namespace CardFile.DataStore.DataCollection
 
         public IEnumerable<CardDto> GetAll()
         {
-            //return _cards;
-
-            //var result = new List<CardDto>();
-
-            //foreach (var card in _cards)
-            //{
-            //    result.Add(card.Clone());
-            //}
-
-            //return result;
-
             return _cards.Select(c => c.Clone()).ToList();
         }
 
@@ -125,7 +103,7 @@ namespace CardFile.DataStore.DataCollection
         {
             _cards.Clear();
             _cards.AddRange(newCollection);
-            NextId = _cards.Max(c => c.Id) + 1;
+            NextId = _cards.Count > 0 ? _cards.Max(c => c.Id) + 1 : 1;
         }
 
         internal void ReplaceAll(IEnumerable<CardDto> newCollection, int nextId)

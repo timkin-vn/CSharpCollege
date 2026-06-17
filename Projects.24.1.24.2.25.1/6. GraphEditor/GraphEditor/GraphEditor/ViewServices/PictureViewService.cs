@@ -40,6 +40,7 @@ namespace GraphEditor.ViewServices
             FileName = string.Empty;
             LoadViewModel();
         }
+
         public void DeleteButtonClicked()
         {
             _businessService.DeleteRectangle();
@@ -63,6 +64,16 @@ namespace GraphEditor.ViewServices
         public Color GetCurrentFillColor()
         {
             return _viewModel?.SelectedRectangle?.FillColor ?? PictureService.DefaultFillColor;
+        }
+
+        public Color GetCurrentBorderColor()
+        {
+            return _viewModel?.SelectedRectangle?.BorderColor ?? Color.Blue;
+        }
+
+        public float GetCurrentBorderThickness()
+        {
+            return _viewModel?.SelectedRectangle?.BorderThickness ?? 2.0f;
         }
 
         public Cursor GetCursor(Point loc)
@@ -166,6 +177,25 @@ namespace GraphEditor.ViewServices
             }
 
             _businessService.SetFillColor(color);
+            LoadViewModel();
+        }
+
+        public void SetBorderProperties(Color color, byte alpha, float thickness)
+        {
+            var rect = _businessService.PictureModel.SelectedRectangle;
+            if (rect == null) return;
+
+            rect.BorderColor = Color.FromArgb(alpha, color.R, color.G, color.B);
+            rect.BorderThickness = thickness;
+            LoadViewModel();
+        }
+
+        public void SetFillProperties(Color color, byte alpha)
+        {
+            var rect = _businessService.PictureModel.SelectedRectangle;
+            if (rect == null) return;
+
+            rect.FillColor = Color.FromArgb(alpha, color.R, color.G, color.B);
             LoadViewModel();
         }
 

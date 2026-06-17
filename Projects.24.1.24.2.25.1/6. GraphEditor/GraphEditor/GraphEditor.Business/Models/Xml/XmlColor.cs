@@ -10,6 +10,10 @@ namespace GraphEditor.Business.Models.Xml
     [Serializable]
     public class XmlColor
     {
+        // Новый атрибут для прозрачности (255 — полностью непрозрачный)
+        [XmlAttribute("Alpha")]
+        public byte Alpha { get; set; } = 255;
+
         [XmlAttribute("Red")]
         public byte Red { get; set; }
 
@@ -20,3 +24,4 @@ namespace GraphEditor.Business.Models.Xml
         public byte Blue { get; set; }
     }
 }
+
