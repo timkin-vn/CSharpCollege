@@ -26,7 +26,7 @@ namespace Drawing
 
         private void DrawingForm_Resize(object sender, EventArgs e)
         {
-            Refresh();
+            this.Invalidate();
         }
     }
 }

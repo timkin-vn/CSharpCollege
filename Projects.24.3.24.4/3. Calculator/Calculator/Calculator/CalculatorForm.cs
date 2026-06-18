@@ -32,7 +32,7 @@ namespace Calculator
 
         private void DisplayResult()
         {
-            DisplayLabel.Text = _calculatorModel.RegisterX.ToString();
+            DisplayLabel.Text = _calculatorModel.RegisterX.ToString("G10");
         }
 
         private void ClearButton_Click(object sender, EventArgs e)
@@ -52,6 +52,23 @@ namespace Calculator
             var operationCode = ((Button)sender).Text;
             _calculatorService.PressOperation(_calculatorModel, operationCode);
             DisplayResult();
+        }
+
+        private void PiButton_Click(object sender, EventArgs e)
+        {
+            _calculatorService.PressPi(_calculatorModel);
+            DisplayResult();
+        }
+
+        private void EButton_Click(object sender, EventArgs e)
+        {
+            _calculatorService.PressE(_calculatorModel);
+            DisplayResult();
+        }
+
+        private void CalculatorForm_Load(object sender, EventArgs e)
+        {
+            
         }
     }
 }
