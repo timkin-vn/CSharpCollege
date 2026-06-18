@@ -55,14 +55,53 @@
             <button class="btn-arrow right" @onclick="async () => await ExecuteMove(MoveDirection.Right)">▶</button>
         </div>
     </div>
+
+    <div class="db-section">
+        <h4>Сохранить результат в БД</h4>
+        <div class="save-box">
+            <input @bind="_playerName" placeholder="Ваше имя" class="input-name" />
+            <button class="btn-save" @onclick="SaveScoreToDb">Сохранить</button>
+        </div>
+
+        @if (_isSaved)
+        {
+            <div class="save-status">✓ Результат сохранен в SQLite!</div>
+        }
+
+        <h4 class="leaderboard-title">🏆 Топ-10 результатов из БД</h4>
+        <ul class="leaderboard-list">
+            @if (_leaderboard == null)
+            {
+                <li>Загрузка...</li>
+            }
+            else if (!_leaderboard.Any())
+            {
+                <li>Таблица рекордов пуста. Будьте первым!</li>
+            }
+            else
+            {
+                @foreach (var record in _leaderboard)
+                {
+                    <li>
+                        <span class="player-name">@record.PlayerName</span>
+                        <span class="player-score">@record.Score очков</span>
+                    </li>
+                }
+            }
+        </ul>
+    </div>
 </div>
 
 @code {
     private GameModel _gameModel = new GameModel();
+    private string _playerName = "Игрок";
+    private bool _isSaved = false;
+    private List<GameHttpProxy.GameSessionDto> _leaderboard = new();
 
     protected override async Task OnInitializedAsync()
     {
         _gameModel = await GameProxy.RestartGameAsync();
+        await RefreshLeaderboard(); 
     }
 
     private async Task ExecuteMove(MoveDirection direction)
@@ -70,14 +109,43 @@
         if (_gameModel.IsGameOver) return;
 
         _gameModel = await GameProxy.ExecuteMoveAsync(direction);
-        
+        _isSaved = false; 
         StateHasChanged();
     }
 
     private async Task RestartGame()
     {
         _gameModel = await GameProxy.RestartGameAsync();
+        _isSaved = false;
         StateHasChanged();
+    }
+
+    private async Task SaveScoreToDb()
+    {
+        if (string.IsNullOrWhiteSpace(_playerName)) return;
+
+        try
+        {
+            await GameProxy.SaveGameResultAsync(_playerName);
+            _isSaved = true;
+            await RefreshLeaderboard(); 
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Ошибка сохранения: {ex.Message}");
+        }
+    }
+
+    private async Task RefreshLeaderboard()
+    {
+        try
+        {
+            _leaderboard = await GameProxy.GetLeaderboardAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Ошибка загрузки топа: {ex.Message}");
+        }
     }
 
     private async Task HandleKeyDown(KeyboardEventArgs e)
@@ -132,4 +200,17 @@
     .left { grid-column: 1; grid-row: 2; }
     .down { grid-column: 2; grid-row: 2; }
     .right { grid-column: 3; grid-row: 2; }
+
+    .db-section { margin-top: 25px; padding-top: 15px; border-top: 2px solid #BBADA0; font-family: sans-serif; color: #776E65; }
+    .db-section h4 { margin: 10px 0; font-size: 16px; }
+    .save-box { display: flex; gap: 8px; }
+    .input-name { flex: 1; padding: 8px; border: 1px solid #BBADA0; border-radius: 4px; outline: none; }
+    .btn-save { padding: 8px 15px; background: #2ecc71; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; }
+    .btn-save:active { background: #27ae60; }
+    .save-status { color: #2ecc71; font-size: 12px; margin-top: 5px; font-weight: bold; }
+    .leaderboard-title { margin-top: 20px !important; }
+    .leaderboard-list { list-style: none; padding: 0; margin: 0; background: #eee4da; border-radius: 6px; padding: 8px; }
+    .leaderboard-list li { display: flex; justify-content: space-between; padding: 6px 10px; font-size: 14px; border-bottom: 1px solid #CDC1B4; }
+    .leaderboard-list li:last-child { border-bottom: none; }
+    .player-name { font-weight: bold; }
 </style>

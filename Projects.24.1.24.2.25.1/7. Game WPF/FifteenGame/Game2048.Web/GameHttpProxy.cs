@@ -1,4 +1,6 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Game2048.Business.Models;
@@ -32,5 +34,32 @@ public class GameHttpProxy
         {
             PropertyNameCaseInsensitive = true
         })!;
+    }
+
+    public async Task SaveGameResultAsync(string playerName)
+    {
+        var response = await _httpClient.PostAsync($"api/game/save?playerName={Uri.EscapeDataString(playerName)}", null);
+        response.EnsureSuccessStatusCode();
+    }
+
+    public async Task<List<GameSessionDto>> GetLeaderboardAsync()
+    {
+        var response = await _httpClient.GetAsync("api/game/leaderboard");
+        response.EnsureSuccessStatusCode();
+
+        var responseString = await response.Content.ReadAsStringAsync();
+
+        return System.Text.Json.JsonSerializer.Deserialize<List<GameSessionDto>>(responseString, new System.Text.Json.JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        }) ?? new List<GameSessionDto>();
+    }
+
+    public class GameSessionDto
+    {
+        public int Id { get; set; }
+        public string PlayerName { get; set; } = string.Empty;
+        public int Score { get; set; }
+        public DateTime PlayedAt { get; set; }
     }
 }
