@@ -1,0 +1,184 @@
+﻿@model FifteenGame.Web.Models.TicTacToeViewModel
+@{
+    ViewBag.Title = "Крестики-нолики";
+}
+
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        text-align: center;
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+        color: white;
+    }
+
+    .container {
+        max-width: 500px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    h1 {
+        font-size: 3em;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .game-status {
+        margin: 20px 0;
+        font-size: 1.8em;
+        font-weight: bold;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .game-board {
+        display: inline-grid;
+        grid-template-columns: repeat(3, 100px);
+        grid-template-rows: repeat(3, 100px);
+        gap: 5px;
+        margin: 20px auto;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 10px;
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .cell {
+        width: 100px;
+        height: 100px;
+        border: 2px solid #ccc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3em;
+        font-weight: bold;
+        cursor: pointer;
+        user-select: none;
+        background-color: #eee;
+        color: #333;
+        transition: background-color 0.2s, color 0.2s;
+        border-radius: 5px;
+    }
+
+        .cell:not(.filled):hover {
+            background-color: #ddd;
+        }
+
+        .cell.X {
+            color: #e74c3c;
+        }
+
+        .cell.O {
+            color: #3498db;
+        }
+
+        .cell.winner {
+            background-color: #27ae60;
+            color: white;
+        }
+
+    button {
+        background: #28a745;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 1.1em;
+        transition: all 0.3s;
+        margin-top: 20px;
+    }
+
+        button:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+</style>
+
+<div class="container">
+    <h1 id="gameTitle">Крестики-нолики</h1>
+
+    <div class="game-status" id="gameStatus">@Model.GameStatus</div>
+
+    <div class="game-board" id="gameBoard">
+        @for (int row = 0; row < 3; row++)
+        {
+            for (int col = 0; col < 3; col++)
+            {
+                var cell = Model.Cells.FirstOrDefault(c => c.Row == row && c.Column == col);
+                if (cell != null)
+                {
+                    <div class="cell @cell.Player.ToString()"
+                         data-row="@cell.Row" data-col="@cell.Column">
+                        @cell.DisplayText
+                    </div>
+                }
+            }
+        }
+    </div>
+
+    <button id="newGameButton">НОВАЯ ИГРА</button>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Обработчики клеток
+            $(document).on('click', '.cell', function () {
+                const row = $(this).data('row');
+                const col = $(this).data('col');
+                makeMove(row, col);
+            });
+
+            // Обработчик кнопки новой игры
+            $('#newGameButton').click(function () {
+                startNewGame();
+            });
+
+            function makeMove(row, col) {
+                $.post('@Url.Action("MakeMove", "Game")', { row: row, column: col })
+                    .done(function (data) {
+                        updateGame(data);
+                    });
+            }
+
+            function startNewGame() {
+                $.post('@Url.Action("NewGame", "Game")')
+                    .done(function (data) {
+                        updateGame(data);
+                    });
+            }
+
+            function updateGame(gameData) {
+                $('#gameStatus').text(gameData.GameStatus);
+
+                const gameBoard = $('#gameBoard');
+                gameBoard.empty();
+
+                for (let row = 0; row < 3; row++) {
+                    for (let col = 0; col < 3; col++) {
+                        const cell = gameData.Cells.find(c => c.Row === row && c.Column === col);
+                        if (cell) {
+                            const cellDiv = $(`
+                                <div class="cell ${cell.Player === 1 ? 'X' : cell.Player === 2 ? 'O' : ''}"
+                                     data-row="${cell.Row}" data-col="${cell.Column}">
+                                    ${cell.DisplayText}
+                                </div>
+                            `);
+                            gameBoard.append(cellDiv);
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+}
