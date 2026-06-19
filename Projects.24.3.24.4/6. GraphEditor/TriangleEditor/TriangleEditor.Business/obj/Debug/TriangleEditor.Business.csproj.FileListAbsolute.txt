@@ -1,0 +1,12 @@
+E:\College\nextCourse\Kirill\6. GraphEditor\TriangleEditor\TriangleEditor.Business\bin\Debug\TriangleEditor.Business.dll
+E:\College\nextCourse\Kirill\6. GraphEditor\TriangleEditor\TriangleEditor.Business\bin\Debug\TriangleEditor.Business.pdb
+E:\College\nextCourse\Kirill\6. GraphEditor\TriangleEditor\TriangleEditor.Business\obj\Debug\TriangleEditor.Business.csproj.AssemblyReference.cache
+E:\College\nextCourse\Kirill\6. GraphEditor\TriangleEditor\TriangleEditor.Business\obj\Debug\TriangleEditor.Business.csproj.CoreCompileInputs.cache
+E:\College\nextCourse\Kirill\6. GraphEditor\TriangleEditor\TriangleEditor.Business\obj\Debug\TriangleEditor.Business.dll
+E:\College\nextCourse\Kirill\6. GraphEditor\TriangleEditor\TriangleEditor.Business\obj\Debug\TriangleEditor.Business.pdb
+C:\Users\Андрей\Desktop\6. GraphEditor\TriangleEditor\TriangleEditor.Business\bin\Debug\TriangleEditor.Business.dll
+C:\Users\Андрей\Desktop\6. GraphEditor\TriangleEditor\TriangleEditor.Business\bin\Debug\TriangleEditor.Business.pdb
+C:\Users\Андрей\Desktop\6. GraphEditor\TriangleEditor\TriangleEditor.Business\obj\Debug\TriangleEditor.Business.csproj.AssemblyReference.cache
+C:\Users\Андрей\Desktop\6. GraphEditor\TriangleEditor\TriangleEditor.Business\obj\Debug\TriangleEditor.Business.csproj.CoreCompileInputs.cache
+C:\Users\Андрей\Desktop\6. GraphEditor\TriangleEditor\TriangleEditor.Business\obj\Debug\TriangleEditor.Business.dll
+C:\Users\Андрей\Desktop\6. GraphEditor\TriangleEditor\TriangleEditor.Business\obj\Debug\TriangleEditor.Business.pdb

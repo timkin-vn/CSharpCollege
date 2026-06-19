@@ -1,0 +1,6 @@
+C:\Users\Андрей\Desktop\SeaBattle\SeaBattle.Business\bin\Debug\SeaBattle.Business.dll
+C:\Users\Андрей\Desktop\SeaBattle\SeaBattle.Business\bin\Debug\SeaBattle.Business.pdb
+C:\Users\Андрей\Desktop\SeaBattle\SeaBattle.Business\obj\Debug\SeaBattle.Business.csproj.AssemblyReference.cache
+C:\Users\Андрей\Desktop\SeaBattle\SeaBattle.Business\obj\Debug\SeaBattle.Business.csproj.CoreCompileInputs.cache
+C:\Users\Андрей\Desktop\SeaBattle\SeaBattle.Business\obj\Debug\SeaBattle.Business.dll
+C:\Users\Андрей\Desktop\SeaBattle\SeaBattle.Business\obj\Debug\SeaBattle.Business.pdb
