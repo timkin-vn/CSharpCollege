@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <ProjectGuid>{EB3F32E3-5184-4E11-9D86-92A0A7F3A8D5}</ProjectGuid>
+    <RootNamespace>LightsOutGame.Common</RootNamespace>
+    <AssemblyName>LightsOutGame.Common</AssemblyName>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Ninject" Version="3.3.6" />
+  </ItemGroup>
+
+</Project>
