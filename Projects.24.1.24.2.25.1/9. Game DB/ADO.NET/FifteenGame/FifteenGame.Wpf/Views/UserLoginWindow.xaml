@@ -6,10 +6,7 @@
         xmlns:local="clr-namespace:FifteenGame.Wpf.Views" xmlns:viewmodels="clr-namespace:FifteenGame.Wpf.ViewModels"
         mc:Ignorable="d"
         Title="Вход в систему" Height="150" Width="300" MinHeight="150" MinWidth="300" MaxHeight="150" MaxWidth="300">
-    <Window.DataContext>
-        <viewmodels:UserLoginWindowViewModel />
-    </Window.DataContext>
-    
+   
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />

@@ -1,239 +1,270 @@
-﻿using FifteenGame.Common.BusinessModels;
-using FifteenGame.Common.Contracts.Repositories;
-using FifteenGame.Common.Contracts.Services;
-using FifteenGame.Common.Definitions;
-using FifteenGame.Common.Dtos;
+﻿using CheckersGame.Business.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace FifteenGame.Business.Services
+namespace CheckersGame.Business.Services
 {
-    public class GameService : IGameService
+    public class GameService
     {
-        private readonly IGameRepository _repository;
-
-        public GameService(IGameRepository repository)
-        {
-            _repository = repository;
-        }
-
-        public GameModel GetByGameId(int gameId)
-        {
-            var dto = _repository.GetByGameId(gameId);
-            return FromDto(dto);
-        }
-
-        public GameModel GetByUserId(int userId)
-        {
-            var dtos = _repository.GetByUserId(userId);
-            var dto = dtos.LastOrDefault();
-            if (dto != null)
-            {
-                return FromDto(dto);
-            }
-
-            var game = new GameModel
-            {
-                UserId = userId,
-            };
-
-            Shuffle(game);
-            var gameId = _repository.Save(ToDto(game));
-
-            return GetByGameId(gameId);
-        }
-
         public void Initialize(GameModel model)
         {
-            int value = 1;
-            for (int row = 0; row < Constants.RowCount; row++)
-            {
-                for (int column = 0; column < Constants.ColumnCount; column++)
+            model.EndCaptureSequence();
+            for (int r = 0; r < GameModel.BoardSize; r++)
+                for (int c = 0; c < GameModel.BoardSize; c++)
+                    model[r, c] = Piece.None;
+
+            for (int r = 0; r < 3; r++)
+                for (int c = 0; c < GameModel.BoardSize; c++)
+                    if ((r + c) % 2 == 0)
+                        model[r, c] = Piece.Black;
+
+            for (int r = 5; r < 8; r++)
+                for (int c = 0; c < GameModel.BoardSize; c++)
+                    if ((r + c) % 2 == 0)
+                        model[r, c] = Piece.White;
+
+            model.CurrentPlayer = Player.White;
+        }
+
+        public bool HasAnyCapture(GameModel model)
+        {
+            for (int r = 0; r < GameModel.BoardSize; r++)
+                for (int c = 0; c < GameModel.BoardSize; c++)
                 {
-                    model[row, column] = value++;
+                    var piece = model[r, c];
+                    if (piece == Piece.None) continue;
+                    bool isBlack = piece == Piece.Black || piece == Piece.BlackKing;
+                    if ((model.CurrentPlayer == Player.Black && !isBlack) ||
+                        (model.CurrentPlayer == Player.White && isBlack)) continue;
+
+                    if (CanCapture(model, r, c)) return true;
                 }
-            }
-
-            model[Constants.RowCount - 1, Constants.ColumnCount - 1] = Constants.FreeCellValue;
-            model.FreeCellRow = Constants.RowCount - 1;
-            model.FreeCellColumn = Constants.ColumnCount - 1;
-        }
-
-        public bool IsGameOver(int gameId)
-        {
-            var dto = _repository.GetByGameId(gameId);
-            return IsGameOver(FromDto(dto));
-        }
-
-        public bool IsGameOver(GameModel model)
-        {
-            int freeCellRow = model.FreeCellRow;
-            if (freeCellRow != Constants.RowCount - 1)
-            {
-                return false;
-            }
-
-            int freeCellColumn = model.FreeCellColumn;
-            if (freeCellColumn != Constants.ColumnCount - 1)
-            {
-                return false;
-            }
-
-            int value = 1;
-            for (int row = 0; row < Constants.RowCount; row++)
-            {
-                for (int column = 0; column < Constants.ColumnCount; column++)
-                {
-                    if (row == freeCellRow && column == freeCellColumn)
-                    {
-                        return model[row, column] == Constants.FreeCellValue;
-                    }
-                    else if (model[row, column] != value++)
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
-        }
-
-        public GameModel MakeMove(int gameId, MoveDirection direction)
-        {
-            var dto = _repository.GetByGameId(gameId);
-            var model = FromDto(dto);
-
-            MakeMove(model, direction);
-
-            _repository.Save(ToDto(model));
-            return model;
-        }
-
-        public bool MakeMove(GameModel model, MoveDirection direction)
-        {
-            switch (direction)
-            {
-                case MoveDirection.Left:
-                    if (model.FreeCellColumn == Constants.ColumnCount - 1)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow, model.FreeCellColumn + 1];
-                    model[model.FreeCellRow, model.FreeCellColumn + 1] = Constants.FreeCellValue;
-                    model.FreeCellColumn++;
-
-                    model.MoveCount++;
-                    return true;
-
-                case MoveDirection.Right:
-                    if (model.FreeCellColumn == 0)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow, model.FreeCellColumn - 1];
-                    model[model.FreeCellRow, model.FreeCellColumn - 1] = Constants.FreeCellValue;
-                    model.FreeCellColumn--;
-
-                    model.MoveCount++;
-                    return true;
-
-                case MoveDirection.Up:
-                    if (model.FreeCellRow == Constants.RowCount - 1)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow + 1, model.FreeCellColumn];
-                    model[model.FreeCellRow + 1, model.FreeCellColumn] = Constants.FreeCellValue;
-                    model.FreeCellRow++;
-
-                    model.MoveCount++;
-                    return true;
-
-                case MoveDirection.Down:
-                    if (model.FreeCellRow == 0)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow - 1, model.FreeCellColumn];
-                    model[model.FreeCellRow - 1, model.FreeCellColumn] = Constants.FreeCellValue;
-                    model.FreeCellRow--;
-
-                    model.MoveCount++;
-                    return true;
-            }
-
             return false;
         }
 
-        public void RemoveGame(int gameId)
+        public bool CanCapture(GameModel model, int fromRow, int fromCol)
         {
-            _repository.Remove(gameId);
+            var moves = GetAvailableMoves(model, fromRow, fromCol);
+            return moves.Any(m => IsCaptureMove(fromRow, fromCol, m.row, m.col, model));
         }
 
-        public void Shuffle(GameModel model)
-        {
-            Initialize(model);
 
-            var rnd = new Random();
-            for (int i = 0; i < 1000; i++)
+        public bool IsCaptureMove(int fromRow, int fromCol, int toRow, int toCol, GameModel model)
+        {
+            int dr = Math.Sign(toRow - fromRow);
+            int dc = Math.Sign(toCol - fromCol);
+            if (dr == 0 || dc == 0) return false;
+
+            Piece piece = model[fromRow, fromCol];
+            if (piece == Piece.None) return false;
+            bool isBlack = piece == Piece.Black || piece == Piece.BlackKing;
+            bool isKing = piece == Piece.BlackKing || piece == Piece.WhiteKing;
+
+            int r = fromRow + dr, c = fromCol + dc;
+            bool foundOpponent = false;
+
+            while (r != toRow || c != toCol)
             {
-                var nextMove = (MoveDirection)(rnd.Next(4) + 1);
-                MakeMove(model, nextMove);
+                if (r < 0 || r >= GameModel.BoardSize || c < 0 || c >= GameModel.BoardSize)
+                    return false;
+
+                if (model[r, c] != Piece.None)
+                {
+                    bool isOpponent = isBlack ? (model[r, c] == Piece.White || model[r, c] == Piece.WhiteKing)
+                                              : (model[r, c] == Piece.Black || model[r, c] == Piece.BlackKing);
+                    if (!isOpponent) return false;
+                    if (model.CapturedThisTurn.Contains((r, c))) return false; // уже взята в текущем ходе
+                    if (foundOpponent) return false;
+                    foundOpponent = true;
+                }
+                r += dr;
+                c += dc;
             }
 
-            model.MoveCount = 0;
+            if (model[toRow, toCol] != Piece.None) return false;
+
+            if (isKing)
+                return foundOpponent;
+            else
+            {
+                int dist = Math.Abs(toRow - fromRow);
+                if (dist != 2) return false;
+                return foundOpponent;
+            }
         }
 
-        private GameModel FromDto(GameDto dto)
+        public List<(int row, int col)> GetAvailableMoves(GameModel model, int fromRow, int fromCol)
         {
-            var result = new GameModel
-            {
-                Id = dto.Id,
-                UserId = dto.UserId,
-                MoveCount = dto.MoveCount,
-            };
+            if (model.IsCaptureInProgress &&
+                (fromRow != model.CaptureRow || fromCol != model.CaptureCol))
+                return new List<(int, int)>();
 
-            for (int row = 0; row < Constants.RowCount; row++)
+            var piece = model[fromRow, fromCol];
+            if (piece == Piece.None) return new List<(int, int)>();
+
+            bool isBlack = piece == Piece.Black || piece == Piece.BlackKing;
+            bool isKing = piece == Piece.BlackKing || piece == Piece.WhiteKing;
+            if ((model.CurrentPlayer == Player.Black && !isBlack) ||
+                (model.CurrentPlayer == Player.White && isBlack))
+                return new List<(int, int)>();
+
+            var moves = new List<(int, int)>();
+            var captures = new List<(int, int)>();
+
+            int forward = isBlack ? 1 : -1;
+            int[] drs = { -1, -1, 1, 1 };
+            int[] dcs = { -1, 1, -1, 1 };
+
+            for (int dir = 0; dir < 4; dir++)
             {
-                for (int column = 0; column < Constants.ColumnCount; column++)
+                int dr = drs[dir];
+                int dc = dcs[dir];
+
+                if (!isKing)
                 {
-                    result[row, column] = dto.Cells[row, column];
-                    if (result[row, column] == Constants.FreeCellValue)
+                    int nr = fromRow + dr;
+                    int nc = fromCol + dc;
+                    if (nr < 0 || nr >= GameModel.BoardSize || nc < 0 || nc >= GameModel.BoardSize)
+                        continue;
+
+                    if (model[nr, nc] == Piece.None)
                     {
-                        result.FreeCellRow = row;
-                        result.FreeCellColumn = column;
+                        if (dr == forward)
+                            moves.Add((nr, nc));
+                    }
+                    else
+                    {
+                        bool isOwn = isBlack ? (model[nr, nc] == Piece.Black || model[nr, nc] == Piece.BlackKing)
+                                              : (model[nr, nc] == Piece.White || model[nr, nc] == Piece.WhiteKing);
+                        if (isOwn) continue;
+                        if (model.CapturedThisTurn.Contains((nr, nc))) continue;
+
+                        int landR = nr + dr;
+                        int landC = nc + dc;
+                        if (landR >= 0 && landR < GameModel.BoardSize && landC >= 0 && landC < GameModel.BoardSize &&
+                            model[landR, landC] == Piece.None)
+                        {
+                            captures.Add((landR, landC));
+                        }
+                    }
+                }
+                else
+                {
+                    int r = fromRow + dr;
+                    int c = fromCol + dc;
+                    bool opponentFound = false;
+                    int oppR = -1, oppC = -1;
+
+                    while (r >= 0 && r < GameModel.BoardSize && c >= 0 && c < GameModel.BoardSize)
+                    {
+                        if (model[r, c] == Piece.None)
+                        {
+                            if (!opponentFound)
+                                moves.Add((r, c));
+                            else
+                                captures.Add((r, c));
+                        }
+                        else
+                        {
+                            if (!opponentFound)
+                            {
+                                bool isOwn = isBlack ? (model[r, c] == Piece.Black || model[r, c] == Piece.BlackKing)
+                                                      : (model[r, c] == Piece.White || model[r, c] == Piece.WhiteKing);
+                                if (isOwn) break;
+                                if (model.CapturedThisTurn.Contains((r, c))) break;
+
+                                opponentFound = true;
+                                oppR = r;
+                                oppC = c;
+                            }
+                            else break;
+                        }
+                        r += dr;
+                        c += dc;
                     }
                 }
             }
 
-            return result;
+            if (captures.Count > 0)
+                return captures;
+
+            if (model.IsCaptureInProgress)
+                return new List<(int, int)>();
+
+            return moves;
         }
 
-        private GameDto ToDto(GameModel model)
+        public bool MakeMove(GameModel model, int fromRow, int fromCol, int toRow, int toCol)
         {
-            var result = new GameDto
-            {
-                Id = model.Id,
-                UserId = model.UserId,
-                MoveCount = model.MoveCount,
-            };
+            var available = GetAvailableMoves(model, fromRow, fromCol);
+            if (!available.Contains((toRow, toCol)))
+                return false;
 
-            for (int row = 0; row < Constants.RowCount; row++)
+            model.MoveCount++; // счётчик ходов (можно оставить, т.к. при ошибке модель перезагружается из БД)
+
+            var piece = model[fromRow, fromCol];
+            int dr = Math.Sign(toRow - fromRow);
+            int dc = Math.Sign(toCol - fromCol);
+
+            bool isCapture = IsCaptureMove(fromRow, fromCol, toRow, toCol, model);
+            if (isCapture)
             {
-                for (int column = 0; column < Constants.ColumnCount; column++)
+                int midR = fromRow + dr;
+                int midC = fromCol + dc;
+                while (midR != toRow || midC != toCol)
                 {
-                    result.Cells[row, column] = model[row, column];
+                    if (model[midR, midC] != Piece.None)
+                    {
+                        model[midR, midC] = Piece.None;
+                        model.CapturedThisTurn.Add((midR, midC));
+                        break;
+                    }
+                    midR += dr;
+                    midC += dc;
                 }
             }
 
-            return result;
+            model[toRow, toCol] = piece;
+            model[fromRow, fromCol] = Piece.None;
+
+            if (piece == Piece.Black && toRow == GameModel.BoardSize - 1)
+                model[toRow, toCol] = Piece.BlackKing;
+            else if (piece == Piece.White && toRow == 0)
+                model[toRow, toCol] = Piece.WhiteKing;
+
+            if (isCapture)
+            {
+                var subsequentCaptures = GetAvailableMoves(model, toRow, toCol)
+                    .Where(m => IsCaptureMove(toRow, toCol, m.row, m.col, model)).ToList();
+                if (subsequentCaptures.Any())
+                    model.StartCaptureSequence(toRow, toCol);
+                else
+                {
+                    model.EndCaptureSequence();
+                    model.SwitchPlayer();
+                }
+            }
+            else
+            {
+                model.EndCaptureSequence();
+                model.SwitchPlayer();
+            }
+
+            model.RaiseModelChanged();
+            return true;
         }
+
+        public void FinishCapture(GameModel model)
+        {
+            if (model.IsCaptureInProgress)
+            {
+                model.EndCaptureSequence();
+                model.SwitchPlayer();
+                model.RaiseModelChanged();
+            }
+        }
+
+        public bool IsGameOver(GameModel model) => model.IsGameOver();
     }
 }

@@ -1,0 +1,97 @@
+﻿@using CheckersGame.Business.Models
+@model GameModel
+@{
+    ViewBag.Title = "Шашки";
+    var selected = Session["SelectedPiece"] as (int row, int col)?;
+    var gameService = new CheckersGame.Business.Services.GameService();
+    var availableMoves = selected != null
+        ? gameService.GetAvailableMoves(Model, selected.Value.row, selected.Value.col)
+        : new List<(int, int)>();
+    bool isCaptureInProgress = Model.IsCaptureInProgress;
+}
+
+<h2>Шашки</h2>
+<h4>Ходит: @(Model.CurrentPlayer == Player.White ? "Белые" : "Чёрные")</h4>
+
+@if (!string.IsNullOrEmpty(ViewBag.Message as string))
+{
+    <h3 class="text-success">@ViewBag.Message</h3>
+    @Html.ActionLink("Новая игра", "Index", null, new { @class = "btn btn-primary" })
+}
+
+@if (isCaptureInProgress)
+{
+    <p class="text-warning">
+        Серия взятий! Бьёт та же фигура с позиции (@Model.CaptureRow, @Model.CaptureCol).<br />
+        @Html.ActionLink("Завершить взятия", "FinishCapture", null, new { @class = "btn btn-sm btn-danger" })
+    </p>
+}
+
+<table class="table-bordered mx-auto" style="border-collapse: collapse;">
+    @for (int r = 0; r < GameModel.BoardSize; r++)
+    {
+        <tr>
+            @for (int c = 0; c < GameModel.BoardSize; c++)
+            {
+                var piece = Model[r, c];
+                bool isBlackCell = (r + c) % 2 == 0;
+                string bgColor = isBlackCell ? "#3e3e3e" : "#f0d9b5";
+                string cellStyle = $"width:60px; height:60px; background-color:{bgColor}; text-align:center; vertical-align:middle;";
+
+                bool isTarget = availableMoves.Contains((r, c));
+
+                <td style="@cellStyle">
+                    @if (piece != Piece.None)
+                    {
+                        string symbol = "";
+                        switch (piece)
+                        {
+                            case Piece.White:
+                                symbol = "⚪";
+                                break;
+                            case Piece.Black:
+                                symbol = "⚫";
+                                break;
+                            case Piece.WhiteKing:
+                                symbol = "♔";
+                                break;
+                            case Piece.BlackKing:
+                                symbol = "♚";
+                                break;
+                            default:
+                                symbol = "";
+                                break;
+                        }
+
+                        bool canSelect = !isCaptureInProgress
+                            && ((Model.CurrentPlayer == Player.White && (piece == Piece.White || piece == Piece.WhiteKing))
+                             || (Model.CurrentPlayer == Player.Black && (piece == Piece.Black || piece == Piece.BlackKing)));
+
+                        if (canSelect)
+                        {
+                            @Html.ActionLink(symbol, "Select", new { row = r, col = c },
+                                new { @class = "btn btn-link", style = "font-size:30px; text-decoration:none;" })
+                        }
+                        else
+                        {
+                            <span style="font-size:30px;">@symbol</span>
+                        }
+                    }
+                    else if (isTarget)
+                    {
+                        @Html.ActionLink("·", "Move", new { toRow = r, toCol = c },
+                            new { @class = "btn btn-link", style = "font-size:30px; text-decoration:none; color:green;" })
+                    }
+                </td>
+            }
+        </tr>
+    }
+</table>
+
+@if (selected != null && !isCaptureInProgress)
+{
+    <p>
+        Выбрана фигура: строка @selected.Value.row, колонка @selected.Value.col.
+        @Html.ActionLink("Отменить", "Index", null, new { @class = "btn btn-sm btn-secondary" })
+    </p>
+}

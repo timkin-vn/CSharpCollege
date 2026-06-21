@@ -1,13 +1,12 @@
-﻿using FifteenGame.Business.Services;
+﻿using CheckersGame.Business.Contracts;
+using CheckersGame.Business.Services;
+using FifteenGame.Business.Services;
 using FifteenGame.Common.Contracts.Repositories;
 using FifteenGame.Common.Contracts.Services;
 using FifteenGame.DataAccess.Repositories;
+using FifteenGame.Wpf.ViewModels;
+using Ninject;
 using Ninject.Modules;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FifteenGame.Wpf.Infrastructure
 {
@@ -19,7 +18,13 @@ namespace FifteenGame.Wpf.Infrastructure
             Bind<IGameRepository>().To<GameRepository>().InSingletonScope();
 
             Bind<IUserService>().To<UserService>().InSingletonScope();
-            Bind<IGameService>().To<GameService>().InSingletonScope();
+            // Bind<IGameService>().To<GameService>().InSingletonScope();
+
+            Bind<ICheckersGameRepository>().To<CheckersGameRepository>().InSingletonScope();
+            Bind<ICheckersGameService>().To<CheckersGameService>().InSingletonScope();
+
+            // Регистрируем UserLoginWindowViewModel как self, чтобы можно было внедрить зависимости
+            Bind<UserLoginWindowViewModel>().ToSelf().InTransientScope();
         }
     }
 }

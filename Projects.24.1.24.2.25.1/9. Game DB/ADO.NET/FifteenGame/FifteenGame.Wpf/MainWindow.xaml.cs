@@ -1,6 +1,5 @@
-﻿using FifteenGame.Common.BusinessModels;
-using FifteenGame.Wpf.ViewModels;
-using FifteenGame.Wpf.Views;
+﻿//using FifteenGame.Business.Models;
+//using FifteenGame.Wpf.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,16 +14,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CheckersGame.Wpf.ViewModels;
 
-namespace FifteenGame.Wpf
+namespace CheckersGame.Wpf
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindowViewModel ViewModel => (MainWindowViewModel)DataContext;
-
         public MainWindow()
         {
             InitializeComponent();
@@ -32,23 +27,12 @@ namespace FifteenGame.Wpf
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            var direction = (MoveDirection)((FrameworkElement)sender).Tag;
-            ViewModel.MakeMove(direction, OnGameFinished);
-        }
-
-        private void OnGameFinished()
-        {
-            if (MessageBox.Show("Игра окончена. Повторить?", "Поздравляем!", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
+            var grid = sender as FrameworkElement;
+            if (grid?.Tag is CellViewModel cellViewModel)
             {
-                ViewModel.Initialize();
+                var mainVM = DataContext as MainWindowViewModel;
+                mainVM?.CellClicked(cellViewModel);
             }
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            var dialog = new UserLoginWindow();
-            dialog.ViewModel.MainViewModel = ViewModel;
-            dialog.ShowDialog();
         }
     }
 }

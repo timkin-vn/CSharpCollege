@@ -5,7 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FifteenGame.Wpf.ViewModels
+
+namespace CheckersGame.Wpf.ViewModels
 {
     public class ViewModelBase : INotifyPropertyChanged
     {

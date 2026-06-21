@@ -1,12 +1,13 @@
 ﻿using FifteenGame.Common.Contracts.Repositories;
 using FifteenGame.Common.Dtos;
-using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Npgsql;
+using NpgsqlTypes;
 
 namespace FifteenGame.DataAccess.Repositories
 {
