@@ -12,6 +12,18 @@ namespace GraphEditor.ViewModels
 
         public RectangleViewModel SelectedRectangle { get; set; }
 
-        public IEnumerable<MarkerViewModel> Markers => SelectedRectangle?.Markers ?? Enumerable.Empty<MarkerViewModel>();
+        public IList<RectangleViewModel> SelectedRectangles { get; set; } = new List<RectangleViewModel>();
+
+        public IEnumerable<MarkerViewModel> Markers
+        {
+            get
+            {
+                if (SelectedRectangle == null)
+                {
+                    return Enumerable.Empty<MarkerViewModel>();
+                }
+                return SelectedRectangle.Markers;
+            }
+        }
     }
 }

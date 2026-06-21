@@ -17,19 +17,33 @@ namespace GraphEditor.ViewServices
                 return;
             }
 
-            Pen pen;
+            // 1. Рисуем сами фигуры
             foreach (var rectangle in viewModel.Rectangles)
             {
-                pen = new Pen(rectangle.BorderColor, 3);
-                var brush = new SolidBrush(rectangle.FillColor);
-
-                g.FillRectangle(brush, rectangle.Rectangle);
-                g.DrawRectangle(pen, rectangle.Rectangle);
+                using (var pen = new Pen(rectangle.BorderColor, 3))
+                using (var brush = new SolidBrush(rectangle.FillColor))
+                {
+                    g.FillRectangle(brush, rectangle.Rectangle);
+                    g.DrawRectangle(pen, rectangle.Rectangle);
+                }
             }
 
+            // 2. Рисуем красную обводку для всех выделенных фигур
+            if (viewModel.SelectedRectangles != null)
+            {
+                foreach (var rectangle in viewModel.SelectedRectangles)
+                {
+                    using (var selectPen = new Pen(Color.Red, 2))
+                    {
+                        g.DrawRectangle(selectPen, rectangle.Rectangle);
+                    }
+                }
+            }
+
+            // 3. Рисуем маркеры изменения размера (только для главной выбранной фигуры)
             if (isInteractive)
             {
-                pen = Pens.Black;
+                var pen = Pens.Black;
                 var activeBrush = Brushes.Black;
                 var inactiveBrush = Brushes.White;
 

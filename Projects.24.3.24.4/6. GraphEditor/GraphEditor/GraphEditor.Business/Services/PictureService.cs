@@ -13,16 +13,21 @@ namespace GraphEditor.Business.Services
         public PictureModel PictureModel { get; private set; } = new PictureModel();
 
         public static Color DefaultFillColor { get; set; } = Color.Yellow;
-
         public static Color DefaultBorderColor { get; set; } = Color.Blue;
 
         public PictureService()
         {
-            PictureModel.Rectangles.Add(new RectangleModel { Left = 150, Top = 50, Width = 200, Height = 100, FillColor = Color.LightSkyBlue, });
-            var newRectangle = new RectangleModel { Left = 200, Top = 100, Width = 200, Height = 150, };
-            PictureModel.Rectangles.Add(newRectangle);
-            PictureModel.SelectedRectangle = newRectangle;
-            PictureModel.Rectangles.Add(new RectangleModel { Left = 250, Top = 150, Width = 200, Height = 200, FillColor = Color.DarkMagenta, });
+            // Стартовые фигуры для теста
+            var rect1 = new RectangleModel { Left = 150, Top = 50, Width = 200, Height = 100, FillColor = Color.LightSkyBlue };
+            var rect2 = new RectangleModel { Left = 200, Top = 100, Width = 200, Height = 150 };
+            var rect3 = new RectangleModel { Left = 250, Top = 150, Width = 200, Height = 200, FillColor = Color.DarkMagenta };
+
+            PictureModel.Rectangles.Add(rect1);
+            PictureModel.Rectangles.Add(rect2);
+            PictureModel.Rectangles.Add(rect3);
+
+            PictureModel.SelectedRectangle = rect2;
+            PictureModel.SelectedRectangles.Add(rect2);
         }
 
         public void CreateRectangleAndSetCreateMode(PointModel loc)
@@ -35,54 +40,110 @@ namespace GraphEditor.Business.Services
                 Height = 0,
                 FillColor = DefaultFillColor,
                 BorderColor = DefaultBorderColor,
+                EditMode = EditMode.Creating
             };
 
             PictureModel.Rectangles.Add(newRectangle);
+
+            PictureModel.SelectedRectangles.Clear();
+            PictureModel.SelectedRectangles.Add(newRectangle);
             PictureModel.SelectedRectangle = newRectangle;
-            newRectangle.EditMode = EditMode.Creating;
         }
 
-        public void FindAndSetMoveMode(PointModel loc)
+        // Обновленный метод с поддержкой Ctrl
+        public void FindAndSetMoveMode(PointModel loc, bool ctrlPressed)
         {
             var selectedRect = PictureModel.Rectangles.LastOrDefault(r => r.IsInside(loc));
-            PictureModel.SelectedRectangle = selectedRect;
 
             if (selectedRect == null)
             {
+                if (!ctrlPressed)
+                {
+                    PictureModel.SelectedRectangle = null;
+                    PictureModel.SelectedRectangles.Clear();
+                }
                 return;
             }
 
-            selectedRect.EditMode = EditMode.Moving;
-            selectedRect.Dx = loc.X - selectedRect.Left;
-            selectedRect.Dy = loc.Y - selectedRect.Top;
+            if (ctrlPressed)
+            {
+                if (PictureModel.SelectedRectangles.Contains(selectedRect))
+                {
+                    PictureModel.SelectedRectangles.Remove(selectedRect);
+                    PictureModel.SelectedRectangle = PictureModel.SelectedRectangles.LastOrDefault();
+                }
+                else
+                {
+                    PictureModel.SelectedRectangles.Add(selectedRect);
+                    PictureModel.SelectedRectangle = selectedRect;
+                }
+            }
+            else
+            {
+                // Если кликнули по уже выделенной в группе фигуре без Ctrl, не сбрасываем выделение сразу, чтобы можно было тащить группу
+                if (!PictureModel.SelectedRectangles.Contains(selectedRect))
+                {
+                    PictureModel.SelectedRectangles.Clear();
+                    PictureModel.SelectedRectangles.Add(selectedRect);
+                    PictureModel.SelectedRectangle = selectedRect;
+                }
+            }
+
+            // Задаем режим движения для всех выбранных фигур
+            foreach (var rect in PictureModel.SelectedRectangles)
+            {
+                rect.EditMode = EditMode.Moving;
+                rect.Dx = loc.X - rect.Left;
+                rect.Dy = loc.Y - rect.Top;
+            }
         }
 
         public void SetResizeMode(EditMode mode)
         {
-            PictureModel.SelectedRectangle.EditMode = mode;
+            if (PictureModel.SelectedRectangle != null)
+            {
+                PictureModel.SelectedRectangle.EditMode = mode;
+            }
         }
 
         public void ResetMode()
         {
-            var selectedRect = PictureModel.SelectedRectangle;
-
-            if (selectedRect == null)
+            foreach (var rect in PictureModel.SelectedRectangles)
             {
-                return;
+                rect.Normalize();
+                rect.EditMode = EditMode.None;
             }
 
-            selectedRect.Normalize();
-            selectedRect.EditMode = EditMode.None;
+            if (PictureModel.SelectedRectangle != null)
+            {
+                PictureModel.SelectedRectangle.Normalize();
+                PictureModel.SelectedRectangle.EditMode = EditMode.None;
+            }
         }
 
         public void UpdateMovingPoint(PointModel loc)
         {
-            var selectedRect = PictureModel.SelectedRectangle;
-            if (selectedRect == null)
+            if (PictureModel.SelectedRectangle == null)
             {
                 return;
             }
 
+            // Если двигаем группу фигур
+            if (PictureModel.SelectedRectangles.Count > 1)
+            {
+                foreach (var rect in PictureModel.SelectedRectangles)
+                {
+                    if (rect.EditMode == EditMode.Moving)
+                    {
+                        rect.Left = loc.X - rect.Dx;
+                        rect.Top = loc.Y - rect.Dy;
+                    }
+                }
+                return;
+            }
+
+            // Если изменяем размер или двигаем одну фигуру
+            var selectedRect = PictureModel.SelectedRectangle;
             switch (selectedRect.EditMode)
             {
                 case EditMode.Creating:
@@ -104,17 +165,35 @@ namespace GraphEditor.Business.Services
 
         public void DeleteRectangle()
         {
-            if (PictureModel.SelectedRectangle == null)
+            if (PictureModel.SelectedRectangles.Count > 0)
             {
+                foreach (var rect in PictureModel.SelectedRectangles.ToList())
+                {
+                    PictureModel.Rectangles.Remove(rect);
+                }
+                PictureModel.SelectedRectangles.Clear();
+                PictureModel.SelectedRectangle = null;
                 return;
             }
 
-            PictureModel.Rectangles.Remove(PictureModel.SelectedRectangle);
-            PictureModel.SelectedRectangle = null;
+            if (PictureModel.SelectedRectangle != null)
+            {
+                PictureModel.Rectangles.Remove(PictureModel.SelectedRectangle);
+                PictureModel.SelectedRectangle = null;
+            }
         }
 
         public void SetFillColor(Color color)
         {
+            if (PictureModel.SelectedRectangles.Count > 0)
+            {
+                foreach (var rect in PictureModel.SelectedRectangles)
+                {
+                    rect.FillColor = color;
+                }
+                return;
+            }
+
             if (PictureModel.SelectedRectangle != null)
             {
                 PictureModel.SelectedRectangle.FillColor = color;
@@ -123,36 +202,32 @@ namespace GraphEditor.Business.Services
 
         public void MoveForward()
         {
-            if (PictureModel.SelectedRectangle == null)
-            {
-                return;
-            }
+            if (PictureModel.SelectedRectangle == null) return;
 
             var index = PictureModel.Rectangles.IndexOf(PictureModel.SelectedRectangle);
-            if (index < 0 || index == PictureModel.Rectangles.Count - 1)
-            {
-                return;
-            }
+            if (index < 0 || index == PictureModel.Rectangles.Count - 1) return;
 
             var rect = PictureModel.Rectangles[index];
             PictureModel.Rectangles[index] = PictureModel.Rectangles[index + 1];
             PictureModel.Rectangles[index + 1] = rect;
         }
 
-        public void Save(string fileName)
-        {
-            new FileService().Save(fileName, PictureModel);
-        }
+        public void Save(string fileName) => new FileService().Save(fileName, PictureModel);
 
         public void Open(string fileName)
         {
             PictureModel = new FileService().Open(fileName);
+            if (PictureModel.SelectedRectangles == null)
+            {
+                PictureModel.SelectedRectangles = new List<RectangleModel>();
+            }
         }
 
         public void CreateNewPicture()
         {
             PictureModel.Rectangles.Clear();
             PictureModel.SelectedRectangle = null;
+            PictureModel.SelectedRectangles.Clear();
         }
     }
 }

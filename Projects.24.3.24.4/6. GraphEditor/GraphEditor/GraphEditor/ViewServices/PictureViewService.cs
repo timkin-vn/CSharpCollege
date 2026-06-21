@@ -16,26 +16,20 @@ namespace GraphEditor.ViewServices
     internal class PictureViewService
     {
         private readonly PictureService _businessService = new PictureService();
-
         private PictureViewModel _viewModel;
 
-        public PictureViewService()
-        {
-            LoadViewModel();
-        }
+        public PictureViewService() => LoadViewModel();
 
         public bool CreateMode { get; set; }
 
-        public bool CanDelete => !CreateMode && _businessService.PictureModel.SelectedRectangle != null;
+        public bool CanDelete => !CreateMode && (_businessService.PictureModel.SelectedRectangle != null || _businessService.PictureModel.SelectedRectangles.Any());
 
         public string FileName { get; set; }
 
-        public void Paint(Graphics g)
-        {
-            new Painter().Paint(g, _viewModel, true);
-        }
+        public void Paint(Graphics g) => new Painter().Paint(g, _viewModel, true);
 
-        public void MouseDown(Point loc)
+        // Принимает флаг ctrlPressed
+        public void MouseDown(Point loc, bool ctrlPressed)
         {
             if (CreateMode)
             {
@@ -55,7 +49,7 @@ namespace GraphEditor.ViewServices
                 }
             }
 
-            _businessService.FindAndSetMoveMode(ToModel(loc));
+            _businessService.FindAndSetMoveMode(ToModel(loc), ctrlPressed);
             LoadViewModel();
         }
 
@@ -74,35 +68,19 @@ namespace GraphEditor.ViewServices
 
         public Cursor GetCursor(Point loc)
         {
-            if (_viewModel == null)
-            {
-                return Cursors.Default;
-            }
-
-            if (CreateMode)
-            {
-                return Cursors.Cross;
-            }
+            if (_viewModel == null) return Cursors.Default;
+            if (CreateMode) return Cursors.Cross;
 
             var activeMarker = _viewModel.Markers.FirstOrDefault(m => m.IsActive && IsInside(loc, m.Rectangle));
-            if (activeMarker != null)
-            {
-                return activeMarker.Cursor;
-            }
+            if (activeMarker != null) return activeMarker.Cursor;
 
             var activeRect = _viewModel.Rectangles.FirstOrDefault(m => IsInside(loc, m.Rectangle));
-            if (activeRect != null)
-            {
-                return Cursors.Hand;
-            }
+            if (activeRect != null) return Cursors.Hand;
 
             return Cursors.Default;
         }
 
-        public void CreateButtonClicked()
-        {
-            CreateMode = !CreateMode;
-        }
+        public void CreateButtonClicked() => CreateMode = !CreateMode;
 
         public void DeleteButtonClicked()
         {
@@ -110,18 +88,10 @@ namespace GraphEditor.ViewServices
             LoadViewModel();
         }
 
-        public Color GetCurrentFillColor()
-        {
-            return _viewModel?.SelectedRectangle?.FillColor ?? PictureService.DefaultFillColor;
-        }
+        public Color GetCurrentFillColor() => _viewModel?.SelectedRectangle?.FillColor ?? PictureService.DefaultFillColor;
 
         public void SetFillColor(Color color)
         {
-            if (_viewModel?.SelectedRectangle == null)
-            {
-                return;
-            }
-
             _businessService.SetFillColor(color);
             LoadViewModel();
         }
@@ -145,10 +115,7 @@ namespace GraphEditor.ViewServices
             FileName = fileName;
         }
 
-        public void Save()
-        {
-            _businessService.Save(FileName);
-        }
+        public void Save() => _businessService.Save(FileName);
 
         public void Export(string fileName, Rectangle size, Color backColor)
         {
@@ -159,7 +126,6 @@ namespace GraphEditor.ViewServices
                     g.Clear(backColor);
                     new Painter().Paint(g, _viewModel, false);
                 }
-
                 bmp.Save(fileName, ImageFormat.Png);
             }
         }
@@ -175,13 +141,25 @@ namespace GraphEditor.ViewServices
             var model = _businessService.PictureModel;
             _viewModel = new PictureViewModel
             {
-                Rectangles = model.Rectangles.Select(r => RectangleViewModel.FromBusiness(r)).ToList(),
+                Rectangles = model.Rectangles.Select(r => RectangleViewModel.FromBusiness(r)).ToList()
             };
 
             if (model.SelectedRectangle != null)
             {
                 var index = model.Rectangles.IndexOf(model.SelectedRectangle);
-                _viewModel.SelectedRectangle = _viewModel.Rectangles[index];
+                if (index >= 0)
+                {
+                    _viewModel.SelectedRectangle = _viewModel.Rectangles[index];
+                }
+            }
+
+            foreach (var selected in model.SelectedRectangles)
+            {
+                var index = model.Rectangles.IndexOf(selected);
+                if (index >= 0)
+                {
+                    _viewModel.SelectedRectangles.Add(_viewModel.Rectangles[index]);
+                }
             }
         }
 

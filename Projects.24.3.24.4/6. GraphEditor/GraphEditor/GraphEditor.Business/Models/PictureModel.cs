@@ -11,5 +11,7 @@ namespace GraphEditor.Business.Models
         public IList<RectangleModel> Rectangles { get; set; } = new List<RectangleModel>();
 
         public RectangleModel SelectedRectangle { get; set; }
+
+        public IList<RectangleModel> SelectedRectangles { get; set; } = new List<RectangleModel>();
     }
 }
