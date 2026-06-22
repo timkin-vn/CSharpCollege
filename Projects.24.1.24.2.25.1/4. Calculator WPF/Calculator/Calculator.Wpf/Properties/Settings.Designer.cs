@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CalculatorWPF.Properties
+namespace Calculator.Wpf.Properties
 {
 
 

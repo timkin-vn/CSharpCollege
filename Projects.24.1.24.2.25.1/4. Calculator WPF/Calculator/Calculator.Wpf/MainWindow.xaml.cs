@@ -1,68 +1,56 @@
-﻿using CalculatorWPF.Models;
-using CalculatorWPF.Services;
+using Calculator.Wpf.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace CalculatorWPF
+namespace Calculator.Wpf
 {
     public partial class MainWindow : Window
     {
-        private CalculatorModel _calculatorModel;
-        private CalculatorService _service;
+        public MainWindowViewModel ViewModel => (MainWindowViewModel)DataContext;
 
         public MainWindow()
         {
             InitializeComponent();
-            _calculatorModel = new CalculatorModel();
-            _service = new CalculatorService();
+        }
+
+        private static string GetButtonText(object sender)
+        {
+            return ((Button)sender).Content.ToString();
         }
 
         private void DigitButton_Click(object sender, RoutedEventArgs e)
         {
-            var button = sender as Button;
-            _service.PressDigit(_calculatorModel, button.Content.ToString());
-            DisplayValue();
-        }
-
-        private void CommaButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (!_calculatorModel.IsDrob)
-            {
-                _calculatorModel.IsDrob = true;
-                DisplayLabel.Text += ",";
-            }
+            ViewModel.PressDigit(GetButtonText(sender));
         }
 
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
-            _service.PressClear(_calculatorModel);
-            DisplayValue();
+            ViewModel.PressClear();
         }
 
         private void OperationButton_Click(object sender, RoutedEventArgs e)
         {
-            var button = sender as Button;
-            _service.PressOperation(_calculatorModel, button.Content.ToString());
-            DisplayValue();
+            ViewModel.PressOperation(GetButtonText(sender));
         }
 
         private void EqualButton_Click(object sender, RoutedEventArgs e)
         {
-            _service.PressEqual(_calculatorModel);
-            DisplayValue();
+            ViewModel.PressEqual();
+        }
+
+        private void CommaButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.PressComma();
         }
 
         private void SquareButton_Click(object sender, RoutedEventArgs e)
         {
-            _service.PressSquare(_calculatorModel);
-            DisplayValue();
+            ViewModel.PressSquare();
         }
 
-        private void DisplayValue()
+        private void SquareRootButton_Click(object sender, RoutedEventArgs e)
         {
-            string displayText = _calculatorModel.RegisterX.ToString();
-            displayText = displayText.Replace('.', ',');
-            DisplayLabel.Text = displayText;
+            ViewModel.PressSquareRoot();
         }
     }
 }

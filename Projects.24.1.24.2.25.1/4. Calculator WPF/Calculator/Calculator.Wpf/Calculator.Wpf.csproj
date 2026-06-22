@@ -31,7 +31,6 @@
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
@@ -43,9 +42,7 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xaml">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
+    <Reference Include="System.Xaml"><RequiredTargetFramework>4.0</RequiredTargetFramework></Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -70,9 +67,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs"><SubType>Code</SubType></Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -96,8 +91,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\3. Calculator\Calculator\Calculator.Business\Calculator.Business.csproj">
-      <Project>{55bb961e-1bb2-40d2-b6f9-457fa9a2828e}</Project>
+    <ProjectReference Include="..\Calculator.Business\Calculator.Business.csproj">
+      <Project>{55BB961E-1BB2-40D2-B6F9-457FA9A2828E}</Project>
       <Name>Calculator.Business</Name>
     </ProjectReference>
   </ItemGroup>
