@@ -28,12 +28,12 @@ namespace CheckersGame.Business.Models
 
         public const int BoardSize = 8;
 
-        private Piece[,] _gameBoard = new Piece[BoardSize, BoardSize];
+        private Piece[,] _board = new Piece[BoardSize, BoardSize];
 
         public Piece this[int row, int col]
         {
-            get => _gameBoard[row, col];
-            internal set => _gameBoard[row, col] = value;
+            get => _board[row, col];
+            internal set => _board[row, col] = value;
         }
 
         public Player CurrentPlayer { get; internal set; } = Player.White;
@@ -70,7 +70,7 @@ namespace CheckersGame.Business.Models
             for (int r = 0; r < BoardSize; r++)
                 for (int c = 0; c < BoardSize; c++)
                 {
-                    var p = _gameBoard[r, c];
+                    var p = _board[r, c];
                     if (p == Piece.Black || p == Piece.BlackKing) blackExists = true;
                     if (p == Piece.White || p == Piece.WhiteKing) whiteExists = true;
                 }
@@ -85,7 +85,7 @@ namespace CheckersGame.Business.Models
                 bool blackExists = false;
                 for (int r = 0; r < BoardSize; r++)
                     for (int c = 0; c < BoardSize; c++)
-                        if (_gameBoard[r, c] == Piece.Black || _gameBoard[r, c] == Piece.BlackKing)
+                        if (_board[r, c] == Piece.Black || _board[r, c] == Piece.BlackKing)
                             blackExists = true;
                 return blackExists ? Player.Black : Player.White;
             }

@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:CheckersGame.Wpf"
         xmlns:viewmodels="clr-namespace:CheckersGame.Wpf.ViewModels"
         mc:Ignorable="d"
+
         Title="Classic Checkers"
         Width="640"
         Height="720"
