@@ -31,9 +31,7 @@ namespace AlarmClock
                 return;
             }
 
-            if (!_clockState.IsAwakeActivated &&
-                DateTime.Now.Minute == _clockState.AlarmTime.Minute &&
-                DateTime.Now.Hour == _clockState.AlarmTime.Hour)
+            if (!_clockState.IsAwakeActivated && _clockState.ShouldTriggerNow())
             {
                 _clockState.IsAwakeActivated = true;
 
