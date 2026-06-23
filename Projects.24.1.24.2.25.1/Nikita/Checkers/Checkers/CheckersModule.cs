@@ -11,6 +11,7 @@ using Checkers.ViewModels;
 using Checkers.Views;
 using Ninject;
 using Ninject.Modules;
+using Refit; // <-- Обязательно добавьте этот using!
 
 namespace Checkers
 {
@@ -29,7 +30,8 @@ namespace Checkers
             Bind<IGameRepository>().To<GameRepository>();
             Bind<IUserRepository>().To<UserRepository>().WithConstructorArgument("connectionString", _connectionString);
             Bind<IViewModelFactory>().To<ViewModelFactory>();
-            Bind<AuthService>().ToSelf().InTransientScope();
+            Bind<IUserApiClient>().ToMethod(context => RestService.For<IUserApiClient>("https://checkers-api.com"));
+            Bind<AuthService>().ToSelf();
             Bind<MainWindow>().ToSelf();
             Bind<UserLoginWindow>().ToSelf();
         }

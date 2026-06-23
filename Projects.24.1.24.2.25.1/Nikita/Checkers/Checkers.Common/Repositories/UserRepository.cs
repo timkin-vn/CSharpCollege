@@ -13,10 +13,12 @@ namespace Checkers.Common.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly string _connectionString;
+        private readonly IUserApiClient _userApiClient;
 
-        public UserRepository(string connectionString)
+        public UserRepository(string connectionString, IUserApiClient userApiClient)
         {
             _connectionString = connectionString;
+            _userApiClient = userApiClient;
         }
 
         public async Task<UserSession> GetUserId(int userId)

@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Checkers.Common.Models;
+using Refit;
 
 namespace Checkers.Common.Contracts
 {
-    public interface IServerApiClient
+    public interface IUserApiClient
     {
-        Task<Requestion> RegisterUserAsync(string username);
+        [Post("/api/register")]
+        Task<bool> RegisterAsync(string username);
+
+        
     }
 }
