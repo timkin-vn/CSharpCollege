@@ -1,15 +1,20 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GraphEditor.Business.Models
 {
+    [Serializable]
     public class PictureModel
     {
-        public IList<RectangleModel> Rectangles { get; set; } = new List<RectangleModel>();
+        public List<ShapeModel> Shapes { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
 
-        public RectangleModel SelectedRectangle { get; set; }
+        public PictureModel()
+        {
+            Shapes = new List<ShapeModel>();
+            Width = 800;
+            Height = 600;
+        }
     }
 }

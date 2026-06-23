@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8B83C27C-5444-4684-A842-D017EDCB91DF}</ProjectGuid>
+    <ProjectGuid>{A1111111-1111-1111-1111-111111111111}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GraphEditor.Business</RootNamespace>
@@ -34,32 +34,21 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IO.Compression.4.3.0\lib\net46\System.IO.Compression.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\EditMode.cs" />
-    <Compile Include="Models\PictureModel.cs" />
-    <Compile Include="Models\PointModel.cs" />
+    <Compile Include="Models\ShapeKind.cs" />
+    <Compile Include="Models\ShapeModel.cs" />
+    <Compile Include="Models\TriangleModel.cs" />
     <Compile Include="Models\RectangleModel.cs" />
-    <Compile Include="Models\Xml\XmlColor.cs" />
-    <Compile Include="Models\Xml\XmlPicture.cs" />
-    <Compile Include="Models\Xml\XmlRectangle.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\FileService.cs" />
+    <Compile Include="Models\EllipseModel.cs" />
+    <Compile Include="Models\DiamondModel.cs" />
+    <Compile Include="Models\PictureModel.cs" />
     <Compile Include="Services\PictureService.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <Compile Include="Services\FileService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

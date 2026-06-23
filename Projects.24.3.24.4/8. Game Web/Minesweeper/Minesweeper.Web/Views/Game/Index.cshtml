@@ -1,0 +1,85 @@
+@using Minesweeper.Business
+@model Minesweeper.Web.Models.GameViewModel
+@{
+    ViewBag.Title = "Игра";
+}
+
+<h1>Сапёр</h1>
+<p>Мины: <b>@Model.MinesRemaining</b> &nbsp; Ходы: <b>@Model.MoveCount</b></p>
+
+<form id="cellForm" method="post" action="@Url.Action("Cell", "Game")">
+    <input type="hidden" id="rowInput" name="row" value="0" />
+    <input type="hidden" id="colInput" name="col" value="0" />
+    <input type="hidden" id="actionInput" name="action" value="reveal" />
+
+    <table class="board">
+        @for (int r = 0; r < Model.Size; r++)
+        {
+            <tr>
+                @for (int c = 0; c < Model.Size; c++)
+                {
+                    var cell = Model.Field[r, c];
+                    <td style="background:@BackColor(cell); color:@ForeColor(cell)"
+                        onclick="cellClick(@r, @c, 'reveal')"
+                        oncontextmenu="cellClick(@r, @c, 'flag'); return false;">@Glyph(cell)</td>
+                }
+            </tr>
+        }
+    </table>
+</form>
+
+<div class="controls">
+    <a class="btn" href="@Url.Action("New", "Game")">Новая игра</a>
+</div>
+
+<div class="status">@Model.Status</div>
+
+<script>
+    var finished = @(Model.Finished ? "true" : "false");
+    function cellClick(row, col, action) {
+        if (finished) return;
+        document.getElementById('rowInput').value = row;
+        document.getElementById('colInput').value = col;
+        document.getElementById('actionInput').value = action;
+        document.getElementById('cellForm').submit();
+    }
+</script>
+
+@functions {
+    string Glyph(Cell cell)
+    {
+        if (cell.IsRevealed)
+        {
+            if (cell.IsMine) return "●";
+            return cell.AdjacentMines == 0 ? "" : cell.AdjacentMines.ToString();
+        }
+        if (cell.IsFlagged) return "⚑";
+        return "";
+    }
+
+    string BackColor(Cell cell)
+    {
+        if (cell.IsRevealed)
+            return cell.IsMine ? "#EF5350" : "#E0E0E0";
+        return "#BDBDBD";
+    }
+
+    string ForeColor(Cell cell)
+    {
+        if (!cell.IsRevealed)
+            return cell.IsFlagged ? "#D32F2F" : "#BDBDBD";
+        if (cell.IsMine) return "#000000";
+        switch (cell.AdjacentMines)
+        {
+            case 1: return "#1976D2";
+            case 2: return "#388E3C";
+            case 3: return "#D32F2F";
+            case 4: return "#7B1FA2";
+            case 5: return "#BF360C";
+            case 6: return "#00838F";
+            case 7: return "#424242";
+            case 8: return "#757575";
+            default: return "#E0E0E0";
+        }
+    }
+}
