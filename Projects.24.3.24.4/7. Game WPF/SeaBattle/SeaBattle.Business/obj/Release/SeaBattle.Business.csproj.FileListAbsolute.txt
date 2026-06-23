@@ -1,6 +1,0 @@
-C:\Users\Андрей\Desktop\SeaBattle\SeaBattle.Business\bin\Release\SeaBattle.Business.dll
-C:\Users\Андрей\Desktop\SeaBattle\SeaBattle.Business\bin\Release\SeaBattle.Business.pdb
-C:\Users\Андрей\Desktop\SeaBattle\SeaBattle.Business\obj\Release\SeaBattle.Business.csproj.AssemblyReference.cache
-C:\Users\Андрей\Desktop\SeaBattle\SeaBattle.Business\obj\Release\SeaBattle.Business.csproj.CoreCompileInputs.cache
-C:\Users\Андрей\Desktop\SeaBattle\SeaBattle.Business\obj\Release\SeaBattle.Business.dll
-C:\Users\Андрей\Desktop\SeaBattle\SeaBattle.Business\obj\Release\SeaBattle.Business.pdb

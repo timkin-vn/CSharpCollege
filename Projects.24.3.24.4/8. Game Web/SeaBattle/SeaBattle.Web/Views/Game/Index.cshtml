@@ -1,0 +1,122 @@
+@model SeaBattle.Web.Models.GameViewModel
+@{
+    ViewBag.Title = "Морской бой";
+}
+<h2>Морской бой</h2>
+<p style="color:#555;">@Model.Status &nbsp; | &nbsp; Ходов: @Model.MoveCount</p>
+
+<div class="layout-container">
+    <div>
+        <h3>Ваш флот</h3>
+        <div class="board" style="grid-template-columns: repeat(@Model.Size, 30px); grid-template-rows: repeat(@Model.Size, 30px);">
+            @for (int r = 0; r < Model.Size; r++)
+            {
+                for (int c = 0; c < Model.Size; c++)
+                {
+                    <div class="cell" style="background:@Color(Model.PlayerCells[r, c])">@Symbol(Model.PlayerCells[r, c])</div>
+                }
+            }
+        </div>
+    </div>
+
+    <div>
+        <h3>Поле противника</h3>
+        <form method="post" action="/Game/Fire">
+            <div class="board" style="grid-template-columns: repeat(@Model.Size, 30px); grid-template-rows: repeat(@Model.Size, 30px);">
+                @for (int r = 0; r < Model.Size; r++)
+                {
+                    for (int c = 0; c < Model.Size; c++)
+                    {
+                        var s = Model.EnemyCells[r, c];
+                        if (!Model.Finished && (s == SeaBattle.Business.CellState.Empty || s == SeaBattle.Business.CellState.Ship))
+                        {
+                            <button type="submit" name="cell" value="@(r)_@(c)" class="shot"></button>
+                        }
+                        else
+                        {
+                            <div class="cell" style="background:@Color(s)">@Symbol(s)</div>
+                        }
+                    }
+                }
+            </div>
+        </form>
+    </div>
+</div>
+
+<p style="margin-top:24px;">
+    <a href="/Game/New" class="btn">Новая игра</a>
+</p>
+
+<style>
+    .layout-container {
+        display: flex;
+        gap: 40px;
+        justify-content: flex-start;
+        align-items: flex-start;
+        margin-left: 0 !important;
+        margin-right: auto !important;
+    }
+    .board {
+        display: grid;
+        background: #163655;
+        width: fit-content;
+    }
+    .cell {
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #2c5378;
+        font-weight: bold;
+        color: #fff;
+        box-sizing: border-box;
+    }
+    .shot {
+        width: 30px;
+        height: 30px;
+        border: 1px solid #2c5378;
+        background: #1b3a5c;
+        cursor: crosshair;
+        box-sizing: border-box;
+        padding: 0;
+        margin: 0;
+        display: block;
+    }
+    .shot:hover {
+        background: #2c5378;
+    }
+    .btn {
+        background: #6f7bf7;
+        color: #0d1b2a;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: bold;
+        display: inline-block;
+    }
+</style>
+
+@functions {
+    string Color(SeaBattle.Business.CellState s)
+    {
+        switch (s)
+        {
+            case SeaBattle.Business.CellState.Ship: return "#9bf8f4";
+            case SeaBattle.Business.CellState.Miss: return "#5b7da3";
+            case SeaBattle.Business.CellState.Hit:  return "#ff5a4d";
+            case SeaBattle.Business.CellState.Sunk: return "#7a1f1a";
+            default: return "#163655";
+        }
+    }
+    string Symbol(SeaBattle.Business.CellState s)
+    {
+        switch (s)
+        {
+            case SeaBattle.Business.CellState.Miss: return "•";
+            case SeaBattle.Business.CellState.Hit:  return "✕";
+            case SeaBattle.Business.CellState.Sunk: return "✕";
+            default: return "";
+        }
+    }
+}
