@@ -1,0 +1,47 @@
+﻿<Window x:Class="FifteenGame.Wpf.Views.ModeSelectionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Выбор режима" Height="500" Width="600" 
+        WindowStartupLocation="CenterScreen" Background="{StaticResource MainBackground}">
+
+    <Grid>
+        <Border Background="{StaticResource PanelBackground}" CornerRadius="20" Margin="40" Padding="30">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="20"/>
+            </Border.Effect>
+
+            <StackPanel>
+                <TextBlock Text="{Binding WelcomeMessage}" FontSize="24" FontWeight="Bold" 
+                           HorizontalAlignment="Center" Foreground="#2B32B2"/>
+                <TextBlock Text="{Binding BestScoreInfo}" FontSize="16" Margin="0,5,0,30" 
+                           HorizontalAlignment="Center" Foreground="Gray"/>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" Command="{Binding StartClassicCommand}" Height="200" 
+                            Style="{StaticResource GameButtonStyle}" Background="#11998e">
+                        <StackPanel>
+                            <TextBlock Text="🎯" FontSize="40" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                            <TextBlock Text="КЛАССИКА" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Набери 1000 очков" FontSize="12" Margin="0,10,0,0" HorizontalAlignment="Center" Opacity="0.8"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Grid.Column="2" Command="{Binding StartRankedCommand}" Height="200"
+                            Style="{StaticResource GameButtonStyle}" Background="#FC466B">
+                        <StackPanel>
+                            <TextBlock Text="🏆" FontSize="40" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                            <TextBlock Text="РЕЙТИНГ" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Битва за рекорд" FontSize="12" Margin="0,10,0,0" HorizontalAlignment="Center" Opacity="0.8"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
