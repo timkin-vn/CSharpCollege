@@ -1,0 +1,6 @@
+@Checkers.WebApi_HostAddress = http://localhost:5281
+
+GET {{Checkers.WebApi_HostAddress}}/api/game/register?username="Nikita"
+Accept: application/json
+
+###
