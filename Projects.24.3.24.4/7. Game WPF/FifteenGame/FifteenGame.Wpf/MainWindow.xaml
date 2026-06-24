@@ -3,31 +3,31 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FifteenGame.Wpf" xmlns:viewmodels="clr-namespace:FifteenGame.Wpf.ViewModels"
+        xmlns:local="clr-namespace:FifteenGame.Wpf" 
+        xmlns:viewmodels="clr-namespace:FifteenGame.Wpf.ViewModels"
         mc:Ignorable="d"
-        Title="Игра 15" Height="450" Width="800" MinHeight="450" MinWidth="450">
+        Title="Шаурма Бизнес Симулятор" Height="600" Width="550" MinHeight="600" MinWidth="550">
     <Window.DataContext>
         <viewmodels:MainWindowViewModel />
     </Window.DataContext>
-    
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition />
             <RowDefinition Height="Auto" />
-            <RowDefinition />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+            <TextBlock Text="{Binding MoneyText}" FontSize="18" FontWeight="Bold" Margin="0,0,20,0" Foreground="DarkGreen"/>
+            <TextBlock Text="{Binding TurnsText}" FontSize="18" FontWeight="Bold" Foreground="DarkBlue"/>
+        </StackPanel>
 
-        <ItemsControl Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Cells}">
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding Cells}" HorizontalAlignment="Center" VerticalAlignment="Center">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid>
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="100" />
                             <RowDefinition Height="100" />
                             <RowDefinition Height="100" />
                             <RowDefinition Height="100" />
@@ -39,6 +39,7 @@
                             <ColumnDefinition Width="100" />
                             <ColumnDefinition Width="100" />
                             <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="100" />
                         </Grid.ColumnDefinitions>
                     </Grid>
                 </ItemsPanelTemplate>
@@ -46,9 +47,9 @@
 
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid MouseDown="Grid_MouseDown" Tag="{Binding Direction}">
-                        <Rectangle Margin="5" Stroke="Brown" StrokeThickness="3" RadiusX="10" RadiusY="10" Fill="LightBlue" />
-                        <TextBlock Text="{Binding Text}" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Grid MouseDown="Grid_MouseDown" Cursor="Hand">
+                        <Rectangle Margin="5" Stroke="DarkSlateGray" StrokeThickness="2" RadiusX="8" RadiusY="8" Fill="{Binding CellBackground}" />
+                        <TextBlock Text="{Binding Text}" FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace FifteenGame.Business.Models
 {
-    public enum MoveDirection
+    public enum GameResult
     {
         None,
-        Left,
-        Right,
-        Up,
-        Down,
+        Win,
+        GameOver
     }
 }

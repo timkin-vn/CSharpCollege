@@ -9,117 +9,98 @@ namespace FifteenGame.Business.Services
 {
     public class GameService
     {
+        private readonly Random _rnd = new Random();
+        private const int IncomePerPerson = 10;  // Доход за сытого человека
+        private const int PenaltyPerPerson = 5;  // Штраф за голодного человека
+
         public void Initialize(GameModel model)
         {
-            int value = 1;
+            model.Money = GameModel.InitialMoney;
+            model.TurnsPlayed = 0;
+
             for (int row = 0; row < GameModel.RowCount; row++)
             {
                 for (int column = 0; column < GameModel.ColumnCount; column++)
                 {
-                    model[row, column] = value++;
+                    model.SetPeopleCount(row, column, _rnd.Next(0, 51)); // От 0 до 50 человек
+                    model.SetHasShop(row, column, false);
+                }
+            }
+        }
+
+        public bool MakeMove(GameModel model, int row, int column)
+        {
+            // Если там уже есть шаурмичная, строить нельзя, ход не тратится
+            if (model.GetHasShop(row, column))
+            {
+                return false;
+            }
+
+            // Списываем деньги за постройку
+            model.Money -= GameModel.ShopCost;
+            model.SetHasShop(row, column, true);
+            model.TurnsPlayed++;
+
+            // Считаем экономику за этот ход
+            CalculateEconomy(model);
+
+            return true;
+        }
+
+        private void CalculateEconomy(GameModel model)
+        {
+            int turnIncome = 0;
+            int turnPenalty = 0;
+
+            for (int r = 0; r < GameModel.RowCount; r++)
+            {
+                for (int c = 0; c < GameModel.ColumnCount; c++)
+                {
+                    int people = model.GetPeopleCount(r, c);
+
+                    if (IsCellCovered(model, r, c))
+                    {
+                        turnIncome += people * IncomePerPerson;
+                    }
+                    else
+                    {
+                        turnPenalty += people * PenaltyPerPerson;
+                    }
                 }
             }
 
-            model[GameModel.RowCount - 1, GameModel.ColumnCount - 1] = GameModel.FreeCellValue;
-            model.FreeCellRow = GameModel.RowCount - 1;
-            model.FreeCellColumn = GameModel.ColumnCount - 1;
+            model.Money += turnIncome;
+            model.Money -= turnPenalty;
         }
 
-        public bool MakeMove(GameModel model, MoveDirection direction)
+        // Проверка радиуса действия
+        private bool IsCellCovered(GameModel model, int row, int column)
         {
-            switch (direction)
-            {
-                case MoveDirection.Left:
-                    if (model.FreeCellColumn == GameModel.ColumnCount - 1)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow, model.FreeCellColumn + 1];
-                    model[model.FreeCellRow, model.FreeCellColumn + 1] = GameModel.FreeCellValue;
-                    model.FreeCellColumn++;
-                    return true;
-
-                case MoveDirection.Right:
-                    if (model.FreeCellColumn == 0)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow, model.FreeCellColumn - 1];
-                    model[model.FreeCellRow, model.FreeCellColumn - 1] = GameModel.FreeCellValue;
-                    model.FreeCellColumn--;
-                    return true;
-
-                case MoveDirection.Up:
-                    if (model.FreeCellRow == GameModel.RowCount - 1)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow + 1, model.FreeCellColumn];
-                    model[model.FreeCellRow + 1, model.FreeCellColumn] = GameModel.FreeCellValue;
-                    model.FreeCellRow++;
-                    return true;
-
-                case MoveDirection.Down:
-                    if (model.FreeCellRow == 0)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow - 1, model.FreeCellColumn];
-                    model[model.FreeCellRow - 1, model.FreeCellColumn] = GameModel.FreeCellValue;
-                    model.FreeCellRow--;
-                    return true;
-            }
+            // Сама клетка
+            if (model.GetHasShop(row, column)) return true;
+            // Вверх
+            if (row > 0 && model.GetHasShop(row - 1, column)) return true;
+            // Вниз
+            if (row < GameModel.RowCount - 1 && model.GetHasShop(row + 1, column)) return true;
+            // Лево
+            if (column > 0 && model.GetHasShop(row, column - 1)) return true;
+            // Право
+            if (column < GameModel.ColumnCount - 1 && model.GetHasShop(row, column + 1)) return true;
 
             return false;
         }
 
-        public void Shuffle(GameModel model)
+        public GameResult CheckGameStatus(GameModel model)
         {
-            Initialize(model);
-
-            var rnd = new Random();
-            for (int i = 0; i < 1000; i++)
+            if (model.Money < 0)
             {
-                var nextMove = (MoveDirection)(rnd.Next(4) + 1);
-                MakeMove(model, nextMove);
+                return GameResult.GameOver;
             }
-        }
-
-        public bool IsGameOver(GameModel model)
-        {
-            int freeCellRow = model.FreeCellRow;
-            if (freeCellRow != GameModel.RowCount - 1)
+            if (model.TurnsPlayed >= GameModel.TargetTurns)
             {
-                return false;
+                return GameResult.Win;
             }
-
-            int freeCellColumn = model.FreeCellColumn;
-            if (freeCellColumn != GameModel.ColumnCount - 1)
-            {
-                return false;
-            }
-
-            int value = 1;
-            for (int row = 0; row < GameModel.RowCount; row++)
-            {
-                for (int column = 0; column < GameModel.ColumnCount; column++)
-                {
-                    if (row == freeCellRow && column == freeCellColumn)
-                    {
-                        return model[row, column] == GameModel.FreeCellValue;
-                    }
-                    else if (model[row, column] != value++)
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
+            return GameResult.None;
         }
     }
 }

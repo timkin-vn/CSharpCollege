@@ -7,15 +7,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace FifteenGame.Wpf.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private GameService _service = new GameService();
-
-        private GameModel _model = new GameModel();
+        private readonly GameService _service = new GameService();
+        private readonly GameModel _model = new GameModel();
 
         public ObservableCollection<CellViewModel> Cells { get; } = new ObservableCollection<CellViewModel>();
+
+        public string MoneyText => $"Баланс: {_model.Money} руб.";
+        public string TurnsText => $"Ход: {_model.TurnsPlayed} / {GameModel.TargetTurns}";
 
         public MainWindowViewModel()
         {
@@ -24,66 +27,63 @@ namespace FifteenGame.Wpf.ViewModels
 
         public void Initialize()
         {
-            _service.Shuffle(_model);
-            LoadViewModel(_model);
+            _service.Initialize(_model);
+            LoadViewModel();
+            UpdateStats();
         }
 
-        public void MakeMove(MoveDirection direction, Action gameFinishedAction)
+        public void ProcessCellClick(CellViewModel cellVM, Action<GameResult> gameFinishedAction)
         {
-            _service.MakeMove(_model, direction);
-            LoadViewModel(_model);
-            if (_service.IsGameOver(_model))
+            // Передаем координаты кликнутой клетки
+            if (_service.MakeMove(_model, cellVM.Row, cellVM.Column))
             {
-                gameFinishedAction?.Invoke();
+                LoadViewModel();
+                UpdateStats();
+
+                var status = _service.CheckGameStatus(_model);
+                if (status != GameResult.None)
+                {
+                    gameFinishedAction?.Invoke(status);
+                }
             }
         }
 
-        private void LoadViewModel(GameModel model)
+        private void UpdateStats()
+        {
+            OnPropertyChanged(nameof(MoneyText));
+            OnPropertyChanged(nameof(TurnsText));
+        }
+
+        private void LoadViewModel()
         {
             Cells.Clear();
             for (int row = 0; row < GameModel.RowCount; row++)
             {
                 for (int column = 0; column < GameModel.ColumnCount; column++)
                 {
-                    if (model[row, column] == GameModel.FreeCellValue)
-                    {
-                        continue;
-                    }
-
-                    var direction = MoveDirection.None;
-
-                    if (row == model.FreeCellRow)
-                    {
-                        if (column == model.FreeCellColumn - 1)
-                        {
-                            direction = MoveDirection.Right;
-                        }
-                        else if (column == model.FreeCellColumn + 1)
-                        {
-                            direction = MoveDirection.Left;
-                        }
-                    }
-                    else if (column == model.FreeCellColumn)
-                    {
-                        if (row == model.FreeCellRow - 1)
-                        {
-                            direction = MoveDirection.Down;
-                        }
-                        else if (row == model.FreeCellRow + 1)
-                        {
-                            direction = MoveDirection.Up;
-                        }
-                    }
+                    // Проверяем радиус для подсветки во ViewModel
+                    bool covered = IsCellCoveredInModel(row, column);
 
                     Cells.Add(new CellViewModel
                     {
                         Row = row,
                         Column = column,
-                        Value = model[row, column],
-                        Direction = direction,
+                        PeopleCount = _model.GetPeopleCount(row, column),
+                        HasShop = _model.GetHasShop(row, column),
+                        IsCovered = covered
                     });
                 }
             }
+        }
+
+        private bool IsCellCoveredInModel(int row, int column)
+        {
+            if (_model.GetHasShop(row, column)) return true;
+            if (row > 0 && _model.GetHasShop(row - 1, column)) return true;
+            if (row < GameModel.RowCount - 1 && _model.GetHasShop(row + 1, column)) return true;
+            if (column > 0 && _model.GetHasShop(row, column - 1)) return true;
+            if (column < GameModel.ColumnCount - 1 && _model.GetHasShop(row, column + 1)) return true;
+            return false;
         }
     }
 }

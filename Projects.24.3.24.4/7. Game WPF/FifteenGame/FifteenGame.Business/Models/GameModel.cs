@@ -8,22 +8,24 @@ namespace FifteenGame.Business.Models
 {
     public class GameModel
     {
-        public const int RowCount = 4;
+        public const int RowCount = 5;
+        public const int ColumnCount = 5;
+        public const int InitialMoney = 1000;
+        public const int ShopCost = 300;
+        public const int TargetTurns = 10; // Сколько ходов нужно продержаться для победы
 
-        public const int ColumnCount = 4;
+        // Двумерные массивы для хранения состояния поля
+        private int[,] _peopleCount = new int[RowCount, ColumnCount];
+        private bool[,] _hasShop = new bool[RowCount, ColumnCount];
 
-        public const int FreeCellValue = -1;
+        public int GetPeopleCount(int row, int column) => _peopleCount[row, column];
+        public void SetPeopleCount(int row, int column, int value) => _peopleCount[row, column] = value;
 
-        private int[,] _cells = new int[RowCount, ColumnCount];
+        public bool GetHasShop(int row, int column) => _hasShop[row, column];
+        public void SetHasShop(int row, int column, bool value) => _hasShop[row, column] = value;
 
-        public int this[int row, int column]
-        {
-            get => _cells[row, column];
-            internal set => _cells[row, column] = value;
-        }
-
-        public int FreeCellRow { get; internal set; }
-
-        public int FreeCellColumn { get; internal set; }
+        // Текущие показатели игры
+        public int Money { get; internal set; }
+        public int TurnsPlayed { get; internal set; }
     }
 }
