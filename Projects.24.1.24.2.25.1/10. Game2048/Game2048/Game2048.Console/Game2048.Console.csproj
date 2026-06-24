@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Game2048.BusinessProxy\Game2048.BusinessProxy.csproj" />
+    <ProjectReference Include="..\Game2048.Common\Game2048.Common.csproj" />
+  </ItemGroup>
+</Project>
