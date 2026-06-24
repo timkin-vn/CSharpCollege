@@ -3,48 +3,42 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FifteenGame.Wpf" 
-        xmlns:viewmodels="clr-namespace:FifteenGame.Wpf.ViewModels"
+        xmlns:local="clr-namespace:FifteenGame.Wpf" xmlns:viewmodels="clr-namespace:FifteenGame.Wpf.ViewModels"
         mc:Ignorable="d"
-        Title="2048 Game" Height="550" Width="550" MinHeight="450" MinWidth="450"
-        KeyDown="Window_KeyDown">
+        Title="Игра 15" Height="450" Width="800" MinHeight="450" MinWidth="450">
     <Window.DataContext>
         <viewmodels:MainWindowViewModel />
     </Window.DataContext>
-
-    <Grid Margin="10">
+    
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
         </Grid.RowDefinitions>
 
-        <!-- Верхняя панель: счёт и кнопка -->
-        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
-            <TextBlock Text="Score: " FontSize="24" VerticalAlignment="Center"/>
-            <TextBlock Text="{Binding Score}" FontSize="28" FontWeight="Bold" VerticalAlignment="Center" Margin="5,0,20,0"/>
-            <Button Content="New Game" FontSize="18" Padding="15,5" Click="NewGame_Click"/>
-        </StackPanel>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
 
-        <!-- Статус (победа/поражение) -->
-        <TextBlock Grid.Row="1" Text="{Binding GameStatus}" FontSize="16" Foreground="Red" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-
-        <!-- Игровое поле 4x4 -->
-        <ItemsControl Grid.Row="2" ItemsSource="{Binding Cells}" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <ItemsControl Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Cells}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="100"/>
-                            <RowDefinition Height="100"/>
-                            <RowDefinition Height="100"/>
-                            <RowDefinition Height="100"/>
+                            <RowDefinition Height="100" />
+                            <RowDefinition Height="100" />
+                            <RowDefinition Height="100" />
+                            <RowDefinition Height="100" />
                         </Grid.RowDefinitions>
+
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="100" />
                         </Grid.ColumnDefinitions>
                     </Grid>
                 </ItemsPanelTemplate>
@@ -52,18 +46,17 @@
 
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Border Margin="5" Background="{Binding BackgroundBrush}" CornerRadius="8" BorderBrush="Gray" BorderThickness="1">
-                        <TextBlock Text="{Binding Text}" FontSize="32" FontWeight="Bold" 
-                                   HorizontalAlignment="Center" VerticalAlignment="Center"
-                                   Foreground="Black"/>
-                    </Border>
+                    <Grid Tag="{Binding Direction}" MouseDown="Grid_MouseDown">
+                        <Rectangle Margin="5" Stroke="Brown" StrokeThickness="3" RadiusX="10" RadiusY="10" Fill="LightBlue" />
+                        <TextBlock Text="{Binding Text}" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
 
             <ItemsControl.ItemContainerStyle>
                 <Style TargetType="ContentPresenter">
-                    <Setter Property="Grid.Row" Value="{Binding Row}"/>
-                    <Setter Property="Grid.Column" Value="{Binding Column}"/>
+                    <Setter Property="Grid.Row" Value="{Binding Row}" />
+                    <Setter Property="Grid.Column" Value="{Binding Column}" />
                 </Style>
             </ItemsControl.ItemContainerStyle>
         </ItemsControl>
