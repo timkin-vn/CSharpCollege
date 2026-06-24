@@ -61,8 +61,8 @@ namespace FifteenGame.Wpf.ViewModels
             {
                 for (int column = 0; column < GameModel.ColumnCount; column++)
                 {
-                    // Проверяем радиус для подсветки во ViewModel
-                    bool covered = IsCellCoveredInModel(row, column);
+                    bool covered = _service.IsCellCovered(_model, row, column);
+                    int veggieNeighbors = _service.GetVeggieNeighborsCount(_model, row, column);
 
                     Cells.Add(new CellViewModel
                     {
@@ -70,20 +70,13 @@ namespace FifteenGame.Wpf.ViewModels
                         Column = column,
                         PeopleCount = _model.GetPeopleCount(row, column),
                         HasShop = _model.GetHasShop(row, column),
-                        IsCovered = covered
+                        IsCovered = covered,
+                        IsVeggie = _model.GetIsVeggie(row, column),
+                        IsRevealed = _model.GetIsRevealed(row, column),
+                        VeggieNeighborsCount = veggieNeighbors
                     });
                 }
             }
-        }
-
-        private bool IsCellCoveredInModel(int row, int column)
-        {
-            if (_model.GetHasShop(row, column)) return true;
-            if (row > 0 && _model.GetHasShop(row - 1, column)) return true;
-            if (row < GameModel.RowCount - 1 && _model.GetHasShop(row + 1, column)) return true;
-            if (column > 0 && _model.GetHasShop(row, column - 1)) return true;
-            if (column < GameModel.ColumnCount - 1 && _model.GetHasShop(row, column + 1)) return true;
-            return false;
         }
     }
 }
