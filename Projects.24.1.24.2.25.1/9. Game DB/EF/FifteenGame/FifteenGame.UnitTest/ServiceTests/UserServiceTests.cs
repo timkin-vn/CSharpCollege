@@ -1,12 +1,11 @@
 ﻿using FifteenGame.Business.Services;
-using FifteenGame.DataAccess.EF.Repositories;
-using FifteenGame.DataAccess.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FifteenGame.DataAccess.EF.Repositories;
 
 namespace FifteenGame.UnitTest.ServiceTests
 {

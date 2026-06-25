@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FifteenGame.Business", "Fif
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FifteenGame.Common", "FifteenGame.Common\FifteenGame.Common.csproj", "{09EBD9D5-1B25-4C30-B12D-ED8442709F88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FifteenGame.DataAccess", "FifteenGame.DataAccess\FifteenGame.DataAccess.csproj", "{5745B810-C739-499E-A97B-7A060AB46270}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FifteenGame.UnitTest", "FifteenGame.UnitTest\FifteenGame.UnitTest.csproj", "{0FBDDB1A-3276-4F3B-9157-79E27433903D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FifteenGame.DataAccess.EF", "FifteenGame.DataAccess.EF\FifteenGame.DataAccess.EF.csproj", "{21059032-2498-4CE2-A391-08B0EE2FDD6B}"
@@ -33,10 +31,6 @@ Global
 		{09EBD9D5-1B25-4C30-B12D-ED8442709F88}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09EBD9D5-1B25-4C30-B12D-ED8442709F88}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09EBD9D5-1B25-4C30-B12D-ED8442709F88}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5745B810-C739-499E-A97B-7A060AB46270}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5745B810-C739-499E-A97B-7A060AB46270}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5745B810-C739-499E-A97B-7A060AB46270}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5745B810-C739-499E-A97B-7A060AB46270}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0FBDDB1A-3276-4F3B-9157-79E27433903D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0FBDDB1A-3276-4F3B-9157-79E27433903D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FBDDB1A-3276-4F3B-9157-79E27433903D}.Release|Any CPU.ActiveCfg = Release|Any CPU

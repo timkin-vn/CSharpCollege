@@ -9,9 +9,8 @@ namespace FifteenGame.DataAccess.EF.Entities
     public class User
     {
         public int Id { get; set; }
-
         public string Name { get; set; }
-
         public List<Game> Games { get; set; }
+        public ICollection<CheckersGameEntity> CheckersGames { get; set; } = new List<CheckersGameEntity>();
     }
 }

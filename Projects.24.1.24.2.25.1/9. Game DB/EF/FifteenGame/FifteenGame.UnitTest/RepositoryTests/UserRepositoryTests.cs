@@ -1,4 +1,4 @@
-﻿using FifteenGame.DataAccess.Repositories;
+﻿using FifteenGame.DataAccess.EF.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -14,7 +14,7 @@ namespace FifteenGame.UnitTest.RepositoryTests
         [TestMethod]
         public void GetAllUsersTest()
         {
-            var userRepository = new UserRepository();
+            var userRepository = new UserRepositoryEF();
             var result = userRepository.GetAll();
 
             Assert.IsTrue(result.Any());
@@ -24,7 +24,7 @@ namespace FifteenGame.UnitTest.RepositoryTests
         [TestMethod]
         public void CreateUserTest()
         {
-            var userRepository = new UserRepository();
+            var userRepository = new UserRepositoryEF();
             string userName = "TestUser" + new Random().Next(100).ToString();
             var result = userRepository.Create(userName);
 
@@ -34,7 +34,7 @@ namespace FifteenGame.UnitTest.RepositoryTests
         [TestMethod]
         public void GetUserByNameTest()
         {
-            var userRepository = new UserRepository();
+            var userRepository = new UserRepositoryEF();
             var userCount = 0;
             for (int i = 0; i < 100; i++)
             {
@@ -51,7 +51,7 @@ namespace FifteenGame.UnitTest.RepositoryTests
         [TestMethod]
         public void GetUserByIdTest()
         {
-            var userRepository = new UserRepository();
+            var userRepository = new UserRepositoryEF();
             var allUsers = userRepository.GetAll();
             if (!allUsers.Any())
             {

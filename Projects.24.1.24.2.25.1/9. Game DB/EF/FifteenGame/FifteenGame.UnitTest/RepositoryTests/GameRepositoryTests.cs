@@ -1,6 +1,6 @@
 ﻿using FifteenGame.Common.Definitions;
 using FifteenGame.Common.Dtos;
-using FifteenGame.DataAccess.Repositories;
+using FifteenGame.DataAccess.EF.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -24,7 +24,7 @@ namespace FifteenGame.UnitTest.RepositoryTests
                 { 13, 14, 15, Constants.FreeCellValue, },
             };
 
-            var userRepository = new UserRepository();
+            var userRepository = new UserRepositoryEF();
             var allUsers = userRepository.GetAll();
             if (!allUsers.Any())
             {
@@ -32,7 +32,7 @@ namespace FifteenGame.UnitTest.RepositoryTests
             }
 
             var selectedUser = allUsers.First();
-            var gameRepository = new GameRepository();
+            var gameRepository = new GameRepositoryEF();
             var gameDto = new GameDto
             {
                 UserId = selectedUser.Id,
@@ -57,10 +57,10 @@ namespace FifteenGame.UnitTest.RepositoryTests
         [TestMethod]
         public void GetGamesByUserIdTest()
         {
-            var userRepository = new UserRepository();
+            var userRepository = new UserRepositoryEF();
             var allUsers = userRepository.GetAll();
 
-            var gameRepository = new GameRepository();
+            var gameRepository = new GameRepositoryEF();
             int gameCount = 0;
 
             foreach (var user in allUsers)
@@ -75,10 +75,10 @@ namespace FifteenGame.UnitTest.RepositoryTests
         [TestMethod]
         public void UpdateGameTest()
         {
-            var userRepository = new UserRepository();
+            var userRepository = new UserRepositoryEF();
             var allUsers = userRepository.GetAll();
 
-            var gameRepository = new GameRepository();
+            var gameRepository = new GameRepositoryEF();
             GameDto game = null;
 
             foreach (var user in allUsers)
@@ -138,10 +138,10 @@ namespace FifteenGame.UnitTest.RepositoryTests
         [TestMethod]
         public void RemoveGameTest()
         {
-            var userRepository = new UserRepository();
+            var userRepository = new UserRepositoryEF();
             var allUsers = userRepository.GetAll();
 
-            var gameRepository = new GameRepository();
+            var gameRepository = new GameRepositoryEF();
             GameDto game = null;
 
             foreach (var user in allUsers)
