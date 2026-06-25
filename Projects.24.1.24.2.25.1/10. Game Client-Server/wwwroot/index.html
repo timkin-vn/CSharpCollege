@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Сапёр — Client-Server</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #0f172a;
+            color: #f9fafb;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 24px;
+        }
+        .app {
+            width: fit-content;
+            max-width: 100%;
+            background: #111827;
+            border: 2px solid #334155;
+            border-radius: 16px;
+            padding: 18px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+        }
+        h1 { margin: 0 0 14px; text-align: center; }
+        .panel {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 14px;
+        }
+        select, button {
+            border: 0;
+            border-radius: 10px;
+            padding: 9px 12px;
+            font-size: 15px;
+        }
+        select { background: #f9fafb; color: #111827; }
+        button { background: #2563eb; color: white; cursor: pointer; }
+        button:hover { background: #1d4ed8; }
+        .info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 14px;
+            color: #d1d5db;
+        }
+        .badge {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 999px;
+            padding: 7px 12px;
+        }
+        #board {
+            display: grid;
+            gap: 2px;
+            background: #334155;
+            border: 4px solid #334155;
+            border-radius: 8px;
+            margin: 0 auto;
+            max-width: 95vw;
+            overflow: auto;
+        }
+        .cell {
+            width: 36px;
+            height: 36px;
+            border: 0;
+            border-radius: 4px;
+            background: #94a3b8;
+            color: #111827;
+            font-weight: bold;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            user-select: none;
+        }
+        .cell:hover { filter: brightness(1.08); }
+        .revealed { background: #e2e8f0; cursor: default; }
+        .flagged { background: #fbbf24; }
+        .mine { background: #ef4444; color: white; }
+        .status {
+            margin-top: 14px;
+            text-align: center;
+            min-height: 24px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .hint {
+            margin-top: 10px;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <main class="app">
+        <h1>Сапёр — Client-Server</h1>
+
+        <div class="panel">
+            <label>
+                Сложность:
+                <select id="difficultySelect">
+                    <option value="easy">Лёгкий — 9×9, 10 мин</option>
+                    <option value="medium">Средний — 12×12, 25 мин</option>
+                    <option value="hard">Тяжёлый — 16×16, 50 мин</option>
+                </select>
+            </label>
+
+            <label>
+                Первый ход:
+                <select id="firstMoveSelect">
+                    <option value="safe">Безопасный</option>
+                    <option value="dangerous">Опасный</option>
+                </select>
+            </label>
+
+            <button id="newGameButton">Новая игра</button>
+        </div>
+
+        <div class="info">
+            <span class="badge" id="difficultyInfo">Сложность: —</span>
+            <span class="badge" id="firstMoveInfo">Первый ход: —</span>
+            <span class="badge" id="mineCounter">Мины: 0</span>
+            <span class="badge" id="flagCounter">Флаги: 0</span>
+            <span class="badge" id="moveCounter">Ходы: 0</span>
+            <span class="badge" id="timer">Время: 0 сек.</span>
+        </div>
+
+        <div id="board"></div>
+        <div class="status" id="status">Создание игры...</div>
+        <div class="hint">ЛКМ — открыть клетку. ПКМ — поставить или убрать флажок. Состояние поля хранится на сервере.</div>
+    </main>
+
+    <script>
+        const difficultySelect = document.getElementById('difficultySelect');
+        const firstMoveSelect = document.getElementById('firstMoveSelect');
+        const newGameButton = document.getElementById('newGameButton');
+        const board = document.getElementById('board');
+        const statusText = document.getElementById('status');
+        const difficultyInfo = document.getElementById('difficultyInfo');
+        const firstMoveInfo = document.getElementById('firstMoveInfo');
+        const mineCounter = document.getElementById('mineCounter');
+        const flagCounter = document.getElementById('flagCounter');
+        const moveCounter = document.getElementById('moveCounter');
+        const timerText = document.getElementById('timer');
+
+        let game = null;
+        let seconds = 0;
+        let timerId = null;
+
+        async function newGame() {
+            stopTimer();
+            seconds = 0;
+            statusText.textContent = 'Создание игры на сервере...';
+
+            const response = await fetch('/api/games', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    difficulty: difficultySelect.value,
+                    firstMoveMode: firstMoveSelect.value
+                })
+            });
+
+            game = await response.json();
+            render();
+        }
+
+        async function revealCell(row, column) {
+            if (!game || game.status !== 'Игра идёт') return;
+            startTimer();
+
+            const response = await fetch(`/api/games/${game.id}/reveal`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ row, column })
+            });
+
+            game = await response.json();
+            if (game.status !== 'Игра идёт') stopTimer();
+            render();
+        }
+
+        async function toggleFlag(row, column) {
+            if (!game || game.status !== 'Игра идёт') return;
+
+            const response = await fetch(`/api/games/${game.id}/flag`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ row, column })
+            });
+
+            game = await response.json();
+            render();
+        }
+
+        function startTimer() {
+            if (timerId !== null) return;
+            timerId = setInterval(() => {
+                seconds++;
+                updateInfo();
+            }, 1000);
+        }
+
+        function stopTimer() {
+            if (timerId !== null) {
+                clearInterval(timerId);
+                timerId = null;
+            }
+        }
+
+        function render() {
+            if (!game) return;
+
+            board.innerHTML = '';
+            board.style.gridTemplateColumns = `repeat(${game.columns}, 36px)`;
+
+            for (const cell of game.cells) {
+                const element = document.createElement('div');
+                element.className = 'cell';
+
+                if (cell.isMineVisible) {
+                    element.classList.add('mine');
+                    element.textContent = '💣';
+                } else if (cell.isRevealed) {
+                    element.classList.add('revealed');
+                    if (cell.adjacentMines > 0) {
+                        element.textContent = cell.adjacentMines;
+                    }
+                } else if (cell.isFlagged) {
+                    element.classList.add('flagged');
+                    element.textContent = '🚩';
+                }
+
+                element.addEventListener('click', () => revealCell(cell.row, cell.column));
+                element.addEventListener('contextmenu', event => {
+                    event.preventDefault();
+                    toggleFlag(cell.row, cell.column);
+                });
+
+                board.appendChild(element);
+            }
+
+            updateInfo();
+            statusText.textContent = game.status;
+
+            if (game.status === 'Победа') {
+                statusText.textContent = 'Победа! Сервер подтвердил окончание игры.';
+            }
+
+            if (game.status === 'Поражение') {
+                statusText.textContent = 'Поражение. Сервер открыл мины.';
+            }
+        }
+
+        function updateInfo() {
+            if (!game) return;
+            difficultyInfo.textContent = `Сложность: ${game.difficulty}`;
+            firstMoveInfo.textContent = `Первый ход: ${game.firstMoveMode}`;
+            mineCounter.textContent = `Мины: ${game.mines}`;
+            flagCounter.textContent = `Флаги: ${game.flags}`;
+            moveCounter.textContent = `Ходы: ${game.moves}`;
+            timerText.textContent = `Время: ${seconds} сек.`;
+        }
+
+        newGameButton.addEventListener('click', newGame);
+        difficultySelect.addEventListener('change', newGame);
+        firstMoveSelect.addEventListener('change', newGame);
+
+        newGame();
+    </script>
+</body>
+</html>

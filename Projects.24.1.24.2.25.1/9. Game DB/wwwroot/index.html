@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Сапёр — DB</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #172033;
+            color: #f9fafb;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 24px;
+        }
+        .app {
+            width: fit-content;
+            max-width: 100%;
+            background: #111827;
+            border: 2px solid #374151;
+            border-radius: 16px;
+            padding: 18px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+        }
+        h1, h2 { text-align: center; }
+        h1 { margin: 0 0 14px; }
+        h2 { margin: 18px 0 8px; font-size: 20px; }
+        .panel {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 14px;
+        }
+        input, select, button {
+            border: 0;
+            border-radius: 10px;
+            padding: 9px 12px;
+            font-size: 15px;
+        }
+        input, select { background: #f9fafb; color: #111827; }
+        button { background: #2563eb; color: white; cursor: pointer; }
+        button:hover { background: #1d4ed8; }
+        .info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 14px;
+            color: #d1d5db;
+        }
+        .badge {
+            background: #1f2937;
+            border: 1px solid #374151;
+            border-radius: 999px;
+            padding: 7px 12px;
+        }
+        #board {
+            display: grid;
+            gap: 2px;
+            background: #374151;
+            border: 4px solid #374151;
+            border-radius: 8px;
+            margin: 0 auto;
+            max-width: 95vw;
+            overflow: auto;
+        }
+        .cell {
+            width: 36px;
+            height: 36px;
+            border: 0;
+            border-radius: 4px;
+            background: #9ca3af;
+            color: #111827;
+            font-weight: bold;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            user-select: none;
+        }
+        .cell:hover { filter: brightness(1.08); }
+        .revealed { background: #e5e7eb; cursor: default; }
+        .flagged { background: #fbbf24; }
+        .mine { background: #ef4444; color: white; }
+        .status {
+            margin-top: 14px;
+            text-align: center;
+            min-height: 24px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .hint {
+            margin-top: 10px;
+            text-align: center;
+            color: #9ca3af;
+            font-size: 13px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 8px;
+            background: #1f2937;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        th, td {
+            border-bottom: 1px solid #374151;
+            padding: 8px;
+            text-align: center;
+            font-size: 14px;
+        }
+        th { background: #374151; }
+        tr:last-child td { border-bottom: 0; }
+    </style>
+</head>
+<body>
+    <main class="app">
+        <h1>Сапёр — DB</h1>
+
+        <div class="panel">
+            <label>Имя: <input id="playerNameInput" value="Игрок" maxlength="40" /></label>
+            <label>
+                Сложность:
+                <select id="difficultySelect">
+                    <option value="easy">Лёгкий — 9×9, 10 мин</option>
+                    <option value="medium">Средний — 12×12, 25 мин</option>
+                    <option value="hard">Тяжёлый — 16×16, 50 мин</option>
+                </select>
+            </label>
+            <label>
+                Первый ход:
+                <select id="firstMoveSelect">
+                    <option value="safe">Безопасный</option>
+                    <option value="dangerous">Опасный</option>
+                </select>
+            </label>
+            <button id="newGameButton">Новая игра</button>
+        </div>
+
+        <div class="info">
+            <span class="badge" id="mineCounter">Мины: 0</span>
+            <span class="badge" id="flagCounter">Флаги: 0</span>
+            <span class="badge" id="moveCounter">Ходы: 0</span>
+            <span class="badge" id="timer">Время: 0 сек.</span>
+        </div>
+
+        <div id="board"></div>
+        <div class="status" id="status">Выберите клетку</div>
+        <div class="hint">ЛКМ — открыть клетку. ПКМ — поставить или убрать флажок. Результат сохраняется в SQLite после окончания игры.</div>
+
+        <h2>Таблица результатов</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Игрок</th>
+                    <th>Итог</th>
+                    <th>Сложность</th>
+                    <th>Первый ход</th>
+                    <th>Время</th>
+                    <th>Ходы</th>
+                    <th>Дата</th>
+                </tr>
+            </thead>
+            <tbody id="resultsBody">
+                <tr><td colspan="7">Загрузка...</td></tr>
+            </tbody>
+        </table>
+    </main>
+
+    <script>
+        const difficulties = {
+            easy: { name: 'Лёгкий', rows: 9, columns: 9, mines: 10 },
+            medium: { name: 'Средний', rows: 12, columns: 12, mines: 25 },
+            hard: { name: 'Тяжёлый', rows: 16, columns: 16, mines: 50 }
+        };
+
+        const difficultySelect = document.getElementById('difficultySelect');
+        const firstMoveSelect = document.getElementById('firstMoveSelect');
+        const playerNameInput = document.getElementById('playerNameInput');
+        const newGameButton = document.getElementById('newGameButton');
+        const board = document.getElementById('board');
+        const statusText = document.getElementById('status');
+        const mineCounter = document.getElementById('mineCounter');
+        const flagCounter = document.getElementById('flagCounter');
+        const moveCounter = document.getElementById('moveCounter');
+        const timerText = document.getElementById('timer');
+        const resultsBody = document.getElementById('resultsBody');
+
+        let settings;
+        let cells = [];
+        let gameOver = false;
+        let firstClickDone = false;
+        let resultSaved = false;
+        let moves = 0;
+        let seconds = 0;
+        let timerId = null;
+
+        function createCell() {
+            return { hasMine: false, isRevealed: false, isFlagged: false, adjacentMines: 0 };
+        }
+
+        function newGame() {
+            settings = difficulties[difficultySelect.value];
+            cells = Array.from({ length: settings.rows * settings.columns }, createCell);
+            gameOver = false;
+            firstClickDone = false;
+            resultSaved = false;
+            moves = 0;
+            seconds = 0;
+            stopTimer();
+
+            if (firstMoveSelect.value === 'dangerous') {
+                placeMines(-1);
+                calculateNumbers();
+            }
+
+            statusText.textContent = 'Выберите клетку';
+            render();
+        }
+
+        function startTimer() {
+            if (timerId !== null) return;
+            timerId = setInterval(() => {
+                seconds++;
+                updateInfo();
+            }, 1000);
+        }
+
+        function stopTimer() {
+            if (timerId !== null) {
+                clearInterval(timerId);
+                timerId = null;
+            }
+        }
+
+        function indexOf(row, column) { return row * settings.columns + column; }
+        function getCoordinates(index) { return { row: Math.floor(index / settings.columns), column: index % settings.columns }; }
+
+        function getNeighbors(index) {
+            const { row, column } = getCoordinates(index);
+            const neighbors = [];
+            for (let rowOffset = -1; rowOffset <= 1; rowOffset++) {
+                for (let columnOffset = -1; columnOffset <= 1; columnOffset++) {
+                    if (rowOffset === 0 && columnOffset === 0) continue;
+                    const newRow = row + rowOffset;
+                    const newColumn = column + columnOffset;
+                    if (newRow >= 0 && newRow < settings.rows && newColumn >= 0 && newColumn < settings.columns) {
+                        neighbors.push(indexOf(newRow, newColumn));
+                    }
+                }
+            }
+            return neighbors;
+        }
+
+        function placeMines(excludedIndex) {
+            let placed = 0;
+            while (placed < settings.mines) {
+                const index = Math.floor(Math.random() * cells.length);
+                if (index === excludedIndex || cells[index].hasMine) continue;
+                cells[index].hasMine = true;
+                placed++;
+            }
+        }
+
+        function calculateNumbers() {
+            for (let i = 0; i < cells.length; i++) {
+                cells[i].adjacentMines = getNeighbors(i).filter(neighborIndex => cells[neighborIndex].hasMine).length;
+            }
+        }
+
+        function revealCell(index) {
+            if (gameOver) return;
+            const cell = cells[index];
+            if (cell.isFlagged || cell.isRevealed) return;
+            startTimer();
+
+            if (!firstClickDone) {
+                firstClickDone = true;
+                if (firstMoveSelect.value === 'safe') {
+                    placeMines(index);
+                    calculateNumbers();
+                }
+            }
+
+            moves++;
+
+            if (cell.hasMine) {
+                cell.isRevealed = true;
+                finishGame(false);
+                render();
+                return;
+            }
+
+            openSafeArea(index);
+            checkWin();
+            render();
+        }
+
+        function openSafeArea(startIndex) {
+            const queue = [startIndex];
+            const visited = new Set();
+            while (queue.length > 0) {
+                const index = queue.shift();
+                if (visited.has(index)) continue;
+                visited.add(index);
+                const cell = cells[index];
+                if (cell.isFlagged || cell.hasMine) continue;
+                cell.isRevealed = true;
+                if (cell.adjacentMines === 0) {
+                    for (const neighborIndex of getNeighbors(index)) {
+                        const neighbor = cells[neighborIndex];
+                        if (!neighbor.isRevealed && !neighbor.hasMine) queue.push(neighborIndex);
+                    }
+                }
+            }
+        }
+
+        function toggleFlag(index) {
+            if (gameOver) return;
+            const cell = cells[index];
+            if (cell.isRevealed) return;
+            cell.isFlagged = !cell.isFlagged;
+            render();
+        }
+
+        function checkWin() {
+            const openedSafeCells = cells.filter(cell => cell.isRevealed && !cell.hasMine).length;
+            const requiredSafeCells = cells.length - settings.mines;
+            if (openedSafeCells === requiredSafeCells) {
+                finishGame(true);
+            }
+        }
+
+        function finishGame(isWin) {
+            gameOver = true;
+            stopTimer();
+            for (const cell of cells) {
+                if (cell.hasMine) {
+                    cell.isRevealed = !isWin;
+                    cell.isFlagged = isWin;
+                }
+            }
+            statusText.textContent = isWin ? 'Победа! Результат сохранён в базу.' : 'Поражение. Результат сохранён в базу.';
+            saveResult(isWin);
+        }
+
+        async function saveResult(isWin) {
+            if (resultSaved) return;
+            resultSaved = true;
+
+            const data = {
+                playerName: playerNameInput.value || 'Игрок',
+                difficulty: settings.name,
+                firstMoveMode: firstMoveSelect.value === 'safe' ? 'Безопасный' : 'Опасный',
+                isWin,
+                seconds,
+                moves,
+                rows: settings.rows,
+                columns: settings.columns,
+                mines: settings.mines
+            };
+
+            try {
+                await fetch('/api/results', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                await loadResults();
+            } catch {
+                statusText.textContent += ' Но сервер базы данных недоступен.';
+            }
+        }
+
+        async function loadResults() {
+            try {
+                const response = await fetch('/api/results');
+                const results = await response.json();
+
+                if (results.length === 0) {
+                    resultsBody.innerHTML = '<tr><td colspan="7">Пока результатов нет</td></tr>';
+                    return;
+                }
+
+                resultsBody.innerHTML = results.map(result => `
+                    <tr>
+                        <td>${escapeHtml(result.playerName)}</td>
+                        <td>${result.isWin ? 'Победа' : 'Поражение'}</td>
+                        <td>${escapeHtml(result.difficulty)}</td>
+                        <td>${escapeHtml(result.firstMoveMode)}</td>
+                        <td>${result.seconds} сек.</td>
+                        <td>${result.moves}</td>
+                        <td>${escapeHtml(result.createdAt)}</td>
+                    </tr>
+                `).join('');
+            } catch {
+                resultsBody.innerHTML = '<tr><td colspan="7">Не удалось загрузить результаты</td></tr>';
+            }
+        }
+
+        function escapeHtml(value) {
+            return String(value)
+                .replaceAll('&', '&amp;')
+                .replaceAll('<', '&lt;')
+                .replaceAll('>', '&gt;')
+                .replaceAll('"', '&quot;')
+                .replaceAll("'", '&#039;');
+        }
+
+        function render() {
+            board.innerHTML = '';
+            board.style.gridTemplateColumns = `repeat(${settings.columns}, 36px)`;
+            for (let i = 0; i < cells.length; i++) {
+                const cell = cells[i];
+                const element = document.createElement('div');
+                element.className = 'cell';
+
+                if (cell.isRevealed) {
+                    element.classList.add('revealed');
+                    if (cell.hasMine) {
+                        element.classList.add('mine');
+                        element.textContent = '💣';
+                    } else if (cell.adjacentMines > 0) {
+                        element.textContent = cell.adjacentMines;
+                    }
+                } else if (cell.isFlagged) {
+                    element.classList.add('flagged');
+                    element.textContent = '🚩';
+                }
+
+                element.addEventListener('click', () => revealCell(i));
+                element.addEventListener('contextmenu', event => {
+                    event.preventDefault();
+                    toggleFlag(i);
+                });
+                board.appendChild(element);
+            }
+            updateInfo();
+        }
+
+        function updateInfo() {
+            const flags = cells.filter(cell => cell.isFlagged).length;
+            mineCounter.textContent = `Мины: ${settings.mines}`;
+            flagCounter.textContent = `Флаги: ${flags}`;
+            moveCounter.textContent = `Ходы: ${moves}`;
+            timerText.textContent = `Время: ${seconds} сек.`;
+        }
+
+        newGameButton.addEventListener('click', newGame);
+        difficultySelect.addEventListener('change', newGame);
+        firstMoveSelect.addEventListener('change', newGame);
+
+        newGame();
+        loadResults();
+    </script>
+</body>
+</html>

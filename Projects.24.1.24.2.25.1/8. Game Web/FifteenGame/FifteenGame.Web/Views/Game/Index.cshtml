@@ -1,0 +1,74 @@
+﻿@model FifteenGame.Web.Models.GameViewModel
+
+@{
+    ViewBag.Title = "Сапёр";
+}
+
+<style>
+    .minesweeper-panel { margin-bottom: 15px; }
+    .minesweeper-info { margin: 10px 0; display: flex; gap: 10px; flex-wrap: wrap; }
+    .minesweeper-board { display: inline-grid; gap: 2px; background: #777; padding: 4px; border-radius: 4px; }
+    .ms-cell { width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; text-decoration: none; font-weight: bold; border-radius: 3px; border: 1px solid #666; color: #111; }
+    .closed-cell { background: #d0d0d0; }
+    .closed-cell:hover { background: #c0c0c0; }
+    .opened-cell { background: #f5f5f5; cursor: default; }
+    .flagged-cell { background: #f6d365; }
+    .mine-cell { background: #dc3545; color: white; }
+</style>
+
+<main>
+    <h2>Сапёр</h2>
+
+    <div class="minesweeper-panel">
+        @using (Html.BeginForm("NewGame", "Game", FormMethod.Post))
+        {
+            <label>Сложность: </label>
+            <select name="difficultyKey" class="form-select d-inline-block" style="width: 210px;">
+                <option value="easy" @(Model.DifficultyKey == "easy" ? "selected" : "")>Лёгкий — 9x9, 10 мин</option>
+                <option value="medium" @(Model.DifficultyKey == "medium" ? "selected" : "")>Средний — 12x12, 25 мин</option>
+                <option value="hard" @(Model.DifficultyKey == "hard" ? "selected" : "")>Тяжёлый — 16x16, 50 мин</option>
+            </select>
+
+            <label class="ms-3">Первый ход: </label>
+            <select name="firstMoveMode" class="form-select d-inline-block" style="width: 150px;">
+                <option value="safe" @(Model.SafeFirstMove ? "selected" : "")>Безопасный</option>
+                <option value="dangerous" @(!Model.SafeFirstMove ? "selected" : "")>Опасный</option>
+            </select>
+
+            <button type="submit" class="btn btn-primary ms-2">Новая игра</button>
+        }
+    </div>
+
+    <div class="minesweeper-info">
+        <span class="badge bg-secondary">Сложность: @Model.DifficultyName</span>
+        <span class="badge bg-secondary">Первый ход: @Model.FirstMoveName</span>
+        <span class="badge bg-secondary">Мины: @Model.MineCount</span>
+        <span class="badge bg-secondary">Флаги: @Model.FlagCount</span>
+        <span class="badge bg-secondary">Ходы: @Model.MoveCount</span>
+        <span class="badge bg-secondary">Открыто: @Model.OpenedCount</span>
+    </div>
+
+    <h4 class="@(Model.IsLose ? "text-danger" : Model.IsWin ? "text-success" : "text-primary")">@Model.StatusText</h4>
+
+    <div class="minesweeper-board" style="grid-template-columns: repeat(@Model.ColumnCount, 34px);">
+        @for (int row = 0; row < Model.RowCount; row++)
+        {
+            for (int column = 0; column < Model.ColumnCount; column++)
+            {
+                var cell = Model.Cells[row, column];
+                if (Model.IsGameFinished || cell.IsOpened)
+                {
+                    <span class="ms-cell @cell.CssClass">@cell.Text</span>
+                }
+                else
+                {
+                    <a class="ms-cell @cell.CssClass"
+                       href="@Url.Action("Reveal", "Game", new { row = row, column = column })"
+                       oncontextmenu="event.preventDefault(); window.location='@Url.Action("ToggleFlag", "Game", new { row = row, column = column })'; return false;">@cell.Text</a>
+                }
+            }
+        }
+    </div>
+
+    <p class="text-muted mt-3">ЛКМ — открыть клетку. ПКМ — поставить или убрать флажок.</p>
+</main>
