@@ -22,7 +22,7 @@ namespace Checkers.Common.Repositories
             {
                 Username = username
             };
-            var responce = await _serverApiClient.RegisterUserAsync(username);
+            var responce = await _serverApiClient.RegisterUserAsync(request.Username);
             return responce.Success;
         }
 
