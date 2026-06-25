@@ -1,0 +1,55 @@
+@model FifteenGame.Business.Services.GameManager
+
+@{
+    ViewBag.Title = "Maze Game";
+}
+
+<h2>Maze Game</h2>
+
+<div id="game-grid">
+    @Html.Partial("_GameGrid", Model)
+</div>
+
+@section scripts {
+    <script>
+        $(document).keydown(function (e) {
+            var deltaRow = 0;
+            var deltaCol = 0;
+
+            switch (e.which) {
+                case 37: // left
+                    deltaCol = -1;
+                    break;
+                case 38: // up
+                    deltaRow = -1;
+                    break;
+                case 39: // right
+                    deltaCol = 1;
+                    break;
+                case 40: // down
+                    deltaRow = 1;
+                    break;
+                default:
+                    return; // exit this handler for other keys
+            }
+
+            e.preventDefault(); // prevent the default action (scroll / move caret)
+
+            $.post("@Url.Action("Move", "Home")", { deltaRow: deltaRow, deltaCol: deltaCol }, function (data) {
+                $("#game-grid").html(data);
+            });
+        });
+
+        function nextLevel() {
+            $.post("@Url.Action("NextLevel", "Home")", function (data) {
+                $("#game-grid").html(data);
+            });
+        }
+
+        function restartGame() {
+            $.post("@Url.Action("RestartGame", "Home")", function (data) {
+                $("#game-grid").html(data);
+            });
+        }
+    </script>
+}

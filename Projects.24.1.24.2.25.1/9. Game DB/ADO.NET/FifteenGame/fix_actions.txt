@@ -1,0 +1,6 @@
+Attempting to locate project references to FifteenGame.Business. Next steps:
+1. Search .csproj files for 'FifteenGame.Business' references.
+2. If found, replace Reference with ProjectReference to FifteenGame.Core.BusinessLogic project.
+3. If not found, remove invalid HintPath references in projects that include it.
+
+Commands executed by assistant will update project files accordingly.

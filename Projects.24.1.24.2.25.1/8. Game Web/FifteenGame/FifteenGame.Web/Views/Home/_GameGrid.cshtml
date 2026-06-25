@@ -1,0 +1,109 @@
+@model FifteenGame.Business.Services.GameManager
+
+<style>
+    .game-grid {
+        display: grid;
+        grid-template-columns: repeat(@FifteenGame.Business.Models.Level.Columns, 20px);
+        grid-template-rows: repeat(@FifteenGame.Business.Models.Level.Rows, 20px);
+        border: 1px solid black;
+        width: fit-content;
+    }
+
+    .wall { background-color: #2C3E50; } /* Darker, more dungeon-like wall */
+    .floor { background-color: #95A5A6; } /* Stone-like floor */
+    .player { background-color: #95A5A6; } /* Player is on the floor */
+    .key { background-color: #F1C40F; } /* Bright gold */
+    .door { background-color: #8E44AD; } /* Mystical purple door */
+    .exit { background-color: #27AE60; } /* Bright green exit */
+    .switch { background-color: #E74C3C; } /* Red for inactive switch */
+    .switch-active { background-color: #2ECC71; } /* Green for active switch */
+    .cell {
+        width: 20px;
+        height: 20px;
+        border: 1px solid #7F8C8D; /* Subtle border */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px; /* Slightly larger emojis */
+        box-sizing: border-box;
+        box-shadow: inset 0 0 2px rgba(0,0,0,0.3); /* Add a little depth */
+    }
+</style>
+
+<div class="game-grid">
+    @for (int r = 0; r < FifteenGame.Business.Models.Level.Rows; r++)
+    {
+        for (int c = 0; c < FifteenGame.Business.Models.Level.Columns; c++)
+        {
+            var cell = Model.CurrentLevel.Grid[r, c];
+            string cellClass = "cell ";
+            string cellContent = "";
+
+            if (Model.Player.Row == r && Model.Player.Column == c)
+            {
+                cellClass += "player";
+                cellContent = "&#x1F9DD;"; // Elf/Adventurer emoji instead of generic silhouette
+            }
+            else if (cell != null)
+            {
+                switch (cell.Type)
+                {
+                    case FifteenGame.Business.Models.CellType.Wall:
+                        cellClass += "wall";
+                        cellContent = "&#x1F9F1;"; // Brick emoji for walls
+                        break;
+                    case FifteenGame.Business.Models.CellType.Floor:
+                        cellClass += "floor";
+                        break;
+                    case FifteenGame.Business.Models.CellType.Key:
+                        cellClass += "key";
+                        cellContent = "&#x1F5DD;"; // Old key emoji
+                        break;
+                    case FifteenGame.Business.Models.CellType.Door:
+                        if (Model.CurrentLevel.DoorStates.ContainsKey(new System.ValueTuple<int, int>(r, c)) && Model.CurrentLevel.DoorStates[new System.ValueTuple<int, int>(r, c)])
+                        {
+                            cellClass += "floor"; // Open door appears as floor
+                        }
+                        else
+                        {
+                            cellClass += "door";
+                            cellContent = "&#x1F512;"; // Locked padlock emoji
+                        }
+                        break;
+                    case FifteenGame.Business.Models.CellType.Exit:
+                        cellClass += "exit";
+                        cellContent = "&#x1F3C1;"; // Checkered flag for exit
+                        break;
+                    case FifteenGame.Business.Models.CellType.Switch:
+                        if (Model.CurrentLevel.SwitchStates.ContainsKey(new System.ValueTuple<int, int>(r, c)) && Model.CurrentLevel.SwitchStates[new System.ValueTuple<int, int>(r, c)])
+                        {
+                            cellClass += "switch-active";
+                            cellContent = "&#x1F7E2;"; // Green circle for active
+                        }
+                        else
+                        {
+                            cellClass += "switch";
+                            cellContent = "&#x1F534;"; // Red circle for inactive
+                        }
+                        break;
+                }
+            }
+            <div class="@cellClass">@Html.Raw(cellContent)</div>
+        }
+    }
+</div>
+
+@if (Model.Player != null)
+{
+    <div>Keys: @Model.Player.Keys</div>
+}
+
+@if (Model.IsLevelComplete)
+{
+    <div>Level Complete! <button onclick="nextLevel()">Next Level</button></div>
+}
+
+@if (Model.IsGameOver)
+{
+    <div>Game Over! <button onclick="restartGame()">Restart Game</button></div>
+}

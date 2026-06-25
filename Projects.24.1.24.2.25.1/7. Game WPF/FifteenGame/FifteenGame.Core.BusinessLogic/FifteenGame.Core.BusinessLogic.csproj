@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <RootNamespace>FifteenGame.Core.BusinessLogic</RootNamespace>
+    <EnableNETSdkSdkStyleDebugging>false</EnableNETSdkSdkStyleDebugging>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
+
+</Project>
