@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+
 namespace FifteenGame.Web.Controllers
 {
     public class GameController : Controller
@@ -17,79 +18,80 @@ namespace FifteenGame.Web.Controllers
         public ActionResult Index()
         {
             var model = GetGameModel();
-            _service.Shuffle(model);
-            SaveGameModel(model);
+            // Если игра только началась инициализируем карту
+            if (model.TurnsPlayed == 0 && model.Money == 0)
+            {
+                _service.Initialize(model);
+            }
 
             return View(ToViewModel(model));
         }
 
-        public ActionResult MakeMove(string directionText)
+        // Метод обработки клика по клетке
+        public ActionResult MakeMove(int row, int column)
         {
             var model = GetGameModel();
-            if (Enum.TryParse<MoveDirection>(directionText, out var direction))
-            {
-                _service.MakeMove(model, direction);
-                SaveGameModel(model);
 
-                if (_service.IsGameOver(model))
+            if (_service.MakeMove(model, row, column))
+            {
+                var status = _service.CheckGameStatus(model);
+                if (status == GameResult.GameOver)
                 {
-                    ViewBag.IsGameOver = true;
+                    Session["StatusMessage"] = "Банкротство! Вы ушли в минус. Шаурмичные закрыты.";
+                }
+                else if (status == GameResult.Win)
+                {
+                    Session["StatusMessage"] = "Поздравляем! Ваш бизнес успешно накормил город за 10 ходов!";
                 }
             }
 
-            return View("Index", ToViewModel(model));
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Reset()
+        {
+            Session["GameModel"] = null;
+            Session["StatusMessage"] = null;
+            return RedirectToAction("Index");
         }
 
         private GameModel GetGameModel()
         {
-            if (Session.IsNewSession)
+            if (Session["GameModel"] == null)
             {
                 Session["GameModel"] = new GameModel();
             }
-
             return (GameModel)Session["GameModel"];
-        }
-
-        private void SaveGameModel(GameModel model)
-        {
-            Session["GameModel"] = model;
         }
 
         private GameViewModel ToViewModel(GameModel model)
         {
-            var result = new GameViewModel();
+            var result = new GameViewModel
+            {
+                MoneyText = $"Баланс: {model.Money} руб.",
+                TurnsText = $"Ход: {model.TurnsPlayed} / {GameModel.TargetTurns}",
+                GameStatusMessage = Session["StatusMessage"] as string
+            };
 
             for (int row = 0; row < GameModel.RowCount; row++)
             {
                 for (int column = 0; column < GameModel.ColumnCount; column++)
                 {
+                    bool covered = _service.IsCellCovered(model, row, column);
+                    int veggieNeighbors = _service.GetVeggieNeighborsCount(model, row, column);
+
                     result.Cells[row, column] = new CellViewModel
                     {
-                        Value = model[row, column],
-                        Direction = MoveDirection.None,
-                        IsEmpty = model[row, column] == GameModel.FreeCellValue,
+                        Row = row,
+                        Column = column,
+                        PeopleCount = model.GetPeopleCount(row, column),
+                        HasShop = model.GetHasShop(row, column),
+                        IsCovered = covered,
+                        IsVeggie = model.GetIsVeggie(row, column),
+                        IsRevealed = model.GetIsRevealed(row, column),
+                        VeggieNeighborsCount = veggieNeighbors
                     };
                 }
-            }
-
-            if (model.FreeCellColumn > 0)
-            {
-                result.Cells[model.FreeCellRow, model.FreeCellColumn - 1].Direction = MoveDirection.Right;
-            }
-
-            if (model.FreeCellColumn < GameModel.ColumnCount - 1)
-            {
-                result.Cells[model.FreeCellRow, model.FreeCellColumn + 1].Direction = MoveDirection.Left;
-            }
-
-            if (model.FreeCellRow > 0)
-            {
-                result.Cells[model.FreeCellRow - 1, model.FreeCellColumn].Direction = MoveDirection.Down;
-            }
-
-            if (model.FreeCellRow < GameModel.RowCount - 1)
-            {
-                result.Cells[model.FreeCellRow + 1, model.FreeCellColumn].Direction = MoveDirection.Up;
             }
 
             return result;

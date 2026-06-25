@@ -8,14 +8,45 @@ namespace FifteenGame.Web.Models
 {
     public class CellViewModel
     {
-        public int Value { get; set; }
+        public int Row { get; set; }
+        public int Column { get; set; }
+        public int PeopleCount { get; set; }
+        public bool HasShop { get; set; }
+        public bool IsCovered { get; set; }
+        public bool IsVeggie { get; set; }
+        public bool IsRevealed { get; set; }
+        public int VeggieNeighborsCount { get; set; }
 
-        public string Text => Value.ToString();
+        public string Text
+        {
+            get
+            {
+                if (HasShop) return "🏪";
 
-        public MoveDirection Direction { get; set; }
+                if (IsRevealed)
+                {
+                    if (IsVeggie) return $"{PeopleCount} чел\n(ЗОЖ)";
 
-        public string DirectionText => Direction.ToString();
+                    if (VeggieNeighborsCount > 0)
+                    {
+                        string radars = new string('з', VeggieNeighborsCount);
+                        return $"{PeopleCount} чел\n{radars}";
+                    }
+                }
 
-        public bool IsEmpty { get; set; }
+                return $"{PeopleCount} чел";
+            }
+        }
+
+        public string CellBackground
+        {
+            get
+            {
+                if (HasShop) return IsVeggie ? "DarkOrchid" : "Gold";
+                if (IsRevealed && IsVeggie) return "LightGray";
+                if (IsCovered) return "LightGreen";
+                return "LightCoral";
+            }
+        }
     }
 }
