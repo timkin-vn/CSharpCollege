@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.8"/>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="10.2.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\GameDB.Business\GameDB.Business.csproj" />
+      <ProjectReference Include="..\GameDB.Common\GameDB.Common.csproj" />
+      <ProjectReference Include="..\GameDB.DataAccess\GameDB.DataAccess.csproj" />
+      <ProjectReference Include="..\GameDB.UnitTest\GameDB.UnitTest.csproj" />
+    </ItemGroup>
+
+</Project>
