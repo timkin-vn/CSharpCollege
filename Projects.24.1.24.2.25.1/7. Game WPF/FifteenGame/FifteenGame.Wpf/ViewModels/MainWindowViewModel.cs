@@ -28,9 +28,9 @@ namespace FifteenGame.Wpf.ViewModels
             LoadViewModel(_model);
         }
 
-        public void MakeMove(MoveDirection direction, Action gameFinishedAction)
+        public void MakeMove(int row, int column, Action gameFinishedAction)
         {
-            _service.MakeMove(_model, direction);
+            _service.MakeMove(_model, row, column);
             LoadViewModel(_model);
             if (_service.IsGameOver(_model))
             {
@@ -45,41 +45,11 @@ namespace FifteenGame.Wpf.ViewModels
             {
                 for (int column = 0; column < GameModel.ColumnCount; column++)
                 {
-                    if (model[row, column] == GameModel.FreeCellValue)
-                    {
-                        continue;
-                    }
-
-                    var direction = MoveDirection.None;
-                    if (row == model.FreeCellRow)
-                    {
-                        if (column == model.FreeCellColumn - 1)
-                        {
-                            direction = MoveDirection.Right;
-                        }
-                        else if (column == model.FreeCellColumn + 1)
-                        {
-                            direction = MoveDirection.Left;
-                        }
-                    }
-                    else if (column == model.FreeCellColumn)
-                    {
-                        if (row == model.FreeCellRow - 1)
-                        {
-                            direction = MoveDirection.Down;
-                        }
-                        else if (row == model.FreeCellRow + 1)
-                        {
-                            direction = MoveDirection.Up;
-                        }
-                    }
-
                     Cells.Add(new CellViewModel
                     {
                         Row = row,
                         Column = column,
                         Value = model[row, column],
-                        Direction = direction,
                     });
                 }
             }

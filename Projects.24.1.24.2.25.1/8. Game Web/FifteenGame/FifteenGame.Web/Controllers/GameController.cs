@@ -23,18 +23,15 @@ namespace FifteenGame.Web.Controllers
             return View(ToViewModel(model));
         }
 
-        public ActionResult MakeMove(string directionText)
+        public ActionResult MakeMove(int row, int column)
         {
             var model = GetGameModel();
-            if (Enum.TryParse<MoveDirection>(directionText, out var direction))
-            {
-                _service.MakeMove(model, direction);
-                SaveGameModel(model);
+            _service.MakeMove(model, row, column);
+            SaveGameModel(model);
 
-                if (_service.IsGameOver(model))
-                {
-                    ViewBag.IsGameOver = true;
-                }
+            if (_service.IsGameOver(model))
+            {
+                ViewBag.IsGameOver = true;
             }
 
             return View("Index", ToViewModel(model));
@@ -66,30 +63,8 @@ namespace FifteenGame.Web.Controllers
                     result.Cells[row, column] = new CellViewModel
                     {
                         Value = model[row, column],
-                        Direction = MoveDirection.None,
-                        IsEmpty = model[row, column] == GameModel.FreeCellValue,
                     };
                 }
-            }
-
-            if (model.FreeCellColumn > 0)
-            {
-                result.Cells[model.FreeCellRow, model.FreeCellColumn - 1].Direction = MoveDirection.Right;
-            }
-
-            if (model.FreeCellColumn < GameModel.ColumnCount - 1)
-            {
-                result.Cells[model.FreeCellRow, model.FreeCellColumn + 1].Direction = MoveDirection.Left;
-            }
-
-            if (model.FreeCellRow > 0)
-            {
-                result.Cells[model.FreeCellRow - 1, model.FreeCellColumn].Direction = MoveDirection.Down;
-            }
-
-            if (model.FreeCellRow < GameModel.RowCount - 1)
-            {
-                result.Cells[model.FreeCellRow + 1, model.FreeCellColumn].Direction = MoveDirection.Up;
             }
 
             return result;

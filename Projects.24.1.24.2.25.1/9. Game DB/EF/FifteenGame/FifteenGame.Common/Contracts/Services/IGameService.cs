@@ -15,7 +15,7 @@ namespace FifteenGame.Common.Contracts.Services
 
         bool? IsGameOver(int gameId);
 
-        GameModel MakeMove(int gameId, MoveDirection direction);
+        GameModel MakeMove(int gameId, int row, int column);
 
         void RemoveGame(int gameId);
     }

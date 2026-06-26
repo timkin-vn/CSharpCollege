@@ -51,11 +51,11 @@ namespace FifteenGame.BusinessProxy.Services
             }
         }
 
-        public GameModel MakeMove(int gameId, MoveDirection direction)
+        public GameModel MakeMove(int gameId, int row, int column)
         {
             using (var httpClient = HttpConnection.HttpClient)
             {
-                var httpContent = JsonContent.Create(new MakeMoveRequest { GameId = gameId, Direction = direction.ToString() });
+                var httpContent = JsonContent.Create(new MakeMoveRequest { GameId = gameId, Row = row, Column = column });
                 var response = httpClient.PostAsync("api/games/make-move", httpContent).Result;
                 response.EnsureSuccessStatusCode();
 
@@ -85,8 +85,6 @@ namespace FifteenGame.BusinessProxy.Services
                 Id = game.Id,
                 UserId = game.UserId,
                 MoveCount = game.MoveCount,
-                FreeCellColumn = game.FreeCellColumn,
-                FreeCellRow = game.FreeCellRow,
             };
 
             int i = 0;

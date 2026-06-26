@@ -77,6 +77,24 @@ namespace GraphEditor.Business.Services
             PictureModel.Rectangles[selectedIndex] = rect;
         }
 
+        public void MoveBack()
+        {
+            if (PictureModel.SelectedRectangle == null)
+            {
+                return;
+            }
+
+            var selectedIndex = PictureModel.Rectangles.IndexOf(PictureModel.SelectedRectangle);
+            if (selectedIndex <= 0)
+            {
+                return;
+            }
+
+            var rect = PictureModel.Rectangles[selectedIndex - 1];
+            PictureModel.Rectangles[selectedIndex - 1] = PictureModel.Rectangles[selectedIndex];
+            PictureModel.Rectangles[selectedIndex] = rect;
+        }
+
         public void Open(string fileName)
         {
             PictureModel = new FileService().Open(fileName);

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FifteenGame.Wpf" xmlns:viewmodels="clr-namespace:FifteenGame.Wpf.ViewModels"
         mc:Ignorable="d"
-        Title="Игра 15" Height="550" Width="800" MinHeight="550" MinWidth="450" Loaded="Window_Loaded">
+        Title="Погаси свет" Height="620" Width="800" MinHeight="620" MinWidth="550" Loaded="Window_Loaded">
     <Window.DataContext>
         <viewmodels:MainWindowViewModel />
     </Window.DataContext>
@@ -40,17 +40,19 @@
                 <ItemsPanelTemplate>
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="100" />
-                            <RowDefinition Height="100" />
-                            <RowDefinition Height="100" />
-                            <RowDefinition Height="100" />
+                            <RowDefinition Height="90" />
+                            <RowDefinition Height="90" />
+                            <RowDefinition Height="90" />
+                            <RowDefinition Height="90" />
+                            <RowDefinition Height="90" />
                         </Grid.RowDefinitions>
 
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="90" />
                         </Grid.ColumnDefinitions>
                     </Grid>
                 </ItemsPanelTemplate>
@@ -58,9 +60,9 @@
 
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid Tag="{Binding Direction}" MouseDown="Grid_MouseDown">
-                        <Rectangle Margin="5" Stroke="Brown" StrokeThickness="3" RadiusX="10" RadiusY="10" Fill="LightBlue" />
-                        <TextBlock Text="{Binding Text}" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Grid Tag="{Binding}" MouseDown="Grid_MouseDown">
+                        <Rectangle Margin="5" Stroke="Black" StrokeThickness="2" Fill="{Binding FillColor}" />
+                        <TextBlock Text="{Binding Text}" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

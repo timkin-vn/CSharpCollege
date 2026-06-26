@@ -108,6 +108,12 @@ namespace GraphEditor
             Refresh();
         }
 
+        private void MoveBackMenuItem_Click(object sender, EventArgs e)
+        {
+            _viewService.MoveBack();
+            Refresh();
+        }
+
         private void FileCreateMenuItem_Click(object sender, EventArgs e)
         {
             _viewService.CreateNewPicture();

@@ -79,11 +79,6 @@ namespace FifteenGame.DataAccess.EF.Repositories
                 {
                     for (int column = 0; column < Constants.ColumnCount; column++)
                     {
-                        if (gameDto.Cells[row, column] == Constants.FreeCellValue)
-                        {
-                            continue;
-                        }
-
                         newGame.Cells.Add(new Cell
                         {
                             Row = row,
@@ -116,16 +111,22 @@ namespace FifteenGame.DataAccess.EF.Repositories
                 {
                     for (int column = 0; column < Constants.ColumnCount; column++)
                     {
-                        if (gameDto.Cells[row, column] == Constants.FreeCellValue)
+                        var selectedCell = game.Cells.FirstOrDefault(c => c.Row == row && c.Column == column);
+                        if (selectedCell == null)
                         {
+                            game.Cells.Add(new Cell
+                            {
+                                Row = row,
+                                Column = column,
+                                Value = gameDto.Cells[row, column],
+                            });
+                            cellsUpdated = true;
                             continue;
                         }
 
-                        var selectedCell = game.Cells.First(c => c.Value == gameDto.Cells[row, column]);
-                        if (selectedCell.Row != row || selectedCell.Column != column)
+                        if (selectedCell.Value != gameDto.Cells[row, column])
                         {
-                            selectedCell.Row = row;
-                            selectedCell.Column = column;
+                            selectedCell.Value = gameDto.Cells[row, column];
                             cellsUpdated = true;
                         }
                     }
@@ -158,7 +159,7 @@ namespace FifteenGame.DataAccess.EF.Repositories
             {
                 for (int column = 0; column < Constants.ColumnCount; column++)
                 {
-                    result.Cells[row, column] = Constants.FreeCellValue;
+                    result.Cells[row, column] = Constants.LightOffValue;
                 }
             }
 

@@ -8,11 +8,13 @@ namespace FifteenGame.Business.Models
 {
     public class GameModel
     {
-        public const int RowCount = 4;
+        public const int RowCount = 5;
 
-        public const int ColumnCount = 4;
+        public const int ColumnCount = 5;
 
-        public const int FreeCellValue = -1;
+        public const int LightOffValue = 0;
+
+        public const int LightOnValue = 1;
 
         private int[,] _cells = new int[RowCount, ColumnCount];
 
@@ -22,8 +24,5 @@ namespace FifteenGame.Business.Models
             internal set => _cells[row, column] = value;
         }
 
-        public int FreeCellRow { get; internal set; }
-
-        public int FreeCellColumn { get; internal set; }
     }
 }

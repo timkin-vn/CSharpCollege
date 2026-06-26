@@ -32,8 +32,8 @@ namespace FifteenGame.Wpf
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            var direction = (MoveDirection)((FrameworkElement)sender).Tag;
-            ViewModel.MakeMove(direction, OnGameFinished);
+            var cell = (CellViewModel)((FrameworkElement)sender).Tag;
+            ViewModel.MakeMove(cell.Row, cell.Column, OnGameFinished);
         }
 
         private void OnGameFinished()

@@ -1,4 +1,3 @@
-﻿using FifteenGame.Business.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +9,8 @@ namespace FifteenGame.Web.Models
     {
         public int Value { get; set; }
 
-        public string Text => Value.ToString();
+        public string Text => Value == 1 ? "On" : "";
 
-        public MoveDirection Direction { get; set; }
-
-        public string DirectionText => Direction.ToString();
-
-        public bool IsEmpty { get; set; }
+        public string CssClass => Value == 1 ? "light-cell light-cell-on" : "light-cell light-cell-off";
     }
 }

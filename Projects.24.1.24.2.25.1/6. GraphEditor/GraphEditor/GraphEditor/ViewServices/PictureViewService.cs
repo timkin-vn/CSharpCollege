@@ -135,6 +135,12 @@ namespace GraphEditor.ViewServices
             LoadViewModel();
         }
 
+        public void MoveBack()
+        {
+            _businessService.MoveBack();
+            LoadViewModel();
+        }
+
         public void Open(string fileName)
         {
             _businessService.Open(fileName);

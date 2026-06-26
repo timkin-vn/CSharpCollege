@@ -18,3 +18,38 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.light-board {
+    display: inline-block;
+    margin-top: 20px;
+}
+
+.light-row {
+    display: flex;
+}
+
+.light-cell {
+    align-items: center;
+    border: 2px solid #222;
+    color: #222;
+    display: flex;
+    font-size: 20px;
+    height: 70px;
+    justify-content: center;
+    margin: 4px;
+    text-decoration: none;
+    width: 70px;
+}
+
+.light-cell:hover {
+    color: #222;
+    text-decoration: none;
+}
+
+.light-cell-on {
+    background: gold;
+}
+
+.light-cell-off {
+    background: dimgray;
+}

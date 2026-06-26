@@ -47,11 +47,11 @@ namespace FifteenGame.Wpf.ViewModels
             LoadViewModel(_model);
         }
 
-        public void MakeMove(MoveDirection direction, Action gameFinishedAction)
+        public void MakeMove(int row, int column, Action gameFinishedAction)
         {
-            _model = _service.MakeMove(_model.Id, direction);
+            _model = _service.MakeMove(_model.Id, row, column);
             LoadViewModel(_model);
-            if (_service.IsGameOver(_model.Id))
+            if (_service.IsGameOver(_model.Id) ?? false)
             {
                 _service.RemoveGame(_model.Id);
                 gameFinishedAction?.Invoke();
@@ -65,41 +65,11 @@ namespace FifteenGame.Wpf.ViewModels
             {
                 for (int column = 0; column < Constants.ColumnCount; column++)
                 {
-                    if (model[row, column] == Constants.FreeCellValue)
-                    {
-                        continue;
-                    }
-
-                    var direction = MoveDirection.None;
-                    if (row == model.FreeCellRow)
-                    {
-                        if (column == model.FreeCellColumn - 1)
-                        {
-                            direction = MoveDirection.Right;
-                        }
-                        else if (column == model.FreeCellColumn + 1)
-                        {
-                            direction = MoveDirection.Left;
-                        }
-                    }
-                    else if (column == model.FreeCellColumn)
-                    {
-                        if (row == model.FreeCellRow - 1)
-                        {
-                            direction = MoveDirection.Down;
-                        }
-                        else if (row == model.FreeCellRow + 1)
-                        {
-                            direction = MoveDirection.Up;
-                        }
-                    }
-
                     Cells.Add(new CellViewModel
                     {
                         Row = row,
                         Column = column,
                         Value = model[row, column],
-                        Direction = direction,
                     });
                 }
             }

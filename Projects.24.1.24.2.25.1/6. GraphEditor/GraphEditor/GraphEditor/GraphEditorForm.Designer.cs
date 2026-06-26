@@ -37,6 +37,7 @@
             this.FillColorMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.MoveForwardMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MoveBackMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.FillColorDialog = new System.Windows.Forms.ColorDialog();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -116,7 +117,8 @@
             // 
             this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MoveForwardMenuItem});
+            this.MoveForwardMenuItem,
+            this.MoveBackMenuItem});
             this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
@@ -129,6 +131,13 @@
             this.MoveForwardMenuItem.Size = new System.Drawing.Size(113, 22);
             this.MoveForwardMenuItem.Text = "Вперед";
             this.MoveForwardMenuItem.Click += new System.EventHandler(this.MoveForwardMenuItem_Click);
+            //
+            // MoveBackMenuItem
+            //
+            this.MoveBackMenuItem.Name = "MoveBackMenuItem";
+            this.MoveBackMenuItem.Size = new System.Drawing.Size(113, 22);
+            this.MoveBackMenuItem.Text = "Назад";
+            this.MoveBackMenuItem.Click += new System.EventHandler(this.MoveBackMenuItem_Click);
             // 
             // menuStrip1
             // 
@@ -254,6 +263,7 @@
         private System.Windows.Forms.ColorDialog FillColorDialog;
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
         private System.Windows.Forms.ToolStripMenuItem MoveForwardMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem MoveBackMenuItem;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem файлToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem FileCreateMenuItem;

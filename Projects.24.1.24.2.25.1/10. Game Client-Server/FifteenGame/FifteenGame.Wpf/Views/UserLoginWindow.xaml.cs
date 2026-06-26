@@ -29,21 +29,32 @@ namespace FifteenGame.Wpf.Views
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!ViewModel.FindUser())
+            try
             {
-                if (MessageBox.Show("Такого пользователя нет в системе. Создать?", "Ошибка",
-                    MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                if (!ViewModel.FindUser())
                 {
-                    ViewModel.CreateUser();
+                    if (MessageBox.Show("Такого пользователя нет в системе. Создать?", "Ошибка",
+                        MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                    {
+                        ViewModel.CreateUser();
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
-                else
-                {
-                    return;
-                }
-            }
 
-            ViewModel.CommitUser();
-            DialogResult = true;
+                ViewModel.CommitUser();
+                DialogResult = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Не удалось получить данные. Проверьте, что сервер запущен, PostgreSQL доступен и строка подключения верная.\n\n" + ex.Message,
+                    "Ошибка подключения",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
         }
     }
 }

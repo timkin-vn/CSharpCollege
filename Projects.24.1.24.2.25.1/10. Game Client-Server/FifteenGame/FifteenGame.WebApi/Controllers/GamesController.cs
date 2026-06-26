@@ -45,12 +45,7 @@ namespace FifteenGame.WebApi.Controllers
         [Route("api/games/make-move")]
         public GameReply MakeMove([FromBody] MakeMoveRequest request)
         {
-            if (!Enum.TryParse<MoveDirection>(request.Direction, out var moveDirection))
-            {
-                return null;
-            }
-
-            return ToDto(_gameService.MakeMove(request.GameId, moveDirection));
+            return ToDto(_gameService.MakeMove(request.GameId, request.Row, request.Column));
         }
 
         [HttpDelete]
@@ -72,8 +67,6 @@ namespace FifteenGame.WebApi.Controllers
                 Id = model.Id,
                 UserId = model.UserId,
                 MoveCount = model.MoveCount,
-                FreeCellColumn = model.FreeCellColumn,
-                FreeCellRow = model.FreeCellRow,
                 Cells = new int[Constants.RowCount * Constants.ColumnCount],
             };
 
