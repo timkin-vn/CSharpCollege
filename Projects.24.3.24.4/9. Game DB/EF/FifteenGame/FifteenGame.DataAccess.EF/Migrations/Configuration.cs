@@ -14,10 +14,14 @@
 
         protected override void Seed(FifteenGame.DataAccess.EF.DataContext.FifteenGameDataContext context)
         {
-            //  This method will be called after migrating to the latest version.
+           
+            var newUser = context.Users.Create();
+            newUser.Id = 1;
+            newUser.Name = "Admin";
+            
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method
-            //  to avoid creating duplicate seed data.
+            context.Users.AddOrUpdate(u => u.Id, newUser);
+            context.SaveChanges();
         }
     }
 }
