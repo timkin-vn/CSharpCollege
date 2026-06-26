@@ -21,6 +21,7 @@ namespace FifteenGame.Wpf.ViewModels
         private string _statusText;
         private int _money;
         private int _turnsPlayed;
+        private int _winStreak;
 
         public ObservableCollection<CellViewModel> Cells { get; } = new ObservableCollection<CellViewModel>();
 
@@ -28,17 +29,18 @@ namespace FifteenGame.Wpf.ViewModels
         {
             _gameService = gameService ?? throw new ArgumentNullException(nameof(gameService));
             CellClickCommand = new RelayCommand<CellViewModel>(OnCellClick);
+            RestartCommand = new RelayCommand<object>(OnRestart);
             StartNewGame(1);
         }
 
         public MainWindowViewModel()
         {
             CellClickCommand = new RelayCommand<CellViewModel>(OnCellClick);
+            RestartCommand = new RelayCommand<object>(OnRestart);
 
             try
             {
                 _gameService = NinjectKernel.Instance.Get<IGameService>();
-
                 StartNewGame(1);
             }
             catch (Exception ex)
@@ -47,7 +49,7 @@ namespace FifteenGame.Wpf.ViewModels
             }
         }
 
-        // Свойства для вывода денег и ходов на экран WPF
+        // Свойства для вывода денег и ходов на экран
         public int Money
         {
             get => _money;
@@ -60,19 +62,25 @@ namespace FifteenGame.Wpf.ViewModels
             set { _turnsPlayed = value; OnPropertyChanged(nameof(TurnsPlayed)); }
         }
 
+        public int WinStreak
+        {
+            get => _winStreak;
+            set { _winStreak = value; OnPropertyChanged(nameof(WinStreak)); }
+        }
+
         public string StatusText
         {
             get => _statusText;
             set { _statusText = value; OnPropertyChanged(nameof(StatusText)); }
         }
 
-        // Команда для клика по клетке мышкой
         public ICommand CellClickCommand { get; }
-
+        public ICommand RestartCommand { get; }
 
         private void StartNewGame(int userId)
         {
             _gameModel = _gameService.GetByUserId(userId);
+            WinStreak = _gameService.GetUserWinStreak(_gameModel.UserId);
             UpdateProperties();
             RefreshGrid();
         }
@@ -81,7 +89,6 @@ namespace FifteenGame.Wpf.ViewModels
         {
             if (userModel != null)
             {
-                
                 StartNewGame(userModel.Id);
             }
         }
@@ -90,10 +97,22 @@ namespace FifteenGame.Wpf.ViewModels
         {
             if (cell == null || _gameService.IsGameOver(_gameModel)) return;
 
-            // Вызываем нашу шаурмичную бизнес-логику хода
             _gameService.Move(_gameModel, cell.Row, cell.Column);
 
-            // Обновляем данные на экране после хода
+            WinStreak = _gameService.GetUserWinStreak(_gameModel.UserId);
+
+            UpdateProperties();
+            RefreshGrid();
+        }
+
+        // Обработчик кнопки перезапуска
+        private void OnRestart(object parameter)
+        {
+            if (_gameModel == null) return;
+
+            _gameModel = _gameService.RestartGame(_gameModel.UserId);
+
+            // Перерисовываем чистый экран
             UpdateProperties();
             RefreshGrid();
         }
@@ -123,21 +142,26 @@ namespace FifteenGame.Wpf.ViewModels
             {
                 for (int column = 0; column < Constants.ColumnCount; column++)
                 {
+                    // Покрыта ли клетка и сколько рядом ЗОЖников
+                    bool covered = _gameService.IsCellCovered(_gameModel, row, column);
+                    int veggieNeighbors = _gameService.GetVeggieNeighborsCount(_gameModel, row, column);
+
                     Cells.Add(new CellViewModel
                     {
                         Row = row,
                         Column = column,
                         PeopleCount = _gameModel.GetPeopleCount(row, column),
                         HasShop = _gameModel.GetHasShop(row, column),
+                        IsCovered = covered,
                         IsVeggie = _gameModel.GetIsVeggie(row, column),
-                        IsRevealed = _gameModel.GetIsRevealed(row, column)
+                        IsRevealed = _gameModel.GetIsRevealed(row, column),
+                        VeggieNeighborsCount = veggieNeighbors
                     });
                 }
             }
         }
     }
 
-    // Простой класс-помощник для обработки кликов (если у препода используется другой, студия подскажет)
     public class RelayCommand<T> : ICommand
     {
         private readonly Action<T> _execute;

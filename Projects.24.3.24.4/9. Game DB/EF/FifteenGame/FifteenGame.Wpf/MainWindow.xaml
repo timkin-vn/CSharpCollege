@@ -28,16 +28,43 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
-                    <TextBlock Text="💰 Баланс: " Foreground="White" FontSize="18" FontWeight="Bold" />
-                    <TextBlock Text="{Binding Money}" Foreground="#FFD700" FontSize="18" FontWeight="Bold" />
-                    <TextBlock Text=" руб." Foreground="White" FontSize="18" />
+                <StackPanel Grid.Column="0" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0">
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                        <TextBlock Text="💰 Баланс: " Foreground="White" FontSize="18" FontWeight="Bold" />
+                        <TextBlock Text="{Binding Money}" Foreground="#FFD700" FontSize="18" FontWeight="Bold" />
+                        <TextBlock Text=" руб." Foreground="White" FontSize="18" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="🔥 Стрик побед: " Foreground="White" FontSize="14" FontWeight="SemiBold"/>
+                        <TextBlock Text="{Binding WinStreak}" Foreground="Orange" FontSize="14" FontWeight="Bold"/>
+                    </StackPanel>
                 </StackPanel>
 
-                <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Grid.Column="1" 
+                Content="Начать заново" 
+                Command="{Binding RestartCommand}" 
+                Width="130" 
+                Height="32" 
+                Background="#FF444444" 
+                BorderBrush="WhiteSmoke" 
+                Foreground="WhiteSmoke"
+                VerticalAlignment="Center">
+                    <Button.Resources>
+                        
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+
+                <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0">
                     <TextBlock Text="📊 Сделано ходов: " Foreground="White" FontSize="18" />
                     <TextBlock Text="{Binding TurnsPlayed}" Foreground="#00FF7F" FontSize="18" FontWeight="Bold" />
+                    <TextBlock Text=" из 15" Foreground="Gray" FontSize="18" Margin="5,0,0,0" />
                 </StackPanel>
+
             </Grid>
         </Border>
 
@@ -69,11 +96,11 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Button Margin="4" 
-                            Command="{Binding DataContext.CellClickCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                            CommandParameter="{Binding}"
-                            Background="LightBlue"
-                            BorderBrush="SlateGray"
-                            BorderThickness="2">
+                Command="{Binding DataContext.CellClickCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                CommandParameter="{Binding}"
+                Background="{Binding CellBackground}"
+                        BorderBrush="SlateGray"
+                BorderThickness="2">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="8"/>

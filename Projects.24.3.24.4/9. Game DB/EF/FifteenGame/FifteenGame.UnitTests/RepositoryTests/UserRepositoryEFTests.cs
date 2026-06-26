@@ -1,11 +1,8 @@
-﻿using FifteenGame.DataAccess.EF.Repositories;
-using FifteenGame.DataAccess.Repositories;
+﻿using FifteenGame.Common.Dtos;
+using FifteenGame.DataAccess.EF.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FifteenGame.UnitTests.RepositoryTests
 {
@@ -15,53 +12,54 @@ namespace FifteenGame.UnitTests.RepositoryTests
         [TestMethod]
         public void GetAllUsersTest()
         {
+   
             var repository = new UserRepositoryEF();
+
+            repository.Create("TestUser_GetAll_" + Guid.NewGuid().ToString().Substring(0, 5));
+
             var result = repository.GetAll();
 
-            Assert.IsTrue(result.Any());
+            Assert.IsTrue(result.Any(), "Метод GetAll должен возвращать список пользователей.");
         }
 
         [TestMethod]
         public void CreateUserTest()
         {
-            string userName = "TestUser" + new Random().Next(100).ToString();
+
+            string userName = "TestUser_" + new Random().Next(1000, 9999).ToString();
             var repository = new UserRepositoryEF();
+
             var result = repository.Create(userName);
 
+            Assert.IsNotNull(result);
             Assert.AreEqual(userName, result.Name);
-            // TDD Test Driven Design
         }
 
         [TestMethod]
         public void GetUserByNameTest()
         {
             var repository = new UserRepositoryEF();
-            var userCount = 0;
-            for (int i = 0; i < 100; i++)
-            {
-                string userName = "TestUser" + i.ToString();
-                if (repository.GetByName(userName) != null)
-                {
-                    userCount++;
-                }
-            }
+            string uniqueName = "FindMe_" + Guid.NewGuid().ToString().Substring(0, 8);
 
-            Assert.IsTrue(userCount > 0);
+            repository.Create(uniqueName);
+
+            var foundUser = repository.GetByName(uniqueName);
+
+            Assert.IsNotNull(foundUser, $"Пользователь с именем {uniqueName} должен быть найден в БД.");
+            Assert.AreEqual(uniqueName, foundUser.Name);
         }
 
         [TestMethod]
         public void GetUserByIdTest()
         {
             var repository = new UserRepositoryEF();
-            var allUsers = repository.GetAll();
-            if (!allUsers.Any())
-            {
-                return;
-            }
+            string userName = "TestUser_GetById_" + Guid.NewGuid().ToString().Substring(0, 5);
+            var createdUser = repository.Create(userName);
 
-            var user = allUsers.First();
-            var selectedUser = repository.GetById(user.Id);
-            Assert.AreEqual(user.Name, selectedUser.Name);
+            var selectedUser = repository.GetById(createdUser.Id);
+
+            Assert.IsNotNull(selectedUser, "Пользователь должен быть найден по существующему Id.");
+            Assert.AreEqual(createdUser.Name, selectedUser.Name);
         }
     }
 }

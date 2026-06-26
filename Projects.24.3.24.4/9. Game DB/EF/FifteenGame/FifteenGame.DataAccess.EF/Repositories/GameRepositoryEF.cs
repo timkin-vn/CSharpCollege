@@ -39,6 +39,28 @@ namespace FifteenGame.DataAccess.EF.Repositories
             }
         }
 
+        public int GetWinStreak(int userId)
+        {
+            using (var context = new DataContext.FifteenGameDataContext())
+            {
+                var user = context.Users.FirstOrDefault(u => u.Id == userId);
+                return user?.WinStreak ?? 0;
+            }
+        }
+
+        public void UpdateWinStreak(int userId, int streak)
+        {
+            using (var context = new DataContext.FifteenGameDataContext())
+            {
+                var user = context.Users.FirstOrDefault(u => u.Id == userId);
+                if (user != null)
+                {
+                    user.WinStreak = streak;
+                    context.SaveChanges();
+                }
+            }
+        }
+
         public void Remove(int gameId)
         {
             using (var context = new FifteenGameDataContext())

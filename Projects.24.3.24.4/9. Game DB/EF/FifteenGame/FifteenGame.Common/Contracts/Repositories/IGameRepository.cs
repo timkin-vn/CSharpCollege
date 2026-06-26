@@ -16,5 +16,7 @@ namespace FifteenGame.Common.Contracts.Repositories
         void Remove(int gameId);
 
         int Save(GameDto gameDto);
+        int GetWinStreak(int userId);
+        void UpdateWinStreak(int userId, int streak);
     }
 }

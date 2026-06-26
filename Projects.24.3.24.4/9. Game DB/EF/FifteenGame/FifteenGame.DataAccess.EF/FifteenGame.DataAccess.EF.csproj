@@ -119,6 +119,14 @@
     <Compile Include="Migrations\202606260415584_FixModel.Designer.cs">
       <DependentUpon>202606260415584_FixModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202606261635209_AddWinStreak.cs" />
+    <Compile Include="Migrations\202606261635209_AddWinStreak.Designer.cs">
+      <DependentUpon>202606261635209_AddWinStreak.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202606261733083_AddWinStreakFinal.cs" />
+    <Compile Include="Migrations\202606261733083_AddWinStreakFinal.Designer.cs">
+      <DependentUpon>202606261733083_AddWinStreakFinal.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\GameRepositoryEF.cs" />
@@ -146,6 +154,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202606260415584_FixModel.resx">
       <DependentUpon>202606260415584_FixModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202606261635209_AddWinStreak.resx">
+      <DependentUpon>202606261635209_AddWinStreak.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202606261733083_AddWinStreakFinal.resx">
+      <DependentUpon>202606261733083_AddWinStreakFinal.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

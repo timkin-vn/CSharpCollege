@@ -13,7 +13,7 @@ namespace FifteenGame.Common.Definitions
         public const int ColumnCount = 5;
 
         // Экономика
-        public const int InitialMoney = 1000;
+        public const int InitialMoney = 2000;
         public const int ShopCost = 300;
         public const int TargetTurns = 10;
 

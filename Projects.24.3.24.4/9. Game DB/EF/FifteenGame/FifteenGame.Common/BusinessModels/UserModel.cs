@@ -11,5 +11,6 @@ namespace FifteenGame.Common.BusinessModels
         public int Id { get; set; }
 
         public string Name { get; set; }
+        public int WinStreak { get; set; }
     }
 }

@@ -1,9 +1,5 @@
 ﻿using FifteenGame.Common.BusinessModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FifteenGame.Common.Contracts.Services
 {
@@ -16,12 +12,13 @@ namespace FifteenGame.Common.Contracts.Services
         void Move(GameModel model, int row, int column);
 
         bool IsGameOver(int gameId);
-
         bool IsGameOver(GameModel model);
+        GameModel RestartGame(int userId);
 
-        GameModel MakeMove(int gameId, MoveDirection direction);
-        bool MakeMove(GameModel model, MoveDirection direction);
+        // Методы для визуала
+        bool IsCellCovered(GameModel model, int row, int column);
+        int GetVeggieNeighborsCount(GameModel model, int r, int c);
+        int GetUserWinStreak(int userId);
         void RemoveGame(int gameId);
-        void Shuffle(GameModel model);
     }
 }
