@@ -68,7 +68,7 @@ static void DrawBoard(GameModel game)
     Console.Clear();
     Console.ForegroundColor = ConsoleColor.Cyan;
     Console.WriteLine("╔══════════════════════════════╗");
-    Console.WriteLine("║           ИГРА 2048           ║");
+    Console.WriteLine("║           ИГРА 2048          ║");
     Console.WriteLine("╠══════════════════════════════╣");
     Console.ResetColor();
 

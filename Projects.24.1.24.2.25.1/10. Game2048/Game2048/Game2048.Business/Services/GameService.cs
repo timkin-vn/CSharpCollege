@@ -20,8 +20,9 @@ public class GameService : IGameService
     }
 
     public GameModel GetByGameId(int gameId)
-        => _gameRepository.GetByGameId(gameId)
-           ?? throw new InvalidOperationException($"Game {gameId} not found");
+    => _gameRepository.GetByGameId(gameId)
+       ?? throw new InvalidOperationException($"Game {gameId} not found");
+
 
     /// <summary>
     /// Возвращает активную игру пользователя или создаёт новую.
@@ -45,8 +46,7 @@ public class GameService : IGameService
 
     public GameModel MakeMove(int gameId, MoveDirection direction)
     {
-        var game = _gameRepository.GetByGameId(gameId)
-                   ?? throw new InvalidOperationException($"Game {gameId} not found");
+        var game = _gameRepository.GetByGameId(gameId);
 
         if (direction == MoveDirection.None) return game;
 
