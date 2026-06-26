@@ -8,10 +8,16 @@ namespace FifteenGame.Common.Definitions
 {
     public static class Constants
     {
-        public const int RowCount = 4;
+        // Размеры
+        public const int RowCount = 5;
+        public const int ColumnCount = 5;
 
-        public const int ColumnCount = 4;
+        // Экономика
+        public const int InitialMoney = 1000;
+        public const int ShopCost = 300;
+        public const int TargetTurns = 10;
 
+        
         public const int FreeCellValue = -1;
     }
 }

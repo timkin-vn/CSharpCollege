@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace FifteenGame.DataAccess.EF.Repositories
 {
@@ -17,7 +18,11 @@ namespace FifteenGame.DataAccess.EF.Repositories
         {
             using (var context = new FifteenGameDataContext())
             {
-                return ToDto(context.Games.Include("Cells").FirstOrDefault(g => g.Id == gameId));
+                var game = context.Games
+                    .Include(g => g.Cells)
+                    .FirstOrDefault(g => g.Id == gameId);
+
+                return ToDto(game);
             }
         }
 
@@ -25,7 +30,11 @@ namespace FifteenGame.DataAccess.EF.Repositories
         {
             using (var context = new FifteenGameDataContext())
             {
-                var games = context.Games.Include("Cells").Where(g => g.UserId == userId);
+                var games = context.Games
+                    .Include(g => g.Cells)
+                    .Where(g => g.UserId == userId)
+                    .ToList();
+
                 return games.Select(ToDto).ToList();
             }
         }
@@ -34,139 +43,91 @@ namespace FifteenGame.DataAccess.EF.Repositories
         {
             using (var context = new FifteenGameDataContext())
             {
-                var game = context.Games.Include("Cells").FirstOrDefault(g => g.Id == gameId);
-                if (game == null)
+                var game = context.Games.FirstOrDefault(g => g.Id == gameId);
+                if (game != null)
                 {
-                    return;
+                    context.Games.Remove(game);
+                    context.SaveChanges();
                 }
-
-                context.Games.Remove(game);
-                context.SaveChanges();
             }
         }
 
-        public int Save(GameDto gameDto)
-        {
-            if (gameDto.Id == 0)
-            {
-                return Create(gameDto);
-            }
-
-            return Update(gameDto);
-        }
-
-        private int Create(GameDto gameDto)
+        public int Save(GameDto dto)
         {
             using (var context = new FifteenGameDataContext())
             {
-                var user = context.Users.FirstOrDefault(u => u.Id == gameDto.UserId);
-                if (user == null)
+                var entity = context.Games
+                    .Include(g => g.Cells)
+                    .FirstOrDefault(g => g.Id == dto.Id);
+
+                if (entity == null)
                 {
-                    throw new Exception("Нет такого пользователя");
+                    entity = new Game
+                    {
+                        UserId = dto.UserId,
+                        Money = dto.Money,
+                        TurnsPlayed = dto.MoveCount,
+                        Cells = new List<Cell>()
+                    };
+
+                    context.Games.Add(entity);
                 }
-
-                var newGame = new Game
+                else
                 {
-                    User = user,
-                    MoveCount = gameDto.MoveCount,
-                    Cells = new List<Cell>(),
-                };
-
-                context.Games.Add(newGame);
+                    entity.Money = dto.Money;
+                    entity.TurnsPlayed = dto.MoveCount;
+                    context.Cells.RemoveRange(entity.Cells);
+                    entity.Cells.Clear();
+                }
 
                 for (int row = 0; row < Constants.RowCount; row++)
                 {
                     for (int column = 0; column < Constants.ColumnCount; column++)
                     {
-                        if (gameDto.Cells[row, column] == Constants.FreeCellValue)
-                        {
-                            continue;
-                        }
-
-                        newGame.Cells.Add(new Cell
+                        entity.Cells.Add(new Cell
                         {
                             Row = row,
                             Column = column,
-                            Value = gameDto.Cells[row, column],
+                            PeopleCount = dto.PeopleCount[row, column],
+                            HasShop = dto.HasShop[row, column],
+                            IsVeggie = dto.IsVeggie[row, column],
+                            IsRevealed = dto.IsRevealed[row, column]
                         });
                     }
                 }
 
                 context.SaveChanges();
-                return newGame.Id;
-            }
-        }
-
-        private int Update(GameDto gameDto)
-        {
-            using (var context = new FifteenGameDataContext())
-            {
-                var game = context.Games.Include("Cells").FirstOrDefault(g => g.Id == gameDto.Id);
-                if (game == null)
-                {
-                    throw new Exception("Нет такой игры");
-                }
-
-                game.MoveCount = gameDto.MoveCount;
-                context.SaveChanges();
-
-                bool updated = false;
-                for (int row = 0; row < Constants.RowCount; row++)
-                {
-                    for (int column = 0; column < Constants.ColumnCount; column++)
-                    {
-                        if (gameDto.Cells[row, column] == Constants.FreeCellValue)
-                        {
-                            continue;
-                        }
-
-                        var selectedCell = game.Cells.First(c => c.Value == gameDto.Cells[row, column]);
-                        if (selectedCell.Row != row || selectedCell.Column != column)
-                        {
-                            selectedCell.Row = row;
-                            selectedCell.Column = column;
-                            updated = true;
-                        }
-                    }
-                }
-
-                if (updated)
-                {
-                    context.SaveChanges();
-                }
-
-                return gameDto.Id;
+                return entity.Id;
             }
         }
 
         private GameDto ToDto(Game game)
         {
-            if (game == null)
-            {
-                return null;
-            }
+            if (game == null) return null;
 
-            var result = new GameDto
+            var dto = new GameDto
             {
                 Id = game.Id,
                 UserId = game.UserId,
-                MoveCount = game.MoveCount,
+                Money = game.Money,
+                MoveCount = game.TurnsPlayed
             };
 
-            for (int row = 0; row < Constants.RowCount; row++)
+            if (game.Cells != null)
             {
-                for (int column = 0; column < Constants.ColumnCount; column++)
+                foreach (var cell in game.Cells)
                 {
-                    result.Cells[row, column] = Constants.FreeCellValue;
+                    if (cell.Row < Constants.RowCount && cell.Column < Constants.ColumnCount)
+                    {
+                        dto.PeopleCount[cell.Row, cell.Column] = cell.PeopleCount;
+                        dto.HasShop[cell.Row, cell.Column] = cell.HasShop;
+                        dto.IsVeggie[cell.Row, cell.Column] = cell.IsVeggie;
+                        dto.IsRevealed[cell.Row, cell.Column] = cell.IsRevealed;
+                    }
                 }
             }
 
-            foreach (var cell in game.Cells)
-            {
-                result.Cells[cell.Row, cell.Column] = cell.Value;
-            }
-
-            return result;
+            return dto;
         }
     }
 }

@@ -3,54 +3,64 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FifteenGame.Wpf" xmlns:viewmodels="clr-namespace:FifteenGame.Wpf.ViewModels"
+        xmlns:local="clr-namespace:FifteenGame.Wpf" 
+        xmlns:viewmodels="clr-namespace:FifteenGame.Wpf.ViewModels"
         mc:Ignorable="d"
-        Title="Игра 15" Height="550" Width="800" MinHeight="550" MinWidth="450" Loaded="Window_Loaded">
+        Title="Шаурмичная Империя 5х5" Height="700" Width="900" MinHeight="650" MinWidth="600">
+
     <Window.DataContext>
         <viewmodels:MainWindowViewModel />
     </Window.DataContext>
-    
-    <Grid>
+
+    <Grid Background="#F5F5F5">
         <Grid.RowDefinitions>
-            <RowDefinition />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
-            <RowDefinition />
         </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
+        <Border Grid.Row="0" Background="#333333" Padding="15" CornerRadius="0,0,10,10" Margin="0,0,0,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
-            <TextBlock Text="Игрок: " Margin="5" FontSize="18" />
-            <TextBlock Text="{Binding UserName}" Margin="5" FontSize="18" />
-        </StackPanel>
+                <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <TextBlock Text="💰 Баланс: " Foreground="White" FontSize="18" FontWeight="Bold" />
+                    <TextBlock Text="{Binding Money}" Foreground="#FFD700" FontSize="18" FontWeight="Bold" />
+                    <TextBlock Text=" руб." Foreground="White" FontSize="18" />
+                </StackPanel>
 
-        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
-            <TextBlock Text="Количество ходов: " Margin="5" FontSize="18" />
-            <TextBlock Text="{Binding MoveCount}" Margin="5" FontSize="18" />
-        </StackPanel>
+                <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <TextBlock Text="📊 Сделано ходов: " Foreground="White" FontSize="18" />
+                    <TextBlock Text="{Binding TurnsPlayed}" Foreground="#00FF7F" FontSize="18" FontWeight="Bold" />
+                </StackPanel>
+            </Grid>
+        </Border>
 
-        <ItemsControl Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Cells}">
+        <TextBlock Grid.Row="1" Text="{Binding StatusText}" HorizontalAlignment="Center" Margin="5" FontSize="16" FontWeight="SemiBold" Foreground="#555555" />
+
+        <ItemsControl Grid.Row="2" ItemsSource="{Binding Cells}" HorizontalAlignment="Center" VerticalAlignment="Center">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="100" />
-                            <RowDefinition Height="100" />
-                            <RowDefinition Height="100" />
-                            <RowDefinition Height="100" />
+                            <RowDefinition Height="90" />
+                            <RowDefinition Height="90" />
+                            <RowDefinition Height="90" />
+                            <RowDefinition Height="90" />
+                            <RowDefinition Height="90" />
                         </Grid.RowDefinitions>
 
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="110" />
+                            <ColumnDefinition Width="110" />
+                            <ColumnDefinition Width="110" />
+                            <ColumnDefinition Width="110" />
+                            <ColumnDefinition Width="110" />
                         </Grid.ColumnDefinitions>
                     </Grid>
                 </ItemsPanelTemplate>
@@ -58,10 +68,19 @@
 
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid MouseDown="Grid_MouseDown" Tag="{Binding Direction}">
-                        <Rectangle Margin="5" Stroke="Brown" StrokeThickness="3" RadiusX="10" RadiusY="10" Fill="LightBlue" />
-                        <TextBlock Text="{Binding Text}" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    </Grid>
+                    <Button Margin="4" 
+                            Command="{Binding DataContext.CellClickCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                            CommandParameter="{Binding}"
+                            Background="LightBlue"
+                            BorderBrush="SlateGray"
+                            BorderThickness="2">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="8"/>
+                            </Style>
+                        </Button.Resources>
+                        <TextBlock Text="{Binding Text}" FontSize="11" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Medium" />
+                    </Button>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
 
@@ -72,5 +91,8 @@
                 </Style>
             </ItemsControl.ItemContainerStyle>
         </ItemsControl>
+
+        <TextBlock Grid.Row="3" Text="Клик по закрытой клетке: Разведка (50 руб) | Клик по открытой: Построить ларёк (300 руб)" 
+                   HorizontalAlignment="Center" Margin="10" FontSize="12" Foreground="Gray" />
     </Grid>
 </Window>

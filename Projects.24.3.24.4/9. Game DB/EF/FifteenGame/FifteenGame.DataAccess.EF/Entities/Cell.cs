@@ -16,7 +16,13 @@ namespace FifteenGame.DataAccess.EF.Entities
 
         public int Column { get; set; }
 
-        public int Value { get; set; }
+        public int PeopleCount { get; set; }
+
+        public bool HasShop { get; set; }
+
+        public bool IsVeggie { get; set; }
+
+        public bool IsRevealed { get; set; }
 
         public Game Game { get; set; }
     }

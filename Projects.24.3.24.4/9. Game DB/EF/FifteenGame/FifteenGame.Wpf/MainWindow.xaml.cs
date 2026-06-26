@@ -15,40 +15,42 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
 namespace FifteenGame.Wpf
+
 {
+
     /// <summary>
+
     /// Interaction logic for MainWindow.xaml
+
     /// </summary>
+
     public partial class MainWindow : Window
     {
         public MainWindowViewModel ViewModel => (MainWindowViewModel)DataContext;
 
+
         public MainWindow()
         {
-            InitializeComponent();
-        }
 
-        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            var direction = (MoveDirection)((FrameworkElement)sender).Tag;
-            ViewModel.MakeMove(direction, OnGameFinished);
+            InitializeComponent();
+
         }
 
         private void OnGameFinished()
         {
-            if (MessageBox.Show("Ира окончена. Повторить?", "Поздравляем!", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
-            {
-                ViewModel.Initialize();
-            }
+
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+
             var dialog = new UserLoginWindow();
+
             dialog.ViewModel.MainViewModel = ViewModel;
+
             dialog.ShowDialog();
+
         }
     }
 }

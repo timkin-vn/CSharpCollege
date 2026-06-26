@@ -12,7 +12,9 @@ namespace FifteenGame.DataAccess.EF.Entities
 
         public int UserId { get; set; }
 
-        public int MoveCount { get; set; }
+        public int Money { get; set; }
+
+        public int TurnsPlayed { get; set; }
 
         public User User { get; set; }
 

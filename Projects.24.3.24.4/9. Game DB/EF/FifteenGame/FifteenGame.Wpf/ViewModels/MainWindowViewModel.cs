@@ -10,104 +10,140 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace FifteenGame.Wpf.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private IGameService _service = NinjectKernel.Instance.Get<IGameService>();
-
-        private GameModel _model = new GameModel();
-
-        private UserModel _user;
+        private readonly IGameService _gameService;
+        private GameModel _gameModel;
+        private string _statusText;
+        private int _money;
+        private int _turnsPlayed;
 
         public ObservableCollection<CellViewModel> Cells { get; } = new ObservableCollection<CellViewModel>();
 
-        public string UserName => _user?.Name ?? "<нет>";
-
-        public int MoveCount => _model?.MoveCount ?? 0;
+        public MainWindowViewModel(IGameService gameService)
+        {
+            _gameService = gameService ?? throw new ArgumentNullException(nameof(gameService));
+            CellClickCommand = new RelayCommand<CellViewModel>(OnCellClick);
+            StartNewGame(1);
+        }
 
         public MainWindowViewModel()
         {
-            _model = new GameModel();
-            LoadViewModel(_model);
-        }
+            CellClickCommand = new RelayCommand<CellViewModel>(OnCellClick);
 
-        public void CommitUser(UserModel userModel)
-        {
-            _user = userModel;
-            OnPropertyChanged(nameof(UserName));
-
-            _model = _service.GetByUserId(_user.Id);
-            LoadViewModel(_model);
-        }
-
-        public void Initialize()
-        {
-            _model = _service.GetByUserId(_user.Id);
-            LoadViewModel(_model);
-        }
-
-        public void MakeMove(MoveDirection direction, Action gameFinishedAction)
-        {
-            _model = _service.MakeMove(_model.Id, direction);
-            LoadViewModel(_model);
-
-            if (_service.IsGameOver(_model.Id))
+            try
             {
-                _service.RemoveGame(_model.Id);
-                gameFinishedAction?.Invoke();
+                _gameService = NinjectKernel.Instance.Get<IGameService>();
+
+                StartNewGame(1);
+            }
+            catch (Exception ex)
+            {
+                StatusText = $"Ошибка инициализации контейнера: {ex.Message}";
             }
         }
 
-        private void LoadViewModel(GameModel model)
+        // Свойства для вывода денег и ходов на экран WPF
+        public int Money
+        {
+            get => _money;
+            set { _money = value; OnPropertyChanged(nameof(Money)); }
+        }
+
+        public int TurnsPlayed
+        {
+            get => _turnsPlayed;
+            set { _turnsPlayed = value; OnPropertyChanged(nameof(TurnsPlayed)); }
+        }
+
+        public string StatusText
+        {
+            get => _statusText;
+            set { _statusText = value; OnPropertyChanged(nameof(StatusText)); }
+        }
+
+        // Команда для клика по клетке мышкой
+        public ICommand CellClickCommand { get; }
+
+
+        private void StartNewGame(int userId)
+        {
+            _gameModel = _gameService.GetByUserId(userId);
+            UpdateProperties();
+            RefreshGrid();
+        }
+
+        public void CommitUser(FifteenGame.Common.BusinessModels.UserModel userModel)
+        {
+            if (userModel != null)
+            {
+                
+                StartNewGame(userModel.Id);
+            }
+        }
+
+        private void OnCellClick(CellViewModel cell)
+        {
+            if (cell == null || _gameService.IsGameOver(_gameModel)) return;
+
+            // Вызываем нашу шаурмичную бизнес-логику хода
+            _gameService.Move(_gameModel, cell.Row, cell.Column);
+
+            // Обновляем данные на экране после хода
+            UpdateProperties();
+            RefreshGrid();
+        }
+
+        // Обновляем счетчики денег и ходов
+        private void UpdateProperties()
+        {
+            Money = _gameModel.Money;
+            TurnsPlayed = _gameModel.TurnsPlayed;
+
+            if (_gameService.IsGameOver(_gameModel))
+            {
+                StatusText = $"Игра окончена! Ваша финальная касса: {Money} руб.";
+            }
+            else
+            {
+                StatusText = $"Ход {TurnsPlayed} из {Constants.TargetTurns}. Развивайте сеть!";
+            }
+        }
+
+        // Перерисовываем сетку кнопок на экране
+        private void RefreshGrid()
         {
             Cells.Clear();
+
             for (int row = 0; row < Constants.RowCount; row++)
             {
                 for (int column = 0; column < Constants.ColumnCount; column++)
                 {
-                    if (model[row, column] == Constants.FreeCellValue)
-                    {
-                        continue;
-                    }
-
-                    var direction = MoveDirection.None;
-
-                    if (row == model.FreeCellRow)
-                    {
-                        if (column == model.FreeCellColumn - 1)
-                        {
-                            direction = MoveDirection.Right;
-                        }
-                        else if (column == model.FreeCellColumn + 1)
-                        {
-                            direction = MoveDirection.Left;
-                        }
-                    }
-                    else if (column == model.FreeCellColumn)
-                    {
-                        if (row == model.FreeCellRow - 1)
-                        {
-                            direction = MoveDirection.Down;
-                        }
-                        else if (row == model.FreeCellRow + 1)
-                        {
-                            direction = MoveDirection.Up;
-                        }
-                    }
-
                     Cells.Add(new CellViewModel
                     {
                         Row = row,
                         Column = column,
-                        Value = model[row, column],
-                        Direction = direction,
+                        PeopleCount = _gameModel.GetPeopleCount(row, column),
+                        HasShop = _gameModel.GetHasShop(row, column),
+                        IsVeggie = _gameModel.GetIsVeggie(row, column),
+                        IsRevealed = _gameModel.GetIsRevealed(row, column)
                     });
                 }
             }
-
-            OnPropertyChanged(nameof(MoveCount));
         }
+    }
+
+    // Простой класс-помощник для обработки кликов (если у препода используется другой, студия подскажет)
+    public class RelayCommand<T> : ICommand
+    {
+        private readonly Action<T> _execute;
+        public RelayCommand(Action<T> execute) => _execute = execute;
+        public bool CanExecute(object parameter) => true;
+        public void Execute(object parameter) => _execute((T)parameter);
+        public event EventHandler CanExecuteChanged { add { } remove { } }
     }
 }
