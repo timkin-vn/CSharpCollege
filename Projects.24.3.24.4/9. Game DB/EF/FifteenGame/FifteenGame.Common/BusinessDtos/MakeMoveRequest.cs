@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FifteenGame.Common.BusinessDtos
 {
@@ -10,6 +6,8 @@ namespace FifteenGame.Common.BusinessDtos
     {
         public int GameId { get; set; }
 
-        public string Direction { get; set; }
+        // Координаты клетки, куда игрок ставит новый ларёк
+        public int Row { get; set; }
+        public int Column { get; set; }
     }
 }

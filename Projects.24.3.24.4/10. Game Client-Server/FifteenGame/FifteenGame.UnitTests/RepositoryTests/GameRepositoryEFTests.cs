@@ -16,20 +16,13 @@ namespace FifteenGame.UnitTests.RepositoryTests
         [TestMethod]
         public void CreateAndReadTest()
         {
-            var gameCells = new[,]
-            {
-                { 1, 2, 3, 4, },
-                { 5, 6, 7, 8, },
-                { 9, 10, 11, 12, },
-                { 13, 14, 15, Constants.FreeCellValue, },
-            };
-
             var userRepository = new UserRepositoryEF();
             var allUsers = userRepository.GetAll();
             var user = allUsers.FirstOrDefault();
 
             if (user == null)
             {
+                Assert.Inconclusive("В базе данных нет пользователей для проведения теста.");
                 return;
             }
 
@@ -38,21 +31,32 @@ namespace FifteenGame.UnitTests.RepositoryTests
             {
                 UserId = user.Id,
                 MoveCount = 0,
+                Money = Constants.InitialMoney
             };
 
+            // Заполняем тестовую карту шаурмичных
             for (int row = 0; row < Constants.RowCount; row++)
             {
                 for (int column = 0; column < Constants.ColumnCount; column++)
                 {
-                    gameDto.Cells[row, column] = gameCells[row, column];
+                    gameDto.PeopleCount[row, column] = (row + 1) * (column + 1);
+                    gameDto.HasShop[row, column] = false;
+                    gameDto.IsVeggie[row, column] = (row == 0 && column == 0); // Сделаем одну клетку ЗОЖной
+                    gameDto.IsRevealed[row, column] = false;
                 }
             }
 
             var gameId = gameRepository.Save(gameDto);
             var readGameDto = gameRepository.GetByGameId(gameId);
 
+            // Проверяем базовые поля
             Assert.AreEqual(gameDto.MoveCount, readGameDto.MoveCount);
             Assert.AreEqual(gameDto.UserId, readGameDto.UserId);
+            Assert.AreEqual(gameDto.Money, readGameDto.Money);
+
+            // Проверяем сохранение матриц на примере одной клетки
+            Assert.AreEqual(gameDto.PeopleCount[0, 0], readGameDto.PeopleCount[0, 0]);
+            Assert.AreEqual(gameDto.IsVeggie[0, 0], readGameDto.IsVeggie[0, 0]);
         }
 
         [TestMethod]
@@ -69,7 +73,7 @@ namespace FifteenGame.UnitTests.RepositoryTests
                 gameCount += games.Count();
             }
 
-            Assert.IsTrue(gameCount > 0);
+            Assert.IsTrue(gameCount > 0, "В базе данных должны быть игры для прохождения теста.");
         }
 
         [TestMethod]
@@ -92,46 +96,24 @@ namespace FifteenGame.UnitTests.RepositoryTests
 
             if (game == null)
             {
+                Assert.Inconclusive("В базе данных нет существующих игр для обновления.");
                 return;
             }
 
+            // Имитируем ход: увеличиваем ходы, меняем деньги и ставим ларёк в [0,0]
             game.MoveCount++;
-            int freeRow = -1;
-            int freeColumn = -1;
-
-            for (int row = 0; row < Constants.RowCount; row++)
-            {
-                for (int column = 0; column < Constants.ColumnCount; column++)
-                {
-                    if (game.Cells[row, column] == Constants.FreeCellValue)
-                    {
-                        freeRow = row;
-                        freeColumn = column;
-                    }
-                }
-            }
-
-            if (freeRow < 0 || freeColumn < 0)
-            {
-                throw new Exception("Ошибка в БД");
-            }
-
-            if (freeRow > 0)
-            {
-                game.Cells[freeRow, freeColumn] = game.Cells[freeRow - 1, freeColumn];
-                game.Cells[freeRow - 1, freeColumn] = Constants.FreeCellValue;
-            }
-            else
-            {
-                game.Cells[freeRow, freeColumn] = game.Cells[freeRow + 1, freeColumn];
-                game.Cells[freeRow + 1, freeColumn] = Constants.FreeCellValue;
-            }
+            game.Money -= Constants.ShopCost;
+            game.HasShop[0, 0] = true;
+            game.IsRevealed[0, 0] = true;
 
             gameRepository.Save(game);
             var readGame = gameRepository.GetByGameId(game.Id);
 
+            // Сверяем обновлённые данные
             Assert.AreEqual(game.MoveCount, readGame.MoveCount);
-            Assert.AreEqual(game.Cells[freeRow, freeColumn], readGame.Cells[freeRow, freeColumn]);
+            Assert.AreEqual(game.Money, readGame.Money);
+            Assert.AreEqual(true, readGame.HasShop[0, 0]);
+            Assert.AreEqual(true, readGame.IsRevealed[0, 0]);
         }
 
         [TestMethod]
@@ -154,7 +136,7 @@ namespace FifteenGame.UnitTests.RepositoryTests
 
             if (game == null)
             {
-                throw new AssertFailedException("Нет игр");
+                throw new AssertFailedException("Нет игр для тестирования удаления.");
             }
 
             gameRepository.Remove(game.Id);

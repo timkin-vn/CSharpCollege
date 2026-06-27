@@ -32,15 +32,24 @@ namespace FifteenGame.Wpf
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            var direction = (MoveDirection)((FrameworkElement)sender).Tag;
-            ViewModel.MakeMove(direction, OnGameFinished);
+            // Получаем элемент, по которому кликнули (это наша сетка или кнопка клетки)
+            var element = sender as FrameworkElement;
+            if (element == null) return;
+
+            // Из DataContext элемента вытаскиваем CellViewModel, которая хранит координаты клетки
+            var cellViewModel = element.DataContext as CellViewModel;
+            if (cellViewModel == null) return;
+
+            // Передаем координаты row и column, а также метод окончания игры OnGameFinished
+            ViewModel.MakeMove(cellViewModel.Row, cellViewModel.Column, OnGameFinished);
         }
 
         private void OnGameFinished()
         {
-            if (MessageBox.Show("Ира окончена. Повторить?", "Поздравляем!", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
+            if (MessageBox.Show("Игра окончена. Повторить?", "Раунд завершен!", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
             {
-                ViewModel.Initialize();
+                // Используем новый метод сброса игры, который мы добавили во вью-модель
+                ViewModel.RestartGame();
             }
         }
 

@@ -3,20 +3,23 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FifteenGame.Wpf" xmlns:viewmodels="clr-namespace:FifteenGame.Wpf.ViewModels"
+        xmlns:local="clr-namespace:FifteenGame.Wpf" 
+        xmlns:viewmodels="clr-namespace:FifteenGame.Wpf.ViewModels"
         mc:Ignorable="d"
-        Title="Игра 15" Height="550" Width="800" MinHeight="550" MinWidth="450" Loaded="Window_Loaded">
+        Title="Игра 15" Height="700" Width="800" MinHeight="650" MinWidth="550" Loaded="Window_Loaded">
+
     <Window.DataContext>
         <viewmodels:MainWindowViewModel />
     </Window.DataContext>
-    
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition />
+            <RowDefinition Height="20" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -25,17 +28,29 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+        <!-- 1. Имя игрока и Стрик побед -->
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5">
             <TextBlock Text="Игрок: " Margin="5" FontSize="18" />
-            <TextBlock Text="{Binding UserName}" Margin="5" FontSize="18" />
+            <TextBlock Text="{Binding UserName}" Margin="5" FontSize="18" FontWeight="Bold"/>
+            <TextBlock Text="  🔥 Стрик: " Margin="25,5,5,5" FontSize="18" Foreground="OrangeRed" />
+            <TextBlock Text="{Binding WinStreak}" Margin="5" FontSize="18" FontWeight="Bold" Foreground="OrangeRed"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+        <!-- 2. Экономика (ИСПРАВЛЕНО: Привязка напрямую к свойству Money) -->
+        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5">
+            <TextBlock Text="Баланс: " Margin="5" FontSize="18" />
+            <TextBlock Text="{Binding Money}" Margin="5" FontSize="18" FontWeight="Bold" Foreground="DarkGreen" />
+            <TextBlock Text=" $" Margin="0,5,5,5" FontSize="18" FontWeight="Bold" Foreground="DarkGreen" />
+        </StackPanel>
+
+        <!-- 3. Количество ходов -->
+        <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5">
             <TextBlock Text="Количество ходов: " Margin="5" FontSize="18" />
             <TextBlock Text="{Binding MoveCount}" Margin="5" FontSize="18" />
         </StackPanel>
 
-        <ItemsControl Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Cells}">
+        <!-- 4. Игровое поле -->
+        <ItemsControl Grid.Row="4" Grid.Column="1" ItemsSource="{Binding Cells}" Margin="0,15,0,0">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid>
@@ -58,9 +73,12 @@
 
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid MouseDown="Grid_MouseDown" Tag="{Binding Direction}">
-                        <Rectangle Margin="5" Stroke="Brown" StrokeThickness="3" RadiusX="10" RadiusY="10" Fill="LightBlue" />
-                        <TextBlock Text="{Binding Text}" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Grid MouseDown="Grid_MouseDown" Tag="{Binding Direction}" Cursor="Hand">
+                        <!-- Динамический фон ячейки -->
+                        <Rectangle Margin="5" Stroke="Brown" StrokeThickness="3" RadiusX="10" RadiusY="10" Fill="{Binding CellBackground}" />
+
+                        <!-- Текст внутри клетки -->
+                        <TextBlock Text="{Binding Text}" FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap"/>
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

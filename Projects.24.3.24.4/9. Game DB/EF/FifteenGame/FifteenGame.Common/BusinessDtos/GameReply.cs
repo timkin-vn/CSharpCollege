@@ -12,12 +12,14 @@ namespace FifteenGame.Common.BusinessDtos
 
         public int UserId { get; set; }
 
+        public int Money { get; set; }
+
         public int MoveCount { get; set; }
 
-        public int FreeCellRow { get; set; }
-
-        public int FreeCellColumn { get; set; }
-
-        public int[] Cells { get; set; }
+        // Наши двумерные массивы для полной синхронизации карты
+        public int[,] PeopleCount { get; set; } = new int[5, 5]; // Размерность бери из Constants.RowCount/ColumnCount, если они фиксированы, либо просто инициализируй так
+        public bool[,] HasShop { get; set; } = new bool[5, 5];
+        public bool[,] IsVeggie { get; set; } = new bool[5, 5];
+        public bool[,] IsRevealed { get; set; } = new bool[5, 5];
     }
 }

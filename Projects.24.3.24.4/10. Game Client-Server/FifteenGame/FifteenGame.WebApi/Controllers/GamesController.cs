@@ -6,7 +6,6 @@ using FifteenGame.Common.Infrastucture;
 using Ninject;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlTypes;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -17,6 +16,14 @@ namespace FifteenGame.WebApi.Controllers
     public class GamesController : ApiController
     {
         private IGameService _gameService = NinjectKernel.Instance.Get<IGameService>();
+
+        // 1. Получение стрика побед пользователя
+        [HttpGet]
+        [Route("api/games/win-streak/{userId}")]
+        public int GetWinStreak(int userId)
+        {
+            return _gameService.GetUserWinStreak(userId);
+        }
 
         [HttpGet]
         [Route("api/games/get-by-user-id/{userId}")]
@@ -32,25 +39,40 @@ namespace FifteenGame.WebApi.Controllers
             return ToDto(_gameService.GetByGameId(gameId));
         }
 
+        // 2. Обработка хода (постройка ларька) по координатам
         [HttpPost]
-        [Route("api/games/make-move")]
-        public GameReply MakeMove([FromBody] MakeMoveRequest request)
+        [Route("api/games/move")]
+        public GameReply Move([FromBody] MakeMoveRequest request)
         {
-            if (!Enum.TryParse<MoveDirection>(request.Direction, out var moveDirection))
-            {
-                return null;
-            }
+            if (request == null) return null;
 
-            return ToDto(_gameService.MakeMove(request.GameId, moveDirection));
+            // Тянем игру из базы данных, чтобы применить к ней ход
+            var gameModel = _gameService.GetByGameId(request.GameId);
+            if (gameModel == null) return null;
+
+            // Делаем ход в сервисе (экономика, штрафы, зожники посчитаются внутри)
+            _gameService.Move(gameModel, request.Row, request.Column);
+
+            // Возвращаем клиенту обновлённое состояние игры
+            return ToDto(gameModel);
+        }
+
+        // 3. Сброс / Перезапуск игры
+        [HttpPost]
+        [Route("api/games/restart/{userId}")]
+        public GameReply Restart(int userId)
+        {
+            return ToDto(_gameService.RestartGame(userId));
         }
 
         [HttpGet]
         [Route("api/games/is-over/{gameId}")]
         public BooleanReply IsOver(int gameId)
         {
+            var gameModel = _gameService.GetByGameId(gameId);
             return new BooleanReply
             {
-                IsTrue = _gameService.IsGameOver(gameId),
+                IsTrue = gameModel == null || _gameService.IsGameOver(gameModel),
             };
         }
 
@@ -61,29 +83,28 @@ namespace FifteenGame.WebApi.Controllers
             _gameService.RemoveGame(gameId);
         }
 
+        // Маппинг из полноценной GameModel в сетевой GameReply
         private GameReply ToDto(GameModel model)
         {
-            if (model == null)
-            {
-                return null;
-            }
+            if (model == null) return null;
 
             var dto = new GameReply
             {
                 Id = model.Id,
                 UserId = model.UserId,
-                MoveCount = model.MoveCount,
-                FreeCellColumn = model.FreeCellColumn,
-                FreeCellRow = model.FreeCellRow,
-                Cells = new int[Constants.RowCount * Constants.ColumnCount],
+                Money = model.Money,
+                MoveCount = model.TurnsPlayed
             };
 
-            int cellIndex = 0;
+            // Переносим матрицы состояния карты один в один
             for (int row = 0; row < Constants.RowCount; row++)
             {
                 for (int column = 0; column < Constants.ColumnCount; column++)
                 {
-                    dto.Cells[cellIndex++] = model[row, column];
+                    dto.PeopleCount[row, column] = model.GetPeopleCount(row, column);
+                    dto.HasShop[row, column] = model.GetHasShop(row, column);
+                    dto.IsVeggie[row, column] = model.GetIsVeggie(row, column);
+                    dto.IsRevealed[row, column] = model.GetIsRevealed(row, column);
                 }
             }
 
