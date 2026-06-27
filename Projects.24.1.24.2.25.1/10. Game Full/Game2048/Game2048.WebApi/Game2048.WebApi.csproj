@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Game2048.Business\Game2048.Business.csproj" />
+    <ProjectReference Include="..\Game2048.Common\Game2048.Common.csproj" />
+    <ProjectReference Include="..\Game2048.DataAccess\Game2048.DataAccess.csproj" />
+  </ItemGroup>
+</Project>
