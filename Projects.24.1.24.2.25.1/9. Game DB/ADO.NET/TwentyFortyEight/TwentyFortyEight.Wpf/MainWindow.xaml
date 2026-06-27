@@ -1,0 +1,131 @@
+<Window x:Class="TwentyFortyEight.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:viewmodels="clr-namespace:TwentyFortyEight.Wpf.ViewModels"
+        Title="2048"
+        Height="720"
+        Width="620"
+        MinWidth="460"
+        MinHeight="560"
+        Background="#F5F7F5"
+        Loaded="Window_Loaded"
+        KeyDown="Window_KeyDown"
+        FontFamily="Segoe UI Semibold">
+
+    <Window.DataContext>
+        <viewmodels:MainWindowViewModel/>
+    </Window.DataContext>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0"
+                       Text="2048"
+                       FontSize="52"
+                       FontFamily="Impact"
+                       Foreground="#1A4314"
+                       VerticalAlignment="Center"/>
+
+            <Button Grid.Column="1"
+                    Content="Перезапустить"
+                    Click="NewGameButton_Click"
+                    VerticalAlignment="Center"
+                    Cursor="Hand">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#27AE60"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="FontSize" Value="13"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="Padding" Value="16,10"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}"
+                                            CornerRadius="20" 
+                                            Padding="{TemplateBinding Padding}">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#1E5631"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+
+        <Border Grid.Row="1" Background="#E8F5E9" CornerRadius="8" Padding="10,6" Margin="0,0,0,15">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="Текущий сеанс: " FontSize="14" Foreground="#556B2F"/>
+                <TextBlock Text="{Binding UserName}" FontSize="14" FontWeight="Bold" Foreground="#1E5631"/>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="2"
+                Background="#1E5631"
+                CornerRadius="12"
+                Padding="12">
+            <ItemsControl ItemsSource="{Binding Cells}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Rows="4" Columns="4"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="6"
+                                CornerRadius="8"
+                                Background="{Binding Background}">
+                            <TextBlock Text="{Binding Text}"
+                                       FontSize="32"
+                                       FontFamily="Impact"
+                                       Foreground="{Binding Foreground}"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
+
+        <UniformGrid Grid.Row="3" Columns="2" Margin="0,15,0,5">
+            <Border Background="#2ECC71" CornerRadius="6" Padding="10" Margin="0,0,8,0">
+                <StackPanel HorizontalAlignment="Center">
+                    <TextBlock Text="НАБРАНО ОЧКОВ" Foreground="#E8F5E9" FontSize="11" HorizontalAlignment="Center" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Score}" Foreground="White" FontSize="22" FontWeight="Bold" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+
+            <Border Background="#27AE60" CornerRadius="6" Padding="10" Margin="8,0,0,0">
+                <StackPanel HorizontalAlignment="Center">
+                    <TextBlock Text="ЛУЧШИЙ РЕЗУЛЬТАТ" Foreground="#E8F5E9" FontSize="11" HorizontalAlignment="Center" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding BestTile}" Foreground="White" FontSize="22" FontWeight="Bold" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+        </UniformGrid>
+
+        <TextBlock Grid.Row="4"
+                   Text="Управление осуществляется стрелками или WASD с клавиатуры"
+                   FontSize="11" Foreground="#95A5A6"
+                   HorizontalAlignment="Center"
+                   Margin="0,10,0,0"/>
+    </Grid>
+</Window>
