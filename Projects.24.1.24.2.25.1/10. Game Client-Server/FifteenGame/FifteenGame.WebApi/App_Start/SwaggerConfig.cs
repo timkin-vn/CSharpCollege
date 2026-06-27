@@ -34,7 +34,7 @@ namespace FifteenGame.WebApi
                         // hold additional metadata for an API. Version and title are required but you can also provide
                         // additional fields by chaining methods off SingleApiVersion.
                         //
-                        c.SingleApiVersion("v1", "FifteenGame.WebApi");
+                        c.SingleApiVersion("v1", "FifteenGame WebApi");
 
                         // If you want the output Swagger docs to be indented properly, enable the "PrettyPrint" option.
                         //
@@ -103,7 +103,11 @@ namespace FifteenGame.WebApi
                         // those comments into the generated docs and UI. You can enable this by providing the path to one or
                         // more Xml comment files.
                         //
-                        c.IncludeXmlComments(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"bin\FifteenGame.WebApi.xml"));
+                        var xmlCommentsFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"bin\FifteenGame.WebApi.xml");
+                        if (File.Exists(xmlCommentsFile))
+                        {
+                            c.IncludeXmlComments(xmlCommentsFile);
+                        }
                         // bin\FifteenGame.WebApi.xml
 
                         // Swashbuckle makes a best attempt at generating Swagger compliant JSON schemas for the various types

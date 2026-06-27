@@ -10,7 +10,7 @@ namespace FifteenGame.WebApi.Controllers
     {
         public ActionResult Index()
         {
-            return Content("FifteenGame WebApi is running");
+            return Redirect("~/swagger");
         }
     }
 }
