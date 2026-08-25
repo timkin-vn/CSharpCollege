@@ -1,0 +1,33 @@
+﻿<Window x:Class="TicTacToeClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Крестики-Нолики" Height="400" Width="400">
+
+    <Grid Name="MyGrid" Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Button Grid.Row="0" Grid.Column="0" Tag="0" Content="" Click="CellButton_Click" FontSize="30"/>
+        <Button Grid.Row="0" Grid.Column="1" Tag="1" Content="" Click="CellButton_Click" FontSize="30"/>
+        <Button Grid.Row="0" Grid.Column="2" Tag="2" Content="" Click="CellButton_Click" FontSize="30"/>
+
+        <Button Grid.Row="1" Grid.Column="0" Tag="3" Content="" Click="CellButton_Click" FontSize="30"/>
+        <Button Grid.Row="1" Grid.Column="1" Tag="4" Content="" Click="CellButton_Click" FontSize="30"/>
+        <Button Grid.Row="1" Grid.Column="2" Tag="5" Content="" Click="CellButton_Click" FontSize="30"/>
+
+        <Button Grid.Row="2" Grid.Column="0" Tag="6" Content="" Click="CellButton_Click" FontSize="30"/>
+        <Button Grid.Row="2" Grid.Column="1" Tag="7" Content="" Click="CellButton_Click" FontSize="30"/>
+        <Button Grid.Row="2" Grid.Column="2" Tag="8" Content="" Click="CellButton_Click" FontSize="30"/>
+    </Grid>
+</Window>

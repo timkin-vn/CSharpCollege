@@ -1,0 +1,52 @@
+﻿@model TicTacToe.Web.Models.GameViewModel
+
+<div style="text-align: center; font-family: 'Segoe UI', Arial, sans-serif; margin-top: 40px;">
+    <h2 style="color: #2c3e50; margin-bottom: 25px; font-size: 32px; font-weight: 600;">@Model.Message</h2>
+
+    <table style="margin: 0 auto; border-collapse: collapse; background-color: #ffffff; box-shadow: 0 8px 16px rgba(0,0,0,0.15); border-radius: 8px; overflow: hidden;">
+        @for (int r = 0; r < 3; r++)
+        {
+            <tr>
+                @for (int c = 0; c < 3; c++)
+                {
+                    <td style="border: 3px solid #bdc3c7; width: 100px; height: 100px; padding: 0; text-align: center; vertical-align: middle;">
+                        @if (Model.Cells[r, c] == TicTacToe.Business.Models.CellValue.Empty && !Model.IsGameOver)
+                        {
+                            <form asp-action="MakeMove" method="post" style="margin: 0; width: 100%; height: 100%;">
+                                <input type="hidden" name="row" value="@r" />
+                                <input type="hidden" name="column" value="@c" />
+                                <button type="submit" style="width: 100%; height: 100%; background-color: #fff; border: none; cursor: pointer; transition: background-color 0.15s;" 
+                                        onmouseover="this.style.backgroundColor='#f1f2f6'" 
+                                        onmouseout="this.style.backgroundColor='#ffffff'">
+                                </button>
+                            </form>
+                        }
+                        else
+                        {
+                            <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 42px; font-weight: bold; select: none;">
+                                @if (Model.Cells[r, c] == TicTacToe.Business.Models.CellValue.X)
+                                {
+                                    <span style="color: #2980b9;">X</span>
+                                }
+                                else if (Model.Cells[r, c] == TicTacToe.Business.Models.CellValue.O)
+                                {
+                                    <span style="color: #e74c3c;">O</span>
+                                }
+                            </div>
+                        }
+                    </td>
+                }
+            </tr>
+        }
+    </table>
+
+    <div style="margin-top: 30px;">
+        <form asp-action="NewGame" method="post">
+            <button type="submit" style="padding: 12px 28px; font-size: 16px; font-weight: bold; color: #fff; background-color: #27ae60; border: none; border-radius: 5px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: background-color 0.2s;"
+                    onmouseover="this.style.backgroundColor='#219653'"
+                    onmouseout="this.style.backgroundColor='#27ae60'">
+                Новая игра
+            </button>
+        </form>
+    </div>
+</div>
