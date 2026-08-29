@@ -36,7 +36,7 @@ namespace GraphEditor
             }
 
             _isMouseDown = true;
-            _viewService.MouseDown(e.Location);
+            _viewService.MouseDown(e.Location, ModifierKeys == Keys.Control);
             Refresh();
         }
 
