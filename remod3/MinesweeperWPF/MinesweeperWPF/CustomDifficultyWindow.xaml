@@ -1,0 +1,37 @@
+<Window x:Class="MinesweeperWPF.CustomDifficultyWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Пользовательская сложность"
+        Width="360" Height="220"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize">
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="140"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="Строки:" VerticalAlignment="Center"/>
+        <TextBox x:Name="RowsBox" Grid.Row="0" Grid.Column="1" Margin="8,0,0,8"/>
+
+        <TextBlock Text="Столбцы:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
+        <TextBox x:Name="ColsBox" Grid.Row="1" Grid.Column="1" Margin="8,0,0,8"/>
+
+        <TextBlock Text="Мины:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
+        <TextBox x:Name="MinesBox" Grid.Row="2" Grid.Column="1" Margin="8,0,0,8"/>
+
+        <TextBlock x:Name="ErrorText" Grid.Row="3" Grid.ColumnSpan="2" Grid.Column="0" Foreground="IndianRed"/>
+
+        <StackPanel Grid.Row="4" Grid.ColumnSpan="2" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="OK" Width="90" Margin="0,0,8,0" IsDefault="True" Click="Ok_Click"/>
+            <Button Content="Отмена" Width="90" IsCancel="True"/>
+        </StackPanel>
+    </Grid>
+</Window>

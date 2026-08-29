@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphEditor", "GraphEditor\GraphEditor.csproj", "{6B2BEE13-4048-4A41-AA12-1269E0DFA026}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphEditor.Business", "GraphEditor.Business\GraphEditor.Business.csproj", "{5EDA78EC-4500-4905-9C48-984045715F7E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6B2BEE13-4048-4A41-AA12-1269E0DFA026}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B2BEE13-4048-4A41-AA12-1269E0DFA026}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B2BEE13-4048-4A41-AA12-1269E0DFA026}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B2BEE13-4048-4A41-AA12-1269E0DFA026}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EDA78EC-4500-4905-9C48-984045715F7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EDA78EC-4500-4905-9C48-984045715F7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EDA78EC-4500-4905-9C48-984045715F7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EDA78EC-4500-4905-9C48-984045715F7E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

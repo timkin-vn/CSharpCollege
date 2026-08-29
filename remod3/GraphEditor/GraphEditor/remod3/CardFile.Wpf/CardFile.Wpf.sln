@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardFile.Wpf", "CardFile.Wpf\CardFile.Wpf.csproj", "{2C7278FB-8E4B-4EB5-A984-C2F45F12B497}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardFile.DataAccess", "CardFile.DataAccess\CardFile.DataAccess.csproj", "{F8D14FA3-BF1C-43DE-9504-9B125702B4A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardFile.Common", "CardFile.Common\CardFile.Common.csproj", "{AA7067F2-E06B-472B-9854-18FDF0AD87ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardFile.Business", "CardFile.Business\CardFile.Business.csproj", "{1491BDAC-5371-40D2-B960-D78A24B479F3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2C7278FB-8E4B-4EB5-A984-C2F45F12B497}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C7278FB-8E4B-4EB5-A984-C2F45F12B497}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C7278FB-8E4B-4EB5-A984-C2F45F12B497}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C7278FB-8E4B-4EB5-A984-C2F45F12B497}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8D14FA3-BF1C-43DE-9504-9B125702B4A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8D14FA3-BF1C-43DE-9504-9B125702B4A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8D14FA3-BF1C-43DE-9504-9B125702B4A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8D14FA3-BF1C-43DE-9504-9B125702B4A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA7067F2-E06B-472B-9854-18FDF0AD87ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA7067F2-E06B-472B-9854-18FDF0AD87ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA7067F2-E06B-472B-9854-18FDF0AD87ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA7067F2-E06B-472B-9854-18FDF0AD87ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1491BDAC-5371-40D2-B960-D78A24B479F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1491BDAC-5371-40D2-B960-D78A24B479F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1491BDAC-5371-40D2-B960-D78A24B479F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1491BDAC-5371-40D2-B960-D78A24B479F3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
