@@ -30,9 +30,22 @@ namespace Calculator
             DisplayResult();
         }
 
+        private void DecimalPointButton_Click(object sender, EventArgs e)
+        {
+            _calculatorService.PressDecimalPoint(_calculatorModel);
+            DisplayResult();
+        }
+
         private void DisplayResult()
         {
-            DisplayLabel.Text = _calculatorModel.RegisterX.ToString();
+            if (_calculatorModel.RegisterX == Math.Floor(_calculatorModel.RegisterX))
+            {
+                DisplayLabel.Text = _calculatorModel.RegisterX.ToString("0");
+            }
+            else
+            {
+                DisplayLabel.Text = _calculatorModel.RegisterX.ToString();
+            }
         }
 
         private void ClearButton_Click(object sender, EventArgs e)
