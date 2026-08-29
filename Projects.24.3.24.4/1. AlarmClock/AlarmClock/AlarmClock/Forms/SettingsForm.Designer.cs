@@ -36,6 +36,7 @@
             this.IsSoundActiveCheckBox = new System.Windows.Forms.CheckBox();
             this.OkButton = new System.Windows.Forms.Button();
             this.CancelButton = new System.Windows.Forms.Button();
+            this.checkedListBoxDays = new System.Windows.Forms.CheckedListBox();
             this.SuspendLayout();
             // 
             // label1
@@ -92,7 +93,7 @@
             // 
             // OkButton
             // 
-            this.OkButton.Location = new System.Drawing.Point(158, 117);
+            this.OkButton.Location = new System.Drawing.Point(183, 280);
             this.OkButton.Name = "OkButton";
             this.OkButton.Size = new System.Drawing.Size(75, 23);
             this.OkButton.TabIndex = 6;
@@ -103,18 +104,38 @@
             // CancelButton
             // 
             this.CancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelButton.Location = new System.Drawing.Point(239, 117);
+            this.CancelButton.Location = new System.Drawing.Point(274, 280);
             this.CancelButton.Name = "CancelButton";
             this.CancelButton.Size = new System.Drawing.Size(75, 23);
             this.CancelButton.TabIndex = 7;
             this.CancelButton.Text = "Отмена";
             this.CancelButton.UseVisualStyleBackColor = true;
             // 
+            // checkedListBoxDays
+            // 
+            this.checkedListBoxDays.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.checkedListBoxDays.CheckOnClick = true;
+            this.checkedListBoxDays.FormattingEnabled = true;
+            this.checkedListBoxDays.Items.AddRange(new object[] {
+            "Понедельник",
+            "Вторник",
+            "Среда",
+            "Четверг",
+            "Пятница",
+            "Суббота",
+            "Воскресенье"});
+            this.checkedListBoxDays.Location = new System.Drawing.Point(12, 107);
+            this.checkedListBoxDays.Name = "checkedListBoxDays";
+            this.checkedListBoxDays.Size = new System.Drawing.Size(161, 137);
+            this.checkedListBoxDays.TabIndex = 8;
+            this.checkedListBoxDays.SelectedIndexChanged += new System.EventHandler(this.checkedListBox1_SelectedIndexChanged);
+            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(326, 152);
+            this.ClientSize = new System.Drawing.Size(398, 315);
+            this.Controls.Add(this.checkedListBoxDays);
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.OkButton);
             this.Controls.Add(this.IsSoundActiveCheckBox);
@@ -144,5 +165,6 @@
         private System.Windows.Forms.CheckBox IsSoundActiveCheckBox;
         private System.Windows.Forms.Button OkButton;
         private System.Windows.Forms.Button CancelButton;
+        private System.Windows.Forms.CheckedListBox checkedListBoxDays;
     }
 }
