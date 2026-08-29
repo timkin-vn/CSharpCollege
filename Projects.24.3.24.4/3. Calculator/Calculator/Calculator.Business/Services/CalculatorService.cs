@@ -9,6 +9,7 @@ namespace Calculator.Business.Services
 {
     public class CalculatorService
     {
+        private int _decimalPlaces = 0;
         public void PressDigit(CalculatorModel calculatorModel, string digitString)
         {
             if (!int.TryParse(digitString, out var digit))
@@ -19,10 +20,42 @@ namespace Calculator.Business.Services
             if (!calculatorModel.IsLastDigitPressed)
             {
                 calculatorModel.RegisterX = 0;
+                _decimalPlaces = 0;
             }
 
-            calculatorModel.RegisterX *= 10;
-            calculatorModel.RegisterX += digit;
+            if (_decimalPlaces > 0)
+            {
+                // Для цифр после первой (сотые, тысячные и т.д.)
+                calculatorModel.RegisterX += digit * Math.Pow(10, -(_decimalPlaces + 1));
+                _decimalPlaces++;
+            }
+            else if (_decimalPlaces < 0)
+            {
+                // ПЕРВАЯ ЦИФРА ПОСЛЕ ЗАПЯТОЙ (десятые)
+                calculatorModel.RegisterX += digit * 0.1;
+                _decimalPlaces = 1; // Переключаем в режим для последующих цифр
+            }
+            else
+            {
+                // Обычный ввод целой части
+                calculatorModel.RegisterX *= 10;
+                calculatorModel.RegisterX += digit;
+            }
+
+            calculatorModel.IsLastDigitPressed = true;
+        }
+
+        public void PressDecimalPoint(CalculatorModel calculatorModel)
+        {
+            if (_decimalPlaces > 0)
+                return;
+
+            if (!calculatorModel.IsLastDigitPressed)
+            {
+                calculatorModel.RegisterX = 0;
+            }
+
+            _decimalPlaces = -1;
             calculatorModel.IsLastDigitPressed = true;
         }
 
@@ -30,12 +63,14 @@ namespace Calculator.Business.Services
         {
             calculatorModel.RegisterX = 0;
             calculatorModel.IsLastDigitPressed = false;
+            _decimalPlaces = 0;
         }
 
         public void PressMoveXToY(CalculatorModel calculatorModel)
         {
             calculatorModel.RegisterY = calculatorModel.RegisterX;
             calculatorModel.IsLastDigitPressed = false;
+            _decimalPlaces = 0;
         }
 
         public void PressOperation(CalculatorModel calculatorModel, string operationCode)
@@ -45,12 +80,14 @@ namespace Calculator.Business.Services
             PressMoveXToY(calculatorModel);
             calculatorModel.OperationCode = operationCode;
             calculatorModel.IsLastDigitPressed = false;
+            _decimalPlaces = 0;
         }
 
         public void PressEqual(CalculatorModel calculatorModel)
         {
             CompleteOperation(calculatorModel);
             calculatorModel.IsLastDigitPressed = false;
+            _decimalPlaces = 0;
         }
 
         private void CompleteOperation(CalculatorModel calculatorModel)
@@ -70,7 +107,14 @@ namespace Calculator.Business.Services
                     break;
 
                 case "/":
-                    calculatorModel.RegisterX = calculatorModel.RegisterY / calculatorModel.RegisterX;
+                    if (calculatorModel.RegisterX == 0)
+                    {
+                        calculatorModel.RegisterX = double.NaN;
+                    }
+                    else
+                    {
+                        calculatorModel.RegisterX = calculatorModel.RegisterY / calculatorModel.RegisterX;
+                    }
                     break;
             }
         }
