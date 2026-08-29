@@ -2,26 +2,20 @@
 using CardFile.Business.Models;
 using CardFile.Common.Infrastructure;
 using CardFile.Wpf.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CardFile.Wpf.Infrastructure
 {
-    internal static class MapperInitialization
+    internal static class WpfMapperInitialization
     {
         public static void PreRegister()
         {
-            Mapping.InitializationAction += Configure;
+            Mapping.InitializeAction += Configure;
         }
 
         private static void Configure(IMapperConfigurationExpression cfg)
         {
-            cfg.CreateMap<Card, CardViewModel>();
-            cfg.CreateMap<CardViewModel, Card>();
-            cfg.CreateMap<CardViewModel, CardViewModel>();
+            cfg.CreateMap<Student, StudentViewModel>();
+            cfg.CreateMap<StudentViewModel, Student>();
         }
     }
 }

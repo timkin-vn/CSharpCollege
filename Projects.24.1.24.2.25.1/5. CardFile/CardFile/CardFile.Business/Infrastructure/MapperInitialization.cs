@@ -2,11 +2,6 @@
 using CardFile.Business.Models;
 using CardFile.Common.Infrastructure;
 using CardFile.DataStore.Dtos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CardFile.Business.Infrastructure
 {
@@ -14,13 +9,13 @@ namespace CardFile.Business.Infrastructure
     {
         public static void PreRegister()
         {
-            Mapping.InitializationAction += Configure;
+            Mapping.InitializeAction = Configure;
         }
 
         private static void Configure(IMapperConfigurationExpression cfg)
         {
-            cfg.CreateMap<Card, CardDto>();
-            cfg.CreateMap<CardDto, Card>();
+            cfg.CreateMap<Student, StudentDto>();
+            cfg.CreateMap<StudentDto, Student>();
         }
     }
 }

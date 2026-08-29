@@ -1,23 +1,19 @@
 ﻿using CardFile.DataStore.DataCollection;
 using CardFile.DataStore.FileDataAccess.FileManagers;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CardFile.DataStore.FileDataAccess
 {
     public class FileDataService
     {
-        public void SaveToFile(string fileName, CardCollection collection)
+        public void SaveToFile(string fileName, StudentCollection collection)
         {
             var manager = GetFileManager(fileName);
             manager.SaveToFile(fileName, collection);
         }
 
-        public void OpenFromFile(string fileName, CardCollection collection)
+        public void OpenFromFile(string fileName, StudentCollection collection)
         {
             var manager = GetFileManager(fileName);
             manager.OpenFromFile(fileName, collection);
