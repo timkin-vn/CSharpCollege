@@ -1,0 +1,47 @@
+@model LightsOutGame.Web.Models.GameViewModel
+
+@{
+    ViewBag.Title = "Lights Out";
+    bool isGameOver = (bool?)ViewBag.IsGameOver ?? false;
+}
+
+<main>
+    <h2>Lights Out</h2>
+    <p>Гасите лампочки. Нажатие переключает клетку и её соседей. Выключите все — победа!</p>
+
+    @if (isGameOver)
+    {
+        <h2 class="win">Поздравляем! Игра завершена 🎉</h2>
+        <div>
+            <a class="btn btn-success" href="@Url.Action("Index", "Game")">Играть снова</a>
+        </div>
+    }
+
+    <div class="board">
+        @for (int row = 0; row < Model.RowCount; row++)
+        {
+            <div class="board-row">
+                @for (int column = 0; column < Model.ColumnCount; column++)
+                {
+                    var cell = Model.Cells[row, column];
+                    if (isGameOver)
+                    {
+                        <span class="cell @(cell.IsOn ? "on" : "off")"></span>
+                    }
+                    else
+                    {
+                        <a class="cell @(cell.IsOn ? "on" : "off")"
+                           href="@Url.Action("MakeMove", "Game", new { row = cell.Row, column = cell.Column })"></a>
+                    }
+                }
+            </div>
+        }
+    </div>
+
+    @if (!isGameOver)
+    {
+        <div style="margin-top:20px;">
+            <a class="btn btn-success" href="@Url.Action("Index", "Game")">Новая игра</a>
+        </div>
+    }
+</main>

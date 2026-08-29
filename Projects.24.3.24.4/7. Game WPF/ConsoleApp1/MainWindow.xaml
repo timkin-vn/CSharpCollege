@@ -1,0 +1,22 @@
+<Window x:Class="LightsOutGame.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2000/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2000/xaml"
+        Title="Игра Светильники" Height="450" Width="400" Background="#1E1E24">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="СВЕТИЛЬНИКИ" FontSize="24" FontWeight="Bold" 
+                   Foreground="#FFD166" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+
+        <UniformGrid x:Name="GameGrid" Grid.Row="1" Rows="5" Columns="5" Margin="10"/>
+
+        <Button Grid.Row="2" Content="Начать заново" Click="Restart_Click" 
+                Padding="15,8" FontSize="16" Background="#EF476F" Foreground="White" 
+                FontWeight="Bold" HorizontalAlignment="Center" Cursor="Hand"/>
+    </Grid>
+</Window>
