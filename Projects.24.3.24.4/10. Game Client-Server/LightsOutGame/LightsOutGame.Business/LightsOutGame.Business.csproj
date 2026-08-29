@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <ProjectGuid>{445A0B3C-C111-42BE-8C02-031212179002}</ProjectGuid>
+    <RootNamespace>LightsOutGame.Business</RootNamespace>
+    <AssemblyName>LightsOutGame.Business</AssemblyName>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LightsOutGame.Common\LightsOutGame.Common.csproj" />
+  </ItemGroup>
+
+</Project>
