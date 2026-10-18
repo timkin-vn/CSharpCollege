@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CardFile.Wpf" xmlns:viewmodels="clr-namespace:CardFile.Wpf.ViewModels"
         mc:Ignorable="d"
-        Title="{Binding WindowTitle}" Height="450" Width="800"
+        Title="Картотека студентов" Height="480" Width="950"
         Loaded="Window_Loaded">
     <Window.DataContext>
         <viewmodels:MainWindowViewModel />
@@ -31,13 +31,14 @@
             <DataGrid ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" AutoGenerateColumns="False" IsReadOnly="True"
                       CanUserAddRows="False" Grid.Row="0" Margin="5" SelectionChanged="DataGrid_SelectionChanged">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ФИО" Binding="{Binding Fio}" />
-                    <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDateText}" />
-                    <DataGridTextColumn Header="Подразделение" Binding="{Binding Department}" />
-                    <DataGridTextColumn Header="Должность" Binding="{Binding Position}" />
-                    <DataGridTextColumn Header="Дата трудоустройства" Binding="{Binding EmploymentDateText}" />
-                    <DataGridTextColumn Header="Дата увольнения" Binding="{Binding DismissalDateText}" />
-                    <DataGridTextColumn Header="Оклад" Binding="{Binding SalaryText}" />
+                    <DataGridTextColumn Header="ФИО студента" Binding="{Binding Fio}" Width="2*" />
+                    <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDateText}" Width="*" />
+					<DataGridTextColumn Header="Факультет" Binding="{Binding Faculty}" Width="2*" />
+					<DataGridTextColumn Header="Группа" Binding="{Binding GroupNumber}" Width="*" />
+					<DataGridTextColumn Header="Зачетная книжка" Binding="{Binding RecordBookNumber}" Width="*" />
+					<DataGridTextColumn Header="Средний балл" Binding="{Binding AverageScore, StringFormat={}{0:F2}}" Width="*" />
+                    <DataGridTextColumn Header="Бюджет" Binding="{Binding IsBudget}" Width="Auto" />
+                    <DataGridTextColumn Header="Дата отчисления/окончания" Binding="{Binding ExpulsionDate, StringFormat={}{0:dd.MM.yyyy}, TargetNullValue='учится'}" Width="1.5*" />
                 </DataGrid.Columns>
             </DataGrid>
 

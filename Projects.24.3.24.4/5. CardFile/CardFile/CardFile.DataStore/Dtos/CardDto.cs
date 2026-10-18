@@ -9,11 +9,6 @@ namespace CardFile.DataStore.Dtos
 {
     public class CardDto
     {
-        // DTO = Data transfer object
-
-        /// <summary>
-        /// Id
-        /// </summary>
         public int Id { get; set; }
 
         /// <summary>
@@ -22,14 +17,14 @@ namespace CardFile.DataStore.Dtos
         public string FirstName { get; set; }
 
         /// <summary>
-        /// Отчество
-        /// </summary>
-        public string MiddleName { get; set; }
-
-        /// <summary>
         /// Фамилия
         /// </summary>
         public string LastName { get; set; }
+
+        /// <summary>
+        /// Отчество
+        /// </summary>
+        public string MiddleName { get; set; }
 
         /// <summary>
         /// Дата рождения
@@ -37,46 +32,38 @@ namespace CardFile.DataStore.Dtos
         public DateTime BirthDate { get; set; }
 
         /// <summary>
-        /// Подразделение
+        /// Факультет
         /// </summary>
-        public string Department { get; set; }
+        public string Faculty { get; set; }
 
         /// <summary>
-        /// Должность
+        /// Номер группы
         /// </summary>
-        public string Position { get; set; }
+        public string GroupNumber { get; set; }
 
         /// <summary>
-        /// Дата трудоустройства
+        /// Номер зачетной книжки
         /// </summary>
-        public DateTime EmploymentDate { get; set; }
+        public double RecordBookNumber { get; set; }
 
         /// <summary>
-        /// Дата увольнения
+        /// Средний балл
         /// </summary>
-        public DateTime? DismissalDate { get; set; }
+        public double AverageScore { get; set; }
 
         /// <summary>
-        /// Оклад
+        /// Обучение на бюджете
         /// </summary>
-        public decimal Salary { get; set; }
+        public bool IsBudget { get; set; }
 
-        internal CardDto Clone()
-        {
-            return Mapping.Mapper.Map<CardDto>(this);
-            //return new CardDto
-            //{
-            //    Id = Id,
-            //    FirstName = FirstName,
-            //    MiddleName = MiddleName,
-            //    LastName = LastName,
-            //    BirthDate = BirthDate,
-            //    Department = Department,
-            //    Position = Position,
-            //    EmploymentDate = EmploymentDate,
-            //    DismissalDate = DismissalDate,
-            //    Salary = Salary,
-            //};
-        }
+        /// <summary>
+        /// Дата отчисления/окончания
+        /// </summary>
+        public DateTime? ExpulsionDate { get; set; }
+
+        /// <summary>
+        /// Путь к файлу фотографии студента
+        /// </summary>
+        public string PhotoPath { get; set; }
     }
 }

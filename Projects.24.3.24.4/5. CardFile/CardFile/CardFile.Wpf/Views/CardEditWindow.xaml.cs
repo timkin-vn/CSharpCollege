@@ -1,4 +1,5 @@
 ﻿using CardFile.Wpf.ViewModels;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,36 +16,65 @@ using System.Windows.Shapes;
 
 namespace CardFile.Wpf.Views
 {
-    /// <summary>
-    /// Interaction logic for CardEditWindow.xaml
-    /// </summary>
     public partial class CardEditWindow : Window
     {
-        public CardViewModel ViewModel => (CardViewModel)DataContext;
-
-        public CardEditWindow()
+        public CardViewModel ViewModel
         {
-            InitializeComponent();
+            get => (CardViewModel)DataContext;
+            set => DataContext = value;
         }
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = true;
+            Close();
+        }
+
+        public CardEditWindow()
+        {
+            InitializeComponent();
+            Loaded += CardEditWindow_Loaded;
+        }
+
+        private void CardEditWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            ExpulsionDatePicker.IsEnabled = (StudyingCheckBox.IsChecked != true);
+        }
+
+        private void StudyingCheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            ExpulsionDatePicker.IsEnabled = (StudyingCheckBox.IsChecked != true);
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
+            Close();
         }
 
-        private void IsWorkingTillNowCheckBox_Checked(object sender, RoutedEventArgs e)
+        private void SelectPhotoButton_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.IsWorkingTillNowChecked();
+            var openFileDialog = new OpenFileDialog
+            {
+                Title = "Выберите фотографию студента",
+                Filter = "Изображения (*.jpg;*.jpeg;*.png;*.bmp)|*.jpg;*.jpeg;*.png;*.bmp|Все файлы (*.*)|*.*"
+            };
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                if (DataContext is CardViewModel vm)
+                {
+                    vm.PhotoPath = openFileDialog.FileName;
+                }
+            }
         }
 
-        private void IsWorkingTillNowCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        private void ClearPhotoButton_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.IsWorkingTillNowUnchecked();
+            if (DataContext is CardViewModel vm)
+            {
+                vm.PhotoPath = null;
+            }
         }
     }
 }

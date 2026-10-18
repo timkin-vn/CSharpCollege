@@ -4,124 +4,146 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CardFile.DataStore.Dtos;
 
 namespace CardFile.Wpf.ViewModels
 {
     public class CardViewModel : ViewModelBase
     {
-        /// <summary>
-        /// Id
-        /// </summary>
+        public CardViewModel() { }
+
         public int Id { get; set; }
 
-        /// <summary>
-        /// Имя
-        /// </summary>
-        public string FirstName { get; set; }
-
-        /// <summary>
-        /// Отчество
-        /// </summary>
-        public string MiddleName { get; set; }
-
-        /// <summary>
-        /// Фамилия
-        /// </summary>
         public string LastName { get; set; }
 
-        public string Fio => $"{LastName} {FirstName} {MiddleName}";
+        public string FirstName { get; set; }
 
-        /// <summary>
+        public string MiddleName { get; set; }
+
+        /// \<summary>
+        /// ФИО
+        /// \</summary>
+        public string Fio => $"{LastName} {FirstName} {MiddleName}".Trim();
+
+        /// \<summary>
         /// Дата рождения
-        /// </summary>
-        public DateTime BirthDate { get; set; }
+        /// \</summary>
+        public DateTime BirthDate { get; set; } = new DateTime(2004, 1, 1);
 
         public string BirthDateText => BirthDate.ToShortDateString();
 
-        /// <summary>
-        /// Подразделение
-        /// </summary>
-        public string Department { get; set; }
+        /// \<summary>
+        /// Факультет/специальность
+        /// \</summary>
+        public string Faculty { get; set; }
 
-        /// <summary>
-        /// Должность
-        /// </summary>
-        public string Position { get; set; }
+        /// \<summary>
+        /// Номер группы
+        /// \</summary>
+        public string GroupNumber { get; set; }
 
-        /// <summary>
-        /// Дата трудоустройства
-        /// </summary>
-        public DateTime EmploymentDate { get; set; }
+        /// \<summary>
+        /// Номер зачетной книжки
+        /// \</summary>
+        public int RecordBookNumber { get; set; }
 
-        public string EmploymentDateText => EmploymentDate.ToShortDateString();
+        /// \<summary>
+        /// Средний балл
+        /// \</summary>
+        public double AverageScore { get; set; }
 
-        /// <summary>
-        /// Дата увольнения
-        /// </summary>
-        public DateTime? DismissalDate { get; set; }
+        /// \<summary>
+        /// Форма обучения
+        /// \</summary>
+        public bool IsBudget { get; set; } = true;
 
-        public string DismissalDateText => DismissalDate?.ToShortDateString() ?? "-";
-
-        /// <summary>
-        /// Оклад
-        /// </summary>
-        public decimal Salary { get; set; }
-
-        public string SalaryText => Salary.ToString("c");
-
-        public bool IsWorkingTillNow { get; set; }
-
-        public bool IsDismissalDateEnabled => !IsWorkingTillNow;
-
-        public void IsWorkingTillNowChecked()
+        private DateTime? _expulsionDate;
+        /// \<summary>
+        /// Дата отчисления/окончания
+        /// \</summary>
+        public DateTime? ExpulsionDate
         {
-            DismissalDate = null;
-
-            OnPropertyChanged(nameof(DismissalDate));
-            OnPropertyChanged(nameof(IsDismissalDateEnabled));
+            get => _expulsionDate;
+            set
+            {
+                _expulsionDate = value;
+                OnPropertyChanged("ExpulsionDate");
+                OnPropertyChanged("IsStudying");
+            }
         }
 
-        public void IsWorkingTillNowUnchecked()
+        /// \<summary>
+        /// Учится до сих пор
+        /// \</summary>
+        public bool IsStudying
         {
-            DismissalDate = DateTime.Today;
+            get => ExpulsionDate == null;
+            set
+            {
+                if (value)
+                {
+                    ExpulsionDate = null;
+                }
+                else if (ExpulsionDate == null)
+                {
+                    ExpulsionDate = DateTime.Today;
+                }
 
-            OnPropertyChanged(nameof(DismissalDate));
-            OnPropertyChanged(nameof(IsDismissalDateEnabled));
+                OnPropertyChanged("IsStudying");
+                OnPropertyChanged("ExpulsionDate");
+            }
         }
+
+        private string _photoPath;
+        /// \<summary>
+        /// Путь к файлу фотографии студента
+        /// \</summary>
+        public string PhotoPath
+        {
+            get => _photoPath;
+            set
+            {
+                _photoPath = value;
+                OnPropertyChanged("PhotoPath");
+            }
+        }
+
+        /// \<summary>
+        /// Составное поле для сводки в таблице
+        /// \</summary>
+        public string StudentSummary => $"{Fio} | Группа: {GroupNumber} | Средний балл: {AverageScore:F2}";
 
         public void LoadViewModel(CardViewModel card)
         {
-            Mapping.Mapper.Map(card, this);
-            //Id = card.Id;
-            //FirstName = card.FirstName;
-            //MiddleName = card.MiddleName;
-            //LastName = card.LastName;
-            //BirthDate = card.BirthDate;
-            //Department = card.Department;
-            //Position = card.Position;
-            //EmploymentDate = card.EmploymentDate;
-            //DismissalDate = card.DismissalDate;
-            //Salary = card.Salary;
+            PhotoPath = card.PhotoPath;
 
-            IsWorkingTillNow = !card.DismissalDate.HasValue;
+            Mapping.Mapper.Map(card, this);
             UpdateAll();
         }
 
         private void UpdateAll()
         {
-            OnPropertyChanged(nameof(Id));
-            OnPropertyChanged(nameof(FirstName));
-            OnPropertyChanged(nameof(MiddleName));
-            OnPropertyChanged(nameof(LastName));
-            OnPropertyChanged(nameof(Fio));
-            OnPropertyChanged(nameof(BirthDate));
-            OnPropertyChanged(nameof(Department));
-            OnPropertyChanged(nameof(Position));
-            OnPropertyChanged(nameof(EmploymentDate));
-            OnPropertyChanged(nameof(DismissalDate));
-            OnPropertyChanged(nameof(Salary));
-            OnPropertyChanged(nameof(IsWorkingTillNow));
-            OnPropertyChanged(nameof(IsDismissalDateEnabled));
+            OnPropertyChanged("Id");
+            OnPropertyChanged("LastName");
+            OnPropertyChanged("FirstName");
+            OnPropertyChanged("MiddleName");
+            OnPropertyChanged("Fio");
+            OnPropertyChanged("BirthDate");
+            OnPropertyChanged("BirthDateText");
+            OnPropertyChanged("Faculty");
+            OnPropertyChanged("GroupNumber");
+            OnPropertyChanged("RecordBookNumber");
+            OnPropertyChanged("AverageScore");
+            OnPropertyChanged("IsBudget");
+            OnPropertyChanged("ExpulsionDate");
+            OnPropertyChanged("IsStudying");
+            OnPropertyChanged("PhotoPath");
+            OnPropertyChanged("StudentSummary");
+        }
+
+        public CardDto ToDto()
+        {
+            return Mapping.Mapper.Map< CardDto > (this);
         }
     }
 }

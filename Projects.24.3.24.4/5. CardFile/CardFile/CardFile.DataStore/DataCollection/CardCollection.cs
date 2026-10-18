@@ -1,6 +1,7 @@
 ﻿using CardFile.DataStore.Dtos;
 using CardFile.DataStore.Infrastructure;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,95 +13,54 @@ namespace CardFile.DataStore.DataCollection
     {
         private readonly List<CardDto> _cards = new List<CardDto>();
 
-        internal int NextId { get; set; } = 5;
+        internal int NextId { get; set; } = 6;
 
         public CardCollection()
         {
-            MapperInitialization.PreRegister();
+            var rnd = new Random();
 
-            _cards.Add(new CardDto
-            {
-                Id = 1,
-                FirstName = "Андрей",
-                MiddleName = "Геннадьевич",
-                LastName = "Захаров",
-                BirthDate = new DateTime(1985, 11, 7),
-                Department = "Отдел разработки",
-                Position = "Руководитель проекта",
-                EmploymentDate = new DateTime(2010, 4, 18),
-                DismissalDate = null,
-                Salary = 250000m,
-            });
+            var lastNames = new[] { "Морозов", "Смирнов", "Белозерский", "Крутов", "Светлова", "Иванов", "Новиков", "Федоров" };
+            var firstNames = new[] { "Дмитрий", "Софья", "Максим", "Игорь", "Елена", "Иван", "Анна", "Павел" };
+            var middleNames = new[] { "Олегович", "Павловна", "Сергеевич", "Валерьевич", "Александровна", "Иванович", "Денисович" };
+            var faculties = new[] { "Информационные технологии", "Экономика и управление", "Радиотехника", "Дизайн и медиа" };
+            var groups = new[] { "ИС-31", "ЭК-22", "ПО-41", "РТ-32", "ГД-11", "ИС-11" };
 
-            _cards.Add(new CardDto
-            {
-                Id = 2,
-                FirstName = "Нина",
-                MiddleName = "Аркадьевна",
-                LastName = "Шевченко",
-                BirthDate = new DateTime(1990, 8, 21),
-                Department = "Отдел тестирования",
-                Position = "Старший тестировщик",
-                EmploymentDate = new DateTime(2015, 2, 14),
-                DismissalDate = new DateTime(2024, 11, 3),
-                Salary = 200000m,
-            });
+            _cards = new List< CardDto > ();
 
-            _cards.Add(new CardDto
+            for (int i = 1; i <= 6; i++)
             {
-                Id = 3,
-                FirstName = "Виктор",
-                MiddleName = "Петрович",
-                LastName = "Васильев",
-                BirthDate = new DateTime(2001, 3, 11),
-                Department = "Отдел разработки",
-                Position = "Ведущий разработчик",
-                EmploymentDate = new DateTime(2020, 9, 25),
-                DismissalDate = null,
-                Salary = 300000m,
-            });
+                bool isStudying = rnd.Next(0, 4) != 0;
 
-            _cards.Add(new CardDto
-            {
-                Id = 4,
-                FirstName = "Ольга",
-                MiddleName = "Владимировна",
-                LastName = "Меднис",
-                BirthDate = new DateTime(1981, 9, 2),
-                Department = "Бухгалтерия",
-                Position = "Главный бухгалтер",
-                EmploymentDate = new DateTime(2010, 9, 25),
-                DismissalDate = new DateTime(2023, 3, 18),
-                Salary = 150000m,
-            });
+                _cards.Add(new CardDto
+                {
+                    Id = i,
+                    LastName = lastNames[rnd.Next(lastNames.Length)],
+                    FirstName = firstNames[rnd.Next(firstNames.Length)],
+                    MiddleName = middleNames[rnd.Next(middleNames.Length)],
+                    BirthDate = new DateTime(rnd.Next(2003, 2006), rnd.Next(1, 13), rnd.Next(1, 28)),
+                    Faculty = faculties[rnd.Next(faculties.Length)],
+                    GroupNumber = groups[rnd.Next(groups.Length)],
+                    RecordBookNumber = 220000 + rnd.Next(100, 999),
+                    AverageScore = Math.Round(3.6 + rnd.NextDouble() * 1.4, 2),
+                    IsBudget = rnd.Next(0, 2) == 1,
+                    ExpulsionDate = isStudying ? null : (DateTime?)new DateTime(2025, rnd.Next(1, 13), rnd.Next(1, 28)),
+                    PhotoPath = null
+                });
+            }
         }
 
         public IEnumerable<CardDto> GetAll()
         {
-            //return _cards;
-
-            //return new List<CardDto>(_cards);
-
-            //var result = new List<CardDto>();
-
-            //foreach (var card in _cards)
-            //{
-            //    result.Add(card.Clone());
-            //}
-
-            //return result;
-
-            return _cards.Select(c => c.Clone()).ToList();
+            return new List< CardDto > (_cards);
         }
 
         public int Save(CardDto card)
         {
             if (card.Id == 0)
             {
-                var newCard = card.Clone();
                 var id = NextId++;
-                newCard.Id = id;
-                _cards.Add(newCard);
+                card.Id = id;
+                _cards.Add(card);
                 return id;
             }
 
@@ -110,7 +70,7 @@ namespace CardFile.DataStore.DataCollection
                 return -1;
             }
 
-            _cards[index] = card.Clone();
+            _cards[index] = card;
             return card.Id;
         }
 
@@ -130,7 +90,10 @@ namespace CardFile.DataStore.DataCollection
         {
             _cards.Clear();
             _cards.AddRange(cards);
-            NextId = _cards.Max(c => c.Id) + 1;
+            if (_cards.Any())
+                NextId = _cards.Max(c => c.Id) + 1;
+            else
+                NextId = 1;
         }
 
         public void ReplaceAll(IEnumerable<CardDto> cards, int nextId)
