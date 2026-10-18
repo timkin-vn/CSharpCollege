@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Projects.24.1.24.2.25.1/9. Game DB/EF/FifteenGame/FifteenGame.Wpf/App.config
+/Projects.24.1.24.2.25.1/9. Game DB/EF/FifteenGame/FifteenGame.UnitTest/app.config
+/Projects.24.1.24.2.25.1/9. Game DB/EF/FifteenGame/FifteenGame.DataAccess.EF/app.config
