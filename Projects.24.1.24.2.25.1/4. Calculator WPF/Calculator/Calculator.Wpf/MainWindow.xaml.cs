@@ -1,37 +1,24 @@
-﻿using Calculator.Wpf.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using Calculator.Wpf.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Calculator.Wpf
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindowViewModel ViewModel => (MainWindowViewModel)DataContext;
+        public MainWindowViewModel ViewModel =>
+            (MainWindowViewModel)DataContext;
 
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        private void DigitButton_Click(object sender, RoutedEventArgs e)
+        private void InputButton_Click(object sender, RoutedEventArgs e)
         {
-            var digitString = ((Button)sender).Content as string;
-            ViewModel.PressDigit(digitString);
+            if (sender is Button button && button.Tag is string token)
+                ViewModel.InputToken(token);
         }
 
         private void ClearButton_Click(object sender, RoutedEventArgs e)
@@ -39,10 +26,29 @@ namespace Calculator.Wpf
             ViewModel.PressClear();
         }
 
-        private void OperationButton_Click(object sender, RoutedEventArgs e)
+        private void EqualButton_Click(object sender, RoutedEventArgs e)
         {
-            var operationCode = ((Button)sender).Content as string;
-            ViewModel.PressOperation(operationCode);
+            ViewModel.PressEqual();
+        }
+
+        private void MemoryAddButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.MemoryAdd();
+        }
+
+        private void MemoryRecallButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.MemoryRecall();
+        }
+
+        private void MemoryClearButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.MemoryClear();
+        }
+
+        private void ClearHistoryButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ClearHistory();
         }
     }
 }
