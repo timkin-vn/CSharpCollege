@@ -9,101 +9,55 @@ namespace CardFile.Wpf.ViewModels
 {
     public class CardViewModel : ViewModelBase
     {
-        /// <summary>
-        /// Id
-        /// </summary>
         public int Id { get; set; }
 
-        /// <summary>
-        /// Имя
-        /// </summary>
-        public string FirstName { get; set; }
+        public string Name { get; set; }
 
-        /// <summary>
-        /// Отчество
-        /// </summary>
-        public string MiddleName { get; set; }
+        public string LoreName { get; set; }
 
-        /// <summary>
-        /// Фамилия
-        /// </summary>
-        public string LastName { get; set; }
+        public string PrimaryAttribute { get; set; }
 
-        public string Fio => $"{LastName} {FirstName} {MiddleName}";
+        public string AttackType { get; set; }
 
-        /// <summary>
-        /// Дата рождения
-        /// </summary>
-        public DateTime BirthDate { get; set; }
+        public string Role { get; set; }
 
-        public string BirthDateText => BirthDate.ToShortDateString();
+        public DateTime ReleaseDate { get; set; }
 
-        /// <summary>
-        /// Подразделение
-        /// </summary>
-        public string Department { get; set; }
+        public string ReleaseDateText => ReleaseDate.ToShortDateString();
 
-        /// <summary>
-        /// Должность
-        /// </summary>
-        public string Position { get; set; }
+        public DateTime? ReworkDate { get; set; }
 
-        /// <summary>
-        /// Дата трудоустройства
-        /// </summary>
-        public DateTime EmploymentDate { get; set; }
+        public string ReworkDateText => ReworkDate?.ToShortDateString() ?? "-";
 
-        public string EmploymentDateText => EmploymentDate.ToShortDateString();
+        public decimal WinRate { get; set; }
 
-        /// <summary>
-        /// Дата увольнения
-        /// </summary>
-        public DateTime? DismissalDate { get; set; }
+        public string WinRateText => $"{WinRate:0.0}%";
 
-        public string DismissalDateText => DismissalDate?.ToShortDateString() ?? "-";
+        public bool IsNotReworked { get; set; }
 
-        /// <summary>
-        /// Оклад
-        /// </summary>
-        public decimal Salary { get; set; }
+        public bool IsReworkDateEnabled => !IsNotReworked;
 
-        public string SalaryText => Salary.ToString("c");
-
-        public bool IsWorkingTillNow { get; set; }
-
-        public bool IsDismissalDateEnabled => !IsWorkingTillNow;
-
-        public void IsWorkingTillNowChecked()
+        public void IsNotReworkedChecked()
         {
-            DismissalDate = null;
+            ReworkDate = null;
 
-            OnPropertyChanged(nameof(DismissalDate));
-            OnPropertyChanged(nameof(IsDismissalDateEnabled));
+            OnPropertyChanged(nameof(ReworkDate));
+            OnPropertyChanged(nameof(IsReworkDateEnabled));
         }
 
-        public void IsWorkingTillNowUnchecked()
+        public void IsNotReworkedUnchecked()
         {
-            DismissalDate = DateTime.Today;
+            ReworkDate = DateTime.Today;
 
-            OnPropertyChanged(nameof(DismissalDate));
-            OnPropertyChanged(nameof(IsDismissalDateEnabled));
+            OnPropertyChanged(nameof(ReworkDate));
+            OnPropertyChanged(nameof(IsReworkDateEnabled));
         }
 
         public void LoadViewModel(CardViewModel model)
         {
             Mapping.Mapper.Map(model, this);
-            //Id = model.Id;
-            //FirstName = model.FirstName;
-            //MiddleName = model.MiddleName;
-            //LastName = model.LastName;
-            //BirthDate = model.BirthDate;
-            //Department = model.Department;
-            //Position = model.Position;
-            //EmploymentDate = model.EmploymentDate;
-            //DismissalDate = model.DismissalDate;
-            //Salary = model.Salary;
 
-            IsWorkingTillNow = !model.DismissalDate.HasValue;
+            IsNotReworked = !model.ReworkDate.HasValue;
 
             UpdateAll();
         }
@@ -111,18 +65,16 @@ namespace CardFile.Wpf.ViewModels
         private void UpdateAll()
         {
             OnPropertyChanged(nameof(Id));
-            OnPropertyChanged(nameof(FirstName));
-            OnPropertyChanged(nameof(MiddleName));
-            OnPropertyChanged(nameof(LastName));
-            OnPropertyChanged(nameof(Fio));
-            OnPropertyChanged(nameof(BirthDate));
-            OnPropertyChanged(nameof(Department));
-            OnPropertyChanged(nameof(Position));
-            OnPropertyChanged(nameof(EmploymentDate));
-            OnPropertyChanged(nameof(DismissalDate));
-            OnPropertyChanged(nameof(Salary));
-            OnPropertyChanged(nameof(IsWorkingTillNow));
-            OnPropertyChanged(nameof(IsDismissalDateEnabled));
+            OnPropertyChanged(nameof(Name));
+            OnPropertyChanged(nameof(LoreName));
+            OnPropertyChanged(nameof(PrimaryAttribute));
+            OnPropertyChanged(nameof(AttackType));
+            OnPropertyChanged(nameof(Role));
+            OnPropertyChanged(nameof(ReleaseDate));
+            OnPropertyChanged(nameof(ReworkDate));
+            OnPropertyChanged(nameof(WinRate));
+            OnPropertyChanged(nameof(IsNotReworked));
+            OnPropertyChanged(nameof(IsReworkDateEnabled));
         }
     }
 }

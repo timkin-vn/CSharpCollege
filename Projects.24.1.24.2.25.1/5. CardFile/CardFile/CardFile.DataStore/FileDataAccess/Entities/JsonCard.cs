@@ -10,78 +10,38 @@ namespace CardFile.DataStore.FileDataAccess.Entities
 {
     public class JsonCard
     {
-        /// <summary>
-        /// Id
-        /// </summary>
         public int Id { get; set; }
 
-        /// <summary>
-        /// Имя
-        /// </summary>
-        public string FirstName { get; set; }
+        public string Name { get; set; }
 
-        /// <summary>
-        /// Отчество
-        /// </summary>
-        public string MiddleName { get; set; }
+        public string LoreName { get; set; }
 
-        /// <summary>
-        /// Фамилия
-        /// </summary>
-        public string LastName { get; set; }
+        public string PrimaryAttribute { get; set; }
 
-        /// <summary>
-        /// Дата рождения
-        /// </summary>
+        public string AttackType { get; set; }
+
+        public string Role { get; set; }
+
         [JsonIgnore]
-        public DateTime BirthDate { get; set; }
+        public DateTime ReleaseDate { get; set; }
 
-        [JsonProperty("BirthDate")]
-        public string BirthDateText
+        [JsonProperty("ReleaseDate")]
+        public string ReleaseDateText
         {
-            get => BirthDate.ToShortDateString();
-            set => BirthDate = DateTime.Parse(value);
+            get => ReleaseDate.ToShortDateString();
+            set => ReleaseDate = DateTime.Parse(value);
         }
 
-        /// <summary>
-        /// Подразделение
-        /// </summary>
-        public string Department { get; set; }
-
-        /// <summary>
-        /// Должность
-        /// </summary>
-        public string Position { get; set; }
-
-        /// <summary>
-        /// Дата трудоустройства
-        /// </summary>
         [JsonIgnore]
-        public DateTime EmploymentDate { get; set; }
+        public DateTime? ReworkDate { get; set; }
 
-        [JsonProperty("EmploymentDate")]
-        public string EmploymentDateText
+        [JsonProperty("ReworkDate")]
+        public string ReworkDateText
         {
-            get => EmploymentDate.ToShortDateString();
-            set => EmploymentDate = DateTime.Parse(value);
+            get => ReworkDate?.ToShortDateString() ?? "-";
+            set => ReworkDate = (value == "-") ? (DateTime?)null : DateTime.Parse(value);
         }
 
-        /// <summary>
-        /// Дата увольнения
-        /// </summary>
-        [JsonIgnore]
-        public DateTime? DismissalDate { get; set; }
-
-        [JsonProperty("DismissalDate")]
-        public string DismissalDateText
-        {
-            get => DismissalDate?.ToShortDateString() ?? "-";
-            set => DismissalDate = (value == "-") ? (DateTime?)null : DateTime.Parse(value);
-        }
-
-        /// <summary>
-        /// Оклад
-        /// </summary>
-        public decimal Salary { get; set; }
+        public decimal WinRate { get; set; }
     }
 }

@@ -28,7 +28,7 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
                         }
 
                         var lineParts = line.Split(';');
-                        if (lineParts.Length != 10)
+                        if (lineParts.Length != 9)
                         {
                             throw new Exception($"В строке файла {fileName} неверное количество полей");
                         }
@@ -44,51 +44,41 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
                             throw new Exception($"В строке файла {fileName} неверное значение Id");
                         }
 
-                        newCard.FirstName = lineParts[1];
-                        newCard.MiddleName = lineParts[2];
-                        newCard.LastName = lineParts[3];
+                        newCard.Name = lineParts[1];
+                        newCard.LoreName = lineParts[2];
+                        newCard.PrimaryAttribute = lineParts[3];
+                        newCard.AttackType = lineParts[4];
+                        newCard.Role = lineParts[5];
 
-                        if (DateTime.TryParse(lineParts[4], out var birthDate))
+                        if (DateTime.TryParse(lineParts[6], out var releaseDate))
                         {
-                            newCard.BirthDate = birthDate;
+                            newCard.ReleaseDate = releaseDate;
                         }
                         else
                         {
-                            throw new Exception($"В строке файла {fileName} неверное значение BirthDate");
+                            throw new Exception($"В строке файла {fileName} неверное значение ReleaseDate");
                         }
 
-                        newCard.Department = lineParts[5];
-                        newCard.Position = lineParts[6];
-
-                        if (DateTime.TryParse(lineParts[7], out var employmentDate))
+                        if (lineParts[7] == "-")
                         {
-                            newCard.EmploymentDate = employmentDate;
+                            newCard.ReworkDate = null;
+                        }
+                        else if (DateTime.TryParse(lineParts[7], out var reworkDate))
+                        {
+                            newCard.ReworkDate = reworkDate;
                         }
                         else
                         {
-                            throw new Exception($"В строке файла {fileName} неверное значение EmploymentDate");
+                            throw new Exception($"В строке файла {fileName} неверное значение ReworkDate");
                         }
 
-                        if (lineParts[8] == "-")
+                        if (decimal.TryParse(lineParts[8], out var winRate))
                         {
-                            newCard.DismissalDate = null;
-                        }
-                        else if (DateTime.TryParse(lineParts[8], out var dismissalDate))
-                        {
-                            newCard.DismissalDate = dismissalDate;
+                            newCard.WinRate = winRate;
                         }
                         else
                         {
-                            throw new Exception($"В строке файла {fileName} неверное значение DismissalDate");
-                        }
-
-                        if (decimal.TryParse(lineParts[9], out var salary))
-                        {
-                            newCard.Salary = salary;
-                        }
-                        else
-                        {
-                            throw new Exception($"В строке файла {fileName} неверное значение Salary");
+                            throw new Exception($"В строке файла {fileName} неверное значение WinRate");
                         }
 
                         records.Add(newCard);
@@ -107,10 +97,9 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
                 {
                     foreach (var item in collection.GetAll())
                     {
-                        writer.WriteLine($"{item.Id};{item.FirstName};{item.MiddleName};{item.LastName};" +
-                            $"{item.BirthDate.ToShortDateString()};{item.Department};{item.Position};" +
-                            $"{item.EmploymentDate.ToShortDateString()};{item.DismissalDate?.ToShortDateString() ?? "-"};" +
-                            $"{item.Salary}");
+                        writer.WriteLine($"{item.Id};{item.Name};{item.LoreName};{item.PrimaryAttribute};" +
+                            $"{item.AttackType};{item.Role};{item.ReleaseDate.ToShortDateString()};" +
+                            $"{item.ReworkDate?.ToShortDateString() ?? "-"};{item.WinRate}");
                     }
                 }
             }

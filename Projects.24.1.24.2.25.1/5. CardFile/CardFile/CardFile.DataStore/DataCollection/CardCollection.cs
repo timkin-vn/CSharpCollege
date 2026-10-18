@@ -12,61 +12,81 @@ namespace CardFile.DataStore.DataCollection
     {
         private readonly List<CardDto> _cards = new List<CardDto>();
 
-        internal int NextId { get; set; } = 5;
+        internal int NextId { get; set; } = 7;
 
         public CardCollection()
         {
             _cards.Add(new CardDto
             {
                 Id = 1,
-                FirstName = "Андрей",
-                MiddleName = "Геннадьевич",
-                LastName = "Захаров",
-                BirthDate = new DateTime(1985, 11, 7),
-                Department = "Отдел разработки",
-                Position = "Руководитель проекта",
-                EmploymentDate = new DateTime(2010, 4, 18),
-                DismissalDate = null,
-                Salary = 250000m,
+                Name = "Pudge",
+                LoreName = "The Butcher",
+                PrimaryAttribute = "Сила",
+                AttackType = "Ближний бой",
+                Role = "Инициатор",
+                ReleaseDate = new DateTime(2013, 7, 9),
+                ReworkDate = null,
+                WinRate = 50.9m,
             });
             _cards.Add(new CardDto
             {
                 Id = 2,
-                FirstName = "Нина",
-                MiddleName = "Аркадьевна",
-                LastName = "Шевченко",
-                BirthDate = new DateTime(1990, 8, 21),
-                Department = "Отдел тестирования",
-                Position = "Старший тестировщик",
-                EmploymentDate = new DateTime(2015, 2, 14),
-                DismissalDate = new DateTime(2024, 11, 3),
-                Salary = 200000m,
+                Name = "Invoker",
+                LoreName = "Kael",
+                PrimaryAttribute = "Универсальный",
+                AttackType = "Дальний бой",
+                Role = "Нюкер",
+                ReleaseDate = new DateTime(2013, 7, 9),
+                ReworkDate = new DateTime(2023, 3, 7),
+                WinRate = 49.4m,
             });
             _cards.Add(new CardDto
             {
                 Id = 3,
-                FirstName = "Виктор",
-                MiddleName = "Петрович",
-                LastName = "Васильев",
-                BirthDate = new DateTime(2001, 3, 11),
-                Department = "Отдел разработки",
-                Position = "Ведущий разработчик",
-                EmploymentDate = new DateTime(2020, 9, 25),
-                DismissalDate = null,
-                Salary = 300000m,
+                Name = "Juggernaut",
+                LoreName = "Yurnero",
+                PrimaryAttribute = "Ловкость",
+                AttackType = "Ближний бой",
+                Role = "Керри",
+                ReleaseDate = new DateTime(2013, 7, 9),
+                ReworkDate = null,
+                WinRate = 51.8m,
             });
             _cards.Add(new CardDto
             {
                 Id = 4,
-                FirstName = "Ольга",
-                MiddleName = "Владимировна",
-                LastName = "Меднис",
-                BirthDate = new DateTime(1981, 9, 2),
-                Department = "Бухгалтерия",
-                Position = "Главный бухгалтер",
-                EmploymentDate = new DateTime(2010, 9, 25),
-                DismissalDate = new DateTime(2023, 3, 18),
-                Salary = 150000m,
+                Name = "Crystal Maiden",
+                LoreName = "Rylai",
+                PrimaryAttribute = "Интеллект",
+                AttackType = "Дальний бой",
+                Role = "Поддержка",
+                ReleaseDate = new DateTime(2013, 7, 9),
+                ReworkDate = new DateTime(2018, 8, 1),
+                WinRate = 52.3m,
+            });
+            _cards.Add(new CardDto
+            {
+                Id = 5,
+                Name = "Phantom Assassin",
+                LoreName = "Mortred",
+                PrimaryAttribute = "Ловкость",
+                AttackType = "Ближний бой",
+                Role = "Керри",
+                ReleaseDate = new DateTime(2013, 7, 9),
+                ReworkDate = null,
+                WinRate = 50.2m,
+            });
+            _cards.Add(new CardDto
+            {
+                Id = 6,
+                Name = "Axe",
+                LoreName = "Mogul Khan",
+                PrimaryAttribute = "Сила",
+                AttackType = "Ближний бой",
+                Role = "Инициатор",
+                ReleaseDate = new DateTime(2013, 7, 9),
+                ReworkDate = new DateTime(2019, 1, 1),
+                WinRate = 51.1m,
             });
 
             MapperInitialization.PreRegister();
@@ -74,17 +94,6 @@ namespace CardFile.DataStore.DataCollection
 
         public IEnumerable<CardDto> GetAll()
         {
-            //return _cards;
-
-            //var result = new List<CardDto>();
-
-            //foreach (var card in _cards)
-            //{
-            //    result.Add(card.Clone());
-            //}
-
-            //return result;
-
             return _cards.Select(c => c.Clone()).ToList();
         }
 

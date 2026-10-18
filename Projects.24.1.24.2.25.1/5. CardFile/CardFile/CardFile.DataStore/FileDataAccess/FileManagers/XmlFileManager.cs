@@ -35,7 +35,6 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
                 NextId = collection.NextId,
                 Cards = Mapping.Mapper.Map<List<XmlCard>>(collection.GetAll()),
             };
-            //xmlCollection.Cards.AddRange(collection.GetAll().Select(c => Mapping.Mapper.Map<XmlCard>(c)));
 
             using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
             {

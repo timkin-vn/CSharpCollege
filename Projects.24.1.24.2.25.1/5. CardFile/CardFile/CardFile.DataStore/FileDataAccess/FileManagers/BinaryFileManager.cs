@@ -26,31 +26,27 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
                             var newCard = new CardDto();
 
                             newCard.Id = reader.ReadInt32();
-                            newCard.FirstName = reader.ReadString();
-                            newCard.MiddleName = reader.ReadString();
-                            newCard.LastName = reader.ReadString();
+                            newCard.Name = reader.ReadString();
+                            newCard.LoreName = reader.ReadString();
+                            newCard.PrimaryAttribute = reader.ReadString();
+                            newCard.AttackType = reader.ReadString();
+                            newCard.Role = reader.ReadString();
 
                             var ticks = reader.ReadInt64();
-                            newCard.BirthDate = new DateTime(ticks);
+                            newCard.ReleaseDate = new DateTime(ticks);
 
-                            newCard.Department = reader.ReadString();
-                            newCard.Position = reader.ReadString();
-
-                            ticks = reader.ReadInt64();
-                            newCard.EmploymentDate = new DateTime(ticks);
-
-                            var isDismissalDatePresent = reader.ReadBoolean();
-                            if (isDismissalDatePresent)
+                            var isReworkDatePresent = reader.ReadBoolean();
+                            if (isReworkDatePresent)
                             {
                                 ticks = reader.ReadInt64();
-                                newCard.DismissalDate = new DateTime(ticks);
+                                newCard.ReworkDate = new DateTime(ticks);
                             }
                             else
                             {
-                                newCard.DismissalDate = null;
+                                newCard.ReworkDate = null;
                             }
 
-                            newCard.Salary = reader.ReadDecimal();
+                            newCard.WinRate = reader.ReadDecimal();
 
                             records.Add(newCard);
                         }
@@ -74,21 +70,20 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
                     foreach (var item in collection.GetAll())
                     {
                         writer.Write(item.Id);
-                        writer.Write(item.FirstName);
-                        writer.Write(item.MiddleName);
-                        writer.Write(item.LastName);
-                        writer.Write(item.BirthDate.Ticks);
-                        writer.Write(item.Department);
-                        writer.Write(item.Position);
-                        writer.Write(item.EmploymentDate.Ticks);
+                        writer.Write(item.Name ?? string.Empty);
+                        writer.Write(item.LoreName ?? string.Empty);
+                        writer.Write(item.PrimaryAttribute ?? string.Empty);
+                        writer.Write(item.AttackType ?? string.Empty);
+                        writer.Write(item.Role ?? string.Empty);
+                        writer.Write(item.ReleaseDate.Ticks);
 
-                        writer.Write(item.DismissalDate.HasValue);
-                        if (item.DismissalDate.HasValue)
+                        writer.Write(item.ReworkDate.HasValue);
+                        if (item.ReworkDate.HasValue)
                         {
-                            writer.Write(item.DismissalDate.Value.Ticks);
+                            writer.Write(item.ReworkDate.Value.Ticks);
                         }
 
-                        writer.Write(item.Salary);
+                        writer.Write(item.WinRate);
                     }
                 }
             }    
