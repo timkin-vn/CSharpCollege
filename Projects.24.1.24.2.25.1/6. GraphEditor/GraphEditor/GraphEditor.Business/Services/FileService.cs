@@ -68,6 +68,7 @@ namespace GraphEditor.Business.Services
                 Rectangles = model.Rectangles
                     .Select(r => new XmlRectangle
                     {
+                        ShapeType = r.ShapeType,
                         Left = r.Left,
                         Top = r.Top,
                         Width = r.Width,

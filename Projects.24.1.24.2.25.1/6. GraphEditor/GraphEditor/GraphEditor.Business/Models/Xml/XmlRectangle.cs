@@ -10,6 +10,9 @@ namespace GraphEditor.Business.Models.Xml
     [Serializable]
     public class XmlRectangle
     {
+        [XmlAttribute("ShapeType")]
+        public ShapeType ShapeType { get; set; } = ShapeType.Rectangle;
+
         [XmlAttribute("Left")]
         public int Left { get; set; }
 

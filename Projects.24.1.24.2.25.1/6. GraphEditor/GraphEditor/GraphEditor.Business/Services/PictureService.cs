@@ -1,10 +1,8 @@
-﻿using GraphEditor.Business.Models;
+﻿
+using GraphEditor.Business.Models;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GraphEditor.Business.Services
 {
@@ -18,17 +16,41 @@ namespace GraphEditor.Business.Services
 
         public PictureService()
         {
-            PictureModel.Rectangles.Add(new RectangleModel { Left = 150, Top = 50, Width = 200, Height = 100, FillColor = Color.LightSkyBlue, });
-            var newRectangle = new RectangleModel { Left = 200, Top = 100, Width = 200, Height = 150, };
+            PictureModel.Rectangles.Add(new RectangleModel
+            {
+                Left = 150,
+                Top = 50,
+                Width = 200,
+                Height = 100,
+                FillColor = Color.LightSkyBlue,
+            });
+
+            var newRectangle = new RectangleModel
+            {
+                Left = 200,
+                Top = 100,
+                Width = 200,
+                Height = 150,
+            };
+
             PictureModel.Rectangles.Add(newRectangle);
             PictureModel.SelectedRectangle = newRectangle;
-            PictureModel.Rectangles.Add(new RectangleModel { Left = 250, Top = 150, Width = 200, Height = 200, FillColor = Color.DarkMagenta, });
+
+            PictureModel.Rectangles.Add(new RectangleModel
+            {
+                Left = 250,
+                Top = 150,
+                Width = 200,
+                Height = 200,
+                FillColor = Color.DarkMagenta,
+            });
         }
 
-        public void CreateAndSetCreateMode(PointModel loc)
+        public void CreateAndSetCreateMode(PointModel loc, ShapeType shapeType = ShapeType.Rectangle)
         {
             var newRectangle = new RectangleModel
             {
+                ShapeType = shapeType,
                 Left = loc.X,
                 Top = loc.Y,
                 Width = 0,
@@ -59,6 +81,30 @@ namespace GraphEditor.Business.Services
             PictureModel.SelectedRectangle = null;
         }
 
+        public void DuplicateSelectedRectangle()
+        {
+            RectangleModel selected = PictureModel.SelectedRectangle;
+
+            if (selected == null)
+            {
+                return;
+            }
+
+            var copy = new RectangleModel
+            {
+                Left = selected.Left + 20,
+                Top = selected.Top + 20,
+                Width = selected.Width,
+                Height = selected.Height,
+                FillColor = selected.FillColor,
+                BorderColor = selected.BorderColor,
+                EditMode = EditMode.None
+            };
+
+            PictureModel.Rectangles.Add(copy);
+            PictureModel.SelectedRectangle = copy;
+        }
+
         public void MoveForward()
         {
             if (PictureModel.SelectedRectangle == null)
@@ -66,14 +112,20 @@ namespace GraphEditor.Business.Services
                 return;
             }
 
-            var selectedIndex = PictureModel.Rectangles.IndexOf(PictureModel.SelectedRectangle);
-            if (selectedIndex < 0 || selectedIndex == PictureModel.Rectangles.Count - 1)
+            var selectedIndex =
+                PictureModel.Rectangles.IndexOf(PictureModel.SelectedRectangle);
+
+            if (selectedIndex < 0 ||
+                selectedIndex == PictureModel.Rectangles.Count - 1)
             {
                 return;
             }
 
             var rect = PictureModel.Rectangles[selectedIndex + 1];
-            PictureModel.Rectangles[selectedIndex + 1] = PictureModel.Rectangles[selectedIndex];
+
+            PictureModel.Rectangles[selectedIndex + 1] =
+                PictureModel.Rectangles[selectedIndex];
+
             PictureModel.Rectangles[selectedIndex] = rect;
         }
 
@@ -85,6 +137,7 @@ namespace GraphEditor.Business.Services
         public void ResetMode()
         {
             var selectedRect = PictureModel.SelectedRectangle;
+
             if (selectedRect != null)
             {
                 selectedRect.Normalize();
@@ -99,7 +152,9 @@ namespace GraphEditor.Business.Services
 
         public void SelectAndSetMoveMode(PointModel loc)
         {
-            var selectedRect = PictureModel.Rectangles.LastOrDefault(r => r.IsInside(loc));
+            var selectedRect =
+                PictureModel.Rectangles.LastOrDefault(r => r.IsInside(loc));
+
             PictureModel.SelectedRectangle = selectedRect;
 
             if (selectedRect == null)
@@ -122,12 +177,18 @@ namespace GraphEditor.Business.Services
 
         public void SetResizeMode(EditMode mode)
         {
+            if (PictureModel.SelectedRectangle == null)
+            {
+                return;
+            }
+
             PictureModel.SelectedRectangle.EditMode = mode;
         }
 
         public void UpdateMovingPoint(PointModel loc)
         {
             var selectedRect = PictureModel.SelectedRectangle;
+
             if (selectedRect == null)
             {
                 return;

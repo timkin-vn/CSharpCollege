@@ -11,6 +11,8 @@ namespace GraphEditor.ViewModels
 {
     internal class RectangleViewModel
     {
+        public ShapeType ShapeType { get; set; } = ShapeType.Rectangle;
+
         public int Dx { get; set; }
 
         public int Dy { get; set; }
@@ -153,6 +155,7 @@ namespace GraphEditor.ViewModels
         {
             return new RectangleViewModel
             {
+                ShapeType = model.ShapeType,
                 Left = model.Left,
                 Top = model.Top,
                 Width = model.Width,

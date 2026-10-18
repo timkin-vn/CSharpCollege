@@ -1,41 +1,72 @@
-﻿using GraphEditor.ViewModels;
-using System;
-using System.Collections.Generic;
+﻿
+using GraphEditor.Business.Models;
+using GraphEditor.ViewModels;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GraphEditor.ViewServices
 {
     internal class Painter
     {
-        public void Paint(Graphics g, PictureViewModel viewModel, bool isInteractive)
+        public void Paint(
+            Graphics g,
+            PictureViewModel viewModel,
+            bool isInteractive)
         {
-            if (viewModel == null || viewModel.Rectangles == null || !viewModel.Rectangles.Any())
+            if (viewModel?.Rectangles == null ||
+                !viewModel.Rectangles.Any())
             {
                 return;
             }
 
-            Pen pen;
-            foreach (var rectangle in viewModel.Rectangles)
+            foreach (var figure in viewModel.Rectangles)
             {
-                pen = new Pen(rectangle.BorderColor, 3);
-                var brush = new SolidBrush(rectangle.FillColor);
+                Rectangle bounds = figure.Rectangle;
 
-                g.FillRectangle(brush, rectangle.Rectangle);
-                g.DrawRectangle(pen, rectangle.Rectangle);
+                using (var pen = new Pen(figure.BorderColor, 3))
+                using (var brush = new SolidBrush(figure.FillColor))
+                {
+                    switch (figure.ShapeType)
+                    {
+                        case ShapeType.Ellipse:
+                            g.FillEllipse(brush, bounds);
+                            g.DrawEllipse(pen, bounds);
+                            break;
+
+                        case ShapeType.Triangle:
+                            Point[] points =
+                            {
+                                new Point(
+                                    bounds.Left + bounds.Width / 2,
+                                    bounds.Top),
+                                new Point(bounds.Left, bounds.Bottom),
+                                new Point(bounds.Right, bounds.Bottom)
+                            };
+
+                            g.FillPolygon(brush, points);
+                            g.DrawPolygon(pen, points);
+                            break;
+
+                        default:
+                            g.FillRectangle(brush, bounds);
+                            g.DrawRectangle(pen, bounds);
+                            break;
+                    }
+                }
             }
 
-            if (isInteractive)
+            if (!isInteractive)
             {
-                pen = Pens.Black;
-                var activeBrush = Brushes.Black;
-                var inactiveBrush = Brushes.White;
+                return;
+            }
 
+            using (var pen = new Pen(Color.Black))
+            {
                 foreach (var marker in viewModel.Markers)
                 {
-                    var brush = marker.IsActive ? activeBrush : inactiveBrush;
+                    Brush brush = marker.IsActive
+                        ? Brushes.Black
+                        : Brushes.White;
 
                     g.FillRectangle(brush, marker.Rectangle);
                     g.DrawRectangle(pen, marker.Rectangle);

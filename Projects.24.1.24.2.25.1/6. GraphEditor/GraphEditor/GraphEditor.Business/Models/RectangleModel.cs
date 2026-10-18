@@ -9,6 +9,8 @@ namespace GraphEditor.Business.Models
 {
     public class RectangleModel
     {
+        public ShapeType ShapeType { get; set; } = ShapeType.Rectangle;
+
         public int Dx { get; set; }
 
         public int Dy { get; set; }

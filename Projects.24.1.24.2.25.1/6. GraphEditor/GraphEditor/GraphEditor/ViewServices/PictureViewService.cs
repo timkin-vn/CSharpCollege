@@ -1,13 +1,10 @@
-﻿using GraphEditor.Business.Models;
+﻿
+using GraphEditor.Business.Models;
 using GraphEditor.Business.Services;
 using GraphEditor.ViewModels;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GraphEditor.ViewServices
@@ -23,9 +20,17 @@ namespace GraphEditor.ViewServices
             LoadViewModel();
         }
 
+        public ShapeType SelectedShapeType { get; set; } = ShapeType.Rectangle;
+
         public bool CreateMode { get; set; }
 
-        public bool CanDelete => !CreateMode && _businessService.PictureModel.SelectedRectangle != null;
+        public bool CanDelete =>
+            !CreateMode &&
+            _businessService.PictureModel.SelectedRectangle != null;
+
+        public bool CanDuplicate =>
+            !CreateMode &&
+            _businessService.PictureModel.SelectedRectangle != null;
 
         public string FileName { get; set; }
 
@@ -40,9 +45,21 @@ namespace GraphEditor.ViewServices
             FileName = string.Empty;
             LoadViewModel();
         }
+
         public void DeleteButtonClicked()
         {
             _businessService.DeleteRectangle();
+            LoadViewModel();
+        }
+
+        public void DuplicateSelectedRectangle()
+        {
+            if (!CanDuplicate)
+            {
+                return;
+            }
+
+            _businessService.DuplicateSelectedRectangle();
             LoadViewModel();
         }
 
@@ -62,7 +79,8 @@ namespace GraphEditor.ViewServices
 
         public Color GetCurrentFillColor()
         {
-            return _viewModel?.SelectedRectangle?.FillColor ?? PictureService.DefaultFillColor;
+            return _viewModel?.SelectedRectangle?.FillColor
+                ?? PictureService.DefaultFillColor;
         }
 
         public Cursor GetCursor(Point loc)
@@ -77,13 +95,17 @@ namespace GraphEditor.ViewServices
                 return Cursors.Cross;
             }
 
-            var activeMarker = _viewModel.Markers.FirstOrDefault(m => m.IsActive && IsInside(loc, m.Rectangle));
+            var activeMarker = _viewModel.Markers.FirstOrDefault(
+                m => m.IsActive && IsInside(loc, m.Rectangle));
+
             if (activeMarker != null)
             {
                 return activeMarker.Cursor;
             }
 
-            var activeRect = _viewModel.Rectangles.FirstOrDefault(r => IsInside(loc, r.Rectangle));
+            var activeRect = _viewModel.Rectangles.FirstOrDefault(
+                r => IsInside(loc, r.Rectangle));
+
             if (activeRect != null)
             {
                 return Cursors.Hand;
@@ -96,14 +118,16 @@ namespace GraphEditor.ViewServices
         {
             if (CreateMode)
             {
-                _businessService.CreateAndSetCreateMode(ToModel(loc));
+                _businessService.CreateAndSetCreateMode(ToModel(loc), SelectedShapeType);
                 LoadViewModel();
                 return;
             }
 
             if (_viewModel != null)
             {
-                var activeMarker = _viewModel.Markers.FirstOrDefault(m => m.IsActive && IsInside(loc, m.Rectangle));
+                var activeMarker = _viewModel.Markers.FirstOrDefault(
+                    m => m.IsActive && IsInside(loc, m.Rectangle));
+
                 if (activeMarker != null)
                 {
                     _businessService.SetResizeMode(activeMarker.EditMode);
@@ -176,18 +200,32 @@ namespace GraphEditor.ViewServices
         private void LoadViewModel()
         {
             var model = _businessService.PictureModel;
+
             _viewModel = new PictureViewModel
             {
-                Rectangles = model.Rectangles.Select(r => RectangleViewModel.FromBusiness(r)).ToList(),
+                Rectangles = model.Rectangles
+                    .Select(r => RectangleViewModel.FromBusiness(r))
+                    .ToList(),
             };
 
             if (model.SelectedRectangle != null)
             {
-                var index = model.Rectangles.IndexOf(model.SelectedRectangle);
-                _viewModel.SelectedRectangle = _viewModel.Rectangles[index];
+                var index =
+                    model.Rectangles.IndexOf(model.SelectedRectangle);
+
+                if (index >= 0)
+                {
+                    _viewModel.SelectedRectangle =
+                        _viewModel.Rectangles[index];
+                }
             }
         }
 
-        private PointModel ToModel(Point point) => new PointModel { X = point.X, Y = point.Y };
+        private PointModel ToModel(Point point) =>
+            new PointModel
+            {
+                X = point.X,
+                Y = point.Y
+            };
     }
 }
