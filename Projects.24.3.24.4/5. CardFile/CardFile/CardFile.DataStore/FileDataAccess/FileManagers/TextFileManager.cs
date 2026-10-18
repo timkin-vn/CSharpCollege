@@ -28,73 +28,43 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
                         }
 
                         var lineParts = line.Split(';');
-                        if (lineParts.Length != 10)
+                        if (lineParts.Length != 11)
                         {
-                            throw new Exception($"В строке файла {fileName} неверное количество полей");
+                            throw new Exception($"В строке файла {fileName} неверное количество полей. Ожидалось 11.");
                         }
 
                         var newCard = new CardDto();
 
-                        if (int.TryParse(lineParts[0], out var id))
-                        {
-                            newCard.Id = id;
-                        }
-                        else
-                        {
-                            throw new Exception($"В строке файла {fileName} неверное значение Id");
-                        }
+                        newCard.Id = int.Parse(lineParts[0]);
 
                         newCard.FirstName = lineParts[1];
                         newCard.MiddleName = lineParts[2];
                         newCard.LastName = lineParts[3];
 
-                        if (DateTime.TryParse(lineParts[4], out var birthDate))
+                        newCard.BirthDate = DateTime.Parse(lineParts[4]);
+
+                        newCard.Faculty = lineParts[5];
+                        newCard.GroupNumber = lineParts[6];
+                        newCard.RecordBookNumber = int.Parse(lineParts[7]);
+                        newCard.AverageScore = double.Parse(lineParts[8]);
+                        newCard.IsBudget = bool.Parse(lineParts[9]);
+
+                        if (lineParts[10] == "-")
                         {
-                            newCard.BirthDate = birthDate;
-                        }
-                        else
-                        {
-                            throw new Exception($"В строке файла {fileName} неверное значение BirthDate");
+                            newCard.ExpulsionDate = null;
                         }
 
-                        newCard.Department = lineParts[5];
-                        newCard.Position = lineParts[6];
-
-                        if (DateTime.TryParse(lineParts[7], out var employmentDate))
-                        {
-                            newCard.EmploymentDate = employmentDate;
-                        }
                         else
                         {
-                            throw new Exception($"В строке файла {fileName} неверное значение EmploymentDate");
+                            newCard.ExpulsionDate = DateTime.Parse(lineParts[10]);
                         }
 
-                        if (lineParts[8] == "-")
-                        {
-                            newCard.DismissalDate = null;
-                        }
-                        else if (DateTime.TryParse(lineParts[8], out var dismissalDate))
-                        {
-                            newCard.DismissalDate = dismissalDate;
-                        }
-                        else
-                        {
-                            throw new Exception($"В строке файла {fileName} неверное значение DismissalDate");
-                        }
-
-                        if (decimal.TryParse(lineParts[9], out var salary))
-                        {
-                            newCard.Salary = salary;
-                        }
-                        else
-                        {
-                            throw new Exception($"В строке файла {fileName} неверное значение Salary");
-                        }
+                        newCard.PhotoPath = lineParts.Length > 11 && lineParts[11] != "-" ? lineParts[11] : null;
 
                         records.Add(newCard);
-                    }
 
-                    collection.ReplaceAll(records);
+                        collection.ReplaceAll(records);
+                    }
                 }
             }
         }
@@ -108,9 +78,14 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
                     foreach (var item in collection.GetAll())
                     {
                         writer.WriteLine($"{item.Id};{item.FirstName};{item.MiddleName};{item.LastName};" +
-                            $"{item.BirthDate.ToShortDateString()};{item.Department};{item.Position};" +
-                            $"{item.EmploymentDate.ToShortDateString()};{item.DismissalDate?.ToShortDateString() ?? "-"};" +
-                            $"{item.Salary}");
+                            $"{item.BirthDate.ToShortDateString()};" +
+                            $"{item.Faculty};" +
+                            $"{item.GroupNumber};" +
+                            $"{item.RecordBookNumber};" +
+                            $"{item.AverageScore};" +
+                            $"{item.IsBudget};" +
+                            $"{(item.ExpulsionDate.HasValue ? item.ExpulsionDate.Value.ToShortDateString() : "-")};" +
+                            $"{(string.IsNullOrEmpty(item.PhotoPath) ? "-" : item.PhotoPath)}");
                     }
                 }
             }

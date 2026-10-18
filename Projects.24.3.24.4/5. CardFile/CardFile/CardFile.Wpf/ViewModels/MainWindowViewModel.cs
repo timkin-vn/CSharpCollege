@@ -10,6 +10,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace CardFile.Wpf.ViewModels
 {
@@ -46,12 +47,29 @@ namespace CardFile.Wpf.ViewModels
             return SelectedCard;
         }
 
+        private static readonly Random _rnd = new Random();
+
         public CardViewModel GetNewCard()
         {
+            var lastNames = new[] { "Морозов", "Смирнов", "Кузнецов", "Попов", "Васильев", "Петров", "Соколов", "Михайлов", "Новиков", "Федоров" };
+            var firstNames = new[] { "Дмитрий", "Александр", "Максим", "Иван", "Сергей", "Артем", "Михаил", "Даниил", "Егор" };
+            var middleNames = new[] { "Олегович", "Алексеевич", "Сергеевич", "Дмитриевич", "Игоревич", "Владимирович", "Андреевич" };
+
             return new CardViewModel
             {
-                BirthDate = new DateTime(2000, 6, 15),
-                EmploymentDate = new DateTime(2020, 6, 15),
+                LastName = lastNames[_rnd.Next(lastNames.Length)],
+                FirstName = firstNames[_rnd.Next(firstNames.Length)],
+                MiddleName = middleNames[_rnd.Next(middleNames.Length)],
+                BirthDate = DateTime.Today.AddYears(-19),
+
+                Faculty = string.Empty,
+                GroupNumber = string.Empty,
+                RecordBookNumber = 0,
+                AverageScore = 0.0,
+                IsBudget = false,
+                IsStudying = true,
+                ExpulsionDate = null,
+                PhotoPath = null
             };
         }
 

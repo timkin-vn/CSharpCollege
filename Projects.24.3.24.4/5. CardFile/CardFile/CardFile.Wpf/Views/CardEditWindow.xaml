@@ -5,78 +5,109 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CardFile.Wpf.Views" xmlns:viewmodels="clr-namespace:CardFile.Wpf.ViewModels"
         mc:Ignorable="d"
-        Title="Правка карточки" Height="350" Width="450" ResizeMode="NoResize">
+        Title="Карточка студента" Height="560" Width="720" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
     <Window.DataContext>
         <viewmodels:CardViewModel />
     </Window.DataContext>
-    
-    <Grid>
+
+    <Grid Margin="15">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition />
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="190"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Row="0" Grid.Column="0" Text="Фамилия:" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5" />
+        <Grid Grid.Row="0" Grid.Column="0" Margin="0, 0, 10, 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+            </Grid.RowDefinitions>
 
-        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding LastName}" VerticalAlignment="Center" HorizontalAlignment="Left" Width="200" Margin="5" />
+            <TextBlock Grid.Row="0" Text="Фамилия:" VerticalAlignment="Center" />
+            <TextBlock Grid.Row="1" Text="Имя:" VerticalAlignment="Center" />
+            <TextBlock Grid.Row="2" Text="Отчество:" VerticalAlignment="Center" />
+            <TextBlock Grid.Row="3" Text="Дата рождения:" VerticalAlignment="Center" />
+            <TextBlock Grid.Row="4" Text="Факультет:" VerticalAlignment="Center" Height="16" RenderTransformOrigin="0.5,1.101" />
+            <TextBlock Grid.Row="5" Text="Группа:" VerticalAlignment="Center" />
+            <TextBlock Grid.Row="6" Text="Зачетная книжка:" VerticalAlignment="Center" />
+            <TextBlock Grid.Row="7" Text="Средний балл:" VerticalAlignment="Center" />
+            <TextBlock Grid.Row="8" Text="Форма обучения:" VerticalAlignment="Center" />
+            <TextBlock Grid.Row="9" Text="Дата выпуска / отчисления:" VerticalAlignment="Center" />
+        </Grid>
 
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="Имя:" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5" />
+        <Grid Grid.Row="0" Grid.Column="1" Margin="0, 0, 15, 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="36" />
+            </Grid.RowDefinitions>
 
-        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding FirstName}" VerticalAlignment="Center" HorizontalAlignment="Left" Width="200" Margin="5" />
+            <TextBox Grid.Row="0" Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Margin="51,7,40,0" />
+            <TextBox Grid.Row="1" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Margin="39,9,20,0" />
+            <TextBox Grid.Row="2" Text="{Binding MiddleName, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Margin="59,6,30,0" />
+            <DatePicker Grid.Row="3" SelectedDate="{Binding BirthDate}" Width="150" HorizontalAlignment="Left" Margin="99,8,0,0" />
 
-        <TextBlock Grid.Row="2" Grid.Column="0" Text="Отчество:" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5" />
+            <ComboBox Grid.Row="4" Text="{Binding Faculty}" IsEditable="True" VerticalContentAlignment="Center" Margin="59,5,34,5">
+                <ComboBoxItem Content="Информационные технологии" />
+                <ComboBoxItem Content="Экономика и управление" />
+                <ComboBoxItem Content="Радиотехника" />
+                <ComboBoxItem Content="Дизайн и медиа" />
+                <ComboBoxItem Content="Гуманитарный" />
+            </ComboBox>
 
-        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding MiddleName}" VerticalAlignment="Center" HorizontalAlignment="Left" Width="200" Margin="5" />
+            <ComboBox Grid.Row="5" Text="{Binding GroupNumber}" IsEditable="True" VerticalContentAlignment="Center" Margin="59,5,35,5">
+                <ComboBoxItem Content="ИС-11" />
+                <ComboBoxItem Content="ИС-31" />
+                <ComboBoxItem Content="ЭК-22" />
+                <ComboBoxItem Content="ПО-41" />
+                <ComboBoxItem Content="РТ-32" />
+                <ComboBoxItem Content="ГД-11" />
+            </ComboBox>
 
-        <TextBlock Grid.Row="3" Grid.Column="0" Text="Дата рождения:" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5" />
+            <TextBox Grid.Row="6" Text="{Binding RecordBookNumber, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Margin="81,6,61,4" />
+            <TextBox Grid.Row="7" Text="{Binding AverageScore, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Margin="66,5,46,5" RenderTransformOrigin="0.332,0.611" />
 
-        <DatePicker Grid.Row="3" Grid.Column="1" SelectedDate="{Binding BirthDate}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5" />
+            <CheckBox Grid.Row="8" Grid.Column="1" IsChecked="{Binding IsBudget}" Content="Обучение на бюджете" VerticalAlignment="Center" />
 
-        <TextBlock Grid.Row="4" Grid.Column="0" Text="Подразделение:" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5" />
+            <StackPanel Grid.Row="9" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                <CheckBox x:Name="StudyingCheckBox" IsChecked="{Binding IsStudying}" Content="Учится сейчас" VerticalAlignment="Center" Margin="0,0,12,0" Click="StudyingCheckBox_Click" />
+                <DatePicker x:Name="ExpulsionDatePicker" SelectedDate="{Binding ExpulsionDate}" Width="135" Height="28" ToolTip="Дата отчисления" />
+            </StackPanel>
+        </Grid>
 
-        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Department}" VerticalAlignment="Center" HorizontalAlignment="Left" Width="200" Margin="5" />
+        <Border Grid.Row="0" Grid.Column="2" BorderBrush="#cbd5e1" BorderThickness="1" CornerRadius="6" Background="#f8fafc" Padding="10" VerticalAlignment="Top" Margin="0,83,0,0">
+            <StackPanel HorizontalAlignment="Center">
+                <Border Width="140" Height="165" Background="#e2e8f0" BorderBrush="#94a3b8" BorderThickness="1" Margin="0,0,0,10">
+                    <Image Source="{Binding PhotoPath}" Stretch="UniformToFill" />
+                </Border>
+                <Button Content="Выбрать фото..." Padding="8,4" Margin="0,0,0,6" Click="SelectPhotoButton_Click" />
+                <Button Content="Удалить фото" Padding="8,2" Background="Transparent" BorderThickness="0" Foreground="#64748b" Click="ClearPhotoButton_Click" />
+            </StackPanel>
+        </Border>
 
-        <TextBlock Grid.Row="5" Grid.Column="0" Text="Должность:" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5" />
-
-        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Position}" VerticalAlignment="Center" HorizontalAlignment="Left" Width="200" Margin="5" />
-
-        <TextBlock Grid.Row="6" Grid.Column="0" Text="Дата трудоустройства:" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5" />
-
-        <DatePicker Grid.Row="6" Grid.Column="1" SelectedDate="{Binding EmploymentDate}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5" />
-
-        <TextBlock Grid.Row="7" Grid.Column="0" Text="Дата увольнения:" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5" />
-
-        <StackPanel Grid.Row="7" Grid.Column="1" Orientation="Horizontal">
-            <DatePicker SelectedDate="{Binding DismissalDate}" IsEnabled="{Binding IsDismissalDateEnabled}" 
-                        VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5" />
-
-            <CheckBox IsChecked="{Binding IsWorkingTillNow}" VerticalAlignment="Center" Margin="5" 
-                      Checked="IsWorkingTillNowCheckBox_Checked" Unchecked="IsWorkingTillNowCheckBox_Unchecked">
-                <TextBlock Text="Работает до сих пор" VerticalAlignment="Center" />
-            </CheckBox>
-        </StackPanel>
-
-        <TextBlock Grid.Row="8" Grid.Column="0" Text="Оклад:" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5" />
-
-        <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding Salary}" VerticalAlignment="Center" HorizontalAlignment="Left" Width="200" Margin="5" />
-
-        <StackPanel Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
-            <Button Content="OK" Padding="5" Margin="5" Click="OkButton_Click" />
-
-            <Button Content="Отмена" Padding="5" Margin="5" Click="CancelButton_Click" />
+        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
+            <Button Content="Сохранить" Width="95" Height="30" Margin="5,0" IsDefault="True" Click="OkButton_Click" />
+            <Button Content="Отмена" Width="95" Height="30" Margin="5,0" IsCancel="True" Click="CancelButton_Click" />
         </StackPanel>
     </Grid>
 </Window>

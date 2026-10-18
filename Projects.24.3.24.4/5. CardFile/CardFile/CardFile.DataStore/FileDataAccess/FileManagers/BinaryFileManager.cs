@@ -30,27 +30,28 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
                             newCard.MiddleName = reader.ReadString();
                             newCard.LastName = reader.ReadString();
 
-                            var ticks = reader.ReadInt64();
-                            newCard.BirthDate = new DateTime(ticks);
+                            newCard.BirthDate = new DateTime(reader.ReadInt64());
 
-                            newCard.Department = reader.ReadString();
-                            newCard.Position = reader.ReadString();
+                            newCard.Faculty = reader.ReadString();
+                            newCard.GroupNumber = reader.ReadString();
+                            newCard.RecordBookNumber = reader.ReadInt32();
+                            newCard.AverageScore = reader.ReadDouble();
+                            newCard.IsBudget = reader.ReadBoolean();
 
-                            ticks = reader.ReadInt64();
-                            newCard.EmploymentDate = new DateTime(ticks);
+                            var isExpelled = reader.ReadBoolean();
 
-                            var isDismissalDatePresent = reader.ReadBoolean();
-                            if (isDismissalDatePresent)
+                            if (isExpelled)
                             {
-                                ticks = reader.ReadInt64();
-                                newCard.DismissalDate = new DateTime(ticks);
+                                newCard.ExpulsionDate = new DateTime(reader.ReadInt64());
                             }
                             else
                             {
-                                newCard.DismissalDate = null;
+                                newCard.ExpulsionDate = null;
                             }
 
-                            newCard.Salary = reader.ReadDecimal();
+                            var hasPhoto = reader.ReadBoolean();
+
+                            newCard.PhotoPath = hasPhoto ? reader.ReadString() : null;
 
                             records.Add(newCard);
                         }
@@ -71,24 +72,35 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
             {
                 using (var writer = new BinaryWriter(fs))
                 {
-                    foreach (var item in collection.GetAll())
+                    foreach (var card in collection.GetAll())
                     {
-                        writer.Write(item.Id);
-                        writer.Write(item.FirstName);
-                        writer.Write(item.MiddleName);
-                        writer.Write(item.LastName);
-                        writer.Write(item.BirthDate.Ticks);
-                        writer.Write(item.Department);
-                        writer.Write(item.Position);
-                        writer.Write(item.EmploymentDate.Ticks);
+                        writer.Write(card.Faculty ?? string.Empty);
+                        writer.Write(card.GroupNumber ?? string.Empty);
+                        writer.Write(card.RecordBookNumber);
+                        writer.Write(card.AverageScore);
+                        writer.Write(card.IsBudget);
 
-                        writer.Write(item.DismissalDate.HasValue);
-                        if (item.DismissalDate.HasValue)
+                        if (card.ExpulsionDate.HasValue)
                         {
-                            writer.Write(item.DismissalDate.Value.Ticks);
+                            writer.Write(true);
+                            writer.Write(card.ExpulsionDate.Value.Ticks);
                         }
 
-                        writer.Write(item.Salary);
+                        else
+                        {
+                            writer.Write(false);
+                        }
+
+                        if (!string.IsNullOrEmpty(card.PhotoPath))
+                        {
+                            writer.Write(true);
+                            writer.Write(card.PhotoPath);
+                        }
+
+                        else
+                        {
+                            writer.Write(false);
+                        }
                     }
                 }
             }
