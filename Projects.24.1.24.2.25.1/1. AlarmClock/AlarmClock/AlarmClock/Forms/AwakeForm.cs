@@ -51,9 +51,19 @@ namespace AlarmClock.Forms
             AwakePictureBox.Load(_imageFileNames[_imageIndex]);
         }
 
-        private void AwakeForm_FormClosed(object sender, FormClosedEventArgs e)
+        private void AwakeForm_FormClosed(
+            object sender,
+            FormClosedEventArgs e)
         {
-            AlarmState.IsAlarmActive = false;
+            bool isRepeatEnabled =
+                AlarmState.RepeatDays != null &&
+                AlarmState.RepeatDays.Length > 0;
+
+            if (!isRepeatEnabled)
+            {
+                AlarmState.IsAlarmActive = false;
+            }
+
             AlarmState.IsAwakeActivated = false;
         }
     }

@@ -36,6 +36,8 @@
             this.IsSoundActiveCheckBox = new System.Windows.Forms.CheckBox();
             this.OkButton = new System.Windows.Forms.Button();
             this.CancelButton = new System.Windows.Forms.Button();
+            this.RepeatDaysLabel = new System.Windows.Forms.Label();
+            this.RepeatDaysCheckedListBox = new System.Windows.Forms.CheckedListBox();
             this.SuspendLayout();
             // 
             // label1
@@ -89,6 +91,24 @@
             this.IsSoundActiveCheckBox.TabIndex = 5;
             this.IsSoundActiveCheckBox.Text = "Звуковой сигнал включен";
             this.IsSoundActiveCheckBox.UseVisualStyleBackColor = true;
+            //
+            // RepeatDaysLabel
+            //
+            this.RepeatDaysLabel.AutoSize = true;
+            this.RepeatDaysLabel.Location = new System.Drawing.Point(12, 119);
+            this.RepeatDaysLabel.Name = "RepeatDaysLabel";
+            this.RepeatDaysLabel.Size = new System.Drawing.Size(88, 13);
+            this.RepeatDaysLabel.TabIndex = 8;
+            this.RepeatDaysLabel.Text = "Повторять в:";
+            //
+            // RepeatDaysCheckedListBox
+            //
+            this.RepeatDaysCheckedListBox.CheckOnClick = true;
+            this.RepeatDaysCheckedListBox.FormattingEnabled = true;
+            this.RepeatDaysCheckedListBox.Location = new System.Drawing.Point(134, 119);
+            this.RepeatDaysCheckedListBox.Name = "RepeatDaysCheckedListBox";
+            this.RepeatDaysCheckedListBox.Size = new System.Drawing.Size(164, 109);
+            this.RepeatDaysCheckedListBox.TabIndex = 9;
             // 
             // OkButton
             // 
@@ -129,6 +149,11 @@
             this.Name = "SettingsForm";
             this.Text = "Настройки будильника";
             this.Load += new System.EventHandler(this.SettingsForm_Load);
+            this.Controls.Add(this.RepeatDaysCheckedListBox);
+            this.Controls.Add(this.RepeatDaysLabel);
+            this.OkButton.Location = new System.Drawing.Point(142, 238);
+            this.CancelButton.Location = new System.Drawing.Point(223, 238);
+            this.ClientSize = new System.Drawing.Size(310, 275);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -144,5 +169,7 @@
         private System.Windows.Forms.CheckBox IsSoundActiveCheckBox;
         private System.Windows.Forms.Button OkButton;
         private System.Windows.Forms.Button CancelButton;
+        private System.Windows.Forms.Label RepeatDaysLabel;
+        private System.Windows.Forms.CheckedListBox RepeatDaysCheckedListBox;
     }
 }

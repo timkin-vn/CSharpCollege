@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AlarmClock.Models
 {
@@ -17,5 +13,7 @@ namespace AlarmClock.Models
         public bool IsSoundActive { get; set; }
 
         public bool IsAwakeActivated { get; set; }
+
+        public DayOfWeek[] RepeatDays { get; set; } = new DayOfWeek[0];
     }
 }

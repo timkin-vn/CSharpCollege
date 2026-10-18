@@ -15,6 +15,7 @@ namespace AlarmClock
 {
     public partial class AlarmClockForm : Form
     {
+        private DateTime _lastTriggeredDate = DateTime.MinValue;
         private AlarmState _alarmState = new AlarmState();
 
         public AlarmClockForm()
@@ -24,18 +25,37 @@ namespace AlarmClock
 
         private void ClockTimer_Tick(object sender, EventArgs e)
         {
-            DisplayLabel.Text = DateTime.Now.ToLongTimeString();
+            DateTime now = DateTime.Now;
+
+            DisplayLabel.Text = now.ToLongTimeString();
 
             if (!_alarmState.IsAlarmActive)
             {
                 return;
             }
 
-            if (!_alarmState.IsAwakeActivated && 
-                DateTime.Now.Hour == _alarmState.AlarmTime.Hour &&
-                DateTime.Now.Minute == _alarmState.AlarmTime.Minute)
+            bool isRepeatEnabled =
+                _alarmState.RepeatDays != null &&
+                _alarmState.RepeatDays.Length > 0;
+
+            bool isCorrectDay =
+                !isRepeatEnabled ||
+                _alarmState.RepeatDays.Contains(now.DayOfWeek);
+
+            bool isCorrectTime =
+                now.Hour == _alarmState.AlarmTime.Hour &&
+                now.Minute == _alarmState.AlarmTime.Minute;
+
+            bool alreadyTriggeredToday =
+                _lastTriggeredDate.Date == now.Date;
+
+            if (!_alarmState.IsAwakeActivated &&
+                isCorrectDay &&
+                isCorrectTime &&
+                !alreadyTriggeredToday)
             {
                 _alarmState.IsAwakeActivated = true;
+                _lastTriggeredDate = now.Date;
 
                 var awakeForm = new AwakeForm();
                 awakeForm.AlarmState = _alarmState;
@@ -44,9 +64,10 @@ namespace AlarmClock
                 awakeForm.ShowDialog();
             }
 
-            if (_alarmState.IsSoundActive && _alarmState.IsAwakeActivated)
+            if (_alarmState.IsSoundActive &&
+                _alarmState.IsAwakeActivated)
             {
-                SystemSounds.Beep.Play();
+                System.Media.SystemSounds.Beep.Play();
             }
         }
 
