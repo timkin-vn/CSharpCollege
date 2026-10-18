@@ -1,22 +1,27 @@
-﻿using CardFile.Business.Models;
+﻿
+using CardFile.Business.Models;
 using CardFile.Business.Services;
 using CardFile.Common.Infrastructure;
 using CardFile.Wpf.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Data;
 
 namespace CardFile.Wpf.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
         private readonly CardFileService _service = new CardFileService();
+        private string _searchText = "";
 
-        public ObservableCollection<CardViewModel> Cards { get; } = new ObservableCollection<CardViewModel>();
+        public ObservableCollection<CardViewModel> Cards { get; }
+            = new ObservableCollection<CardViewModel>();
+
+        public ICollectionView CardsView { get; }
 
         public CardViewModel SelectedCard { get; set; }
 
@@ -26,11 +31,59 @@ namespace CardFile.Wpf.ViewModels
 
         public string FileName { get; private set; }
 
-        public string WindowTitle => string.IsNullOrEmpty(FileName) ? "Картотека" : $"Картотека: {Path.GetFileName(FileName)}";
+        public string WindowTitle =>
+            string.IsNullOrEmpty(FileName)
+                ? "Картотека"
+                : $"Картотека: {Path.GetFileName(FileName)}";
+
+        public string SearchText
+        {
+            get { return _searchText; }
+            set
+            {
+                if (_searchText == value)
+                    return;
+
+                _searchText = value ?? "";
+                OnPropertyChanged(nameof(SearchText));
+
+                CardsView.Refresh();
+            }
+        }
 
         public MainWindowViewModel()
         {
             MapperInitialization.PreRegister();
+
+            CardsView = CollectionViewSource.GetDefaultView(Cards);
+            CardsView.Filter = FilterCard;
+        }
+
+        private bool FilterCard(object item)
+        {
+            CardViewModel card = item as CardViewModel;
+
+            if (card == null)
+                return false;
+
+            string query = (SearchText ?? "").Trim();
+
+            if (query.Length == 0)
+                return true;
+
+            return Contains(card.Id.ToString(), query)
+                || Contains(card.FirstName, query)
+                || Contains(card.MiddleName, query)
+                || Contains(card.LastName, query)
+                || Contains(card.Fio, query)
+                || Contains(card.Department, query)
+                || Contains(card.Position, query);
+        }
+
+        private static bool Contains(string value, string query)
+        {
+            return !string.IsNullOrEmpty(value)
+                && value.IndexOf(query, StringComparison.CurrentCultureIgnoreCase) >= 0;
         }
 
         public void WindowLoaded()
@@ -59,14 +112,12 @@ namespace CardFile.Wpf.ViewModels
 
         public void SaveEditedCard(CardViewModel card)
         {
-            var index = Cards.ToList().FindIndex(c => c.Id == card.Id);
+            int index = Cards.ToList().FindIndex(c => c.Id == card.Id);
 
             if (index < 0)
-            {
                 throw new Exception("Карточка с таким Id не существует");
-            }
 
-            var id = _service.Save(ToBusiness(card));
+            int id = _service.Save(ToBusiness(card));
 
             if (id < 0)
             {
@@ -75,6 +126,7 @@ namespace CardFile.Wpf.ViewModels
             else
             {
                 Cards[index].LoadViewModel(card);
+                CardsView.Refresh();
             }
         }
 
@@ -83,12 +135,10 @@ namespace CardFile.Wpf.ViewModels
             var newCard = new CardViewModel();
             newCard.LoadViewModel(card);
 
-            var id = _service.Save(ToBusiness(card));
+            int id = _service.Save(ToBusiness(card));
 
             if (id < 0)
-            {
                 return;
-            }
 
             newCard.Id = id;
             Cards.Add(newCard);
@@ -102,33 +152,35 @@ namespace CardFile.Wpf.ViewModels
 
         private void LoadAllData()
         {
-            var cards = _service.GetAll();
+            IEnumerable<Card> cards = _service.GetAll();
+
             Cards.Clear();
-            foreach (var card in cards)
-            {
+
+            foreach (Card card in cards)
                 Cards.Add(ToViewModel(card));
-            }
+
+            CardsView.Refresh();
         }
 
         public void DeleteSelectedCard()
         {
             if (SelectedCard == null)
-            {
                 return;
-            }
 
-            _service.Delete(SelectedCard.Id);
-            var index = Cards.ToList().FindIndex(c => c.Id == SelectedCard.Id);
+            int selectedId = SelectedCard.Id;
+
+            _service.Delete(selectedId);
+
+            int index = Cards.ToList().FindIndex(c => c.Id == selectedId);
 
             if (index < 0)
-            {
                 throw new Exception("Карточка с таким Id не существует");
-            }
 
             Cards.RemoveAt(index);
             SelectedCard = null;
 
             OnPropertyChanged(nameof(SelectedCard));
+            SelectionChanged();
         }
 
         public void SaveToFile(string fileName)
@@ -154,7 +206,7 @@ namespace CardFile.Wpf.ViewModels
             {
                 _service.SaveToFile(FileName);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 FileName = null;
                 throw;
@@ -164,37 +216,11 @@ namespace CardFile.Wpf.ViewModels
         private CardViewModel ToViewModel(Card card)
         {
             return Mapping.Mapper.Map<CardViewModel>(card);
-            //return new CardViewModel
-            //{
-            //    Id = card.Id,
-            //    FirstName = card.FirstName,
-            //    MiddleName = card.MiddleName,
-            //    LastName = card.LastName,
-            //    BirthDate = card.BirthDate,
-            //    Department = card.Department,
-            //    Position = card.Position,
-            //    EmploymentDate = card.EmploymentDate,
-            //    DismissalDate = card.DismissalDate,
-            //    Salary = card.Salary,
-            //};
         }
 
         private Card ToBusiness(CardViewModel card)
         {
             return Mapping.Mapper.Map<Card>(card);
-            //return new Card
-            //{
-            //    Id = card.Id,
-            //    FirstName = card.FirstName,
-            //    MiddleName = card.MiddleName,
-            //    LastName = card.LastName,
-            //    BirthDate = card.BirthDate,
-            //    Department = card.Department,
-            //    Position = card.Position,
-            //    EmploymentDate = card.EmploymentDate,
-            //    DismissalDate = card.DismissalDate,
-            //    Salary = card.Salary,
-            //};
         }
     }
 }
