@@ -29,10 +29,15 @@ namespace FifteenGame.Wpf
             InitializeComponent();
         }
 
-        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        private void Grid_MouseDown(object sender, RoutedEventArgs e)
         {
             var direction = (MoveDirection)((FrameworkElement)sender).Tag;
             ViewModel.MakeMove(direction, OnGameFinished);
+        }
+
+        private void UndoButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.UndoLastMove();
         }
 
         private void OnGameFinished()

@@ -3,62 +3,130 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FifteenGame.Wpf" xmlns:viewmodels="clr-namespace:FifteenGame.Wpf.ViewModels"
+        xmlns:viewmodels="clr-namespace:FifteenGame.Wpf.ViewModels"
         mc:Ignorable="d"
-        Title="Игра 15" Height="450" Width="800" MinHeight="450" MinWidth="450">
+        Title="Игра 15"
+        Height="560"
+        Width="600"
+        MinHeight="500"
+        MinWidth="450"
+        Background="#F3F0E8"
+        WindowStartupLocation="CenterScreen">
+
     <Window.DataContext>
         <viewmodels:MainWindowViewModel />
     </Window.DataContext>
-    
-    <Grid>
+
+    <Grid Margin="20">
         <Grid.RowDefinitions>
-            <RowDefinition />
             <RowDefinition Height="Auto" />
-            <RowDefinition />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Row="0"
+                   Text="ПЯТНАШКИ"
+                   FontSize="28"
+                   FontWeight="Bold"
+                   Foreground="#49382D"
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,20" />
 
-        <ItemsControl Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Cells}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="100" />
-                            <RowDefinition Height="100" />
-                            <RowDefinition Height="100" />
-                            <RowDefinition Height="100" />
-                        </Grid.RowDefinitions>
+        <!-- Фон и рамка игрового поля -->
+        <Border Grid.Row="1"
+                Background="#B9A58D"
+                BorderBrush="#806B56"
+                BorderThickness="2"
+                CornerRadius="12"
+                Padding="8"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
 
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="100" />
-                        </Grid.ColumnDefinitions>
-                    </Grid>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
+            <ItemsControl ItemsSource="{Binding Cells}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="85" />
+                                <RowDefinition Height="85" />
+                                <RowDefinition Height="85" />
+                                <RowDefinition Height="85" />
+                            </Grid.RowDefinitions>
 
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Grid Tag="{Binding Direction}" MouseDown="Grid_MouseDown">
-                        <Rectangle Margin="5" Stroke="Brown" StrokeThickness="3" RadiusX="10" RadiusY="10" Fill="LightBlue" />
-                        <TextBlock Text="{Binding Text}" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    </Grid>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="85" />
+                                <ColumnDefinition Width="85" />
+                                <ColumnDefinition Width="85" />
+                                <ColumnDefinition Width="85" />
+                            </Grid.ColumnDefinitions>
+                        </Grid>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
 
-            <ItemsControl.ItemContainerStyle>
-                <Style TargetType="ContentPresenter">
-                    <Setter Property="Grid.Row" Value="{Binding Row}" />
-                    <Setter Property="Grid.Column" Value="{Binding Column}" />
-                </Style>
-            </ItemsControl.ItemContainerStyle>
-        </ItemsControl>
+                <ItemsControl.ItemContainerStyle>
+                    <Style TargetType="ContentPresenter">
+                        <Setter Property="Grid.Row"
+                                Value="{Binding Row}" />
+                        <Setter Property="Grid.Column"
+                                Value="{Binding Column}" />
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Tag="{Binding Direction}"
+                                Click="Grid_MouseDown"
+                                Margin="3"
+                                Background="#E8D4B5"
+                                BorderBrush="#8D7053"
+                                BorderThickness="1"
+                                FontSize="30"
+                                FontWeight="SemiBold"
+                                Foreground="#49382D"
+                                Cursor="Hand"
+                                Focusable="False"
+                                Content="{Binding Text}">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            CornerRadius="8">
+                                        <ContentPresenter
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" />
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver"
+                                                 Value="True">
+                                            <Setter Property="Background"
+                                                    Value="#F5E5CC" />
+                                        </Trigger>
+                                        <Trigger Property="IsPressed"
+                                                 Value="True">
+                                            <Setter Property="Background"
+                                                    Value="#D0B18C" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
+
+        <Button Grid.Row="2"
+                Content="Отменить ход"
+                Margin="0,20,0,0"
+                Padding="20,10"
+                FontSize="15"
+                FontWeight="SemiBold"
+                Background="#806B56"
+                Foreground="White"
+                BorderThickness="0"
+                HorizontalAlignment="Center"
+                IsEnabled="{Binding CanUndo}"
+                Click="UndoButton_Click" />
     </Grid>
 </Window>
