@@ -1,8 +1,5 @@
-﻿using FifteenGame.Business.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿
+using FifteenGame.Business.Models;
 
 namespace FifteenGame.Web.Models
 {
@@ -12,6 +9,9 @@ namespace FifteenGame.Web.Models
 
         public int ColumnCount => GameModel.ColumnCount;
 
-        public CellViewModel[,] Cells { get; set; } = new CellViewModel[GameModel.RowCount, GameModel.ColumnCount];
+        public int MoveCount { get; set; }
+
+        public CellViewModel[,] Cells { get; set; } =
+            new CellViewModel[GameModel.RowCount, GameModel.ColumnCount];
     }
 }

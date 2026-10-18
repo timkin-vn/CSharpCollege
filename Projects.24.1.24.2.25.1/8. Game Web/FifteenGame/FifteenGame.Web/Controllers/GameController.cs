@@ -1,10 +1,8 @@
-﻿using FifteenGame.Business.Models;
+﻿
+using FifteenGame.Business.Models;
 using FifteenGame.Business.Services;
 using FifteenGame.Web.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace FifteenGame.Web.Controllers
@@ -13,12 +11,12 @@ namespace FifteenGame.Web.Controllers
     {
         private readonly GameService _service = new GameService();
 
-        // GET: Game
+        private const string GameModelKey = "GameModel";
+        private const string MoveCountKey = "MoveCount";
+
         public ActionResult Index()
         {
             var model = GetGameModel();
-            _service.Shuffle(model);
-            SaveGameModel(model);
 
             return View(ToViewModel(model));
         }
@@ -26,9 +24,17 @@ namespace FifteenGame.Web.Controllers
         public ActionResult MakeMove(string directionText)
         {
             var model = GetGameModel();
-            if (Enum.TryParse<MoveDirection>(directionText, out var direction))
+
+            if (Enum.TryParse(directionText, out MoveDirection direction)
+                && direction != MoveDirection.None
+                && !_service.IsGameOver(model))
             {
-                _service.MakeMove(model, direction);
+                if (_service.MakeMove(model, direction))
+                {
+                    int moveCount = GetMoveCount() + 1;
+                    Session[MoveCountKey] = moveCount;
+                }
+
                 SaveGameModel(model);
 
                 if (_service.IsGameOver(model))
@@ -40,24 +46,52 @@ namespace FifteenGame.Web.Controllers
             return View("Index", ToViewModel(model));
         }
 
+        public ActionResult Restart()
+        {
+            var model = new GameModel();
+
+            _service.Shuffle(model);
+
+            SaveGameModel(model);
+            Session[MoveCountKey] = 0;
+
+            return RedirectToAction("Index");
+        }
+
         private GameModel GetGameModel()
         {
-            if (Session.IsNewSession)
+            var model = Session[GameModelKey] as GameModel;
+
+            if (model == null)
             {
-                Session["GameModel"] = new GameModel();
+                model = new GameModel();
+                _service.Shuffle(model);
+
+                SaveGameModel(model);
+                Session[MoveCountKey] = 0;
             }
 
-            return (GameModel)Session["GameModel"];
+            return model;
         }
 
         private void SaveGameModel(GameModel model)
         {
-            Session["GameModel"] = model;
+            Session[GameModelKey] = model;
+        }
+
+        private int GetMoveCount()
+        {
+            return Session[MoveCountKey] == null
+                ? 0
+                : (int)Session[MoveCountKey];
         }
 
         private GameViewModel ToViewModel(GameModel model)
         {
-            var result = new GameViewModel();
+            var result = new GameViewModel
+            {
+                MoveCount = GetMoveCount()
+            };
 
             for (int row = 0; row < GameModel.RowCount; row++)
             {
@@ -67,29 +101,33 @@ namespace FifteenGame.Web.Controllers
                     {
                         Value = model[row, column],
                         Direction = MoveDirection.None,
-                        IsEmpty = model[row, column] == GameModel.FreeCellValue,
+                        IsEmpty = model[row, column] == GameModel.FreeCellValue
                     };
                 }
             }
 
             if (model.FreeCellColumn > 0)
             {
-                result.Cells[model.FreeCellRow, model.FreeCellColumn - 1].Direction = MoveDirection.Right;
+                result.Cells[model.FreeCellRow, model.FreeCellColumn - 1]
+                    .Direction = MoveDirection.Right;
             }
 
             if (model.FreeCellColumn < GameModel.ColumnCount - 1)
             {
-                result.Cells[model.FreeCellRow, model.FreeCellColumn + 1].Direction = MoveDirection.Left;
+                result.Cells[model.FreeCellRow, model.FreeCellColumn + 1]
+                    .Direction = MoveDirection.Left;
             }
 
             if (model.FreeCellRow > 0)
             {
-                result.Cells[model.FreeCellRow - 1, model.FreeCellColumn].Direction = MoveDirection.Down;
+                result.Cells[model.FreeCellRow - 1, model.FreeCellColumn]
+                    .Direction = MoveDirection.Down;
             }
 
             if (model.FreeCellRow < GameModel.RowCount - 1)
             {
-                result.Cells[model.FreeCellRow + 1, model.FreeCellColumn].Direction = MoveDirection.Up;
+                result.Cells[model.FreeCellRow + 1, model.FreeCellColumn]
+                    .Direction = MoveDirection.Up;
             }
 
             return result;
