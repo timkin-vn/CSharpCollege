@@ -1,42 +1,21 @@
-using Calculator.Business.Models;
+﻿using Calculator.Business.Models;
 using Calculator.Business.Services;
-using System;
 using System.ComponentModel;
-using System.Globalization;
 
 namespace Calculator.Wpf.ViewModels
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
-        private readonly CalculatorModel _calculatorModel = new CalculatorModel();
-        private readonly CalculatorService _calculatorService = new CalculatorService();
-        private readonly CultureInfo _displayCulture = CultureInfo.GetCultureInfo("ru-RU");
+        private CalculatorModel _calculatorModel = new CalculatorModel();
+        private CalculatorService _calculatorService = new CalculatorService();
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public string Result
+        public string Result => _calculatorModel.InputText;
+
+        private void UpdateResult()
         {
-            get
-            {
-                if (double.IsNaN(_calculatorModel.RegisterX))
-                {
-                    return "Ошибка";
-                }
-
-                if (double.IsPositiveInfinity(_calculatorModel.RegisterX) || double.IsNegativeInfinity(_calculatorModel.RegisterX))
-                {
-                    return "∞";
-                }
-
-                string text = _calculatorModel.RegisterX.ToString("G15", _displayCulture);
-
-                if (_calculatorModel.IsDrob && !text.Contains(","))
-                {
-                    text += ",";
-                }
-
-                return text;
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Result)));
         }
 
         public void PressDigit(string digitString)
@@ -73,22 +52,6 @@ namespace Calculator.Wpf.ViewModels
         {
             _calculatorService.PressSquare(_calculatorModel);
             UpdateResult();
-        }
-
-        public void PressSquareRoot()
-        {
-            _calculatorService.PressSquareRoot(_calculatorModel);
-            UpdateResult();
-        }
-
-        private void UpdateResult()
-        {
-            OnPropertyChanged(nameof(Result));
-        }
-
-        private void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

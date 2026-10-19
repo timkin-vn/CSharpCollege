@@ -1,4 +1,4 @@
-using Calculator.Wpf.ViewModels;
+﻿using Calculator.Wpf.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -13,14 +13,9 @@ namespace Calculator.Wpf
             InitializeComponent();
         }
 
-        private static string GetButtonText(object sender)
-        {
-            return ((Button)sender).Content.ToString();
-        }
-
         private void DigitButton_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.PressDigit(GetButtonText(sender));
+            ViewModel.PressDigit(((Button)sender).Content.ToString());
         }
 
         private void ClearButton_Click(object sender, RoutedEventArgs e)
@@ -30,7 +25,7 @@ namespace Calculator.Wpf
 
         private void OperationButton_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.PressOperation(GetButtonText(sender));
+            ViewModel.PressOperation(((Button)sender).Content.ToString());
         }
 
         private void EqualButton_Click(object sender, RoutedEventArgs e)
@@ -46,11 +41,6 @@ namespace Calculator.Wpf
         private void SquareButton_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.PressSquare();
-        }
-
-        private void SquareRootButton_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.PressSquareRoot();
         }
     }
 }

@@ -3,5 +3,14 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
   </PropertyGroup>
+  <ItemGroup>
+    <!-- Компилируем только код Сапёра. Исходники преподавателя
+         остаются в папке, но не мешают сборке. -->
+    <Compile Include="Program.cs" />
+    <EmbeddedResource Remove="FifteenGame/**/*" />
+    <Content Remove="FifteenGame/**/*" />
+    <None Remove="FifteenGame/**/*" />
+  </ItemGroup>
 </Project>
