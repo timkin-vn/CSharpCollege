@@ -14,48 +14,48 @@ namespace CardFile.Business.Models
         public int Id { get; set; }
 
         /// <summary>
-        /// Имя
+        /// Название товара
         /// </summary>
-        public string FirstName { get; set; }
+        public string ProductName { get; set; }
 
         /// <summary>
-        /// Отчество
+        /// Категория
         /// </summary>
-        public string MiddleName { get; set; }
+        public string Category { get; set; }
 
         /// <summary>
-        /// Фамилия
+        /// Бренд
         /// </summary>
-        public string LastName { get; set; }
+        public string Brand { get; set; }
 
         /// <summary>
-        /// Дата рождения
+        /// Дата поступления
         /// </summary>
-        public DateTime BirthDate { get; set; }
+        public DateTime DateAdded { get; set; }
 
         /// <summary>
-        /// Подразделение
+        /// Поставщик
         /// </summary>
-        public string Department { get; set; }
+        public string Supplier { get; set; }
 
         /// <summary>
-        /// Должность
+        /// Место хранения
         /// </summary>
-        public string Position { get; set; }
+        public string StorageLocation { get; set; }
 
         /// <summary>
-        /// Дата трудоустройства
+        /// Дата последнего пополнения
         /// </summary>
-        public DateTime EmploymentDate { get; set; }
+        public DateTime LastRestockDate { get; set; }
 
         /// <summary>
-        /// Дата увольнения
+        /// Срок годности
         /// </summary>
-        public DateTime? DismissalDate { get; set; }
+        public DateTime? ExpirationDate { get; set; }
 
         /// <summary>
-        /// Оклад
+        /// Цена
         /// </summary>
-        public decimal Salary { get; set; }
+        public decimal Price { get; set; }
     }
 }

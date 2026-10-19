@@ -55,15 +55,15 @@ namespace CardFile.Business.Services
             //return new Card
             //{
             //    Id = card.Id,
-            //    FirstName = card.FirstName,
-            //    MiddleName = card.MiddleName,
-            //    LastName = card.LastName,
-            //    BirthDate = card.BirthDate,
-            //    Department = card.Department,
-            //    Position = card.Position,
-            //    EmploymentDate = card.EmploymentDate,
-            //    DismissalDate = card.DismissalDate,
-            //    Salary = card.Salary,
+            //    ProductName = card.ProductName,
+            //    Category = card.Category,
+            //    Brand = card.Brand,
+            //    DateAdded = card.DateAdded,
+            //    Supplier = card.Supplier,
+            //    StorageLocation = card.StorageLocation,
+            //    LastRestockDate = card.LastRestockDate,
+            //    ExpirationDate = card.ExpirationDate,
+            //    Price = card.Price,
             //};
         }
 
@@ -73,15 +73,15 @@ namespace CardFile.Business.Services
             //return new CardDto
             //{
             //    Id = card.Id,
-            //    FirstName = card.FirstName,
-            //    MiddleName = card.MiddleName,
-            //    LastName = card.LastName,
-            //    BirthDate = card.BirthDate,
-            //    Department = card.Department,
-            //    Position = card.Position,
-            //    EmploymentDate = card.EmploymentDate,
-            //    DismissalDate = card.DismissalDate,
-            //    Salary = card.Salary,
+            //    ProductName = card.ProductName,
+            //    Category = card.Category,
+            //    Brand = card.Brand,
+            //    DateAdded = card.DateAdded,
+            //    Supplier = card.Supplier,
+            //    StorageLocation = card.StorageLocation,
+            //    LastRestockDate = card.LastRestockDate,
+            //    ExpirationDate = card.ExpirationDate,
+            //    Price = card.Price,
             //};
         }
     }
