@@ -1,0 +1,57 @@
+﻿<Window x:Class="CardFile.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:viewmodels="clr-namespace:CardFile.Wpf.ViewModels"
+        Title="{Binding WindowTitle}" Height="500" Width="900" 
+        Loaded="Window_Loaded" Initialized="Window_Initialized" Background="#FAFAFA">
+    <Window.DataContext>
+        <viewmodels:MainWindowViewModel />
+    </Window.DataContext>
+
+    <DockPanel>
+        <Menu DockPanel.Dock="Top" Background="#EEEEEE">
+            <MenuItem Header="_Файл">
+                <MenuItem Header="_Открыть..." Click="FileOpenMenuItem_Click" />
+                <MenuItem Header="_Сохранить" Click="FileSaveMenuItem_Click" />
+                <MenuItem Header="Со_хранить как..." Click="FileSaveAsMenuItem_Click" />
+                <Separator />
+                <MenuItem Header="В_ыход" Click="FileExitMenuItem_Click" />
+            </MenuItem>
+        </Menu>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10,10,10,5">
+                <TextBlock Text="Поиск:" VerticalAlignment="Center" Margin="0,0,10,0" FontWeight="SemiBold"/>
+                <TextBox Width="250" Padding="2" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+
+            <DataGrid Grid.Row="1" ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" 
+                      SelectionChanged="DataGrid_SelectionChanged" AutoGenerateColumns="False" IsReadOnly="True"
+                      CanUserAddRows="False" SelectionMode="Single" Margin="10,5,10,5"
+                      AlternatingRowBackground="#FFF0F5F9" RowHeight="28">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ФИО" Binding="{Binding Fio}" />
+                    <DataGridTextColumn Header="Телефон" Binding="{Binding Phone}" />
+                    <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDateText}" />
+                    <DataGridTextColumn Header="Подразделение" Binding="{Binding Department}" />
+                    <DataGridTextColumn Header="Должность" Binding="{Binding Position}" />
+                    <DataGridTextColumn Header="Трудоустройство" Binding="{Binding EmploymentDateText}" />
+                    <DataGridTextColumn Header="Увольнение" Binding="{Binding DismissalDateText}" />
+                    <DataGridTextColumn Header="Оклад" Binding="{Binding SalaryText}" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,5,5">
+                <Button Content="Добавить" Width="90" Padding="6" Margin="5" Click="CreateButton_Click" Background="#E1F5FE" />
+                <Button Content="Изменить" Width="90" IsEnabled="{Binding IsEditButtonEnabled}" Padding="6" Margin="5" Click="EditButton_Click" />
+                <Button Content="Удалить" Width="90" IsEnabled="{Binding IsDeleteButtonEnabled}" Padding="6" Margin="5" Click="DeleteButton_Click" Background="#FFEBEE" />
+            </StackPanel>
+        </Grid>
+    </DockPanel>
+</Window>
