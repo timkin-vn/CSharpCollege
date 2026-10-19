@@ -37,14 +37,14 @@ namespace CardFile.Wpf.Views
             DialogResult = false;
         }
 
-        private void IsWorkingTillNowCheckBox_Checked(object sender, RoutedEventArgs e)
+        private void ExpirationDateNotSetCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            ViewModel.IsWorkingTillNowChecked();
+            ViewModel.ExpirationDateNotSetChecked();
         }
 
-        private void IsWorkingTillNowCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        private void ExpirationDateNotSetCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            ViewModel.IsWorkingTillNowUnchecked();
+            ViewModel.ExpirationDateNotSetUnchecked();
         }
     }
 }

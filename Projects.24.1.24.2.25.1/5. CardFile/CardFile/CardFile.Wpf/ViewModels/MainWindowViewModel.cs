@@ -26,7 +26,7 @@ namespace CardFile.Wpf.ViewModels
 
         public string FileName { get; private set; }
 
-        public string WindowTitle => string.IsNullOrEmpty(FileName) ? "Картотека" : $"Картотека: {Path.GetFileName(FileName)}";
+        public string WindowTitle => string.IsNullOrEmpty(FileName) ? "Каталог товаров" : $"Каталог товаров: {Path.GetFileName(FileName)}";
 
         public MainWindowViewModel()
         {
@@ -52,8 +52,8 @@ namespace CardFile.Wpf.ViewModels
         {
             return new CardViewModel
             {
-                BirthDate = new DateTime(2000, 6, 15),
-                EmploymentDate = new DateTime(2020, 6, 15),
+                DateAdded = DateTime.Today,
+                LastRestockDate = DateTime.Today,
             };
         }
 
@@ -63,7 +63,7 @@ namespace CardFile.Wpf.ViewModels
 
             if (index < 0)
             {
-                throw new Exception("Карточка с таким Id не существует");
+                throw new Exception("Товар с таким Id не существует");
             }
 
             var id = _service.Save(ToBusiness(card));
@@ -122,7 +122,7 @@ namespace CardFile.Wpf.ViewModels
 
             if (index < 0)
             {
-                throw new Exception("Карточка с таким Id не существует");
+                throw new Exception("Товар с таким Id не существует");
             }
 
             Cards.RemoveAt(index);
@@ -167,15 +167,15 @@ namespace CardFile.Wpf.ViewModels
             //return new CardViewModel
             //{
             //    Id = card.Id,
-            //    FirstName = card.FirstName,
-            //    MiddleName = card.MiddleName,
-            //    LastName = card.LastName,
-            //    BirthDate = card.BirthDate,
-            //    Department = card.Department,
-            //    Position = card.Position,
-            //    EmploymentDate = card.EmploymentDate,
-            //    DismissalDate = card.DismissalDate,
-            //    Salary = card.Salary,
+            //    ProductName = card.ProductName,
+            //    Category = card.Category,
+            //    Brand = card.Brand,
+            //    DateAdded = card.DateAdded,
+            //    Supplier = card.Supplier,
+            //    StorageLocation = card.StorageLocation,
+            //    LastRestockDate = card.LastRestockDate,
+            //    ExpirationDate = card.ExpirationDate,
+            //    Price = card.Price,
             //};
         }
 
@@ -185,15 +185,15 @@ namespace CardFile.Wpf.ViewModels
             //return new Card
             //{
             //    Id = card.Id,
-            //    FirstName = card.FirstName,
-            //    MiddleName = card.MiddleName,
-            //    LastName = card.LastName,
-            //    BirthDate = card.BirthDate,
-            //    Department = card.Department,
-            //    Position = card.Position,
-            //    EmploymentDate = card.EmploymentDate,
-            //    DismissalDate = card.DismissalDate,
-            //    Salary = card.Salary,
+            //    ProductName = card.ProductName,
+            //    Category = card.Category,
+            //    Brand = card.Brand,
+            //    DateAdded = card.DateAdded,
+            //    Supplier = card.Supplier,
+            //    StorageLocation = card.StorageLocation,
+            //    LastRestockDate = card.LastRestockDate,
+            //    ExpirationDate = card.ExpirationDate,
+            //    Price = card.Price,
             //};
         }
     }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CardFile.Wpf" xmlns:viewmodels="clr-namespace:CardFile.Wpf.ViewModels"
         mc:Ignorable="d"
-        Title="{Binding WindowTitle}" Height="450" Width="800" Loaded="Window_Loaded" Initialized="Window_Initialized">
+        Title="{Binding WindowTitle}" Height="500" Width="1100" Loaded="Window_Loaded" Initialized="Window_Initialized">
     <Window.DataContext>
         <viewmodels:MainWindowViewModel />
     </Window.DataContext>
@@ -31,13 +31,15 @@
                       AutoGenerateColumns="False" IsReadOnly="True"
                       CanUserAddRows="False" SelectionMode="Single" Margin="5">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ФИО" Binding="{Binding Fio}" />
-                    <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDateText}" />
-                    <DataGridTextColumn Header="Подразделение" Binding="{Binding Department}" />
-                    <DataGridTextColumn Header="Должность" Binding="{Binding Position}" />
-                    <DataGridTextColumn Header="Дата трудоустройства" Binding="{Binding EmploymentDateText}" />
-                    <DataGridTextColumn Header="Дата увольнения" Binding="{Binding DismissalDateText}" />
-                    <DataGridTextColumn Header="Оклад" Binding="{Binding SalaryText}" />
+                    <DataGridTextColumn Header="Название товара" Binding="{Binding ProductName}" />
+                    <DataGridTextColumn Header="Категория" Binding="{Binding Category}" />
+                    <DataGridTextColumn Header="Бренд" Binding="{Binding Brand}" />
+                    <DataGridTextColumn Header="Дата поступления" Binding="{Binding DateAddedText}" />
+                    <DataGridTextColumn Header="Поставщик" Binding="{Binding Supplier}" />
+                    <DataGridTextColumn Header="Место хранения" Binding="{Binding StorageLocation}" />
+                    <DataGridTextColumn Header="Последнее пополнение" Binding="{Binding LastRestockDateText}" />
+                    <DataGridTextColumn Header="Срок годности" Binding="{Binding ExpirationDateText}" />
+                    <DataGridTextColumn Header="Цена" Binding="{Binding PriceText}" />
                 </DataGrid.Columns>
             </DataGrid>
             

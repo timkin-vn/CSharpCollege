@@ -15,95 +15,95 @@ namespace CardFile.Wpf.ViewModels
         public int Id { get; set; }
 
         /// <summary>
-        /// Имя
+        /// Название товара
         /// </summary>
-        public string FirstName { get; set; }
+        public string ProductName { get; set; }
 
         /// <summary>
-        /// Отчество
+        /// Категория
         /// </summary>
-        public string MiddleName { get; set; }
+        public string Category { get; set; }
 
         /// <summary>
-        /// Фамилия
+        /// Бренд
         /// </summary>
-        public string LastName { get; set; }
+        public string Brand { get; set; }
 
-        public string Fio => $"{LastName} {FirstName} {MiddleName}";
+        public string ProductTitle => $"{Brand} {ProductName} {Category}";
 
         /// <summary>
-        /// Дата рождения
+        /// Дата поступления
         /// </summary>
-        public DateTime BirthDate { get; set; }
+        public DateTime DateAdded { get; set; }
 
-        public string BirthDateText => BirthDate.ToShortDateString();
+        public string DateAddedText => DateAdded.ToShortDateString();
 
         /// <summary>
-        /// Подразделение
+        /// Поставщик
         /// </summary>
-        public string Department { get; set; }
+        public string Supplier { get; set; }
 
         /// <summary>
-        /// Должность
+        /// Место хранения
         /// </summary>
-        public string Position { get; set; }
+        public string StorageLocation { get; set; }
 
         /// <summary>
-        /// Дата трудоустройства
+        /// Дата последнего пополнения
         /// </summary>
-        public DateTime EmploymentDate { get; set; }
+        public DateTime LastRestockDate { get; set; }
 
-        public string EmploymentDateText => EmploymentDate.ToShortDateString();
+        public string LastRestockDateText => LastRestockDate.ToShortDateString();
 
         /// <summary>
-        /// Дата увольнения
+        /// Срок годности
         /// </summary>
-        public DateTime? DismissalDate { get; set; }
+        public DateTime? ExpirationDate { get; set; }
 
-        public string DismissalDateText => DismissalDate?.ToShortDateString() ?? "-";
+        public string ExpirationDateText => ExpirationDate?.ToShortDateString() ?? "-";
 
         /// <summary>
-        /// Оклад
+        /// Цена
         /// </summary>
-        public decimal Salary { get; set; }
+        public decimal Price { get; set; }
 
-        public string SalaryText => Salary.ToString("c");
+        public string PriceText => Price.ToString("c");
 
-        public bool IsWorkingTillNow { get; set; }
+        public bool IsExpirationDateNotSet { get; set; }
 
-        public bool IsDismissalDateEnabled => !IsWorkingTillNow;
+        public bool IsExpirationDateEnabled => !IsExpirationDateNotSet;
 
-        public void IsWorkingTillNowChecked()
+        public void ExpirationDateNotSetChecked()
         {
-            DismissalDate = null;
+            ExpirationDate = null;
 
-            OnPropertyChanged(nameof(DismissalDate));
-            OnPropertyChanged(nameof(IsDismissalDateEnabled));
+            OnPropertyChanged(nameof(ExpirationDate));
+            OnPropertyChanged(nameof(IsExpirationDateEnabled));
         }
 
-        public void IsWorkingTillNowUnchecked()
+        public void ExpirationDateNotSetUnchecked()
         {
-            DismissalDate = DateTime.Today;
+            ExpirationDate = DateTime.Today;
 
-            OnPropertyChanged(nameof(DismissalDate));
-            OnPropertyChanged(nameof(IsDismissalDateEnabled));
+            OnPropertyChanged(nameof(ExpirationDate));
+            OnPropertyChanged(nameof(IsExpirationDateEnabled));
         }
 
         public void LoadViewModel(CardViewModel model)
         {
             Mapping.Mapper.Map(model, this);
             //Id = model.Id;
-            //FirstName = model.FirstName;
-            //MiddleName = model.MiddleName;
-            //LastName = model.LastName;
-            //BirthDate = model.BirthDate;
-            //Department = model.Department;
-            //Position = model.Position;
-            //EmploymentDate = model.EmploymentDate;
-            //DismissalDate = model.DismissalDate;
-            //Salary = model.Salary;
+            //ProductName = model.ProductName;
+            //Category = model.Category;
+            //Brand = model.Brand;
+            //DateAdded = model.DateAdded;
+            //Supplier = model.Supplier;
+            //StorageLocation = model.StorageLocation;
+            //LastRestockDate = model.LastRestockDate;
+            //ExpirationDate = model.ExpirationDate;
+            //Price = model.Price;
 
-            IsWorkingTillNow = !model.DismissalDate.HasValue;
+            IsExpirationDateNotSet = !model.ExpirationDate.HasValue;
 
             UpdateAll();
         }
@@ -111,18 +111,18 @@ namespace CardFile.Wpf.ViewModels
         private void UpdateAll()
         {
             OnPropertyChanged(nameof(Id));
-            OnPropertyChanged(nameof(FirstName));
-            OnPropertyChanged(nameof(MiddleName));
-            OnPropertyChanged(nameof(LastName));
-            OnPropertyChanged(nameof(Fio));
-            OnPropertyChanged(nameof(BirthDate));
-            OnPropertyChanged(nameof(Department));
-            OnPropertyChanged(nameof(Position));
-            OnPropertyChanged(nameof(EmploymentDate));
-            OnPropertyChanged(nameof(DismissalDate));
-            OnPropertyChanged(nameof(Salary));
-            OnPropertyChanged(nameof(IsWorkingTillNow));
-            OnPropertyChanged(nameof(IsDismissalDateEnabled));
+            OnPropertyChanged(nameof(ProductName));
+            OnPropertyChanged(nameof(Category));
+            OnPropertyChanged(nameof(Brand));
+            OnPropertyChanged(nameof(ProductTitle));
+            OnPropertyChanged(nameof(DateAdded));
+            OnPropertyChanged(nameof(Supplier));
+            OnPropertyChanged(nameof(StorageLocation));
+            OnPropertyChanged(nameof(LastRestockDate));
+            OnPropertyChanged(nameof(ExpirationDate));
+            OnPropertyChanged(nameof(Price));
+            OnPropertyChanged(nameof(IsExpirationDateNotSet));
+            OnPropertyChanged(nameof(IsExpirationDateEnabled));
         }
     }
 }
