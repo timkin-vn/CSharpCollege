@@ -1,11 +1,7 @@
 ﻿using Drawing.Models;
 using Drawing.ViewServices;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Drawing.Services
 {
@@ -15,63 +11,58 @@ namespace Drawing.Services
         {
             X = -5,
             Y = -1,
-            Width = 19,
-            Height = 12,
+            Width = 20,
+            Height = 15,
         };
 
         public void DrawPicture(Painter painter)
         {
-            var mainPen = new Pen(Color.Black, 3);
-            var wheelBrush = Brushes.LightGray;
+            var thickBlackPen = new Pen(Color.Black, 3);
+            var thinBrownPen = new Pen(Color.SaddleBrown, 2);
+            var redPen = new Pen(Color.Red, 2);
+            var yellowPen = new Pen(Color.Gold, 1);
 
-            var rect = new RectangleModel { X = -1, Y = 0, Width = 2, Height = 2, };
-            painter.DrawEllipse(mainPen, wheelBrush, rect);
-
-            rect.X = 2;
-            painter.DrawEllipse(mainPen, wheelBrush, rect);
-
-            rect.X = 5;
-            painter.DrawEllipse(mainPen, wheelBrush, rect);
-
-            rect.X = 8;
-            painter.DrawEllipse(mainPen, wheelBrush, rect);
-
-            var bodyBrush = Brushes.DarkGray;
-
-            rect = new RectangleModel { X = 0, Y = 2, Width = 12, Height = 4, };
-            painter.DrawRectangle(mainPen, bodyBrush, rect);
-
-            rect = new RectangleModel { X = -4, Y = 2, Width = 4, Height = 8, };
-            painter.DrawRectangle(mainPen, bodyBrush, rect);
-
+            var skyBrush = Brushes.LightCyan;
+            var sunBrush = Brushes.Yellow;
+            var houseBrush = Brushes.BurlyWood;
+            var roofBrush = Brushes.IndianRed;
             var windowBrush = Brushes.LightSkyBlue;
+            var fenceBrush = Brushes.Chocolate;
 
-            rect = new RectangleModel { X = -2, Y = 6, Width = 1.5, Height = 3, };
-            painter.DrawRectangle(mainPen, windowBrush, rect);
+            RectangleModel rect;
 
-            rect = new RectangleModel { X = 11, Y = 2, Width = 2, Height = 4, };
-            painter.DrawPie(mainPen, bodyBrush, rect, 270, 180);
+            rect = new RectangleModel { X = -3, Y = 10, Width = 3, Height = 3 };
+            painter.DrawEllipse(yellowPen, sunBrush, rect);
 
-            var sweeperBrush = Brushes.Red;
-            var sweeperPoints = new[]
+            rect = new RectangleModel { X = -4, Y = 9, Width = 5, Height = 5 };
+            painter.DrawPie(yellowPen, null, rect, 0, 45);
+            painter.DrawPie(yellowPen, null, rect, 90, 45);
+
+            rect = new RectangleModel { X = 2, Y = 1, Width = 8, Height = 6 };
+            painter.DrawRectangle(thickBlackPen, houseBrush, rect);
+
+            rect = new RectangleModel { X = 8, Y = 7, Width = 1, Height = 3 };
+            painter.DrawRectangle(thickBlackPen, Brushes.Gray, rect);
+
+            rect = new RectangleModel { X = 4, Y = 3, Width = 3, Height = 3 };
+            painter.DrawRectangle(thickBlackPen, windowBrush, rect);
+
+            var roofPoints = new[]
             {
-                new PointModel { X = 11, Y = 2, },
-                new PointModel { X = 12, Y = 2, },
-                new PointModel { X = 13, Y = 0.5, },
-                new PointModel { X = 11, Y = 0.5, },
+                new PointModel { X = 1, Y = 7 },
+                new PointModel { X = 11, Y = 7 },
+                new PointModel { X = 6, Y = 11 }
             };
+            painter.DrawPolygon(redPen, roofBrush, roofPoints);
 
-            painter.DrawPolygon(mainPen, sweeperBrush, sweeperPoints);
+            rect = new RectangleModel { X = 11, Y = 1, Width = 0.5, Height = 3 };
+            painter.DrawRectangle(thinBrownPen, fenceBrush, rect);
 
-            var pipePoints = new[]
-            {
-                new PointModel { X = 8.5, Y = 9, },
-                new PointModel { X = 10.5, Y = 9, },
-                new PointModel { X = 10, Y = 6, },
-                new PointModel { X = 9, Y = 6, },
-            };
+            rect = new RectangleModel { X = 12, Y = 1, Width = 0.5, Height = 3 };
+            painter.DrawRectangle(thinBrownPen, fenceBrush, rect);
 
-            painter.DrawPolygon(mainPen, bodyBrush, pipePoints);
+            rect = new RectangleModel { X = 13, Y = 1, Width = 0.5, Height = 3 };
+            painter.DrawRectangle(thinBrownPen, fenceBrush, rect);
         }
     }
 }

@@ -3,8 +3,6 @@ using CardFile.DataStore.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CardFile.DataStore.DataCollection
 {
@@ -21,75 +19,62 @@ namespace CardFile.DataStore.DataCollection
             _cards.Add(new CardDto
             {
                 Id = 1,
-                FirstName = "Андрей",
-                MiddleName = "Геннадьевич",
-                LastName = "Захаров",
-                BirthDate = new DateTime(1985, 11, 7),
-                Department = "Отдел разработки",
-                Position = "Руководитель проекта",
-                EmploymentDate = new DateTime(2010, 4, 18),
-                DismissalDate = null,
-                Salary = 250000m,
+                LastName = "Toyota",
+                FirstName = "Camry",
+                MiddleName = "Седан",
+                Department = "Черный",
+                Position = "Двигатель 2.5L",
+                BirthDate = new DateTime(2021, 1, 1),
+                EmploymentDate = new DateTime(2024, 5, 10),
+                DismissalDate = new DateTime(2024, 11, 7),
+                Salary = 3200000m
             });
 
             _cards.Add(new CardDto
             {
                 Id = 2,
-                FirstName = "Нина",
-                MiddleName = "Аркадьевна",
-                LastName = "Шевченко",
-                BirthDate = new DateTime(1990, 8, 21),
-                Department = "Отдел тестирования",
-                Position = "Старший тестировщик",
-                EmploymentDate = new DateTime(2015, 2, 14),
-                DismissalDate = new DateTime(2024, 11, 3),
-                Salary = 200000m,
+                LastName = "Haval",
+                FirstName = "Jolion",
+                MiddleName = "Кроссовер",
+                Department = "Белый",
+                Position = "Двигатель 1.5L",
+                BirthDate = new DateTime(2023, 1, 1),
+                EmploymentDate = new DateTime(2025, 1, 15),
+                DismissalDate = null,
+                Salary = 2400000m
             });
 
             _cards.Add(new CardDto
             {
                 Id = 3,
-                FirstName = "Виктор",
-                MiddleName = "Петрович",
-                LastName = "Васильев",
-                BirthDate = new DateTime(2001, 3, 11),
-                Department = "Отдел разработки",
-                Position = "Ведущий разработчик",
-                EmploymentDate = new DateTime(2020, 9, 25),
-                DismissalDate = null,
-                Salary = 300000m,
+                LastName = "BMW",
+                FirstName = "X5",
+                MiddleName = "Внедорожник",
+                Department = "Синий",
+                Position = "Двигатель 3.0L",
+                BirthDate = new DateTime(2020, 1, 1),
+                EmploymentDate = new DateTime(2023, 8, 21),
+                DismissalDate = new DateTime(2024, 3, 11),
+                Salary = 6500000m
             });
 
             _cards.Add(new CardDto
             {
                 Id = 4,
-                FirstName = "Ольга",
-                MiddleName = "Владимировна",
-                LastName = "Меднис",
-                BirthDate = new DateTime(1981, 9, 2),
-                Department = "Бухгалтерия",
-                Position = "Главный бухгалтер",
-                EmploymentDate = new DateTime(2010, 9, 25),
-                DismissalDate = new DateTime(2023, 3, 18),
-                Salary = 150000m,
+                LastName = "Lada",
+                FirstName = "Vesta",
+                MiddleName = "Универсал",
+                Department = "Серый",
+                Position = "Двигатель 1.6L",
+                BirthDate = new DateTime(2022, 1, 1),
+                EmploymentDate = new DateTime(2024, 9, 2),
+                DismissalDate = null,
+                Salary = 1450000m
             });
         }
 
         public IEnumerable<CardDto> GetAll()
         {
-            //return _cards;
-
-            //return new List<CardDto>(_cards);
-
-            //var result = new List<CardDto>();
-
-            //foreach (var card in _cards)
-            //{
-            //    result.Add(card.Clone());
-            //}
-
-            //return result;
-
             return _cards.Select(c => c.Clone()).ToList();
         }
 

@@ -31,13 +31,13 @@
             <DataGrid ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" AutoGenerateColumns="False" IsReadOnly="True"
                       CanUserAddRows="False" Grid.Row="0" Margin="5" SelectionChanged="DataGrid_SelectionChanged">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ФИО" Binding="{Binding Fio}" />
-                    <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDateText}" />
-                    <DataGridTextColumn Header="Подразделение" Binding="{Binding Department}" />
-                    <DataGridTextColumn Header="Должность" Binding="{Binding Position}" />
-                    <DataGridTextColumn Header="Дата трудоустройства" Binding="{Binding EmploymentDateText}" />
-                    <DataGridTextColumn Header="Дата увольнения" Binding="{Binding DismissalDateText}" />
-                    <DataGridTextColumn Header="Оклад" Binding="{Binding SalaryText}" />
+                    <DataGridTextColumn Header="Автомобиль" Binding="{Binding Fio}" />
+                    <DataGridTextColumn Header="Год выпуска" Binding="{Binding BirthDateText}" />
+                    <DataGridTextColumn Header="Цвет" Binding="{Binding Department}" />
+                    <DataGridTextColumn Header="Двигатель" Binding="{Binding Position}" />
+                    <DataGridTextColumn Header="Поступление на склад" Binding="{Binding EmploymentDateText}" />
+                    <DataGridTextColumn Header="Дата продажи" Binding="{Binding DismissalDateText}" />
+                    <DataGridTextColumn Header="Цена" Binding="{Binding SalaryText}" />
                 </DataGrid.Columns>
             </DataGrid>
 

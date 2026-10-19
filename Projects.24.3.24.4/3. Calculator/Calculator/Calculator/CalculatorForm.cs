@@ -1,13 +1,6 @@
 ﻿using Calculator.Business.Models;
 using Calculator.Business.Services;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Calculator
@@ -15,7 +8,6 @@ namespace Calculator
     public partial class CalculatorForm : Form
     {
         private CalculatorModel _calculatorModel = new CalculatorModel();
-
         private CalculatorService _calculatorService = new CalculatorService();
 
         public CalculatorForm()
@@ -51,6 +43,18 @@ namespace Calculator
         {
             var operationCode = ((Button)sender).Text;
             _calculatorService.PressOperation(_calculatorModel, operationCode);
+            DisplayResult();
+        }
+
+        private void DotButton_Click(object sender, EventArgs e)
+        {
+            _calculatorService.PressOperation(_calculatorModel, ",");
+            DisplayResult();
+        }
+
+        private void SignButton_Click(object sender, EventArgs e)
+        {
+            _calculatorService.PressOperation(_calculatorModel, "+/-");
             DisplayResult();
         }
     }

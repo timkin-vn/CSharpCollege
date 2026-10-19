@@ -1,15 +1,8 @@
-﻿using AlarmClock.Forms;
-using AlarmClock.Model;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
+﻿using System;
 using System.Media;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using AlarmClock.Forms;
+using AlarmClock.Model;
 
 namespace AlarmClock
 {
@@ -26,36 +19,29 @@ namespace AlarmClock
         {
             DisplayLabel.Text = DateTime.Now.ToLongTimeString();
 
-            if (!_clockState.IsAlarmActive)
+            if (_clockState.IsAlarmActive == false)
             {
                 return;
             }
 
-            if (!_clockState.IsAwakeActivated &&
+            if (_clockState.IsAwakeActivated == false &&
                 DateTime.Now.Minute == _clockState.AlarmTime.Minute &&
                 DateTime.Now.Hour == _clockState.AlarmTime.Hour)
             {
                 _clockState.IsAwakeActivated = true;
 
                 var awakeForm = new AwakeForm { ClockState = _clockState };
-                awakeForm.FormClosed += AwakeForm_FormClosed;
-
                 awakeForm.ShowDialog();
+
+                _clockState.IsAlarmActive = false;
+                _clockState.IsAwakeActivated = false;
+                UpdateView();
             }
 
             if (_clockState.IsSoundActive && _clockState.IsAwakeActivated)
             {
                 SystemSounds.Beep.Play();
             }
-        }
-
-        private void AwakeForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            ((Form)sender).FormClosed -= AwakeForm_FormClosed;
-
-            _clockState.IsAlarmActive = false;
-            _clockState.IsAwakeActivated = false;
-            UpdateView();
         }
 
         private void ExitButton_Click(object sender, EventArgs e)
@@ -85,7 +71,7 @@ namespace AlarmClock
         {
             if (_clockState.IsAlarmActive)
             {
-                Text = $"Будильник. Ожидается срабатывание в {_clockState.AlarmTime.ToShortTimeString()}";
+                Text = "Будильник. Ожидается срабатывание в " + _clockState.AlarmTime.ToShortTimeString();
             }
             else
             {

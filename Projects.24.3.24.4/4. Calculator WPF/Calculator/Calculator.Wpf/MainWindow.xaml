@@ -9,7 +9,7 @@
     <Window.DataContext>
         <viewmodels:MainWindowViewModel />
     </Window.DataContext>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -29,19 +29,19 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="6" Text="{Binding DisplayValue}" TextAlignment="Right" FontSize="48"
+        <TextBlock x:Name="DisplayLabel" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="6" Text="{Binding DisplayValue}" TextAlignment="Right" FontSize="48"
                    Background="Black" Foreground="Linen" Margin="10,10,10,5" Padding="10"/>
 
         <Button Grid.Row="2" Grid.Column="0" Content="7" FontSize="36" Margin="10,5,5,5" Click="DigitButton_Click" />
         <Button Grid.Row="2" Grid.Column="1" Content="8" FontSize="36" Margin="5" Click="DigitButton_Click" />
         <Button Grid.Row="2" Grid.Column="2" Content="9" FontSize="36" Margin="5" Click="DigitButton_Click" />
-        
+
         <Button Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2" Content="C" FontSize="36" Margin="5,5,10,5" Click="ClearButton_Click" />
 
         <Button Grid.Row="3" Grid.Column="0" Content="4" FontSize="36" Margin="10,5,5,5" Click="DigitButton_Click" />
         <Button Grid.Row="3" Grid.Column="1" Content="5" FontSize="36" Margin="5" Click="DigitButton_Click" />
         <Button Grid.Row="3" Grid.Column="2" Content="6" FontSize="36" Margin="5" Click="DigitButton_Click" />
-        
+
         <Button Grid.Row="3" Grid.Column="4" Content="+" FontSize="36" Margin="5" Click="OperationButton_Click" />
         <Button Grid.Row="3" Grid.Column="5" Content="-" FontSize="36" Margin="5,5,10,5" Click="OperationButton_Click" />
 
@@ -53,6 +53,9 @@
         <Button Grid.Row="4" Grid.Column="5" Content="/" FontSize="36" Margin="5,5,10,5" Click="OperationButton_Click" />
 
         <Button Grid.Row="5" Grid.Column="0" Content="0" FontSize="36" Margin="10,5,5,10" Click="DigitButton_Click" />
+
+        <Button Grid.Row="5" Grid.Column="1" Content="," FontSize="36" Margin="5,5,5,10" Click="DotButton_Click" />
+        <Button Grid.Row="5" Grid.Column="2" Content="+/-" FontSize="36" Margin="5,5,5,10" Click="SignButton_Click" />
 
         <Button Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="2" Content="=" FontSize="36" Margin="5,5,10,10" Click="OperationButton_Click" />
     </Grid>
