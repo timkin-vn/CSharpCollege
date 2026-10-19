@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Сапёр</title>
+<style>
+  body {
+    margin: 0;
+    padding: 20px;
+    background: #2b2f36;
+    font-family: Segoe UI, Arial, sans-serif;
+    color: #eee;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  h1 { margin: 0 0 12px 0; font-size: 26px; }
+  .game {
+    background: #c0c0c0;
+    padding: 8px;
+    border: 3px solid;
+    border-color: #fff #7b7b7b #7b7b7b #fff;
+    display: inline-block;
+  }
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px;
+    margin-bottom: 8px;
+    border: 3px solid;
+    border-color: #7b7b7b #fff #fff #7b7b7b;
+  }
+  .lcd {
+    background: #000;
+    color: #f00;
+    font-family: Consolas, monospace;
+    font-size: 26px;
+    font-weight: bold;
+    padding: 0 4px;
+    min-width: 54px;
+    text-align: right;
+  }
+  .face {
+    width: 38px;
+    height: 38px;
+    font-size: 22px;
+    background: #c0c0c0;
+    border: 3px solid;
+    border-color: #fff #7b7b7b #7b7b7b #fff;
+    cursor: pointer;
+    padding: 0;
+  }
+  .face:active { border-color: #7b7b7b #fff #fff #7b7b7b; }
+  .board {
+    display: grid;
+    border: 3px solid;
+    border-color: #7b7b7b #fff #fff #7b7b7b;
+    user-select: none;
+  }
+  .cell {
+    width: 26px;
+    height: 26px;
+    box-sizing: border-box;
+    background: #c0c0c0;
+    border: 3px solid;
+    border-color: #fff #7b7b7b #7b7b7b #fff;
+    font-weight: bold;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .cell.open {
+    border: 1px solid #7b7b7b;
+    cursor: default;
+  }
+  .cell.boom { background: #f00; }
+  .n1 { color: #0000ff; }
+  .n2 { color: #007b00; }
+  .n3 { color: #ff0000; }
+  .n4 { color: #00007b; }
+  .n5 { color: #7b0000; }
+  .n6 { color: #007b7b; }
+  .n7 { color: #000; }
+  .n8 { color: #7b7b7b; }
+  .controls { margin: 0 0 12px 0; display: flex; gap: 8px; align-items: center; }
+  select, .btn {
+    font-size: 15px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid #555;
+    background: #3a3f48;
+    color: #eee;
+    cursor: pointer;
+  }
+  #msg { margin-top: 12px; min-height: 22px; font-size: 18px; }
+  .hint { margin-top: 6px; color: #999; font-size: 13px; }
+</style>
+</head>
+<body>
+
+<h1>Сапёр</h1>
+
+<div class="controls">
+  <select id="level">
+    <option value="0">Новичок 9x9</option>
+    <option value="1">Любитель 16x16</option>
+    <option value="2">Профи 16x30</option>
+  </select>
+  <button class="btn" id="newBtn">Новая игра</button>
+</div>
+
+<div class="game">
+  <div class="top">
+    <div class="lcd" id="mines">000</div>
+    <button class="face" id="face">🙂</button>
+    <div class="lcd" id="time">000</div>
+  </div>
+  <div class="board" id="board"></div>
+</div>
+
+<div id="msg"></div>
+<div class="hint">ЛКМ - открыть, ПКМ - флажок</div>
+
+<script>
+  var gameId = null;
+  var game = null;
+  var cells = [];
+  var busy = false;
+  var lastR = -1;
+  var lastC = -1;
+  var seconds = 0;
+  var timer = null;
+
+  function three(n) {
+    if (n < 0) return "-" + String(-n).padStart(2, "0");
+    if (n > 999) n = 999;
+    return String(n).padStart(3, "0");
+  }
+
+  function showMsg(t) {
+    document.getElementById("msg").textContent = t || "";
+  }
+
+  function startTimer() {
+    if (timer != null) return;
+    timer = setInterval(function () {
+      seconds++;
+      document.getElementById("time").textContent = three(seconds);
+    }, 1000);
+  }
+
+  function stopTimer() {
+    if (timer != null) {
+      clearInterval(timer);
+      timer = null;
+    }
+  }
+
+  async function send(method, url, body) {
+    var opt = { method: method, headers: {} };
+    if (body) {
+      opt.headers["Content-Type"] = "application/json";
+      opt.body = JSON.stringify(body);
+    }
+    var res = await fetch(url, opt);
+    var text = await res.text();
+    var data = null;
+    try { data = text ? JSON.parse(text) : null; } catch (e) { data = null; }
+    if (!res.ok) {
+      var err = "Ошибка " + res.status;
+      if (data && data.Message) err = data.Message;
+      if (data && data.ExceptionMessage) err = data.ExceptionMessage;
+      throw new Error(err);
+    }
+    return data;
+  }
+
+  async function newGame() {
+    if (busy) return;
+    busy = true;
+    stopTimer();
+    seconds = 0;
+    document.getElementById("time").textContent = "000";
+    showMsg("");
+    try {
+      var lvl = parseInt(document.getElementById("level").value);
+      var data = await send("POST", "api/game/create", { Difficulty: lvl });
+      gameId = data.Game.Id;
+      try { localStorage.setItem("level", lvl); } catch (e) {}
+      draw(data);
+    } catch (e) {
+      showMsg("Не удалось создать игру: " + e.message);
+    }
+    busy = false;
+  }
+
+  async function clickCell(r, c, flag) {
+    if (busy || !game) return;
+    if (game.Status == 2 || game.Status == 3) return;
+    var cell = cells[r * game.Columns + c];
+    if (!cell) return;
+    if (flag && cell.State == 1) return;
+    if (!flag && cell.State != 0) return;
+
+    busy = true;
+    if (!flag) { lastR = r; lastC = c; }
+    try {
+      var url = "api/game/" + gameId + (flag ? "/flag" : "/reveal");
+      var data = await send("POST", url, { Row: r, Column: c });
+      draw(data);
+    } catch (e) {
+      showMsg(e.message);
+    }
+    busy = false;
+  }
+
+  function draw(data) {
+    game = data.Game;
+    cells = [];
+    for (var i = 0; i < data.Cells.length; i++) {
+      var x = data.Cells[i];
+      cells[x.Row * game.Columns + x.Column] = x;
+    }
+
+    var board = document.getElementById("board");
+    board.style.gridTemplateColumns = "repeat(" + game.Columns + ", 26px)";
+    board.innerHTML = "";
+
+    for (var r = 0; r < game.Rows; r++) {
+      for (var c = 0; c < game.Columns; c++) {
+        var cell = cells[r * game.Columns + c];
+        var div = document.createElement("div");
+        div.className = "cell";
+        div.dataset.r = r;
+        div.dataset.c = c;
+
+        if (cell.State == 1) {
+          div.className += " open";
+          if (cell.IsMine) {
+            div.textContent = "💣";
+            if (r == lastR && c == lastC) div.className += " boom";
+          } else if (cell.AdjacentMinesCount > 0) {
+            div.textContent = cell.AdjacentMinesCount;
+            div.className += " n" + cell.AdjacentMinesCount;
+          }
+        } else if (cell.State == 2) {
+          if (game.Status == 3 && !cell.IsMine) div.textContent = "❌";
+          else div.textContent = "🚩";
+        } else if (game.Status == 2 && cell.IsMine) {
+          div.textContent = "🚩";
+        }
+
+        board.appendChild(div);
+      }
+    }
+
+    var left = game.TotalMines - game.FlagsPlaced;
+    if (game.Status == 2) left = 0;
+    document.getElementById("mines").textContent = three(left);
+
+    var face = document.getElementById("face");
+    if (game.Status == 1) {
+      face.textContent = "🙂";
+      startTimer();
+    } else if (game.Status == 2) {
+      face.textContent = "😎";
+      stopTimer();
+      showMsg("Победа! Время: " + seconds + " сек.");
+    } else if (game.Status == 3) {
+      face.textContent = "😵";
+      stopTimer();
+      showMsg("Бум! Вы проиграли.");
+    } else {
+      face.textContent = "🙂";
+    }
+  }
+
+  var boardEl = document.getElementById("board");
+  boardEl.addEventListener("click", function (e) {
+    var t = e.target.closest(".cell");
+    if (!t) return;
+    clickCell(parseInt(t.dataset.r), parseInt(t.dataset.c), false);
+  });
+  boardEl.addEventListener("contextmenu", function (e) {
+    e.preventDefault();
+    var t = e.target.closest(".cell");
+    if (!t) return;
+    clickCell(parseInt(t.dataset.r), parseInt(t.dataset.c), true);
+  });
+
+  document.getElementById("newBtn").addEventListener("click", newGame);
+  document.getElementById("face").addEventListener("click", newGame);
+  document.getElementById("level").addEventListener("change", newGame);
+
+  try {
+    var saved = localStorage.getItem("level");
+    if (saved != null) document.getElementById("level").value = saved;
+  } catch (e) {}
+
+  newGame();
+</script>
+</body>
+</html>
