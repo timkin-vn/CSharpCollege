@@ -1,4 +1,4 @@
-﻿using Calculator.Business.Models;
+using Calculator.Business.Models;
 using Calculator.Business.Services;
 using System;
 using System.Collections.Generic;
@@ -32,6 +32,23 @@ namespace Calculator
         private void DisplayValue()
         {
             DisplayLabel.Text = _calculatorModel.RegisterX.ToString();
+        }
+
+        private void SquareRootButton_Click(object sender, EventArgs e)
+        {
+            if (!_service.PressSquareRoot(_calculatorModel))
+            {
+                DisplayLabel.Text = "Ошибка";
+                return;
+            }
+
+            DisplayValue();
+        }
+
+        private void ChangeSignButton_Click(object sender, EventArgs e)
+        {
+            _service.PressChangeSign(_calculatorModel);
+            DisplayValue();
         }
 
         private void ClearButton_Click(object sender, EventArgs e)

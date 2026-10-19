@@ -1,4 +1,4 @@
-﻿using Calculator.Business.Models;
+using Calculator.Business.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,14 +21,34 @@ namespace Calculator.Business.Services
                 calculatorModel.RegisterX = 0;
             }
 
-            calculatorModel.RegisterX = calculatorModel.RegisterX * 10 + digit;
+            var sign = calculatorModel.RegisterX < 0 ? -1 : 1;
+            calculatorModel.RegisterX = sign * (Math.Abs(calculatorModel.RegisterX) * 10 + digit);
             calculatorModel.IsLastDigitPressed = true;
         }
 
         public void PressClear(CalculatorModel calculatorModel)
         {
             calculatorModel.RegisterX = 0;
+            calculatorModel.RegisterY = 0;
+            calculatorModel.OperationCode = null;
             calculatorModel.IsLastDigitPressed = false;
+        }
+
+        public bool PressSquareRoot(CalculatorModel calculatorModel)
+        {
+            if (calculatorModel.RegisterX < 0)
+            {
+                return false;
+            }
+
+            calculatorModel.RegisterX = Math.Sqrt(calculatorModel.RegisterX);
+            calculatorModel.IsLastDigitPressed = false;
+            return true;
+        }
+
+        public void PressChangeSign(CalculatorModel calculatorModel)
+        {
+            calculatorModel.RegisterX = -calculatorModel.RegisterX;
         }
 
         public void MoveXToY(CalculatorModel calculatorModel)

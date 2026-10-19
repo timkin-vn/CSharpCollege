@@ -1,4 +1,4 @@
-﻿namespace Calculator
+namespace Calculator
 {
     partial class CalculatorForm
     {
@@ -46,6 +46,8 @@
             this.SubtractButton = new System.Windows.Forms.Button();
             this.EqualButton = new System.Windows.Forms.Button();
             this.MoveXToYButton = new System.Windows.Forms.Button();
+            this.SquareRootButton = new System.Windows.Forms.Button();
+            this.ChangeSignButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // DisplayLabel
@@ -248,12 +250,36 @@
             this.MoveXToYButton.Visible = false;
             this.MoveXToYButton.Click += new System.EventHandler(this.MoveXToYButton_Click);
             // 
+            // SquareRootButton
+            // 
+            this.SquareRootButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.SquareRootButton.Location = new System.Drawing.Point(126, 347);
+            this.SquareRootButton.Name = "SquareRootButton";
+            this.SquareRootButton.Size = new System.Drawing.Size(107, 63);
+            this.SquareRootButton.TabIndex = 18;
+            this.SquareRootButton.Text = "√x";
+            this.SquareRootButton.UseVisualStyleBackColor = true;
+            this.SquareRootButton.Click += new System.EventHandler(this.SquareRootButton_Click);
+            // 
+            // ChangeSignButton
+            // 
+            this.ChangeSignButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ChangeSignButton.Location = new System.Drawing.Point(239, 347);
+            this.ChangeSignButton.Name = "ChangeSignButton";
+            this.ChangeSignButton.Size = new System.Drawing.Size(107, 63);
+            this.ChangeSignButton.TabIndex = 19;
+            this.ChangeSignButton.Text = "+/-";
+            this.ChangeSignButton.UseVisualStyleBackColor = true;
+            this.ChangeSignButton.Click += new System.EventHandler(this.ChangeSignButton_Click);
+            // 
             // CalculatorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(646, 422);
             this.Controls.Add(this.MoveXToYButton);
+            this.Controls.Add(this.SquareRootButton);
+            this.Controls.Add(this.ChangeSignButton);
             this.Controls.Add(this.EqualButton);
             this.Controls.Add(this.SubtractButton);
             this.Controls.Add(this.AddButton);
@@ -299,6 +325,8 @@
         private System.Windows.Forms.Button SubtractButton;
         private System.Windows.Forms.Button EqualButton;
         private System.Windows.Forms.Button MoveXToYButton;
+        private System.Windows.Forms.Button SquareRootButton;
+        private System.Windows.Forms.Button ChangeSignButton;
     }
 }
 
