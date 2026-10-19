@@ -44,5 +44,11 @@ namespace Calculator.Wpf
             var operationCode = ((Button)sender).Content as string;
             ViewModel.PressOperation(operationCode);
         }
+
+        private void UnaryOperationButton_Click(object sender, RoutedEventArgs e)
+        {
+            var operationCode = ((Button)sender).Content as string;
+            ViewModel.PressUnaryOperation(operationCode);
+        }
     }
 }

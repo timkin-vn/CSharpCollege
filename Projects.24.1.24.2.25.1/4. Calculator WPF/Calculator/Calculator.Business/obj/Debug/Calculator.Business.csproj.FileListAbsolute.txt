@@ -1,0 +1,6 @@
+C:\Users\kotov\OneDrive\Рабочий стол\CSharpCollege-master\Projects.24.1.24.2.25.1\4. Calculator WPF\Calculator\Calculator.Business\bin\Debug\Calculator.Business.dll
+C:\Users\kotov\OneDrive\Рабочий стол\CSharpCollege-master\Projects.24.1.24.2.25.1\4. Calculator WPF\Calculator\Calculator.Business\bin\Debug\Calculator.Business.pdb
+C:\Users\kotov\OneDrive\Рабочий стол\CSharpCollege-master\Projects.24.1.24.2.25.1\4. Calculator WPF\Calculator\Calculator.Business\obj\Debug\Calculator.Business.csproj.AssemblyReference.cache
+C:\Users\kotov\OneDrive\Рабочий стол\CSharpCollege-master\Projects.24.1.24.2.25.1\4. Calculator WPF\Calculator\Calculator.Business\obj\Debug\Calculator.Business.csproj.CoreCompileInputs.cache
+C:\Users\kotov\OneDrive\Рабочий стол\CSharpCollege-master\Projects.24.1.24.2.25.1\4. Calculator WPF\Calculator\Calculator.Business\obj\Debug\Calculator.Business.dll
+C:\Users\kotov\OneDrive\Рабочий стол\CSharpCollege-master\Projects.24.1.24.2.25.1\4. Calculator WPF\Calculator\Calculator.Business\obj\Debug\Calculator.Business.pdb
