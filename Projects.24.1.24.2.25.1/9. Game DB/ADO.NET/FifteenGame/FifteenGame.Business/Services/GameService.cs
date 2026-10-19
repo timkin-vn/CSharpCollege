@@ -4,10 +4,7 @@ using FifteenGame.Common.Contracts.Services;
 using FifteenGame.Common.Definitions;
 using FifteenGame.Common.Dtos;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FifteenGame.Business.Services
 {
@@ -17,84 +14,96 @@ namespace FifteenGame.Business.Services
 
         public GameService(IGameRepository repository)
         {
-            _repository = repository;
+            _repository = repository
+                ?? throw new ArgumentNullException(nameof(repository));
         }
 
         public GameModel GetByGameId(int gameId)
         {
-            var dto = _repository.GetByGameId(gameId);
-            return FromDto(dto);
+            if (gameId <= 0)
+                return null;
+
+            return FromDto(_repository.GetByGameId(gameId));
         }
 
         public GameModel GetByUserId(int userId)
         {
-            var dtos = _repository.GetByUserId(userId);
-            var dto = dtos.LastOrDefault();
-            if (dto != null)
-            {
-                return FromDto(dto);
-            }
+            if (userId <= 0)
+                throw new ArgumentOutOfRangeException(nameof(userId));
 
-            var game = new GameModel
-            {
-                UserId = userId,
-            };
+            var games = _repository.GetByUserId(userId);
+            var dto = games?.OrderBy(g => g.Id).LastOrDefault();
+
+            if (dto != null)
+                return FromDto(dto);
+
+            var game = new GameModel { UserId = userId };
 
             Shuffle(game);
-            var gameId = _repository.Save(ToDto(game));
+
+            int gameId = _repository.Save(ToDto(game));
 
             return GetByGameId(gameId);
         }
 
         public void Initialize(GameModel model)
         {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+
             int value = 1;
+
             for (int row = 0; row < Constants.RowCount; row++)
             {
-                for (int column = 0; column < Constants.ColumnCount; column++)
+                for (int column = 0;
+                     column < Constants.ColumnCount;
+                     column++)
                 {
                     model[row, column] = value++;
                 }
             }
 
-            model[Constants.RowCount - 1, Constants.ColumnCount - 1] = Constants.FreeCellValue;
+            model[Constants.RowCount - 1,
+                  Constants.ColumnCount - 1] = Constants.FreeCellValue;
+
             model.FreeCellRow = Constants.RowCount - 1;
             model.FreeCellColumn = Constants.ColumnCount - 1;
+            model.MoveCount = 0;
         }
 
         public bool IsGameOver(int gameId)
         {
-            var dto = _repository.GetByGameId(gameId);
-            return IsGameOver(FromDto(dto));
+            var model = GetByGameId(gameId);
+            return model != null && IsGameOver(model);
         }
 
         public bool IsGameOver(GameModel model)
         {
-            int freeCellRow = model.FreeCellRow;
-            if (freeCellRow != Constants.RowCount - 1)
+            if (model == null)
+                return false;
+
+            if (model.FreeCellRow != Constants.RowCount - 1 ||
+                model.FreeCellColumn != Constants.ColumnCount - 1)
             {
                 return false;
             }
 
-            int freeCellColumn = model.FreeCellColumn;
-            if (freeCellColumn != Constants.ColumnCount - 1)
-            {
-                return false;
-            }
+            int expected = 1;
 
-            int value = 1;
             for (int row = 0; row < Constants.RowCount; row++)
             {
-                for (int column = 0; column < Constants.ColumnCount; column++)
+                for (int column = 0;
+                     column < Constants.ColumnCount;
+                     column++)
                 {
-                    if (row == freeCellRow && column == freeCellColumn)
+                    if (row == Constants.RowCount - 1 &&
+                        column == Constants.ColumnCount - 1)
                     {
                         return model[row, column] == Constants.FreeCellValue;
                     }
-                    else if (model[row, column] != value++)
-                    {
+
+                    if (model[row, column] != expected++)
                         return false;
-                    }
                 }
             }
 
@@ -103,77 +112,91 @@ namespace FifteenGame.Business.Services
 
         public GameModel MakeMove(int gameId, MoveDirection direction)
         {
-            var dto = _repository.GetByGameId(gameId);
-            var model = FromDto(dto);
+            var model = GetByGameId(gameId);
 
-            MakeMove(model, direction);
+            if (model == null)
+                return null;
+
+            if (!MakeMove(model, direction))
+                return model;
 
             _repository.Save(ToDto(model));
+
             return model;
         }
 
         public bool MakeMove(GameModel model, MoveDirection direction)
         {
+            if (model == null)
+                return false;
+
             switch (direction)
             {
                 case MoveDirection.Left:
-                    if (model.FreeCellColumn == Constants.ColumnCount - 1)
-                    {
+                    if (model.FreeCellColumn >= Constants.ColumnCount - 1)
                         return false;
-                    }
 
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow, model.FreeCellColumn + 1];
-                    model[model.FreeCellRow, model.FreeCellColumn + 1] = Constants.FreeCellValue;
+                    model[model.FreeCellRow, model.FreeCellColumn] =
+                        model[model.FreeCellRow, model.FreeCellColumn + 1];
+
+                    model[model.FreeCellRow, model.FreeCellColumn + 1] =
+                        Constants.FreeCellValue;
+
                     model.FreeCellColumn++;
-
-                    model.MoveCount++;
-                    return true;
+                    break;
 
                 case MoveDirection.Right:
-                    if (model.FreeCellColumn == 0)
-                    {
+                    if (model.FreeCellColumn <= 0)
                         return false;
-                    }
 
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow, model.FreeCellColumn - 1];
-                    model[model.FreeCellRow, model.FreeCellColumn - 1] = Constants.FreeCellValue;
+                    model[model.FreeCellRow, model.FreeCellColumn] =
+                        model[model.FreeCellRow, model.FreeCellColumn - 1];
+
+                    model[model.FreeCellRow, model.FreeCellColumn - 1] =
+                        Constants.FreeCellValue;
+
                     model.FreeCellColumn--;
-
-                    model.MoveCount++;
-                    return true;
+                    break;
 
                 case MoveDirection.Up:
-                    if (model.FreeCellRow == Constants.RowCount - 1)
-                    {
+                    if (model.FreeCellRow >= Constants.RowCount - 1)
                         return false;
-                    }
 
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow + 1, model.FreeCellColumn];
-                    model[model.FreeCellRow + 1, model.FreeCellColumn] = Constants.FreeCellValue;
+                    model[model.FreeCellRow, model.FreeCellColumn] =
+                        model[model.FreeCellRow + 1, model.FreeCellColumn];
+
+                    model[model.FreeCellRow + 1, model.FreeCellColumn] =
+                        Constants.FreeCellValue;
+
                     model.FreeCellRow++;
-
-                    model.MoveCount++;
-                    return true;
+                    break;
 
                 case MoveDirection.Down:
-                    if (model.FreeCellRow == 0)
-                    {
+                    if (model.FreeCellRow <= 0)
                         return false;
-                    }
 
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow - 1, model.FreeCellColumn];
-                    model[model.FreeCellRow - 1, model.FreeCellColumn] = Constants.FreeCellValue;
+                    model[model.FreeCellRow, model.FreeCellColumn] =
+                        model[model.FreeCellRow - 1, model.FreeCellColumn];
+
+                    model[model.FreeCellRow - 1, model.FreeCellColumn] =
+                        Constants.FreeCellValue;
+
                     model.FreeCellRow--;
+                    break;
 
-                    model.MoveCount++;
-                    return true;
+                default:
+                    return false;
             }
 
-            return false;
+            model.MoveCount++;
+            return true;
         }
 
         public void RemoveGame(int gameId)
         {
+            if (gameId <= 0)
+                return;
+
             _repository.Remove(gameId);
         }
 
@@ -181,11 +204,12 @@ namespace FifteenGame.Business.Services
         {
             Initialize(model);
 
-            var rnd = new Random();
+            var random = new Random();
+
             for (int i = 0; i < 1000; i++)
             {
-                var nextMove = (MoveDirection)(rnd.Next(4) + 1);
-                MakeMove(model, nextMove);
+                var direction = (MoveDirection)(random.Next(4) + 1);
+                MakeMove(model, direction);
             }
 
             model.MoveCount = 0;
@@ -193,47 +217,55 @@ namespace FifteenGame.Business.Services
 
         private GameModel FromDto(GameDto dto)
         {
-            var result = new GameModel
+            if (dto == null)
+                return null;
+
+            var model = new GameModel
             {
                 Id = dto.Id,
                 UserId = dto.UserId,
-                MoveCount = dto.MoveCount,
+                MoveCount = dto.MoveCount
             };
 
             for (int row = 0; row < Constants.RowCount; row++)
             {
-                for (int column = 0; column < Constants.ColumnCount; column++)
+                for (int column = 0;
+                     column < Constants.ColumnCount;
+                     column++)
                 {
-                    result[row, column] = dto.Cells[row, column];
-                    if (result[row, column] == Constants.FreeCellValue)
+                    model[row, column] = dto.Cells[row, column];
+
+                    if (model[row, column] == Constants.FreeCellValue)
                     {
-                        result.FreeCellRow = row;
-                        result.FreeCellColumn = column;
+                        model.FreeCellRow = row;
+                        model.FreeCellColumn = column;
                     }
                 }
             }
 
-            return result;
+            return model;
         }
 
         private GameDto ToDto(GameModel model)
         {
-            var result = new GameDto
+            var dto = new GameDto
             {
                 Id = model.Id,
                 UserId = model.UserId,
-                MoveCount = model.MoveCount,
+                MoveCount = model.MoveCount
             };
 
             for (int row = 0; row < Constants.RowCount; row++)
             {
-                for (int column = 0; column < Constants.ColumnCount; column++)
+                for (int column = 0;
+                     column < Constants.ColumnCount;
+                     column++)
                 {
-                    result.Cells[row, column] = model[row, column];
+                    dto.Cells[row, column] = model[row, column];
                 }
             }
 
-            return result;
+            return dto;
         }
     }
 }

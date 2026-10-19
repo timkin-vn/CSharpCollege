@@ -1,11 +1,10 @@
-﻿using FifteenGame.Common.BusinessModels;
+﻿
+using FifteenGame.Common.BusinessModels;
 using FifteenGame.Common.Contracts.Repositories;
 using FifteenGame.Common.Contracts.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FifteenGame.Business.Services
 {
@@ -15,6 +14,11 @@ namespace FifteenGame.Business.Services
 
         public UserService(IUserRepository repository)
         {
+            if (repository == null)
+            {
+                throw new ArgumentNullException("repository");
+            }
+
             _repository = repository;
         }
 
@@ -24,36 +28,60 @@ namespace FifteenGame.Business.Services
                 .Select(u => new UserModel
                 {
                     Id = u.Id,
-                    Name = u.Name,
+                    Name = u.Name
                 })
                 .ToList();
         }
 
         public UserModel GetOrCreateUser(string userName)
         {
-            var userDto = _repository.GetByName(userName);
+            if (string.IsNullOrWhiteSpace(userName))
+            {
+                throw new ArgumentException(
+                    "Имя пользователя не может быть пустым.",
+                    "userName");
+            }
+
+            var userDto = _repository.GetByName(userName.Trim());
 
             if (userDto == null)
             {
-                userDto = _repository.Create(userName);
+                userDto = _repository.Create(userName.Trim());
             }
 
             return new UserModel
             {
                 Id = userDto.Id,
-                Name = userDto.Name,
+                Name = userDto.Name
             };
         }
 
         public UserModel GetUserByName(string userName)
         {
-            var userDto = _repository.GetByName(userName);
-
-            return userDto == null ? null : new UserModel
+            if (string.IsNullOrWhiteSpace(userName))
             {
-                Id = userDto.Id,
-                Name = userDto.Name,
-            };
+                return null;
+            }
+
+            var userDto = _repository.GetByName(userName.Trim());
+
+            return userDto == null
+                ? null
+                : new UserModel
+                {
+                    Id = userDto.Id,
+                    Name = userDto.Name
+                };
+        }
+
+        public void DeleteUser(int userId)
+        {
+            if (userId <= 0)
+            {
+                throw new ArgumentOutOfRangeException("userId");
+            }
+
+            _repository.Delete(userId);
         }
     }
 }

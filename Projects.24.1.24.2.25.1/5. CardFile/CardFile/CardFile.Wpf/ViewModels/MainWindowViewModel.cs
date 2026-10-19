@@ -4,26 +4,32 @@ using CardFile.Business.Services;
 using CardFile.Common.Infrastructure;
 using CardFile.Wpf.Infrastructure;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Windows.Data;
 
 namespace CardFile.Wpf.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
         private readonly CardFileService _service = new CardFileService();
-        private string _searchText = "";
 
-        public ObservableCollection<CardViewModel> Cards { get; }
-            = new ObservableCollection<CardViewModel>();
+        public ObservableCollection<CardViewModel> Cards { get; } =
+            new ObservableCollection<CardViewModel>();
 
-        public ICollectionView CardsView { get; }
+        private CardViewModel _selectedCard;
 
-        public CardViewModel SelectedCard { get; set; }
+        public CardViewModel SelectedCard
+        {
+            get => _selectedCard;
+            set
+            {
+                _selectedCard = value;
+                OnPropertyChanged(nameof(SelectedCard));
+                OnPropertyChanged(nameof(IsEditButtonEnabled));
+                OnPropertyChanged(nameof(IsDeleteButtonEnabled));
+            }
+        }
 
         public bool IsEditButtonEnabled => SelectedCard != null;
 
@@ -33,57 +39,12 @@ namespace CardFile.Wpf.ViewModels
 
         public string WindowTitle =>
             string.IsNullOrEmpty(FileName)
-                ? "Картотека"
-                : $"Картотека: {Path.GetFileName(FileName)}";
-
-        public string SearchText
-        {
-            get { return _searchText; }
-            set
-            {
-                if (_searchText == value)
-                    return;
-
-                _searchText = value ?? "";
-                OnPropertyChanged(nameof(SearchText));
-
-                CardsView.Refresh();
-            }
-        }
+                ? "Картотека автомобилей"
+                : $"Картотека автомобилей: {Path.GetFileName(FileName)}";
 
         public MainWindowViewModel()
         {
             MapperInitialization.PreRegister();
-
-            CardsView = CollectionViewSource.GetDefaultView(Cards);
-            CardsView.Filter = FilterCard;
-        }
-
-        private bool FilterCard(object item)
-        {
-            CardViewModel card = item as CardViewModel;
-
-            if (card == null)
-                return false;
-
-            string query = (SearchText ?? "").Trim();
-
-            if (query.Length == 0)
-                return true;
-
-            return Contains(card.Id.ToString(), query)
-                || Contains(card.FirstName, query)
-                || Contains(card.MiddleName, query)
-                || Contains(card.LastName, query)
-                || Contains(card.Fio, query)
-                || Contains(card.Department, query)
-                || Contains(card.Position, query);
-        }
-
-        private static bool Contains(string value, string query)
-        {
-            return !string.IsNullOrEmpty(value)
-                && value.IndexOf(query, StringComparison.CurrentCultureIgnoreCase) >= 0;
         }
 
         public void WindowLoaded()
@@ -105,8 +66,13 @@ namespace CardFile.Wpf.ViewModels
         {
             return new CardViewModel
             {
-                BirthDate = new DateTime(2000, 6, 15),
-                EmploymentDate = new DateTime(2020, 6, 15),
+                AddedDate = DateTime.Today,
+                SoldDate = null,
+                Year = DateTime.Today.Year,
+                Mileage = 0,
+                Price = 0,
+                EngineVolume = 1.6m,
+                HasAirConditioning = false
             };
         }
 
@@ -115,33 +81,30 @@ namespace CardFile.Wpf.ViewModels
             int index = Cards.ToList().FindIndex(c => c.Id == card.Id);
 
             if (index < 0)
-                throw new Exception("Карточка с таким Id не существует");
+                throw new Exception("Карточка с таким Id не существует.");
 
             int id = _service.Save(ToBusiness(card));
 
             if (id < 0)
-            {
-                Cards.RemoveAt(index);
-            }
-            else
-            {
-                Cards[index].LoadViewModel(card);
-                CardsView.Refresh();
-            }
+                throw new Exception("Не удалось сохранить изменения карточки.");
+
+            Cards[index].LoadViewModel(card);
+            SelectedCard = Cards[index];
         }
 
         public void SaveNewCard(CardViewModel card)
         {
-            var newCard = new CardViewModel();
-            newCard.LoadViewModel(card);
-
             int id = _service.Save(ToBusiness(card));
 
             if (id < 0)
-                return;
+                throw new Exception("Не удалось создать карточку автомобиля.");
 
+            var newCard = new CardViewModel();
+            newCard.LoadViewModel(card);
             newCard.Id = id;
+
             Cards.Add(newCard);
+            SelectedCard = newCard;
         }
 
         public void SelectionChanged()
@@ -152,14 +115,12 @@ namespace CardFile.Wpf.ViewModels
 
         private void LoadAllData()
         {
-            IEnumerable<Card> cards = _service.GetAll();
+            var cards = _service.GetAll();
 
             Cards.Clear();
 
             foreach (Card card in cards)
                 Cards.Add(ToViewModel(card));
-
-            CardsView.Refresh();
         }
 
         public void DeleteSelectedCard()
@@ -167,20 +128,17 @@ namespace CardFile.Wpf.ViewModels
             if (SelectedCard == null)
                 return;
 
-            int selectedId = SelectedCard.Id;
+            int id = SelectedCard.Id;
 
-            _service.Delete(selectedId);
+            if (!_service.Delete(id))
+                throw new Exception("Не удалось удалить карточку автомобиля.");
 
-            int index = Cards.ToList().FindIndex(c => c.Id == selectedId);
+            CardViewModel item = Cards.FirstOrDefault(c => c.Id == id);
 
-            if (index < 0)
-                throw new Exception("Карточка с таким Id не существует");
+            if (item != null)
+                Cards.Remove(item);
 
-            Cards.RemoveAt(index);
             SelectedCard = null;
-
-            OnPropertyChanged(nameof(SelectedCard));
-            SelectionChanged();
         }
 
         public void SaveToFile(string fileName)
@@ -196,21 +154,18 @@ namespace CardFile.Wpf.ViewModels
             _service.OpenFromFile(fileName);
             LoadAllData();
 
+            SelectedCard = null;
             FileName = fileName;
             OnPropertyChanged(nameof(WindowTitle));
         }
 
         public void SaveToFile()
         {
-            try
-            {
-                _service.SaveToFile(FileName);
-            }
-            catch (Exception)
-            {
-                FileName = null;
-                throw;
-            }
+            if (string.IsNullOrWhiteSpace(FileName))
+                throw new InvalidOperationException(
+                    "Сначала выберите файл для сохранения.");
+
+            _service.SaveToFile(FileName);
         }
 
         private CardViewModel ToViewModel(Card card)

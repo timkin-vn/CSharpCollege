@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using System;
+using System.Globalization;
 using System.Xml.Serialization;
 
 namespace CardFile.DataStore.FileDataAccess.Entities
@@ -10,84 +8,68 @@ namespace CardFile.DataStore.FileDataAccess.Entities
     public class XmlCard
     {
         [XmlAttribute("Id")]
-        /// <summary>
-        /// Id
-        /// </summary>
         public int Id { get; set; }
 
-        [XmlAttribute("FirstName")]
-        /// <summary>
-        /// Имя
-        /// </summary>
-        public string FirstName { get; set; }
+        [XmlAttribute("Brand")]
+        public string Brand { get; set; }
 
-        [XmlAttribute("MiddleName")]
-        /// <summary>
-        /// Отчество
-        /// </summary>
-        public string MiddleName { get; set; }
+        [XmlAttribute("Model")]
+        public string Model { get; set; }
 
-        [XmlAttribute("LastName")]
-        /// <summary>
-        /// Фамилия
-        /// </summary>
-        public string LastName { get; set; }
+        [XmlAttribute("Year")]
+        public int Year { get; set; }
 
-        [XmlIgnore]
-        /// <summary>
-        /// Дата рождения
-        /// </summary>
-        public DateTime BirthDate { get; set; }
+        [XmlAttribute("Color")]
+        public string Color { get; set; }
 
-        [XmlAttribute("BirthDate")]
-        public string BirthDateText
-        {
-            get => BirthDate.ToShortDateString();
-            set => BirthDate = DateTime.Parse(value);
-        }
+        [XmlAttribute("Mileage")]
+        public int Mileage { get; set; }
 
-        [XmlAttribute("Department")]
-        /// <summary>
-        /// Подразделение
-        /// </summary>
-        public string Department { get; set; }
+        [XmlAttribute("Price")]
+        public decimal Price { get; set; }
 
-        [XmlAttribute("Position")]
-        /// <summary>
-        /// Должность
-        /// </summary>
-        public string Position { get; set; }
+        [XmlAttribute("FuelType")]
+        public string FuelType { get; set; }
+
+        [XmlAttribute("EngineVolume")]
+        public decimal EngineVolume { get; set; }
+
+        [XmlAttribute("TransmissionType")]
+        public string TransmissionType { get; set; }
+
+        [XmlAttribute("HasAirConditioning")]
+        public bool HasAirConditioning { get; set; }
 
         [XmlIgnore]
-        /// <summary>
-        /// Дата трудоустройства
-        /// </summary>
-        public DateTime EmploymentDate { get; set; }
+        public DateTime AddedDate { get; set; }
 
-        [XmlAttribute("EmploymentDate")]
-        public string EmploymentDateText
+        [XmlAttribute("AddedDate")]
+        public string AddedDateText
         {
-            get => EmploymentDate.ToShortDateString();
-            set => EmploymentDate = DateTime.Parse(value);
+            get => AddedDate.ToString("O", CultureInfo.InvariantCulture);
+            set => AddedDate = DateTime.Parse(
+                value, CultureInfo.InvariantCulture,
+                DateTimeStyles.RoundtripKind);
         }
 
         [XmlIgnore]
-        /// <summary>
-        /// Дата увольнения
-        /// </summary>
-        public DateTime? DismissalDate { get; set; }
+        public DateTime? SoldDate { get; set; }
 
-        [XmlAttribute("DismissalDate")]
-        public string DismissalDateText
+        [XmlAttribute("SoldDate")]
+        public string SoldDateText
         {
-            get => DismissalDate?.ToShortDateString() ?? "-";
-            set => DismissalDate = (value == "-") ? (DateTime?)null : DateTime.Parse(value);
+            get => SoldDate.HasValue
+                ? SoldDate.Value.ToString("O", CultureInfo.InvariantCulture)
+                : "-";
+
+            set => SoldDate = string.IsNullOrWhiteSpace(value) || value == "-"
+                ? (DateTime?)null
+                : DateTime.Parse(
+                    value, CultureInfo.InvariantCulture,
+                    DateTimeStyles.RoundtripKind);
         }
 
-        [XmlAttribute("Salary")]
-        /// <summary>
-        /// Оклад
-        /// </summary>
-        public decimal Salary { get; set; }
+        [XmlAttribute("Vin")]
+        public string Vin { get; set; }
     }
 }

@@ -1,9 +1,6 @@
-﻿using FifteenGame.Common.BusinessModels;
-using System;
+﻿
+using FifteenGame.Common.BusinessModels;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FifteenGame.Common.Contracts.Services
 {
@@ -14,5 +11,7 @@ namespace FifteenGame.Common.Contracts.Services
         UserModel GetOrCreateUser(string userName);
 
         UserModel GetUserByName(string userName);
+
+        void DeleteUser(int userId);
     }
 }

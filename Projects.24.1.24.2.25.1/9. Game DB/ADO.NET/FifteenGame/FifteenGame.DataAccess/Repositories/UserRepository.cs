@@ -4,132 +4,106 @@ using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FifteenGame.DataAccess.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private readonly string ConnectionString = ConfigurationManager.ConnectionStrings["Main"].ConnectionString;
-        //private const string ConnectionString =
-        //    @"Server=localhost;Port=5432;Database=FifteenGame.1.Dev.24.1.24.2.25.1;User Id=postgres;Password=Qwerty123;";
+        private readonly string ConnectionString =
+            ConfigurationManager.ConnectionStrings["Main"].ConnectionString;
 
         public IEnumerable<UserDto> GetAll()
         {
-            var selectQuery = @"
-select
-    ""Id"",
-    ""Name""
-from ""Users""
-";
+            const string query = @"
+SELECT ""Id"", ""Name""
+FROM ""Users""
+ORDER BY ""Name"";";
+
+            var result = new List<UserDto>();
 
             using (var connection = new NpgsqlConnection(ConnectionString))
             {
                 connection.Open();
-                var result = new List<UserDto>();
 
-                using (var command = new NpgsqlCommand(selectQuery, connection))
+                using (var command = new NpgsqlCommand(query, connection))
+                using (var reader = command.ExecuteReader())
                 {
-                    command.CommandType = System.Data.CommandType.Text;
-
-                    using (var reader = command.ExecuteReader())
+                    while (reader.Read())
                     {
-                        while (reader.Read())
+                        result.Add(new UserDto
                         {
-                            result.Add(new UserDto
-                            {
-                                Id = reader.GetInt32(0),
-                                Name = reader.GetString(1),
-                            });
-                        }
+                            Id = reader.GetInt32(0),
+                            Name = reader.GetString(1)
+                        });
                     }
                 }
-
-                return result;
             }
+
+            return result;
         }
 
         public UserDto Create(string userName)
         {
-            var insertQuery = @"
-insert into ""Users"" (""Name"")
-values (@userName)
-returning ""Id""
-";
+            if (string.IsNullOrWhiteSpace(userName))
+                throw new ArgumentException(
+                    "Имя пользователя не может быть пустым.",
+                    nameof(userName));
 
-            var selectQuery = @"
-select
-    ""Id"",
-    ""Name""
-from ""Users""
-where ""Id"" = @userId
-";
+            userName = userName.Trim();
+
+            var existingUser = GetByName(userName);
+            if (existingUser != null)
+                return existingUser;
+
+            const string query = @"
+INSERT INTO ""Users"" (""Name"")
+VALUES (@userName)
+RETURNING ""Id"";";
 
             using (var connection = new NpgsqlConnection(ConnectionString))
             {
                 connection.Open();
+
                 int userId;
 
-                using (var command = new NpgsqlCommand(insertQuery, connection) { CommandType = System.Data.CommandType.Text })
+                using (var command = new NpgsqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("userName", userName);
-                    var insertResult = command.ExecuteScalar();
-                    userId = (int)insertResult;
+
+                    userId = Convert.ToInt32(command.ExecuteScalar());
                 }
 
-                using (var command = new NpgsqlCommand(selectQuery, connection) { CommandType = System.Data.CommandType.Text })
-                {
-                    command.Parameters.AddWithValue("userId", userId);
-
-                    using (var reader = command.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            return new UserDto
-                            {
-                                Id = reader.GetInt32(0),
-                                Name = reader.GetString(1),
-                            };
-                        }
-
-                        return null;
-                    }
-                }
+                return GetById(userId);
             }
         }
 
         public UserDto GetById(int userId)
         {
-            var selectQuery = @"
-select
-    ""Id"",
-    ""Name""
-from ""Users""
-where ""Id"" = @userId
-";
+            const string query = @"
+SELECT ""Id"", ""Name""
+FROM ""Users""
+WHERE ""Id"" = @userId;";
 
             using (var connection = new NpgsqlConnection(ConnectionString))
             {
                 connection.Open();
 
-                using (var command = new NpgsqlCommand(selectQuery, connection) { CommandType = System.Data.CommandType.Text })
+                using (var command = new NpgsqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("userId", userId);
 
                     using (var reader = command.ExecuteReader())
                     {
-                        if (reader.Read())
-                        {
-                            return new UserDto
-                            {
-                                Id = reader.GetInt32(0),
-                                Name = reader.GetString(1),
-                            };
-                        }
+                        if (!reader.Read())
+                            return null;
 
-                        return null;
+                        return new UserDto
+                        {
+                            Id = reader.GetInt32(0),
+                            Name = reader.GetString(1)
+                        };
                     }
                 }
             }
@@ -137,34 +111,98 @@ where ""Id"" = @userId
 
         public UserDto GetByName(string userName)
         {
-            var selectQuery = @"
-select
-    ""Id"",
-    ""Name""
-from ""Users""
-where ""Name"" = @userName
-";
+            if (string.IsNullOrWhiteSpace(userName))
+                return null;
+
+            const string query = @"
+SELECT ""Id"", ""Name""
+FROM ""Users""
+WHERE LOWER(""Name"") = LOWER(@userName)
+LIMIT 1;";
 
             using (var connection = new NpgsqlConnection(ConnectionString))
             {
                 connection.Open();
 
-                using (var command = new NpgsqlCommand(selectQuery, connection) { CommandType = System.Data.CommandType.Text })
+                using (var command = new NpgsqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("userName", userName);
+                    command.Parameters.AddWithValue(
+                        "userName", userName.Trim());
 
                     using (var reader = command.ExecuteReader())
                     {
-                        if (reader.Read())
+                        if (!reader.Read())
+                            return null;
+
+                        return new UserDto
                         {
-                            return new UserDto
-                            {
-                                Id = reader.GetInt32(0),
-                                Name = reader.GetString(1),
-                            };
+                            Id = reader.GetInt32(0),
+                            Name = reader.GetString(1)
+                        };
+                    }
+                }
+            }
+        }
+
+        public void Delete(int userId)
+        {
+            if (userId <= 0)
+                throw new ArgumentOutOfRangeException(nameof(userId));
+
+            using (var connection = new NpgsqlConnection(ConnectionString))
+            {
+                connection.Open();
+
+                using (var transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        const string deleteCellsQuery = @"
+DELETE FROM ""Cells""
+WHERE ""GameId"" IN
+(
+    SELECT ""Id""
+    FROM ""Games""
+    WHERE ""UserId"" = @userId
+);";
+
+                        using (var command = new NpgsqlCommand(
+                            deleteCellsQuery, connection, transaction))
+                        {
+                            command.Parameters.AddWithValue("userId", userId);
+                            command.ExecuteNonQuery();
                         }
 
-                        return null;
+                        // Затем сами партии.
+                        const string deleteGamesQuery = @"
+DELETE FROM ""Games""
+WHERE ""UserId"" = @userId;";
+
+                        using (var command = new NpgsqlCommand(
+                            deleteGamesQuery, connection, transaction))
+                        {
+                            command.Parameters.AddWithValue("userId", userId);
+                            command.ExecuteNonQuery();
+                        }
+
+                        // И в последнюю очередь пользователя.
+                        const string deleteUserQuery = @"
+DELETE FROM ""Users""
+WHERE ""Id"" = @userId;";
+
+                        using (var command = new NpgsqlCommand(
+                            deleteUserQuery, connection, transaction))
+                        {
+                            command.Parameters.AddWithValue("userId", userId);
+                            command.ExecuteNonQuery();
+                        }
+
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
                     }
                 }
             }

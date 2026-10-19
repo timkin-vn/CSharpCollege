@@ -1,19 +1,15 @@
-﻿using FifteenGame.Business.Services;
+﻿
 using FifteenGame.Common.BusinessModels;
 using FifteenGame.Common.Contracts.Services;
 using FifteenGame.Common.Infrastructure;
 using Ninject;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FifteenGame.Wpf.ViewModels
 {
     public class UserLoginWindowViewModel : ViewModelBase
     {
-        private readonly IUserService _userService = NinjectKernel.Instance.Get<IUserService>();
+        private readonly IUserService _userService =
+            NinjectKernel.Instance.Get<IUserService>();
 
         private UserModel _userModel;
 
@@ -34,6 +30,11 @@ namespace FifteenGame.Wpf.ViewModels
 
         public void CommitUser()
         {
+            if (_userModel == null)
+            {
+                return;
+            }
+
             MainViewModel.CommitUser(_userModel);
         }
     }

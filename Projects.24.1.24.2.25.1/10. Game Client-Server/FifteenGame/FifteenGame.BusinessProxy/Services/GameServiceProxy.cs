@@ -4,80 +4,155 @@ using FifteenGame.Common.BusinessModels;
 using FifteenGame.Common.Contracts.Services;
 using FifteenGame.Common.Definitions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Net.Http;
 using System.Net.Http.Json;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace FifteenGame.BusinessProxy.Services
 {
     public class GameServiceProxy : IGameService
     {
+        private static readonly JsonSerializerOptions JsonOptions =
+            new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
         public GameModel GetByGameId(int gameId)
         {
-            using (var httpClient = HttpConnection.HttpClient)
-            {
-                var response = httpClient.GetAsync($"api/games/get-by-game-id/{gameId}").Result;
-                response.EnsureSuccessStatusCode();
+            if (gameId <= 0)
+                throw new ArgumentOutOfRangeException(nameof(gameId));
 
-                var reply = JsonSerializer.Deserialize<GameReply>(response.Content.ReadAsStringAsync().Result);
-                return FromDto(reply);
+            using (var response = HttpConnection.HttpClient
+                .GetAsync($"api/games/get-by-game-id/{gameId}")
+                .GetAwaiter().GetResult())
+            {
+                return ReadGame(response);
             }
         }
 
         public GameModel GetByUserId(int userId)
         {
-            using (var httpClient = HttpConnection.HttpClient)
-            {
-                var response = httpClient.GetAsync($"api/games/get-by-user-id/{userId}").Result;
-                response.EnsureSuccessStatusCode();
+            if (userId <= 0)
+                throw new ArgumentOutOfRangeException(nameof(userId));
 
-                var reply = JsonSerializer.Deserialize<GameReply>(response.Content.ReadAsStringAsync().Result);
-                return FromDto(reply);
+            using (var response = HttpConnection.HttpClient
+                .GetAsync($"api/games/get-by-user-id/{userId}")
+                .GetAwaiter().GetResult())
+            {
+                return ReadGame(response);
             }
         }
 
         public bool? IsGameOver(int gameId)
         {
-            using (var httpClient = HttpConnection.HttpClient)
-            {
-                var response = httpClient.GetAsync($"api/games/is-over/{gameId}").Result;
-                response.EnsureSuccessStatusCode();
+            if (gameId <= 0)
+                throw new ArgumentOutOfRangeException(nameof(gameId));
 
-                var reply = JsonSerializer.Deserialize<BooleanReply>(response.Content.ReadAsStringAsync().Result);
+            using (var response = HttpConnection.HttpClient
+                .GetAsync($"api/games/is-over/{gameId}")
+                .GetAwaiter().GetResult())
+            {
+                EnsureSuccess(response);
+
+                string json = response.Content
+                    .ReadAsStringAsync()
+                    .GetAwaiter().GetResult();
+
+                var reply = JsonSerializer.Deserialize<BooleanReply>(
+                    json, JsonOptions);
+
+                if (reply == null)
+                    throw new InvalidOperationException(
+                        "Сервер вернул пустой ответ о состоянии игры.");
+
                 return reply.IsTrue;
             }
         }
 
         public GameModel MakeMove(int gameId, MoveDirection direction)
         {
-            using (var httpClient = HttpConnection.HttpClient)
-            {
-                var httpContent = JsonContent.Create(new MakeMoveRequest { GameId = gameId, Direction = direction.ToString() });
-                var response = httpClient.PostAsync("api/games/make-move", httpContent).Result;
-                response.EnsureSuccessStatusCode();
+            if (gameId <= 0)
+                throw new ArgumentOutOfRangeException(nameof(gameId));
 
-                var reply = JsonSerializer.Deserialize<GameReply>(response.Content.ReadAsStringAsync().Result);
-                return FromDto(reply);
+            if (!Enum.IsDefined(typeof(MoveDirection), direction) ||
+                direction == MoveDirection.None)
+            {
+                throw new ArgumentException(
+                    "Указано недопустимое направление хода.",
+                    nameof(direction));
+            }
+
+            var content = JsonContent.Create(
+                new MakeMoveRequest
+                {
+                    GameId = gameId,
+                    Direction = direction.ToString()
+                });
+
+            using (content)
+            using (var response = HttpConnection.HttpClient
+                .PostAsync("api/games/make-move", content)
+                .GetAwaiter().GetResult())
+            {
+                return ReadGame(response);
             }
         }
 
         public void RemoveGame(int gameId)
         {
-            using (var httpClient = HttpConnection.HttpClient)
+            if (gameId <= 0)
+                throw new ArgumentOutOfRangeException(nameof(gameId));
+
+            using (var response = HttpConnection.HttpClient
+                .DeleteAsync($"api/games/remove/{gameId}")
+                .GetAwaiter().GetResult())
             {
-                var response = httpClient.DeleteAsync($"api/games/remove/{gameId}").Result;
-                response.EnsureSuccessStatusCode();
+                EnsureSuccess(response);
             }
         }
 
-        private GameModel FromDto(GameReply game)
+        private static GameModel ReadGame(HttpResponseMessage response)
+        {
+            EnsureSuccess(response);
+
+            string json = response.Content
+                .ReadAsStringAsync()
+                .GetAwaiter().GetResult();
+
+            var reply = JsonSerializer.Deserialize<GameReply>(
+                json, JsonOptions);
+
+            return FromDto(reply);
+        }
+
+        private static void EnsureSuccess(HttpResponseMessage response)
+        {
+            if (response.IsSuccessStatusCode)
+                return;
+
+            string details = response.Content == null
+                ? string.Empty
+                : response.Content.ReadAsStringAsync()
+                    .GetAwaiter().GetResult();
+
+            throw new HttpRequestException(
+                $"Сервер вернул HTTP {(int)response.StatusCode} " +
+                $"({response.ReasonPhrase}). {details}");
+        }
+
+        private static GameModel FromDto(GameReply game)
         {
             if (game == null)
-            {
                 return null;
+
+            int expectedCells = Constants.RowCount * Constants.ColumnCount;
+
+            if (game.Cells == null || game.Cells.Length != expectedCells)
+            {
+                throw new InvalidOperationException(
+                    $"Некорректный ответ сервера: ожидалось " +
+                    $"{expectedCells} клеток.");
             }
 
             var result = new GameModel
@@ -86,16 +161,36 @@ namespace FifteenGame.BusinessProxy.Services
                 UserId = game.UserId,
                 MoveCount = game.MoveCount,
                 FreeCellColumn = game.FreeCellColumn,
-                FreeCellRow = game.FreeCellRow,
+                FreeCellRow = game.FreeCellRow
             };
 
-            int i = 0;
+            int index = 0;
+            int freeCells = 0;
+
             for (int row = 0; row < Constants.RowCount; row++)
             {
-                for (int column = 0; column < Constants.ColumnCount; column++)
+                for (int column = 0;
+                     column < Constants.ColumnCount;
+                     column++)
                 {
-                    result[row, column] = game.Cells[i++];
+                    int value = game.Cells[index++];
+                    result[row, column] = value;
+
+                    if (value == Constants.FreeCellValue)
+                        freeCells++;
                 }
+            }
+
+            if (freeCells != 1 ||
+                game.FreeCellRow < 0 ||
+                game.FreeCellRow >= Constants.RowCount ||
+                game.FreeCellColumn < 0 ||
+                game.FreeCellColumn >= Constants.ColumnCount ||
+                result[game.FreeCellRow, game.FreeCellColumn]
+                    != Constants.FreeCellValue)
+            {
+                throw new InvalidOperationException(
+                    "Сервер вернул некорректное состояние игрового поля.");
             }
 
             return result;

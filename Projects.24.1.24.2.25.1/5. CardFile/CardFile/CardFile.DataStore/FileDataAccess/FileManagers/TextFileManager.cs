@@ -1,117 +1,108 @@
-﻿using CardFile.DataStore.DataCollection;
+﻿
+using CardFile.DataStore.DataCollection;
 using CardFile.DataStore.Dtos;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CardFile.DataStore.FileDataAccess.FileManagers
 {
     public class TextFileManager : IFileManager
     {
-        public void OpenFromFile(string fileName, CardCollection collection)
+        private static readonly CultureInfo Culture =
+            CultureInfo.InvariantCulture;
+
+        public void OpenFromFile(
+            string fileName, CardCollection collection)
         {
-            using (var fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+            var records = new List<CardDto>();
+
+            using (var reader = new StreamReader(fileName))
             {
-                using (var reader = new StreamReader(fs))
+                string line;
+                int lineNumber = 0;
+
+                while ((line = reader.ReadLine()) != null)
                 {
-                    var records = new List<CardDto>();
+                    lineNumber++;
 
-                    while (!reader.EndOfStream)
+                    if (string.IsNullOrWhiteSpace(line))
+                        continue;
+
+                    string[] parts = line.Split(';');
+
+                    if (parts.Length != 14)
                     {
-                        var line = reader.ReadLine();
-                        if (string.IsNullOrEmpty(line))
-                        {
-                            continue;
-                        }
-
-                        var lineParts = line.Split(';');
-                        if (lineParts.Length != 10)
-                        {
-                            throw new Exception($"В строке файла {fileName} неверное количество полей");
-                        }
-
-                        var newCard = new CardDto();
-
-                        if (int.TryParse(lineParts[0], out var id))
-                        {
-                            newCard.Id = id;
-                        }
-                        else
-                        {
-                            throw new Exception($"В строке файла {fileName} неверное значение Id");
-                        }
-
-                        newCard.FirstName = lineParts[1];
-                        newCard.MiddleName = lineParts[2];
-                        newCard.LastName = lineParts[3];
-
-                        if (DateTime.TryParse(lineParts[4], out var birthDate))
-                        {
-                            newCard.BirthDate = birthDate;
-                        }
-                        else
-                        {
-                            throw new Exception($"В строке файла {fileName} неверное значение BirthDate");
-                        }
-
-                        newCard.Department = lineParts[5];
-                        newCard.Position = lineParts[6];
-
-                        if (DateTime.TryParse(lineParts[7], out var employmentDate))
-                        {
-                            newCard.EmploymentDate = employmentDate;
-                        }
-                        else
-                        {
-                            throw new Exception($"В строке файла {fileName} неверное значение EmploymentDate");
-                        }
-
-                        if (lineParts[8] == "-")
-                        {
-                            newCard.DismissalDate = null;
-                        }
-                        else if (DateTime.TryParse(lineParts[8], out var dismissalDate))
-                        {
-                            newCard.DismissalDate = dismissalDate;
-                        }
-                        else
-                        {
-                            throw new Exception($"В строке файла {fileName} неверное значение DismissalDate");
-                        }
-
-                        if (decimal.TryParse(lineParts[9], out var salary))
-                        {
-                            newCard.Salary = salary;
-                        }
-                        else
-                        {
-                            throw new Exception($"В строке файла {fileName} неверное значение Salary");
-                        }
-
-                        records.Add(newCard);
+                        throw new InvalidDataException(
+                            $"В строке {lineNumber} файла {fileName} " +
+                            "неверное количество полей.");
                     }
 
-                    collection.ReplaceAll(records);
+                    try
+                    {
+                        records.Add(new CardDto
+                        {
+                            Id = int.Parse(parts[0], Culture),
+                            Brand = parts[1],
+                            Model = parts[2],
+                            Year = int.Parse(parts[3], Culture),
+                            Color = parts[4],
+                            Mileage = int.Parse(parts[5], Culture),
+                            Price = decimal.Parse(parts[6], Culture),
+                            FuelType = parts[7],
+                            EngineVolume = decimal.Parse(parts[8], Culture),
+                            TransmissionType = parts[9],
+                            HasAirConditioning = bool.Parse(parts[10]),
+                            AddedDate = DateTime.Parse(
+                                parts[11], Culture,
+                                DateTimeStyles.RoundtripKind),
+                            SoldDate = parts[12] == "-"
+                                ? (DateTime?)null
+                                : DateTime.Parse(
+                                    parts[12], Culture,
+                                    DateTimeStyles.RoundtripKind),
+                            Vin = parts[13]
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new InvalidDataException(
+                            $"Ошибка чтения строки {lineNumber} файла " +
+                            $"{fileName}: {ex.Message}", ex);
+                    }
                 }
             }
+
+            collection.ReplaceAll(records);
         }
 
-        public void SaveToFile(string fileName, CardCollection collection)
+        public void SaveToFile(
+            string fileName, CardCollection collection)
         {
-            using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
+            using (var writer = new StreamWriter(fileName, false))
             {
-                using (var writer = new StreamWriter(fs))
+                foreach (CardDto car in collection.GetAll())
                 {
-                    foreach (var item in collection.GetAll())
+                    writer.WriteLine(string.Join(";", new[]
                     {
-                        writer.WriteLine($"{item.Id};{item.FirstName};{item.MiddleName};{item.LastName};" +
-                            $"{item.BirthDate.ToShortDateString()};{item.Department};{item.Position};" +
-                            $"{item.EmploymentDate.ToShortDateString()};{item.DismissalDate?.ToShortDateString() ?? "-"};" +
-                            $"{item.Salary}");
-                    }
+                        car.Id.ToString(Culture),
+                        car.Brand ?? "",
+                        car.Model ?? "",
+                        car.Year.ToString(Culture),
+                        car.Color ?? "",
+                        car.Mileage.ToString(Culture),
+                        car.Price.ToString(Culture),
+                        car.FuelType ?? "",
+                        car.EngineVolume.ToString(Culture),
+                        car.TransmissionType ?? "",
+                        car.HasAirConditioning.ToString(),
+                        car.AddedDate.ToString("O", Culture),
+                        car.SoldDate.HasValue
+                            ? car.SoldDate.Value.ToString("O", Culture)
+                            : "-",
+                        car.Vin ?? ""
+                    }));
                 }
             }
         }

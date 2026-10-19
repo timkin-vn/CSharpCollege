@@ -1,10 +1,9 @@
-﻿using CardFile.DataStore.Dtos;
+﻿
+using CardFile.DataStore.Dtos;
 using CardFile.DataStore.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CardFile.DataStore.DataCollection
 {
@@ -19,54 +18,73 @@ namespace CardFile.DataStore.DataCollection
             _cards.Add(new CardDto
             {
                 Id = 1,
-                FirstName = "Андрей",
-                MiddleName = "Геннадьевич",
-                LastName = "Захаров",
-                BirthDate = new DateTime(1985, 11, 7),
-                Department = "Отдел разработки",
-                Position = "Руководитель проекта",
-                EmploymentDate = new DateTime(2010, 4, 18),
-                DismissalDate = null,
-                Salary = 250000m,
+                Brand = "Toyota",
+                Model = "Camry",
+                Year = 2021,
+                Color = "Белый",
+                Mileage = 42000,
+                Price = 2850000m,
+                FuelType = "Бензин",
+                EngineVolume = 2.5m,
+                TransmissionType = "Автомат",
+                HasAirConditioning = true,
+                AddedDate = new DateTime(2024, 3, 15),
+                SoldDate = null,
+                Vin = "JTNB11HK0K3000001"
             });
+
             _cards.Add(new CardDto
             {
                 Id = 2,
-                FirstName = "Нина",
-                MiddleName = "Аркадьевна",
-                LastName = "Шевченко",
-                BirthDate = new DateTime(1990, 8, 21),
-                Department = "Отдел тестирования",
-                Position = "Старший тестировщик",
-                EmploymentDate = new DateTime(2015, 2, 14),
-                DismissalDate = new DateTime(2024, 11, 3),
-                Salary = 200000m,
+                Brand = "Kia",
+                Model = "Rio",
+                Year = 2019,
+                Color = "Серый",
+                Mileage = 78000,
+                Price = 1350000m,
+                FuelType = "Бензин",
+                EngineVolume = 1.6m,
+                TransmissionType = "Механика",
+                HasAirConditioning = true,
+                AddedDate = new DateTime(2023, 8, 20),
+                SoldDate = new DateTime(2024, 1, 12),
+                Vin = "Z94C241BBKR000002"
             });
+
             _cards.Add(new CardDto
             {
                 Id = 3,
-                FirstName = "Виктор",
-                MiddleName = "Петрович",
-                LastName = "Васильев",
-                BirthDate = new DateTime(2001, 3, 11),
-                Department = "Отдел разработки",
-                Position = "Ведущий разработчик",
-                EmploymentDate = new DateTime(2020, 9, 25),
-                DismissalDate = null,
-                Salary = 300000m,
+                Brand = "Volkswagen",
+                Model = "Golf",
+                Year = 2020,
+                Color = "Синий",
+                Mileage = 51000,
+                Price = 2100000m,
+                FuelType = "Бензин",
+                EngineVolume = 1.4m,
+                TransmissionType = "Робот",
+                HasAirConditioning = true,
+                AddedDate = new DateTime(2024, 5, 10),
+                SoldDate = null,
+                Vin = "WVWZZZAUZLW000003"
             });
+
             _cards.Add(new CardDto
             {
                 Id = 4,
-                FirstName = "Ольга",
-                MiddleName = "Владимировна",
-                LastName = "Меднис",
-                BirthDate = new DateTime(1981, 9, 2),
-                Department = "Бухгалтерия",
-                Position = "Главный бухгалтер",
-                EmploymentDate = new DateTime(2010, 9, 25),
-                DismissalDate = new DateTime(2023, 3, 18),
-                Salary = 150000m,
+                Brand = "Lada",
+                Model = "Vesta",
+                Year = 2022,
+                Color = "Красный",
+                Mileage = 25000,
+                Price = 1450000m,
+                FuelType = "Бензин",
+                EngineVolume = 1.6m,
+                TransmissionType = "Механика",
+                HasAirConditioning = false,
+                AddedDate = new DateTime(2024, 6, 2),
+                SoldDate = null,
+                Vin = "XTAGFL110NY000004"
             });
 
             MapperInitialization.PreRegister();
@@ -74,36 +92,27 @@ namespace CardFile.DataStore.DataCollection
 
         public IEnumerable<CardDto> GetAll()
         {
-            //return _cards;
-
-            //var result = new List<CardDto>();
-
-            //foreach (var card in _cards)
-            //{
-            //    result.Add(card.Clone());
-            //}
-
-            //return result;
-
-            return _cards.Select(c => c.Clone()).ToList();
+            return _cards.Select(card => card.Clone()).ToList();
         }
 
         public int Save(CardDto card)
         {
+            if (card == null)
+                throw new ArgumentNullException(nameof(card));
+
             if (card.Id == 0)
             {
-                var newCard = card.Clone();
-                var id = NextId++;
+                CardDto newCard = card.Clone();
+                int id = NextId++;
                 newCard.Id = id;
                 _cards.Add(newCard);
                 return id;
             }
 
-            var index = _cards.FindIndex(c => c.Id == card.Id);
+            int index = _cards.FindIndex(c => c.Id == card.Id);
+
             if (index < 0)
-            {
                 return -1;
-            }
 
             _cards[index] = card.Clone();
             return card.Id;
@@ -111,11 +120,10 @@ namespace CardFile.DataStore.DataCollection
 
         public bool Delete(int cardId)
         {
-            var index = _cards.FindIndex(c => c.Id == cardId);
+            int index = _cards.FindIndex(c => c.Id == cardId);
+
             if (index < 0)
-            {
                 return false;
-            }
 
             _cards.RemoveAt(index);
             return true;
@@ -125,14 +133,20 @@ namespace CardFile.DataStore.DataCollection
         {
             _cards.Clear();
             _cards.AddRange(newCollection);
-            NextId = _cards.Max(c => c.Id) + 1;
+
+            NextId = _cards.Count == 0
+                ? 1
+                : _cards.Max(c => c.Id) + 1;
         }
 
-        internal void ReplaceAll(IEnumerable<CardDto> newCollection, int nextId)
+        internal void ReplaceAll(
+            IEnumerable<CardDto> newCollection, int nextId)
         {
             _cards.Clear();
             _cards.AddRange(newCollection);
-            NextId = nextId;
+            NextId = Math.Max(nextId, _cards.Count == 0
+                ? 1
+                : _cards.Max(c => c.Id) + 1);
         }
     }
 }

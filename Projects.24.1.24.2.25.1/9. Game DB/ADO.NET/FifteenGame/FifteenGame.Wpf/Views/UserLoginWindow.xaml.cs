@@ -1,26 +1,13 @@
 ﻿using FifteenGame.Wpf.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace FifteenGame.Wpf.Views
 {
-    /// <summary>
-    /// Interaction logic for UserLoginWindow.xaml
-    /// </summary>
     public partial class UserLoginWindow : Window
     {
-        public UserLoginWindowViewModel ViewModel => (UserLoginWindowViewModel)DataContext;
+        public UserLoginWindowViewModel ViewModel =>
+            (UserLoginWindowViewModel)DataContext;
 
         public UserLoginWindow()
         {
@@ -29,21 +16,45 @@ namespace FifteenGame.Wpf.Views
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!ViewModel.FindUser())
+            if (string.IsNullOrWhiteSpace(ViewModel.UserName))
             {
-                if (MessageBox.Show("Такого пользователя нет в системе. Создать?", "Ошибка",
-                    MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-                {
-                    ViewModel.CreateUser();
-                }
-                else
-                {
-                    return;
-                }
+                MessageBox.Show(
+                    "Введите имя пользователя.",
+                    "Вход в систему",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+
+                return;
             }
 
-            ViewModel.CommitUser();
-            DialogResult = true;
+            try
+            {
+                if (!ViewModel.FindUser())
+                {
+                    var result = MessageBox.Show(
+                        "Пользователь не найден. Создать нового?",
+                        "Вход в систему",
+                        MessageBoxButton.YesNo,
+                        MessageBoxImage.Question);
+
+                    if (result != MessageBoxResult.Yes)
+                        return;
+
+                    ViewModel.CreateUser();
+                }
+
+                ViewModel.CommitUser();
+
+                DialogResult = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Не удалось выполнить вход:\n" + ex.Message,
+                    "Ошибка",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
         }
     }
 }

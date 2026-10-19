@@ -1,12 +1,8 @@
-﻿using AutoMapper;
+﻿
+using AutoMapper;
 using CardFile.Common.Infrastructure;
 using CardFile.DataStore.Dtos;
 using CardFile.DataStore.FileDataAccess.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CardFile.DataStore.Infrastructure
 {
@@ -17,7 +13,8 @@ namespace CardFile.DataStore.Infrastructure
             Mapping.InitializationAction += Configure;
         }
 
-        private static void Configure(IMapperConfigurationExpression cfg)
+        private static void Configure(
+            IMapperConfigurationExpression cfg)
         {
             cfg.CreateMap<CardDto, CardDto>();
 

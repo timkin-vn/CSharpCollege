@@ -1,97 +1,96 @@
-﻿using CardFile.DataStore.DataCollection;
+﻿
+using CardFile.DataStore.DataCollection;
 using CardFile.DataStore.Dtos;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CardFile.DataStore.FileDataAccess.FileManagers
 {
     internal class BinaryFileManager : IFileManager
     {
-        public void OpenFromFile(string fileName, CardCollection collection)
+        public void OpenFromFile(
+            string fileName, CardCollection collection)
         {
-            using (var fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+            var records = new List<CardDto>();
+
+            using (var stream = new FileStream(
+                fileName, FileMode.Open, FileAccess.Read))
+            using (var reader = new BinaryReader(stream, Encoding.UTF8))
             {
-                using (var reader = new BinaryReader(fs))
+                try
                 {
-                    var records = new List<CardDto>();
-
-                    try
+                    while (reader.BaseStream.Position <
+                           reader.BaseStream.Length)
                     {
-                        while (reader.BaseStream.Position < reader.BaseStream.Length)
+                        var car = new CardDto
                         {
-                            var newCard = new CardDto();
+                            Id = reader.ReadInt32(),
+                            Brand = reader.ReadString(),
+                            Model = reader.ReadString(),
+                            Year = reader.ReadInt32(),
+                            Color = reader.ReadString(),
+                            Mileage = reader.ReadInt32(),
+                            Price = reader.ReadDecimal(),
+                            FuelType = reader.ReadString(),
+                            EngineVolume = reader.ReadDecimal(),
+                            TransmissionType = reader.ReadString(),
+                            HasAirConditioning = reader.ReadBoolean(),
+                            AddedDate = DateTime.FromBinary(reader.ReadInt64())
+                        };
 
-                            newCard.Id = reader.ReadInt32();
-                            newCard.FirstName = reader.ReadString();
-                            newCard.MiddleName = reader.ReadString();
-                            newCard.LastName = reader.ReadString();
+                        bool hasSoldDate = reader.ReadBoolean();
 
-                            var ticks = reader.ReadInt64();
-                            newCard.BirthDate = new DateTime(ticks);
+                        car.SoldDate = hasSoldDate
+                            ? DateTime.FromBinary(reader.ReadInt64())
+                            : (DateTime?)null;
 
-                            newCard.Department = reader.ReadString();
-                            newCard.Position = reader.ReadString();
+                        car.Vin = reader.ReadString();
 
-                            ticks = reader.ReadInt64();
-                            newCard.EmploymentDate = new DateTime(ticks);
-
-                            var isDismissalDatePresent = reader.ReadBoolean();
-                            if (isDismissalDatePresent)
-                            {
-                                ticks = reader.ReadInt64();
-                                newCard.DismissalDate = new DateTime(ticks);
-                            }
-                            else
-                            {
-                                newCard.DismissalDate = null;
-                            }
-
-                            newCard.Salary = reader.ReadDecimal();
-
-                            records.Add(newCard);
-                        }
+                        records.Add(car);
                     }
-                    catch
-                    {
-                        throw new Exception($"Неверные данные в файле {fileName}");
-                    }
-
-                    collection.ReplaceAll(records);
+                }
+                catch (Exception ex)
+                {
+                    throw new InvalidDataException(
+                        $"Неверные данные в бинарном файле {fileName}.", ex);
                 }
             }
+
+            collection.ReplaceAll(records);
         }
 
-        public void SaveToFile(string fileName, CardCollection collection)
+        public void SaveToFile(
+            string fileName, CardCollection collection)
         {
-            using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
+            using (var stream = new FileStream(
+                fileName, FileMode.Create, FileAccess.Write))
+            using (var writer = new BinaryWriter(stream, Encoding.UTF8))
             {
-                using (var writer = new BinaryWriter(fs))
+                foreach (CardDto car in collection.GetAll())
                 {
-                    foreach (var item in collection.GetAll())
-                    {
-                        writer.Write(item.Id);
-                        writer.Write(item.FirstName);
-                        writer.Write(item.MiddleName);
-                        writer.Write(item.LastName);
-                        writer.Write(item.BirthDate.Ticks);
-                        writer.Write(item.Department);
-                        writer.Write(item.Position);
-                        writer.Write(item.EmploymentDate.Ticks);
+                    writer.Write(car.Id);
+                    writer.Write(car.Brand ?? "");
+                    writer.Write(car.Model ?? "");
+                    writer.Write(car.Year);
+                    writer.Write(car.Color ?? "");
+                    writer.Write(car.Mileage);
+                    writer.Write(car.Price);
+                    writer.Write(car.FuelType ?? "");
+                    writer.Write(car.EngineVolume);
+                    writer.Write(car.TransmissionType ?? "");
+                    writer.Write(car.HasAirConditioning);
+                    writer.Write(car.AddedDate.ToBinary());
 
-                        writer.Write(item.DismissalDate.HasValue);
-                        if (item.DismissalDate.HasValue)
-                        {
-                            writer.Write(item.DismissalDate.Value.Ticks);
-                        }
+                    writer.Write(car.SoldDate.HasValue);
 
-                        writer.Write(item.Salary);
-                    }
+                    if (car.SoldDate.HasValue)
+                        writer.Write(car.SoldDate.Value.ToBinary());
+
+                    writer.Write(car.Vin ?? "");
                 }
-            }    
+            }
         }
     }
 }

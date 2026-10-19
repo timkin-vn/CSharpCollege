@@ -3,14 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CardFile.Wpf"
         xmlns:viewmodels="clr-namespace:CardFile.Wpf.ViewModels"
         mc:Ignorable="d"
         Title="{Binding WindowTitle}"
-        Height="500"
-        Width="900"
-        MinHeight="350"
-        MinWidth="650"
+        Height="520"
+        Width="1100"
+        MinHeight="400"
+        MinWidth="800"
         Loaded="Window_Loaded"
         Initialized="Window_Initialized">
 
@@ -21,41 +20,26 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_Файл">
-                <MenuItem Header="_Открыть..." Click="FileOpenMenuItem_Click" />
-                <MenuItem Header="_Сохранить" Click="FileSaveMenuItem_Click" />
-                <MenuItem Header="Со_хранить как..." Click="FileSaveAsMenuItem_Click" />
+                <MenuItem Header="_Открыть..."
+                          Click="FileOpenMenuItem_Click" />
+                <MenuItem Header="_Сохранить"
+                          Click="FileSaveMenuItem_Click" />
+                <MenuItem Header="Со_хранить как..."
+                          Click="FileSaveAsMenuItem_Click" />
                 <Separator />
-                <MenuItem Header="В_ыход" Click="FileExitMenuItem_Click" />
+                <MenuItem Header="В_ыход"
+                          Click="FileExitMenuItem_Click" />
             </MenuItem>
         </Menu>
 
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
+                <RowDefinition />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Grid Grid.Row="0" Margin="5,8,5,4">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <TextBlock Grid.Column="0"
-                           Text="Поиск:"
-                           VerticalAlignment="Center"
-                           Margin="0,0,8,0" />
-
-                <TextBox Grid.Column="1"
-                         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
-                         Padding="6,4"
-                         VerticalContentAlignment="Center"
-                         ToolTip="Введите ФИО, подразделение, должность или ID сотрудника" />
-            </Grid>
-
-            <DataGrid Grid.Row="1"
-                      ItemsSource="{Binding CardsView}"
+            <DataGrid Grid.Row="0"
+                      ItemsSource="{Binding Cards}"
                       SelectedItem="{Binding SelectedCard, Mode=TwoWay}"
                       SelectionChanged="DataGrid_SelectionChanged"
                       AutoGenerateColumns="False"
@@ -65,58 +49,61 @@
                       Margin="5">
 
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ФИО"
-                                        Binding="{Binding Fio}"
-                                        Width="2*" />
-
-                    <DataGridTextColumn Header="Дата рождения"
-                                        Binding="{Binding BirthDateText}"
+                    <DataGridTextColumn Header="Марка и модель"
+                                        Binding="{Binding CarName}"
                                         Width="*" />
-
-                    <DataGridTextColumn Header="Подразделение"
-                                        Binding="{Binding Department}"
-                                        Width="1.5*" />
-
-                    <DataGridTextColumn Header="Должность"
-                                        Binding="{Binding Position}"
-                                        Width="1.5*" />
-
-                    <DataGridTextColumn Header="Дата трудоустройства"
-                                        Binding="{Binding EmploymentDateText}"
-                                        Width="*" />
-
-                    <DataGridTextColumn Header="Дата увольнения"
-                                        Binding="{Binding DismissalDateText}"
-                                        Width="*" />
-
-                    <DataGridTextColumn Header="Оклад"
-                                        Binding="{Binding SalaryText}"
-                                        Width="*" />
+                    <DataGridTextColumn Header="Год"
+                                        Binding="{Binding Year}"
+                                        Width="70" />
+                    <DataGridTextColumn Header="Цвет"
+                                        Binding="{Binding Color}"
+                                        Width="100" />
+                    <DataGridTextColumn Header="Пробег"
+                                        Binding="{Binding MileageText}"
+                                        Width="110" />
+                    <DataGridTextColumn Header="Цена"
+                                        Binding="{Binding PriceText}"
+                                        Width="130" />
+                    <DataGridTextColumn Header="Топливо"
+                                        Binding="{Binding FuelType}"
+                                        Width="100" />
+                    <DataGridTextColumn Header="Объём двигателя"
+                                        Binding="{Binding EngineVolumeText}"
+                                        Width="120" />
+                    <DataGridTextColumn Header="Коробка передач"
+                                        Binding="{Binding TransmissionType}"
+                                        Width="130" />
+                    <DataGridTextColumn Header="Кондиционер"
+                                        Binding="{Binding AirConditioningText}"
+                                        Width="110" />
+                    <DataGridTextColumn Header="Дата добавления"
+                                        Binding="{Binding AddedDateText}"
+                                        Width="120" />
+                    <DataGridTextColumn Header="Дата продажи"
+                                        Binding="{Binding SoldDateText}"
+                                        Width="120" />
+                    <DataGridTextColumn Header="VIN"
+                                        Binding="{Binding Vin}"
+                                        Width="180" />
                 </DataGrid.Columns>
             </DataGrid>
 
-            <StackPanel Grid.Row="2"
+            <StackPanel Grid.Row="1"
                         Orientation="Horizontal"
                         HorizontalAlignment="Right">
-
                 <Button Content="Создать"
-                        Padding="8,5"
+                        Padding="10,5"
                         Margin="5"
-                        VerticalAlignment="Center"
                         Click="CreateButton_Click" />
-
                 <Button Content="Правка"
                         IsEnabled="{Binding IsEditButtonEnabled}"
-                        Padding="8,5"
+                        Padding="10,5"
                         Margin="5"
-                        VerticalAlignment="Center"
                         Click="EditButton_Click" />
-
                 <Button Content="Удалить"
                         IsEnabled="{Binding IsDeleteButtonEnabled}"
-                        Padding="8,5"
+                        Padding="10,5"
                         Margin="5"
-                        VerticalAlignment="Center"
                         Click="DeleteButton_Click" />
             </StackPanel>
         </Grid>
