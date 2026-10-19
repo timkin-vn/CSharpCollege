@@ -1,0 +1,10 @@
+C:\Users\kotov\OneDrive\Рабочий стол\CSharpCollege-master\Projects.24.1.24.2.25.1\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.csproj.AssemblyReference.cache
+C:\Users\kotov\OneDrive\Рабочий стол\CSharpCollege-master\Projects.24.1.24.2.25.1\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.DrawingForm.resources
+C:\Users\kotov\OneDrive\Рабочий стол\CSharpCollege-master\Projects.24.1.24.2.25.1\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.Properties.Resources.resources
+C:\Users\kotov\OneDrive\Рабочий стол\CSharpCollege-master\Projects.24.1.24.2.25.1\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.csproj.GenerateResource.cache
+C:\Users\kotov\OneDrive\Рабочий стол\CSharpCollege-master\Projects.24.1.24.2.25.1\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.csproj.CoreCompileInputs.cache
+C:\Users\kotov\OneDrive\Рабочий стол\CSharpCollege-master\Projects.24.1.24.2.25.1\2. Drawing\Drawing\Drawing\bin\Debug\Drawing.exe.config
+C:\Users\kotov\OneDrive\Рабочий стол\CSharpCollege-master\Projects.24.1.24.2.25.1\2. Drawing\Drawing\Drawing\bin\Debug\Drawing.exe
+C:\Users\kotov\OneDrive\Рабочий стол\CSharpCollege-master\Projects.24.1.24.2.25.1\2. Drawing\Drawing\Drawing\bin\Debug\Drawing.pdb
+C:\Users\kotov\OneDrive\Рабочий стол\CSharpCollege-master\Projects.24.1.24.2.25.1\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.exe
+C:\Users\kotov\OneDrive\Рабочий стол\CSharpCollege-master\Projects.24.1.24.2.25.1\2. Drawing\Drawing\Drawing\obj\Debug\Drawing.pdb
