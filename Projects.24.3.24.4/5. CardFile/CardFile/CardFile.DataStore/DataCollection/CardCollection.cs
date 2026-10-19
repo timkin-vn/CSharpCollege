@@ -21,75 +21,62 @@ namespace CardFile.DataStore.DataCollection
             _cards.Add(new CardDto
             {
                 Id = 1,
-                FirstName = "Андрей",
-                MiddleName = "Геннадьевич",
-                LastName = "Захаров",
-                BirthDate = new DateTime(1985, 11, 7),
-                Department = "Отдел разработки",
-                Position = "Руководитель проекта",
-                EmploymentDate = new DateTime(2010, 4, 18),
-                DismissalDate = null,
-                Salary = 250000m,
+                Brand = "Toyota",
+                Model = "Camry",
+                LicensePlate = "A123BC52",
+                ManufactureDate = new DateTime(2018, 4, 12),
+                Color = "Чёрный",
+                Owner = "Иван Петров",
+                RegistrationDate = new DateTime(2018, 5, 3),
+                DeregistrationDate = null,
+                Price = 2450000m,
             });
 
             _cards.Add(new CardDto
             {
                 Id = 2,
-                FirstName = "Нина",
-                MiddleName = "Аркадьевна",
-                LastName = "Шевченко",
-                BirthDate = new DateTime(1990, 8, 21),
-                Department = "Отдел тестирования",
-                Position = "Старший тестировщик",
-                EmploymentDate = new DateTime(2015, 2, 14),
-                DismissalDate = new DateTime(2024, 11, 3),
-                Salary = 200000m,
+                Brand = "BMW",
+                Model = "320i",
+                LicensePlate = "M777OP77",
+                ManufactureDate = new DateTime(2020, 9, 18),
+                Color = "Белый",
+                Owner = "Алексей Смирнов",
+                RegistrationDate = new DateTime(2020, 10, 1),
+                DeregistrationDate = null,
+                Price = 3200000m,
             });
 
             _cards.Add(new CardDto
             {
                 Id = 3,
-                FirstName = "Виктор",
-                MiddleName = "Петрович",
-                LastName = "Васильев",
-                BirthDate = new DateTime(2001, 3, 11),
-                Department = "Отдел разработки",
-                Position = "Ведущий разработчик",
-                EmploymentDate = new DateTime(2020, 9, 25),
-                DismissalDate = null,
-                Salary = 300000m,
+                Brand = "Lada",
+                Model = "Vesta",
+                LicensePlate = "K456TT152",
+                ManufactureDate = new DateTime(2017, 2, 7),
+                Color = "Серый",
+                Owner = "Мария Орлова",
+                RegistrationDate = new DateTime(2017, 2, 20),
+                DeregistrationDate = new DateTime(2025, 12, 15),
+                Price = 980000m,
             });
 
             _cards.Add(new CardDto
             {
                 Id = 4,
-                FirstName = "Ольга",
-                MiddleName = "Владимировна",
-                LastName = "Меднис",
-                BirthDate = new DateTime(1981, 9, 2),
-                Department = "Бухгалтерия",
-                Position = "Главный бухгалтер",
-                EmploymentDate = new DateTime(2010, 9, 25),
-                DismissalDate = new DateTime(2023, 3, 18),
-                Salary = 150000m,
+                Brand = "Tesla",
+                Model = "Model 3",
+                LicensePlate = "E001EE99",
+                ManufactureDate = new DateTime(2023, 6, 10),
+                Color = "Красный",
+                Owner = "Дмитрий Волков",
+                RegistrationDate = new DateTime(2023, 7, 2),
+                DeregistrationDate = null,
+                Price = 4700000m,
             });
         }
 
         public IEnumerable<CardDto> GetAll()
         {
-            //return _cards;
-
-            //return new List<CardDto>(_cards);
-
-            //var result = new List<CardDto>();
-
-            //foreach (var card in _cards)
-            //{
-            //    result.Add(card.Clone());
-            //}
-
-            //return result;
-
             return _cards.Select(c => c.Clone()).ToList();
         }
 
@@ -130,7 +117,7 @@ namespace CardFile.DataStore.DataCollection
         {
             _cards.Clear();
             _cards.AddRange(cards);
-            NextId = _cards.Max(c => c.Id) + 1;
+            NextId = _cards.Count == 0 ? 1 : _cards.Max(c => c.Id) + 1;
         }
 
         public void ReplaceAll(IEnumerable<CardDto> cards, int nextId)

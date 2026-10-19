@@ -1,11 +1,7 @@
 ﻿using Drawing.Models;
 using Drawing.Services;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Drawing.ViewServices
 {
@@ -15,21 +11,20 @@ namespace Drawing.ViewServices
 
         private Scaler _scaler;
 
-        private PictureBuilder _builder = new PictureBuilder();
-
-        public void Paint(Rectangle bounds, Graphics g)
+        public void Paint(Rectangle bounds, Graphics g, int pictureNumber)
         {
+            var builder = new PictureBuilder(pictureNumber);
+
             _scaler = new Scaler
             {
                 TargetBounds = bounds,
-                SourceBounds = _builder.SourceBounds,
+                SourceBounds = builder.SourceBounds,
             };
 
             _scaler.Initialize();
-
             _graphics = g;
 
-            _builder.DrawPicture(this);
+            builder.DrawPicture(this);
 
             _graphics = null;
         }
@@ -81,11 +76,6 @@ namespace Drawing.ViewServices
 
         public void DrawPolygon(Pen pen, Brush brush, PointModel[] pointModels)
         {
-            //var points = new Point[pointModels.Length];
-            //for (int i = 0; i < pointModels.Length; i++)
-            //{
-            //    points[i] = _scaler.Scale(pointModels[i]);
-            //}
             var points = pointModels.Select(pm => _scaler.Scale(pm)).ToArray();
 
             if (brush != null)
