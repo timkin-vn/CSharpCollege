@@ -1,32 +1,111 @@
-﻿using System.Drawing;
-using Drawing.Models;
+﻿using Drawing.Models;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Drawing.Services
 {
-    public class Painter
+    internal class Painter
     {
-        public void Paint(Graphics g, PictureBuilder picture)
+        private Graphics _graphics;
+
+        private Scaler _scaler;
+
+        private PictureBuilder _builder;
+
+
+        public void Initialize(Rectangle bounds, PictureBuilder builder)
         {
-            if (picture.HouseBody == null) return;
+            _builder = builder;
+            _builder.PreparePicture();
 
-            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-
-            
-            g.FillRectangle(Brushes.NavajoWhite, picture.HouseBody.Left, picture.HouseBody.Top, picture.HouseBody.Width, picture.HouseBody.Height);
-            g.DrawRectangle(Pens.Black, picture.HouseBody.Left, picture.HouseBody.Top, picture.HouseBody.Width, picture.HouseBody.Height);
-
-            
-            Point[] roofPoints = {
-                new Point(picture.Roof.Left, picture.Roof.Top + picture.Roof.Height),
-                new Point(picture.Roof.Left + picture.Roof.Width, picture.Roof.Top + picture.Roof.Height),
-                new Point(picture.Roof.Left + (picture.Roof.Width / 2), picture.Roof.Top)
+            _scaler = new Scaler
+            {
+                TargetBounds = bounds,
+                SourceBounds = _builder.SourceBounds,
             };
-            g.FillPolygon(Brushes.Firebrick, roofPoints);
-            g.DrawPolygon(Pens.Black, roofPoints);
 
-            
-            g.FillRectangle(Brushes.SkyBlue, picture.Window.Left, picture.Window.Top, picture.Window.Width, picture.Window.Height);
-            g.DrawRectangle(Pens.Black, picture.Window.Left, picture.Window.Top, picture.Window.Width, picture.Window.Height);
+            _scaler.Initialize();
+        }
+
+        public void Paint(Graphics g)
+        {
+            _graphics = g;
+
+            _builder.DrawPicture(this);
+
+            _graphics = null;
+        }
+
+        public void DrawEllipse(Brush brush, Pen pen, RectangleModel rectangleModel)
+        {
+            var rectangle = _scaler.Scale(rectangleModel);
+
+            if (brush != null)
+            {
+                _graphics.FillEllipse(brush, rectangle);
+            }
+
+            if (pen != null)
+            {
+                _graphics.DrawEllipse(pen, rectangle);
+            }
+        }
+
+        public void DrawRectangle(Brush brush, Pen pen, RectangleModel rectangleModel)
+        {
+            var rectangle = _scaler.Scale(rectangleModel);
+
+            if (brush != null)
+            {
+                _graphics.FillRectangle(brush, rectangle);
+            }
+
+            if (pen != null)
+            {
+                _graphics.DrawRectangle(pen, rectangle);
+            }
+        }
+
+        public void DrawPie(Brush brush, Pen pen, RectangleModel rectangleModel, double startAngle, double sweepAngle)
+        {
+            var rectangle = _scaler.Scale(rectangleModel);
+
+            if (brush != null)
+            {
+                _graphics.FillPie(brush, rectangle, (float)startAngle, (float)sweepAngle);
+            }
+
+            if (pen != null)
+            {
+                _graphics.DrawPie(pen, rectangle, (float)startAngle, (float)sweepAngle);
+            }
+        }
+
+        public void DrawPolygon(Brush brush, Pen pen, PointModel[] pointModels)
+        {
+            var points = pointModels.Select(pm => _scaler.Scale(pm)).ToArray();
+
+            if (brush != null)
+            {
+                _graphics.FillPolygon(brush, points);
+            }
+
+            if (pen != null)
+            {
+                _graphics.DrawPolygon(pen, points);
+            }
+        }
+
+        public void DrawText(string text, int x, int y)
+        {
+            if (_graphics != null)
+            {
+                _graphics.DrawString(text, new Font("Arial", 16), Brushes.Black, x, y);
+            }
         }
     }
 }
