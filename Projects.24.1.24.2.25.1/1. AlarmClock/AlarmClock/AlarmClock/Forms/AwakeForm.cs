@@ -1,4 +1,4 @@
-﻿using AlarmClock.Models;
+using AlarmClock.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,6 +20,8 @@ namespace AlarmClock.Forms
 
         private int _imageIndex;
 
+        private bool _snoozed;
+
         public AlarmState AlarmState { get; set; }
 
         public AwakeForm()
@@ -35,7 +37,7 @@ namespace AlarmClock.Forms
 
         private void InitializeImages()
         {
-            _imageFileNames = Directory.EnumerateFiles(ImageFolderName).ToArray();
+            _imageFileNames = Directory.EnumerateFiles(ImageFolderName, "*.jpg").ToArray();
             _imageIndex = 0;
             AwakePictureBox.Load(_imageFileNames[_imageIndex]);
         }
@@ -51,10 +53,22 @@ namespace AlarmClock.Forms
             AwakePictureBox.Load(_imageFileNames[_imageIndex]);
         }
 
+        private void SnoozeButton_Click(object sender, EventArgs e)
+        {
+            AlarmState.AlarmTime = DateTime.Now.AddMinutes(5);
+            AlarmState.IsAlarmActive = true;
+            AlarmState.IsAwakeActivated = false;
+            _snoozed = true;
+            Close();
+        }
+
         private void AwakeForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            AlarmState.IsAlarmActive = false;
-            AlarmState.IsAwakeActivated = false;
+            if (!_snoozed)
+            {
+                AlarmState.IsAlarmActive = false;
+                AlarmState.IsAwakeActivated = false;
+            }
         }
     }
 }

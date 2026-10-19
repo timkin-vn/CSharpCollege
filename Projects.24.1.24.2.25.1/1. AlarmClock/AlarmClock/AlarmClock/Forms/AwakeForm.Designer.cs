@@ -1,4 +1,4 @@
-﻿namespace AlarmClock.Forms
+namespace AlarmClock.Forms
 {
     partial class AwakeForm
     {
@@ -32,6 +32,7 @@
             this.AwakePictureBox = new System.Windows.Forms.PictureBox();
             this.AwakeButton = new System.Windows.Forms.Button();
             this.AwakeTimer = new System.Windows.Forms.Timer(this.components);
+            this.SnoozeButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.AwakePictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -54,6 +55,16 @@
             this.AwakeButton.Text = "Я проснулся";
             this.AwakeButton.UseVisualStyleBackColor = true;
             // 
+            // SnoozeButton
+            // 
+            this.SnoozeButton.Location = new System.Drawing.Point(370, 351);
+            this.SnoozeButton.Name = "SnoozeButton";
+            this.SnoozeButton.Size = new System.Drawing.Size(150, 23);
+            this.SnoozeButton.TabIndex = 2;
+            this.SnoozeButton.Text = "Отложить на 5 минут";
+            this.SnoozeButton.UseVisualStyleBackColor = true;
+            this.SnoozeButton.Click += new System.EventHandler(this.SnoozeButton_Click);
+            // 
             // AwakeTimer
             // 
             this.AwakeTimer.Enabled = true;
@@ -65,6 +76,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(597, 386);
+            this.Controls.Add(this.SnoozeButton);
             this.Controls.Add(this.AwakeButton);
             this.Controls.Add(this.AwakePictureBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -83,5 +95,6 @@
         private System.Windows.Forms.PictureBox AwakePictureBox;
         private System.Windows.Forms.Button AwakeButton;
         private System.Windows.Forms.Timer AwakeTimer;
+        private System.Windows.Forms.Button SnoozeButton;
     }
 }
