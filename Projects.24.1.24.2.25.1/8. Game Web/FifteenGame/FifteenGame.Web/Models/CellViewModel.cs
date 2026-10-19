@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace FifteenGame.Web.Models
 {
@@ -29,7 +29,7 @@ namespace FifteenGame.Web.Models
 
                 if (IsFlagged && !IsOpened)
                 {
-                    return "F";
+                    return "🚩";
                 }
 
                 if (!IsOpened)
