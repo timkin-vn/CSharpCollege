@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CardFile.Business.Models
 {
@@ -14,48 +10,33 @@ namespace CardFile.Business.Models
         public int Id { get; set; }
 
         /// <summary>
-        /// Имя
+        /// Название компании
         /// </summary>
-        public string FirstName { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
-        /// Отчество
+        /// Отрасль
         /// </summary>
-        public string MiddleName { get; set; }
+        public string Industry { get; set; }
 
         /// <summary>
-        /// Фамилия
+        /// Год основания
         /// </summary>
-        public string LastName { get; set; }
+        public int FoundationYear { get; set; }
 
         /// <summary>
-        /// Дата рождения
+        /// Выручка (млрд руб.)
         /// </summary>
-        public DateTime BirthDate { get; set; }
+        public decimal Revenue { get; set; }
 
         /// <summary>
-        /// Подразделение
+        /// Число сотрудников
         /// </summary>
-        public string Department { get; set; }
+        public int Employees { get; set; }
 
         /// <summary>
-        /// Должность
+        /// Информация о компании
         /// </summary>
-        public string Position { get; set; }
-
-        /// <summary>
-        /// Дата трудоустройства
-        /// </summary>
-        public DateTime EmploymentDate { get; set; }
-
-        /// <summary>
-        /// Дата увольнения
-        /// </summary>
-        public DateTime? DismissalDate { get; set; }
-
-        /// <summary>
-        /// Оклад
-        /// </summary>
-        public decimal Salary { get; set; }
+        public string Description { get; set; }
     }
 }

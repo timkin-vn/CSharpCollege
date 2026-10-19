@@ -1,134 +1,170 @@
-﻿using System;
+﻿using CardFile.Business.Models;
+using CardFile.Business.Services;
+using CardFile.Common.Infrastructure;
+using CardFile.Wpf.Infrastructure;
+using System;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Text.Json;
 using System.Linq;
-using System.ComponentModel;
-using System.Windows.Data;
-using CardFile.Business.Models;
 
 namespace CardFile.Wpf.ViewModels
 {
-    public class MainWindowViewModel : BaseViewModel
+    public class MainWindowViewModel : ViewModelBase
     {
-        private const string DefaultFileName = "data.compjson";
-        private readonly ICollectionView _companiesView;
-        private string _searchText;
-        private Company _selectedCompany;
+        private readonly CardFileService _service = new CardFileService();
 
-        public string WindowTitle => "Картотека компаний";
-        public ObservableCollection<Company> Companies { get; set; } = new ObservableCollection<Company>();
+        public ObservableCollection<CardViewModel> Cards { get; } = new ObservableCollection<CardViewModel>();
 
-        public string SearchText
-        {
-            get => _searchText;
-            set
-            {
-                _searchText = value;
-                OnPropertyChanged();
-                _companiesView.Refresh();
-            }
-        }
+        public CardViewModel SelectedCard { get; set; }
 
-        public Company SelectedCompany
-        {
-            get => _selectedCompany;
-            set
-            {
-                _selectedCompany = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(IsEditButtonEnabled));
-                OnPropertyChanged(nameof(IsDeleteButtonEnabled));
-            }
-        }
+        public bool IsEditButtonEnabled => SelectedCard != null;
 
-        public bool IsEditButtonEnabled => SelectedCompany != null;
-        public bool IsDeleteButtonEnabled => SelectedCompany != null;
+        public bool IsDeleteButtonEnabled => SelectedCard != null;
+
         public string FileName { get; private set; }
+
+        public string WindowTitle => string.IsNullOrEmpty(FileName) ? "Картотека компаний" : $"Картотека компаний: {Path.GetFileName(FileName)}";
 
         public MainWindowViewModel()
         {
-            _companiesView = CollectionViewSource.GetDefaultView(Companies);
-            _companiesView.Filter = FilterCompanies;
+            MapperInitialization.PreRegister();
         }
 
-        private bool FilterCompanies(object obj)
+        public void WindowLoaded()
         {
-            if (string.IsNullOrWhiteSpace(SearchText)) return true;
-            if (!(obj is Company company)) return false;
-
-            return company.Name.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0 ||
-                   (company.TaxId != null && company.TaxId.Contains(SearchText));
+            LoadAllData();
         }
 
         public void Initialized()
         {
-            if (File.Exists(DefaultFileName))
+            Mapping.Initialize();
+        }
+
+        public CardViewModel GetSelectedCard()
+        {
+            return SelectedCard;
+        }
+
+        public CardViewModel GetNewCard()
+        {
+            return new CardViewModel
             {
-                OpenFromFile(DefaultFileName);
+                FoundationYear = DateTime.Today.Year,
+            };
+        }
+
+        public void SaveEditedCard(CardViewModel card)
+        {
+            var index = Cards.ToList().FindIndex(c => c.Id == card.Id);
+
+            if (index < 0)
+            {
+                throw new Exception("Карточка с таким Id не существует");
+            }
+
+            var id = _service.Save(ToBusiness(card));
+
+            if (id < 0)
+            {
+                Cards.RemoveAt(index);
+            }
+            else
+            {
+                Cards[index].LoadViewModel(card);
             }
         }
 
-        public Company GetNewCompany() => new Company { Name = "Новая компания" };
-
-        public void SaveNewCompany(CardEditViewModel editVm)
+        public void SaveNewCard(CardViewModel card)
         {
-            if (editVm?.Company == null) return;
-            Companies.Add(editVm.Company);
-            SaveToFile(DefaultFileName);
+            var newCard = new CardViewModel();
+            newCard.LoadViewModel(card);
+
+            var id = _service.Save(ToBusiness(card));
+
+            if (id < 0)
+            {
+                return;
+            }
+
+            newCard.Id = id;
+            Cards.Add(newCard);
         }
 
-        public void SaveEditedCompany(CardEditViewModel editVm)
+        public void SelectionChanged()
         {
-            if (editVm?.Company == null || SelectedCompany == null) return;
+            OnPropertyChanged(nameof(IsDeleteButtonEnabled));
+            OnPropertyChanged(nameof(IsEditButtonEnabled));
+        }
 
-            var index = Companies.IndexOf(SelectedCompany);
-            if (index != -1)
+        private void LoadAllData()
+        {
+            var cards = _service.GetAll();
+            Cards.Clear();
+            foreach (var card in cards)
             {
-                Companies[index] = editVm.Company;
-                SaveToFile(DefaultFileName);
+                Cards.Add(ToViewModel(card));
             }
         }
 
-        public void DeleteSelectedCompany()
+        public void DeleteSelectedCard()
         {
-            if (SelectedCompany != null)
+            if (SelectedCard == null)
             {
-                Companies.Remove(SelectedCompany);
-                SaveToFile(DefaultFileName);
+                return;
             }
+
+            _service.Delete(SelectedCard.Id);
+            var index = Cards.ToList().FindIndex(c => c.Id == SelectedCard.Id);
+
+            if (index < 0)
+            {
+                throw new Exception("Карточка с таким Id не существует");
+            }
+
+            Cards.RemoveAt(index);
+            SelectedCard = null;
+
+            OnPropertyChanged(nameof(SelectedCard));
         }
 
-        public void OpenFromFile(string path)
+        public void SaveToFile(string fileName)
+        {
+            _service.SaveToFile(fileName);
+
+            FileName = fileName;
+            OnPropertyChanged(nameof(WindowTitle));
+        }
+
+        public void OpenFromFile(string fileName)
+        {
+            _service.OpenFromFile(fileName);
+            LoadAllData();
+
+            FileName = fileName;
+            OnPropertyChanged(nameof(WindowTitle));
+        }
+
+        public void SaveToFile()
         {
             try
             {
-                if (!File.Exists(path)) return;
-                var json = File.ReadAllText(path);
-                var data = JsonSerializer.Deserialize<ObservableCollection<Company>>(json);
-
-                Companies.Clear();
-                if (data != null)
-                {
-                    foreach (var item in data) Companies.Add(item);
-                }
-                FileName = path;
+                _service.SaveToFile(FileName);
             }
-            catch { }
+            catch (Exception)
+            {
+                FileName = null;
+                throw;
+            }
         }
 
-        public void SaveToFile(string path = null)
+        private CardViewModel ToViewModel(Card card)
         {
-            path = path ?? FileName ?? DefaultFileName;
-            if (string.IsNullOrEmpty(path)) return;
-
-            var options = new JsonSerializerOptions { WriteIndented = true };
-            var json = JsonSerializer.Serialize(Companies, options);
-            File.WriteAllText(path, json);
-            FileName = path;
+            return Mapping.Mapper.Map<CardViewModel>(card);
         }
 
-        public void SelectionChanged() { }
-        public void WindowLoaded() { }
+        private Card ToBusiness(CardViewModel card)
+        {
+            return Mapping.Mapper.Map<Card>(card);
+        }
     }
 }

@@ -1,12 +1,26 @@
-﻿using System;
+﻿using CardFile.Wpf.ViewModels;
+using CardFile.Wpf.Views;
+using Microsoft.Win32;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using Microsoft.Win32;
-using CardFile.Wpf.ViewModels;
-using CardFile.Wpf.Views;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
 namespace CardFile.Wpf
 {
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindowViewModel ViewModel => (MainWindowViewModel)DataContext;
@@ -14,64 +28,130 @@ namespace CardFile.Wpf
         public MainWindow()
         {
             InitializeComponent();
-            
-            if (DataContext == null) DataContext = new MainWindowViewModel();
+        }
+
+        private void FileOpenMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new OpenFileDialog
+            {
+                Filter = "Текстовые файлы|*.txt|Файлы CSV|*.csv|Двоичные файлы картотеки|*.cardbin" +
+                    "|XML-файлы картотеки|*.cardxml|JSON-файлы картотеки|*.cardjson|ZIP-архив картотеки|*.cardzip",
+            };
+
+            if (dialog.ShowDialog() == true)
+            {
+                try
+                {
+                    ViewModel.OpenFromFile(dialog.FileName);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private void FileSaveMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(ViewModel.FileName))
+            {
+                DoSaveAs();
+            }
+            else
+            {
+                try
+                {
+                    ViewModel.SaveToFile();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private void FileSaveAsMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            DoSaveAs();
+        }
+
+        private void DoSaveAs()
+        {
+            var dialog = new SaveFileDialog
+            {
+                Filter = "Текстовые файлы|*.txt|Файлы CSV|*.csv|Двоичные файлы картотеки|*.cardbin" +
+                    "|XML-файлы картотеки|*.cardxml|JSON-файлы картотеки|*.cardjson|ZIP-архив картотеки|*.cardzip",
+            };
+
+            if (dialog.ShowDialog() == true)
+            {
+                try
+                {
+                    ViewModel.SaveToFile(dialog.FileName);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private void FileExitMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
 
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
             var window = new CardEditWindow();
-            var company = ViewModel.GetNewCompany();
-            window.ViewModel.LoadViewModel(company);
+            var card = ViewModel.GetNewCard();
+            window.ViewModel.LoadViewModel(card);
 
-            if (window.ShowDialog() == true)
+            if (window.ShowDialog() != true)
             {
-                ViewModel.SaveNewCompany(window.ViewModel);
+                return;
             }
+
+            ViewModel.SaveNewCard(window.ViewModel);
         }
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            if (ViewModel.SelectedCompany == null) return;
+            var card = ViewModel.GetSelectedCard();
+            if (card == null)
+            {
+                return;
+            }
 
             var window = new CardEditWindow();
-            window.ViewModel.LoadViewModel(ViewModel.SelectedCompany);
+            window.ViewModel.LoadViewModel(card);
 
-            if (window.ShowDialog() == true)
+            if (window.ShowDialog() != true)
             {
-                ViewModel.SaveEditedCompany(window.ViewModel);
+                return;
             }
+
+            ViewModel.SaveEditedCard(window.ViewModel);
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Удалить?", "Вопрос", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-            {
-                ViewModel.DeleteSelectedCompany();
-            }
+            ViewModel.DeleteSelectedCard();
         }
 
-        private void FileOpenMenuItem_Click(object sender, RoutedEventArgs e)
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            var dialog = new OpenFileDialog { Filter = "JSON|*.compjson" };
-            if (dialog.ShowDialog() == true) ViewModel.OpenFromFile(dialog.FileName);
+            ViewModel.WindowLoaded();
         }
 
-        private void FileSaveMenuItem_Click(object sender, RoutedEventArgs e)
+        private void Window_Initialized(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(ViewModel.FileName)) FileSaveAsMenuItem_Click(sender, e);
-            else ViewModel.SaveToFile();
+            ViewModel.Initialized();
         }
 
-        private void FileSaveAsMenuItem_Click(object sender, RoutedEventArgs e)
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var dialog = new SaveFileDialog { Filter = "JSON|*.compjson" };
-            if (dialog.ShowDialog() == true) ViewModel.SaveToFile(dialog.FileName);
+            ViewModel.SelectionChanged();
         }
-
-        private void FileExitMenuItem_Click(object sender, RoutedEventArgs e) => Close();
-        private void Window_Loaded(object sender, RoutedEventArgs e) => ViewModel?.WindowLoaded();
-        private void Window_Initialized(object sender, EventArgs e) => ViewModel?.Initialized();
-        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e) => ViewModel?.SelectionChanged();
     }
 }

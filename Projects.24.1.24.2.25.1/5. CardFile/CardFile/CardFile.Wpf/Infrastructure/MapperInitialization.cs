@@ -2,6 +2,11 @@
 using CardFile.Business.Models;
 using CardFile.Common.Infrastructure;
 using CardFile.Wpf.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace CardFile.Wpf.Infrastructure
 {
@@ -14,10 +19,9 @@ namespace CardFile.Wpf.Infrastructure
 
         private static void Configure(IMapperConfigurationExpression cfg)
         {
-            
-            cfg.CreateMap<Company, CardEditViewModel>();
-            cfg.CreateMap<CardEditViewModel, Company>();
-            cfg.CreateMap<CardEditViewModel, CardEditViewModel>();
+            cfg.CreateMap<Card, CardViewModel>();
+            cfg.CreateMap<CardViewModel, Card>();
+            cfg.CreateMap<CardViewModel, CardViewModel>();
         }
     }
 }

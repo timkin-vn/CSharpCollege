@@ -21,13 +21,13 @@ namespace CardFile.Business.Services
             MapperInitialization.PreRegister();
         }
 
-        public IEnumerable<Company> GetAll()
+        public IEnumerable<Card> GetAll()
         {
             var cards = _collection.GetAll();
             return cards.Select(FromDto).ToList();
         }
 
-        public int Save(Company card)
+        public int Save(Card card)
         {
             return _collection.Save(ToDto(card));
         }
@@ -49,9 +49,9 @@ namespace CardFile.Business.Services
             fileDataService.OpenFromFile(fileName, _collection);
         }
         
-        private Company FromDto(CardDto card)
+        private Card FromDto(CardDto card)
         {
-            return Mapping.Mapper.Map<Company>(card);
+            return Mapping.Mapper.Map<Card>(card);
             //return new Card
             //{
             //    Id = card.Id,
@@ -67,7 +67,7 @@ namespace CardFile.Business.Services
             //};
         }
 
-        private CardDto ToDto(Company card)
+        private CardDto ToDto(Card card)
         {
             return Mapping.Mapper.Map<CardDto>(card);
             //return new CardDto

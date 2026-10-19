@@ -3,12 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:viewmodels="clr-namespace:CardFile.Wpf.ViewModels"
+        xmlns:local="clr-namespace:CardFile.Wpf.Views" xmlns:viewmodels="clr-namespace:CardFile.Wpf.ViewModels"
         mc:Ignorable="d"
-        Title="Правка организации" Height="320" Width="450" 
-        ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+        Title="Правка карточки компании" Height="480" Width="520" ResizeMode="NoResize">
+    <Window.DataContext>
+        <viewmodels:CardViewModel />
+    </Window.DataContext>
 
-    <Grid Margin="10">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -17,38 +19,39 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-            <!-- Распорка -->
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <!-- 2. ИСПРАВЛЕНИЕ: Добавлен UpdateSourceTrigger -->
-        <TextBlock Grid.Row="0" Text="Название:" Margin="5" VerticalAlignment="Center"/>
-        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Company.Name, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Название:" VerticalAlignment="Center" Margin="5" />
+        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name}" VerticalAlignment="Center" HorizontalAlignment="Left" Width="300" Margin="5" />
 
-        <TextBlock Grid.Row="1" Text="ИНН:" Margin="5" VerticalAlignment="Center"/>
-        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Company.TaxId, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Отрасль:" VerticalAlignment="Center" Margin="5" />
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Industry}" VerticalAlignment="Center" HorizontalAlignment="Left" Width="300" Margin="5" />
 
-        <TextBlock Grid.Row="2" Text="Отрасль:" Margin="5" VerticalAlignment="Center"/>
-        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Company.Industry, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Год основания:" VerticalAlignment="Center" Margin="5" />
+        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding FoundationYear}" VerticalAlignment="Center" HorizontalAlignment="Left" Width="150" Margin="5" />
 
-        <TextBlock Grid.Row="3" Text="Директор:" Margin="5" VerticalAlignment="Center"/>
-        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Company.CEO, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Выручка (млрд ₽):" VerticalAlignment="Center" Margin="5" />
+        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Revenue}" VerticalAlignment="Center" HorizontalAlignment="Left" Width="150" Margin="5" />
 
-        <TextBlock Grid.Row="4" Text="Сотрудников:" Margin="5" VerticalAlignment="Center"/>
-        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Company.EmployeeCount, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="Число сотрудников:" VerticalAlignment="Center" Margin="5" />
+        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Employees}" VerticalAlignment="Center" HorizontalAlignment="Left" Width="150" Margin="5" />
 
-        <TextBlock Grid.Row="5" Text="Выручка:" Margin="5" VerticalAlignment="Center"/>
-        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Company.AnnualRevenue, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+        <TextBlock Grid.Row="5" Grid.Column="0" Text="Информация:" VerticalAlignment="Top" Margin="5" />
+        <TextBox Grid.Row="5" Grid.Column="1" Grid.RowSpan="2" Text="{Binding Description}"
+                 VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                 Margin="5" AcceptsReturn="True" TextWrapping="Wrap"
+                 VerticalScrollBarVisibility="Auto" MinHeight="120" />
 
-        <!-- Кнопки -->
-        <StackPanel Grid.Row="7" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="OK" Width="80" Margin="5" Click="OkButton_Click" IsDefault="True"/>
-            <Button Content="Отмена" Width="80" Margin="5" Click="CancelButton_Click" IsCancel="True"/>
+        <StackPanel Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal"
+                    VerticalAlignment="Center" HorizontalAlignment="Right">
+            <Button Content="OK" Padding="10,5" Margin="5" Click="OkButton_Click" />
+            <Button Content="Отмена" Padding="10,5" Margin="5" Click="CancelButton_Click" />
         </StackPanel>
     </Grid>
 </Window>
