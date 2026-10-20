@@ -1,13 +1,7 @@
 ﻿using AlarmClock.Model;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AlarmClock.Forms
@@ -29,7 +23,11 @@ namespace AlarmClock.Forms
 
         private void AwakeForm_Load(object sender, EventArgs e)
         {
-            AlarmMessageLabel.Text = ClockState.AlarmMessage;
+            AlarmMessageLabel.Text = string.IsNullOrWhiteSpace(ClockState.AlarmMessage)
+                ? "Будильник сработал!"
+                : ClockState.AlarmMessage;
+
+            SnoozeButton.Text = $"Отложить на {ClockState.SnoozeMinutes} мин.";
             InitializeImages();
         }
 
@@ -37,11 +35,20 @@ namespace AlarmClock.Forms
         {
             _imageFileNames = Directory.EnumerateFiles(ImageFolderName).ToArray();
             _imageIndex = 0;
-            AwakePictureBox.Load(_imageFileNames[_imageIndex]);
+
+            if (_imageFileNames.Length > 0)
+            {
+                AwakePictureBox.Load(_imageFileNames[_imageIndex]);
+            }
         }
 
         private void AwakeTimer_Tick(object sender, EventArgs e)
         {
+            if (_imageFileNames == null || _imageFileNames.Length == 0)
+            {
+                return;
+            }
+
             _imageIndex++;
             if (_imageIndex >= _imageFileNames.Length)
             {
@@ -49,6 +56,12 @@ namespace AlarmClock.Forms
             }
 
             AwakePictureBox.Load(_imageFileNames[_imageIndex]);
+        }
+
+        private void SnoozeButton_Click(object sender, EventArgs e)
+        {
+            ClockState.IsSnoozeRequested = true;
+            Close();
         }
     }
 }

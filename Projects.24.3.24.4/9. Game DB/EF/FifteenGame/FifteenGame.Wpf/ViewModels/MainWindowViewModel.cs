@@ -1,113 +1,119 @@
 ﻿using FifteenGame.Business.Services;
-using FifteenGame.Common.BusinessModels;
-using FifteenGame.Common.Contracts.Services;
-using FifteenGame.Common.Definitions;
-using FifteenGame.Common.Infrastucture;
-using Ninject;
-using System;
-using System.Collections.Generic;
+using FifteenGame.Common.Models;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace FifteenGame.Wpf.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private IGameService _service = NinjectKernel.Instance.Get<IGameService>();
-
-        private GameModel _model = new GameModel();
-
-        private UserModel _user;
+        private readonly GameService _gameService = new GameService();
+        private readonly UserService _userService = new UserService();
+        private GameModel _currentGame;
 
         public ObservableCollection<CellViewModel> Cells { get; } = new ObservableCollection<CellViewModel>();
 
-        public string UserName => _user?.Name ?? "<нет>";
+        private string _statusText = "Ваш ход (X)";
+        public string StatusText { get => _statusText; set { _statusText = value; OnPropertyChanged(nameof(StatusText)); } }
 
-        public int MoveCount => _model?.MoveCount ?? 0;
+        private int _playerScore;
+        public int PlayerScore { get => _playerScore; set { _playerScore = value; OnPropertyChanged(nameof(PlayerScore)); } }
+
+        private int _computerScore;
+        public int ComputerScore { get => _computerScore; set { _computerScore = value; OnPropertyChanged(nameof(ComputerScore)); } }
+
+        public ICommand NewGameCommand { get; }
 
         public MainWindowViewModel()
         {
-            _model = new GameModel();
-            LoadViewModel(_model);
-        }
-
-        public void CommitUser(UserModel userModel)
-        {
-            _user = userModel;
-            OnPropertyChanged(nameof(UserName));
-
-            _model = _service.GetByUserId(_user.Id);
-            LoadViewModel(_model);
+            NewGameCommand = new RelayCommand(ResetGame);
+            Initialize();
         }
 
         public void Initialize()
         {
-            _model = _service.GetByUserId(_user.Id);
-            LoadViewModel(_model);
-        }
+            var user = _userService.GetOrCreateUser("Player1");
+            _currentGame = _gameService.GetOrCreateGame(user.Id);
 
-        public void MakeMove(MoveDirection direction, Action gameFinishedAction)
-        {
-            _model = _service.MakeMove(_model.Id, direction);
-            LoadViewModel(_model);
-
-            if (_service.IsGameOver(_model.Id))
-            {
-                _service.RemoveGame(_model.Id);
-                gameFinishedAction?.Invoke();
-            }
-        }
-
-        private void LoadViewModel(GameModel model)
-        {
             Cells.Clear();
-            for (int row = 0; row < Constants.RowCount; row++)
+            for (int r = 0; r < 3; r++)
             {
-                for (int column = 0; column < Constants.ColumnCount; column++)
+                for (int c = 0; c < 3; c++)
                 {
-                    if (model[row, column] == Constants.FreeCellValue)
-                    {
-                        continue;
-                    }
-
-                    var direction = MoveDirection.None;
-
-                    if (row == model.FreeCellRow)
-                    {
-                        if (column == model.FreeCellColumn - 1)
-                        {
-                            direction = MoveDirection.Right;
-                        }
-                        else if (column == model.FreeCellColumn + 1)
-                        {
-                            direction = MoveDirection.Left;
-                        }
-                    }
-                    else if (column == model.FreeCellColumn)
-                    {
-                        if (row == model.FreeCellRow - 1)
-                        {
-                            direction = MoveDirection.Down;
-                        }
-                        else if (row == model.FreeCellRow + 1)
-                        {
-                            direction = MoveDirection.Up;
-                        }
-                    }
-
+                    int localRow = r, localCol = c;
                     Cells.Add(new CellViewModel
                     {
-                        Row = row,
-                        Column = column,
-                        Value = model[row, column],
-                        Direction = direction,
+                        Row = localRow,
+                        Column = localCol,
+                        ClickCommand = new RelayCommand(() => PlayerMove(localRow, localCol))
                     });
                 }
             }
+            UpdateView();
+        }
 
-            OnPropertyChanged(nameof(MoveCount));
+        private async void PlayerMove(int r, int c)
+        {
+            if (_currentGame.Result != GameResult.None) return;
+            var updated = _gameService.MakeMove(_currentGame.Id, r, c);
+            if (updated != null)
+            {
+                _currentGame = updated;
+                UpdateView();
+
+                await System.Threading.Tasks.Task.Delay(300);
+            }
+        }
+
+        private void ResetGame()
+        {
+            _gameService.ResetGame(_currentGame.Id);
+            _currentGame = _gameService.GetOrCreateGame(_currentGame.UserId);
+            UpdateView();
+        }
+
+        private void UpdateView()
+        {
+            char[] board = _currentGame.BoardState.ToCharArray();
+            var winningIndices = new System.Collections.Generic.HashSet<int>();
+
+            if (_currentGame.Result == GameResult.PlayerWin || _currentGame.Result == GameResult.ComputerWin)
+            {
+                char winner = _currentGame.Result == GameResult.PlayerWin ? 'X' : 'O';
+                int[][] wins = new int[][]
+                {
+                    new[] {0,1,2}, new[] {3,4,5}, new[] {6,7,8},
+                    new[] {0,3,6}, new[] {1,4,7}, new[] {2,5,8},
+                    new[] {0,4,8}, new[] {2,4,6}
+                };
+
+                foreach (var w in wins)
+                {
+                    if (board[w[0]] == winner && board[w[1]] == winner && board[w[2]] == winner)
+                    {
+                        winningIndices.Add(w[0]);
+                        winningIndices.Add(w[1]);
+                        winningIndices.Add(w[2]);
+                        break;
+                    }
+                }
+            }
+
+            foreach (var cell in Cells)
+            {
+                int index = cell.Row * 3 + cell.Column;
+                cell.Text = board[index] == ' ' ? "" : board[index].ToString();
+
+                cell.IsWinningCell = winningIndices.Contains(index);
+            }
+
+            PlayerScore = _currentGame.PlayerScore;
+            ComputerScore = _currentGame.ComputerScore;
+
+            if (_currentGame.Result == GameResult.PlayerWin) StatusText = "Вы победили";
+            else if (_currentGame.Result == GameResult.ComputerWin) StatusText = "Компьютер победил";
+            else if (_currentGame.Result == GameResult.Draw) StatusText = "Ничья";
+            else StatusText = "Ваш ход";
         }
     }
 }

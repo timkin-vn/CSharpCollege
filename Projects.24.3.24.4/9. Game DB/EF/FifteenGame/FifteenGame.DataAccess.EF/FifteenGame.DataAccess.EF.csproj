@@ -99,26 +99,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataContext\FifteenGameDataContext.cs" />
-    <Compile Include="Entities\Cell.cs" />
-    <Compile Include="Entities\Game.cs" />
-    <Compile Include="Entities\User.cs" />
-    <Compile Include="Migrations\202605290623428_Initial.cs" />
-    <Compile Include="Migrations\202605290623428_Initial.Designer.cs">
-      <DependentUpon>202605290623428_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202605290652002_GameTablesAdded.cs" />
-    <Compile Include="Migrations\202605290652002_GameTablesAdded.Designer.cs">
-      <DependentUpon>202605290652002_GameTablesAdded.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202605290656113_EntitiesLinked.cs" />
-    <Compile Include="Migrations\202605290656113_EntitiesLinked.Designer.cs">
-      <DependentUpon>202605290656113_EntitiesLinked.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="DataContext\GameContext.cs" />
+    <Compile Include="Entities\GameEntity.cs" />
+    <Compile Include="Entities\UserEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\GameRepositoryEF.cs" />
-    <Compile Include="Repositories\UserRepositoryEF.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FifteenGame.Common\FifteenGame.Common.csproj">
@@ -129,17 +113,6 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\202605290623428_Initial.resx">
-      <DependentUpon>202605290623428_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202605290652002_GameTablesAdded.resx">
-      <DependentUpon>202605290652002_GameTablesAdded.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202605290656113_EntitiesLinked.resx">
-      <DependentUpon>202605290656113_EntitiesLinked.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

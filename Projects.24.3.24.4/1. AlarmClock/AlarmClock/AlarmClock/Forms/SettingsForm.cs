@@ -1,12 +1,5 @@
 ﻿using AlarmClock.Model;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AlarmClock.Forms
@@ -34,6 +27,7 @@ namespace AlarmClock.Forms
             AlarmMessageTextBox.Text = ClockState.AlarmMessage;
             IsAlarmActiveCheckBox.Checked = ClockState.IsAlarmActive;
             IsSoundActiveCheckBox.Checked = ClockState.IsSoundActive;
+            SnoozeMinutesTextBox.Text = ClockState.SnoozeMinutes.ToString();
         }
 
         private void OkButton_Click(object sender, EventArgs e)
@@ -41,6 +35,12 @@ namespace AlarmClock.Forms
             if (!TimeSpan.TryParse(AlarmTimeTextBox.Text, out var alarmTime))
             {
                 MessageBox.Show("Время задано неверно", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (!int.TryParse(SnoozeMinutesTextBox.Text, out var snoozeMinutes) || snoozeMinutes <= 0)
+            {
+                MessageBox.Show("Минуты для откладывания заданы неверно", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -56,6 +56,8 @@ namespace AlarmClock.Forms
             ClockState.AlarmMessage = AlarmMessageTextBox.Text;
             ClockState.IsAlarmActive = IsAlarmActiveCheckBox.Checked;
             ClockState.IsSoundActive = IsSoundActiveCheckBox.Checked;
+            ClockState.SnoozeMinutes = snoozeMinutes;
+            ClockState.IsSnoozeRequested = false;
 
             DialogResult = DialogResult.OK;
         }

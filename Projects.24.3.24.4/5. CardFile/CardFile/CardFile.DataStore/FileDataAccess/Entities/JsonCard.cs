@@ -1,83 +1,51 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Globalization;
 
 namespace CardFile.DataStore.FileDataAccess.Entities
 {
     public class JsonCard
     {
+        private const string DateFormat = "yyyy-MM-dd";
+
         public int Id { get; set; }
+        public string Brand { get; set; }
+        public string Model { get; set; }
+        public string LicensePlate { get; set; }
 
-        /// <summary>
-        /// Имя
-        /// </summary>
-        public string FirstName { get; set; }
-
-        /// <summary>
-        /// Отчество
-        /// </summary>
-        public string MiddleName { get; set; }
-
-        /// <summary>
-        /// Фамилия
-        /// </summary>
-        public string LastName { get; set; }
-
-        /// <summary>
-        /// Дата рождения
-        /// </summary>
         [JsonIgnore]
-        public DateTime BirthDate { get; set; }
+        public DateTime ManufactureDate { get; set; }
 
-        [JsonProperty("BirthDate")]
-        public string BirthDateText
+        [JsonProperty("ManufactureDate")]
+        public string ManufactureDateText
         {
-            get => BirthDate.ToShortDateString();
-            set => BirthDate = DateTime.Parse(value);
+            get => ManufactureDate.ToString(DateFormat, CultureInfo.InvariantCulture);
+            set => ManufactureDate = DateTime.ParseExact(value, DateFormat, CultureInfo.InvariantCulture);
         }
 
-        /// <summary>
-        /// Подразделение
-        /// </summary>
-        public string Department { get; set; }
+        public string Color { get; set; }
+        public string Owner { get; set; }
 
-        /// <summary>
-        /// Должность
-        /// </summary>
-        public string Position { get; set; }
-
-        /// <summary>
-        /// Дата трудоустройства
-        /// </summary>
         [JsonIgnore]
-        public DateTime EmploymentDate { get; set; }
+        public DateTime RegistrationDate { get; set; }
 
-        [JsonProperty("EmploymentDate")]
-        public string EmploymentDateText
+        [JsonProperty("RegistrationDate")]
+        public string RegistrationDateText
         {
-            get => EmploymentDate.ToShortDateString();
-            set => EmploymentDate = DateTime.Parse(value);
+            get => RegistrationDate.ToString(DateFormat, CultureInfo.InvariantCulture);
+            set => RegistrationDate = DateTime.ParseExact(value, DateFormat, CultureInfo.InvariantCulture);
         }
 
-        /// <summary>
-        /// Дата увольнения
-        /// </summary>
         [JsonIgnore]
-        public DateTime? DismissalDate { get; set; }
+        public DateTime? DeregistrationDate { get; set; }
 
-        [JsonProperty("DismissalDate")]
-        public string DismissalDateText
+        [JsonProperty("DeregistrationDate")]
+        public string DeregistrationDateText
         {
-            get => DismissalDate?.ToShortDateString() ?? "-";
-            set => DismissalDate = (value == "-") ? (DateTime?)null : DateTime.Parse(value);
+            get => DeregistrationDate?.ToString(DateFormat, CultureInfo.InvariantCulture) ?? "-";
+            set => DeregistrationDate = value == "-" ? (DateTime?)null : DateTime.ParseExact(value, DateFormat, CultureInfo.InvariantCulture);
         }
 
-        /// <summary>
-        /// Оклад
-        /// </summary>
-        public decimal Salary { get; set; }
+        public decimal Price { get; set; }
     }
 }

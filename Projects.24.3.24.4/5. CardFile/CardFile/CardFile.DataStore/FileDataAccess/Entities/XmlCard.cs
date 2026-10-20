@@ -1,93 +1,62 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System;
+using System.Globalization;
 using System.Xml.Serialization;
 
 namespace CardFile.DataStore.FileDataAccess.Entities
 {
     public class XmlCard
     {
-        /// <summary>
-        /// Id
-        /// </summary>
+        private const string DateFormat = "yyyy-MM-dd";
+
         [XmlAttribute("Id")]
         public int Id { get; set; }
 
-        /// <summary>
-        /// Имя
-        /// </summary>
-        [XmlAttribute("FirstName")]
-        public string FirstName { get; set; }
+        [XmlAttribute("Brand")]
+        public string Brand { get; set; }
 
-        /// <summary>
-        /// Отчество
-        /// </summary>
-        [XmlAttribute("MiddleName")]
-        public string MiddleName { get; set; }
+        [XmlAttribute("Model")]
+        public string Model { get; set; }
 
-        /// <summary>
-        /// Фамилия
-        /// </summary>
-        [XmlAttribute("LastName")]
-        public string LastName { get; set; }
+        [XmlAttribute("LicensePlate")]
+        public string LicensePlate { get; set; }
 
-        /// <summary>
-        /// Дата рождения
-        /// </summary>
         [XmlIgnore]
-        public DateTime BirthDate { get; set; }
+        public DateTime ManufactureDate { get; set; }
 
-        [XmlAttribute("BirthDate")]
-        public string BirthDateText
+        [XmlAttribute("ManufactureDate")]
+        public string ManufactureDateText
         {
-            get => BirthDate.ToShortDateString();
-            set => BirthDate = DateTime.Parse(value);
+            get => ManufactureDate.ToString(DateFormat, CultureInfo.InvariantCulture);
+            set => ManufactureDate = DateTime.ParseExact(value, DateFormat, CultureInfo.InvariantCulture);
         }
 
-        /// <summary>
-        /// Подразделение
-        /// </summary>
-        [XmlAttribute("Department")]
-        public string Department { get; set; }
+        [XmlAttribute("Color")]
+        public string Color { get; set; }
 
-        /// <summary>
-        /// Должность
-        /// </summary>
-        [XmlAttribute("Position")]
-        public string Position { get; set; }
+        [XmlAttribute("Owner")]
+        public string Owner { get; set; }
 
-        /// <summary>
-        /// Дата трудоустройства
-        /// </summary>
         [XmlIgnore]
-        public DateTime EmploymentDate { get; set; }
+        public DateTime RegistrationDate { get; set; }
 
-        [XmlAttribute("EmploymentDate")]
-        public string EmploymentDateText
+        [XmlAttribute("RegistrationDate")]
+        public string RegistrationDateText
         {
-            get => EmploymentDate.ToShortDateString();
-            set => EmploymentDate = DateTime.Parse(value);
+            get => RegistrationDate.ToString(DateFormat, CultureInfo.InvariantCulture);
+            set => RegistrationDate = DateTime.ParseExact(value, DateFormat, CultureInfo.InvariantCulture);
         }
 
-        /// <summary>
-        /// Дата увольнения
-        /// </summary>
         [XmlIgnore]
-        public DateTime? DismissalDate { get; set; }
+        public DateTime? DeregistrationDate { get; set; }
 
-        [XmlAttribute("DismissalDate")]
-        public string DismissalDateText
+        [XmlAttribute("DeregistrationDate")]
+        public string DeregistrationDateText
         {
-            get => DismissalDate?.ToShortDateString() ?? "-";
-            set => DismissalDate = (value == "-") ? (DateTime?)null : DateTime.Parse(value);
+            get => DeregistrationDate?.ToString(DateFormat, CultureInfo.InvariantCulture) ?? "-";
+            set => DeregistrationDate = value == "-" ? (DateTime?)null : DateTime.ParseExact(value, DateFormat, CultureInfo.InvariantCulture);
         }
 
-        /// <summary>
-        /// Оклад
-        /// </summary>
-        [XmlAttribute("Salary")]
-        public decimal Salary { get; set; }
+        [XmlAttribute("Price")]
+        public decimal Price { get; set; }
     }
 }

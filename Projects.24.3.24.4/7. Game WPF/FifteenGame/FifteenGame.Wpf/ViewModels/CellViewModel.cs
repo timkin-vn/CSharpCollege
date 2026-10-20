@@ -1,22 +1,26 @@
-﻿using FifteenGame.Business.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Windows.Input;
 
 namespace FifteenGame.Wpf.ViewModels
 {
     public class CellViewModel : ViewModelBase
     {
-        public int Value { get; set; }
+        private string _text;
+        public string Text
+        {
+            get => _text;
+            set { _text = value; OnPropertyChanged(nameof(Text)); }
+        }
 
-        public string Text => Value.ToString();
+        private bool _isWinningCell;
+        public bool IsWinningCell
+        {
+            get => _isWinningCell;
+            set { _isWinningCell = value; OnPropertyChanged(nameof(IsWinningCell)); }
+        }
 
         public int Row { get; set; }
-
         public int Column { get; set; }
 
-        public MoveDirection Direction { get; set; }
+        public ICommand ClickCommand { get; set; }
     }
 }

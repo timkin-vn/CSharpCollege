@@ -1,61 +1,104 @@
-﻿@model FifteenGame.Web.Models.GameViewModel
+﻿@using System.Linq
+@using System.Web.Mvc
+@model FifteenGame.Web.Models.GameViewModel
 
 @{
-    ViewBag.Title = "Игра 15";
-    bool isGameOver = (bool?)ViewBag.IsGameOver ?? false;
+    ViewBag.Title = "Крестики-Нолики";
 }
 
 <main>
-    <h2>Игра 15</h2>
+    <div class="text-center mt-4 mb-2">
+        <h2>Крестики-Нолики</h2>
+    </div>
 
-    @if (isGameOver)
-    {
-        <h2 class="text-danger">Поздравляем! Игра завершена</h2>
-
-        <div>
-            @Html.ActionLink("Повторить", "Index", new {}, new { @class = "btn btn-success" })
+    <!-- Блок со счетом -->
+    <div class="d-flex justify-content-center mb-3">
+        <div class="scoreboard">
+            <span class="score-player">Вы (X): @Model.PlayerScore</span>
+            <span class="score-divider">|</span>
+            <span class="score-computer">Компьютер (O): @Model.ComputerScore</span>
         </div>
-    }
+    </div>
 
-    <div class="container">
-        @for (int row = 0; row < Model.RowCount; row++)
-        {
-            <div class="row">
-                <div class="col-2"></div>
+    <div class="text-center mb-4">
+        <h3 class="text-primary">@Model.StatusText</h3>
+    </div>
 
-                @for (int column = 0; column < Model.ColumnCount; column++)
+    <div class="d-flex justify-content-center mb-4">
+        <div class="ttt-grid">
+            @foreach (var cell in Model.Cells)
+            {
+                if (cell.State == FifteenGame.Business.Models.CellState.Empty && !Model.IsGameOver)
                 {
-                    if (Model.Cells[row, column].IsEmpty)
-                    {
-                        <div class="col-2"></div>
-                        continue;
-                    }
-
-                    if (isGameOver || Model.Cells[row, column].Direction == FifteenGame.Business.Models.MoveDirection.None)
-                    {
-                        @*<div class="col-2 d-grid p-2 text-center">
-                            <div class="btn btn-success fs-3">@Model.Cells[row, column].Text</div>
-                        </div>*@
-
-                        <div class="col-2 d-grid p-2 text-center">
-                            <img src="@Url.Content($"~/Content/img/{@Model.Cells[row, column].Text}.png")"
-                                 style="width: 150px; height: 150px; display: block; margin: auto;"/>
-                        </div>
-
-                        continue;
-                    }
-
-                    <div class="col-2 d-grid p-2 text-center">
-                        @*@Html.ActionLink(Model.Cells[row, column].Text, "MakeMove",
-                            new { directionText = Model.Cells[row, column].DirectionText }, new { @class = "btn btn-success fs-3" })*@
-
-                        <a href="@Url.Action("MakeMove", "Game", new { directionText = Model.Cells[row, column].DirectionText })">
-                            <img src="@Url.Content($"~/Content/img/{@Model.Cells[row, column].Text}.png")"
-                                 style="width: 150px; height: 150px; display: block; margin: auto;" />
-                        </a>
+                    <a href="@Url.Action("MakeMove", "Game", new { row = cell.Row, column = cell.Column })" class="ttt-cell ttt-empty"></a>
+                }
+                else
+                {
+                    <div class="@(cell.IsWinningCell ? "ttt-cell ttt-win" : "ttt-cell")">
+                        @cell.Text
                     </div>
                 }
-            </div>
-        }
+            }
+        </div>
+    </div>
+
+    <div class="text-center">
+        <a href="@Url.Action("NewGame", "Game")" class="btn btn-success btn-lg px-5">Новая игра</a>
     </div>
 </main>
+
+<style>
+    .scoreboard {
+        background-color: #2C3E50;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .score-divider {
+        margin: 0 15px;
+        color: #7f8c8d;
+    }
+
+    .score-player {
+        color: #3498DB;
+    }
+
+    .score-computer {
+        color: #E74C3C;
+    }
+
+    .ttt-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 100px);
+        grid-template-rows: repeat(3, 100px);
+        gap: 5px;
+        background-color: #2C3E50;
+        padding: 5px;
+        border-radius: 10px;
+    }
+
+    .ttt-cell {
+        background-color: white;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 60px;
+        font-weight: bold;
+        color: #2C3E50;
+        text-decoration: none !important;
+        transition: background-color 0.2s;
+    }
+
+    .ttt-empty:hover {
+        background-color: #f0f0f0;
+    }
+
+    .ttt-win {
+        background-color: #2ECC71 !important;
+        color: white;
+    }
+</style>

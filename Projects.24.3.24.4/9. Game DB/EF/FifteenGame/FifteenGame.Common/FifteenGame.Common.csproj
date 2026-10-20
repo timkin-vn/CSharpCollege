@@ -44,23 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BusinessDtos\BooleanReply.cs" />
-    <Compile Include="BusinessDtos\GameReply.cs" />
-    <Compile Include="BusinessDtos\MakeMoveRequest.cs" />
-    <Compile Include="BusinessDtos\UserNameRequest.cs" />
-    <Compile Include="BusinessDtos\UserReply.cs" />
-    <Compile Include="BusinessDtos\UsersReply.cs" />
-    <Compile Include="BusinessModels\GameModel.cs" />
-    <Compile Include="BusinessModels\MoveDirection.cs" />
-    <Compile Include="BusinessModels\UserModel.cs" />
-    <Compile Include="Contracts\Repositories\IGameRepository.cs" />
-    <Compile Include="Contracts\Repositories\IUserRepository.cs" />
-    <Compile Include="Contracts\Services\IGameService.cs" />
-    <Compile Include="Contracts\Services\IUserService.cs" />
-    <Compile Include="Definitions\Constants.cs" />
-    <Compile Include="Dtos\GameDto.cs" />
-    <Compile Include="Dtos\UserDto.cs" />
-    <Compile Include="Infrastucture\NinjectKernel.cs" />
+    <Compile Include="Contracts\IGameService.cs" />
+    <Compile Include="Contracts\IUserService.cs" />
+    <Compile Include="Dtos\GameReply.cs" />
+    <Compile Include="Dtos\MakeMoveRequest.cs" />
+    <Compile Include="Models\GameModel.cs" />
+    <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Крестики-Нолики - Статистика</title>
+    <style>
+        body {
+            background-color: #2C3E50;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .score {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .player {
+            color: #3498DB;
+        }
+
+        .computer {
+            color: #E74C3C;
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            gap: 10px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .cell {
+            width: 100px;
+            height: 100px;
+            background-color: white;
+            color: #2C3E50;
+            font-size: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <h1>Статистика игры</h1>
+    <div class="score" id="score">Загрузка...</div>
+    <div class="board" id="board"></div>
+
+    <script>
+        async function loadGame() {
+            try {
+                const response = await fetch('/api/games/get-by-user-id/1');
+                const data = await response.json();
+
+                document.getElementById('score').innerHTML =
+                    `<span class="player">Вы (X): ${data.PlayerScore}</span> | <span class="computer">Компьютер (O): ${data.ComputerScore}</span>`;
+
+                const boardDiv = document.getElementById('board');
+                boardDiv.innerHTML = '';
+
+                const board = data.BoardState.split('');
+                board.forEach(cell => {
+                    const cellDiv = document.createElement('div');
+                    cellDiv.className = 'cell';
+                    cellDiv.innerText = cell === ' ' ? '' : cell;
+                    if (cell === 'X') cellDiv.style.color = '#3498DB';
+                    if (cell === 'O') cellDiv.style.color = '#E74C3C';
+                    boardDiv.appendChild(cellDiv);
+                });
+            } catch (e) {
+                document.getElementById('score').innerText = "Ошибка загрузки данных.";
+            }
+        }
+
+        loadGame();
+    </script>
+</body>
+</html>

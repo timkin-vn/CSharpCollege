@@ -1,127 +1,186 @@
-﻿using CardFile.Common.Infrastructure;
+using CardFile.Common.Infrastructure;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CardFile.Wpf.ViewModels
 {
     public class CardViewModel : ViewModelBase
     {
-        /// <summary>
-        /// Id
-        /// </summary>
-        public int Id { get; set; }
+        private int _id;
+        private string _brand;
+        private string _model;
+        private string _licensePlate;
+        private DateTime _manufactureDate;
+        private string _color;
+        private string _owner;
+        private DateTime _registrationDate;
+        private DateTime? _deregistrationDate;
+        private decimal _price;
+        private bool _isRegisteredNow;
 
-        /// <summary>
-        /// Имя
-        /// </summary>
-        public string FirstName { get; set; }
-
-        /// <summary>
-        /// Отчество
-        /// </summary>
-        public string MiddleName { get; set; }
-
-        /// <summary>
-        /// Фамилия
-        /// </summary>
-        public string LastName { get; set; }
-
-        public string Fio => $"{LastName} {FirstName} {MiddleName}";
-
-        /// <summary>
-        /// Дата рождения
-        /// </summary>
-        public DateTime BirthDate { get; set; }
-
-        public string BirthDateText => BirthDate.ToShortDateString();
-
-        /// <summary>
-        /// Подразделение
-        /// </summary>
-        public string Department { get; set; }
-
-        /// <summary>
-        /// Должность
-        /// </summary>
-        public string Position { get; set; }
-
-        /// <summary>
-        /// Дата трудоустройства
-        /// </summary>
-        public DateTime EmploymentDate { get; set; }
-
-        public string EmploymentDateText => EmploymentDate.ToShortDateString();
-
-        /// <summary>
-        /// Дата увольнения
-        /// </summary>
-        public DateTime? DismissalDate { get; set; }
-
-        public string DismissalDateText => DismissalDate?.ToShortDateString() ?? "-";
-
-        /// <summary>
-        /// Оклад
-        /// </summary>
-        public decimal Salary { get; set; }
-
-        public string SalaryText => Salary.ToString("c");
-
-        public bool IsWorkingTillNow { get; set; }
-
-        public bool IsDismissalDateEnabled => !IsWorkingTillNow;
-
-        public void IsWorkingTillNowChecked()
+        public int Id
         {
-            DismissalDate = null;
-
-            OnPropertyChanged(nameof(DismissalDate));
-            OnPropertyChanged(nameof(IsDismissalDateEnabled));
+            get => _id;
+            set
+            {
+                _id = value;
+                OnPropertyChanged(nameof(Id));
+            }
         }
 
-        public void IsWorkingTillNowUnchecked()
+        public string Brand
         {
-            DismissalDate = DateTime.Today;
+            get => _brand;
+            set
+            {
+                _brand = value;
+                OnPropertyChanged(nameof(Brand));
+                OnPropertyChanged(nameof(CarInfo));
+            }
+        }
 
-            OnPropertyChanged(nameof(DismissalDate));
-            OnPropertyChanged(nameof(IsDismissalDateEnabled));
+        public string Model
+        {
+            get => _model;
+            set
+            {
+                _model = value;
+                OnPropertyChanged(nameof(Model));
+                OnPropertyChanged(nameof(CarInfo));
+            }
+        }
+
+        public string LicensePlate
+        {
+            get => _licensePlate;
+            set
+            {
+                _licensePlate = value;
+                OnPropertyChanged(nameof(LicensePlate));
+                OnPropertyChanged(nameof(CarInfo));
+            }
+        }
+
+        public DateTime ManufactureDate
+        {
+            get => _manufactureDate;
+            set
+            {
+                _manufactureDate = value;
+                OnPropertyChanged(nameof(ManufactureDate));
+                OnPropertyChanged(nameof(ManufactureDateText));
+            }
+        }
+
+        public string Color
+        {
+            get => _color;
+            set
+            {
+                _color = value;
+                OnPropertyChanged(nameof(Color));
+            }
+        }
+
+        public string Owner
+        {
+            get => _owner;
+            set
+            {
+                _owner = value;
+                OnPropertyChanged(nameof(Owner));
+            }
+        }
+
+        public DateTime RegistrationDate
+        {
+            get => _registrationDate;
+            set
+            {
+                _registrationDate = value;
+                OnPropertyChanged(nameof(RegistrationDate));
+                OnPropertyChanged(nameof(RegistrationDateText));
+            }
+        }
+
+        public DateTime? DeregistrationDate
+        {
+            get => _deregistrationDate;
+            set
+            {
+                _deregistrationDate = value;
+                OnPropertyChanged(nameof(DeregistrationDate));
+                OnPropertyChanged(nameof(DeregistrationDateText));
+            }
+        }
+
+        public decimal Price
+        {
+            get => _price;
+            set
+            {
+                _price = value;
+                OnPropertyChanged(nameof(Price));
+                OnPropertyChanged(nameof(PriceText));
+            }
+        }
+
+        public string CarInfo => $"{Brand} {Model} ({LicensePlate})";
+        public string ManufactureDateText => ManufactureDate.ToShortDateString();
+        public string RegistrationDateText => RegistrationDate.ToShortDateString();
+        public string DeregistrationDateText => DeregistrationDate?.ToShortDateString() ?? "На учёте";
+        public string PriceText => Price.ToString("c");
+
+        public bool IsRegisteredNow
+        {
+            get => _isRegisteredNow;
+            set
+            {
+                _isRegisteredNow = value;
+                OnPropertyChanged(nameof(IsRegisteredNow));
+                OnPropertyChanged(nameof(IsDeregistrationDateEnabled));
+            }
+        }
+
+        public bool IsDeregistrationDateEnabled => !IsRegisteredNow;
+
+        public void IsRegisteredNowChecked()
+        {
+            IsRegisteredNow = true;
+            DeregistrationDate = null;
+        }
+
+        public void IsRegisteredNowUnchecked()
+        {
+            IsRegisteredNow = false;
+            DeregistrationDate = DateTime.Today;
         }
 
         public void LoadViewModel(CardViewModel card)
         {
             Mapping.Mapper.Map(card, this);
-            //Id = card.Id;
-            //FirstName = card.FirstName;
-            //MiddleName = card.MiddleName;
-            //LastName = card.LastName;
-            //BirthDate = card.BirthDate;
-            //Department = card.Department;
-            //Position = card.Position;
-            //EmploymentDate = card.EmploymentDate;
-            //DismissalDate = card.DismissalDate;
-            //Salary = card.Salary;
-
-            IsWorkingTillNow = !card.DismissalDate.HasValue;
+            IsRegisteredNow = !card.DeregistrationDate.HasValue;
             UpdateAll();
         }
 
         private void UpdateAll()
         {
             OnPropertyChanged(nameof(Id));
-            OnPropertyChanged(nameof(FirstName));
-            OnPropertyChanged(nameof(MiddleName));
-            OnPropertyChanged(nameof(LastName));
-            OnPropertyChanged(nameof(Fio));
-            OnPropertyChanged(nameof(BirthDate));
-            OnPropertyChanged(nameof(Department));
-            OnPropertyChanged(nameof(Position));
-            OnPropertyChanged(nameof(EmploymentDate));
-            OnPropertyChanged(nameof(DismissalDate));
-            OnPropertyChanged(nameof(Salary));
-            OnPropertyChanged(nameof(IsWorkingTillNow));
-            OnPropertyChanged(nameof(IsDismissalDateEnabled));
+            OnPropertyChanged(nameof(Brand));
+            OnPropertyChanged(nameof(Model));
+            OnPropertyChanged(nameof(LicensePlate));
+            OnPropertyChanged(nameof(ManufactureDate));
+            OnPropertyChanged(nameof(Color));
+            OnPropertyChanged(nameof(Owner));
+            OnPropertyChanged(nameof(RegistrationDate));
+            OnPropertyChanged(nameof(DeregistrationDate));
+            OnPropertyChanged(nameof(Price));
+            OnPropertyChanged(nameof(CarInfo));
+            OnPropertyChanged(nameof(ManufactureDateText));
+            OnPropertyChanged(nameof(RegistrationDateText));
+            OnPropertyChanged(nameof(DeregistrationDateText));
+            OnPropertyChanged(nameof(PriceText));
+            OnPropertyChanged(nameof(IsRegisteredNow));
+            OnPropertyChanged(nameof(IsDeregistrationDateEnabled));
         }
     }
 }

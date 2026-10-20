@@ -1,21 +1,14 @@
 ﻿using AlarmClock.Forms;
 using AlarmClock.Model;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Media;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AlarmClock
 {
     public partial class ClockForm : Form
     {
-        private AlarmClockState _clockState = new AlarmClockState();
+        private readonly AlarmClockState _clockState = new AlarmClockState();
 
         public ClockForm()
         {
@@ -31,15 +24,12 @@ namespace AlarmClock
                 return;
             }
 
-            if (!_clockState.IsAwakeActivated &&
-                DateTime.Now.Minute == _clockState.AlarmTime.Minute &&
-                DateTime.Now.Hour == _clockState.AlarmTime.Hour)
+            if (!_clockState.IsAwakeActivated && DateTime.Now >= _clockState.AlarmTime)
             {
                 _clockState.IsAwakeActivated = true;
 
                 var awakeForm = new AwakeForm { ClockState = _clockState };
                 awakeForm.FormClosed += AwakeForm_FormClosed;
-
                 awakeForm.ShowDialog();
             }
 
@@ -53,8 +43,19 @@ namespace AlarmClock
         {
             ((Form)sender).FormClosed -= AwakeForm_FormClosed;
 
-            _clockState.IsAlarmActive = false;
-            _clockState.IsAwakeActivated = false;
+            if (_clockState.IsSnoozeRequested)
+            {
+                _clockState.AlarmTime = DateTime.Now.AddMinutes(_clockState.SnoozeMinutes);
+                _clockState.IsAwakeActivated = false;
+                _clockState.IsSnoozeRequested = false;
+                _clockState.IsAlarmActive = true;
+            }
+            else
+            {
+                _clockState.IsAlarmActive = false;
+                _clockState.IsAwakeActivated = false;
+            }
+
             UpdateView();
         }
 
@@ -85,7 +86,7 @@ namespace AlarmClock
         {
             if (_clockState.IsAlarmActive)
             {
-                Text = $"Будильник. Ожидается срабатывание в {_clockState.AlarmTime.ToShortTimeString()}";
+                Text = $"Будильник. Срабатывание в {_clockState.AlarmTime.ToShortTimeString()}, отложить на {_clockState.SnoozeMinutes} мин.";
             }
             else
             {
