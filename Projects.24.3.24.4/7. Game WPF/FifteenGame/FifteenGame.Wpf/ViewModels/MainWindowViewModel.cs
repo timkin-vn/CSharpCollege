@@ -1,88 +1,119 @@
 ﻿using FifteenGame.Business.Models;
 using FifteenGame.Business.Services;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 
 namespace FifteenGame.Wpf.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private GameService _service = new GameService();
-
-        private GameModel _model = new GameModel();
+        private readonly GameService _service = new GameService();
+        private readonly GameModel _model = new GameModel();
 
         public ObservableCollection<CellViewModel> Cells { get; } = new ObservableCollection<CellViewModel>();
 
+        private string _statusText = "Ваш ход";
+        public string StatusText
+        {
+            get => _statusText;
+            set { _statusText = value; OnPropertyChanged(nameof(StatusText)); }
+        }
+
+        private int _playerScore;
+        public int PlayerScore
+        {
+            get => _playerScore;
+            set { _playerScore = value; OnPropertyChanged(nameof(PlayerScore)); }
+        }
+
+        private int _computerScore;
+        public int ComputerScore
+        {
+            get => _computerScore;
+            set { _computerScore = value; OnPropertyChanged(nameof(ComputerScore)); }
+        }
+
+        public ICommand NewGameCommand { get; }
+
         public MainWindowViewModel()
         {
+            NewGameCommand = new RelayCommand(Initialize);
             Initialize();
         }
 
         public void Initialize()
         {
-            _service.Shuffle(_model);
-            LoadViewModel(_model);
+            _service.Initialize(_model);
+            Cells.Clear();
+
+            for (int r = 0; r < GameModel.RowCount; r++)
+            {
+                for (int c = 0; c < GameModel.ColumnCount; c++)
+                {
+                    int localRow = r;
+                    int localCol = c;
+
+                    var cell = new CellViewModel
+                    {
+                        Row = localRow,
+                        Column = localCol,
+                        ClickCommand = new RelayCommand(() => PlayerMove(localRow, localCol))
+                    };
+                    Cells.Add(cell);
+                }
+            }
+            UpdateView();
         }
 
-        public void MakeMove(MoveDirection direction, Action gameFinishedAction)
+        private void PlayerMove(int r, int c)
         {
-            _service.MakeMove(_model, direction);
-            LoadViewModel(_model);
-            if (_service.IsGameOver(_model))
+            if (_model.Result != GameResult.None) return;
+
+            if (_service.MakeMove(_model, r, c, CellState.X))
             {
-                gameFinishedAction?.Invoke();
+                UpdateView();
+
+                if (_model.Result == GameResult.None)
+                {
+                    System.Threading.Tasks.Task.Delay(300).ContinueWith(_ =>
+                    {
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            _service.MakeComputerMove(_model);
+                            UpdateView();
+                        });
+                    });
+                }
             }
         }
 
-        private void LoadViewModel(GameModel model)
+        private void UpdateView()
         {
-            Cells.Clear();
-            for (int row = 0; row < GameModel.RowCount; row++)
+            foreach (var cell in Cells)
             {
-                for (int column = 0; column < GameModel.ColumnCount; column++)
-                {
-                    if (model[row, column] == GameModel.FreeCellValue)
-                    {
-                        continue;
-                    }
+                var state = _model[cell.Row, cell.Column];
+                cell.Text = state == CellState.Empty ? "" : state.ToString();
+                cell.IsWinningCell = _model.WinningCells.Contains((cell.Row, cell.Column));
+            }
 
-                    var direction = MoveDirection.None;
-
-                    if (row == model.FreeCellRow)
-                    {
-                        if (column == model.FreeCellColumn - 1)
-                        {
-                            direction = MoveDirection.Right;
-                        }
-                        else if (column == model.FreeCellColumn + 1)
-                        {
-                            direction = MoveDirection.Left;
-                        }
-                    }
-                    else if (column == model.FreeCellColumn)
-                    {
-                        if (row == model.FreeCellRow - 1)
-                        {
-                            direction = MoveDirection.Down;
-                        }
-                        else if (row == model.FreeCellRow + 1)
-                        {
-                            direction = MoveDirection.Up;
-                        }
-                    }
-
-                    Cells.Add(new CellViewModel
-                    {
-                        Row = row,
-                        Column = column,
-                        Value = model[row, column],
-                        Direction = direction,
-                    });
-                }
+            if (_model.Result == GameResult.PlayerWin)
+            {
+                StatusText = "Вы победили!";
+                PlayerScore++;
+            }
+            else if (_model.Result == GameResult.ComputerWin)
+            {
+                StatusText = "Компьютер победил!";
+                ComputerScore++;
+            }
+            else if (_model.Result == GameResult.Draw)
+            {
+                StatusText = "Ничья!";
+            }
+            else
+            {
+                StatusText = "Ваш ход";
             }
         }
     }

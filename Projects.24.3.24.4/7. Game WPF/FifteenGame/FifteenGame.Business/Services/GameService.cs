@@ -1,9 +1,7 @@
-﻿using FifteenGame.Business.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using FifteenGame.Business.Models;
 
 namespace FifteenGame.Business.Services
 {
@@ -11,115 +9,140 @@ namespace FifteenGame.Business.Services
     {
         public void Initialize(GameModel model)
         {
-            int value = 1;
-            for (int row = 0; row < GameModel.RowCount; row++)
-            {
-                for (int column = 0; column < GameModel.ColumnCount; column++)
-                {
-                    model[row, column] = value++;
-                }
-            }
+            for (int r = 0; r < GameModel.RowCount; r++)
+                for (int c = 0; c < GameModel.ColumnCount; c++)
+                    model[r, c] = CellState.Empty;
 
-            model[GameModel.RowCount - 1, GameModel.ColumnCount - 1] = GameModel.FreeCellValue;
-            model.FreeCellRow = GameModel.RowCount - 1;
-            model.FreeCellColumn = GameModel.ColumnCount - 1;
+            model.Result = GameResult.None;
+            model.WinningCells.Clear();
         }
 
-        public bool MakeMove(GameModel model, MoveDirection direction)
+        public bool MakeMove(GameModel model, int row, int column, CellState player)
         {
-            switch (direction)
-            {
-                case MoveDirection.Left:
-                    if (model.FreeCellColumn == GameModel.ColumnCount - 1)
-                    {
-                        return false;
-                    }
+            if (model.Result != GameResult.None) return false;
+            if (model[row, column] != CellState.Empty) return false;
 
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow, model.FreeCellColumn + 1];
-                    model[model.FreeCellRow, model.FreeCellColumn + 1] = GameModel.FreeCellValue;
-                    model.FreeCellColumn++;
-                    return true;
-
-                case MoveDirection.Right:
-                    if (model.FreeCellColumn == 0)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow, model.FreeCellColumn - 1];
-                    model[model.FreeCellRow, model.FreeCellColumn - 1] = GameModel.FreeCellValue;
-                    model.FreeCellColumn--;
-                    return true;
-
-                case MoveDirection.Up:
-                    if (model.FreeCellRow == GameModel.RowCount - 1)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow + 1, model.FreeCellColumn];
-                    model[model.FreeCellRow + 1, model.FreeCellColumn] = GameModel.FreeCellValue;
-                    model.FreeCellRow++;
-                    return true;
-
-                case MoveDirection.Down:
-                    if (model.FreeCellRow == 0)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow - 1, model.FreeCellColumn];
-                    model[model.FreeCellRow - 1, model.FreeCellColumn] = GameModel.FreeCellValue;
-                    model.FreeCellRow--;
-                    return true;
-            }
-
-            return false;
-        }
-
-        public void Shuffle(GameModel model)
-        {
-            Initialize(model);
-
-            var rnd = new Random();
-            for (int i = 0; i < 1000; i++)
-            {
-                var nextMove = (MoveDirection)(rnd.Next(4) + 1);
-                MakeMove(model, nextMove);
-            }
-        }
-
-        public bool IsGameOver(GameModel model)
-        {
-            int freeCellRow = model.FreeCellRow;
-            if (freeCellRow != GameModel.RowCount - 1)
-            {
-                return false;
-            }
-
-            int freeCellColumn = model.FreeCellColumn;
-            if (freeCellColumn != GameModel.ColumnCount - 1)
-            {
-                return false;
-            }
-
-            int value = 1;
-            for (int row = 0; row < GameModel.RowCount; row++)
-            {
-                for (int column = 0; column < GameModel.ColumnCount; column++)
-                {
-                    if (row == freeCellRow && column == freeCellColumn)
-                    {
-                        return model[row, column] == GameModel.FreeCellValue;
-                    }
-                    else if (model[row, column] != value++)
-                    {
-                        return false;
-                    }
-                }
-            }
-
+            model[row, column] = player;
+            CheckGameOver(model);
             return true;
+        }
+
+        public void MakeComputerMove(GameModel model)
+        {
+            if (model.Result != GameResult.None) return;
+
+            var winMove = FindBestMove(model, CellState.O);
+            if (winMove.HasValue)
+            {
+                model[winMove.Value.Row, winMove.Value.Column] = CellState.O;
+                CheckGameOver(model);
+                return;
+            }
+
+            var blockMove = FindBestMove(model, CellState.X);
+            if (blockMove.HasValue)
+            {
+                model[blockMove.Value.Row, blockMove.Value.Column] = CellState.O;
+                CheckGameOver(model);
+                return;
+            }
+
+            if (model[1, 1] == CellState.Empty)
+            {
+                model[1, 1] = CellState.O;
+            }
+            else
+            {
+                var emptyCells = new List<(int r, int c)>();
+                for (int r = 0; r < GameModel.RowCount; r++)
+                    for (int c = 0; c < GameModel.ColumnCount; c++)
+                        if (model[r, c] == CellState.Empty)
+                            emptyCells.Add((r, c));
+
+                if (emptyCells.Count > 0)
+                {
+                    var random = new Random();
+                    var move = emptyCells[random.Next(emptyCells.Count)];
+                    model[move.r, move.c] = CellState.O;
+                }
+            }
+
+            CheckGameOver(model);
+        }
+
+        private (int Row, int Column)? FindBestMove(GameModel model, CellState player)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                if (model[i, 0] == player && model[i, 1] == player && model[i, 2] == CellState.Empty) return (i, 2);
+                if (model[i, 0] == player && model[i, 2] == player && model[i, 1] == CellState.Empty) return (i, 1);
+                if (model[i, 1] == player && model[i, 2] == player && model[i, 0] == CellState.Empty) return (i, 0);
+
+                if (model[0, i] == player && model[1, i] == player && model[2, i] == CellState.Empty) return (2, i);
+                if (model[0, i] == player && model[2, i] == player && model[1, i] == CellState.Empty) return (1, i);
+                if (model[1, i] == player && model[2, i] == player && model[0, i] == CellState.Empty) return (0, i);
+            }
+
+            if (model[0, 0] == player && model[1, 1] == player && model[2, 2] == CellState.Empty) return (2, 2);
+            if (model[0, 0] == player && model[2, 2] == player && model[1, 1] == CellState.Empty) return (1, 1);
+            if (model[1, 1] == player && model[2, 2] == player && model[0, 0] == CellState.Empty) return (0, 0);
+
+            if (model[0, 2] == player && model[1, 1] == player && model[2, 0] == CellState.Empty) return (2, 0);
+            if (model[0, 2] == player && model[2, 0] == player && model[1, 1] == CellState.Empty) return (1, 1);
+            if (model[1, 1] == player && model[2, 0] == player && model[0, 2] == CellState.Empty) return (0, 2);
+
+            return null;
+        }
+
+        private void CheckGameOver(GameModel model)
+        {
+            model.WinningCells.Clear();
+
+            for (int i = 0; i < 3; i++)
+            {
+                if (model[i, 0] != CellState.Empty && model[i, 0] == model[i, 1] && model[i, 1] == model[i, 2])
+                {
+                    SetWin(model, model[i, 0], (i, 0), (i, 1), (i, 2));
+                    return;
+                }
+            }
+
+            for (int i = 0; i < 3; i++)
+            {
+                if (model[0, i] != CellState.Empty && model[0, i] == model[1, i] && model[1, i] == model[2, i])
+                {
+                    SetWin(model, model[0, i], (0, i), (1, i), (2, i));
+                    return;
+                }
+            }
+
+            if (model[0, 0] != CellState.Empty && model[0, 0] == model[1, 1] && model[1, 1] == model[2, 2])
+            {
+                SetWin(model, model[0, 0], (0, 0), (1, 1), (2, 2));
+                return;
+            }
+
+            if (model[0, 2] != CellState.Empty && model[0, 2] == model[1, 1] && model[1, 1] == model[2, 0])
+            {
+                SetWin(model, model[0, 2], (0, 2), (1, 1), (2, 0));
+                return;
+            }
+
+            //Проверка на ничью
+            bool hasEmpty = false;
+            for (int r = 0; r < 3; r++)
+                for (int c = 0; c < 3; c++)
+                    if (model[r, c] == CellState.Empty) hasEmpty = true;
+
+            if (!hasEmpty)
+                model.Result = GameResult.Draw;
+        }
+
+        private void SetWin(GameModel model, CellState winner, params (int Row, int Column)[] coords)
+        {
+            model.Result = winner == CellState.X ? GameResult.PlayerWin : GameResult.ComputerWin;
+            foreach (var coord in coords)
+                model.WinningCells.Add(coord);
         }
     }
 }

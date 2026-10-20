@@ -1,10 +1,7 @@
 ﻿using FifteenGame.Business.Models;
 using FifteenGame.Business.Services;
 using FifteenGame.Web.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace FifteenGame.Web.Controllers
@@ -13,40 +10,63 @@ namespace FifteenGame.Web.Controllers
     {
         private readonly GameService _service = new GameService();
 
-        // GET: Game
         public ActionResult Index()
         {
             var model = GetGameModel();
-            _service.Shuffle(model);
-            SaveGameModel(model);
+            var vm = ToViewModel(model);
 
-            return View(ToViewModel(model));
+            vm.PlayerScore = Session["PlayerScore"] as int? ?? 0;
+            vm.ComputerScore = Session["ComputerScore"] as int? ?? 0;
+
+            return View(vm);
         }
 
-        public ActionResult MakeMove(string directionText)
+        public ActionResult MakeMove(int row, int column)
         {
             var model = GetGameModel();
-            if (Enum.TryParse<MoveDirection>(directionText, out var direction))
-            {
-                _service.MakeMove(model, direction);
-                SaveGameModel(model);
 
-                if (_service.IsGameOver(model))
+            if (model.Result == GameResult.None)
+            {
+                if (_service.MakeMove(model, row, column, CellState.X))
                 {
-                    ViewBag.IsGameOver = true;
+                    if (model.Result == GameResult.None)
+                    {
+                        _service.MakeComputerMove(model);
+                    }
+
+                    if (model.Result == GameResult.PlayerWin)
+                    {
+                        Session["PlayerScore"] = (Session["PlayerScore"] as int? ?? 0) + 1;
+                    }
+                    else if (model.Result == GameResult.ComputerWin)
+                    {
+                        Session["ComputerScore"] = (Session["ComputerScore"] as int? ?? 0) + 1;
+                    }
                 }
             }
 
-            return View("Index", ToViewModel(model));
+            SaveGameModel(model);
+            return RedirectToAction("Index");
+        }
+
+
+        public ActionResult NewGame()
+        {
+            var model = new GameModel();
+            _service.Initialize(model);
+            SaveGameModel(model);
+            return RedirectToAction("Index");
         }
 
         private GameModel GetGameModel()
         {
-            if (Session.IsNewSession)
+            if (Session["GameModel"] == null)
             {
-                Session["GameModel"] = new GameModel();
+                var model = new GameModel();
+                _service.Initialize(model);
+                Session["GameModel"] = model;
+                return model;
             }
-
             return (GameModel)Session["GameModel"];
         }
 
@@ -57,40 +77,29 @@ namespace FifteenGame.Web.Controllers
 
         private GameViewModel ToViewModel(GameModel model)
         {
-            var result = new GameViewModel();
-
-            for (int row = 0; row < GameModel.RowCount; row++)
+            var result = new GameViewModel
             {
-                for (int column = 0; column < GameModel.ColumnCount; column++)
+                IsGameOver = model.Result != GameResult.None
+            };
+
+            for (int r = 0; r < GameModel.RowCount; r++)
+            {
+                for (int c = 0; c < GameModel.ColumnCount; c++)
                 {
-                    result.Cells[row, column] = new CellViewModel
+                    result.Cells.Add(new CellViewModel
                     {
-                        Value = model[row, column],
-                        Direction = MoveDirection.None,
-                        IsEmpty = model[row, column] == GameModel.FreeCellValue,
-                    };
+                        Row = r,
+                        Column = c,
+                        State = model[r, c],
+                        IsWinningCell = model.WinningCells.Contains((r, c))
+                    });
                 }
             }
 
-            if (model.FreeCellColumn > 0)
-            {
-                result.Cells[model.FreeCellRow, model.FreeCellColumn - 1].Direction = MoveDirection.Right;
-            }
-
-            if (model.FreeCellColumn < GameModel.ColumnCount - 1)
-            {
-                result.Cells[model.FreeCellRow, model.FreeCellColumn + 1].Direction = MoveDirection.Left;
-            }
-
-            if (model.FreeCellRow > 0)
-            {
-                result.Cells[model.FreeCellRow - 1, model.FreeCellColumn].Direction = MoveDirection.Down;
-            }
-
-            if (model.FreeCellRow < GameModel.RowCount - 1)
-            {
-                result.Cells[model.FreeCellRow + 1, model.FreeCellColumn].Direction = MoveDirection.Up;
-            }
+            if (model.Result == GameResult.PlayerWin) result.StatusText = "Вы победили";
+            else if (model.Result == GameResult.ComputerWin) result.StatusText = "Компьютер победил";
+            else if (model.Result == GameResult.Draw) result.StatusText = "Ничья";
+            else result.StatusText = "Ваш ход (X)";
 
             return result;
         }

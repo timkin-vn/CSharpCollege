@@ -1,244 +1,170 @@
-﻿using FifteenGame.Common.BusinessModels;
-using FifteenGame.Common.Contracts.Repositories;
-using FifteenGame.Common.Contracts.Services;
-using FifteenGame.Common.Definitions;
-using FifteenGame.Common.Dtos;
+﻿using FifteenGame.Common.Contracts;
+using FifteenGame.Common.Models;
+using FifteenGame.DataAccess.EF.DataContext;
+using FifteenGame.DataAccess.EF.Entities;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FifteenGame.Business.Services
 {
     public class GameService : IGameService
     {
-        private readonly IGameRepository _repository;
-
-        public GameService(IGameRepository repository)
+        public GameModel GetOrCreateGame(int userId)
         {
-            _repository = repository;
-        }
-
-        public GameModel GetByGameId(int gameId)
-        {
-            var dto = _repository.GetByGameId(gameId);
-            return FromDto(dto);
-        }
-
-        public GameModel GetByUserId(int userId)
-        {
-            var dtos = _repository.GetByUserId(userId);
-            var dto = dtos.LastOrDefault();
-            if (dto != null)
+            using (var context = new GameContext())
             {
-                return FromDto(dto);
+                var activeGame = context.Games.OrderByDescending(g => g.Id).FirstOrDefault(g => g.UserId == userId && g.Result == 0);
+
+                if (activeGame == null)
+                {
+                    activeGame = new GameEntity
+                    {
+                        UserId = userId,
+                        BoardState = "         ",
+                        Result = 0
+                    };
+                    context.Games.Add(activeGame);
+                    context.SaveChanges();
+                }
+
+                return new GameModel
+                {
+                    Id = activeGame.Id,
+                    UserId = activeGame.UserId,
+                    BoardState = activeGame.BoardState,
+                    Result = (GameResult)activeGame.Result,
+                    PlayerScore = activeGame.PlayerScore,
+                    ComputerScore = activeGame.ComputerScore
+                };
+            }
+        }
+
+        public GameModel MakeMove(int gameId, int row, int column)
+        {
+            using (var context = new GameContext())
+            {
+                var game = context.Games.Find(gameId);
+                if (game == null || game.Result != 0) return null;
+
+                char[] board = game.BoardState.ToCharArray();
+                int index = row * 3 + column;
+
+                if (board[index] != ' ') return null;
+                board[index] = 'X';
+                game.Result = (int)CheckWin(board, 'X');
+
+                if (game.Result == 0)
+                {
+                    int computerMove = FindBestMove(board);
+                    if (computerMove != -1)
+                    {
+                        board[computerMove] = 'O';
+                        game.Result = (int)CheckWin(board, 'O');
+                    }
+                }
+
+                if (game.Result == (int)GameResult.PlayerWin) game.PlayerScore++;
+                else if (game.Result == (int)GameResult.ComputerWin) game.ComputerScore++;
+
+                game.BoardState = new string(board);
+                context.SaveChanges();
+
+                return new GameModel
+                {
+                    Id = game.Id,
+                    UserId = game.UserId,
+                    BoardState = game.BoardState,
+                    Result = (GameResult)game.Result,
+                    PlayerScore = game.PlayerScore,
+                    ComputerScore = game.ComputerScore
+                };
+            }
+        }
+
+        public void ResetGame(int gameId)
+        {
+            using (var context = new GameContext())
+            {
+                var game = context.Games.Find(gameId);
+                if (game != null)
+                {
+                    game.BoardState = "         ";
+                    game.Result = 0;
+                    context.SaveChanges();
+                }
+            }
+        }
+
+        private int FindBestMove(char[] board)
+        {
+            int winMove = FindWinningMove(board, 'O');
+            if (winMove != -1) return winMove;
+
+            int blockMove = FindWinningMove(board, 'X');
+            if (blockMove != -1) return blockMove;
+
+            if (board[4] == ' ') return 4;
+
+            int[] corners = { 0, 2, 6, 8 };
+            foreach (var c in corners)
+            {
+                if (board[c] == ' ') return c;
             }
 
-            var game = new GameModel
+            for (int i = 0; i < 9; i++)
             {
-                UserId = userId,
+                if (board[i] == ' ') return i;
+            }
+
+            return -1;
+        }
+
+        private int FindWinningMove(char[] board, char player)
+        {
+            int[][] wins = new int[][]
+            {
+                new[] {0,1,2}, new[] {3,4,5}, new[] {6,7,8},
+                new[] {0,3,6}, new[] {1,4,7}, new[] {2,5,8},
+                new[] {0,4,8}, new[] {2,4,6}
             };
 
-            Shuffle(game);
-            var gameId = _repository.Save(ToDto(game));
-
-            return GetByGameId(gameId);
-        }
-
-        public void Initialize(GameModel model)
-        {
-            int value = 1;
-            for (int row = 0; row < Constants.RowCount; row++)
+            foreach (var w in wins)
             {
-                for (int column = 0; column < Constants.ColumnCount; column++)
+                int countPlayer = 0;
+                int emptyIndex = -1;
+
+                foreach (var i in w)
                 {
-                    model[row, column] = value++;
+                    if (board[i] == player) countPlayer++;
+                    else if (board[i] == ' ') emptyIndex = i;
+                }
+
+                if (countPlayer == 2 && emptyIndex != -1)
+                {
+                    return emptyIndex;
                 }
             }
 
-            model[Constants.RowCount - 1, Constants.ColumnCount - 1] = Constants.FreeCellValue;
-            model.FreeCellRow = Constants.RowCount - 1;
-            model.FreeCellColumn = Constants.ColumnCount - 1;
+            return -1;
         }
 
-        public bool IsGameOver(int gameId)
+        private GameResult CheckWin(char[] board, char player)
         {
-            var dto = _repository.GetByGameId(gameId);
-            return IsGameOver(FromDto(dto));
-        }
-
-        public bool IsGameOver(GameModel model)
-        {
-            int freeCellRow = model.FreeCellRow;
-            if (freeCellRow != Constants.RowCount - 1)
+            int[][] wins = new int[][]
             {
-                return false;
-            }
-
-            int freeCellColumn = model.FreeCellColumn;
-            if (freeCellColumn != Constants.ColumnCount - 1)
-            {
-                return false;
-            }
-
-            int value = 1;
-            for (int row = 0; row < Constants.RowCount; row++)
-            {
-                for (int column = 0; column < Constants.ColumnCount; column++)
-                {
-                    if (row == freeCellRow && column == freeCellColumn)
-                    {
-                        return model[row, column] == Constants.FreeCellValue;
-                    }
-                    else if (model[row, column] != value++)
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
-        }
-
-        public GameModel MakeMove(int gameId, MoveDirection direction)
-        {
-            var dto = _repository.GetByGameId(gameId);
-            var model = FromDto(dto);
-
-            MakeMove(model, direction);
-
-            _repository.Save(ToDto(model));
-            return model;
-        }
-
-        public bool MakeMove(GameModel model, MoveDirection direction)
-        {
-            switch (direction)
-            {
-                case MoveDirection.Left:
-                    if (model.FreeCellColumn == Constants.ColumnCount - 1)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow, model.FreeCellColumn + 1];
-                    model[model.FreeCellRow, model.FreeCellColumn + 1] = Constants.FreeCellValue;
-                    model.FreeCellColumn++;
-
-                    model.MoveCount++;
-                    return true;
-
-                case MoveDirection.Right:
-                    if (model.FreeCellColumn == 0)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow, model.FreeCellColumn - 1];
-                    model[model.FreeCellRow, model.FreeCellColumn - 1] = Constants.FreeCellValue;
-                    model.FreeCellColumn--;
-
-                    model.MoveCount++;
-                    return true;
-
-                case MoveDirection.Up:
-                    if (model.FreeCellRow == Constants.RowCount - 1)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow + 1, model.FreeCellColumn];
-                    model[model.FreeCellRow + 1, model.FreeCellColumn] = Constants.FreeCellValue;
-                    model.FreeCellRow++;
-
-                    model.MoveCount++;
-                    return true;
-
-                case MoveDirection.Down:
-                    if (model.FreeCellRow == 0)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow - 1, model.FreeCellColumn];
-                    model[model.FreeCellRow - 1, model.FreeCellColumn] = Constants.FreeCellValue;
-                    model.FreeCellRow--;
-
-                    model.MoveCount++;
-                    return true;
-            }
-
-            return false;
-        }
-
-        public void RemoveGame(int gameId)
-        {
-            _repository.Remove(gameId);
-        }
-
-        public void Shuffle(GameModel model)
-        {
-            Initialize(model);
-
-            var rnd = new Random();
-            for (int i = 0; i < 1000; i++)
-            {
-                var nextMove = (MoveDirection)(rnd.Next(4) + 1);
-                MakeMove(model, nextMove);
-            }
-
-            model.MoveCount = 0;
-        }
-
-        private GameModel FromDto(GameDto dto)
-        {
-            if (dto == null)
-            {
-                return null;
-            }
-
-            var result = new GameModel
-            {
-                Id = dto.Id,
-                UserId = dto.UserId,
-                MoveCount = dto.MoveCount,
+                new[] {0,1,2}, new[] {3,4,5}, new[] {6,7,8},
+                new[] {0,3,6}, new[] {1,4,7}, new[] {2,5,8},
+                new[] {0,4,8}, new[] {2,4,6}
             };
 
-            for (int row = 0; row < Constants.RowCount; row++)
+            foreach (var w in wins)
             {
-                for (int column = 0; column < Constants.ColumnCount; column++)
-                {
-                    result[row, column] = dto.Cells[row, column];
-                    if (result[row, column] == Constants.FreeCellValue)
-                    {
-                        result.FreeCellRow = row;
-                        result.FreeCellColumn = column;
-                    }
-                }
+                if (board[w[0]] == player && board[w[1]] == player && board[w[2]] == player)
+                    return player == 'X' ? GameResult.PlayerWin : GameResult.ComputerWin;
             }
 
-            return result;
-        }
-
-        private GameDto ToDto(GameModel model)
-        {
-            var result = new GameDto
-            {
-                Id = model.Id,
-                UserId = model.UserId,
-                MoveCount = model.MoveCount,
-            };
-
-            for (int row = 0; row < Constants.RowCount; row++)
-            {
-                for (int column = 0; column < Constants.ColumnCount; column++)
-                {
-                    result.Cells[row, column] = model[row, column];
-                }
-            }
-
-            return result;
+            if (!board.Contains(' ')) return GameResult.Draw;
+            return GameResult.None;
         }
     }
 }

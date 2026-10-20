@@ -114,30 +114,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RepositoryTests\GameRepositoryEFTests.cs" />
-    <Compile Include="RepositoryTests\UserRepositoryEFTests.cs" />
-    <Compile Include="ServiceTests\UserServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\9. Game DB\EF\FifteenGame\FifteenGame.Business\FifteenGame.Business.csproj">
+    <ProjectReference Include="..\FifteenGame.Business\FifteenGame.Business.csproj">
       <Project>{445A0B3C-C111-42BE-8C02-031212179002}</Project>
       <Name>FifteenGame.Business</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\9. Game DB\EF\FifteenGame\FifteenGame.Common\FifteenGame.Common.csproj">
+    <ProjectReference Include="..\FifteenGame.Common\FifteenGame.Common.csproj">
       <Project>{eb3f32e3-5184-4e11-9d86-92a0a7f3a8d5}</Project>
       <Name>FifteenGame.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\9. Game DB\EF\FifteenGame\FifteenGame.DataAccess.EF\FifteenGame.DataAccess.EF.csproj">
+    <ProjectReference Include="..\FifteenGame.DataAccess.EF\FifteenGame.DataAccess.EF.csproj">
       <Project>{7a5ab4a1-2c20-49bb-8f27-6fd780f61863}</Project>
       <Name>FifteenGame.DataAccess.EF</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FifteenGame.DataAccess\FifteenGame.DataAccess.csproj">
-      <Project>{862d32ae-c86d-4fc2-897a-4bfd168a729f}</Project>
-      <Name>FifteenGame.DataAccess</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

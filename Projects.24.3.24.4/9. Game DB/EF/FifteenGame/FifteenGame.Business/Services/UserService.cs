@@ -1,64 +1,27 @@
-﻿using FifteenGame.Common.BusinessModels;
-using FifteenGame.Common.Contracts.Repositories;
-using FifteenGame.Common.Contracts.Services;
-using System;
-using System.Collections.Generic;
+﻿using FifteenGame.Common.Contracts;
+using FifteenGame.Common.Models;
+using FifteenGame.DataAccess.EF.DataContext;
+using FifteenGame.DataAccess.EF.Entities;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FifteenGame.Business.Services
 {
     public class UserService : IUserService
     {
-        private readonly IUserRepository _repository;
-
-        public UserService(IUserRepository repository)
+        public UserModel GetOrCreateUser(string name)
         {
-            _repository = repository;
-        }
-
-        public IEnumerable<UserModel> GetAllUsers()
-        {
-            return _repository.GetAll()
-                .Select(u => new UserModel
+            using (var context = new GameContext())
+            {
+                var user = context.Users.FirstOrDefault(u => u.Name == name);
+                if (user == null)
                 {
-                    Id = u.Id,
-                    Name = u.Name,
-                })
-                .ToList();
-        }
+                    user = new UserEntity { Name = name };
+                    context.Users.Add(user);
+                    context.SaveChanges();
+                }
 
-        public UserModel GetOrCreateUser(string userName)
-        {
-            var userDto = _repository.GetByName(userName);
-
-            if (userDto == null)
-            {
-                userDto = _repository.Create(userName);
+                return new UserModel { Id = user.Id, Name = user.Name };
             }
-
-            return new UserModel
-            {
-                Id = userDto.Id,
-                Name = userDto.Name,
-            };
-        }
-
-        public UserModel GetUserByName(string userName)
-        {
-            var userDto = _repository.GetByName(userName);
-
-            if (userDto == null)
-            {
-                return null;
-            }
-
-            return new UserModel
-            {
-                Id = userDto.Id,
-                Name = userDto.Name,
-            };
         }
     }
 }

@@ -1,104 +1,57 @@
 ﻿using FifteenGame.BusinessProxy.Infrastucture;
-using FifteenGame.Common.BusinessDtos;
-using FifteenGame.Common.BusinessModels;
-using FifteenGame.Common.Contracts.Services;
-using FifteenGame.Common.Definitions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Json;
+using FifteenGame.Common.Contracts;
+using FifteenGame.Common.Dtos;
+using FifteenGame.Common.Models;
+using Newtonsoft.Json;
+using System.Net.Http;
 using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace FifteenGame.BusinessProxy.Services
 {
     public class GameServiceProxy : IGameService
     {
-        public GameModel GetByGameId(int gameId)
-        {
-            using (var httpClient = HttpConnection.HttpClient)
-            {
-                var response = httpClient.GetAsync($"api/games/get-by-game-id/{gameId}").Result;
-                response.EnsureSuccessStatusCode();
-
-                var reply = JsonSerializer.Deserialize<GameReply>(response.Content.ReadAsStringAsync().Result);
-                return FromDto(reply);
-            }
-        }
-
-        public GameModel GetByUserId(int userId)
+        public GameModel GetOrCreateGame(int userId)
         {
             using (var httpClient = HttpConnection.HttpClient)
             {
                 var response = httpClient.GetAsync($"api/games/get-by-user-id/{userId}").Result;
                 response.EnsureSuccessStatusCode();
 
-                var reply = JsonSerializer.Deserialize<GameReply>(response.Content.ReadAsStringAsync().Result);
+                var json = response.Content.ReadAsStringAsync().Result;
+                var reply = JsonConvert.DeserializeObject<GameReply>(json);
                 return FromDto(reply);
             }
         }
 
-        public bool IsGameOver(int gameId)
+        public GameModel MakeMove(int gameId, int row, int column)
         {
             using (var httpClient = HttpConnection.HttpClient)
             {
-                var response = httpClient.GetAsync($"api/games/is-over/{gameId}").Result;
-                response.EnsureSuccessStatusCode();
+                var request = new MakeMoveRequest { GameId = gameId, Row = row, Column = column };
+                var json = JsonConvert.SerializeObject(request);
+                var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var reply = JsonSerializer.Deserialize<BooleanReply>(response.Content.ReadAsStringAsync().Result);
-                return reply.IsTrue;
-            }
-        }
-
-        public GameModel MakeMove(int gameId, MoveDirection direction)
-        {
-            using (var httpClient = HttpConnection.HttpClient)
-            {
-                var httpContent = JsonContent.Create(new MakeMoveRequest { GameId = gameId, Direction = direction.ToString() });
                 var response = httpClient.PostAsync("api/games/make-move", httpContent).Result;
                 response.EnsureSuccessStatusCode();
 
-                var reply = JsonSerializer.Deserialize<GameReply>(response.Content.ReadAsStringAsync().Result);
+                var replyJson = response.Content.ReadAsStringAsync().Result;
+                var reply = JsonConvert.DeserializeObject<GameReply>(replyJson);
                 return FromDto(reply);
             }
         }
 
-        public void RemoveGame(int gameId)
+        private GameModel FromDto(GameReply reply)
         {
-            using (var httpClient = HttpConnection.HttpClient)
+            if (reply == null) return null;
+            return new GameModel
             {
-                var response = httpClient.DeleteAsync($"api/games/remove/{gameId}").Result;
-                response.EnsureSuccessStatusCode();
-            }
-        }
-
-        private GameModel FromDto(GameReply game)
-        {
-            if (game == null)
-            {
-                return null;
-            }
-
-            var result = new GameModel
-            {
-                Id = game.Id,
-                UserId = game.UserId,
-                MoveCount = game.MoveCount,
-                FreeCellColumn = game.FreeCellColumn,
-                FreeCellRow = game.FreeCellRow,
+                Id = reply.Id,
+                UserId = reply.UserId,
+                BoardState = reply.BoardState,
+                Result = (GameResult)reply.Result,
+                PlayerScore = reply.PlayerScore,
+                ComputerScore = reply.ComputerScore
             };
-
-            int i = 0;
-            for (int row = 0; row < Constants.RowCount; row++)
-            {
-                for (int column = 0; column < Constants.ColumnCount; column++)
-                {
-                    result[row, column] = game.Cells[i++];
-                }
-            }
-
-            return result;
         }
     }
 }

@@ -30,9 +30,13 @@ namespace GraphEditor.ViewServices
 
         public string FileName { get; set; }
 
+        public bool SnapToGrid { get; set; } = true;
+
+        public int GridSize { get; set; } = 20;
+
         public void Paint(Graphics g)
         {
-            new Painter().Paint(g, _viewModel, true);
+            new Painter().Paint(g, _viewModel, true, SnapToGrid, GridSize);
         }
 
         public void MouseDown(Point loc)
@@ -181,14 +185,66 @@ namespace GraphEditor.ViewServices
             if (model.SelectedRectangle != null)
             {
                 var index = model.Rectangles.IndexOf(model.SelectedRectangle);
-                _viewModel.SelectedRectangle = _viewModel.Rectangles[index];
+
+                if (index >= 0 && index < _viewModel.Rectangles.Count)
+                {
+                    _viewModel.SelectedRectangle = _viewModel.Rectangles[index];
+                }
             }
         }
 
-        private PointModel ToModel(Point point) => new PointModel { X = point.X, Y = point.Y };
+        private PointModel ToModel(Point point)
+        {
+            int x = point.X;
+            int y = point.Y;
+
+            if (SnapToGrid)
+            {
+                x = (int)Math.Round((double)x / GridSize) * GridSize;
+                y = (int)Math.Round((double)y / GridSize) * GridSize;
+            }
+
+            return new PointModel { X = x, Y = y };
+        }
 
         private bool IsInside(Point loc, Rectangle rect) =>
             loc.X >= rect.X && loc.X <= rect.Right &&
             loc.Y >= rect.Y && loc.Y <= rect.Bottom;
+
+        public void Undo()
+        {
+            _businessService.Undo();
+            LoadViewModel();
+        }
+
+        public void Redo()
+        {
+            _businessService.Redo();
+            LoadViewModel();
+        }
+
+        public bool CanUndo => _businessService.CanUndo;
+        public bool CanRedo => _businessService.CanRedo;
+
+        public void Copy()
+        {
+            _businessService.Copy();
+        }
+
+        public void Paste()
+        {
+            _businessService.Paste();
+            LoadViewModel();
+        }
+
+        public void UpdateSelectedProperties(int left, int top, int width, int height)
+        {
+            _businessService.UpdateSelectedRectangleProperties(left, top, width, height);
+            LoadViewModel();
+        }
+        public RectangleModel GetSelectedRectangle()
+        {
+            return _businessService.PictureModel.SelectedRectangle;
+        }
     }
 }
