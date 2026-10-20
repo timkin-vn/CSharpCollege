@@ -6,11 +6,8 @@
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.6" />
-  </ItemGroup>
-  <ItemGroup>
-    <!-- Компилируем только код Сапёра. Исходники преподавателя
-         остаются в папке, но не мешают сборке. -->
+    <ProjectReference Include="ADO.NET\Minesweeper\FifteenGame.Business\FifteenGame.Business.csproj" />
+    <ProjectReference Include="ADO.NET\Minesweeper\FifteenGame.DataAccess\FifteenGame.DataAccess.csproj" />
     <Compile Include="Program.cs" />
     <EmbeddedResource Remove="ADO.NET/**/*;EF/**/*" />
     <Content Remove="ADO.NET/**/*;EF/**/*" />

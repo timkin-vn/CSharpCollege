@@ -35,13 +35,14 @@
             justify-content: center;
             margin-bottom: 14px;
         }
-        select, button {
+        input, select, button {
             border: 0;
             border-radius: 10px;
             padding: 9px 12px;
             font-size: 15px;
         }
-        select { background: #f9fafb; color: #111827; }
+        input, select { background: #f9fafb; color: #111827; }
+        input { width: 145px; }
         button { background: #2563eb; color: white; cursor: pointer; }
         button:hover { background: #1d4ed8; }
         .info {
@@ -87,6 +88,11 @@
         .revealed { background: #e2e8f0; cursor: default; }
         .flagged { background: #fbbf24; }
         .mine { background: #ef4444; color: white; }
+        .results { margin-top: 16px; overflow-x: auto; }
+        .results h2 { text-align: center; font-size: 18px; margin: 12px 0; }
+        table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 580px; }
+        th, td { padding: 8px; text-align: center; border-bottom: 1px solid #334155; }
+        th { background: #334155; }
         .status {
             margin-top: 14px;
             text-align: center;
@@ -107,6 +113,7 @@
         <h1>Сапёр — Client-Server</h1>
 
         <div class="panel">
+            <label>Имя: <input type="text" id="playerName" value="Игрок" maxlength="40" /></label>
             <label>
                 Сложность:
                 <select id="difficultySelect">
@@ -139,9 +146,18 @@
         <div id="board"></div>
         <div class="status" id="status">Создание игры...</div>
         <div class="hint">ЛКМ — открыть клетку. ПКМ — поставить или убрать флажок. Состояние поля хранится на сервере.</div>
+        <section class="results">
+            <h2>Результаты игр (SQLite)</h2>
+            <table>
+                <thead><tr><th>Игрок</th><th>Итог</th><th>Сложность</th><th>Режим</th><th>Время</th><th>Ходы</th><th>Дата</th></tr></thead>
+                <tbody id="resultRows"><tr><td colspan="7">Загрузка...</td></tr></tbody>
+            </table>
+        </section>
     </main>
 
     <script>
+        const playerName = document.getElementById('playerName');
+        const resultRows = document.getElementById('resultRows');
         const difficultySelect = document.getElementById('difficultySelect');
         const firstMoveSelect = document.getElementById('firstMoveSelect');
         const newGameButton = document.getElementById('newGameButton');
@@ -167,6 +183,7 @@
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
+                    playerName: playerName.value,
                     difficulty: difficultySelect.value,
                     firstMoveMode: firstMoveSelect.value
                 })
@@ -187,7 +204,10 @@
             });
 
             game = await response.json();
-            if (game.status !== 'Игра идёт') stopTimer();
+            if (game.status !== 'Игра идёт') {
+                stopTimer();
+                await refreshResults();
+            }
             render();
         }
 
@@ -263,6 +283,45 @@
             }
         }
 
+        async function refreshResults() {
+            try {
+                const response = await fetch('/api/results', { cache: 'no-store' });
+                if (!response.ok) throw new Error('HTTP ' + response.status);
+                const items = await response.json();
+                resultRows.replaceChildren();
+                if (items.length === 0) {
+                    const tr = document.createElement('tr');
+                    const td = document.createElement('td');
+                    td.colSpan = 7;
+                    td.textContent = 'Пока результатов нет';
+                    tr.appendChild(td);
+                    resultRows.appendChild(tr);
+                    return;
+                }
+                for (const item of items) {
+                    const tr = document.createElement('tr');
+                    const values = [item.playerName, item.isWin ? 'Победа' : 'Поражение',
+                        item.difficulty, item.firstMoveMode, item.seconds + ' сек.',
+                        String(item.moves), item.createdAt];
+                    for (const value of values) {
+                        const td = document.createElement('td');
+                        td.textContent = value ?? '';
+                        tr.appendChild(td);
+                    }
+                    resultRows.appendChild(tr);
+                }
+            } catch (error) {
+                console.error('Не удалось загрузить результаты', error);
+                resultRows.replaceChildren();
+                const tr = document.createElement('tr');
+                const td = document.createElement('td');
+                td.colSpan = 7;
+                td.textContent = 'Ошибка загрузки результатов';
+                tr.appendChild(td);
+                resultRows.appendChild(tr);
+            }
+        }
+
         function updateInfo() {
             if (!game) return;
             difficultyInfo.textContent = `Сложность: ${game.difficulty}`;
@@ -277,6 +336,7 @@
         difficultySelect.addEventListener('change', newGame);
         firstMoveSelect.addEventListener('change', newGame);
 
+        refreshResults();
         newGame();
     </script>
 </body>

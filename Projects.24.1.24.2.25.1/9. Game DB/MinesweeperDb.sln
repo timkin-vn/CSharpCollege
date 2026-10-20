@@ -1,0 +1,39 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinesweeperDb", "MinesweeperDb.csproj", "{8E1D9A16-07BA-4C4F-9517-F79AC1B7CE24}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FifteenGame.Business", "ADO.NET\Minesweeper\FifteenGame.Business\FifteenGame.Business.csproj", "{A13E66B2-06BD-4E72-990E-8F1C76461B47}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FifteenGame.Common", "ADO.NET\Minesweeper\FifteenGame.Common\FifteenGame.Common.csproj", "{64D7A1E8-F27A-457F-9C65-810234B26AC4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FifteenGame.DataAccess", "ADO.NET\Minesweeper\FifteenGame.DataAccess\FifteenGame.DataAccess.csproj", "{29B69510-514B-46AE-8B34-85EA69E72ED2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8E1D9A16-07BA-4C4F-9517-F79AC1B7CE24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E1D9A16-07BA-4C4F-9517-F79AC1B7CE24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E1D9A16-07BA-4C4F-9517-F79AC1B7CE24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E1D9A16-07BA-4C4F-9517-F79AC1B7CE24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A13E66B2-06BD-4E72-990E-8F1C76461B47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A13E66B2-06BD-4E72-990E-8F1C76461B47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A13E66B2-06BD-4E72-990E-8F1C76461B47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A13E66B2-06BD-4E72-990E-8F1C76461B47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64D7A1E8-F27A-457F-9C65-810234B26AC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64D7A1E8-F27A-457F-9C65-810234B26AC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64D7A1E8-F27A-457F-9C65-810234B26AC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64D7A1E8-F27A-457F-9C65-810234B26AC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29B69510-514B-46AE-8B34-85EA69E72ED2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29B69510-514B-46AE-8B34-85EA69E72ED2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29B69510-514B-46AE-8B34-85EA69E72ED2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29B69510-514B-46AE-8B34-85EA69E72ED2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -6,9 +6,11 @@
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
   </PropertyGroup>
   <ItemGroup>
-    <!-- Компилируем только код Сапёра. Исходники преподавателя
-         остаются в папке, но не мешают сборке. -->
+    <!-- Reuse the business and database layers from project 9, which in turn reuse the game logic from project 7. -->
+    <ProjectReference Include="..\9. Game DB\ADO.NET\Minesweeper\FifteenGame.Business\FifteenGame.Business.csproj" />
+    <ProjectReference Include="..\9. Game DB\ADO.NET\Minesweeper\FifteenGame.DataAccess\FifteenGame.DataAccess.csproj" />
     <Compile Include="Program.cs" />
+    <!-- Keep the teacher's original client/server projects unchanged and separate from this .NET 8 app. -->
     <EmbeddedResource Remove="FifteenGame/**/*" />
     <Content Remove="FifteenGame/**/*" />
     <None Remove="FifteenGame/**/*" />

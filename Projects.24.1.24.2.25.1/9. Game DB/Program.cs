@@ -1,134 +1,80 @@
+﻿using FifteenGame.Business.Services;
+using FifteenGame.Common.Contracts.Repositories;
+using FifteenGame.DataAccess.Repositories;
 using Microsoft.Data.Sqlite;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// SQLite stores the game results; the game itself uses shared logic from project 7.
+var dbPath = Path.Combine(builder.Environment.ContentRootPath, "minesweeper.db");
+var connectionString = new SqliteConnectionStringBuilder { DataSource = dbPath }.ToString();
+builder.Services.AddSingleton<IGameResultRepository>(new SqliteGameResultRepository(connectionString));
+builder.Services.AddSingleton<MinesweeperDbService>();
 var app = builder.Build();
 
-var connectionString = builder.Configuration.GetConnectionString("Default") ?? "Data Source=minesweeper.db";
-InitializeDatabase(connectionString);
+var repository = app.Services.GetRequiredService<IGameResultRepository>();
+repository.Initialize();
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
-app.MapGet("/api/results", () =>
+app.MapGet("/api/results", (HttpContext context, IGameResultRepository repo) =>
 {
-    var results = new List<GameResultResponse>();
-
-    using var connection = new SqliteConnection(connectionString);
-    connection.Open();
-
-    using var command = connection.CreateCommand();
-    command.CommandText = """
-        SELECT Id, PlayerName, Difficulty, FirstMoveMode, IsWin, Seconds, Moves, Rows, Columns, Mines, CreatedAt
-        FROM GameResults
-        ORDER BY IsWin DESC, Seconds ASC, Moves ASC, CreatedAt DESC
-        LIMIT 20;
-        """;
-
-    using var reader = command.ExecuteReader();
-    while (reader.Read())
-    {
-        results.Add(new GameResultResponse(
-            reader.GetInt64(0),
-            reader.GetString(1),
-            reader.GetString(2),
-            reader.GetString(3),
-            reader.GetInt64(4) == 1,
-            reader.GetInt32(5),
-            reader.GetInt32(6),
-            reader.GetInt32(7),
-            reader.GetInt32(8),
-            reader.GetInt32(9),
-            reader.GetString(10)
-        ));
-    }
-
-    return Results.Ok(results);
+    // Do not cache results while testing or after completing a game.
+    context.Response.Headers.CacheControl = "no-store, no-cache";
+    return Results.Ok(repo.GetTopResults());
 });
 
-app.MapPost("/api/results", (SaveGameResultRequest request) =>
+// Temporary local diagnostic endpoint. It works only in Development mode.
+if (app.Environment.IsDevelopment())
 {
-    var playerName = string.IsNullOrWhiteSpace(request.PlayerName) ? "Игрок" : request.PlayerName.Trim();
-    if (playerName.Length > 40)
+    app.MapGet("/api/debug/db", (IGameResultRepository repo) =>
     {
-        playerName = playerName[..40];
-    }
+        using var connection = new SqliteConnection(connectionString);
+        connection.Open();
+        using var command = connection.CreateCommand();
+        command.CommandText = "SELECT COUNT(*) FROM GameResults;";
+        long totalRows = (long)(command.ExecuteScalar() ?? 0L);
+        using var last = connection.CreateCommand();
+        last.CommandText = "SELECT COALESCE(MAX(Id), 0) FROM GameResults;";
+        long latestId = (long)(last.ExecuteScalar() ?? 0L);
+        return Results.Ok(new
+        {
+            databaseFile = dbPath,
+            fileExists = File.Exists(dbPath),
+            totalRows,
+            latestId,
+            returnedResults = repo.GetTopResults().Count
+        });
+    });
+}
 
-    using var connection = new SqliteConnection(connectionString);
-    connection.Open();
 
-    using var command = connection.CreateCommand();
-    command.CommandText = """
-        INSERT INTO GameResults
-        (PlayerName, Difficulty, FirstMoveMode, IsWin, Seconds, Moves, Rows, Columns, Mines, CreatedAt)
-        VALUES
-        ($playerName, $difficulty, $firstMoveMode, $isWin, $seconds, $moves, $rows, $columns, $mines, $createdAt);
-        """;
+app.MapPost("/api/games", (NewGameRequest request, MinesweeperDbService service) =>
+{
+    var state = service.CreateGame(request.PlayerName, request.Difficulty, request.SafeFirstMove);
+    return Results.Created($"/api/games/{state.Id}", state);
+});
 
-    command.Parameters.AddWithValue("$playerName", playerName);
-    command.Parameters.AddWithValue("$difficulty", request.Difficulty);
-    command.Parameters.AddWithValue("$firstMoveMode", request.FirstMoveMode);
-    command.Parameters.AddWithValue("$isWin", request.IsWin ? 1 : 0);
-    command.Parameters.AddWithValue("$seconds", Math.Max(0, request.Seconds));
-    command.Parameters.AddWithValue("$moves", Math.Max(0, request.Moves));
-    command.Parameters.AddWithValue("$rows", Math.Max(1, request.Rows));
-    command.Parameters.AddWithValue("$columns", Math.Max(1, request.Columns));
-    command.Parameters.AddWithValue("$mines", Math.Max(1, request.Mines));
-    command.Parameters.AddWithValue("$createdAt", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-    command.ExecuteNonQuery();
+app.MapGet("/api/games/{id:guid}", (Guid id, MinesweeperDbService service) =>
+{
+    var state = service.GetGame(id);
+    return state == null ? Results.NotFound() : Results.Ok(state);
+});
 
-    return Results.Created("/api/results", new { message = "Результат сохранён" });
+app.MapPost("/api/games/{id:guid}/reveal", (Guid id, CellRequest request, MinesweeperDbService service) =>
+{
+    var state = service.Reveal(id, request.Row, request.Column);
+    return state == null ? Results.NotFound() : Results.Ok(state);
+});
+
+app.MapPost("/api/games/{id:guid}/flag", (Guid id, CellRequest request, MinesweeperDbService service) =>
+{
+    var state = service.ToggleFlag(id, request.Row, request.Column);
+    return state == null ? Results.NotFound() : Results.Ok(state);
 });
 
 app.Run();
 
-static void InitializeDatabase(string connectionString)
-{
-    using var connection = new SqliteConnection(connectionString);
-    connection.Open();
-
-    using var command = connection.CreateCommand();
-    command.CommandText = """
-        CREATE TABLE IF NOT EXISTS GameResults
-        (
-            Id INTEGER PRIMARY KEY AUTOINCREMENT,
-            PlayerName TEXT NOT NULL,
-            Difficulty TEXT NOT NULL,
-            FirstMoveMode TEXT NOT NULL,
-            IsWin INTEGER NOT NULL,
-            Seconds INTEGER NOT NULL,
-            Moves INTEGER NOT NULL,
-            Rows INTEGER NOT NULL,
-            Columns INTEGER NOT NULL,
-            Mines INTEGER NOT NULL,
-            CreatedAt TEXT NOT NULL
-        );
-        """;
-
-    command.ExecuteNonQuery();
-}
-
-record SaveGameResultRequest(
-    string PlayerName,
-    string Difficulty,
-    string FirstMoveMode,
-    bool IsWin,
-    int Seconds,
-    int Moves,
-    int Rows,
-    int Columns,
-    int Mines
-);
-
-record GameResultResponse(
-    long Id,
-    string PlayerName,
-    string Difficulty,
-    string FirstMoveMode,
-    bool IsWin,
-    int Seconds,
-    int Moves,
-    int Rows,
-    int Columns,
-    int Mines,
-    string CreatedAt
-);
+record NewGameRequest(string? PlayerName, string? Difficulty, bool SafeFirstMove);
+record CellRequest(int Row, int Column);

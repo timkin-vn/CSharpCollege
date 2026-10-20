@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FifteenGame.Common\FifteenGame.Common.csproj" />
+  </ItemGroup>
+  <!-- Reuse the actual Minesweeper sources from project 7; do not duplicate the algorithms. -->
+  <ItemGroup>
+    <Compile Include="..\..\..\..\7. Game WPF\FifteenGame\FifteenGame.Business\Models\MinesweeperCell.cs" Link="SharedGame\MinesweeperCell.cs" />
+    <Compile Include="..\..\..\..\7. Game WPF\FifteenGame\FifteenGame.Business\Models\MinesweeperGame.cs" Link="SharedGame\MinesweeperGame.cs" />
+    <Compile Include="..\..\..\..\7. Game WPF\FifteenGame\FifteenGame.Business\Services\MinesweeperService.cs" Link="SharedGame\MinesweeperService.cs" />
+  </ItemGroup>
+</Project>

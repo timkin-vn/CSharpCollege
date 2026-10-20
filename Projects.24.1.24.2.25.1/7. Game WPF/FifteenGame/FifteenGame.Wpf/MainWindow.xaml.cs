@@ -1,46 +1,57 @@
-﻿using FifteenGame.Business.Models;
-using FifteenGame.Wpf.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using FifteenGame.Wpf.ViewModels;
 
 namespace FifteenGame.Wpf
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindowViewModel ViewModel => (MainWindowViewModel)DataContext;
+        private MainWindowViewModel ViewModel
+        {
+            get { return (MainWindowViewModel)DataContext; }
+        }
 
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        private void NewGameButton_Click(object sender, RoutedEventArgs e)
         {
-            var direction = (MoveDirection)((FrameworkElement)sender).Tag;
-            ViewModel.MakeMove(direction, OnGameFinished);
+            RestartGame();
         }
 
-        private void OnGameFinished()
+        private void Options_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (MessageBox.Show("Игра окончена. Повторить?", "Поздравляем!", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
+            if (IsLoaded)
             {
-                ViewModel.Initialize();
+                RestartGame();
             }
+        }
+
+        private void RestartGame()
+        {
+            ViewModel.NewGame(DifficultyComboBox.SelectedIndex, FirstMoveComboBox.SelectedIndex != 1);
+        }
+
+        private void Cell_LeftClick(object sender, RoutedEventArgs e)
+        {
+            var cell = ((Button)sender).DataContext as CellViewModel;
+            if (cell != null)
+            {
+                ViewModel.OpenCell(cell.Row, cell.Column);
+            }
+        }
+
+        private void Cell_RightClick(object sender, MouseButtonEventArgs e)
+        {
+            var cell = ((Button)sender).DataContext as CellViewModel;
+            if (cell != null)
+            {
+                ViewModel.ToggleFlag(cell.Row, cell.Column);
+            }
+            e.Handled = true;
         }
     }
 }
