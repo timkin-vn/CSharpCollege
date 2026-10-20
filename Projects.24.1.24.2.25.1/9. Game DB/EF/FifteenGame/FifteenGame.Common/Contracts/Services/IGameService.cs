@@ -1,22 +1,17 @@
-﻿using FifteenGame.Common.BusinessModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using FifteenGame.Core.BusinessLogic.Models;
 
 namespace FifteenGame.Common.Contracts.Services
 {
+    /// <summary>Игра «Ключи и монстры» с сохранением состояния для каждого пользователя.</summary>
     public interface IGameService
     {
-        GameModel GetByGameId(int gameId);
+        /// <summary>Текущая игра пользователя. Если её нет или она закончена — создаётся новая.</summary>
+        GameSnapshot GetByUserId(int userId);
 
-        GameModel GetByUserId(int userId);
+        /// <summary>Начинает новую игру (старая игра пользователя заменяется).</summary>
+        GameSnapshot NewGame(int userId);
 
-        bool? IsGameOver(int gameId);
-
-        GameModel MakeMove(int gameId, MoveDirection direction);
-
-        void RemoveGame(int gameId);
+        /// <summary>Делает ход игрока. Ход на стену или после конца игры ничего не меняет.</summary>
+        GameSnapshot MakeMove(int userId, int dRow, int dColumn);
     }
 }

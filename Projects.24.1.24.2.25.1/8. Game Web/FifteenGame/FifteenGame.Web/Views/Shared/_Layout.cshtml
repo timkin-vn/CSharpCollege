@@ -1,20 +1,91 @@
-<!DOCTYPE html>
-<html>
+﻿<!DOCTYPE html>
+<html lang="ru">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Fifteen Game</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>@ViewBag.Title</title>
+    <style>
+        body {
+            margin: 0;
+            background: #1a1a1f;
+            color: #fff;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            text-align: center;
+        }
+
+        h1 { margin: 16px 0 12px; }
+
+        #game { width: min(92vw, 560px); margin: 0 auto; }
+
+        .info-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #26262e;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        button {
+            background: #3a7bd5;
+            color: #fff;
+            border: 0;
+            border-radius: 6px;
+            padding: 8px 16px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        button:hover { background: #4a8be5; }
+
+        .board-wrap { position: relative; }
+
+        .board {
+            display: grid;
+            background: #0f0f14;
+            padding: 4px;
+            border-radius: 6px;
+            gap: 2px;
+        }
+
+        .cell {
+            aspect-ratio: 1 / 1;
+            border-radius: 4px;
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+        }
+
+        .floor { background-image: url('@Url.Content("~/Content/tiles/floor.svg")'); }
+        .wall { background-image: url('@Url.Content("~/Content/tiles/wall.svg")'); }
+        .player { background-image: url('@Url.Content("~/Content/tiles/player.svg")'); }
+        .monster { background-image: url('@Url.Content("~/Content/tiles/monster.svg")'); }
+        .key { background-image: url('@Url.Content("~/Content/tiles/key.svg")'); }
+        .exit-open { background-image: url('@Url.Content("~/Content/tiles/exit-open.svg")'); }
+        .exit-closed { background-image: url('@Url.Content("~/Content/tiles/exit-closed.svg")'); }
+
+        .overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .result { font-size: 30px; font-weight: 700; }
+        .result small { display: block; font-size: 18px; font-weight: 400; margin: 6px 0; }
+        .result button { display: block; margin: 16px auto 0; }
+
+        .hint { color: #aaa; margin: 12px 0 4px; }
+        .controls { color: #777; font-size: 14px; }
+    </style>
 </head>
 <body>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Fifteen Game</p>
-        </footer>
-    </div>
-
+    @RenderBody()
     @RenderSection("scripts", required: false)
 </body>
 </html>

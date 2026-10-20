@@ -1,22 +1,22 @@
-﻿using FifteenGame.Common.BusinessModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace FifteenGame.Wpf.ViewModels
 {
     public class CellViewModel : ViewModelBase
     {
-        public int Value { get; set; }
+        private ImageSource _image;
 
-        public string Text => Value.ToString();
-
-        public int Row { get; set; }
-
-        public int Column { get; set; }
-
-        public MoveDirection Direction { get; set; }
+        public ImageSource Image
+        {
+            get => _image;
+            set
+            {
+                if (!ReferenceEquals(_image, value))
+                {
+                    _image = value;
+                    OnPropertyChanged(nameof(Image));
+                }
+            }
+        }
     }
 }

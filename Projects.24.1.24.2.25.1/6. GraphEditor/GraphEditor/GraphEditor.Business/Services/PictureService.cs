@@ -15,17 +15,6 @@ namespace GraphEditor.Business.Services
 
         public PictureService()
         {
-            // Тестовые фигуры
-            var rect1 = new RectangleModel { Left = 150, Top = 50, Width = 200, Height = 100, FillColor = Color.FromArgb(60, 60, 70) };
-            var rect2 = new RectangleModel { Left = 200, Top = 100, Width = 200, Height = 150 };
-            var rect3 = new RectangleModel { Left = 250, Top = 150, Width = 200, Height = 200, FillColor = Color.FromArgb(80, 80, 90) };
-            PictureModel.Rectangles.Add(rect1);
-            PictureModel.Rectangles.Add(rect2);
-            PictureModel.Rectangles.Add(rect3);
-            PictureModel.DrawOrder.Add(rect1);
-            PictureModel.DrawOrder.Add(rect2);
-            PictureModel.DrawOrder.Add(rect3);
-            PictureModel.SelectedRectangle = rect2;
         }
 
         private void AddToDrawOrder(object shape)
@@ -390,6 +379,145 @@ namespace GraphEditor.Business.Services
                     h.Size = newSize;
                 }
             }
+        }
+
+        // ---- Цвет границы ----
+        public void SetBorderColor(Color color)
+        {
+            if (PictureModel.SelectedRectangle != null)
+                PictureModel.SelectedRectangle.BorderColor = color;
+            else if (PictureModel.SelectedTriangle != null)
+                PictureModel.SelectedTriangle.BorderColor = color;
+            else if (PictureModel.SelectedCircle != null)
+                PictureModel.SelectedCircle.BorderColor = color;
+            else if (PictureModel.SelectedHilbertCurve != null)
+                PictureModel.SelectedHilbertCurve.BorderColor = color;
+        }
+
+        // ---- Порядок отрисовки ----
+        public void MoveBackward()
+        {
+            var shape = PictureModel.SelectedShape;
+            if (shape == null) return;
+            var list = PictureModel.DrawOrder;
+            int idx = list.IndexOf(shape);
+            if (idx > 0)
+            {
+                list[idx] = list[idx - 1];
+                list[idx - 1] = shape;
+            }
+        }
+
+        public void BringToFront()
+        {
+            var shape = PictureModel.SelectedShape;
+            if (shape == null) return;
+            PictureModel.DrawOrder.Remove(shape);
+            PictureModel.DrawOrder.Add(shape);
+        }
+
+        public void SendToBack()
+        {
+            var shape = PictureModel.SelectedShape;
+            if (shape == null) return;
+            PictureModel.DrawOrder.Remove(shape);
+            PictureModel.DrawOrder.Insert(0, shape);
+        }
+
+        // ---- Дублирование ----
+        public void Duplicate()
+        {
+            const int offset = 20;
+            var m = PictureModel;
+            if (m.SelectedRectangle != null)
+            {
+                var s = m.SelectedRectangle;
+                var n = new RectangleModel
+                {
+                    Left = s.Left + offset, Top = s.Top + offset, Width = s.Width, Height = s.Height,
+                    FillColor = s.FillColor, BorderColor = s.BorderColor
+                };
+                m.Rectangles.Add(n);
+                AddToDrawOrder(n);
+                m.ClearSelection();
+                m.SelectedRectangle = n;
+            }
+            else if (m.SelectedTriangle != null)
+            {
+                var s = m.SelectedTriangle;
+                var n = new TriangleModel
+                {
+                    X1 = s.X1 + offset, Y1 = s.Y1 + offset,
+                    X2 = s.X2 + offset, Y2 = s.Y2 + offset,
+                    X3 = s.X3 + offset, Y3 = s.Y3 + offset,
+                    FillColor = s.FillColor, BorderColor = s.BorderColor
+                };
+                m.Triangles.Add(n);
+                AddToDrawOrder(n);
+                m.ClearSelection();
+                m.SelectedTriangle = n;
+            }
+            else if (m.SelectedCircle != null)
+            {
+                var s = m.SelectedCircle;
+                var n = new CircleModel
+                {
+                    CenterX = s.CenterX + offset, CenterY = s.CenterY + offset, Width = s.Width, Height = s.Height,
+                    FillColor = s.FillColor, BorderColor = s.BorderColor
+                };
+                m.Circles.Add(n);
+                AddToDrawOrder(n);
+                m.ClearSelection();
+                m.SelectedCircle = n;
+            }
+            else if (m.SelectedHilbertCurve != null)
+            {
+                var s = m.SelectedHilbertCurve;
+                var n = new HilbertCurveModel
+                {
+                    X = s.X + offset, Y = s.Y + offset, Size = s.Size, Order = s.Order,
+                    FillColor = s.FillColor, BorderColor = s.BorderColor
+                };
+                m.HilbertCurves.Add(n);
+                AddToDrawOrder(n);
+                m.ClearSelection();
+                m.SelectedHilbertCurve = n;
+            }
+        }
+
+        // ---- Сдвиг стрелками ----
+        public void Nudge(int dx, int dy)
+        {
+            var m = PictureModel;
+            if (m.SelectedRectangle != null)
+            {
+                m.SelectedRectangle.Left += dx;
+                m.SelectedRectangle.Top += dy;
+            }
+            else if (m.SelectedTriangle != null)
+            {
+                var t = m.SelectedTriangle;
+                t.X1 += dx; t.X2 += dx; t.X3 += dx;
+                t.Y1 += dy; t.Y2 += dy; t.Y3 += dy;
+            }
+            else if (m.SelectedCircle != null)
+            {
+                m.SelectedCircle.CenterX += dx;
+                m.SelectedCircle.CenterY += dy;
+            }
+            else if (m.SelectedHilbertCurve != null)
+            {
+                m.SelectedHilbertCurve.X += dx;
+                m.SelectedHilbertCurve.Y += dy;
+            }
+        }
+
+        // ---- Порядок кривой Гильберта ----
+        public void ChangeHilbertOrder(int delta)
+        {
+            var h = PictureModel.SelectedHilbertCurve;
+            if (h == null) return;
+            h.Order = Math.Max(1, Math.Min(6, h.Order + delta));
         }
 
         public void CreateNewPicture()

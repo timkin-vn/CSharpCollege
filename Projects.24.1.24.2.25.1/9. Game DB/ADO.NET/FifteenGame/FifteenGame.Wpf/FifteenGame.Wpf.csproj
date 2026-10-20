@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -95,6 +95,8 @@
     </ApplicationDefinition>
     <Compile Include="Infrastructure\FifteenGameModule.cs" />
     <Compile Include="ViewModels\CellViewModel.cs" />
+    <Compile Include="ViewModels\RelayCommand.cs" />
+    <Compile Include="ViewModels\Textures.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\UserLoginWindowViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
@@ -166,4 +168,13 @@
     <Resource Include="Notes.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Resource Include="Assets\exit-closed.png" />
+    <Resource Include="Assets\exit-open.png" />
+    <Resource Include="Assets\floor.png" />
+    <Resource Include="Assets\key.png" />
+    <Resource Include="Assets\monster.png" />
+    <Resource Include="Assets\player.png" />
+    <Resource Include="Assets\wall.png" />
+  </ItemGroup>
 </Project>

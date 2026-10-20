@@ -143,7 +143,71 @@ namespace GraphEditor.ViewServices
             LoadViewModel();
         }
 
-        public void Paint(Graphics g) => new Painter().Paint(g, _viewModel, true);
+        public bool ShowGrid { get; set; } = true;
+
+        public bool HasSelection => _businessService.PictureModel.SelectedShape != null;
+
+        public bool HasHilbertSelected => _businessService.PictureModel.SelectedHilbertCurve != null;
+
+        public int ShapeCount => _businessService.PictureModel.DrawOrder.Count;
+
+        public string SelectionDescription
+        {
+            get
+            {
+                var m = _businessService.PictureModel;
+                if (m.SelectedRectangle != null)
+                {
+                    var r = m.SelectedRectangle;
+                    return $"Прямоугольник: {r.Left}, {r.Top}  {Math.Abs(r.Width)}×{Math.Abs(r.Height)}";
+                }
+                if (m.SelectedTriangle != null)
+                {
+                    var b = m.SelectedTriangle.GetBoundingBox();
+                    return $"Треугольник: {b.X}, {b.Y}  {b.Width}×{b.Height}";
+                }
+                if (m.SelectedCircle != null)
+                {
+                    var c = m.SelectedCircle;
+                    return $"Эллипс: центр {c.CenterX}, {c.CenterY}  {c.Width}×{c.Height}";
+                }
+                if (m.SelectedHilbertCurve != null)
+                {
+                    var h = m.SelectedHilbertCurve;
+                    return $"Кривая Гильберта: {h.X}, {h.Y}  размер {h.Size}, порядок {h.Order}";
+                }
+                return "Ничего не выбрано";
+            }
+        }
+
+        public void Paint(Graphics g, Rectangle canvas) =>
+            new Painter { ShowGrid = ShowGrid }.Paint(g, _viewModel, true, canvas);
+
+        public void SetBorderColor(Color color)
+        {
+            if (!HasSelection) return;
+            _businessService.SetBorderColor(color);
+            LoadViewModel();
+        }
+
+        public Color GetCurrentBorderColor()
+        {
+            var shape = _businessService.PictureModel.SelectedShape;
+            if (shape is RectangleModel r) return r.BorderColor;
+            if (shape is TriangleModel t) return t.BorderColor;
+            if (shape is CircleModel c) return c.BorderColor;
+            if (shape is HilbertCurveModel h) return h.BorderColor;
+            return PictureService.DefaultBorderColor;
+        }
+
+        public void MoveBackward() { _businessService.MoveBackward(); LoadViewModel(); }
+        public void BringToFront() { _businessService.BringToFront(); LoadViewModel(); }
+        public void SendToBack() { _businessService.SendToBack(); LoadViewModel(); }
+        public void Duplicate() { _businessService.Duplicate(); LoadViewModel(); }
+        public void Nudge(int dx, int dy) { _businessService.Nudge(dx, dy); LoadViewModel(); }
+        public void ChangeHilbertOrder(int delta) { _businessService.ChangeHilbertOrder(delta); LoadViewModel(); }
+
+        public void CancelCreateMode() => CreateMode = false;
 
         public void Save() => _businessService.Save(FileName);
         public void Save(string fileName) { _businessService.Save(fileName); FileName = fileName; }

@@ -1,55 +1,53 @@
-@model FifteenGame.Business.Services.GameManager
+﻿@model FifteenGame.Core.BusinessLogic.Services.GameService
 
 @{
-    ViewBag.Title = "Maze Game";
+    ViewBag.Title = "Ключи и монстры";
 }
 
-<h2>Maze Game</h2>
+<h1>Ключи и монстры</h1>
 
-<div id="game-grid">
+<div id="game">
     @Html.Partial("_GameGrid", Model)
 </div>
 
+<p class="controls">Управление: стрелки или WASD, R — заново</p>
+
 @section scripts {
     <script>
-        $(document).keydown(function (e) {
-            var deltaRow = 0;
-            var deltaCol = 0;
+        var keyMap = {
+            ArrowUp: [-1, 0], KeyW: [-1, 0],
+            ArrowDown: [1, 0], KeyS: [1, 0],
+            ArrowLeft: [0, -1], KeyA: [0, -1],
+            ArrowRight: [0, 1], KeyD: [0, 1]
+        };
 
-            switch (e.which) {
-                case 37: // left
-                    deltaCol = -1;
-                    break;
-                case 38: // up
-                    deltaRow = -1;
-                    break;
-                case 39: // right
-                    deltaCol = 1;
-                    break;
-                case 40: // down
-                    deltaRow = 1;
-                    break;
-                default:
-                    return; // exit this handler for other keys
-            }
-
-            e.preventDefault(); // prevent the default action (scroll / move caret)
-
-            $.post("@Url.Action("Move", "Home")", { deltaRow: deltaRow, deltaCol: deltaCol }, function (data) {
-                $("#game-grid").html(data);
-            });
-        });
-
-        function nextLevel() {
-            $.post("@Url.Action("NextLevel", "Home")", function (data) {
-                $("#game-grid").html(data);
-            });
+        function send(url, data) {
+            var body = new URLSearchParams(data || {});
+            fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: body,
+                credentials: 'same-origin'
+            })
+                .then(function (r) { return r.text(); })
+                .then(function (html) { document.getElementById('game').innerHTML = html; });
         }
 
         function restartGame() {
-            $.post("@Url.Action("RestartGame", "Home")", function (data) {
-                $("#game-grid").html(data);
-            });
+            send('@Url.Action("Restart", "Home")');
         }
+
+        document.addEventListener('keydown', function (e) {
+            if (e.code === 'KeyR') {
+                restartGame();
+                return;
+            }
+
+            var move = keyMap[e.code];
+            if (!move) return;
+
+            e.preventDefault();
+            send('@Url.Action("Move", "Home")', { dRow: move[0], dColumn: move[1] });
+        });
     </script>
 }

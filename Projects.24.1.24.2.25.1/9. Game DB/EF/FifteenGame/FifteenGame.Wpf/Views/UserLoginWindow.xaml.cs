@@ -29,9 +29,15 @@ namespace FifteenGame.Wpf.Views
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(ViewModel.UserName))
+            {
+                MessageBox.Show(this, "Введите имя игрока.", "Ключи и монстры", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
             if (!ViewModel.FindUser())
             {
-                if (MessageBox.Show("Такого пользователя нет в системе. Создать?", "Ошибка",
+                if (MessageBox.Show(this, "Игрока с таким именем ещё нет. Создать нового?", "Новый игрок",
                     MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
                     ViewModel.CreateUser();

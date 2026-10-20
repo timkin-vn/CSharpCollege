@@ -1,47 +1,41 @@
-using System.Web.Mvc;
-using FifteenGame.Business.Services;
+﻿using System.Web.Mvc;
+using FifteenGame.Core.BusinessLogic.Services;
 
 namespace FifteenGame.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private GameManager GetOrCreateGameManager()
+        private GameService GetGame()
         {
-            if (Session["GameManager"] == null)
+            var game = Session["Game"] as GameService;
+            if (game == null)
             {
-                Session["GameManager"] = new GameManager();
+                game = new GameService();
+                Session["Game"] = game;
             }
-            return (GameManager)Session["GameManager"];
+
+            return game;
         }
 
         public ActionResult Index()
         {
-            var manager = GetOrCreateGameManager();
-            return View(manager);
+            return View(GetGame());
         }
 
         [HttpPost]
-        public ActionResult Move(int deltaRow, int deltaCol)
+        public ActionResult Move(int dRow, int dColumn)
         {
-            var manager = GetOrCreateGameManager();
-            manager.TryMove(deltaRow, deltaCol);
-            return PartialView("_GameGrid", manager);
+            var game = GetGame();
+            game.TryMove(dRow, dColumn);
+            return PartialView("_GameGrid", game);
         }
 
         [HttpPost]
-        public ActionResult NextLevel()
+        public ActionResult Restart()
         {
-            var manager = GetOrCreateGameManager();
-            manager.NextLevel();
-            return PartialView("_GameGrid", manager);
-        }
-
-        [HttpPost]
-        public ActionResult RestartGame()
-        {
-            var manager = GetOrCreateGameManager();
-            manager.RestartGame();
-            return PartialView("_GameGrid", manager);
+            var game = GetGame();
+            game.NewGame();
+            return PartialView("_GameGrid", game);
         }
     }
 }

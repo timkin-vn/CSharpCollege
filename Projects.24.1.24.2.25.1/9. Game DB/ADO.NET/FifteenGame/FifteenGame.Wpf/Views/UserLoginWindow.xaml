@@ -3,24 +3,102 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FifteenGame.Wpf.Views" xmlns:viewmodels="clr-namespace:FifteenGame.Wpf.ViewModels"
+        xmlns:viewmodels="clr-namespace:FifteenGame.Wpf.ViewModels"
         mc:Ignorable="d"
-        Title="Вход в систему" Height="150" Width="300" MinHeight="150" MinWidth="300" MaxHeight="150" MaxWidth="300">
+        Title="Ключи и монстры" Width="380" SizeToContent="Height"
+        ResizeMode="NoResize" WindowStartupLocation="CenterOwner"
+        Background="#1A1A1F" FocusManager.FocusedElement="{Binding ElementName=NameBox}">
+
     <Window.DataContext>
         <viewmodels:UserLoginWindowViewModel />
     </Window.DataContext>
-    
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text="Имя пользователя:" Margin="5" />
+    <Window.Resources>
+        <Style x:Key="Field" TargetType="TextBox">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="CaretBrush" Value="White"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Padding" Value="12,9"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border x:Name="Frame" Background="#26262E" BorderBrush="#3A3A46"
+                                BorderThickness="1" CornerRadius="6">
+                            <ScrollViewer x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="Frame" Property="BorderBrush" Value="#3A7BD5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
-        <TextBox Grid.Row="1" Margin="5" Text="{Binding UserName}" />
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="22,9"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Back" Background="#3A7BD5" CornerRadius="6" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Back" Property="Background" Value="#4A8BE5"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Back" Property="Background" Value="#2E66B3"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
-        <Button Grid.Row="2" Content="OK" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5" Padding="5" Click="OkButton_Click" />
-    </Grid>
+        <Style x:Key="SecondaryButton" TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Back" Background="#26262E" BorderBrush="#3A3A46" BorderThickness="1"
+                                CornerRadius="6" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Back" Property="Background" Value="#33333D"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Border Margin="16" Padding="24,22" Background="#26262E" CornerRadius="10">
+        <StackPanel>
+            <Border Width="72" Height="72" CornerRadius="8" Background="#0F0F14" Padding="4" Margin="0,0,0,14">
+                <Image Source="/Assets/player.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+            </Border>
+
+            <TextBlock Text="Ключи и монстры" Foreground="White" FontSize="24" FontWeight="Bold"
+                       HorizontalAlignment="Center"/>
+            <TextBlock Text="Введите имя, чтобы продолжить игру" Foreground="#AAAAAA" FontSize="13"
+                       HorizontalAlignment="Center" Margin="0,4,0,18"/>
+
+            <TextBlock Text="Имя игрока" Foreground="#AAAAAA" FontSize="12" Margin="2,0,0,5"/>
+            <TextBox x:Name="NameBox" Style="{StaticResource Field}"
+                     Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+                <Button Content="Выход" Style="{StaticResource SecondaryButton}" IsCancel="True" Margin="0,0,10,0"/>
+                <Button Content="Играть" Style="{StaticResource PrimaryButton}" IsDefault="True" Click="OkButton_Click"/>
+            </StackPanel>
+        </StackPanel>
+    </Border>
 </Window>

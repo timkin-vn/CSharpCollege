@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -49,13 +49,10 @@
   <ItemGroup>
     <Compile Include="BusinessModels\UserModel.cs" />
     <Compile Include="BusinessModels\MazeGameModel.cs" />
-    <Compile Include="Contracts\Repositories\IGameRepository.cs" />
     <Compile Include="Contracts\Repositories\IMazeGameRepository.cs" />
     <Compile Include="Contracts\Repositories\IUserRepository.cs" />
     <Compile Include="Contracts\Services\IUserService.cs" />
-    <Compile Include="Contracts\Services\IMazeGameService.cs" />
-    <Compile Include="Definitions\Constants.cs" />
-    <Compile Include="Dtos\GameDto.cs" />
+    <Compile Include="Contracts\Services\IGameService.cs" />
     <Compile Include="Dtos\UserDto.cs" />
     <Compile Include="Infrastructure\NinjectKernel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

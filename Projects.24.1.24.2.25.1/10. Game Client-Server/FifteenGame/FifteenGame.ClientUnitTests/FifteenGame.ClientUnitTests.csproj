@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\MSTest.TestAdapter.2.2.10\build\net46\MSTest.TestAdapter.props" Condition="Exists('..\packages\MSTest.TestAdapter.2.2.10\build\net46\MSTest.TestAdapter.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -61,7 +61,7 @@
       <Project>{09ebd9d5-1b25-4c30-b12d-ed8442709f88}</Project>
       <Name>FifteenGame.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\7. Game WPF\FifteenGame\FifteenGame.Core.BusinessLogic\FifteenGame.Core.BusinessLogic.csproj">
+    <ProjectReference Include="..\..\..\7. Game WPF\FifteenGame\FifteenGame.Core.BusinessLogic\FifteenGame.Core.BusinessLogic.csproj">
       <Project>{6E146263-4295-4565-8739-B442661FF151}</Project>
       <Name>FifteenGame.Core.BusinessLogic</Name>
     </ProjectReference>

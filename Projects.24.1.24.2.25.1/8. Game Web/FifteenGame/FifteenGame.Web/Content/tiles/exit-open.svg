@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <radialGradient id="light" cx="0.5" cy="0.6" r="0.6">
+      <stop offset="0" stop-color="#eaffd0"/>
+      <stop offset="1" stop-color="#3fbf6a"/>
+    </radialGradient>
+  </defs>
+  <rect width="64" height="64" fill="#1f4a33"/>
+  <rect x="1" y="1" width="62" height="62" fill="none" stroke="#4fe08a" stroke-width="2"/>
+  <path d="M12 60 V26 q0-18 20-18 q20 0 20 18 V60 z" fill="url(#light)" stroke="#0e2a1b" stroke-width="2"/>
+  <path d="M12 60 V26 q0-18 20-18 l-14 8 V60 z" fill="#6b4a2a" stroke="#0e2a1b" stroke-width="2"/>
+  <circle cx="22" cy="40" r="2" fill="#f2b705"/>
+  <path d="M36 28 l8 8 l-8 8 M44 36 H30" stroke="#17703d" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

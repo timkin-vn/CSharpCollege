@@ -12,6 +12,5 @@ namespace FifteenGame.DataAccess.EF.Entities
 
         public string Name { get; set; }
 
-        public List<Game> Games { get; set; }
     }
 }
