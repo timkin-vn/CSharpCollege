@@ -1,17 +1,5 @@
 ﻿using CardFile.Wpf.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace CardFile.Wpf.Views
 {
@@ -20,12 +8,17 @@ namespace CardFile.Wpf.Views
     /// </summary>
     public partial class CardEditWindow : Window
     {
-        public CardViewModel ViewModel => (CardViewModel)DataContext;
-
-        public CardEditWindow()
+        // Конструктор, который принимает ViewModel — исправляет ошибку CS1729
+        public CardEditWindow(CardViewModel viewModel)
         {
             InitializeComponent();
+            DataContext = viewModel;
         }
+
+        // Пустой конструктор оставляем только для поддержки дизайнера XAML (если он пытается открыть окно)
+        public CardEditWindow() : this(new CardViewModel()) { }
+
+        public CardViewModel ViewModel => (CardViewModel)DataContext;
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
@@ -37,14 +30,7 @@ namespace CardFile.Wpf.Views
             DialogResult = false;
         }
 
-        private void IsWorkingTillNowCheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-            ViewModel.IsWorkingTillNowChecked();
-        }
-
-        private void IsWorkingTillNowCheckBox_Unchecked(object sender, RoutedEventArgs e)
-        {
-            ViewModel.IsWorkingTillNowUnchecked();
-        }
+        // Эти методы удалены, так как они вызывали несуществующие методы в CardViewModel
+        // и были нужны только для логики "работает/уволен" сотрудников.
     }
 }

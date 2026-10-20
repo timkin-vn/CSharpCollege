@@ -1,17 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using CardFile.Business.Infrastructure;
+using CardFile.Common.Infrastructure;
+using CardFile.Wpf.Infrastructure;
+using System;
 using System.Windows;
 
 namespace CardFile.Wpf
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            MapperInitialization.PreRegister();
+            Mapping.Initialize();
+        }
     }
 }
+

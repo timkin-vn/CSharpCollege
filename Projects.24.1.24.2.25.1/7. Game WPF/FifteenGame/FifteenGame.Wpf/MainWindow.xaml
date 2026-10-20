@@ -3,60 +3,77 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FifteenGame.Wpf" xmlns:viewmodels="clr-namespace:FifteenGame.Wpf.ViewModels"
+        xmlns:local="clr-namespace:FifteenGame.Wpf"
+        xmlns:viewmodels="clr-namespace:FifteenGame.Wpf.ViewModels"
+        xmlns:vm="clr-namespace:FifteenGame.Wpf.ViewModels"
+        xmlns:models="clr-namespace:FifteenGame.Business.Models;assembly=FifteenGame.Business"
         mc:Ignorable="d"
-        Title="Игра 15" Height="450" Width="800" MinHeight="450" MinWidth="450">
+        Title="Морской Бой 15"
+        Height="550" Width="550">
+
     <Window.DataContext>
         <viewmodels:MainWindowViewModel />
     </Window.DataContext>
-    
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-
-        <ItemsControl Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Cells}">
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+        <ItemsControl ItemsSource="{Binding Cells}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="100" />
-                            <RowDefinition Height="100" />
-                            <RowDefinition Height="100" />
-                            <RowDefinition Height="100" />
-                        </Grid.RowDefinitions>
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="100" />
-                        </Grid.ColumnDefinitions>
-                    </Grid>
+                    <UniformGrid Rows="10" Columns="10" Width="400" Height="400"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
 
+
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid Tag="{Binding Direction}" MouseDown="Grid_MouseDown">
-                        <Rectangle Margin="5" Stroke="Brown" StrokeThickness="3" RadiusX="10" RadiusY="10" Fill="LightBlue" />
-                        <TextBlock Text="{Binding Text}" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    </Grid>
+                    <Border Margin="1" BorderBrush="Gray" BorderThickness="0.5" Cursor="Hand" MouseDown="Border_MouseDown">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Background" Value="LightBlue"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Direction}" Value="{x:Static models:MoveDirection.Miss}">
+                                        <Setter Property="Background" Value="White"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Direction}" Value="{x:Static models:MoveDirection.Hit}">
+                                        <Setter Property="Background" Value="Orange"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Direction}" Value="{x:Static models:MoveDirection.Destroyed}">
+                                        <Setter Property="Background" Value="DarkRed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+
+                        <TextBlock Text="{Binding Symbol}" 
+                                   FontSize="22" 
+                                   HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center" 
+                                   Foreground="{Binding ForegroundColor}">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Direction}" Value="{x:Static models:MoveDirection.Miss}">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Direction}" Value="{x:Static models:MoveDirection.Hit}">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Direction}" Value="{x:Static models:MoveDirection.Destroyed}">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Border>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
 
             <ItemsControl.ItemContainerStyle>
                 <Style TargetType="ContentPresenter">
-                    <Setter Property="Grid.Row" Value="{Binding Row}" />
-                    <Setter Property="Grid.Column" Value="{Binding Column}" />
+                    <Setter Property="Grid.Row" Value="{Binding Row}"/>
+                    <Setter Property="Grid.Column" Value="{Binding Column}"/>
                 </Style>
             </ItemsControl.ItemContainerStyle>
         </ItemsControl>

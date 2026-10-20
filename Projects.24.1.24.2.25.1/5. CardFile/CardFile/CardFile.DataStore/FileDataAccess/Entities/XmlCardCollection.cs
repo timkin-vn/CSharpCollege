@@ -18,3 +18,4 @@ namespace CardFile.DataStore.FileDataAccess.Entities
         public List<XmlCard> Cards { get; set; } = new List<XmlCard>();
     }
 }
+

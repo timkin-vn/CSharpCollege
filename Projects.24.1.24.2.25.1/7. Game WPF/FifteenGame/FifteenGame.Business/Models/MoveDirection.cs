@@ -8,10 +8,10 @@ namespace FifteenGame.Business.Models
 {
     public enum MoveDirection
     {
-        None,
-        Left,
-        Right,
-        Up,
-        Down,
+        Empty,
+        Ship,
+        Miss,
+        Hit,
+        Destroyed
     }
 }

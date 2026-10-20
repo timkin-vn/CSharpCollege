@@ -1,61 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
+using System.Xml.Serialization;
 
 namespace CardFile.Business.Models
 {
     public class Card
     {
-        /// <summary>
-        /// Id
-        /// </summary>
         public int Id { get; set; }
 
-        /// <summary>
-        /// Имя
-        /// </summary>
-        public string FirstName { get; set; }
+        [JsonPropertyName("title")]
+        [XmlElement("Title")]
+        public string Title { get; set; } = string.Empty;
 
-        /// <summary>
-        /// Отчество
-        /// </summary>
-        public string MiddleName { get; set; }
+        [JsonPropertyName("director")]
+        [XmlElement("Director")]
+        public string Director { get; set; } = string.Empty;
 
-        /// <summary>
-        /// Фамилия
-        /// </summary>
-        public string LastName { get; set; }
+        [JsonPropertyName("release_year")]
+        [XmlElement("ReleaseYear")]
+        public int ReleaseYear { get; set; }
 
-        /// <summary>
-        /// Дата рождения
-        /// </summary>
-        public DateTime BirthDate { get; set; }
+        [JsonPropertyName("genre")]
+        [XmlElement("Genre")]
+        public string Genre { get; set; } = string.Empty;
 
-        /// <summary>
-        /// Подразделение
-        /// </summary>
-        public string Department { get; set; }
+        [JsonPropertyName("duration_minutes")]
+        [XmlElement("DurationMinutes")]
+        public decimal DurationMinutes { get; set; }
 
-        /// <summary>
-        /// Должность
-        /// </summary>
-        public string Position { get; set; }
+        [JsonPropertyName("rating")]
+        [XmlElement("Rating")]
+        public int Rating { get; set; }
 
-        /// <summary>
-        /// Дата трудоустройства
-        /// </summary>
-        public DateTime EmploymentDate { get; set; }
+        [JsonPropertyName("is_available")]
+        [XmlElement("IsAvailable")]
+        public bool IsAvailable { get; set; } = true;
 
-        /// <summary>
-        /// Дата увольнения
-        /// </summary>
-        public DateTime? DismissalDate { get; set; }
+        public Card() { }
 
-        /// <summary>
-        /// Оклад
-        /// </summary>
-        public decimal Salary { get; set; }
+        public Card(int id, string title, string director, int releaseYear)
+        {
+            Id = id;
+            Title = title;
+            Director = director;
+            ReleaseYear = releaseYear;
+        }
     }
 }

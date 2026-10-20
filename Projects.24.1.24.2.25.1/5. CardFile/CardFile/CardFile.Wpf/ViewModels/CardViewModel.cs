@@ -1,9 +1,5 @@
 ﻿using CardFile.Common.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace CardFile.Wpf.ViewModels
 {
@@ -15,95 +11,69 @@ namespace CardFile.Wpf.ViewModels
         public int Id { get; set; }
 
         /// <summary>
-        /// Имя
+        /// Название фильма
         /// </summary>
-        public string FirstName { get; set; }
+        public string Title { get; set; } = string.Empty;
 
         /// <summary>
-        /// Отчество
+        /// Режиссёр
         /// </summary>
-        public string MiddleName { get; set; }
+        public string Director { get; set; } = string.Empty;
 
         /// <summary>
-        /// Фамилия
+        /// Год выпуска
         /// </summary>
-        public string LastName { get; set; }
-
-        public string Fio => $"{LastName} {FirstName} {MiddleName}";
+        public int ReleaseYear { get; set; }
 
         /// <summary>
-        /// Дата рождения
+        /// Жанр
         /// </summary>
-        public DateTime BirthDate { get; set; }
-
-        public string BirthDateText => BirthDate.ToShortDateString();
+        public string Genre { get; set; } = string.Empty;
 
         /// <summary>
-        /// Подразделение
+        /// Длительность в минутах
         /// </summary>
-        public string Department { get; set; }
+        public decimal DurationMinutes { get; set; }
 
         /// <summary>
-        /// Должность
+        /// Рейтинг (1–10)
         /// </summary>
-        public string Position { get; set; }
-
-        /// <summary>
-        /// Дата трудоустройства
-        /// </summary>
-        public DateTime EmploymentDate { get; set; }
-
-        public string EmploymentDateText => EmploymentDate.ToShortDateString();
-
-        /// <summary>
-        /// Дата увольнения
-        /// </summary>
-        public DateTime? DismissalDate { get; set; }
-
-        public string DismissalDateText => DismissalDate?.ToShortDateString() ?? "-";
-
-        /// <summary>
-        /// Оклад
-        /// </summary>
-        public decimal Salary { get; set; }
-
-        public string SalaryText => Salary.ToString("c");
-
-        public bool IsWorkingTillNow { get; set; }
-
-        public bool IsDismissalDateEnabled => !IsWorkingTillNow;
-
-        public void IsWorkingTillNowChecked()
+        public int Rating
         {
-            DismissalDate = null;
-
-            OnPropertyChanged(nameof(DismissalDate));
-            OnPropertyChanged(nameof(IsDismissalDateEnabled));
+            get => _rating;
+            set
+            {
+                if (value < 1) value = 1;
+                if (value > 10) value = 10;
+                _rating = value;
+                OnPropertyChanged(nameof(Rating));
+            }
         }
+        private int _rating;
 
-        public void IsWorkingTillNowUnchecked()
-        {
-            DismissalDate = DateTime.Today;
+        /// <summary>
+        /// В наличии
+        /// </summary>
+        public bool IsAvailable { get; set; } = true;
 
-            OnPropertyChanged(nameof(DismissalDate));
-            OnPropertyChanged(nameof(IsDismissalDateEnabled));
-        }
+        public string Fio => Title;
+        public string BirthDateText => ReleaseYear.ToString();
+        public string Department => Genre;
+        public string Position => Director;
+        public string EmploymentDateText => $"{DurationMinutes} мин";
+        public string DismissalDateText => IsAvailable ? "В наличии" : "Выдан/Недоступен";
+        public string SalaryText => Rating.ToString();
+
 
         public void LoadViewModel(CardViewModel model)
         {
-            Mapping.Mapper.Map(model, this);
-            //Id = model.Id;
-            //FirstName = model.FirstName;
-            //MiddleName = model.MiddleName;
-            //LastName = model.LastName;
-            //BirthDate = model.BirthDate;
-            //Department = model.Department;
-            //Position = model.Position;
-            //EmploymentDate = model.EmploymentDate;
-            //DismissalDate = model.DismissalDate;
-            //Salary = model.Salary;
-
-            IsWorkingTillNow = !model.DismissalDate.HasValue;
+            Title = model.Title;
+            Director = model.Director;
+            ReleaseYear = model.ReleaseYear;
+            Genre = model.Genre;
+            DurationMinutes = model.DurationMinutes;
+            Rating = model.Rating;
+            IsAvailable = model.IsAvailable;
 
             UpdateAll();
         }
@@ -111,18 +81,21 @@ namespace CardFile.Wpf.ViewModels
         private void UpdateAll()
         {
             OnPropertyChanged(nameof(Id));
-            OnPropertyChanged(nameof(FirstName));
-            OnPropertyChanged(nameof(MiddleName));
-            OnPropertyChanged(nameof(LastName));
+            OnPropertyChanged(nameof(Title));
+            OnPropertyChanged(nameof(Director));
+            OnPropertyChanged(nameof(ReleaseYear));
+            OnPropertyChanged(nameof(Genre));
+            OnPropertyChanged(nameof(DurationMinutes));
+            OnPropertyChanged(nameof(Rating));
+            OnPropertyChanged(nameof(IsAvailable));
+
             OnPropertyChanged(nameof(Fio));
-            OnPropertyChanged(nameof(BirthDate));
+            OnPropertyChanged(nameof(BirthDateText));
             OnPropertyChanged(nameof(Department));
             OnPropertyChanged(nameof(Position));
-            OnPropertyChanged(nameof(EmploymentDate));
-            OnPropertyChanged(nameof(DismissalDate));
-            OnPropertyChanged(nameof(Salary));
-            OnPropertyChanged(nameof(IsWorkingTillNow));
-            OnPropertyChanged(nameof(IsDismissalDateEnabled));
+            OnPropertyChanged(nameof(EmploymentDateText));
+            OnPropertyChanged(nameof(DismissalDateText));
+            OnPropertyChanged(nameof(SalaryText));
         }
     }
 }

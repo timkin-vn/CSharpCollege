@@ -1,14 +1,10 @@
-﻿using CardFile.Business.Infrastructure;
-using CardFile.Business.Models;
+﻿using CardFile.Business.Models;
 using CardFile.Common.Infrastructure;
 using CardFile.DataStore.DataCollection;
 using CardFile.DataStore.Dtos;
 using CardFile.DataStore.FileDataAccess;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CardFile.Business.Services
 {
@@ -16,10 +12,7 @@ namespace CardFile.Business.Services
     {
         private readonly CardCollection _collection = new CardCollection();
 
-        public CardFileService()
-        {
-            MapperInitialization.PreRegister();
-        }
+        public CardFileService() { }
 
         public IEnumerable<Card> GetAll()
         {
@@ -48,41 +41,17 @@ namespace CardFile.Business.Services
             var fileDataService = new FileDataService();
             fileDataService.OpenFromFile(fileName, _collection);
         }
-        
-        private Card FromDto(CardDto card)
+
+        private Card FromDto(CardDto cardDto)
         {
-            return Mapping.Mapper.Map<Card>(card);
-            //return new Card
-            //{
-            //    Id = card.Id,
-            //    FirstName = card.FirstName,
-            //    MiddleName = card.MiddleName,
-            //    LastName = card.LastName,
-            //    BirthDate = card.BirthDate,
-            //    Department = card.Department,
-            //    Position = card.Position,
-            //    EmploymentDate = card.EmploymentDate,
-            //    DismissalDate = card.DismissalDate,
-            //    Salary = card.Salary,
-            //};
+            if (cardDto == null) return null;
+            return Mapping.Mapper.Map<Card>(cardDto);
         }
 
         private CardDto ToDto(Card card)
         {
+            if (card == null) return null;
             return Mapping.Mapper.Map<CardDto>(card);
-            //return new CardDto
-            //{
-            //    Id = card.Id,
-            //    FirstName = card.FirstName,
-            //    MiddleName = card.MiddleName,
-            //    LastName = card.LastName,
-            //    BirthDate = card.BirthDate,
-            //    Department = card.Department,
-            //    Position = card.Position,
-            //    EmploymentDate = card.EmploymentDate,
-            //    DismissalDate = card.DismissalDate,
-            //    Salary = card.Salary,
-            //};
         }
     }
 }

@@ -17,3 +17,4 @@ namespace FifteenGame.Wpf.ViewModels
         }
     }
 }
+

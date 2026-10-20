@@ -21,12 +21,13 @@ namespace CardFile.Wpf.ViewModels
         public CardViewModel SelectedCard { get; set; }
 
         public bool IsEditButtonEnabled => SelectedCard != null;
-
         public bool IsDeleteButtonEnabled => SelectedCard != null;
 
         public string FileName { get; private set; }
 
-        public string WindowTitle => string.IsNullOrEmpty(FileName) ? "Картотека" : $"Картотека: {Path.GetFileName(FileName)}";
+        public string WindowTitle => string.IsNullOrEmpty(FileName)
+            ? "Картотека фильмов"
+            : $"Картотека фильмов: {Path.GetFileName(FileName)}";
 
         public MainWindowViewModel()
         {
@@ -47,13 +48,17 @@ namespace CardFile.Wpf.ViewModels
         {
             return SelectedCard;
         }
-
         public CardViewModel GetNewCard()
         {
             return new CardViewModel
             {
-                BirthDate = new DateTime(2000, 6, 15),
-                EmploymentDate = new DateTime(2020, 6, 15),
+                Title = "Новый фильм",
+                Director = "",
+                ReleaseYear = DateTime.Now.Year,
+                Genre = "",
+                DurationMinutes = 90,
+                Rating = 5,
+                IsAvailable = true
             };
         }
 
@@ -134,7 +139,6 @@ namespace CardFile.Wpf.ViewModels
         public void SaveToFile(string fileName)
         {
             _service.SaveToFile(fileName);
-
             FileName = fileName;
             OnPropertyChanged(nameof(WindowTitle));
         }
@@ -143,7 +147,6 @@ namespace CardFile.Wpf.ViewModels
         {
             _service.OpenFromFile(fileName);
             LoadAllData();
-
             FileName = fileName;
             OnPropertyChanged(nameof(WindowTitle));
         }
@@ -154,7 +157,7 @@ namespace CardFile.Wpf.ViewModels
             {
                 _service.SaveToFile(FileName);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 FileName = null;
                 throw;
@@ -164,37 +167,11 @@ namespace CardFile.Wpf.ViewModels
         private CardViewModel ToViewModel(Card card)
         {
             return Mapping.Mapper.Map<CardViewModel>(card);
-            //return new CardViewModel
-            //{
-            //    Id = card.Id,
-            //    FirstName = card.FirstName,
-            //    MiddleName = card.MiddleName,
-            //    LastName = card.LastName,
-            //    BirthDate = card.BirthDate,
-            //    Department = card.Department,
-            //    Position = card.Position,
-            //    EmploymentDate = card.EmploymentDate,
-            //    DismissalDate = card.DismissalDate,
-            //    Salary = card.Salary,
-            //};
         }
 
         private Card ToBusiness(CardViewModel card)
         {
             return Mapping.Mapper.Map<Card>(card);
-            //return new Card
-            //{
-            //    Id = card.Id,
-            //    FirstName = card.FirstName,
-            //    MiddleName = card.MiddleName,
-            //    LastName = card.LastName,
-            //    BirthDate = card.BirthDate,
-            //    Department = card.Department,
-            //    Position = card.Position,
-            //    EmploymentDate = card.EmploymentDate,
-            //    DismissalDate = card.DismissalDate,
-            //    Salary = card.Salary,
-            //};
         }
     }
 }

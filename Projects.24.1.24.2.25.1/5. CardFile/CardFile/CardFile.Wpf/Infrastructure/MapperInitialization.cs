@@ -21,7 +21,6 @@ namespace CardFile.Wpf.Infrastructure
         {
             cfg.CreateMap<Card, CardViewModel>();
             cfg.CreateMap<CardViewModel, Card>();
-            cfg.CreateMap<CardViewModel, CardViewModel>();
         }
     }
 }

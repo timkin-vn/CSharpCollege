@@ -17,9 +17,6 @@ using System.Windows.Shapes;
 
 namespace FifteenGame.Wpf
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindowViewModel ViewModel => (MainWindowViewModel)DataContext;
@@ -29,18 +26,29 @@ namespace FifteenGame.Wpf
             InitializeComponent();
         }
 
-        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            var direction = (MoveDirection)((FrameworkElement)sender).Tag;
-            ViewModel.MakeMove(direction, OnGameFinished);
+            if (sender is FrameworkElement fe && fe.DataContext is CellViewModel cell)
+            {
+                ViewModel.FireAt(cell.Row, cell.Column, OnGameFinished);
+            }
         }
 
         private void OnGameFinished()
         {
-            if (MessageBox.Show("Игра окончена. Повторить?", "Поздравляем!", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
+            var result = MessageBox.Show(
+                "Все корабли уничтожены! Начать заново?",
+                "Победа!",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Information);
+
+            if (result == MessageBoxResult.Yes)
             {
                 ViewModel.Initialize();
             }
         }
     }
 }
+
+
+

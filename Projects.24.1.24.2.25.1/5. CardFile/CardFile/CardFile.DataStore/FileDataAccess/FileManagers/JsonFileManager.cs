@@ -18,16 +18,15 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
         public void OpenFromFile(string fileName, CardCollection collection)
         {
             using (var fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+            using (var reader = new StreamReader(fs))
+            using (var jsonReader = new JsonTextReader(reader))
             {
-                using (var reader = new StreamReader(fs))
-                {
-                    using (var jsonReader = new JsonTextReader(reader))
-                    {
-                        var serializer = new JsonSerializer();
-                        var jsonCollection = serializer.Deserialize<JsonCardCollection>(jsonReader);
+                var serializer = new JsonSerializer();
+                var jsonCollection = serializer.Deserialize<JsonCardCollection>(jsonReader);
 
-                        collection.ReplaceAll(Mapping.Mapper.Map<List<CardDto>>(jsonCollection.Cards), jsonCollection.NextId);
-                    }
+                if (jsonCollection != null)
+                {
+                    collection.ReplaceAll(Mapping.Mapper.Map<List<CardDto>>(jsonCollection.Cards), jsonCollection.NextId);
                 }
             }
         }
@@ -39,14 +38,14 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
                 NextId = collection.NextId,
                 Cards = Mapping.Mapper.Map<List<JsonCard>>(collection.GetAll()),
             };
+
             using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
+            using (var writer = new StreamWriter(fs))
             {
-                using (var writer = new StreamWriter(fs))
-                {
-                    var serializer = new JsonSerializer { Formatting = Formatting.Indented, };
-                    serializer.Serialize(writer, jsonCollection);
-                }
+                var serializer = new JsonSerializer { Formatting = Formatting.Indented };
+                serializer.Serialize(writer, jsonCollection);
             }
         }
     }
 }
+

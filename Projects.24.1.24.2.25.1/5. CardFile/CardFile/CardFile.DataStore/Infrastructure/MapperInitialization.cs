@@ -19,8 +19,6 @@ namespace CardFile.DataStore.Infrastructure
 
         private static void Configure(IMapperConfigurationExpression cfg)
         {
-            cfg.CreateMap<CardDto, CardDto>();
-
             cfg.CreateMap<CardDto, XmlCard>();
             cfg.CreateMap<XmlCard, CardDto>();
 

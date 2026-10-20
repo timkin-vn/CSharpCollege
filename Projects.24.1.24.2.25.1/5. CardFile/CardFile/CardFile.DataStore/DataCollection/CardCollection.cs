@@ -1,10 +1,7 @@
 ﻿using CardFile.DataStore.Dtos;
-using CardFile.DataStore.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CardFile.DataStore.DataCollection
 {
@@ -12,127 +9,77 @@ namespace CardFile.DataStore.DataCollection
     {
         private readonly List<CardDto> _cards = new List<CardDto>();
 
-        internal int NextId { get; set; } = 5;
-
-        public CardCollection()
-        {
-            _cards.Add(new CardDto
-            {
-                Id = 1,
-                FirstName = "Андрей",
-                MiddleName = "Геннадьевич",
-                LastName = "Захаров",
-                BirthDate = new DateTime(1985, 11, 7),
-                Department = "Отдел разработки",
-                Position = "Руководитель проекта",
-                EmploymentDate = new DateTime(2010, 4, 18),
-                DismissalDate = null,
-                Salary = 250000m,
-            });
-            _cards.Add(new CardDto
-            {
-                Id = 2,
-                FirstName = "Нина",
-                MiddleName = "Аркадьевна",
-                LastName = "Шевченко",
-                BirthDate = new DateTime(1990, 8, 21),
-                Department = "Отдел тестирования",
-                Position = "Старший тестировщик",
-                EmploymentDate = new DateTime(2015, 2, 14),
-                DismissalDate = new DateTime(2024, 11, 3),
-                Salary = 200000m,
-            });
-            _cards.Add(new CardDto
-            {
-                Id = 3,
-                FirstName = "Виктор",
-                MiddleName = "Петрович",
-                LastName = "Васильев",
-                BirthDate = new DateTime(2001, 3, 11),
-                Department = "Отдел разработки",
-                Position = "Ведущий разработчик",
-                EmploymentDate = new DateTime(2020, 9, 25),
-                DismissalDate = null,
-                Salary = 300000m,
-            });
-            _cards.Add(new CardDto
-            {
-                Id = 4,
-                FirstName = "Ольга",
-                MiddleName = "Владимировна",
-                LastName = "Меднис",
-                BirthDate = new DateTime(1981, 9, 2),
-                Department = "Бухгалтерия",
-                Position = "Главный бухгалтер",
-                EmploymentDate = new DateTime(2010, 9, 25),
-                DismissalDate = new DateTime(2023, 3, 18),
-                Salary = 150000m,
-            });
-
-            MapperInitialization.PreRegister();
-        }
+        public int NextId { get; private set; } = 1;
 
         public IEnumerable<CardDto> GetAll()
         {
-            //return _cards;
+            return _cards.AsReadOnly();
+        }
 
-            //var result = new List<CardDto>();
-
-            //foreach (var card in _cards)
-            //{
-            //    result.Add(card.Clone());
-            //}
-
-            //return result;
-
-            return _cards.Select(c => c.Clone()).ToList();
+        public CardDto GetById(int id)
+        {
+            return _cards.FirstOrDefault(c => c.Id == id);
         }
 
         public int Save(CardDto card)
         {
+            if (card == null) throw new ArgumentNullException(nameof(card));
+
+            // Если Id == 0, значит это новый фильм — добавляем его
             if (card.Id == 0)
             {
-                var newCard = card.Clone();
-                var id = NextId++;
-                newCard.Id = id;
-                _cards.Add(newCard);
-                return id;
+                card.Id = NextId++;
+                _cards.Add(card);
+                return card.Id;
             }
 
-            var index = _cards.FindIndex(c => c.Id == card.Id);
-            if (index < 0)
+            // Если Id задан, ищем существующий фильм и обновляем его свойства
+            var existingCard = GetById(card.Id);
+            if (existingCard != null)
             {
-                return -1;
+                existingCard.Title = card.Title;
+                existingCard.Director = card.Director;
+                existingCard.ReleaseYear = card.ReleaseYear;
+                existingCard.Genre = card.Genre;
+                existingCard.DurationMinutes = card.DurationMinutes;
+                existingCard.Rating = card.Rating;
+                existingCard.IsAvailable = card.IsAvailable;
+
+                return existingCard.Id;
             }
 
-            _cards[index] = card.Clone();
-            return card.Id;
+            throw new Exception($"Фильм с Id = {card.Id} не найден для обновления.");
         }
 
-        public bool Delete(int cardId)
+        public bool Delete(int id)
         {
-            var index = _cards.FindIndex(c => c.Id == cardId);
-            if (index < 0)
+            var card = GetById(id);
+            if (card != null)
             {
-                return false;
+                return _cards.Remove(card);
             }
-
-            _cards.RemoveAt(index);
-            return true;
+            return false;
         }
 
-        internal void ReplaceAll(IEnumerable<CardDto> newCollection)
+        public void ReplaceAll(IEnumerable<CardDto> newCards, int nextId)
         {
             _cards.Clear();
-            _cards.AddRange(newCollection);
-            NextId = _cards.Max(c => c.Id) + 1;
-        }
-
-        internal void ReplaceAll(IEnumerable<CardDto> newCollection, int nextId)
-        {
-            _cards.Clear();
-            _cards.AddRange(newCollection);
+            if (newCards != null)
+            {
+                _cards.AddRange(newCards);
+            }
             NextId = nextId;
+        }
+
+        // Перегрузка для совместимости, если где-то вызывается без указания NextId
+        public void ReplaceAll(IEnumerable<CardDto> newCards)
+        {
+            _cards.Clear();
+            if (newCards != null)
+            {
+                _cards.AddRange(newCards);
+            }
+            NextId = _cards.Any() ? _cards.Max(c => c.Id) + 1 : 1;
         }
     }
 }

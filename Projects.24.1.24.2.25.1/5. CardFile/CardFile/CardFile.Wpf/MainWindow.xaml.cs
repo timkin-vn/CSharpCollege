@@ -2,32 +2,22 @@
 using CardFile.Wpf.Views;
 using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CardFile.Wpf
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
+        // Свойство-обертка для доступа к ViewModel
         public MainWindowViewModel ViewModel => (MainWindowViewModel)DataContext;
 
         public MainWindow()
         {
             InitializeComponent();
+
+            // ИСПРАВЛЕНИЕ: Инициализация DataContext ДО любых обращений к ViewModel
+            this.DataContext = new MainWindowViewModel();
         }
 
         private void FileOpenMenuItem_Click(object sender, RoutedEventArgs e)
@@ -103,9 +93,10 @@ namespace CardFile.Wpf
 
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
-            var window = new CardEditWindow();
-            var card = ViewModel.GetNewCard();
-            window.ViewModel.LoadViewModel(card);
+            var cardVm = ViewModel.GetNewCard();
+            var window = new CardEditWindow(cardVm);
+            window.Owner = this;
+            window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
 
             if (window.ShowDialog() != true)
             {
@@ -117,21 +108,26 @@ namespace CardFile.Wpf
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            var card = ViewModel.GetSelectedCard();
-            if (card == null)
+            var selectedCard = ViewModel.GetSelectedCard();
+            if (selectedCard == null)
             {
                 return;
             }
 
-            var window = new CardEditWindow();
-            window.ViewModel.LoadViewModel(card);
+            var editVm = new CardViewModel();
+            editVm.LoadViewModel(selectedCard);
+
+            var window = new CardEditWindow(editVm);
+            window.Owner = this;
+            window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
 
             if (window.ShowDialog() != true)
             {
                 return;
             }
 
-            ViewModel.SaveEditedCard(window.ViewModel);
+            selectedCard.LoadViewModel(window.ViewModel);
+            ViewModel.SaveEditedCard(selectedCard);
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)

@@ -30,12 +30,11 @@ namespace CardFile.DataStore.FileDataAccess.FileManagers
 
         public void SaveToFile(string fileName, CardCollection collection)
         {
-            var xmlCollection = new XmlCardCollection 
-            { 
+            var xmlCollection = new XmlCardCollection
+            {
                 NextId = collection.NextId,
                 Cards = Mapping.Mapper.Map<List<XmlCard>>(collection.GetAll()),
             };
-            //xmlCollection.Cards.AddRange(collection.GetAll().Select(c => Mapping.Mapper.Map<XmlCard>(c)));
 
             using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
             {
