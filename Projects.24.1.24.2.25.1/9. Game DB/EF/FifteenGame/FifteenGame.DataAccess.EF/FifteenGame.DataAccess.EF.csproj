@@ -111,6 +111,7 @@
     <Compile Include="Migrations\202605280632013_GamesTableAdded.Designer.cs">
       <DependentUpon>202605280632013_GamesTableAdded.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202610220000000_Add2048Score.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\GameRepositoryEF.cs" />

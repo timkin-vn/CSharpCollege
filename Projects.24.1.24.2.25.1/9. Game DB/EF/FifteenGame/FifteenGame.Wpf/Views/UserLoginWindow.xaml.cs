@@ -52,9 +52,11 @@ namespace FifteenGame.Wpf.Views
             }
             catch (Exception ex)
             {
+                var error = ex.ToString();
+
                 MessageBox.Show(
-                    "Не удалось выполнить вход:\n" + ex.Message,
-                    "Ошибка",
+                    error,
+                    "Ошибка входа",
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
             }

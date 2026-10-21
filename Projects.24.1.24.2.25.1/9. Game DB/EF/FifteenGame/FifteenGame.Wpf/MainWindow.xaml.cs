@@ -2,9 +2,7 @@
 using FifteenGame.Common.BusinessModels;
 using FifteenGame.Wpf.ViewModels;
 using FifteenGame.Wpf.Views;
-using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace FifteenGame.Wpf
@@ -19,163 +17,80 @@ namespace FifteenGame.Wpf
             InitializeComponent();
         }
 
-        private void Grid_MouseDown(
-            object sender,
-            MouseButtonEventArgs e)
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            var element = sender as FrameworkElement;
+            var dialog = new UserLoginWindow();
+            dialog.ViewModel.MainViewModel = ViewModel;
+            dialog.ShowDialog();
+            Activate();
+            Focus();
+        }
 
-            if (element == null || element.Tag == null)
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
             {
-                return;
+                case Key.Left:
+                    MakeMove(MoveDirection.Left);
+                    e.Handled = true;
+                    break;
+                case Key.Right:
+                    MakeMove(MoveDirection.Right);
+                    e.Handled = true;
+                    break;
+                case Key.Up:
+                    MakeMove(MoveDirection.Up);
+                    e.Handled = true;
+                    break;
+                case Key.Down:
+                    MakeMove(MoveDirection.Down);
+                    e.Handled = true;
+                    break;
             }
+        }
 
-            if (!ViewModel.HasGame)
-            {
-                return;
-            }
-
-            var direction = (MoveDirection)element.Tag;
-
-            if (direction == MoveDirection.None)
-            {
-                return;
-            }
-
+        private void MakeMove(MoveDirection direction)
+        {
             ViewModel.MakeMove(direction, OnGameFinished);
+        }
+
+        private void NewGame_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.Initialize();
+            Focus();
+        }
+
+        private void Up_Click(object sender, RoutedEventArgs e)
+        {
+            MakeMove(MoveDirection.Up);
+        }
+
+        private void Down_Click(object sender, RoutedEventArgs e)
+        {
+            MakeMove(MoveDirection.Down);
+        }
+
+        private void Left_Click(object sender, RoutedEventArgs e)
+        {
+            MakeMove(MoveDirection.Left);
+        }
+
+        private void Right_Click(object sender, RoutedEventArgs e)
+        {
+            MakeMove(MoveDirection.Right);
         }
 
         private void OnGameFinished()
         {
-            MessageBox.Show(
-                "Поздравляем! Вы собрали пятнашки.",
-                "Игра окончена",
-                MessageBoxButton.OK,
+            var result = MessageBox.Show(
+                "Ходов больше нет. Начать новую игру?",
+                "2048",
+                MessageBoxButton.YesNo,
                 MessageBoxImage.Information);
-        }
 
-        private void Window_Loaded(
-            object sender,
-            RoutedEventArgs e)
-        {
-            if (ViewModel.HasUser)
+            if (result == MessageBoxResult.Yes)
             {
-                return;
-            }
-
-            if (!ShowLoginDialog())
-            {
-                Close();
-            }
-        }
-
-        private bool ShowLoginDialog()
-        {
-            var dialog = new UserLoginWindow
-            {
-                Owner = this
-            };
-
-            dialog.ViewModel.MainViewModel = ViewModel;
-
-            return dialog.ShowDialog() == true;
-        }
-
-        private void SwitchUserButton_Click(
-            object sender,
-            RoutedEventArgs e)
-        {
-
-            ShowLoginDialog();
-        }
-
-        private void DeleteGameButton_Click(
-            object sender,
-            RoutedEventArgs e)
-        {
-            if (!ViewModel.HasGame)
-            {
-                return;
-            }
-
-            var result = MessageBox.Show(
-                "Удалить текущую партию? " +
-                "Остальные партии и пользователь останутся.",
-                "Подтверждение удаления",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Warning);
-
-            if (result != MessageBoxResult.Yes)
-            {
-                return;
-            }
-
-            try
-            {
-                ViewModel.DeleteCurrentGame();
-
-                MessageBox.Show(
-                    "Партия удалена. Создана новая игра.",
-                    "Готово",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    "Не удалось удалить партию:\n" + ex.Message,
-                    "Ошибка",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
-            }
-        }
-
-        private void DeleteUserButton_Click(
-            object sender,
-            RoutedEventArgs e)
-        {
-            if (!ViewModel.HasUser)
-            {
-                return;
-            }
-
-            string userName = ViewModel.UserName;
-
-            var result = MessageBox.Show(
-                "Удалить пользователя \"" + userName + "\"?\n\n" +
-                "Все сохранённые партии этого пользователя " +
-                "также будут удалены. Это действие необратимо.",
-                "Удаление пользователя",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Warning);
-
-            if (result != MessageBoxResult.Yes)
-            {
-                return;
-            }
-
-            try
-            {
-                ViewModel.DeleteCurrentUser();
-
-                MessageBox.Show(
-                    "Пользователь и его партии удалены.",
-                    "Готово",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information);
-
-                if (!ShowLoginDialog())
-                {
-                    Close();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    "Не удалось удалить пользователя:\n" + ex.Message,
-                    "Ошибка",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                ViewModel.Initialize();
             }
         }
     }

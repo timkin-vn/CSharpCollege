@@ -169,5 +169,24 @@ where ""Name"" = @userName
                 }
             }
         }
+        public void Delete(int id)
+        {
+            var deleteQuery = @"
+delete from ""Users""
+where ""Id"" = @userId
+";
+
+            using (var connection = new NpgsqlConnection(ConnectionString))
+            {
+                connection.Open();
+
+                using (var command = new NpgsqlCommand(deleteQuery, connection))
+                {
+                    command.CommandType = System.Data.CommandType.Text;
+                    command.Parameters.AddWithValue("userId", id);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }
