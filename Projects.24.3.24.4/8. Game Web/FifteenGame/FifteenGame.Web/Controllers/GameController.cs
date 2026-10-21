@@ -2,38 +2,141 @@
 using FifteenGame.Business.Services;
 using FifteenGame.Web.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-
 namespace FifteenGame.Web.Controllers
 {
     public class GameController : Controller
     {
         private readonly GameService _service = new GameService();
 
-        // GET: Game
         public ActionResult Index()
         {
             var model = GetGameModel();
-            _service.Shuffle(model);
-            SaveGameModel(model);
+
+            if (model.Cells.Count == 0)
+            {
+                _service.Initialize(model);
+                SaveGameModel(model);
+            }
 
             return View(ToViewModel(model));
         }
 
-        public ActionResult MakeMove(string directionText)
+        public ActionResult NewGame(int rows = 2, int columns = 5)
+        {
+            var model = new GameModel();
+
+            model.RowCount = rows;
+            model.ColumnCount = columns;
+
+            if (rows == 2 && columns == 5)
+            {
+                model.DifficultyName = "Легкая";
+            }
+            else if (rows == 4 && columns == 4)
+            {
+                model.DifficultyName = "Средняя";
+            }
+            else if (rows == 4 && columns == 5)
+            {
+                model.DifficultyName = "Сложная";
+            }
+
+            _service.Initialize(model);
+
+            SaveGameModel(model);
+
+            return View("Index", ToViewModel(model));
+        }
+
+        public ActionResult Pause()
         {
             var model = GetGameModel();
-            if (Enum.TryParse<MoveDirection>(directionText, out var direction))
-            {
-                _service.MakeMove(model, direction);
-                SaveGameModel(model);
 
-                if (_service.IsGameOver(model))
+            model.IsPaused = !model.IsPaused;
+
+            if (model.IsPaused)
+            {
+                model.PauseTime = DateTime.Now;
+            }
+            else
+            {
+                if (model.PauseTime.HasValue)
                 {
-                    ViewBag.IsGameOver = true;
+                    model.StartTime = model.StartTime.Add(
+                        DateTime.Now - model.PauseTime.Value
+                    );
+
+                    model.PauseTime = null;
+                }
+            }
+
+            SaveGameModel(model);
+
+            return View("Index", ToViewModel(model));
+        }
+
+        public ActionResult StartGame()
+        {
+            var model = GetGameModel();
+
+            foreach (var cell in model.Cells)
+            {
+                cell.IsOpened = false;
+            }
+
+            model.IsPreview = false;
+
+            SaveGameModel(model);
+
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult OpenCell(int index)
+        {
+            var model = GetGameModel();
+
+            if (model.IsPaused)
+            {
+                return View("Index", ToViewModel(model));
+            }
+
+            if (model.IsCheckingPair)
+            {
+                return View("Index", ToViewModel(model));
+            }
+
+            _service.OpenCell(model, index);
+
+            if (model.SecondOpenedCell != -1)
+            {
+                model.IsCheckingPair = true;
+            }
+
+            SaveGameModel(model);
+
+            return View("Index", ToViewModel(model));
+        }
+
+        public ActionResult CheckPair()
+        {
+            var model = GetGameModel();
+
+            _service.CheckOpenedCells(model);
+
+            model.IsCheckingPair = false;
+
+            SaveGameModel(model);
+
+            if (_service.IsGameOver(model))
+            {
+                model.IsGameOver = true;
+
+                if (model.MovesCount < model.BestMoves || (model.MovesCount == model.BestMoves && model.Seconds < model.BestSeconds))
+                {
+                    model.BestMoves = model.MovesCount;
+                    model.BestSeconds = model.Seconds;
+                    model.IsNewRecord = true;
                 }
             }
 
@@ -42,7 +145,7 @@ namespace FifteenGame.Web.Controllers
 
         private GameModel GetGameModel()
         {
-            if (Session.IsNewSession)
+            if (Session["GameModel"] == null)
             {
                 Session["GameModel"] = new GameModel();
             }
@@ -50,47 +153,49 @@ namespace FifteenGame.Web.Controllers
             return (GameModel)Session["GameModel"];
         }
 
+
         private void SaveGameModel(GameModel model)
         {
             Session["GameModel"] = model;
         }
 
+
         private GameViewModel ToViewModel(GameModel model)
         {
+            if (!model.IsPaused)
+            {
+                model.Seconds = (int)(DateTime.Now - model.StartTime).TotalSeconds;
+            }
+
             var result = new GameViewModel();
 
-            for (int row = 0; row < GameModel.RowCount; row++)
+            result.IsPreview = model.IsPreview;
+            result.IsPaused = model.IsPaused;
+            result.IsGameOver = model.IsGameOver;
+            result.IsNewRecord = model.IsNewRecord;
+            result.RowCount = model.RowCount;
+            result.ColumnCount = model.ColumnCount;
+            result.DifficultyName = model.DifficultyName;
+
+            for (int i = 0; i < model.Cells.Count; i++)
             {
-                for (int column = 0; column < GameModel.ColumnCount; column++)
+                result.Cells.Add(new CellViewModel
                 {
-                    result.Cells[row, column] = new CellViewModel
-                    {
-                        Value = model[row, column],
-                        Direction = MoveDirection.None,
-                        IsEmpty = model[row, column] == GameModel.FreeCellValue,
-                    };
-                }
+                    Index = i,
+                    Row = i / model.ColumnCount,
+                    Column = i % model.ColumnCount,
+
+                    Color = model.Cells[i].Color,
+                    IsOpened = model.Cells[i].IsOpened,
+                    IsFound = model.Cells[i].IsFound
+                });
             }
 
-            if (model.FreeCellColumn > 0)
-            {
-                result.Cells[model.FreeCellRow, model.FreeCellColumn - 1].Direction = MoveDirection.Right;
-            }
+            result.MovesCount = model.MovesCount;
+            result.Seconds = model.Seconds;
+            result.BestMoves = model.BestMoves;
+            result.BestSeconds = model.BestSeconds;
 
-            if (model.FreeCellColumn < GameModel.ColumnCount - 1)
-            {
-                result.Cells[model.FreeCellRow, model.FreeCellColumn + 1].Direction = MoveDirection.Left;
-            }
-
-            if (model.FreeCellRow > 0)
-            {
-                result.Cells[model.FreeCellRow - 1, model.FreeCellColumn].Direction = MoveDirection.Down;
-            }
-
-            if (model.FreeCellRow < GameModel.RowCount - 1)
-            {
-                result.Cells[model.FreeCellRow + 1, model.FreeCellColumn].Direction = MoveDirection.Up;
-            }
 
             return result;
         }

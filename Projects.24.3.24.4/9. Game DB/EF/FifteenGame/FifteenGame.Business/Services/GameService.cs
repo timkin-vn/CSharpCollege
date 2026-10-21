@@ -29,18 +29,33 @@ namespace FifteenGame.Business.Services
         public GameModel GetByUserId(int userId)
         {
             var dtos = _repository.GetByUserId(userId);
+
             var dto = dtos.LastOrDefault();
+
             if (dto != null)
             {
                 return FromDto(dto);
             }
 
+            return StartNewGame(userId, 1, 1);
+        }
+
+        public GameModel StartNewGame(int userId, int difficulty, int theme)
+        {
             var game = new GameModel
             {
                 UserId = userId,
+                Difficulty = difficulty >= 1 && difficulty <= 3 ? difficulty : 1,
+                Theme = theme >= 1 && theme <= 3 ? theme : 1,
+                MoveCount = 0,
+                Score = 0,
+                ComboStreak = 0,
+                HintsLeft = Constants.DefaultHintsCount,
+                ElapsedSeconds = 0
             };
 
             Shuffle(game);
+
             var gameId = _repository.Save(ToDto(game));
 
             return GetByGameId(gameId);
@@ -48,52 +63,102 @@ namespace FifteenGame.Business.Services
 
         public void Initialize(GameModel model)
         {
-            int value = 1;
-            for (int row = 0; row < Constants.RowCount; row++)
+            Constants.GetGridSize(model.Difficulty, out int rows, out int cols);
+
+            int totalCards = rows * cols;
+
+            int totalPairs = totalCards / 2;
+
+            var pairs = new List<int>();
+
+            for (int pairId = 1; pairId <= totalPairs; pairId++)
             {
-                for (int column = 0; column < Constants.ColumnCount; column++)
+                pairs.Add(-pairId); 
+                pairs.Add(-pairId);
+            }
+
+            int index = 0;
+
+            for (int r = 0; r < Constants.RowCount; r++)
+            {
+                for (int c = 0; c < Constants.ColumnCount; c++)
                 {
-                    model[row, column] = value++;
+                    if (r < rows && c < cols && index < pairs.Count)
+                    {
+                        model[r, c] = pairs[index++];
+                    }
+
+                    else
+
+                    {
+                        model[r, c] = Constants.FreeCellValue; 
+                    }
                 }
             }
 
-            model[Constants.RowCount - 1, Constants.ColumnCount - 1] = Constants.FreeCellValue;
-            model.FreeCellRow = Constants.RowCount - 1;
-            model.FreeCellColumn = Constants.ColumnCount - 1;
+            model.FreeCellRow = -1;
+            model.FreeCellColumn = -1;
+        }
+
+        public void Shuffle(GameModel model)
+        {
+            Initialize(model);
+
+            Constants.GetGridSize(model.Difficulty, out int rows, out int cols);
+
+            var rnd = new Random();
+
+            for (int r = 0; r < rows; r++)
+            {
+                for (int c = 0; c < cols; c++)
+                {
+                    int randomRow = rnd.Next(rows);
+
+                    int randomCol = rnd.Next(cols);
+
+                    int temp = model[r, c];
+
+                    model[r, c] = model[randomRow, randomCol];
+
+                    model[randomRow, randomCol] = temp;
+                }
+            }
+
+            model.MoveCount = 0;
+
+            model.Score = 0;
+
+            model.ComboStreak = 0;
+
+            model.HintsLeft = Constants.DefaultHintsCount;
+
+            model.FreeCellRow = -1;
+
+            model.FreeCellColumn = -1;
         }
 
         public bool IsGameOver(int gameId)
         {
             var dto = _repository.GetByGameId(gameId);
-            return IsGameOver(FromDto(dto));
+
+            return dto != null && IsGameOver(FromDto(dto));
         }
 
         public bool IsGameOver(GameModel model)
         {
-            int freeCellRow = model.FreeCellRow;
-            if (freeCellRow != Constants.RowCount - 1)
-            {
-                return false;
-            }
+            if (model == null) return false;
 
-            int freeCellColumn = model.FreeCellColumn;
-            if (freeCellColumn != Constants.ColumnCount - 1)
-            {
-                return false;
-            }
+            Constants.GetGridSize(model.Difficulty, out int rows, out int cols);
 
-            int value = 1;
-            for (int row = 0; row < Constants.RowCount; row++)
+            for (int r = 0; r < rows; r++)
             {
-                for (int column = 0; column < Constants.ColumnCount; column++)
+                for (int c = 0; c < cols; c++)
                 {
-                    if (row == freeCellRow && column == freeCellColumn)
+                    int val = model[r, c];
+
+                    if (val != Constants.FreeCellValue && val < 100)
                     {
-                        return model[row, column] == Constants.FreeCellValue;
-                    }
-                    else if (model[row, column] != value++)
-                    {
-                        return false;
+                        return false; 
                     }
                 }
             }
@@ -101,72 +166,202 @@ namespace FifteenGame.Business.Services
             return true;
         }
 
-        public GameModel MakeMove(int gameId, MoveDirection direction)
+        public GameModel OpenCard(int gameId, int row, int column, int elapsedSeconds = 0)
         {
             var dto = _repository.GetByGameId(gameId);
             var model = FromDto(dto);
+            if (model == null) return null;
+            if (elapsedSeconds > 0)
+            {
+                model.ElapsedSeconds = elapsedSeconds;
+            }
 
-            MakeMove(model, direction);
+            OpenCardOnModel(model, row, column);
 
             _repository.Save(ToDto(model));
             return model;
         }
 
+        public bool OpenCardOnModel(GameModel model, int row, int column)
+        {
+            if (row < 0 || row >= Constants.RowCount || column < 0 || column >= Constants.ColumnCount)
+
+                return false;
+
+            var currentlyOpen = new List< Tuple<int, int> > ();
+
+            for (int r = 0; r < Constants.RowCount; r++)
+            {
+                for (int c = 0; c < Constants.ColumnCount; c++)
+                {
+                    if (model[r, c] > 0 && model[r, c] < 100)
+                    {
+                        currentlyOpen.Add(Tuple.Create(r, c));
+                    }
+                }
+            }
+
+            if (currentlyOpen.Count >= 2)
+            {
+                foreach (var pos in currentlyOpen)
+                {
+                    model[pos.Item1, pos.Item2] = -Math.Abs(model[pos.Item1, pos.Item2]);
+                }
+
+                currentlyOpen.Clear();
+
+                model.FreeCellRow = -1;
+
+                model.FreeCellColumn = -1;
+            }
+
+            int cellValue = model[row, column];
+
+            if (cellValue >= 0)
+
+                return false;
+
+            int pairId = Math.Abs(cellValue);
+
+            model[row, column] = pairId;
+
+            if (currentlyOpen.Count == 0)
+            {
+                model.FreeCellRow = row;
+
+                model.FreeCellColumn = column;
+
+                return true;
+            }
+
+            int firstRow = currentlyOpen[0].Item1;
+
+            int firstCol = currentlyOpen[0].Item2;
+
+            int firstPairId = model[firstRow, firstCol];
+
+            model.MoveCount++;
+
+            if (firstPairId == pairId)
+            {
+                model[firstRow, firstCol] = 100 + pairId;
+
+                model[row, column] = 100 + pairId;
+
+                model.ComboStreak++;
+
+                model.Score += Constants.BaseMatchPoints * model.ComboStreak;
+
+                model.FreeCellRow = -1;
+
+                model.FreeCellColumn = -1;
+            }
+
+            else
+
+            {
+                model.ComboStreak = 0;
+            }
+
+            return true;
+        }
+
+        public GameModel UseHint(int gameId, int elapsedSeconds = 0)
+        {
+            var dto = _repository.GetByGameId(gameId);
+
+            var model = FromDto(dto);
+
+            if (model == null || model.HintsLeft <= 0)
+
+                return model;
+
+            if (elapsedSeconds > 0)
+            {
+                model.ElapsedSeconds = elapsedSeconds;
+            }
+
+            for (int r = 0; r < Constants.RowCount; r++)
+            {
+                for (int c = 0; c < Constants.ColumnCount; c++)
+                {
+                    if (model[r, c] > 0 && model[r, c] < 100)
+                    {
+                        model[r, c] = -model[r, c];
+                    }
+                }
+            }
+
+            int targetPair = -1;
+
+            for (int r = 0; r < Constants.RowCount; r++)
+            {
+                for (int c = 0; c < Constants.ColumnCount; c++)
+                {
+                    if (model[r, c] < 0)
+                    {
+                        targetPair = Math.Abs(model[r, c]);
+
+                        break;
+                    }
+                }
+
+                if (targetPair != -1) break;
+            }
+
+            if (targetPair != -1)
+            {
+                for (int r = 0; r < Constants.RowCount; r++)
+                {
+                    for (int c = 0; c < Constants.ColumnCount; c++)
+                    {
+                        if (Math.Abs(model[r, c]) == targetPair)
+                        {
+                            model[r, c] = 100 + targetPair;
+                        }
+                    }
+                }
+
+                model.HintsLeft--;
+
+                model.Score = Math.Max(0, model.Score - Constants.HintPenaltyPoints);
+
+                model.FreeCellRow = -1;
+
+                model.FreeCellColumn = -1;
+
+                _repository.Save(ToDto(model));
+            }
+
+            return model;
+        }
+
+        public GameModel MakeMove(int gameId, MoveDirection direction)
+        {
+            var dto = _repository.GetByGameId(gameId);
+
+            var model = FromDto(dto);
+
+            if (model == null) return null;
+
+            MakeMove(model, direction);
+
+            _repository.Save(ToDto(model));
+
+            return model;
+        }
+
         public bool MakeMove(GameModel model, MoveDirection direction)
         {
-            switch (direction)
+            for (int r = 0; r < Constants.RowCount; r++)
             {
-                case MoveDirection.Left:
-                    if (model.FreeCellColumn == Constants.ColumnCount - 1)
+                for (int c = 0; c < Constants.ColumnCount; c++)
+                {
+                    if (model[r, c] < 0)
                     {
-                        return false;
+                        return OpenCardOnModel(model, r, c);
                     }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow, model.FreeCellColumn + 1];
-                    model[model.FreeCellRow, model.FreeCellColumn + 1] = Constants.FreeCellValue;
-                    model.FreeCellColumn++;
-
-                    model.MoveCount++;
-                    return true;
-
-                case MoveDirection.Right:
-                    if (model.FreeCellColumn == 0)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow, model.FreeCellColumn - 1];
-                    model[model.FreeCellRow, model.FreeCellColumn - 1] = Constants.FreeCellValue;
-                    model.FreeCellColumn--;
-
-                    model.MoveCount++;
-                    return true;
-
-                case MoveDirection.Up:
-                    if (model.FreeCellRow == Constants.RowCount - 1)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow + 1, model.FreeCellColumn];
-                    model[model.FreeCellRow + 1, model.FreeCellColumn] = Constants.FreeCellValue;
-                    model.FreeCellRow++;
-
-                    model.MoveCount++;
-                    return true;
-
-                case MoveDirection.Down:
-                    if (model.FreeCellRow == 0)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow - 1, model.FreeCellColumn];
-                    model[model.FreeCellRow - 1, model.FreeCellColumn] = Constants.FreeCellValue;
-                    model.FreeCellRow--;
-
-                    model.MoveCount++;
-                    return true;
+                }
             }
 
             return false;
@@ -175,20 +370,6 @@ namespace FifteenGame.Business.Services
         public void RemoveGame(int gameId)
         {
             _repository.Remove(gameId);
-        }
-
-        public void Shuffle(GameModel model)
-        {
-            Initialize(model);
-
-            var rnd = new Random();
-            for (int i = 0; i < 1000; i++)
-            {
-                var nextMove = (MoveDirection)(rnd.Next(4) + 1);
-                MakeMove(model, nextMove);
-            }
-
-            model.MoveCount = 0;
         }
 
         private GameModel FromDto(GameDto dto)
@@ -203,6 +384,14 @@ namespace FifteenGame.Business.Services
                 Id = dto.Id,
                 UserId = dto.UserId,
                 MoveCount = dto.MoveCount,
+                Difficulty = dto.Difficulty > 0 ? dto.Difficulty : 1,
+                Theme = dto.Theme > 0 ? dto.Theme : 1,
+                Score = dto.Score,
+                ComboStreak = dto.ComboStreak,
+                HintsLeft = dto.HintsLeft,
+                ElapsedSeconds = dto.ElapsedSeconds,
+                FreeCellRow = -1,
+                FreeCellColumn = -1
             };
 
             for (int row = 0; row < Constants.RowCount; row++)
@@ -210,7 +399,8 @@ namespace FifteenGame.Business.Services
                 for (int column = 0; column < Constants.ColumnCount; column++)
                 {
                     result[row, column] = dto.Cells[row, column];
-                    if (result[row, column] == Constants.FreeCellValue)
+
+                    if (result[row, column] > 0 && result[row, column] < 100)
                     {
                         result.FreeCellRow = row;
                         result.FreeCellColumn = column;
@@ -228,6 +418,12 @@ namespace FifteenGame.Business.Services
                 Id = model.Id,
                 UserId = model.UserId,
                 MoveCount = model.MoveCount,
+                Difficulty = model.Difficulty,
+                Theme = model.Theme,
+                Score = model.Score,
+                ComboStreak = model.ComboStreak,
+                HintsLeft = model.HintsLeft,
+                ElapsedSeconds = model.ElapsedSeconds
             };
 
             for (int row = 0; row < Constants.RowCount; row++)

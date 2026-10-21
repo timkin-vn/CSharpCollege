@@ -15,7 +15,7 @@ namespace FifteenGame.UnitTests.ServiceTests
         [TestMethod]
         public void GetAllUsersTest()
         {
-            var userService = new UserService();
+            var userService = new UserService(new UserRepository());
             var result = userService.GetAllUsers();
 
             Assert.IsTrue(result.Any());
@@ -24,7 +24,7 @@ namespace FifteenGame.UnitTests.ServiceTests
         [TestMethod]
         public void GetUserByNameTest()
         {
-            var userService = new UserService();
+            var userService = new UserService(new UserRepository());
             var userCount = 0;
             for (int i = 0; i < 100; i++)
             {
@@ -41,7 +41,7 @@ namespace FifteenGame.UnitTests.ServiceTests
         [TestMethod]
         public void GetOrCreateUserTest()
         {
-            var userService = new UserService();
+            var userService = new UserService(new UserRepository());
             var allUsers = userService.GetAllUsers();
             Assert.IsTrue(allUsers.Any());
 

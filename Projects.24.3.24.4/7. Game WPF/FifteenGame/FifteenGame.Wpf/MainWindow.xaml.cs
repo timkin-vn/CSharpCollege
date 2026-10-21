@@ -31,16 +31,14 @@ namespace FifteenGame.Wpf
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            var direction = (MoveDirection)((FrameworkElement)sender).Tag;
-            ViewModel.MakeMove(direction, OnGameFinished);
+            int index = int.Parse(((FrameworkElement)sender).Tag.ToString());
+
+            ViewModel.OpenCell(index);
         }
 
-        private void OnGameFinished()
+        private void NewGame_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Ира окончена. Повторить?", "Поздравляем!", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
-            {
-                ViewModel.Initialize();
-            }
+            ViewModel.Initialize();
         }
     }
 }

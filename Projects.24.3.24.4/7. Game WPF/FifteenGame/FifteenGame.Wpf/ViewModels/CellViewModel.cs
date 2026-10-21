@@ -11,12 +11,22 @@ namespace FifteenGame.Wpf.ViewModels
     {
         public int Value { get; set; }
 
-        public string Text => Value.ToString();
+        public string Color { get; set; }
+
+        public bool IsOpened { get; set; }
+
+        public bool IsFound { get; set; }
+
+        public string BackgroundColor => IsOpened || IsFound ? Color : "LightGray";
+
+        public string Text => "";
 
         public int Row { get; set; }
 
         public int Column { get; set; }
 
-        public MoveDirection Direction { get; set; }
+        public int Index { get; set; }
+
+        public CellModel Direction { get; set; }
     }
 }

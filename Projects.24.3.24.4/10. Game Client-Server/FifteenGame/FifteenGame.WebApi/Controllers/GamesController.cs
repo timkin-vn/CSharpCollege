@@ -20,6 +20,7 @@ namespace FifteenGame.WebApi.Controllers
 
         [HttpGet]
         [Route("api/games/get-by-user-id/{userId}")]
+
         public GameReply GetByUserId(int userId)
         {
             return ToDto(_gameService.GetByUserId(userId));
@@ -27,25 +28,61 @@ namespace FifteenGame.WebApi.Controllers
 
         [HttpGet]
         [Route("api/games/get-by-game-id/{gameId}")]
+
         public GameReply GetByGameId(int gameId)
         {
             return ToDto(_gameService.GetByGameId(gameId));
         }
 
+        [HttpGet]
+        [Route("api/games/start-new/{userId}/{difficulty}/{theme}")]
+
+        public GameReply StartNewGame(int userId, int difficulty, int theme)
+        {
+            return ToDto(_gameService.StartNewGame(userId, difficulty, theme));
+        }
+
         [HttpPost]
         [Route("api/games/make-move")]
+
         public GameReply MakeMove([FromBody] MakeMoveRequest request)
         {
-            if (!Enum.TryParse<MoveDirection>(request.Direction, out var moveDirection))
+            if (request == null)
             {
                 return null;
             }
 
-            return ToDto(_gameService.MakeMove(request.GameId, moveDirection));
+            if (request.UseHint || string.Equals(request.Direction, "hint", StringComparison.OrdinalIgnoreCase))
+            {
+                return ToDto(_gameService.UseHint(request.GameId, request.ElapsedSeconds));
+            }
+
+            if (request.Row >= 0 && request.Column >= 0)
+            {
+                return ToDto(_gameService.OpenCard(request.GameId, request.Row, request.Column, request.ElapsedSeconds));
+            }
+
+            if (!string.IsNullOrWhiteSpace(request.Direction) && request.Direction.Contains(","))
+            {
+                var parts = request.Direction.Split(',');
+
+                if (parts.Length == 2 && int.TryParse(parts[0].Trim(), out int r) && int.TryParse(parts[1].Trim(), out int c))
+                {
+                    return ToDto(_gameService.OpenCard(request.GameId, r, c, request.ElapsedSeconds));
+                }
+            }
+
+            if (Enum.TryParse<MoveDirection> (request.Direction, out var moveDirection))
+        {
+                return ToDto(_gameService.MakeMove(request.GameId, moveDirection));
+            }
+
+            return ToDto(_gameService.GetByGameId(request.GameId));
         }
 
         [HttpGet]
         [Route("api/games/is-over/{gameId}")]
+
         public BooleanReply IsOver(int gameId)
         {
             return new BooleanReply
@@ -56,6 +93,7 @@ namespace FifteenGame.WebApi.Controllers
 
         [HttpDelete]
         [Route("api/games/remove/{gameId}")]
+
         public void Remove(int gameId)
         {
             _gameService.RemoveGame(gameId);
@@ -75,10 +113,17 @@ namespace FifteenGame.WebApi.Controllers
                 MoveCount = model.MoveCount,
                 FreeCellColumn = model.FreeCellColumn,
                 FreeCellRow = model.FreeCellRow,
+                Difficulty = model.Difficulty,
+                Theme = model.Theme,
+                Score = model.Score,
+                ComboStreak = model.ComboStreak,
+                HintsLeft = model.HintsLeft,
+                ElapsedSeconds = model.ElapsedSeconds,
                 Cells = new int[Constants.RowCount * Constants.ColumnCount],
             };
 
             int cellIndex = 0;
+
             for (int row = 0; row < Constants.RowCount; row++)
             {
                 for (int column = 0; column < Constants.ColumnCount; column++)

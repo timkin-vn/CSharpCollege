@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GraphEditor.Business.Models;
 
 namespace GraphEditor
 {
@@ -36,7 +37,7 @@ namespace GraphEditor
             }
 
             _isMouseDown = true;
-            _viewService.MouseDown(e.Location);
+            _viewService.MouseDown(e.Location, ModifierKeys.HasFlag(Keys.Control));
             Refresh();
             UpdateViewControls();
         }
@@ -93,6 +94,7 @@ namespace GraphEditor
         private void FillColorMenuItem_Click(object sender, EventArgs e)
         {
             FillColorDialog.Color = _viewService.GetCurrentFillColor();
+
             if (FillColorDialog.ShowDialog() != DialogResult.OK)
             {
                 return;
@@ -105,6 +107,12 @@ namespace GraphEditor
         private void MoveForwardMenuItem_Click(object sender, EventArgs e)
         {
             _viewService.MoveForward();
+            Refresh();
+        }
+
+        private void MoveBackwardMenuItem_Click(object sender, EventArgs e)
+        {
+            _viewService.MoveBackward();
             Refresh();
         }
 
@@ -168,6 +176,69 @@ namespace GraphEditor
 
             _viewService.Save(FileSaveDialog.FileName);
             UpdateViewControls();
+        }
+
+        private void toolStripSplitButton1_ButtonClick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void цветКонтураToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FillColorDialog.Color = _viewService.GetCurrentBorderColor();
+
+            if (FillColorDialog.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            _viewService.SetBorderColor(FillColorDialog.Color);
+            Refresh();
+        }
+
+        private void сплошнаяToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _viewService.SetFillType(FillType.Solid);
+            Refresh();
+        }
+
+        private void безЗаливкиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _viewService.SetFillType(FillType.None);
+            Refresh();
+        }
+
+        private void горизонтальнаяToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _viewService.SetFillType(FillType.Horizontal);
+            Refresh();
+        }
+
+        private void вертикальнаяToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _viewService.SetFillType(FillType.Vertical);
+            Refresh();
+        }
+
+        private void диагональнаяToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _viewService.SetFillType(FillType.Diagonal);
+            Refresh();
+        }
+
+        private void прямоугольникToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _viewService.SetShapeType(ShapeType.Rectangle);
+        }
+
+        private void ромбToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _viewService.SetShapeType(ShapeType.Rhombus);
+        }
+
+        private void треугольникToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _viewService.SetShapeType(ShapeType.Triangle);
         }
     }
 }

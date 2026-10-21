@@ -8,22 +8,43 @@ namespace FifteenGame.Business.Models
 {
     public class GameModel
     {
-        public const int RowCount = 4;
+        public List<CellModel> Cells { get; set; }
 
-        public const int ColumnCount = 4;
+        public int MovesCount { get; set; }
 
-        public const int FreeCellValue = -1;
+        public int Seconds { get; set; }
 
-        private int[,] _cells = new int[RowCount, ColumnCount];
+        public DateTime StartTime { get; set; }
 
-        public int this[int row, int column]
+        public DateTime? PauseTime { get; set; }
+
+        public int BestMoves { get; set; } = int.MaxValue;
+
+        public int BestSeconds { get; set; } = int.MaxValue;
+
+        public bool IsCheckingPair { get; set; }
+
+        public bool IsGameOver { get; set; }
+
+        public bool IsNewRecord { get; set; }
+
+        public bool IsPreview { get; set; }
+
+        public bool IsPaused { get; set; }
+
+        public int FirstOpenedCell { get; set; } = -1;
+
+        public int SecondOpenedCell { get; set; } = -1;
+
+        public GameModel()
         {
-            get => _cells[row, column];
-            internal set => _cells[row, column] = value;
+            Cells = new List<CellModel>();
         }
 
-        public int FreeCellRow { get; internal set; }
+        public int RowCount { get; set; } = 2;
 
-        public int FreeCellColumn { get; internal set; }
+        public int ColumnCount { get; set; } = 5;
+
+        public string DifficultyName { get; set; } = "Легкая";
     }
 }

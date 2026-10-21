@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,7 +30,19 @@ namespace GraphEditor.Business.Models
 
         public Color FillColor { get; set; } = Color.Yellow;
 
+        public FillType FillType { get; set; } = FillType.Solid;
+
         public Color BorderColor { get; set; } = Color.Blue;
+
+        public ShapeType ShapeType { get; set; } = ShapeType.Rectangle;
+
+        public int BorderWidth { get; set; } = 2;
+
+        public DashStyle BorderStyle { get; set; } = DashStyle.Solid;
+
+        public bool IsSelected { get; set; }
+
+        public int ZIndex { get; set; }
 
         public bool IsInside(PointModel loc) =>
             loc.X >= Left && loc.X <= Right &&
@@ -50,4 +63,19 @@ namespace GraphEditor.Business.Models
             }
         }
     }
+}
+public enum ShapeType
+{
+    Rectangle,
+    Triangle,
+    Rhombus
+}
+
+public enum FillType
+{
+    Solid,
+    None,
+    Horizontal,
+    Vertical,
+    Diagonal
 }

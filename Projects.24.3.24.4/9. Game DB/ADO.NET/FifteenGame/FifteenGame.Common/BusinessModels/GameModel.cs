@@ -23,8 +23,32 @@ namespace FifteenGame.Common.BusinessModels
 
         public int MoveCount { get; set; }
 
+        public bool[,] Opened { get; } = new bool[Constants.RowCount, Constants.ColumnCount];
+
+        public bool[,] Found { get; } = new bool[Constants.RowCount, Constants.ColumnCount];
+
         public int FreeCellRow { get; set; }
 
         public int FreeCellColumn { get; set; }
+
+        public bool IsOpened(int row, int column)
+        {
+            return Opened[row, column];
+        }
+
+        public bool IsFound(int row, int column)
+        {
+            return Found[row, column];
+        }
+
+        public void SetOpened(int row, int column, bool value)
+        {
+            Opened[row, column] = value;
+        }
+
+        public void SetFound(int row, int column, bool value)
+        {
+            Found[row, column] = value;
+        }
     }
 }

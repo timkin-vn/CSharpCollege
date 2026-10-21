@@ -31,115 +31,167 @@ namespace GraphEditor.ViewModels
 
         public Color FillColor { get; set; } = Color.Yellow;
 
+        public FillType FillType { get; set; }
+
         public Color BorderColor { get; set; } = Color.Blue;
+
+        public bool IsSelected { get; set; }
+
+        public ShapeType ShapeType { get; set; }
+
+        public IEnumerable<MarkerViewModel> ShapeMarkers
+        {
+            get
+            {
+                if (ShapeType == ShapeType.Rhombus)
+                {
+                    return new[]
+                    {
+                       CreateMarker(Left + Width / 2, Top),
+                       CreateMarker(Right, Top + Height / 2),
+                       CreateMarker(Left + Width / 2, Bottom),
+                       CreateMarker(Left, Top + Height / 2)
+                     };
+                }
+
+                if (ShapeType == ShapeType.Triangle)
+                {
+                    return new[]
+                    {
+                       CreateMarker(Left + Width / 2, Top),
+                       CreateMarker(Right, Bottom),
+                       CreateMarker(Left, Bottom)
+                     };
+                }
+
+                return Markers;
+            }
+        }
 
         public IEnumerable<MarkerViewModel> Markers => new[]
         {
+          new MarkerViewModel
+          {
+           Rectangle = new Rectangle
+           {
+               X = Left - MarkerViewModel.MarkerHalfSize,
+               Y = Top - MarkerViewModel.MarkerHalfSize,
+               Width = MarkerViewModel.MarkerHalfSize * 2,
+               Height = MarkerViewModel.MarkerHalfSize * 2,
+            },
+               IsActive = true,
+               EditMode = EditMode.ResizeTL,
+               Cursor = Cursors.SizeNWSE,
+            },
             new MarkerViewModel
             {
+             Rectangle = new Rectangle
+             {
+                 X = (Left + Right) / 2 - MarkerViewModel.MarkerHalfSize,
+                 Y = Top - MarkerViewModel.MarkerHalfSize,
+                 Width = MarkerViewModel.MarkerHalfSize * 2,
+                 Height = MarkerViewModel.MarkerHalfSize * 2,
+             },
+                IsActive = true,
+                EditMode = EditMode.ResizeT,
+                Cursor = Cursors.SizeNS,
+             },
+             new MarkerViewModel
+             {
+              Rectangle = new Rectangle
+              {
+                  X = Right - MarkerViewModel.MarkerHalfSize,
+                  Y = Top - MarkerViewModel.MarkerHalfSize,
+                  Width = MarkerViewModel.MarkerHalfSize * 2,
+                  Height = MarkerViewModel.MarkerHalfSize * 2,
+              },
+                  IsActive = true,
+                  EditMode = EditMode.ResizeTR,
+                  Cursor = Cursors.SizeNESW,
+              },
+              new MarkerViewModel
+              {
+               Rectangle = new Rectangle
+               {
+                   X = Right - MarkerViewModel.MarkerHalfSize,
+                   Y = (Top + Bottom) /2 - MarkerViewModel.MarkerHalfSize,
+                   Width = MarkerViewModel.MarkerHalfSize * 2,
+                   Height = MarkerViewModel.MarkerHalfSize * 2,
+               },
+                   IsActive = true,
+                   EditMode = EditMode.ResizeR,
+                   Cursor = Cursors.SizeWE,
+              },
+              new MarkerViewModel
+              {
+              Rectangle = new Rectangle
+               {
+                  X = Right - MarkerViewModel.MarkerHalfSize,
+                  Y = Bottom - MarkerViewModel.MarkerHalfSize,
+                  Width = MarkerViewModel.MarkerHalfSize * 2,
+                  Height = MarkerViewModel.MarkerHalfSize * 2,
+              },
+                  IsActive = true,
+                  EditMode = EditMode.ResizeBR,
+                  Cursor = Cursors.SizeNWSE,
+               },
+               new MarkerViewModel
+               {
+               Rectangle = new Rectangle
+               {
+                   X = (Left + Right) / 2 - MarkerViewModel.MarkerHalfSize,
+                   Y = Bottom - MarkerViewModel.MarkerHalfSize,
+                   Width = MarkerViewModel.MarkerHalfSize * 2,
+                   Height = MarkerViewModel.MarkerHalfSize * 2,
+                },
+                   IsActive = true,
+                   EditMode = EditMode.ResizeB,
+                   Cursor = Cursors.SizeNS,
+                },
+                new MarkerViewModel
+                {
                 Rectangle = new Rectangle
                 {
                     X = Left - MarkerViewModel.MarkerHalfSize,
-                    Y = Top - MarkerViewModel.MarkerHalfSize,
+                    Y = Bottom - MarkerViewModel.MarkerHalfSize,
                     Width = MarkerViewModel.MarkerHalfSize * 2,
                     Height = MarkerViewModel.MarkerHalfSize * 2,
                 },
-                IsActive = false,
-                EditMode = EditMode.ResizeTL,
-                Cursor = Cursors.SizeNWSE,
-            },
-            new MarkerViewModel
-            {
-                Rectangle = new Rectangle
-                {
-                    X = (Left + Right) / 2 - MarkerViewModel.MarkerHalfSize,
-                    Y = Top - MarkerViewModel.MarkerHalfSize,
-                    Width = MarkerViewModel.MarkerHalfSize * 2,
-                    Height = MarkerViewModel.MarkerHalfSize * 2,
+                    IsActive = true,
+                    EditMode = EditMode.ResizeBL,
+                    Cursor = Cursors.SizeNESW,
                 },
-                IsActive = false,
-                EditMode = EditMode.ResizeT,
-                Cursor = Cursors.SizeNS,
-            },
-            new MarkerViewModel
-            {
+                new MarkerViewModel
+                {
                 Rectangle = new Rectangle
                 {
-                    X = Right - MarkerViewModel.MarkerHalfSize,
-                    Y = Top - MarkerViewModel.MarkerHalfSize,
-                    Width = MarkerViewModel.MarkerHalfSize * 2,
-                    Height = MarkerViewModel.MarkerHalfSize * 2,
-                },
-                IsActive = false,
-                EditMode = EditMode.ResizeTR,
-                Cursor = Cursors.SizeNESW,
-            },
-            new MarkerViewModel
-            {
-                Rectangle = new Rectangle
-                {
-                    X = Right - MarkerViewModel.MarkerHalfSize,
+                    X = Left - MarkerViewModel.MarkerHalfSize,
                     Y = (Top + Bottom) /2 - MarkerViewModel.MarkerHalfSize,
                     Width = MarkerViewModel.MarkerHalfSize * 2,
                     Height = MarkerViewModel.MarkerHalfSize * 2,
-                },
-                IsActive = true,
-                EditMode = EditMode.ResizeR,
-                Cursor = Cursors.SizeWE,
-            },
-            new MarkerViewModel
+                 },
+                    IsActive = true,
+                    EditMode = EditMode.ResizeL,
+                    Cursor = Cursors.SizeWE,
+                 },
+    };
+
+        private MarkerViewModel CreateMarker(int x, int y)
+        {
+            return new MarkerViewModel
             {
                 Rectangle = new Rectangle
                 {
-                    X = Right - MarkerViewModel.MarkerHalfSize,
-                    Y = Bottom - MarkerViewModel.MarkerHalfSize,
+                    X = x - MarkerViewModel.MarkerHalfSize,
+                    Y = y - MarkerViewModel.MarkerHalfSize,
                     Width = MarkerViewModel.MarkerHalfSize * 2,
                     Height = MarkerViewModel.MarkerHalfSize * 2,
                 },
                 IsActive = true,
                 EditMode = EditMode.ResizeBR,
-                Cursor = Cursors.SizeNWSE,
-            },
-            new MarkerViewModel
-            {
-                Rectangle = new Rectangle
-                {
-                    X = (Left + Right) / 2 - MarkerViewModel.MarkerHalfSize,
-                    Y = Bottom - MarkerViewModel.MarkerHalfSize,
-                    Width = MarkerViewModel.MarkerHalfSize * 2,
-                    Height = MarkerViewModel.MarkerHalfSize * 2,
-                },
-                IsActive = false,
-                EditMode = EditMode.ResizeB,
-                Cursor = Cursors.SizeNS,
-            },
-            new MarkerViewModel
-            {
-                Rectangle = new Rectangle
-                {
-                    X = Left - MarkerViewModel.MarkerHalfSize,
-                    Y = Bottom - MarkerViewModel.MarkerHalfSize,
-                    Width = MarkerViewModel.MarkerHalfSize * 2,
-                    Height = MarkerViewModel.MarkerHalfSize * 2,
-                },
-                IsActive = false,
-                EditMode = EditMode.ResizeBL,
-                Cursor = Cursors.SizeNESW,
-            },
-            new MarkerViewModel
-            {
-                Rectangle = new Rectangle
-                {
-                    X = Left - MarkerViewModel.MarkerHalfSize,
-                    Y = (Top + Bottom) /2 - MarkerViewModel.MarkerHalfSize,
-                    Width = MarkerViewModel.MarkerHalfSize * 2,
-                    Height = MarkerViewModel.MarkerHalfSize * 2,
-                },
-                IsActive = false,
-                EditMode = EditMode.ResizeL,
-                Cursor = Cursors.SizeWE,
-            },
-        };
+                Cursor = Cursors.SizeAll
+            };
+        }
 
         public Rectangle Rectangle => new Rectangle
         {
@@ -159,7 +211,10 @@ namespace GraphEditor.ViewModels
                 Height = model.Height,
                 EditMode = model.EditMode,
                 FillColor = model.FillColor,
+                FillType = model.FillType,
                 BorderColor = model.BorderColor,
+                ShapeType = model.ShapeType,
+                IsSelected = model.IsSelected,
                 Dx = model.Dx,
                 Dy = model.Dy,
             };

@@ -1,21 +1,22 @@
-﻿using FifteenGame.Business.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace FifteenGame.Web.Models
+﻿namespace FifteenGame.Web.Models
 {
     public class CellViewModel
     {
         public int Value { get; set; }
+        public string Color { get; set; }
 
-        public string Text => Value.ToString();
+        public bool IsOpened { get; set; }
 
-        public MoveDirection Direction { get; set; }
+        public bool IsFound { get; set; }
 
-        public string DirectionText => Direction.ToString();
+        public string BackgroundColor => IsOpened || IsFound ? Color : "LightGray";
 
-        public bool IsEmpty { get; set; }
+        public string Text => "";
+
+        public int Row { get; set; }
+
+        public int Column { get; set; }
+
+        public int Index { get; set; }
     }
 }
