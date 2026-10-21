@@ -1,0 +1,47 @@
+﻿@model MemoryGame.Web.Models.GameViewModel
+
+@{
+    ViewBag.Title = "Игра";
+}
+
+<main>
+    <h2>Memory</h2>
+
+    <p class="fs-5">
+        Попыток: <b>@Model.MoveCount</b>, найдено пар: <b>@Model.MatchedPairCount из @Model.PairCount</b>
+    </p>
+
+    @if (Model.IsGameOver)
+    {
+        <h2 class="text-success">Победа! Все пары найдены за @Model.MoveCount попыток.</h2>
+
+        <div>
+            @Html.ActionLink("Повторить", "Restart", "Game", null, new { @class = "btn btn-success" })
+        </div>
+    }
+
+    <div class="memory-board">
+        @for (int row = 0; row < Model.RowCount; row++)
+        {
+            <div class="memory-row">
+                @for (int column = 0; column < Model.ColumnCount; column++)
+                {
+                    var cell = Model.Cells[row, column];
+                    var imageUrl = Url.Content($"~/Content/img/{cell.ImageName}");
+
+                    if (cell.CanClick)
+                    {
+                        <a href="@Url.Action("MakeMove", "Game", new { row = cell.Row, column = cell.Column })" class="memory-cell">
+                            <img src="@imageUrl" alt="" />
+                        </a>
+                    }
+                    else
+                    {
+                        <span class="memory-cell">
+                            <img src="@imageUrl" alt="" />
+                        </span>
+                    }
+                }
+            </div>
+        }
+    </div></main>
