@@ -1,6 +1,7 @@
 ﻿using GraphEditor.ViewServices;
 using System;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace GraphEditor
@@ -9,23 +10,30 @@ namespace GraphEditor
     {
         private readonly PictureViewService _pictureViewService = new PictureViewService();
 
+        private bool _isMouseDown;
+
         public GraphEditorForm()
         {
             InitializeComponent();
+            UpdateViewControls();
         }
 
         private void CreateRectangleButton_Click(object sender, EventArgs e)
         {
             _pictureViewService.CreateButtonClicked();
+            UpdateViewControls();
         }
 
         private void DeleteRectangleButton_Click(object sender, EventArgs e)
         {
             _pictureViewService.DeleteButtonClicked();
+            Invalidate();
+            UpdateViewControls();
         }
 
         private void FillColorMenuItem_Click(object sender, EventArgs e)
         {
+            FillColorDialog.Color = _pictureViewService.GetCurrentFillColor();
             if (FillColorDialog.ShowDialog() == DialogResult.OK)
             {
                 _pictureViewService.SetFillColor(FillColorDialog.Color);
@@ -40,27 +48,57 @@ namespace GraphEditor
 
         private void GraphEditorForm_MouseDown(object sender, MouseEventArgs e)
         {
+            if (e.Button != MouseButtons.Left)
+            {
+                return;
+            }
+
+            _isMouseDown = true;
             _pictureViewService.MouseDown(e.Location);
             Invalidate();
+            UpdateViewControls();
         }
 
         private void GraphEditorForm_MouseMove(object sender, MouseEventArgs e)
         {
             Cursor = _pictureViewService.GetCursor(e.Location);
+
+            if (!_isMouseDown)
+            {
+                return;
+            }
+
             _pictureViewService.MouseMove(e.Location);
             Invalidate();
         }
 
         private void GraphEditorForm_MouseUp(object sender, MouseEventArgs e)
         {
+            if (e.Button != MouseButtons.Left)
+            {
+                return;
+            }
+
+            _isMouseDown = false;
             _pictureViewService.MouseUp();
             Invalidate();
+            UpdateViewControls();
+        }
+
+        private void UpdateViewControls()
+        {
+            CreateRectangleButton.Checked = _pictureViewService.CreateMode;
+            DeleteRectangleButton.Enabled = _pictureViewService.CanDelete;
+            Text = string.IsNullOrEmpty(_pictureViewService.FileName)
+                ? "Графический редактор"
+                : $"Графический редактор | {Path.GetFileName(_pictureViewService.FileName)}";
         }
 
         private void FileCreateMenuItem_Click(object sender, EventArgs e)
         {
             _pictureViewService.CreateNewPicture();
             Invalidate();
+            UpdateViewControls();
         }
 
         private void FileOpenMenuItem_Click(object sender, EventArgs e)
@@ -71,6 +109,7 @@ namespace GraphEditor
                 {
                     _pictureViewService.Open(FileOpenDialog.FileName);
                     Invalidate();
+                    UpdateViewControls();
                 }
                 catch (Exception ex)
                 {
@@ -83,17 +122,40 @@ namespace GraphEditor
         {
             if (string.IsNullOrEmpty(_pictureViewService.FileName))
             {
-                FileSaveAsMenuItem_Click(sender, e);
+                DoSaveAs();
                 return;
             }
-            _pictureViewService.Save();
+
+            try
+            {
+                _pictureViewService.Save();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void FileSaveAsMenuItem_Click(object sender, EventArgs e)
         {
-            if (FileSaveDialog.ShowDialog() == DialogResult.OK)
+            DoSaveAs();
+        }
+
+        private void DoSaveAs()
+        {
+            if (FileSaveDialog.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            try
             {
                 _pictureViewService.Save(FileSaveDialog.FileName);
+                UpdateViewControls();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -124,7 +186,7 @@ namespace GraphEditor
 
         private void OpacityMenuItem_Click(object sender, EventArgs e)
         {
-            if (_pictureViewService == null || !_pictureViewService.CanDelete)
+            if (!_pictureViewService.CanDelete)
             {
                 MessageBox.Show("Выберите объект для изменения прозрачности.", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -133,7 +195,7 @@ namespace GraphEditor
             using (var inputDialog = new Form())
             {
                 inputDialog.Text = "Установка прозрачности";
-                inputDialog.Size = new Size(300, 150);
+                inputDialog.ClientSize = new Size(290, 120);
                 inputDialog.StartPosition = FormStartPosition.CenterParent;
                 inputDialog.FormBorderStyle = FormBorderStyle.FixedDialog;
                 inputDialog.MaximizeBox = false;
@@ -142,16 +204,16 @@ namespace GraphEditor
                 var label = new Label()
                 {
                     Text = "Введите значение от 1 до 100:",
-                    Location = new Point(10, 20),
+                    Location = new Point(10, 15),
                     AutoSize = true
                 };
 
-                int currentPercent = (int)(_pictureViewService.GetCurrentOpacity() * 100);
+                int currentPercent = (int)Math.Round(_pictureViewService.GetCurrentOpacity() * 100);
 
                 var textBox = new TextBox()
                 {
-                    Location = new Point(10, 50),
-                    Width = 260,
+                    Location = new Point(10, 40),
+                    Width = 270,
                     Text = currentPercent.ToString()
                 };
 
@@ -159,14 +221,14 @@ namespace GraphEditor
                 {
                     Text = "OK",
                     DialogResult = DialogResult.OK,
-                    Location = new Point(100, 80)
+                    Location = new Point(110, 80)
                 };
 
                 var buttonCancel = new Button()
                 {
                     Text = "Отмена",
                     DialogResult = DialogResult.Cancel,
-                    Location = new Point(180, 80)
+                    Location = new Point(195, 80)
                 };
 
                 inputDialog.Controls.Add(label);
@@ -176,33 +238,26 @@ namespace GraphEditor
                 inputDialog.AcceptButton = buttonOk;
                 inputDialog.CancelButton = buttonCancel;
 
-                if (inputDialog.ShowDialog() == DialogResult.OK)
+                if (inputDialog.ShowDialog(this) != DialogResult.OK)
                 {
-                    if (int.TryParse(textBox.Text, out int opacityPercent))
-                    {
-                        if (opacityPercent >= 1 && opacityPercent <= 100)
-                        {
-                            float opacity = opacityPercent / 100.0f;
-                            _pictureViewService.SetOpacity(opacity);
-                            Invalidate();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Значение должно быть от 1 до 100.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Введите корректное число.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    return;
                 }
-            }
-        }
 
-        private void назажToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _pictureViewService.MoveBackward();
-            Invalidate();
+                if (!int.TryParse(textBox.Text, out int opacityPercent))
+                {
+                    MessageBox.Show("Введите корректное число.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (opacityPercent < 1 || opacityPercent > 100)
+                {
+                    MessageBox.Show("Значение должно быть от 1 до 100.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                _pictureViewService.SetOpacity(opacityPercent / 100.0f);
+                Invalidate();
+            }
         }
     }
 }

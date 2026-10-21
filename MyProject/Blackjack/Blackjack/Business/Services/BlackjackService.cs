@@ -21,10 +21,24 @@ namespace BlackjackGame.Business.Services
         private void CheckForInitialBlackjack(GameState state)
         {
             int playerScore = CalculateScore(state.PlayerHand);
-            if (playerScore == 21)
+            int dealerScore = CalculateScore(state.DealerHand);
+
+            if (playerScore == 21 && dealerScore == 21)
+            {
+                state.Status = GameStatus.Draw;
+                state.Message = "У обоих блэкджек. Ничья.";
+                state.IsPlayerTurn = false;
+            }
+            else if (playerScore == 21)
             {
                 state.Status = GameStatus.PlayerWin;
                 state.Message = "Блэкджек! Вы выиграли.";
+                state.IsPlayerTurn = false;
+            }
+            else if (dealerScore == 21)
+            {
+                state.Status = GameStatus.DealerWin;
+                state.Message = "У дилера блэкджек. Вы проиграли.";
                 state.IsPlayerTurn = false;
             }
         }

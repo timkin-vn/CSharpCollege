@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <RootNamespace>Blackjack.WebApi</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Blackjack.Common\Blackjack.Common.csproj" />
+    <ProjectReference Include="..\Blackjack.Business\Blackjack.Business.csproj" />
+    <ProjectReference Include="..\Blackjack.DataAccess\Blackjack.DataAccess.csproj" />
+  </ItemGroup>
+
+</Project>

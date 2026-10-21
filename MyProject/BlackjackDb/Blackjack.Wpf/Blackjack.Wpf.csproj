@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <RootNamespace>Blackjack.Wpf</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Blackjack.Common\Blackjack.Common.csproj" />
+    <ProjectReference Include="..\Blackjack.Business\Blackjack.Business.csproj" />
+    <ProjectReference Include="..\Blackjack.DataAccess\Blackjack.DataAccess.csproj" />
+  </ItemGroup>
+
+</Project>

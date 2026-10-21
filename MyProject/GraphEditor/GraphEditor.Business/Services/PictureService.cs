@@ -137,7 +137,27 @@ namespace GraphEditor.Business.Services
 
         public void SetResizeMode(EditMode mode)
         {
+            if (PictureModel.SelectedRectangle == null)
+            {
+                return;
+            }
             PictureModel.SelectedRectangle.EditMode = mode;
+        }
+
+        // Левая граница двигается, правая остаётся на месте
+        private static void ResizeLeft(RectangleModel rect, int x)
+        {
+            var right = rect.Right;
+            rect.Left = x;
+            rect.Width = right - x;
+        }
+
+        // Верхняя граница двигается, нижняя остаётся на месте
+        private static void ResizeTop(RectangleModel rect, int y)
+        {
+            var bottom = rect.Bottom;
+            rect.Top = y;
+            rect.Height = bottom - y;
         }
 
         public void ToggleShape()
@@ -164,6 +184,27 @@ namespace GraphEditor.Business.Services
                     break;
                 case EditMode.ResizeR:
                     selectedRect.Width = loc.X - selectedRect.Left;
+                    break;
+                case EditMode.ResizeB:
+                    selectedRect.Height = loc.Y - selectedRect.Top;
+                    break;
+                case EditMode.ResizeL:
+                    ResizeLeft(selectedRect, loc.X);
+                    break;
+                case EditMode.ResizeT:
+                    ResizeTop(selectedRect, loc.Y);
+                    break;
+                case EditMode.ResizeTL:
+                    ResizeLeft(selectedRect, loc.X);
+                    ResizeTop(selectedRect, loc.Y);
+                    break;
+                case EditMode.ResizeTR:
+                    selectedRect.Width = loc.X - selectedRect.Left;
+                    ResizeTop(selectedRect, loc.Y);
+                    break;
+                case EditMode.ResizeBL:
+                    ResizeLeft(selectedRect, loc.X);
+                    selectedRect.Height = loc.Y - selectedRect.Top;
                     break;
                 case EditMode.Moving:
                     selectedRect.Left = loc.X - selectedRect.Dx;

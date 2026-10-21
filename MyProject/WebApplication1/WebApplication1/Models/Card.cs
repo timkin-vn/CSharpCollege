@@ -1,10 +1,13 @@
-﻿namespace BlackjackMVC.Models
+﻿using System.Text.Json.Serialization;
+
+namespace BlackjackMVC.Models
 {
     public class Card
     {
-        public string Suit { get; set; }
-        public string Rank { get; set; }
+        public string Suit { get; set; } = "";
+        public string Rank { get; set; } = "";
 
+        [JsonIgnore]
         public int Value
         {
             get
@@ -16,5 +19,8 @@
                 return int.Parse(Rank);
             }
         }
+
+        [JsonIgnore]
+        public bool IsRed => Suit == "♥" || Suit == "♦";
     }
 }

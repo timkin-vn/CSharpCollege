@@ -1,110 +1,28 @@
 ﻿using BlackjackMVC.Data;
 using BlackjackMVC.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
-
 
 namespace BlackjackMVC.Controllers
 {
     public class GameController : Controller
     {
+        private const string SessionKey = "GAME";
+        private const string PlayerName = "Игрок";
+
         private readonly ApplicationDbContext _context;
 
         public GameController(ApplicationDbContext context)
         {
             _context = context;
         }
-        private const string SessionKey = "GAME";
-
-        private GameState GetGame()
-        {
-            var json = HttpContext.Session.GetString(SessionKey);
-
-            if (json == null)
-            {
-                return NewGame();
-            }
-
-            return JsonSerializer.Deserialize<GameState>(json);
-        }
-
-        private Player GetCurrentPlayer()
-        {
-            var player = _context.Players
-                .FirstOrDefault(x => x.UserName == "Игрок");
-
-            if (player == null)
-            {
-                player = new Player
-                {
-                    UserName = "Игрок",
-                    Wins = 0,
-                    Losses = 0
-                };
-
-                _context.Players.Add(player);
-                _context.SaveChanges();
-            }
-
-            return player;
-        }
-
-        private void SaveGame(GameState game)
-        {
-            HttpContext.Session.SetString(
-                SessionKey,
-                JsonSerializer.Serialize(game));
-        }
-
-        private GameState NewGame()
-        {
-            Deck deck = new Deck();
-
-            GameState game = new GameState();
-
-            game.PlayerCards.Add(deck.Draw());
-            game.PlayerCards.Add(deck.Draw());
-
-            game.DealerCards.Add(deck.Draw());
-            game.DealerCards.Add(deck.Draw());
-
-            SaveGame(game);
-
-            return game;
-        }
-        public IActionResult TestDb()
-        {
-            var tables = _context.Database
-                .SqlQueryRaw<string>(
-                    @"SELECT tablename
-              FROM pg_tables
-              WHERE schemaname='public'")
-                .ToList();
-
-            return Content(string.Join(", ", tables));
-        }
-        private int GetPoints(List<Card> cards)
-        {
-            int total = cards.Sum(c => c.Value);
-
-            int aces = cards.Count(c => c.Rank == "A");
-
-            while (total > 21 && aces > 0)
-            {
-                total -= 10;
-                aces--;
-            }
-
-            return total;
-        }
 
         public IActionResult Index()
         {
             ViewBag.Player = GetCurrentPlayer();
-
             return View(GetGame());
         }
+
         public IActionResult New()
         {
             NewGame();
@@ -115,25 +33,26 @@ namespace BlackjackMVC.Controllers
         {
             var game = GetGame();
 
-            Deck deck = new Deck();
+            // После окончания партии брать карты нельзя
+            if (game.IsOver)
+            {
+                return RedirectToAction("Index");
+            }
 
-            game.PlayerCards.Add(deck.Draw());
+            game.PlayerCards.Add(Deck.Draw(game.DeckCards));
 
-            int playerScore = GetPoints(game.PlayerCards);
-
+            int playerScore = game.PlayerPoints;
             if (playerScore > 21)
             {
-                game.Message = "Перебор! Вы проиграли.";
-
-                var playerDb = GetCurrentPlayer();
-
-                playerDb.Losses++;
-
-                _context.SaveChanges();
+                Finish(game, "Перебор! Вы проиграли.", isWin: false);
+            }
+            else if (playerScore == 21)
+            {
+                // 21 очко — дальше брать нет смысла, ход переходит к дилеру
+                DealerTurn(game);
             }
 
             SaveGame(game);
-
             return RedirectToAction("Index");
         }
 
@@ -141,48 +60,134 @@ namespace BlackjackMVC.Controllers
         {
             var game = GetGame();
 
-            var playerDb = GetCurrentPlayer();
-
-            Deck deck = new Deck();
-
-            while (GetPoints(game.DealerCards) < 17)
+            // Повторное нажатие "Хватит" не должно второй раз менять статистику
+            if (game.IsOver)
             {
-                game.DealerCards.Add(deck.Draw());
+                return RedirectToAction("Index");
             }
 
-            int dealer = GetPoints(game.DealerCards);
-            int player = GetPoints(game.PlayerCards);
-
-            if (dealer > 21)
-            {
-                game.Message = "Дилер проиграл. Вы победили!";
-                playerDb.Wins++;
-            }
-            else if (player > dealer)
-            {
-                game.Message = "Вы победили!";
-                playerDb.Wins++;
-            }
-            else if (player < dealer)
-            {
-                game.Message = "Вы проиграли!";
-                playerDb.Losses++;
-            }
-            else
-            {
-                game.Message = "Ничья!";
-            }
-
-            _context.SaveChanges();
+            DealerTurn(game);
 
             SaveGame(game);
-
             return RedirectToAction("Index");
         }
 
-        public int Score(List<Card> cards)
+        private void DealerTurn(GameState game)
         {
-            return GetPoints(cards);
+            while (game.DealerPoints < 17)
+            {
+                game.DealerCards.Add(Deck.Draw(game.DeckCards));
+            }
+
+            int dealer = game.DealerPoints;
+            int player = game.PlayerPoints;
+
+            if (dealer > 21)
+            {
+                Finish(game, "Дилер перебрал. Вы победили!", isWin: true);
+            }
+            else if (player > dealer)
+            {
+                Finish(game, "Вы победили!", isWin: true);
+            }
+            else if (player < dealer)
+            {
+                Finish(game, "Вы проиграли!", isWin: false);
+            }
+            else
+            {
+                Finish(game, "Ничья!", isWin: null);
+            }
+        }
+
+        // isWin: true — победа, false — поражение, null — ничья
+        private void Finish(GameState game, string message, bool? isWin)
+        {
+            game.Message = message;
+            game.IsOver = true;
+
+            if (isWin.HasValue)
+            {
+                var playerDb = GetCurrentPlayer();
+                if (isWin.Value)
+                {
+                    playerDb.Wins++;
+                }
+                else
+                {
+                    playerDb.Losses++;
+                }
+                _context.SaveChanges();
+            }
+        }
+
+        private GameState GetGame()
+        {
+            var json = HttpContext.Session.GetString(SessionKey);
+            if (json == null)
+            {
+                return NewGame();
+            }
+
+            return JsonSerializer.Deserialize<GameState>(json) ?? NewGame();
+        }
+
+        private GameState NewGame()
+        {
+            var game = new GameState
+            {
+                DeckCards = Deck.CreateCards(),
+                Message = "Ваш ход",
+            };
+
+            game.PlayerCards.Add(Deck.Draw(game.DeckCards));
+            game.DealerCards.Add(Deck.Draw(game.DeckCards));
+            game.PlayerCards.Add(Deck.Draw(game.DeckCards));
+            game.DealerCards.Add(Deck.Draw(game.DeckCards));
+
+            // Блэкджек с раздачи
+            int player = game.PlayerPoints;
+            int dealer = game.DealerPoints;
+            if (player == 21 && dealer == 21)
+            {
+                Finish(game, "У обоих блэкджек. Ничья!", isWin: null);
+            }
+            else if (player == 21)
+            {
+                Finish(game, "Блэкджек! Вы победили!", isWin: true);
+            }
+            else if (dealer == 21)
+            {
+                Finish(game, "У дилера блэкджек. Вы проиграли!", isWin: false);
+            }
+
+            SaveGame(game);
+            return game;
+        }
+
+        private void SaveGame(GameState game)
+        {
+            HttpContext.Session.SetString(SessionKey, JsonSerializer.Serialize(game));
+        }
+
+        private Player GetCurrentPlayer()
+        {
+            var player = _context.Players.FirstOrDefault(x => x.UserName == PlayerName);
+
+            if (player == null)
+            {
+                player = new Player
+                {
+                    UserName = PlayerName,
+                    Wins = 0,
+                    Losses = 0
+                };
+
+                _context.Players.Add(player);
+                _context.SaveChanges();
+            }
+
+            return player;
         }
     }
 }

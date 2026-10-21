@@ -145,6 +145,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Wpf\ViewModels\CardViewModel.cs" />
     <Compile Include="Wpf\ViewModels\MainViewModel.cs" />
     <Compile Include="Wpf\ViewModels\ViewModelBase.cs" />
     <Page Include="MainWindow.xaml">

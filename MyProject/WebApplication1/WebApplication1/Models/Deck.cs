@@ -2,47 +2,34 @@
 {
     public class Deck
     {
-        private List<Card> cards;
-        private Random random = new Random();
+        private static readonly string[] Suits = { "♥", "♦", "♣", "♠" };
+        private static readonly string[] Ranks = { "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K" };
 
-        public Deck()
+        // Новая полная колода из 52 карт
+        public static List<Card> CreateCards()
         {
-            cards = new List<Card>();
-
-            string[] suits =
+            var cards = new List<Card>();
+            foreach (var suit in Suits)
             {
-                "♥",
-                "♦",
-                "♣",
-                "♠"
-            };
-
-            string[] ranks =
-            {
-                "A","2","3","4","5","6","7","8","9","10","J","Q","K"
-            };
-
-            foreach (var suit in suits)
-            {
-                foreach (var rank in ranks)
+                foreach (var rank in Ranks)
                 {
-                    cards.Add(new Card
-                    {
-                        Suit = suit,
-                        Rank = rank
-                    });
+                    cards.Add(new Card { Suit = suit, Rank = rank });
                 }
             }
+            return cards;
         }
 
-        public Card Draw()
+        // Берёт случайную карту из оставшихся в колоде (карта из колоды удаляется)
+        public static Card Draw(List<Card> cards)
         {
-            int index = random.Next(cards.Count);
+            if (cards.Count == 0)
+            {
+                throw new InvalidOperationException("Колода пуста!");
+            }
 
+            int index = Random.Shared.Next(cards.Count);
             Card card = cards[index];
-
             cards.RemoveAt(index);
-
             return card;
         }
     }

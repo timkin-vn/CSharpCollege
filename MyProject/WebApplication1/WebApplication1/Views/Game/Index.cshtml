@@ -6,57 +6,48 @@
 
 <h1>BlackJack (21)</h1>
 
-<h3>Карты игрока</h3>
-
 <h3>Статистика</h3>
-
 <p>Побед: @ViewBag.Player.Wins</p>
-
 <p>Поражений: @ViewBag.Player.Losses</p>
 
 <hr />
 
-@foreach (var card in Model.PlayerCards)
-{
-    <span style="font-size:30px;margin:5px;">
-        @card.Rank@card.Suit
-    </span>
-}
-
-<p>
-    Очки:
-    @Model.PlayerCards.Sum(c =>
-    c.Rank == "A" ? 11 :
-    c.Rank == "K" || c.Rank == "Q" || c.Rank == "J"
-    ? 10 : int.Parse(c.Rank))
-</p>
-
-<hr>
-
 <h3>Карты дилера</h3>
 
-@foreach (var card in Model.DealerCards)
+@for (int i = 0; i < Model.DealerCards.Count; i++)
 {
-    <span style="font-size:30px;margin:5px;">
-        @card.Rank@card.Suit
-    </span>
+    var card = Model.DealerCards[i];
+    if (!Model.IsOver && i == 1)
+    {
+        <span style="font-size:30px;margin:5px;color:gray;">🂠</span>
+    }
+    else
+    {
+        <span style="font-size:30px;margin:5px;color:@(card.IsRed ? "red" : "black");">@(card.Rank)@(card.Suit)</span>
+    }
 }
 
-<hr>
+<p>Очки: @Model.DealerVisiblePoints</p>
+
+<hr />
+
+<h3>Карты игрока</h3>
+
+@foreach (var card in Model.PlayerCards)
+{
+    <span style="font-size:30px;margin:5px;color:@(card.IsRed ? "red" : "black");">@(card.Rank)@(card.Suit)</span>
+}
+
+<p>Очки: @Model.PlayerPoints</p>
+
+<hr />
 
 <h2>@Model.Message</h2>
 
-<a class="btn btn-success"
-   asp-action="Hit">
-    Взять карту
-</a>
+@if (!Model.IsOver)
+{
+    <a class="btn btn-success" asp-action="Hit">Взять карту</a>
+    <a class="btn btn-warning" asp-action="Stand">Хватит</a>
+}
 
-<a class="btn btn-warning"
-   asp-action="Stand">
-    Хватит
-</a>
-
-<a class="btn btn-danger"
-   asp-action="New">
-    Новая игра
-</a>
+<a class="btn btn-danger" asp-action="New">Новая игра</a>

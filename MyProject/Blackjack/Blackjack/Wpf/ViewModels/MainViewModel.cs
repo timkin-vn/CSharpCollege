@@ -2,6 +2,7 @@
 using BlackjackGame.Business.Services;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 
 namespace BlackjackGame.Wpf.ViewModels
@@ -11,8 +12,9 @@ namespace BlackjackGame.Wpf.ViewModels
         private readonly BlackjackService _service = new BlackjackService();
         private GameState _state = new GameState();
 
-        public ObservableCollection<Card> PlayerCards { get; private set; }
-        public ObservableCollection<Card> DealerCards { get; private set; }
+        // Имена совпадают с привязками в MainWindow.xaml
+        public ObservableCollection<CardViewModel> PlayerHand { get; private set; }
+        public ObservableCollection<CardViewModel> DealerHand { get; private set; }
 
         private string _message;
         public string Message
@@ -64,8 +66,8 @@ namespace BlackjackGame.Wpf.ViewModels
 
         public MainViewModel()
         {
-            PlayerCards = new ObservableCollection<Card>();
-            DealerCards = new ObservableCollection<Card>();
+            PlayerHand = new ObservableCollection<CardViewModel>();
+            DealerHand = new ObservableCollection<CardViewModel>();
 
             HitCommand = new RelayCommand(ExecuteHit, CanExecuteHit);
             StandCommand = new RelayCommand(ExecuteStand, CanExecuteStand);
@@ -110,23 +112,31 @@ namespace BlackjackGame.Wpf.ViewModels
 
         private void UpdateView()
         {
-            PlayerCards.Clear();
+            PlayerHand.Clear();
             foreach (var card in _state.PlayerHand)
             {
-                PlayerCards.Add(card);
+                PlayerHand.Add(CardViewModel.FromCard(card));
             }
 
-            DealerCards.Clear();
-            foreach (var card in _state.DealerHand)
+            // Пока ходит игрок, вторая карта дилера закрыта и в очки не идёт
+            var hideDealerCard = _state.IsPlayerTurn && _state.Status == GameStatus.Playing;
+
+            DealerHand.Clear();
+            for (int i = 0; i < _state.DealerHand.Count; i++)
             {
-                DealerCards.Add(card);
+                DealerHand.Add(hideDealerCard && i == 1
+                    ? CardViewModel.Hidden()
+                    : CardViewModel.FromCard(_state.DealerHand[i]));
             }
 
             PlayerScore = _service.CalculateScore(_state.PlayerHand);
-            DealerScore = _service.CalculateScore(_state.DealerHand);
+            DealerScore = hideDealerCard
+                ? _service.CalculateScore(_state.DealerHand.Take(1).ToList())
+                : _service.CalculateScore(_state.DealerHand);
 
             Message = _state.Message;
             IsGameActive = _state.Status == GameStatus.Playing;
+            CommandManager.InvalidateRequerySuggested();
         }
     }
 

@@ -52,7 +52,7 @@
             this.FileOpenDialog = new System.Windows.Forms.OpenFileDialog();
             this.FileSaveDialog = new System.Windows.Forms.SaveFileDialog();
             this.FileExportDialog = new System.Windows.Forms.SaveFileDialog();
-            this.назажToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MoveBackwardMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -127,7 +127,7 @@
             this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MoveForwardMenuItem,
-            this.назажToolStripMenuItem});
+            this.MoveBackwardMenuItem});
             this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
@@ -230,12 +230,12 @@
             // 
             this.FileExportDialog.Filter = "Файлы PNG|*.png";
             // 
-            // назажToolStripMenuItem
+            // MoveBackwardMenuItem
             // 
-            this.назажToolStripMenuItem.Name = "назажToolStripMenuItem";
-            this.назажToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.назажToolStripMenuItem.Text = "Назаж";
-            this.назажToolStripMenuItem.Click += new System.EventHandler(this.назажToolStripMenuItem_Click);
+            this.MoveBackwardMenuItem.Name = "MoveBackwardMenuItem";
+            this.MoveBackwardMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.MoveBackwardMenuItem.Text = "Назад";
+            this.MoveBackwardMenuItem.Click += new System.EventHandler(this.MoveBackwardMenuItem_Click);
             // 
             // GraphEditorForm
             // 
@@ -286,6 +286,6 @@
         private System.Windows.Forms.OpenFileDialog FileOpenDialog;
         private System.Windows.Forms.SaveFileDialog FileSaveDialog;
         private System.Windows.Forms.SaveFileDialog FileExportDialog;
-        private System.Windows.Forms.ToolStripMenuItem назажToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem MoveBackwardMenuItem;
     }
 }

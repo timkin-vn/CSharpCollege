@@ -20,9 +20,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 var app = builder.Build();
 
-Console.WriteLine("===== CONNECTION STRING =====");
-Console.WriteLine(builder.Configuration.GetConnectionString("DefaultConnection"));
-Console.WriteLine("=============================");
+// Создаём/обновляем таблицы в БД по миграциям при запуске
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    db.Database.Migrate();
+}
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Home/Error");
+}
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
