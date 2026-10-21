@@ -7,132 +7,70 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace FifteenGame.BusinessProxy.Services
 {
     public class UserServiceProxy : IUserService
     {
-        private static readonly JsonSerializerOptions JsonOptions =
-            new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            };
-
         public IEnumerable<UserModel> GetAllUsers()
         {
-            using (var response = HttpConnection.HttpClient
-                .GetAsync("api/users/get-all")
-                .GetAwaiter().GetResult())
+            using (var httpClient = HttpConnection.HttpClient)
             {
-                EnsureSuccess(response);
+                var response = httpClient.GetAsync("api/users/get-all").Result;
+                response.EnsureSuccessStatusCode();
 
-                string json = response.Content
-                    .ReadAsStringAsync()
-                    .GetAwaiter().GetResult();
-
-                var reply = JsonSerializer.Deserialize<UsersReply>(
-                    json, JsonOptions);
-
-                if (reply?.Users == null)
-                {
-                    throw new InvalidOperationException(
-                        "Сервер вернул некорректный список пользователей.");
-                }
-
-                return reply.Users.Select(FromDto).ToList();
+                var reply = JsonSerializer.Deserialize<UsersReply>(response.Content.ReadAsStringAsync().Result);
+                return reply.Users.Select(FromDto);
             }
         }
 
         public UserModel GetOrCreateUser(string userName)
         {
-            if (string.IsNullOrWhiteSpace(userName))
-                throw new ArgumentException(
-                    "Введите имя пользователя.",
-                    nameof(userName));
-
-            var content = JsonContent.Create(
-                new UserNameRequest
-                {
-                    UserName = userName.Trim()
-                });
-
-            using (content)
-            using (var response = HttpConnection.HttpClient
-                .PostAsync("api/users/get-or-create", content)
-                .GetAwaiter().GetResult())
+            using (var httpClient = HttpConnection.HttpClient)
             {
-                EnsureSuccess(response);
-                return ReadUser(response);
+                var httpContent = JsonContent.Create(new UserNameRequest { UserName = userName });
+                var response = httpClient.PostAsync("api/users/get-or-create", httpContent).Result;
+                response.EnsureSuccessStatusCode();
+
+                var reply = JsonSerializer.Deserialize<UserReply>(response.Content.ReadAsStringAsync().Result);
+                return FromDto(reply);
             }
         }
 
         public UserModel GetUserByName(string userName)
         {
-            if (string.IsNullOrWhiteSpace(userName))
-                return null;
-
-            string encodedName = Uri.EscapeDataString(userName.Trim());
-
-            using (var response = HttpConnection.HttpClient
-                .GetAsync($"api/users/get-by-name/{encodedName}")
-                .GetAwaiter().GetResult())
+            using (var httpClient = HttpConnection.HttpClient)
             {
-                EnsureSuccess(response);
-                return ReadUser(response);
+                var response = httpClient.GetAsync($"api/users/get-by-name/{userName}").Result;
+                response.EnsureSuccessStatusCode();
+
+                var reply = JsonSerializer.Deserialize<UserReply>(response.Content.ReadAsStringAsync().Result);
+                return FromDto(reply);
             }
         }
 
-        private static UserModel ReadUser(HttpResponseMessage response)
-        {
-            string json = response.Content
-                .ReadAsStringAsync()
-                .GetAwaiter().GetResult();
-
-            var reply = JsonSerializer.Deserialize<UserReply>(
-                json, JsonOptions);
-
-            return FromDto(reply);
-        }
-
-        private static UserModel FromDto(UserReply reply)
-        {
-            if (reply == null)
-                return null;
-
-            return new UserModel
-            {
-                Id = reply.Id,
-                Name = reply.Name
-            };
-        }
-
-        private static void EnsureSuccess(HttpResponseMessage response)
-        {
-            if (response.IsSuccessStatusCode)
-                return;
-
-            string details = response.Content == null
-                ? string.Empty
-                : response.Content.ReadAsStringAsync()
-                    .GetAwaiter().GetResult();
-
-            throw new HttpRequestException(
-                $"Сервер вернул HTTP {(int)response.StatusCode} " +
-                $"({response.ReasonPhrase}). {details}");
-        }
         public void DeleteUser(int userId)
         {
-            if (userId <= 0)
-                throw new ArgumentOutOfRangeException(nameof(userId));
-
-            using (var response = HttpConnection.HttpClient
-                .DeleteAsync($"api/users/delete/{userId}")
-                .GetAwaiter()
-                .GetResult())
+            using (var httpClient = HttpConnection.HttpClient)
             {
+                var response = httpClient.DeleteAsync(
+                    $"api/users/delete/{userId}").Result;
+
                 response.EnsureSuccessStatusCode();
             }
+        }
+
+        private UserModel FromDto(UserReply reply)
+        {
+            if (reply == null)
+            {
+                return null;
+            }
+
+            return new UserModel { Id = reply.Id, Name = reply.Name, };
         }
     }
 }

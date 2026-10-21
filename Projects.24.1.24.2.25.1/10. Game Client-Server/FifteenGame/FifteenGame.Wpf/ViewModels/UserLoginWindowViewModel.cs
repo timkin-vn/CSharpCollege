@@ -3,16 +3,13 @@ using FifteenGame.Common.Contracts.Services;
 using FifteenGame.Common.Infrastructure;
 using Ninject;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FifteenGame.Wpf.ViewModels
 {
     public class UserLoginWindowViewModel : ViewModelBase
     {
-        private readonly IUserService _userService = NinjectKernel.Instance.Get<IUserService>();
+        private readonly IUserService _userService =
+            NinjectKernel.Instance.Get<IUserService>();
 
         private UserModel _userModel;
 
@@ -22,17 +19,46 @@ namespace FifteenGame.Wpf.ViewModels
 
         public bool FindUser()
         {
-            _userModel = _userService.GetUserByName(UserName);
+            if (string.IsNullOrWhiteSpace(UserName))
+            {
+                _userModel = null;
+                return false;
+            }
+
+            _userModel = _userService.GetUserByName(UserName.Trim());
             return _userModel != null;
         }
 
         public void CreateUser()
         {
-            _userModel = _userService.GetOrCreateUser(UserName);
+            if (string.IsNullOrWhiteSpace(UserName))
+            {
+                throw new InvalidOperationException("Введите имя пользователя.");
+            }
+
+            _userModel = _userService.GetOrCreateUser(UserName.Trim());
+
+            if (_userModel == null)
+            {
+                throw new InvalidOperationException(
+                    "Сервер не вернул данные пользователя.");
+            }
         }
 
         public void CommitUser()
         {
+            if (MainViewModel == null)
+            {
+                throw new InvalidOperationException(
+                    "Главное окно не передано в окно авторизации.");
+            }
+
+            if (_userModel == null)
+            {
+                throw new InvalidOperationException(
+                    "Сначала найдите или создайте пользователя.");
+            }
+
             MainViewModel.CommitUser(_userModel);
         }
     }

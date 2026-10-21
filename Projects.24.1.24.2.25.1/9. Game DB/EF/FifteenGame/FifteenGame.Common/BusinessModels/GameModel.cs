@@ -1,11 +1,11 @@
 ﻿
-using System;
+using FifteenGame.Common.Definitions;
 
 namespace FifteenGame.Common.BusinessModels
 {
     public class GameModel
     {
-        private readonly int[,] _cells = new int[4, 4];
+        private readonly int[,] _cells = new int[Constants.RowCount, Constants.ColumnCount];
 
         public int Id { get; set; }
         public int UserId { get; set; }
@@ -17,28 +17,6 @@ namespace FifteenGame.Common.BusinessModels
         {
             get => _cells[row, column];
             set => _cells[row, column] = value;
-        }
-
-        public GameModel Clone()
-        {
-            var result = new GameModel
-            {
-                Id = Id,
-                UserId = UserId,
-                MoveCount = MoveCount,
-                Score = Score,
-                BestScore = BestScore
-            };
-
-            for (int row = 0; row < 4; row++)
-            {
-                for (int column = 0; column < 4; column++)
-                {
-                    result[row, column] = this[row, column];
-                }
-            }
-
-            return result;
         }
     }
 }

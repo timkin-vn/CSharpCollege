@@ -5,139 +5,92 @@ using FifteenGame.Common.Definitions;
 using FifteenGame.Common.Infrastructure;
 using Ninject;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 
 namespace FifteenGame.WebApi.Controllers
 {
     public class GamesController : ApiController
     {
-        private readonly IGameService _gameService =
-            NinjectKernel.Instance.Get<IGameService>();
+        private readonly IGameService _gameService = NinjectKernel.Instance.Get<IGameService>();
 
         [HttpGet]
         [Route("api/games/get-by-game-id/{gameId}")]
-        public IHttpActionResult GetByGameId(int gameId)
+        public GameReply GetByGameId(int gameId)
         {
-            if (gameId <= 0)
-                return BadRequest("Идентификатор партии должен быть положительным.");
+            return ToDto(_gameService.GetByGameId(gameId));
+        }
 
-            var game = _gameService.GetByGameId(gameId);
-
-            if (game == null)
-                return NotFound();
-
-            return Ok(ToDto(game));
+        [HttpPost]
+        [Route("api/games/new-game/{userId}")]
+        public GameReply NewGame(int userId)
+        {
+            var model = _gameService.NewGame(userId);
+            return ToDto(model);
         }
 
         [HttpGet]
         [Route("api/games/get-by-user-id/{userId}")]
-        public IHttpActionResult GetByUserId(int userId)
+        public GameReply GetByUserId(int userId)
         {
-            if (userId <= 0)
-                return BadRequest("Идентификатор пользователя должен быть положительным.");
-
-            var game = _gameService.GetByUserId(userId);
-
-            if (game == null)
-                return NotFound();
-
-            return Ok(ToDto(game));
+            return ToDto(_gameService.GetByUserId(userId));
         }
 
         [HttpGet]
         [Route("api/games/is-over/{gameId}")]
-        public IHttpActionResult IsGameOver(int gameId)
+        public BooleanReply IsGameOver(int gameId)
         {
-            if (gameId <= 0)
-                return BadRequest("Некорректный идентификатор партии.");
-
-            var game = _gameService.GetByGameId(gameId);
-
-            if (game == null)
-                return NotFound();
-
-            return Ok(new BooleanReply
+            return new BooleanReply
             {
-                IsTrue = _gameService.IsGameOver(gameId)
-            });
+                IsTrue = _gameService.IsGameOver(gameId),
+            };
         }
 
         [HttpPost]
         [Route("api/games/make-move")]
-        public IHttpActionResult MakeMove(
-            [FromBody] MakeMoveRequest request)
+        public GameReply MakeMove([FromBody] MakeMoveRequest request)
         {
-            if (request == null)
-                return BadRequest("Тело запроса отсутствует.");
-
-            if (request.GameId <= 0)
-                return BadRequest("Некорректный идентификатор партии.");
-
-            if (string.IsNullOrWhiteSpace(request.Direction))
-                return BadRequest("Не указано направление хода.");
-
-            MoveDirection direction;
-
-            if (!Enum.TryParse(request.Direction, true, out direction) ||
-                !Enum.IsDefined(typeof(MoveDirection), direction) ||
-                direction == MoveDirection.None)
+            if (!Enum.TryParse<MoveDirection>(request.Direction, out var moveDirection))
             {
-                return BadRequest("Указано неизвестное направление хода.");
+                return null;
             }
 
-            var game = _gameService.GetByGameId(request.GameId);
-
-            if (game == null)
-                return NotFound();
-
-            var updatedGame = _gameService.MakeMove(
-                request.GameId, direction);
-
-            if (updatedGame == null)
-                return BadRequest("Не удалось выполнить ход.");
-
-            return Ok(ToDto(updatedGame));
+            return ToDto(_gameService.MakeMove(request.GameId, moveDirection));
         }
 
         [HttpDelete]
         [Route("api/games/remove/{gameId}")]
-        public IHttpActionResult RemoveGame(int gameId)
+        public void RemoveGame(int gameId)
         {
-            if (gameId <= 0)
-                return BadRequest("Некорректный идентификатор партии.");
-
-            if (_gameService.GetByGameId(gameId) == null)
-                return NotFound();
-
             _gameService.RemoveGame(gameId);
-
-            return Ok();
         }
+
 
         private GameReply ToDto(GameModel model)
         {
             if (model == null)
+            {
                 return null;
+            }
 
             var dto = new GameReply
             {
                 Id = model.Id,
                 UserId = model.UserId,
                 MoveCount = model.MoveCount,
-                FreeCellColumn = model.FreeCellColumn,
-                FreeCellRow = model.FreeCellRow,
-                Cells = new int[
-                    Constants.RowCount * Constants.ColumnCount]
+                Score = model.Score,
+                BestScore = model.BestScore,
+                Cells = new int[Constants.RowCount * Constants.ColumnCount]
             };
 
             int index = 0;
 
             for (int row = 0; row < Constants.RowCount; row++)
             {
-                for (int column = 0;
-                     column < Constants.ColumnCount;
-                     column++)
+                for (int column = 0; column < Constants.ColumnCount; column++)
                 {
                     dto.Cells[index++] = model[row, column];
                 }
@@ -145,5 +98,6 @@ namespace FifteenGame.WebApi.Controllers
 
             return dto;
         }
+
     }
 }

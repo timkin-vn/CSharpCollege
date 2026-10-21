@@ -2,6 +2,7 @@
 using FifteenGame.Common.BusinessModels;
 using FifteenGame.Common.Contracts.Repositories;
 using FifteenGame.Common.Contracts.Services;
+using FifteenGame.Common.Definitions;
 using FifteenGame.Common.Dtos;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,8 @@ namespace FifteenGame.Business.Services
 {
     public class GameService : IGameService
     {
-        private const int Size = 4;
-        private readonly IGameRepository _repository;
         private static readonly Random Random = new Random();
+        private readonly IGameRepository _repository;
 
         public GameService(IGameRepository repository)
         {
@@ -27,40 +27,19 @@ namespace FifteenGame.Business.Services
 
         public GameModel GetByUserId(int userId)
         {
-            var dto = _repository.GetByUserId(userId)
-                .OrderBy(g => g.Id)
-                .LastOrDefault();
+            var dto = _repository.GetByUserId(userId).LastOrDefault();
 
-            if (dto == null)
+            if (dto != null)
             {
-                return CreateNewGame(userId, 0);
+                return FromDto(dto);
             }
 
-            var model = FromDto(dto);
+            var model = new GameModel { UserId = userId };
+            SpawnTile(model);
+            SpawnTile(model);
 
-            if (!IsValid2048Board(model))
-            {
-                int bestScore = model.BestScore;
-                _repository.Remove(model.Id);
-                return CreateNewGame(userId, bestScore);
-            }
-
-            return model;
-        }
-
-        public GameModel NewGame(int userId)
-        {
-            int bestScore = _repository.GetByUserId(userId)
-                .Select(g => g.BestScore)
-                .DefaultIfEmpty(0)
-                .Max();
-
-            foreach (var game in _repository.GetByUserId(userId).ToList())
-            {
-                _repository.Remove(game.Id);
-            }
-
-            return CreateNewGame(userId, bestScore);
+            int id = _repository.Save(ToDto(model));
+            return GetByGameId(id);
         }
 
         public bool? IsGameOver(int gameId)
@@ -73,28 +52,20 @@ namespace FifteenGame.Business.Services
         {
             var model = GetByGameId(gameId);
 
-            if (model == null)
-            {
-                return null;
-            }
-
-            if (IsGameOver(model))
+            if (model == null || IsGameOver(model))
             {
                 return model;
             }
 
             bool changed = Move(model, direction);
 
-            if (!changed)
+            if (changed)
             {
-                return model;
+                model.MoveCount++;
+                SpawnTile(model);
+                model.BestScore = Math.Max(model.BestScore, model.Score);
+                _repository.Save(ToDto(model));
             }
-
-            model.MoveCount++;
-            SpawnTile(model);
-            model.BestScore = Math.Max(model.BestScore, model.Score);
-
-            _repository.Save(ToDto(model));
 
             return model;
         }
@@ -104,174 +75,133 @@ namespace FifteenGame.Business.Services
             _repository.Remove(gameId);
         }
 
-        private GameModel CreateNewGame(int userId, int bestScore)
-        {
-            var model = new GameModel
-            {
-                UserId = userId,
-                Score = 0,
-                BestScore = bestScore,
-                MoveCount = 0
-            };
-
-            SpawnTile(model);
-            SpawnTile(model);
-
-            model.Id = _repository.Save(ToDto(model));
-
-            return model;
-        }
-
         private bool Move(GameModel model, MoveDirection direction)
         {
-            if (direction == MoveDirection.None)
-            {
-                return false;
-            }
-
             bool changed = false;
 
-            for (int line = 0; line < Size; line++)
+            for (int line = 0; line < Constants.RowCount; line++)
             {
-                var values = new int[Size];
+                var coordinates = new List<(int Row, int Column)>();
 
-                for (int index = 0; index < Size; index++)
+                for (int position = 0; position < Constants.ColumnCount; position++)
                 {
-                    int row;
-                    int column;
-                    GetCoordinates(direction, line, index, out row, out column);
-                    values[index] = model[row, column];
+                    int row = line;
+                    int column = position;
+
+                    switch (direction)
+                    {
+                        case MoveDirection.Left:
+                            row = line;
+                            column = position;
+                            break;
+                        case MoveDirection.Right:
+                            row = line;
+                            column = Constants.ColumnCount - 1 - position;
+                            break;
+                        case MoveDirection.Up:
+                            row = position;
+                            column = line;
+                            break;
+                        case MoveDirection.Down:
+                            row = Constants.RowCount - 1 - position;
+                            column = line;
+                            break;
+                        default:
+                            return false;
+                    }
+
+                    coordinates.Add((row, column));
                 }
 
-                int[] merged = MergeLine(values, model);
+                var values = coordinates
+                    .Select(p => model[p.Row, p.Column])
+                    .Where(value => value != 0)
+                    .ToList();
 
-                for (int index = 0; index < Size; index++)
+                var merged = new List<int>();
+
+                for (int i = 0; i < values.Count; i++)
                 {
-                    int row;
-                    int column;
-                    GetCoordinates(direction, line, index, out row, out column);
+                    if (i + 1 < values.Count && values[i] == values[i + 1])
+                    {
+                        int value = values[i] * 2;
+                        merged.Add(value);
+                        model.Score += value;
+                        i++;
+                    }
+                    else
+                    {
+                        merged.Add(values[i]);
+                    }
+                }
 
-                    if (model[row, column] != merged[index])
+                while (merged.Count < Constants.ColumnCount)
+                {
+                    merged.Add(0);
+                }
+
+                for (int position = 0; position < coordinates.Count; position++)
+                {
+                    var p = coordinates[position];
+                    int value = merged[position];
+
+                    if (model[p.Row, p.Column] != value)
                     {
                         changed = true;
-                        model[row, column] = merged[index];
                     }
+
+                    model[p.Row, p.Column] = value;
                 }
             }
 
             return changed;
         }
 
-
-        private int[] MergeLine(int[] source, GameModel model)
-        {
-            var nonZero = source.Where(value => value != 0).ToList();
-            var result = new List<int>();
-
-            for (int index = 0; index < nonZero.Count; index++)
-            {
-                if (index + 1 < nonZero.Count &&
-                    nonZero[index] == nonZero[index + 1])
-                {
-                    int mergedValue = nonZero[index] * 2;
-                    result.Add(mergedValue);
-                    model.Score += mergedValue;
-                    index++;
-                }
-                else
-                {
-                    result.Add(nonZero[index]);
-                }
-            }
-
-            while (result.Count < Size)
-            {
-                result.Add(0);
-            }
-
-            return result.ToArray();
-        }
-
-
-        private void GetCoordinates(
-            MoveDirection direction,
-            int line,
-            int index,
-            out int row,
-            out int column)
-        {
-            switch (direction)
-            {
-                case MoveDirection.Left:
-                    row = line;
-                    column = index;
-                    break;
-
-                case MoveDirection.Right:
-                    row = line;
-                    column = Size - 1 - index;
-                    break;
-
-                case MoveDirection.Up:
-                    row = index;
-                    column = line;
-                    break;
-
-                case MoveDirection.Down:
-                    row = Size - 1 - index;
-                    column = line;
-                    break;
-
-                default:
-                    row = line;
-                    column = index;
-                    break;
-            }
-        }
-
         private void SpawnTile(GameModel model)
         {
-            var emptyCells = new List<Tuple<int, int>>();
+            var empty = new List<(int Row, int Column)>();
 
-            for (int row = 0; row < Size; row++)
+            for (int row = 0; row < Constants.RowCount; row++)
             {
-                for (int column = 0; column < Size; column++)
+                for (int column = 0; column < Constants.ColumnCount; column++)
                 {
                     if (model[row, column] == 0)
                     {
-                        emptyCells.Add(Tuple.Create(row, column));
+                        empty.Add((row, column));
                     }
                 }
             }
 
-            if (emptyCells.Count == 0)
+            if (empty.Count == 0)
             {
                 return;
             }
 
-            var cell = emptyCells[Random.Next(emptyCells.Count)];
-            model[cell.Item1, cell.Item2] = Random.Next(10) == 0 ? 4 : 2;
+            var cell = empty[Random.Next(empty.Count)];
+            model[cell.Row, cell.Column] = Random.Next(10) == 0 ? 4 : 2;
         }
 
         private bool IsGameOver(GameModel model)
         {
-            for (int row = 0; row < Size; row++)
+            for (int row = 0; row < Constants.RowCount; row++)
             {
-                for (int column = 0; column < Size; column++)
+                for (int column = 0; column < Constants.ColumnCount; column++)
                 {
-                    if (model[row, column] == 0)
+                    int value = model[row, column];
+
+                    if (value == 0)
                     {
                         return false;
                     }
 
-                    if (row + 1 < Size &&
-                        model[row, column] == model[row + 1, column])
+                    if (column + 1 < Constants.ColumnCount &&
+                        value == model[row, column + 1])
                     {
                         return false;
                     }
 
-                    if (column + 1 < Size &&
-                        model[row, column] == model[row, column + 1])
+                    if (row + 1 < Constants.RowCount &&
+                        value == model[row + 1, column])
                     {
                         return false;
                     }
@@ -281,27 +211,19 @@ namespace FifteenGame.Business.Services
             return true;
         }
 
-        private bool IsValid2048Board(GameModel model)
+        public GameModel NewGame(int userId)
         {
-            for (int row = 0; row < Size; row++)
+            var model = new GameModel
             {
-                for (int column = 0; column < Size; column++)
-                {
-                    int value = model[row, column];
+                UserId = userId
+            };
 
-                    if (value < 0)
-                    {
-                        return false;
-                    }
+            SpawnTile(model);
+            SpawnTile(model);
 
-                    if (value != 0 && (value & (value - 1)) != 0)
-                    {
-                        return false;
-                    }
-                }
-            }
+            int gameId = _repository.Save(ToDto(model));
 
-            return true;
+            return GetByGameId(gameId);
         }
 
         private GameModel FromDto(GameDto dto)
@@ -320,9 +242,9 @@ namespace FifteenGame.Business.Services
                 BestScore = dto.BestScore
             };
 
-            for (int row = 0; row < Size; row++)
+            for (int row = 0; row < Constants.RowCount; row++)
             {
-                for (int column = 0; column < Size; column++)
+                for (int column = 0; column < Constants.ColumnCount; column++)
                 {
                     model[row, column] = dto.Cells[row, column];
                 }
@@ -342,9 +264,9 @@ namespace FifteenGame.Business.Services
                 BestScore = model.BestScore
             };
 
-            for (int row = 0; row < Size; row++)
+            for (int row = 0; row < Constants.RowCount; row++)
             {
-                for (int column = 0; column < Size; column++)
+                for (int column = 0; column < Constants.ColumnCount; column++)
                 {
                     dto.Cells[row, column] = model[row, column];
                 }

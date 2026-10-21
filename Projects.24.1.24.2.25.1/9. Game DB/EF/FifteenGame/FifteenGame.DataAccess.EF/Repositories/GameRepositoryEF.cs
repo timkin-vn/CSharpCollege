@@ -1,5 +1,6 @@
 ﻿
 using FifteenGame.Common.Contracts.Repositories;
+using FifteenGame.Common.Definitions;
 using FifteenGame.Common.Dtos;
 using FifteenGame.DataAccess.EF.DataContext;
 using FifteenGame.DataAccess.EF.Entities;
@@ -65,35 +66,35 @@ namespace FifteenGame.DataAccess.EF.Repositories
             return Update(gameDto);
         }
 
-        private int Create(GameDto gameDto)
+        private int Create(GameDto dto)
         {
             using (var context = new FifteenGameDataContext())
             {
-                var user = context.Users.FirstOrDefault(u => u.Id == gameDto.UserId);
+                var user = context.Users.FirstOrDefault(u => u.Id == dto.UserId);
 
                 if (user == null)
                 {
-                    throw new InvalidOperationException("Пользователь не найден.");
+                    throw new Exception("Пользователь не найден.");
                 }
 
                 var game = new Game
                 {
-                    UserId = user.Id,
-                    MoveCount = gameDto.MoveCount,
-                    Score = gameDto.Score,
-                    BestScore = gameDto.BestScore,
+                    UserId = dto.UserId,
+                    MoveCount = dto.MoveCount,
+                    Score = dto.Score,
+                    BestScore = dto.BestScore,
                     Cells = new List<Cell>()
                 };
 
-                for (int row = 0; row < 4; row++)
+                for (int row = 0; row < Constants.RowCount; row++)
                 {
-                    for (int column = 0; column < 4; column++)
+                    for (int column = 0; column < Constants.ColumnCount; column++)
                     {
                         game.Cells.Add(new Cell
                         {
                             Row = row,
                             Column = column,
-                            Value = gameDto.Cells[row, column]
+                            Value = dto.Cells[row, column]
                         });
                     }
                 }
@@ -105,47 +106,45 @@ namespace FifteenGame.DataAccess.EF.Repositories
             }
         }
 
-        private int Update(GameDto gameDto)
+        private int Update(GameDto dto)
         {
             using (var context = new FifteenGameDataContext())
             {
                 var game = context.Games
                     .Include("Cells")
-                    .FirstOrDefault(g => g.Id == gameDto.Id);
+                    .FirstOrDefault(g => g.Id == dto.Id);
 
                 if (game == null)
                 {
-                    throw new InvalidOperationException("Игра не найдена.");
+                    throw new Exception("Игра не найдена.");
                 }
 
-                game.MoveCount = gameDto.MoveCount;
-                game.Score = gameDto.Score;
-                game.BestScore = gameDto.BestScore;
+                game.MoveCount = dto.MoveCount;
+                game.Score = dto.Score;
+                game.BestScore = Math.Max(game.BestScore, dto.BestScore);
 
-                for (int row = 0; row < 4; row++)
+                context.Cells.RemoveRange(game.Cells.ToList());
+                context.SaveChanges();
+
+                game.Cells = new List<Cell>();
+
+                for (int row = 0; row < Constants.RowCount; row++)
                 {
-                    for (int column = 0; column < 4; column++)
+                    for (int column = 0; column < Constants.ColumnCount; column++)
                     {
-                        var cell = game.Cells.FirstOrDefault(c =>
-                            c.Row == row && c.Column == column);
-
-                        if (cell == null)
+                        game.Cells.Add(new Cell
                         {
-                            game.Cells.Add(new Cell
-                            {
-                                Row = row,
-                                Column = column,
-                                Value = gameDto.Cells[row, column]
-                            });
-                        }
-                        else
-                        {
-                            cell.Value = gameDto.Cells[row, column];
-                        }
+                            GameId = game.Id,
+                            Row = row,
+                            Column = column,
+                            Value = dto.Cells[row, column]
+                        });
                     }
                 }
 
+                context.Cells.AddRange(game.Cells);
                 context.SaveChanges();
+
                 return game.Id;
             }
         }
@@ -157,7 +156,7 @@ namespace FifteenGame.DataAccess.EF.Repositories
                 return null;
             }
 
-            var result = new GameDto
+            var dto = new GameDto
             {
                 Id = game.Id,
                 UserId = game.UserId,
@@ -166,16 +165,20 @@ namespace FifteenGame.DataAccess.EF.Repositories
                 BestScore = game.BestScore
             };
 
-            foreach (var cell in game.Cells)
+            for (int row = 0; row < Constants.RowCount; row++)
             {
-                if (cell.Row >= 0 && cell.Row < 4 &&
-                    cell.Column >= 0 && cell.Column < 4)
+                for (int column = 0; column < Constants.ColumnCount; column++)
                 {
-                    result.Cells[cell.Row, cell.Column] = cell.Value;
+                    dto.Cells[row, column] = 0;
                 }
             }
 
-            return result;
+            foreach (var cell in game.Cells)
+            {
+                dto.Cells[cell.Row, cell.Column] = cell.Value;
+            }
+
+            return dto;
         }
     }
 }
