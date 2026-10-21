@@ -1,19 +1,16 @@
-﻿using FifteenGame.Common.Definitions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace FifteenGame.Common.BusinessModels
 {
     public class GameModel
     {
-        private int[,] _cells = new int[Constants.RowCount, Constants.ColumnCount];
+        private readonly int[,] _cells = new int[4, 4];
 
         public int Id { get; set; }
-
         public int UserId { get; set; }
+        public int MoveCount { get; set; }
+        public int Score { get; set; }
+        public int BestScore { get; set; }
+        public bool IsGameOver { get; set; }
 
         public int this[int row, int column]
         {
@@ -21,10 +18,27 @@ namespace FifteenGame.Common.BusinessModels
             set => _cells[row, column] = value;
         }
 
-        public int MoveCount { get; set; }
+        public GameModel Clone()
+        {
+            var copy = new GameModel
+            {
+                Id = Id,
+                UserId = UserId,
+                MoveCount = MoveCount,
+                Score = Score,
+                BestScore = BestScore,
+                IsGameOver = IsGameOver
+            };
 
-        public int FreeCellRow { get; set; }
+            for (int row = 0; row < 4; row++)
+            {
+                for (int column = 0; column < 4; column++)
+                {
+                    copy[row, column] = this[row, column];
+                }
+            }
 
-        public int FreeCellColumn { get; set; }
+            return copy;
+        }
     }
 }
