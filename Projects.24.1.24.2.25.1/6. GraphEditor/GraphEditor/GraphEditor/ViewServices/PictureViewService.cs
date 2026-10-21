@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GraphEditor.Business.Models;
 
 namespace GraphEditor.ViewServices
 {
@@ -25,7 +26,7 @@ namespace GraphEditor.ViewServices
 
         public bool CreateMode { get; set; }
 
-        public bool CanDelete => !CreateMode && _businessService.PictureModel.SelectedRectangle != null;
+        public bool CanDelete => !CreateMode && _businessService.PictureModel.Rectangles.Any(r => r.IsSelected);
 
         public string FileName { get; set; }
 
@@ -65,6 +66,11 @@ namespace GraphEditor.ViewServices
             return _viewModel?.SelectedRectangle?.FillColor ?? PictureService.DefaultFillColor;
         }
 
+        public Color GetCurrentBorderColor()
+        {
+            return _viewModel?.SelectedRectangle?.BorderColor ?? Color.Blue;
+        }
+
         public Cursor GetCursor(Point loc)
         {
             if (_viewModel == null)
@@ -92,7 +98,7 @@ namespace GraphEditor.ViewServices
             return Cursors.Default;
         }
 
-        public void MouseDown(Point loc)
+        public void MouseDown(Point loc, bool ctrlPressed)
         {
             if (CreateMode)
             {
@@ -112,7 +118,7 @@ namespace GraphEditor.ViewServices
                 }
             }
 
-            _businessService.SelectAndSetMoveMode(ToModel(loc));
+            _businessService.SelectAndSetMoveMode(ToModel(loc), ctrlPressed);
             LoadViewModel();
         }
 
@@ -132,6 +138,12 @@ namespace GraphEditor.ViewServices
         public void MoveForward()
         {
             _businessService.MoveForward();
+            LoadViewModel();
+        }
+
+        public void MoveBackward()
+        {
+            _businessService.MoveBackward();
             LoadViewModel();
         }
 
@@ -166,6 +178,34 @@ namespace GraphEditor.ViewServices
             }
 
             _businessService.SetFillColor(color);
+            LoadViewModel();
+        }
+
+        public void SetBorderColor(Color color)
+        {
+            if (_viewModel?.SelectedRectangle == null)
+            {
+                return;
+            }
+
+            _businessService.SetBorderColor(color);
+            LoadViewModel();
+        }
+
+        public void SetShapeType(ShapeType shapeType)
+        {
+            _businessService.SetShapeType(shapeType);
+            LoadViewModel();
+        }
+
+        public void SetFillType(FillType fillType)
+        {
+            if (_viewModel?.SelectedRectangle == null)
+            {
+                return;
+            }
+
+            _businessService.SetFillType(fillType);
             LoadViewModel();
         }
 

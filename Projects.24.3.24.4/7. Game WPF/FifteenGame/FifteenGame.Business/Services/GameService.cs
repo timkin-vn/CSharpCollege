@@ -9,117 +9,165 @@ namespace FifteenGame.Business.Services
 {
     public class GameService
     {
+        private readonly string[] _colors =
+        {
+            "Red",
+            "Blue",
+            "Green",
+            "Yellow",
+            "Purple",
+            "Orange",
+            "Pink",
+            "Brown",
+            "Cyan",
+            "Magenta"
+        };
+
         public void Initialize(GameModel model)
         {
-            int value = 1;
-            for (int row = 0; row < GameModel.RowCount; row++)
+            model.Cells.Clear();
+
+            model.FirstOpenedCell = -1;
+            model.SecondOpenedCell = -1;
+            model.MovesCount = 0;
+            model.Seconds = 0;
+
+            model.StartTime = DateTime.Now;
+            model.IsPreview = true;
+            model.IsGameOver = false;
+
+            int id = 0;
+
+            int pairCount = model.RowCount * model.ColumnCount / 2;
+
+            for (int i = 0; i < pairCount; i++)
             {
-                for (int column = 0; column < GameModel.ColumnCount; column++)
+                string color = _colors[i];
+
+                model.Cells.Add(new CellModel
                 {
-                    model[row, column] = value++;
-                }
+                    Id = id++,
+                    Color = color,
+                    IsOpened = true,
+                    IsFound = false
+                });
+
+                model.Cells.Add(new CellModel
+                {
+                    Id = id++,
+                    Color = color,
+                    IsOpened = true,
+                    IsFound = false
+                });
             }
 
-            model[GameModel.RowCount - 1, GameModel.ColumnCount - 1] = GameModel.FreeCellValue;
-            model.FreeCellRow = GameModel.RowCount - 1;
-            model.FreeCellColumn = GameModel.ColumnCount - 1;
+            Shuffle(model.Cells);
         }
 
-        public bool MakeMove(GameModel model, MoveDirection direction)
+        public void OpenCell(GameModel model, int index)
         {
-            switch (direction)
+            if (index < 0 || index >= model.Cells.Count)
             {
-                case MoveDirection.Left:
-                    if (model.FreeCellColumn == GameModel.ColumnCount - 1)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow, model.FreeCellColumn + 1];
-                    model[model.FreeCellRow, model.FreeCellColumn + 1] = GameModel.FreeCellValue;
-                    model.FreeCellColumn++;
-                    return true;
-
-                case MoveDirection.Right:
-                    if (model.FreeCellColumn == 0)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow, model.FreeCellColumn - 1];
-                    model[model.FreeCellRow, model.FreeCellColumn - 1] = GameModel.FreeCellValue;
-                    model.FreeCellColumn--;
-                    return true;
-
-                case MoveDirection.Up:
-                    if (model.FreeCellRow == GameModel.RowCount - 1)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow + 1, model.FreeCellColumn];
-                    model[model.FreeCellRow + 1, model.FreeCellColumn] = GameModel.FreeCellValue;
-                    model.FreeCellRow++;
-                    return true;
-
-                case MoveDirection.Down:
-                    if (model.FreeCellRow == 0)
-                    {
-                        return false;
-                    }
-
-                    model[model.FreeCellRow, model.FreeCellColumn] = model[model.FreeCellRow - 1, model.FreeCellColumn];
-                    model[model.FreeCellRow - 1, model.FreeCellColumn] = GameModel.FreeCellValue;
-                    model.FreeCellRow--;
-                    return true;
+                return;
             }
 
-            return false;
+            if (model.Cells[index].IsFound)
+            {
+                return;
+            }
+
+            if (model.Cells[index].IsOpened || model.Cells[index].IsFound)
+            {
+                return;
+            }
+
+            if (model.SecondOpenedCell != -1)
+            {
+                return;
+            }
+
+            if (model.FirstOpenedCell == index)
+            {
+                return;
+            }
+
+            model.Cells[index].IsOpened = true;
+            model.MovesCount++;
+
+
+            if (model.FirstOpenedCell == -1)
+            {
+                model.FirstOpenedCell = index;
+            }
+            else
+            {
+                model.SecondOpenedCell = index;
+            }
         }
 
-        public void Shuffle(GameModel model)
+        public void CheckOpenedCells(GameModel model)
         {
-            Initialize(model);
-
-            var rnd = new Random();
-            for (int i = 0; i < 1000; i++)
+            if (model.FirstOpenedCell == -1 || model.SecondOpenedCell == -1)
             {
-                var nextMove = (MoveDirection)(rnd.Next(4) + 1);
-                MakeMove(model, nextMove);
+                return;
+            }
+
+            if (model.FirstOpenedCell == model.SecondOpenedCell)
+            {
+                model.FirstOpenedCell = -1;
+                model.SecondOpenedCell = -1;
+                return;
+            }
+
+            CheckPair(model);
+        }
+
+        private void CheckPair(GameModel model)
+        {
+            if (model.FirstOpenedCell == -1 || model.SecondOpenedCell == -1)
+            {
+                return;
+            }
+
+            var first = model.Cells[model.FirstOpenedCell];
+            var second = model.Cells[model.SecondOpenedCell];
+
+            if (first.Color == second.Color)
+            {
+                first.IsFound = true;
+                second.IsFound = true;
+
+                first.IsOpened = true;
+                second.IsOpened = true;
+            }
+            else
+            {
+                first.IsOpened = false;
+                second.IsOpened = false;
+            }
+
+            model.FirstOpenedCell = -1;
+            model.SecondOpenedCell = -1;
+            model.IsCheckingPair = false;
+        }
+
+        private void Shuffle(List<CellModel> cells)
+        {
+            Random random = new Random();
+
+            for (int i = cells.Count - 1; i > 0; i--)
+            {
+                int j = random.Next(i + 1);
+
+                CellModel temp = cells[i];
+                cells[i] = cells[j];
+                cells[j] = temp;
             }
         }
 
         public bool IsGameOver(GameModel model)
         {
-            int freeCellRow = model.FreeCellRow;
-            if (freeCellRow != GameModel.RowCount - 1)
-            {
-                return false;
-            }
-
-            int freeCellColumn = model.FreeCellColumn;
-            if (freeCellColumn != GameModel.ColumnCount - 1)
-            {
-                return false;
-            }
-
-            int value = 1;
-            for (int row = 0; row < GameModel.RowCount; row++)
-            {
-                for (int column = 0; column < GameModel.ColumnCount; column++)
-                {
-                    if (row == freeCellRow && column == freeCellColumn)
-                    {
-                        return model[row, column] == GameModel.FreeCellValue;
-                    }
-                    else if (model[row, column] != value++)
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
+            return model.Cells.All(cell => cell.IsFound);
         }
     }
 }

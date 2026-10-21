@@ -32,8 +32,8 @@ namespace FifteenGame.Wpf
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            var direction = (MoveDirection)((FrameworkElement)sender).Tag;
-            ViewModel.MakeMove(direction, OnGameFinished);
+            var cell = (CellViewModel)((FrameworkElement)sender).DataContext;
+            ViewModel.OpenCell(cell.Row, cell.Column);
         }
 
         private void OnGameFinished()
@@ -49,6 +49,41 @@ namespace FifteenGame.Wpf
             var dialog = new UserLoginWindow();
             dialog.ViewModel.MainViewModel = ViewModel;
             dialog.ShowDialog();
+        }
+
+        private void PlayAgain_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.Initialize();
+        }
+
+        private void Colors_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.SetTheme("Colors");
+        }
+
+        private void Animals_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.SetTheme("Animals");
+        }
+
+        private void Fruits_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.SetTheme("Fruits");
+        }
+
+        private void Easy_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.SetDifficulty(4);
+        }
+
+        private void Medium_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.SetDifficulty(6);
+        }
+
+        private void Hard_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.SetDifficulty(8);
         }
     }
 }

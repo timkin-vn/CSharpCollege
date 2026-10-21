@@ -1,26 +1,125 @@
-﻿<main>
-    <section class="row" aria-labelledby="aspnetTitle">
-        <h1 id="aspnetTitle">ASP.NET</h1>
-        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS, and JavaScript.</p>
-        <p><a href="https://asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
-    </section>
-    <div class="row">
-        <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-            <h2 id="gettingStartedTitle">Getting started</h2>
-            <p>ASP.NET Web API is a framework that makes it easy to build HTTP services that reach
-            a broad range of clients, including browsers and mobile devices. ASP.NET Web API
-            is an ideal platform for building RESTful applications on the .NET Framework.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301870">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="librariesTitle">
-            <h2 id="librariesTitle">Get more libraries</h2>
-            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301871">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="hostingTitle">
-            <h2 id="hostingTitle">Web Hosting</h2>
-            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301872">Learn more &raquo;</a></p>
-        </section>>
+﻿@{
+    ViewBag.Title = "Найди пару";
+}
+
+<style>
+    .wrap {
+        max-width: 480px;
+        margin: 15px auto;
+        text-align: center;
+        font-family: sans-serif;
+    }
+
+    .bar {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin: 8px 0;
+        font-size: 14px;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .tab-group {
+        display: inline-flex;
+        background: #e2e8f0;
+        border-radius: 8px;
+        padding: 2px;
+        gap: 2px;
+    }
+
+    .tab-btn {
+        border: none;
+        background: transparent;
+        padding: 5px 10px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #475569;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+        .tab-btn.active {
+            background: #ffffff;
+            color: #0f172a;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+    .grid {
+        display: grid;
+        gap: 8px;
+        justify-content: center;
+        margin: 15px auto;
+    }
+
+    .card {
+        width: 65px;
+        height: 75px;
+        background: #cbd5e1;
+        border: 2px solid #94a3b8;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 26px;
+        cursor: pointer;
+        user-select: none;
+        transition: 0.2s;
+    }
+
+        .card.open {
+            background: #fff;
+            border-color: #64748b;
+        }
+
+        .card.matched {
+            opacity: 0.85;
+            cursor: default;
+        }
+
+        .card.hint {
+            border: 2px solid #f59e0b;
+        }
+
+    .recs {
+        font-size: 13px;
+        color: #475569;
+        margin-top: 10px;
+    }
+
+</style>
+
+<div class="wrap">
+    <h3>🎮 Найди пару</h3>
+    <div class="bar">
+        <span>⏱ <b id="time">00:00</b></span> |
+        <span>👣 Ходы: <b id="moves">0</b></span> |
+        <span>⭐ <b id="score">0</b></span> |
+        <span>🔥 <b id="combo">x1</b></span>
     </div>
-</main>
+
+    <div class="bar">
+        <div class="tab-group" id="diffGroup">
+            <button type="button" class="tab-btn active" data-val="1">Легкая</button>
+            <button type="button" class="tab-btn" data-val="2">Средняя</button>
+            <button type="button" class="tab-btn" data-val="3">Сложная</button>
+        </div>
+
+        <div class="tab-group" id="themeGroup">
+            <button type="button" class="tab-btn active" data-val="0">🎨 Цвета</button>
+            <button type="button" class="tab-btn" data-val="1">🐱 Животные</button>
+            <button type="button" class="tab-btn" data-val="2">🍎 Фрукты</button>
+        </div>
+
+        <button type="button" id="btnNew" class="tab-btn" style="background:#e2e8f0;">🔄 Заново</button>
+        <button type="button" id="btnHint" class="tab-btn" style="background:#fef3c7; color:#b45309;">💡Подсказка (<span id="hLeft">2</span>)</button>
+    </div>
+
+    <div id="board" class="grid"></div>
+    <div class="recs">🏆 Рекорды: Легкая: <b id="r1">-</b> | Средняя: <b id="r2">-</b> | Сложная: <b id="r3">-</b></div>
+</div>
+
+@section scripts {
+    <script src="~/Scripts/game.js"></script>
+}

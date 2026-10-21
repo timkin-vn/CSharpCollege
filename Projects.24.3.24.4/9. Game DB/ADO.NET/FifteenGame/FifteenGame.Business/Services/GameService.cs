@@ -48,18 +48,29 @@ namespace FifteenGame.Business.Services
 
         public void Initialize(GameModel model)
         {
+            int pairCount = Constants.RowCount * Constants.ColumnCount / 2;
+
             int value = 1;
+
             for (int row = 0; row < Constants.RowCount; row++)
             {
                 for (int column = 0; column < Constants.ColumnCount; column++)
                 {
-                    model[row, column] = value++;
+                    model[row, column] = value;
+
+                    if (column % 2 == 1)
+                    {
+                        value++;
+                    }
+
+                    if (value > pairCount)
+                    {
+                        value = 1;
+                    }
                 }
             }
 
-            model[Constants.RowCount - 1, Constants.ColumnCount - 1] = Constants.FreeCellValue;
-            model.FreeCellRow = Constants.RowCount - 1;
-            model.FreeCellColumn = Constants.ColumnCount - 1;
+            model.MoveCount = 0;
         }
 
         public bool IsGameOver(int gameId)
@@ -181,11 +192,35 @@ namespace FifteenGame.Business.Services
         {
             Initialize(model);
 
-            var rnd = new Random();
-            for (int i = 0; i < 1000; i++)
+            var values = new List<int>();
+
+            for (int row = 0; row < Constants.RowCount; row++)
             {
-                var nextMove = (MoveDirection)(rnd.Next(4) + 1);
-                MakeMove(model, nextMove);
+                for (int column = 0; column < Constants.ColumnCount; column++)
+                {
+                    values.Add(model[row, column]);
+                }
+            }
+
+            var random = new Random();
+
+            for (int i = values.Count - 1; i > 0; i--)
+            {
+                int j = random.Next(i + 1);
+                int temp = values[i];
+                values[i] = values[j];
+                values[j] = temp;
+            }
+
+            int index = 0;
+
+            for (int row = 0; row < Constants.RowCount; row++)
+            {
+                for (int column = 0; column < Constants.ColumnCount; column++)
+                {
+                    model[row, column] = values[index];
+                    index++;
+                }
             }
 
             model.MoveCount = 0;

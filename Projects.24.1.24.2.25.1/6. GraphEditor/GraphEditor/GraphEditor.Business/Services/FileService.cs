@@ -16,6 +16,12 @@ namespace GraphEditor.Business.Services
     {
         public void Save(string fileName, PictureModel model)
         {
+            var directory = Path.GetDirectoryName(fileName);
+            if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory)) 
+            { 
+               Directory.CreateDirectory(directory);
+            }
+
             using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
             {
                 using (var archive = new ZipArchive(fs, ZipArchiveMode.Create))
@@ -36,22 +42,30 @@ namespace GraphEditor.Business.Services
 
         public PictureModel Open(string fileName)
         {
+            if (!File.Exists(fileName))
+            {
+                throw new FileNotFoundException($"Файл не найден: {fileName}");
+            }
+
             try
             {
                 using (var fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+                using (var archive = new ZipArchive(fs, ZipArchiveMode.Read))
                 {
-                    using (var archive = new ZipArchive(fs, ZipArchiveMode.Read))
+                    var entry = archive.GetEntry(Path.GetFileNameWithoutExtension(fileName) + ".xml");
+
+                    if (entry == null)
                     {
-                        var entry = archive.GetEntry(Path.GetFileNameWithoutExtension(fileName) + ".xml");
-                        using (var es = entry.Open())
-                        {
-                            using (var reader = new StreamReader(es))
-                            {
-                                var serializer = new XmlSerializer(typeof(XmlPicture));
-                                var xml = (XmlPicture)serializer.Deserialize(reader);
-                                return FromXml(xml);
-                            }
-                        }
+                        throw new Exception("В архиве отсутствует XML файл");
+                    }
+
+                    using (var es = entry.Open())
+                    using (var reader = new StreamReader(es))
+                    {
+                        var serializer = new XmlSerializer(typeof(XmlPicture));
+                        var xml = (XmlPicture)serializer.Deserialize(reader);
+
+                        return FromXml(xml);
                     }
                 }
             }

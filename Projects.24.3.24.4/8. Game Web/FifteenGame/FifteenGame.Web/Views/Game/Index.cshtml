@@ -1,61 +1,122 @@
 ﻿@model FifteenGame.Web.Models.GameViewModel
-
 @{
-    ViewBag.Title = "Игра 15";
-    bool isGameOver = (bool?)ViewBag.IsGameOver ?? false;
+    ViewBag.Title = "Найди пару";
+    bool isGameOver = Model.IsGameOver;
 }
-
 <main>
-    <h2>Игра 15</h2>
+    <h2>Найди пару</h2>
+    @Html.ActionLink("Новая игра", "NewGame", "Game", null, new { @class = "btn btn-primary" })
+    @if (!Model.IsPaused)
+    {
+        @Html.ActionLink("Пауза", "Pause", "Game", null, new { @class = "btn btn-warning" })
+    }
+    else
+    {
+        @Html.ActionLink("Продолжить", "Pause", "Game", null, new { @class = "btn btn-success" })
+    }
+
+    @Html.ActionLink("Легко", "NewGame", "Game", new { rows = 2, columns = 5 }, new { @class = "btn btn-success" })
+    @Html.ActionLink("Средне", "NewGame", "Game", new { rows = 4, columns = 4 }, new { @class = "btn btn-warning" })
+    @Html.ActionLink("Сложно", "NewGame", "Game", new { rows = 4, columns = 5 }, new { @class = "btn btn-danger" })
+
+    <p><strong>Сложность:</strong> @Model.DifficultyName</p>
+
+    <h4 id="timer"> Время: 00:00 </h4>
+    <p>Ходы: @Model.MovesCount</p>
+
+    @if (Model.BestMoves != int.MaxValue)
+    {
+        <p>
+            Рекорд:
+            @Model.BestMoves ходов,
+            @Model.BestSeconds сек.
+        </p>
+    }
 
     @if (isGameOver)
     {
-        <h2 class="text-danger">Поздравляем! Игра завершена</h2>
-
         <div>
-            @Html.ActionLink("Повторить", "Index", new {}, new { @class = "btn btn-success" })
+            <h3>Ваш результат</h3>
+            <p>
+                <strong>Сложность:</strong> @Model.DifficultyName
+            </p>
+            <p>
+                <strong>Ходы:</strong> @Model.MovesCount
+            </p>
+            <p>
+                <strong>Время:</strong> @TimeSpan.FromSeconds(Model.Seconds).ToString(@"mm\:ss")
+            </p>
+            @if (Model.IsNewRecord)
+            {
+                <h4>Новый рекорд!</h4>
+            }
+            @Html.ActionLink("Новая игра", "NewGame", "Game", null, new { @class = "btn btn-success" })
         </div>
     }
-
     <div class="container">
         @for (int row = 0; row < Model.RowCount; row++)
         {
             <div class="row">
-                <div class="col-2"></div>
-
                 @for (int column = 0; column < Model.ColumnCount; column++)
                 {
-                    if (Model.Cells[row, column].IsEmpty)
-                    {
-                        <div class="col-2"></div>
-                        continue;
-                    }
-
-                    if (isGameOver || Model.Cells[row, column].Direction == FifteenGame.Business.Models.MoveDirection.None)
-                    {
-                        @*<div class="col-2 d-grid p-2 text-center">
-                            <div class="btn btn-success fs-3">@Model.Cells[row, column].Text</div>
-                        </div>*@
-
-                        <div class="col-2 d-grid p-2 text-center">
-                            <img src="@Url.Content($"~/Content/img/{@Model.Cells[row, column].Text}.png")"
-                                 style="width: 150px; height: 150px; display: block; margin: auto;"/>
-                        </div>
-
-                        continue;
-                    }
-
-                    <div class="col-2 d-grid p-2 text-center">
-                        @*@Html.ActionLink(Model.Cells[row, column].Text, "MakeMove",
-                            new { directionText = Model.Cells[row, column].DirectionText }, new { @class = "btn btn-success fs-3" })*@
-
-                        <a href="@Url.Action("MakeMove", "Game", new { directionText = Model.Cells[row, column].DirectionText })">
-                            <img src="@Url.Content($"~/Content/img/{@Model.Cells[row, column].Text}.png")"
-                                 style="width: 150px; height: 150px; display: block; margin: auto;" />
+                    var cell = Model.Cells[row * Model.ColumnCount + column];
+                    <div class="col-2 text-center" style="margin:5px">
+                        <a href="@Url.Action("OpenCell", "Game", new { index = cell.Index })">
+                            <div style="
+                                width:80px;
+                                height:80px;
+                                background:@cell.BackgroundColor;
+                                border:2px solid brown;
+                                border-radius:10px;
+                                transition: transform 0.35s;
+                                transform:@(cell.IsOpened || cell.IsFound ? "rotateY(180deg)" : "rotateY(0deg)");">
+                            </div>
                         </a>
                     </div>
                 }
             </div>
         }
     </div>
+    <script>
+    let opened = @Model.Cells.Count(x => x.IsOpened && !x.IsFound);
+    if (opened == 2)
+       {
+            setTimeout(function () {
+            window.location.href = '@Url.Action("CheckPair", "Game")';
+       }, 700);
+     }
+    </script>
+
+    <script>
+    let seconds = @Model.Seconds;
+    let isGameOver = @isGameOver.ToString().ToLower();
+    let isPaused = @Model.IsPaused.ToString().ToLower();
+    function updateTimer()
+    {
+       let minutes = Math.floor(seconds / 60);
+       let sec = seconds % 60;
+           document.getElementById("timer").innerHTML =
+             "Время: " +
+             minutes.toString().padStart(2, '0') +
+             ":" +
+           sec.toString().padStart(2, '0');
+    }
+       updateTimer();
+       if (!isGameOver && !isPaused)
+    {
+       setInterval(function () {
+         seconds++;
+         updateTimer();
+       }, 1000);
+    }
+    </script>
+
+    @if (Model.IsPreview)
+    {
+        <script>
+        setTimeout(function () {
+            window.location.href = '@Url.Action("StartGame", "Game")';
+        }, 3000);
+        </script>
+    }
 </main>

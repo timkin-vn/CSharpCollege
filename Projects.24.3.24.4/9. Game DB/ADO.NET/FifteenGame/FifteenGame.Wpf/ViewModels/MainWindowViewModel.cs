@@ -10,59 +10,233 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Threading;
 
 namespace FifteenGame.Wpf.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private IGameService _service = NinjectKernel.Instance.Get<IGameService>();
-
         private GameModel _model = new GameModel();
 
         private UserModel _user;
 
+        private string _gameTheme = "Colors";
+
+        private int _pairCount = 8;
+
+        private int _easyRecord = 0;
+
+        private int _mediumRecord = 0;
+
+        private int _hardRecord = 0;
+
+        private int _firstOpenedRow = -1;
+
+        private int _firstOpenedColumn = -1;
+
+        private DispatcherTimer _timer;
+
+        private int _seconds;
+
         public ObservableCollection<CellViewModel> Cells { get; } = new ObservableCollection<CellViewModel>();
 
-        public string UserName => _user?.Name ?? "<нет>";
+        public string UserName => _user?.Name ?? "Игрок";
 
-        public int MoveCount => _model?.MoveCount ?? 0;
+        public int MoveCount => _model.MoveCount;
+
+        public string Record
+        {
+            get
+            {
+                int record = GetRecord();
+
+                if (record == 0)
+                {
+                    return "—";
+                }
+
+                return record.ToString();
+            }
+        }
+
+        public string Time => TimeSpan.FromSeconds(_seconds).ToString(@"mm\:ss");
 
         public MainWindowViewModel()
         {
-            _model = new GameModel();
-            LoadViewModel(_model);
+            _timer = new DispatcherTimer();
+
+            _timer.Interval = TimeSpan.FromSeconds(1);
+
+            _timer.Tick += Timer_Tick;
+
+            CreateGame();
         }
 
         public void CommitUser(UserModel userModel)
         {
             _user = userModel;
             OnPropertyChanged(nameof(UserName));
-
-            _model = _service.GetByUserId(_user.Id);
-            LoadViewModel(_model);
         }
 
         public void Initialize()
         {
-            _model = _service.GetByUserId(_user.Id);
+            CreateGame();
+        }
+
+        private bool IsGameFinished()
+        {
+            int foundPairs = 0;
+
+            for (int row = 0; row < Constants.RowCount; row++)
+            {
+                for (int column = 0; column < Constants.ColumnCount; column++)
+                {
+                    if (_model.IsFound(row, column))
+                    {
+                        foundPairs++;
+                    }
+                }
+            }
+
+            return foundPairs == _pairCount * 2;
+        }
+
+        public async void OpenCell(int row, int column)
+        {
+            if (row < 0 || row >= Constants.RowCount || column < 0 || column >= Constants.ColumnCount)
+
+            {
+                return;
+            }
+
+            if (_model.IsFound(row, column))
+
+            {
+                return;
+            }
+
+            if (_model.IsOpened(row, column))
+
+            {
+                return;
+            }
+
+            _model.SetOpened(row, column, true);
+
+            if (_firstOpenedRow == -1)
+
+            {
+                _firstOpenedRow = row;
+                _firstOpenedColumn = column;
+
+                LoadViewModel(_model);
+                return;
+            }
+
+            _model.MoveCount++;
+
+            LoadViewModel(_model);
+
+            await Task.Delay(700);
+
+            if (_model[_firstOpenedRow, _firstOpenedColumn] == _model[row, column])
+
+            {
+                _model.SetFound(_firstOpenedRow, _firstOpenedColumn, true);
+                _model.SetFound(row, column, true);
+            }
+
+            else
+
+            {
+                _model.SetOpened(_firstOpenedRow, _firstOpenedColumn, false);
+                _model.SetOpened(row, column, false);
+            }
+
+            if (IsGameFinished())
+            {
+                _timer.Stop();
+
+                int record = GetRecord();
+
+                if (record == 0 || _model.MoveCount < record)
+                {
+                    SetRecord(_model.MoveCount);
+
+                    MessageBox.Show($"Поздравляем! Вы нашли все пары!\n\n" + $"Количество ходов: {_model.MoveCount}\n" + $"Время: {Time}\n\n" + $"🏆 Новый рекорд!", "Победа!", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+
+                else
+
+                {
+                    MessageBox.Show( $"Поздравляем! Вы нашли все пары!\n\n" + $"Количество ходов: {_model.MoveCount}\n" + $"Время: {Time}\n\n" + $"Рекорд: {record} ходов", "Победа!", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+
+            _firstOpenedRow = -1;
+            _firstOpenedColumn = -1;
+
             LoadViewModel(_model);
         }
 
-        public void MakeMove(MoveDirection direction, Action gameFinishedAction)
+        private void CreateGame()
         {
-            _model = _service.MakeMove(_model.Id, direction);
-            LoadViewModel(_model);
+            _model = new GameModel();
 
-            if (_service.IsGameOver(_model.Id))
+            _seconds = 0;
+
+            OnPropertyChanged(nameof(Time));
+
+            _timer.Start();
+
+            List<int> values = new List<int>();
+
+            for (int value = 1; value <= _pairCount; value++)
             {
-                _service.RemoveGame(_model.Id);
-                gameFinishedAction?.Invoke();
+                values.Add(value);
+                values.Add(value);
             }
+
+            Random random = new Random();
+
+            for (int i = values.Count - 1; i > 0; i--)
+            {
+                int j = random.Next(i + 1);
+
+                int temp = values[i];
+                values[i] = values[j];
+                values[j] = temp;
+            }
+
+            int index = 0;
+
+            for (int row = 0; row < Constants.RowCount; row++)
+            {
+                for (int column = 0; column < Constants.ColumnCount; column++)
+                {
+                    if (index < values.Count)
+
+                    {
+                        _model[row, column] = values[index];
+                        index++;
+                    }
+
+                    else
+
+                    {
+                        _model[row, column] = Constants.FreeCellValue;
+                    }
+                }
+            }
+
+            LoadViewModel(_model);
         }
 
         private void LoadViewModel(GameModel model)
         {
             Cells.Clear();
+
             for (int row = 0; row < Constants.RowCount; row++)
             {
                 for (int column = 0; column < Constants.ColumnCount; column++)
@@ -72,42 +246,79 @@ namespace FifteenGame.Wpf.ViewModels
                         continue;
                     }
 
-                    var direction = MoveDirection.None;
-
-                    if (row == model.FreeCellRow)
-                    {
-                        if (column == model.FreeCellColumn - 1)
-                        {
-                            direction = MoveDirection.Right;
-                        }
-                        else if (column == model.FreeCellColumn + 1)
-                        {
-                            direction = MoveDirection.Left;
-                        }
-                    }
-                    else if (column == model.FreeCellColumn)
-                    {
-                        if (row == model.FreeCellRow - 1)
-                        {
-                            direction = MoveDirection.Down;
-                        }
-                        else if (row == model.FreeCellRow + 1)
-                        {
-                            direction = MoveDirection.Up;
-                        }
-                    }
-
                     Cells.Add(new CellViewModel
                     {
                         Row = row,
                         Column = column,
+                        Theme = _gameTheme,
                         Value = model[row, column],
-                        Direction = direction,
+                        Direction = MoveDirection.None,
+                        IsOpened = model.IsOpened(row, column),
+                        IsFound = model.IsFound(row, column)
                     });
                 }
             }
 
             OnPropertyChanged(nameof(MoveCount));
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            _seconds++;
+            OnPropertyChanged(nameof(Time));
+        }
+
+        public void SetTheme(string theme)
+        {
+            _gameTheme = theme;
+            CreateGame();
+        }
+
+        public void SetDifficulty(int pairCount)
+        {
+            _pairCount = pairCount;
+
+            OnPropertyChanged(nameof(Record));
+
+            CreateGame();
+        }
+
+        private int GetRecord()
+        {
+            switch (_pairCount)
+            {
+                case 4:
+                    return _easyRecord;
+
+                case 6:
+                    return _mediumRecord;
+
+                case 8:
+                    return _hardRecord;
+
+                default:
+                    return 0;
+            }
+        }
+
+        private void SetRecord(int record)
+        {
+            switch (_pairCount)
+            {
+                case 4:
+                    _easyRecord = record;
+                    break;
+
+                case 6:
+                    _mediumRecord = record;
+                    break;
+
+                case 8:
+                    _hardRecord = record;
+                    break;
+            }
+
+            OnPropertyChanged(nameof(Record));
         }
     }
 }
