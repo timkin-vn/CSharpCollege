@@ -1,20 +1,350 @@
-﻿/* Set padding to keep content from hitting the edges */
+﻿
 .body-content {
     margin-top: 15px;
     padding-left: 15px;
     padding-right: 15px;
 }
 
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
-.dl-horizontal dt {
-    white-space: normal;
+.game-page {
+    color: #776e65;
+    padding: 12px 0 32px;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
+.game-container {
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+.game-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.game-logo {
+    font-size: clamp(48px, 12vw, 76px);
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: -5px;
+    color: #776e65;
+}
+
+.score-container {
+    display: flex;
+    gap: 8px;
+}
+
+.score-box {
+    min-width: 82px;
+    padding: 8px 10px;
+    border-radius: 5px;
+    background: #bbada0;
+    color: #fff;
+    text-align: center;
+}
+
+    .score-box span {
+        display: block;
+        font-size: 11px;
+        font-weight: 700;
+        line-height: 1.5;
+    }
+
+    .score-box strong {
+        display: block;
+        font-size: 22px;
+        line-height: 1.3;
+    }
+
+.game-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+    .game-toolbar h1 {
+        margin: 0 0 4px;
+        font-size: 24px;
+        font-weight: 800;
+    }
+
+    .game-toolbar p {
+        margin: 0;
+        font-size: 14px;
+    }
+
+.game-button {
+    border: 0;
+    border-radius: 5px;
+    padding: 10px 14px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.new-game-button {
+    background: #8f7a66;
+    color: #fff;
+}
+
+.undo-button {
+    background: #bbada0;
+    color: #fff;
+}
+
+.game-button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: repeat(4, minmax(0, 1fr));
+    gap: clamp(5px, 1.5vw, 10px);
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    padding: clamp(5px, 1.5vw, 10px);
+    box-sizing: border-box;
+    border-radius: 7px;
+    background: #bbada0;
+    touch-action: pan-y;
+}
+
+.tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    border: 0;
+    border-radius: 5px;
+    background: #cdc1b4;
+    font-size: clamp(19px, 5.8vw, 38px);
+    font-weight: 800;
+    line-height: 1;
+    overflow: hidden;
+}
+
+
+.tile-empty {
+    background: #cdc1b4;
+}
+
+.tile-2 {
+    background: #eee4da;
+    color: #776e65;
+}
+
+.tile-4 {
+    background: #ede0c8;
+    color: #776e65;
+}
+
+.tile-8 {
+    background: #f2b179;
+    color: #fffaf3;
+}
+
+.tile-16 {
+    background: #f59563;
+    color: #fffaf3;
+}
+
+.tile-32 {
+    background: #f67c5f;
+    color: #fffaf3;
+}
+
+.tile-64 {
+    background: #f65e3b;
+    color: #fffaf3;
+}
+
+.tile-128 {
+    background: #edcf72;
+    color: #fffaf3;
+    font-size: clamp(17px, 4.8vw, 32px);
+}
+
+.tile-256 {
+    background: #edcc61;
+    color: #fffaf3;
+    font-size: clamp(17px, 4.8vw, 32px);
+}
+
+.tile-512 {
+    background: #edc850;
+    color: #fffaf3;
+    font-size: clamp(17px, 4.8vw, 32px);
+}
+
+.tile-1024 {
+    background: #edc53f;
+    color: #fffaf3;
+    font-size: clamp(14px, 4vw, 27px);
+}
+
+.tile-2048 {
+    background: #edc22e;
+    color: #fffaf3;
+    font-size: clamp(14px, 4vw, 27px);
+}
+
+.tile:not(.tile-empty):not(.tile-2):not(.tile-4):not(.tile-8):not(.tile-16):not(.tile-32):not(.tile-64):not(.tile-128):not(.tile-256):not(.tile-512):not(.tile-1024):not(.tile-2048) {
+    background: #3c3a32;
+    color: #fffaf3;
+    font-size: clamp(13px, 3.5vw, 24px);
+}
+
+.game-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 14px;
+}
+
+.move-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.horizontal-controls {
+    display: flex;
+    gap: 5px;
+}
+
+.move-form {
+    margin: 0;
+}
+
+.direction-button {
+    width: 42px;
+    height: 38px;
+    border: 0;
+    border-radius: 5px;
+    background: #8f7a66;
+    color: white;
+    font-size: 22px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+    .direction-button:hover,
+    .new-game-button:hover:not(:disabled),
+    .undo-button:hover:not(:disabled) {
+        filter: brightness(1.08);
+    }
+
+.game-message {
+    margin: 0 0 14px;
+    padding: 12px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: 700;
+}
+
+.win-message {
+    background: #edc22e;
+    color: #fff;
+}
+
+.over-message {
+    background: #776e65;
+    color: #fff;
+}
+
+.game-instructions {
+    margin-top: 24px;
+    padding-top: 14px;
+    border-top: 1px solid #d8d4cf;
+}
+
+    .game-instructions h2 {
+        font-size: 18px;
+        font-weight: 800;
+    }
+
+    .game-instructions p {
+        line-height: 1.6;
+    }
+
+@media (max-width: 420px) {
+    .game-header {
+        align-items: flex-start;
+    }
+
+    .score-container {
+        gap: 5px;
+    }
+
+    .score-box {
+        min-width: 65px;
+        padding: 6px;
+    }
+
+        .score-box strong {
+            font-size: 18px;
+        }
+
+    .game-toolbar {
+        align-items: flex-start;
+    }
+
+        .game-toolbar h1 {
+            font-size: 20px;
+        }
+
+        .game-toolbar p {
+            max-width: 185px;
+            font-size: 12px;
+        }
+
+    .game-button {
+        padding: 9px 10px;
+        font-size: 12px;
+    }
+
+    .direction-button {
+        width: 36px;
+        height: 34px;
+    }
+
+    .game-board {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-rows: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        box-sizing: border-box;
+    }
+
+        .game-board .cell {
+            min-width: 0;
+            min-height: 0;
+            width: 100%;
+            height: 100%;
+            aspect-ratio: 1 / 1;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
 }

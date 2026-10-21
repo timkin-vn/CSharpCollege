@@ -2,143 +2,190 @@
 @model FifteenGame.Web.Models.GameViewModel
 
 @{
-    ViewBag.Title = "Игра 15";
-    bool isGameOver = (bool?)ViewBag.IsGameOver ?? false;
+    ViewBag.Title = "2048";
 }
 
-<style>
-    .game-page {
-        max-width: 760px;
-        margin: 25px auto;
-        padding: 24px;
-        text-align: center;
-        background: #f5f0e6;
-        border-radius: 16px;
-    }
-
-    .game-board {
-        display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 8px;
-        max-width: 560px;
-        margin: 24px auto;
-        padding: 10px;
-        background: #b9a58d;
-        border: 2px solid #806b56;
-        border-radius: 12px;
-    }
-
-    .game-cell {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        aspect-ratio: 1;
-        min-width: 0;
-        overflow: hidden;
-        background: #e8d4b5;
-        border: 1px solid #8d7053;
-        border-radius: 7px;
-    }
-
-        .game-cell a,
-        .game-cell img {
-            display: block;
-            width: 100%;
-            height: 100%;
-        }
-
-        .game-cell img {
-            object-fit: contain;
-        }
-
-        .game-cell.empty {
-            background: #b9a58d;
-            border-color: transparent;
-        }
-
-    .game-info {
-        margin: 16px 0;
-        font-size: 18px;
-        color: #49382d;
-    }
-
-    .game-actions {
-        margin-top: 20px;
-    }
-
-        .game-actions a {
-            margin: 5px;
-        }
-</style>
-
 <main class="game-page">
-    <h2>Пятнашки</h2>
+    <div class="game-container">
+        <header class="game-header">
+            <div class="game-logo">2048</div>
 
-    <div class="game-info">
-        Ходов: <strong>@Model.MoveCount</strong>
-    </div>
+            <div class="score-container">
+                <div class="score-box">
+                    <span>СЧЁТ</span>
+                    <strong>@Model.Score</strong>
+                </div>
+                <div class="score-box">
+                    <span>РЕКОРД</span>
+                    <strong>@Model.BestScore</strong>
+                </div>
+            </div>
+        </header>
 
-    @if (isGameOver)
-    {
-        <div class="alert alert-success">
-            Поздравляем! Вы собрали все плитки!
-            <br />
-            Количество ходов: <strong>@Model.MoveCount</strong>
-        </div>
-    }
+        <div class="game-toolbar">
+            <div>
+                <h1>Игра 2048</h1>
+                <p>Объединяй плитки и получи 2048!</p>
+            </div>
 
-    <div class="game-board">
-        @for (int row = 0; row < Model.RowCount; row++)
-        {
-            for (int column = 0; column < Model.ColumnCount; column++)
+            @using (Html.BeginForm("NewGame", "Game", FormMethod.Post))
             {
-                var cell = Model.Cells[row, column];
+                <button type="submit" class="game-button new-game-button">
+                    Новая игра
+                </button>
+            }
+        </div>
 
-                if (cell.IsEmpty)
+        @if (Model.HasWon)
+        {
+            <div class="game-message win-message">
+                Поздравляем! Ты собрал плитку 2048.
+            </div>
+        }
+
+        @if (Model.IsGameOver)
+        {
+            <div class="game-message over-message">
+                Игра окончена. Попробуй ещё раз!
+            </div>
+        }
+
+        <div class="board" id="gameBoard">
+            @for (int row = 0; row < Model.RowCount; row++)
+            {
+                for (int column = 0; column < Model.ColumnCount; column++)
                 {
-                    <div class="game-cell empty"></div>
-                    continue;
+                    var cell = Model.Cells[row, column];
+
+                    <div class="@cell.CssClass">
+                        @cell.Text
+                    </div>
+                }
+            }
+        </div>
+
+        <div class="game-actions">
+            @using (Html.BeginForm("Undo", "Game", FormMethod.Post))
+            {
+                <button type="submit"
+                        class="game-button undo-button"
+                        @(Model.CanUndo ? "" : "disabled")>
+                    Отменить ход
+                </button>
+            }
+
+        <div class="move-controls">
+                @using (Html.BeginForm("MakeMove", "Game", FormMethod.Post))
+                {
+                    <button type="submit" name="directionText" value="Up">↑</button>
                 }
 
-                <div class="game-cell">
-                    @if (!isGameOver &&
-                         cell.Direction != FifteenGame.Business.Models.MoveDirection.None)
-                    {
-                        <a href="@Url.Action(
-                            "MakeMove",
-                            "Game",
-                            new { directionText = cell.DirectionText })"
-                           title="Переместить плитку @cell.Text">
-                            <img src="@Url.Content(
-                                "~/Content/img/" + cell.Text + ".png")"
-                                 alt="Плитка @cell.Text" />
-                        </a>
-                    }
-                    else
-                    {
-                        <img src="@Url.Content(
-                            "~/Content/img/" + cell.Text + ".png")"
-                             alt="Плитка @cell.Text" />
-                    }
-                </div>
-            }
-        }
+        <div class="horizontal-controls">
+                @using (Html.BeginForm("MakeMove", "Game", FormMethod.Post))
+                {
+                    <button type="submit" name="directionText" value="Left">←</button>
+                }
+
+                @using (Html.BeginForm("MakeMove", "Game", FormMethod.Post))
+                {
+                    <button type="submit" name="directionText" value="Down">↓</button>
+                }
+
+                @using (Html.BeginForm("MakeMove", "Game", FormMethod.Post))
+                {
+                    <button type="submit" name="directionText" value="Right">→</button>
+                }
+        </div>
+        </div>
+        </div>
+
+        <section class="game-instructions">
+            <h2>Как играть</h2>
+            <p>Используй стрелки на клавиатуре, кнопки на экране или свайпы на телефоне. Одинаковые плитки объединяются в одну, а их значения складываются.</p>
+        </section>
     </div>
-
-
-    <div class="game-actions">
-        <button type="button"
-                class="btn btn-secondary"
-                onclick="if (window.history.length > 1) { window.history.back(); } else { window.location.href = '@Url.Action("Index", "Home")'; }">
-            ← Назад
-        </button>
-
-        @Html.ActionLink(
-            "Начать заново",
-            "Restart",
-            "Game",
-            null,
-            new { @class = "btn btn-success" })
-    </div>
-
 </main>
+
+@section scripts {
+    <script>
+        (function () {
+            var board = document.getElementById("gameBoard");
+            var startX = 0;
+            var startY = 0;
+            var locked = @((Model.IsGameOver).ToString().ToLowerInvariant());
+
+            document.addEventListener("keydown", function (event) {
+                if (locked || event.altKey || event.ctrlKey || event.metaKey) {
+                    return;
+                }
+
+                var directions = {
+                    ArrowLeft: "Left",
+                    ArrowRight: "Right",
+                    ArrowUp: "Up",
+                    ArrowDown: "Down"
+                };
+
+                var direction = directions[event.key];
+
+                if (!direction) {
+                    return;
+                }
+
+                event.preventDefault();
+
+                var buttons = document.querySelectorAll(
+                    'button[name="directionText"]'
+                );
+
+                for (var i = 0; i < buttons.length; i++) {
+                    if (buttons[i].value === direction) {
+                        buttons[i].click();
+                        break;
+                    }
+                }
+            });
+
+            board.addEventListener("touchstart", function (event) {
+                if (!event.changedTouches.length) {
+                    return;
+                }
+
+                startX = event.changedTouches[0].clientX;
+                startY = event.changedTouches[0].clientY;
+            }, { passive: true });
+
+            board.addEventListener("touchend", function (event) {
+                if (locked || !event.changedTouches.length) {
+                    return;
+                }
+
+                var deltaX = event.changedTouches[0].clientX - startX;
+                var deltaY = event.changedTouches[0].clientY - startY;
+
+                if (Math.max(Math.abs(deltaX), Math.abs(deltaY)) < 25) {
+                    return;
+                }
+
+                var direction;
+
+                if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                    direction = deltaX > 0 ? "Right" : "Left";
+                } else {
+                    direction = deltaY > 0 ? "Down" : "Up";
+                }
+
+                var buttons = document.querySelectorAll(
+                    'button[name="directionText"]'
+                );
+
+                for (var i = 0; i < buttons.length; i++) {
+                    if (buttons[i].value === direction) {
+                        buttons[i].form.submit();
+                        break;
+                    }
+                }
+            }, { passive: true });
+        })();
+    </script>
+}
