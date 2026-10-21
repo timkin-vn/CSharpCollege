@@ -5,128 +5,255 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewmodels="clr-namespace:FifteenGame.Wpf.ViewModels"
         mc:Ignorable="d"
-        Title="Игра 15"
-        Height="560"
-        Width="600"
-        MinHeight="500"
-        MinWidth="450"
-        Background="#F3F0E8"
-        WindowStartupLocation="CenterScreen">
+        Title="2048"
+        Height="650"
+        Width="540"
+        MinHeight="600"
+        MinWidth="500"
+        Background="#FAF8EF"
+        WindowStartupLocation="CenterScreen"
+        KeyDown="Window_KeyDown"
+        Focusable="True">
 
     <Window.DataContext>
         <viewmodels:MainWindowViewModel />
     </Window.DataContext>
 
+    <Window.Resources>
+        <Style x:Key="TileBorderStyle" TargetType="Border">
+            <Setter Property="Background" Value="#CDC1B4" />
+            <Setter Property="CornerRadius" Value="5" />
+            <Setter Property="Margin" Value="5" />
+
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Value}" Value="0">
+                    <Setter Property="Background" Value="#CDC1B4" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Value}" Value="2">
+                    <Setter Property="Background" Value="#EEE4DA" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Value}" Value="4">
+                    <Setter Property="Background" Value="#EDE0C8" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Value}" Value="8">
+                    <Setter Property="Background" Value="#F2B179" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Value}" Value="16">
+                    <Setter Property="Background" Value="#F59563" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Value}" Value="32">
+                    <Setter Property="Background" Value="#F67C5F" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Value}" Value="64">
+                    <Setter Property="Background" Value="#F65E3B" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Value}" Value="128">
+                    <Setter Property="Background" Value="#EDCF72" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Value}" Value="256">
+                    <Setter Property="Background" Value="#EDCC61" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Value}" Value="512">
+                    <Setter Property="Background" Value="#EDC850" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Value}" Value="1024">
+                    <Setter Property="Background" Value="#EDC53F" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Value}" Value="2048">
+                    <Setter Property="Background" Value="#EDC22E" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="TileTextStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#776E65" />
+            <Setter Property="FontSize" Value="30" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="TextAlignment" Value="Center" />
+            <Setter Property="TextWrapping" Value="NoWrap" />
+
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Value}" Value="8">
+                    <Setter Property="Foreground" Value="#F9F6F2" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Value}" Value="16">
+                    <Setter Property="Foreground" Value="#F9F6F2" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Value}" Value="32">
+                    <Setter Property="Foreground" Value="#F9F6F2" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Value}" Value="64">
+                    <Setter Property="Foreground" Value="#F9F6F2" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Value}" Value="128">
+                    <Setter Property="FontSize" Value="26" />
+                    <Setter Property="Foreground" Value="#F9F6F2" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Value}" Value="256">
+                    <Setter Property="FontSize" Value="26" />
+                    <Setter Property="Foreground" Value="#F9F6F2" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Value}" Value="512">
+                    <Setter Property="FontSize" Value="26" />
+                    <Setter Property="Foreground" Value="#F9F6F2" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Value}" Value="1024">
+                    <Setter Property="FontSize" Value="21" />
+                    <Setter Property="Foreground" Value="#F9F6F2" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Value}" Value="2048">
+                    <Setter Property="FontSize" Value="21" />
+                    <Setter Property="Foreground" Value="#F9F6F2" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
     <Grid Margin="20">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0"
-                   Text="ПЯТНАШКИ"
-                   FontSize="28"
+                   Text="2048"
+                   FontSize="58"
                    FontWeight="Bold"
-                   Foreground="#49382D"
-                   HorizontalAlignment="Center"
-                   Margin="0,0,0,20" />
+                   Foreground="#776E65"
+                   VerticalAlignment="Center"
+                   Margin="0,0,0,10" />
 
-        <!-- Фон и рамка игрового поля -->
-        <Border Grid.Row="1"
-                Background="#B9A58D"
-                BorderBrush="#806B56"
-                BorderThickness="2"
-                CornerRadius="12"
-                Padding="8"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center">
+        <Grid Grid.Row="1" Margin="0,0,0,15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
 
-            <ItemsControl ItemsSource="{Binding Cells}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="85" />
-                                <RowDefinition Height="85" />
-                                <RowDefinition Height="85" />
-                                <RowDefinition Height="85" />
-                            </Grid.RowDefinitions>
+ 
 
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="85" />
-                                <ColumnDefinition Width="85" />
-                                <ColumnDefinition Width="85" />
-                                <ColumnDefinition Width="85" />
-                            </Grid.ColumnDefinitions>
-                        </Grid>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
+            <Border Grid.Column="1"
+                    Background="#BBADA0"
+                    CornerRadius="4"
+                    Padding="12,6"
+                    Margin="5,0">
+                <StackPanel>
+                    <TextBlock Text="СЧЁТ"
+                               Foreground="#EEE4DA"
+                               FontWeight="Bold"
+                               HorizontalAlignment="Center" />
+                    <TextBlock Text="{Binding Score}"
+                               Foreground="White"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               HorizontalAlignment="Center" />
+                </StackPanel>
+            </Border>
 
-                <ItemsControl.ItemContainerStyle>
-                    <Style TargetType="ContentPresenter">
-                        <Setter Property="Grid.Row"
-                                Value="{Binding Row}" />
-                        <Setter Property="Grid.Column"
-                                Value="{Binding Column}" />
-                    </Style>
-                </ItemsControl.ItemContainerStyle>
+            <Border Grid.Column="2"
+                    Background="#BBADA0"
+                    CornerRadius="4"
+                    Padding="12,6">
+                <StackPanel>
+                    <TextBlock Text="РЕКОРД"
+                               Foreground="#EEE4DA"
+                               FontWeight="Bold"
+                               HorizontalAlignment="Center" />
+                    <TextBlock Text="{Binding BestScore}"
+                               Foreground="White"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               HorizontalAlignment="Center" />
+                </StackPanel>
+            </Border>
+        </Grid>
 
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Button Tag="{Binding Direction}"
-                                Click="Grid_MouseDown"
-                                Margin="3"
-                                Background="#E8D4B5"
-                                BorderBrush="#8D7053"
-                                BorderThickness="1"
-                                FontSize="30"
-                                FontWeight="SemiBold"
-                                Foreground="#49382D"
-                                Cursor="Hand"
-                                Focusable="False"
-                                Content="{Binding Text}">
-                            <Button.Template>
-                                <ControlTemplate TargetType="Button">
-                                    <Border Background="{TemplateBinding Background}"
-                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                            BorderThickness="{TemplateBinding BorderThickness}"
-                                            CornerRadius="8">
-                                        <ContentPresenter
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center" />
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsMouseOver"
-                                                 Value="True">
-                                            <Setter Property="Background"
-                                                    Value="#F5E5CC" />
-                                        </Trigger>
-                                        <Trigger Property="IsPressed"
-                                                 Value="True">
-                                            <Setter Property="Background"
-                                                    Value="#D0B18C" />
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </Border>
 
-        <Button Grid.Row="2"
-                Content="Отменить ход"
-                Margin="0,20,0,0"
-                Padding="20,10"
-                FontSize="15"
-                FontWeight="SemiBold"
-                Background="#806B56"
+        <Viewbox Grid.Row="2"
+         Stretch="Uniform"
+         StretchDirection="DownOnly"
+         HorizontalAlignment="Center"
+         VerticalAlignment="Center">
+            <Border Background="#BBADA0"
+            CornerRadius="6"
+            Padding="5"
+            Width="410"
+            Height="410">
+                <ItemsControl ItemsSource="{Binding Cells}"
+                      Width="400"
+                      Height="400">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="100" />
+                                    <RowDefinition Height="100" />
+                                    <RowDefinition Height="100" />
+                                    <RowDefinition Height="100" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="100" />
+                                </Grid.ColumnDefinitions>
+                            </Grid>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Style="{StaticResource TileBorderStyle}">
+                                <TextBlock Text="{Binding Text}"
+                                   Style="{StaticResource TileTextStyle}" />
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="ContentPresenter">
+                            <Setter Property="Grid.Row"
+                            Value="{Binding Row}" />
+                            <Setter Property="Grid.Column"
+                            Value="{Binding Column}" />
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                </ItemsControl>
+            </Border>
+        </Viewbox>
+
+
+        <StackPanel Grid.Row="3" Margin="0,15,0,0" HorizontalAlignment="Center" Orientation="Horizontal" >
+
+            <Button Content="Отменить ход"
+                Width="150"
+                Height="40"
+                Margin="0,0,115,0"
+                FontSize="14"
+                FontWeight="Bold"
+                Background="#BBADA0"
                 Foreground="White"
                 BorderThickness="0"
-                HorizontalAlignment="Center"
                 IsEnabled="{Binding CanUndo}"
-                Click="UndoButton_Click" />
+                Click="UndoButton_Click" /> 
+            
+            <Button Content="Новая игра"
+                    Width="150"
+                    Height="40"
+                    FontSize="16"
+                    FontWeight="Bold"
+                    Background="#8F7A66"
+                    Foreground="White"
+                    BorderThickness="0"
+                    HorizontalAlignment="Center"
+                    Click="NewGameButton_Click" />
+
+            
+        </StackPanel>
     </Grid>
 </Window>

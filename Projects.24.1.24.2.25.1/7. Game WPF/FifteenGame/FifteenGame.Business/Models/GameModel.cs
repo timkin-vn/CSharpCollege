@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace FifteenGame.Business.Models
 {
     public class GameModel
     {
         public const int RowCount = 4;
-
         public const int ColumnCount = 4;
+        public const int FreeCellValue = 0;
 
-        public const int FreeCellValue = -1;
-
-        private int[,] _cells = new int[RowCount, ColumnCount];
+        private readonly int[,] _cells =
+            new int[RowCount, ColumnCount];
 
         public int this[int row, int column]
         {
@@ -22,8 +16,35 @@ namespace FifteenGame.Business.Models
             internal set => _cells[row, column] = value;
         }
 
-        public int FreeCellRow { get; internal set; }
+        public int Score { get; internal set; }
 
-        public int FreeCellColumn { get; internal set; }
+        public bool HasWon
+        {
+            get
+            {
+                for (int row = 0; row < RowCount; row++)
+                {
+                    for (int column = 0; column < ColumnCount; column++)
+                    {
+                        if (_cells[row, column] >= 2048)
+                            return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+        public void RestoreState(int[,] board, int score)
+        {
+            for (int row = 0; row < RowCount; row++)
+            {
+                for (int column = 0; column < ColumnCount; column++)
+                {
+                    this[row, column] = board[row, column];
+                }
+            }
+
+            Score = score;
+        }
     }
 }

@@ -169,8 +169,6 @@ namespace Calculator
             object sender,
             EventArgs e)
         {
-            _service.PressClear(_calculatorModel);
-            DisplayValue();
             _service.ClearHistory();
             RefreshHistory();
         }

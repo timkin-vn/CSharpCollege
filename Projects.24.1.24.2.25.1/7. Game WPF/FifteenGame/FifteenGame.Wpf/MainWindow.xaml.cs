@@ -1,51 +1,103 @@
-﻿using FifteenGame.Business.Models;
+﻿
+using FifteenGame.Business.Models;
 using FifteenGame.Wpf.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace FifteenGame.Wpf
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindowViewModel ViewModel => (MainWindowViewModel)DataContext;
+        public MainWindowViewModel ViewModel =>
+            (MainWindowViewModel)DataContext;
 
         public MainWindow()
         {
             InitializeComponent();
+
+            Loaded += (sender, e) => Keyboard.Focus(this);
         }
 
-        private void Grid_MouseDown(object sender, RoutedEventArgs e)
+        private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            var direction = (MoveDirection)((FrameworkElement)sender).Tag;
-            ViewModel.MakeMove(direction, OnGameFinished);
+            MoveDirection direction;
+
+            switch (e.Key)
+            {
+                case Key.Left:
+                    direction = MoveDirection.Left;
+                    break;
+
+                case Key.Right:
+                    direction = MoveDirection.Right;
+                    break;
+
+                case Key.Up:
+                    direction = MoveDirection.Up;
+                    break;
+
+                case Key.Down:
+                    direction = MoveDirection.Down;
+                    break;
+
+                default:
+                    return;
+            }
+
+            bool previouslyWon = ViewModel.HasWon;
+
+            ViewModel.MakeMove(direction);
+
+            e.Handled = true;
+
+            if (!previouslyWon && ViewModel.HasWon)
+            {
+                MessageBoxResult result = MessageBox.Show(
+                    "Поздравляем! Ты собрал плитку 2048.\n\n" +
+                    "Продолжить игру?",
+                    "Победа!",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Information);
+
+                if (result == MessageBoxResult.No)
+                    ViewModel.Initialize();
+
+                return;
+            }
+
+            if (ViewModel.IsGameOver)
+            {
+                MessageBoxResult result = MessageBox.Show(
+                    "Ходов больше нет.\n" +
+                    $"Твой счёт: {ViewModel.Score}\n\n" +
+                    "Начать новую игру?",
+                    "Игра окончена",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Information);
+
+                if (result == MessageBoxResult.Yes)
+                    ViewModel.Initialize();
+            }
         }
+
+        private void NewGameButton_Click(
+            object sender,
+            RoutedEventArgs e)
+        {
+            ViewModel.Initialize();
+            Keyboard.Focus(this);
+        }
+
 
         private void UndoButton_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.UndoLastMove();
+            if (DataContext is MainWindowViewModel viewModel)
+            {
+                viewModel.Undo();
+            }
+
+            Focus();
         }
 
-        private void OnGameFinished()
-        {
-            if (MessageBox.Show("Игра окончена. Повторить?", "Поздравляем!", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
-            {
-                ViewModel.Initialize();
-            }
-        }
     }
 }

@@ -1,9 +1,5 @@
-﻿using FifteenGame.Business.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using FifteenGame.Business.Models;
 
 namespace FifteenGame.Wpf.ViewModels
 {
@@ -11,7 +7,8 @@ namespace FifteenGame.Wpf.ViewModels
     {
         public int Value { get; set; }
 
-        public string Text => Value.ToString();
+        public string Text =>
+            Value == 0 ? string.Empty : Value.ToString();
 
         public int Row { get; set; }
 
