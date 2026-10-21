@@ -1,4 +1,4 @@
-using GraphEditor.Business.Models;
+﻿using GraphEditor.Business.Models;
 using GraphEditor.ViewServices;
 using System;
 using System.Drawing;
@@ -13,6 +13,10 @@ namespace GraphEditor
 
         private bool _isMouseDown;
         private bool _isDarkTheme;
+
+        private static readonly ToolStripRenderer DarkRenderer =
+            new ToolStripProfessionalRenderer(new DarkMenuColorTable());
+        private static readonly ToolStripRenderer LightRenderer = new ToolStripSystemRenderer();
 
         public GraphEditorForm()
         {
@@ -252,7 +256,7 @@ namespace GraphEditor
         {
             toolStrip.BackColor = backColor;
             toolStrip.ForeColor = foreColor;
-            toolStrip.RenderMode = ToolStripRenderMode.System;
+            toolStrip.Renderer = _isDarkTheme ? DarkRenderer : LightRenderer;
 
             foreach (ToolStripItem item in toolStrip.Items)
             {
@@ -267,11 +271,53 @@ namespace GraphEditor
 
             if (item is ToolStripDropDownItem dropDownItem)
             {
+                dropDownItem.DropDown.BackColor = backColor;
+                dropDownItem.DropDown.ForeColor = foreColor;
+                dropDownItem.DropDown.Renderer = _isDarkTheme ? DarkRenderer : LightRenderer;
+
                 foreach (ToolStripItem child in dropDownItem.DropDownItems)
                 {
                     ApplyToolStripItemTheme(child, backColor, foreColor);
                 }
             }
+        }
+
+        // A dark renderer is required because the system renderer keeps
+        // dropdown menus light even when the text colour is changed.
+        private sealed class DarkMenuColorTable : ProfessionalColorTable
+        {
+            private static readonly Color MenuBackground = Color.FromArgb(48, 48, 52);
+            private static readonly Color HoverBackground = Color.FromArgb(65, 86, 112);
+            private static readonly Color MenuBorderColor = Color.FromArgb(85, 85, 90);
+
+            public override Color ToolStripDropDownBackground => MenuBackground;
+            public override Color ImageMarginGradientBegin => MenuBackground;
+            public override Color ImageMarginGradientMiddle => MenuBackground;
+            public override Color ImageMarginGradientEnd => MenuBackground;
+            public override Color MenuStripGradientBegin => Color.FromArgb(30, 30, 30);
+            public override Color MenuStripGradientEnd => Color.FromArgb(30, 30, 30);
+            public override Color ToolStripGradientBegin => Color.FromArgb(30, 30, 30);
+            public override Color ToolStripGradientMiddle => Color.FromArgb(30, 30, 30);
+            public override Color ToolStripGradientEnd => Color.FromArgb(30, 30, 30);
+            public override Color MenuItemSelected => HoverBackground;
+            public override Color MenuItemSelectedGradientBegin => HoverBackground;
+            public override Color MenuItemSelectedGradientEnd => HoverBackground;
+            public override Color MenuItemPressedGradientBegin => HoverBackground;
+            public override Color MenuItemPressedGradientMiddle => HoverBackground;
+            public override Color MenuItemPressedGradientEnd => HoverBackground;
+            public override Color MenuItemBorder => MenuBorderColor;
+            public override Color MenuBorder => MenuBorderColor;
+            public override Color SeparatorDark => MenuBorderColor;
+            public override Color SeparatorLight => MenuBackground;
+            public override Color ButtonSelectedGradientBegin => HoverBackground;
+            public override Color ButtonSelectedGradientMiddle => HoverBackground;
+            public override Color ButtonSelectedGradientEnd => HoverBackground;
+            public override Color ButtonPressedGradientBegin => HoverBackground;
+            public override Color ButtonPressedGradientMiddle => HoverBackground;
+            public override Color ButtonPressedGradientEnd => HoverBackground;
+            public override Color CheckBackground => Color.FromArgb(165, 175, 190);
+            public override Color CheckSelectedBackground => Color.FromArgb(165, 175, 190);
+            public override Color CheckPressedBackground => Color.FromArgb(165, 175, 190);
         }
     }
 }
