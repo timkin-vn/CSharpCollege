@@ -1,0 +1,12 @@
+C:\Users\User\Desktop\projects\6. GraphEditor\EllipseEditor\EllipseEditor\bin\Debug\EllipseEditor.exe.config
+C:\Users\User\Desktop\projects\6. GraphEditor\EllipseEditor\EllipseEditor\bin\Debug\EllipseEditor.exe
+C:\Users\User\Desktop\projects\6. GraphEditor\EllipseEditor\EllipseEditor\bin\Debug\EllipseEditor.pdb
+C:\Users\User\Desktop\projects\6. GraphEditor\EllipseEditor\EllipseEditor\bin\Debug\EllipseEditor.Business.dll
+C:\Users\User\Desktop\projects\6. GraphEditor\EllipseEditor\EllipseEditor\bin\Debug\EllipseEditor.Business.pdb
+C:\Users\User\Desktop\projects\6. GraphEditor\EllipseEditor\EllipseEditor\obj\Debug\EllipseEditor.csproj.AssemblyReference.cache
+C:\Users\User\Desktop\projects\6. GraphEditor\EllipseEditor\EllipseEditor\obj\Debug\EllipseEditor.EllipseEditorForm.resources
+C:\Users\User\Desktop\projects\6. GraphEditor\EllipseEditor\EllipseEditor\obj\Debug\EllipseEditor.csproj.GenerateResource.cache
+C:\Users\User\Desktop\projects\6. GraphEditor\EllipseEditor\EllipseEditor\obj\Debug\EllipseEditor.csproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\projects\6. GraphEditor\EllipseEditor\EllipseEditor\obj\Debug\EllipseE.6EA4B2E7.Up2Date
+C:\Users\User\Desktop\projects\6. GraphEditor\EllipseEditor\EllipseEditor\obj\Debug\EllipseEditor.exe
+C:\Users\User\Desktop\projects\6. GraphEditor\EllipseEditor\EllipseEditor\obj\Debug\EllipseEditor.pdb

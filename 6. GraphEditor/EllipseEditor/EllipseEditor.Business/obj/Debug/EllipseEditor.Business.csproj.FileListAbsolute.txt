@@ -1,0 +1,6 @@
+C:\Users\User\Desktop\projects\6. GraphEditor\EllipseEditor\EllipseEditor.Business\bin\Debug\EllipseEditor.Business.dll
+C:\Users\User\Desktop\projects\6. GraphEditor\EllipseEditor\EllipseEditor.Business\bin\Debug\EllipseEditor.Business.pdb
+C:\Users\User\Desktop\projects\6. GraphEditor\EllipseEditor\EllipseEditor.Business\obj\Debug\EllipseEditor.Business.csproj.AssemblyReference.cache
+C:\Users\User\Desktop\projects\6. GraphEditor\EllipseEditor\EllipseEditor.Business\obj\Debug\EllipseEditor.Business.csproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\projects\6. GraphEditor\EllipseEditor\EllipseEditor.Business\obj\Debug\EllipseEditor.Business.dll
+C:\Users\User\Desktop\projects\6. GraphEditor\EllipseEditor\EllipseEditor.Business\obj\Debug\EllipseEditor.Business.pdb
