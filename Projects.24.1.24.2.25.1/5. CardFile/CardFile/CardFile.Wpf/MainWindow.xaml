@@ -3,14 +3,45 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CardFile.Wpf"
         xmlns:viewmodels="clr-namespace:CardFile.Wpf.ViewModels"
         mc:Ignorable="d"
-        Title="{Binding WindowTitle}" Height="450" Width="950"
-        Loaded="Window_Loaded" Initialized="Window_Initialized">
+        Title="{Binding WindowTitle}"
+        Height="520"
+        Width="1050"
+        MinHeight="450"
+        MinWidth="850"
+        Background="#F4F6F8"
+        Loaded="Window_Loaded"
+        Initialized="Window_Initialized">
+
     <Window.DataContext>
         <viewmodels:MainWindowViewModel />
     </Window.DataContext>
+
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="Padding" Value="12,7"/>
+            <Setter Property="MinHeight" Value="32"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#D5D9DE"/>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="Padding" Value="7,5"/>
+        </Style>
+
+        <Style TargetType="ComboBox">
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="8"/>
+        </Style>
+    </Window.Resources>
 
     <DockPanel>
         <Menu DockPanel.Dock="Top">
@@ -23,50 +54,114 @@
             </MenuItem>
         </Menu>
 
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+        <Border DockPanel.Dock="Top"
+                Background="White"
+                BorderBrush="#DDE1E6"
+                BorderThickness="0,0,0,1"
+                Padding="10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-            <DataGrid Grid.Row="0"
-                      ItemsSource="{Binding Cards}"
+                <TextBox Grid.Column="0"
+                         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                         ToolTip="Поиск по заголовку, тексту и категории"/>
+
+                <ComboBox Grid.Column="1"
+                          ItemsSource="{Binding Categories}"
+                          SelectedItem="{Binding SelectedCategory, UpdateSourceTrigger=PropertyChanged}">
+                </ComboBox>
+
+                <CheckBox Grid.Column="2"
+                          Content="Только закрепленные"
+                          IsChecked="{Binding ShowPinnedOnly}"
+                          VerticalAlignment="Center"
+                          Margin="10,0"/>
+
+                <Button Grid.Column="3"
+                        Content="Сбросить"
+                        Click="ResetFilterButton_Click"/>
+            </Grid>
+        </Border>
+
+        <Border DockPanel.Dock="Bottom"
+                Background="White"
+                BorderBrush="#DDE1E6"
+                BorderThickness="0,1,0,0"
+                Padding="8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="{Binding StatisticsText}"
+                           VerticalAlignment="Center"
+                           Foreground="#5D6670"
+                           FontSize="13"/>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <Button Content="Создать" Click="CreateButton_Click"/>
+                    <Button Content="Правка"
+                            IsEnabled="{Binding IsEditButtonEnabled}"
+                            Click="EditButton_Click"/>
+                    <Button Content="Удалить"
+                            IsEnabled="{Binding IsDeleteButtonEnabled}"
+                            Click="DeleteButton_Click"/>
+                    <Button Content="{Binding ToggleDoneButtonText}"
+                            IsEnabled="{Binding IsToggleDoneButtonEnabled}"
+                            Click="ToggleDoneButton_Click"/>
+                    <Button Content="{Binding TogglePinnedButtonText}"
+                            IsEnabled="{Binding IsTogglePinnedButtonEnabled}"
+                            Click="TogglePinnedButton_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Grid Margin="10">
+            <DataGrid ItemsSource="{Binding CardsView}"
                       SelectedItem="{Binding SelectedCard}"
                       SelectionChanged="DataGrid_SelectionChanged"
                       AutoGenerateColumns="False"
                       IsReadOnly="True"
                       CanUserAddRows="False"
                       SelectionMode="Single"
-                      Margin="5">
+                      GridLinesVisibility="Horizontal"
+                      RowHeight="36"
+                      Background="White"
+                      BorderBrush="#DDE1E6"
+                      AlternatingRowBackground="#F8F9FA">
+
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Заголовок" Binding="{Binding Title}" Width="180" />
-                    <DataGridTextColumn Header="Категория" Binding="{Binding Category}" Width="130" />
-                    <DataGridTextColumn Header="Текст" Binding="{Binding ShortText}" Width="250" />
-                    <DataGridTextColumn Header="Дата создания" Binding="{Binding CreatedAtText}" Width="130" />
-                    <DataGridTextColumn Header="Выполнено" Binding="{Binding DoneText}" Width="110" />
-                    <DataGridTextColumn Header="Закреплено" Binding="{Binding PinnedText}" Width="110" />
+                    <DataGridTextColumn Header="Заголовок"
+                                        Binding="{Binding Title}"
+                                        Width="180"/>
+
+                    <DataGridTextColumn Header="Категория"
+                                        Binding="{Binding Category}"
+                                        Width="130"/>
+
+                    <DataGridTextColumn Header="Текст"
+                                        Binding="{Binding ShortText}"
+                                        Width="*"/>
+
+                    <DataGridTextColumn Header="Дата создания"
+                                        Binding="{Binding CreatedAtText}"
+                                        Width="125"/>
+
+                    <DataGridTextColumn Header="Выполнено"
+                                        Binding="{Binding DoneText}"
+                                        Width="100"/>
+
+                    <DataGridTextColumn Header="Закреплено"
+                                        Binding="{Binding PinnedText}"
+                                        Width="105"/>
                 </DataGrid.Columns>
             </DataGrid>
-
-            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Создать" Padding="5" Margin="5" VerticalAlignment="Center" Click="CreateButton_Click" />
-                <Button Content="Правка"
-                        IsEnabled="{Binding IsEditButtonEnabled}"
-                        Padding="5" Margin="5" VerticalAlignment="Center"
-                        Click="EditButton_Click" />
-                <Button Content="Удалить"
-                        IsEnabled="{Binding IsDeleteButtonEnabled}"
-                        Padding="5" Margin="5" VerticalAlignment="Center"
-                        Click="DeleteButton_Click" />
-                <Button Content="{Binding ToggleDoneButtonText}"
-                        IsEnabled="{Binding IsToggleDoneButtonEnabled}"
-                        Padding="5" Margin="5" VerticalAlignment="Center"
-                        Click="ToggleDoneButton_Click" />
-                <Button Content="{Binding TogglePinnedButtonText}"
-                        IsEnabled="{Binding IsTogglePinnedButtonEnabled}"
-                        Padding="5" Margin="5" VerticalAlignment="Center"
-                        Click="TogglePinnedButton_Click" />
-            </StackPanel>
         </Grid>
     </DockPanel>
 </Window>

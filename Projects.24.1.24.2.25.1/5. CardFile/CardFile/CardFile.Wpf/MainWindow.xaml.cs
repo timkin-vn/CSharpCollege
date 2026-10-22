@@ -89,7 +89,11 @@ namespace CardFile.Wpf
 
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
-            var window = new CardEditWindow();
+            var window = new CardEditWindow
+            {
+                Owner = this
+            };
+
             var card = ViewModel.GetNewCard();
             window.ViewModel.LoadViewModel(card);
 
@@ -104,12 +108,17 @@ namespace CardFile.Wpf
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             var card = ViewModel.GetSelectedCard();
+
             if (card == null)
             {
                 return;
             }
 
-            var window = new CardEditWindow();
+            var window = new CardEditWindow
+            {
+                Owner = this
+            };
+
             window.ViewModel.LoadViewModel(card);
 
             if (window.ShowDialog() != true)
@@ -122,7 +131,21 @@ namespace CardFile.Wpf
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.DeleteSelectedCard();
+            if (ViewModel.GetSelectedCard() == null)
+            {
+                return;
+            }
+
+            var result = MessageBox.Show(
+                "Удалить выбранную заметку?",
+                "Подтверждение",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                ViewModel.DeleteSelectedCard();
+            }
         }
 
         private void ToggleDoneButton_Click(object sender, RoutedEventArgs e)
@@ -133,6 +156,11 @@ namespace CardFile.Wpf
         private void TogglePinnedButton_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.TogglePinnedSelectedCard();
+        }
+
+        private void ResetFilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ResetFilters();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
