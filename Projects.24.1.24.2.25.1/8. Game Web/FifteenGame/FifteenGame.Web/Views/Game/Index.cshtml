@@ -1,0 +1,234 @@
+﻿@model FifteenGame.Web.Models.GameViewModel
+@{
+    ViewBag.Title = "2048 Neon";
+    bool isFinished = Model.IsGameOver || Model.IsWin;
+}
+
+<style>
+    body {
+        background-color: #0B0C10;
+        color: #E0E0E0;
+        font-family: 'Consolas', 'Courier New', monospace;
+    }
+
+    .game-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 30px;
+    }
+
+    .header-panel {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 440px;
+        margin-bottom: 20px;
+    }
+
+    .score-label {
+        font-size: 24px;
+        color: #66FCF1;
+        font-weight: bold;
+    }
+
+    .score-value {
+        font-size: 28px;
+        color: #FF007F;
+        font-weight: bold;
+        margin-left: 10px;
+    }
+
+    .btn-neon {
+        background-color: #1F2833;
+        color: #66FCF1;
+        border: 2px solid #45A29E;
+        border-radius: 8px;
+        padding: 8px 16px;
+        font-size: 16px;
+        text-decoration: none;
+        font-family: 'Consolas', monospace;
+        transition: all 0.2s;
+    }
+
+        .btn-neon:hover {
+            background-color: #45A29E;
+            color: #0B0C10;
+            text-decoration: none;
+        }
+
+    .game-board {
+        background-color: #1F2833;
+        border: 2px solid #45A29E;
+        border-radius: 15px;
+        padding: 12px;
+        display: inline-block;
+        box-shadow: 0 0 15px rgba(69, 162, 158, 0.3);
+    }
+
+    .board-row {
+        display: flex;
+    }
+
+    .tile {
+        width: 95px;
+        height: 95px;
+        margin: 4px;
+        border-radius: 12px;
+        font-size: 36px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #66FCF1;
+        color: #FFFFFF;
+        transition: all 0.15s ease;
+    }
+
+   
+    .tile-0 {
+        background-color: #1F2833;
+        border-color: #45A29E;
+        color: transparent;
+    }
+
+    .tile-2 {
+        background-color: #45A29E;
+    }
+
+    .tile-4 {
+        background-color: #66FCF1;
+        color: #0B0C10;
+    }
+
+    .tile-8 {
+        background-color: #3F51B5;
+    }
+
+    .tile-16 {
+        background-color: #9C27B0;
+    }
+
+    .tile-32 {
+        background-color: #E91E63;
+    }
+
+    .tile-64 {
+        background-color: #F44336;
+    }
+
+    .tile-128 {
+        background-color: #FF9800;
+        font-size: 30px;
+    }
+
+    .tile-256 {
+        background-color: #FFEB3B;
+        color: #0B0C10;
+        font-size: 30px;
+    }
+
+    .tile-512 {
+        background-color: #4CAF50;
+        font-size: 30px;
+    }
+
+    .tile-1024 {
+        background-color: #00BCD4;
+        font-size: 26px;
+    }
+
+    .tile-2048 {
+        background-color: #FFFFFF;
+        color: #0B0C10;
+        font-size: 26px;
+    }
+
+    .tile-default {
+        background-color: #000000;
+        color: #FFFFFF;
+        border-color: #FFFFFF;
+        font-size: 24px;
+    }
+
+    .status-message {
+        color: #FF4B4B;
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+</style>
+
+<div class="game-container">
+
+    
+    <div class="header-panel">
+        <div>
+            <span class="score-label">SCORE:</span>
+            <span class="score-value">@Model.Score</span>
+        </div>
+        @Html.ActionLink("[ NEW GAME ]", "NewGame", "Game", null, new { @class = "btn-neon" })
+    </div>
+
+    
+    @if (isFinished)
+    {
+        <div class="status-message">
+            @if (Model.IsWin)
+            {<span>YOU WIN!</span> }
+            else if (Model.IsGameOver)
+            { <span>GAME OVER</span>}
+        </div>
+    }
+
+    
+    <div class="game-board">
+        @for (int r = 0; r < Model.Size; r++)
+        {
+            <div class="board-row">
+                @for (int c = 0; c < Model.Size; c++)
+                {
+                    int points = Model.Matrix[r, c];
+                    string cssClass = "tile";
+
+                    if (points == 0) { cssClass += " tile-0"; }
+                    else if (points == 2) { cssClass += " tile-2"; }
+                    else if (points == 4) { cssClass += " tile-4"; }
+                    else if (points == 8) { cssClass += " tile-8"; }
+                    else if (points == 16) { cssClass += " tile-16"; }
+                    else if (points == 32) { cssClass += " tile-32"; }
+                    else if (points == 64) { cssClass += " tile-64"; }
+                    else if (points == 128) { cssClass += " tile-128"; }
+                    else if (points == 256) { cssClass += " tile-256"; }
+                    else if (points == 512) { cssClass += " tile-512"; }
+                    else if (points == 1024) { cssClass += " tile-1024"; }
+                    else if (points == 2048) { cssClass += " tile-2048"; }
+                    else { cssClass += " tile-default"; }
+
+                    <div class="@cssClass">
+                        @(points != 0 ? points.ToString() : "")
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        document.addEventListener('keydown', function(event) {
+            var code = event.code;
+            var targetDir = null;
+
+            if (code === 'ArrowLeft' || code === 'KeyA') targetDir = 'Left';
+            else if (code === 'ArrowRight' || code === 'KeyD') targetDir = 'Right';
+            else if (code === 'ArrowUp' || code === 'KeyW') targetDir = 'Up';
+            else if (code === 'ArrowDown' || code === 'KeyS') targetDir = 'Down';
+
+            if (targetDir) {
+                event.preventDefault();
+                window.location.href = '@Url.Action("MakeMove", "Game")?directionText=' + targetDir;
+            }
+        });
+    </script>
+}
