@@ -1,0 +1,6 @@
+C:\Users\User\Desktop\projects\7. Game WPF\Game2048\Game2048.Business\bin\Debug\Game2048.Business.dll
+C:\Users\User\Desktop\projects\7. Game WPF\Game2048\Game2048.Business\bin\Debug\Game2048.Business.pdb
+C:\Users\User\Desktop\projects\7. Game WPF\Game2048\Game2048.Business\obj\Debug\Game2048.Business.csproj.AssemblyReference.cache
+C:\Users\User\Desktop\projects\7. Game WPF\Game2048\Game2048.Business\obj\Debug\Game2048.Business.csproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\projects\7. Game WPF\Game2048\Game2048.Business\obj\Debug\Game2048.Business.dll
+C:\Users\User\Desktop\projects\7. Game WPF\Game2048\Game2048.Business\obj\Debug\Game2048.Business.pdb

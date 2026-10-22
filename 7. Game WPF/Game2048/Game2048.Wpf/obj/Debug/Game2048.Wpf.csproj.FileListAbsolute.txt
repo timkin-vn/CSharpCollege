@@ -1,0 +1,17 @@
+C:\Users\User\Desktop\projects\7. Game WPF\Game2048\Game2048.Wpf\bin\Debug\Game2048.Wpf.exe.config
+C:\Users\User\Desktop\projects\7. Game WPF\Game2048\Game2048.Wpf\bin\Debug\Game2048.Wpf.exe
+C:\Users\User\Desktop\projects\7. Game WPF\Game2048\Game2048.Wpf\bin\Debug\Game2048.Wpf.pdb
+C:\Users\User\Desktop\projects\7. Game WPF\Game2048\Game2048.Wpf\bin\Debug\Game2048.Business.dll
+C:\Users\User\Desktop\projects\7. Game WPF\Game2048\Game2048.Wpf\bin\Debug\Game2048.Business.pdb
+C:\Users\User\Desktop\projects\7. Game WPF\Game2048\Game2048.Wpf\obj\Debug\Game2048.Wpf.csproj.AssemblyReference.cache
+C:\Users\User\Desktop\projects\7. Game WPF\Game2048\Game2048.Wpf\obj\Debug\MainWindow.g.cs
+C:\Users\User\Desktop\projects\7. Game WPF\Game2048\Game2048.Wpf\obj\Debug\App.g.cs
+C:\Users\User\Desktop\projects\7. Game WPF\Game2048\Game2048.Wpf\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\User\Desktop\projects\7. Game WPF\Game2048\Game2048.Wpf\obj\Debug\Game2048.Wpf_MarkupCompile.cache
+C:\Users\User\Desktop\projects\7. Game WPF\Game2048\Game2048.Wpf\obj\Debug\Game2048.Wpf_MarkupCompile.lref
+C:\Users\User\Desktop\projects\7. Game WPF\Game2048\Game2048.Wpf\obj\Debug\MainWindow.baml
+C:\Users\User\Desktop\projects\7. Game WPF\Game2048\Game2048.Wpf\obj\Debug\Game2048.Wpf.g.resources
+C:\Users\User\Desktop\projects\7. Game WPF\Game2048\Game2048.Wpf\obj\Debug\Game2048.Wpf.csproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\projects\7. Game WPF\Game2048\Game2048.Wpf\obj\Debug\Game2048.98DB32AB.Up2Date
+C:\Users\User\Desktop\projects\7. Game WPF\Game2048\Game2048.Wpf\obj\Debug\Game2048.Wpf.exe
+C:\Users\User\Desktop\projects\7. Game WPF\Game2048\Game2048.Wpf\obj\Debug\Game2048.Wpf.pdb
