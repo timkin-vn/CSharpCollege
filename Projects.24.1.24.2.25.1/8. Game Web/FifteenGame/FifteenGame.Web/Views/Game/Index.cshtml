@@ -1,58 +1,45 @@
 ﻿@model FifteenGame.Web.Models.GameViewModel
 
 @{
-    ViewBag.Title = "Игра 15";
+    ViewBag.Title = "Морской Бой 15";
     bool isGameOver = (bool?)ViewBag.IsGameOver ?? false;
 }
 
 <main>
-    <h2>Игра 15</h2>
+    <h2>Морской Бой</h2>
 
     @if (isGameOver)
     {
-        <h2 class="text-danger">Поздравляем! Игра завершена.</h2>
-
+        <h2 class="text-danger">Все корабли уничтожены! Игра завершена.</h2>
         <div>
-            @Html.ActionLink("Повторить", "Index", new {}, new { @class = "btn btn-success" })
+            @Html.ActionLink("Повторить", "Index", new { }, new { @class = "btn btn-success" })
         </div>
     }
 
-    <div class="container">
+    <div class="container mt-4">
         @for (int row = 0; row < Model.RowCount; row++)
         {
-            <div class="row">
-                <div class="col-2"></div>
-
+            <div class="row justify-content-center m-0">
                 @for (int column = 0; column < Model.ColumnCount; column++)
                 {
-                    if (Model.Cells[row, column].IsEmpty)
-                    {
-                        <div class="col-2"></div>
-                        continue;
-                    }
+                    var cell = Model.Cells[row, column];
 
-                    if (isGameOver || Model.Cells[row, column].Direction == FifteenGame.Business.Models.MoveDirection.None)
+                    if (isGameOver || (cell.Direction != FifteenGame.Business.Models.MoveDirection.Empty && cell.Direction != FifteenGame.Business.Models.MoveDirection.Ship))
                     {
-                        @*<div class="col-2 d-grid p-2 text-center">
-                            <div class="btn btn-success fs-3">@Model.Cells[row, column].Text</div>
-                        </div>*@
-
-                        <div class="col-2 d-grid p-2 text-center">
-                            <img src="@Url.Content($"~/Content/img/{@Model.Cells[row, column].Text}.png")"
-                                 style="width: 150px; height: 150px; display: block; margin: auto;" />
+                        <div class="col-1 p-1 text-center">
+                            <div class="grid-cell @cell.CssClass" style="width: 45px; height: 45px; line-height: 45px; margin: auto; font-size: 20px; font-weight: bold; border: 1px solid #ccc;">
+                                @cell.Symbol
+                            </div>
                         </div>
-
                         continue;
                     }
 
-                    <div class="col-2 d-grid p-2 text-center">
-                        @*@Html.ActionLink(Model.Cells[row, column].Text, "MakeMove",
-                            new { directionText = Model.Cells[row, column].DirectionText },
-                            new { @class = "btn btn-success fs-3" })*@
-
-                        <a href="@Url.Action("MakeMove", "Game", new { directionText = Model.Cells[row, column].DirectionText })">
-                            <img src="@Url.Content($"~/Content/img/{@Model.Cells[row, column].Text}.png")"
-                                    style="width: 150px; height: 150px; display: block; margin: auto;" />
+                    <div class="col-1 p-1 text-center">
+                        <a href="@Url.Action("MakeMove", "Game", new { row = row, column = column })" style="text-decoration: none;">
+                            <div class="grid-cell @cell.CssClass"
+                                 style="width: 45px; height: 45px; margin: auto; border: 1px solid #ccc; background-color: #add8e6; cursor: pointer;"
+                                 title="Выстрел в строку @row, колонку @column">
+                            </div>
                         </a>
                     </div>
                 }

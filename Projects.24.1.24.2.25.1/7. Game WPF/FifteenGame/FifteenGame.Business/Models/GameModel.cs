@@ -11,6 +11,8 @@ namespace FifteenGame.Business.Models
         public const int RowCount = 10;
         public const int ColumnCount = 10;
 
+        public const int FreeCellValue = -1; // Оставлено для совместимости
+
         private readonly MoveDirection[,] _cells = new MoveDirection[RowCount, ColumnCount];
 
         public MoveDirection this[int row, int column]
@@ -20,6 +22,9 @@ namespace FifteenGame.Business.Models
         }
 
         public List<ShipModel> Ships { get; } = new List<ShipModel>();
+
+        public int FreeCellRow { get; set; }
+        public int FreeCellColumn { get; set; }
     }
 
     public class ShipModel
@@ -34,3 +39,4 @@ namespace FifteenGame.Business.Models
         }
     }
 }
+

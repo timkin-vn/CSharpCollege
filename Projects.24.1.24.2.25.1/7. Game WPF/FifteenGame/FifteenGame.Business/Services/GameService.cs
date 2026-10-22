@@ -24,10 +24,10 @@ namespace FifteenGame.Business.Services
 
             var fleetTemplate = new Dictionary<int, int>
             {
-                { 4, 1 },
-                { 3, 2 },
-                { 2, 3 },
-                { 1, 4 }
+                { 4, 1 }, // 1 четырехпалубный
+                { 3, 2 }, // 2 трехпалубных
+                { 2, 3 }, // 3 двухпалубных
+                { 1, 4 }  // 4 однопалубных
             };
 
             foreach (var shipType in fleetTemplate)
@@ -68,7 +68,6 @@ namespace FifteenGame.Business.Services
                 if (CanPlaceShip(model, coords))
                 {
                     var newShip = new ShipModel();
-                    // Используем .AddRange(), чтобы обойти ошибку CS0200 (доступ только для чтения)
                     newShip.Coordinates.AddRange(coords);
                     model.Ships.Add(newShip);
 
@@ -120,10 +119,8 @@ namespace FifteenGame.Business.Services
             {
                 model[row, column] = MoveDirection.Hit;
 
-                // Находим корабль, в который попали
                 var ship = model.Ships.FirstOrDefault(s => s.Coordinates.Contains((row, column)));
 
-                // Проверяем уничтожение прямо здесь, чтобы исправить ошибку CS1061 (отсутствие метода IsSunk)
                 if (ship != null && ship.Coordinates.All(c => model[c.Row, c.Column] == MoveDirection.Hit))
                 {
                     foreach (var coord in ship.Coordinates)
@@ -159,4 +156,3 @@ namespace FifteenGame.Business.Services
         }
     }
 }
-
