@@ -10,7 +10,7 @@ namespace FifteenGame.DataAccess.EF.DataContext
 {
     public class FifteenGameDataContext : DbContext
     {
-        public FifteenGameDataContext() : base("EFMain")
+        public FifteenGameDataContext() : base("FifteenGameDataContext")
         { }
 
         public DbSet<User> Users { get; set; }

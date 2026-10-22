@@ -1,4 +1,4 @@
-﻿using FifteenGame.Common.Contracts.Repositories;
+using FifteenGame.Common.Contracts.Repositories;
 using FifteenGame.Common.Dtos;
 using Npgsql;
 using System;
@@ -14,7 +14,7 @@ namespace FifteenGame.DataAccess.Repositories
     {
         private readonly string ConnectionString = ConfigurationManager.ConnectionStrings["Main"].ConnectionString;
         //private const string ConnectionString =
-        //   @"Server=localhost;Port=5432;Database=FifteenGame.1.Dev.24.3.24.4;User Id=postgres;Password=Qwerty123;";
+        //   @"Server=localhost;Port=5432;Database=FifteenGame.1.Dev.24.3.24.4;User Id=postgres;Password=1;";
 
         public IEnumerable<UserDto> GetAll()
         {
@@ -169,3 +169,4 @@ where
         }
     }
 }
+
