@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
+
 namespace GraphEditor.Business.Models.Xml
 {
     [Serializable]
@@ -22,10 +23,14 @@ namespace GraphEditor.Business.Models.Xml
         [XmlAttribute("Height")]
         public int Height { get; set; }
 
+        [XmlAttribute("Opacity")]
+        public int Opacity { get; set; } = 255;
+        
         [XmlElement("FillColor")]
         public XmlColor FillColor { get; set; }
 
         [XmlElement("BorderColor")]
         public XmlColor BorderColor { get; set; }
+
     }
 }

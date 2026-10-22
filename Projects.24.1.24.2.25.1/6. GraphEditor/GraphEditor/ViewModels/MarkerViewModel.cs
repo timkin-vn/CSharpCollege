@@ -12,13 +12,9 @@ namespace GraphEditor.ViewModels
     internal class MarkerViewModel
     {
         public static int MarkerHalfSize = 5;
-
         public Rectangle Rectangle { get; set; }
-
         public bool IsActive { get; set; }
-
         public EditMode EditMode { get; set; }
-
         public Cursor Cursor { get; set; }
     }
 }
