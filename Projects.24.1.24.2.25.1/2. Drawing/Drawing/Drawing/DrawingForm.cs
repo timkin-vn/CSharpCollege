@@ -1,33 +1,48 @@
 ﻿using Drawing.Services;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Drawing
 {
     public partial class DrawingForm : Form
     {
+        private Painter _painter = new Painter();
+        private PictureBuilder _builder = new PictureBuilder();
+
         public DrawingForm()
         {
             InitializeComponent();
+            this.DoubleBuffered = true;
+
+            this.MouseClick += DrawingForm_MouseClick;
+            this.Resize += DrawingForm_Resize;
+           
         }
 
-        private void DrawingForm_Paint(object sender, PaintEventArgs e)
+        private void DrawingForm_MouseClick(object sender, MouseEventArgs e)
         {
-            var painter = new Painter();
-            painter.Initialize(ClientRectangle);
-            painter.Paint(e.Graphics);
+            if (_builder.CurrentPicture == PictureType.Car)
+                _builder.CurrentPicture = PictureType.House;
+            else if (_builder.CurrentPicture == PictureType.House)
+                _builder.CurrentPicture = PictureType.Ship;
+            else
+                _builder.CurrentPicture = PictureType.Car;
+
+            this.Invalidate();
+            this.Update();
         }
 
         private void DrawingForm_Resize(object sender, EventArgs e)
         {
-            Refresh();
+          
+            this.Invalidate();
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            _painter.Initialize(this.ClientRectangle, _builder);
+            _painter.Paint(e.Graphics);
         }
     }
 }

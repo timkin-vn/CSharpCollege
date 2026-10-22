@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CardFile.Wpf" xmlns:viewmodels="clr-namespace:CardFile.Wpf.ViewModels"
         mc:Ignorable="d"
-        Title="{Binding WindowTitle}" Height="450" Width="800" Loaded="Window_Loaded" Initialized="Window_Initialized">
+        Title="{Binding WindowTitle}" Height="500" Width="1000" Loaded="Window_Loaded" Initialized="Window_Initialized">
     <Window.DataContext>
         <viewmodels:MainWindowViewModel />
     </Window.DataContext>
@@ -20,7 +20,7 @@
                 <MenuItem Header="В_ыход" Click="FileExitMenuItem_Click" />
             </MenuItem>
         </Menu>
-        
+
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition />
@@ -31,21 +31,20 @@
                       AutoGenerateColumns="False" IsReadOnly="True"
                       CanUserAddRows="False" SelectionMode="Single" Margin="5">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ФИО" Binding="{Binding Fio}" />
-                    <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDateText}" />
-                    <DataGridTextColumn Header="Подразделение" Binding="{Binding Department}" />
-                    <DataGridTextColumn Header="Должность" Binding="{Binding Position}" />
-                    <DataGridTextColumn Header="Дата трудоустройства" Binding="{Binding EmploymentDateText}" />
-                    <DataGridTextColumn Header="Дата увольнения" Binding="{Binding DismissalDateText}" />
-                    <DataGridTextColumn Header="Оклад" Binding="{Binding SalaryText}" />
+                    <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="140" />
+                    <DataGridTextColumn Header="Отрасль" Binding="{Binding Industry}" Width="130" />
+                    <DataGridTextColumn Header="Год основания" Binding="{Binding FoundationYear}" Width="100" />
+                    <DataGridTextColumn Header="Выручка" Binding="{Binding RevenueText}" Width="110" />
+                    <DataGridTextColumn Header="Сотрудники" Binding="{Binding EmployeesText}" Width="110" />
+                    <DataGridTextColumn Header="Информация" Binding="{Binding Description}" Width="*" />
                 </DataGrid.Columns>
             </DataGrid>
-            
+
             <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="Создать" Padding="5" Margin="5" VerticalAlignment="Center" Click="CreateButton_Click" />
-                <Button Content="Правка" IsEnabled="{Binding IsEditButtonEnabled}" Padding="5" Margin="5" VerticalAlignment="Center" 
+                <Button Content="Правка" IsEnabled="{Binding IsEditButtonEnabled}" Padding="5" Margin="5" VerticalAlignment="Center"
                         Click="EditButton_Click" />
-                <Button Content="Удалить" IsEnabled="{Binding IsDeleteButtonEnabled}" Padding="5" Margin="5" VerticalAlignment="Center" 
+                <Button Content="Удалить" IsEnabled="{Binding IsDeleteButtonEnabled}" Padding="5" Margin="5" VerticalAlignment="Center"
                         Click="DeleteButton_Click" />
             </StackPanel>
         </Grid>

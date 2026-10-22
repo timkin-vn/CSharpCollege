@@ -8,7 +8,7 @@ namespace Calculator.Business.Models
 {
     public class CalculatorModel
     {
-        public double RegisterX { get; internal set; }
+        public double RegisterX { get; set; }
 
         public double RegisterY { get; internal set; }
 

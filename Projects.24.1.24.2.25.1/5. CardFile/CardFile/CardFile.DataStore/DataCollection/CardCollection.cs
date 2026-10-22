@@ -1,10 +1,7 @@
 ﻿using CardFile.DataStore.Dtos;
 using CardFile.DataStore.Infrastructure;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CardFile.DataStore.DataCollection
 {
@@ -12,61 +9,59 @@ namespace CardFile.DataStore.DataCollection
     {
         private readonly List<CardDto> _cards = new List<CardDto>();
 
-        internal int NextId { get; set; } = 5;
+        internal int NextId { get; set; } = 6;
 
         public CardCollection()
         {
             _cards.Add(new CardDto
             {
                 Id = 1,
-                FirstName = "Андрей",
-                MiddleName = "Геннадьевич",
-                LastName = "Захаров",
-                BirthDate = new DateTime(1985, 11, 7),
-                Department = "Отдел разработки",
-                Position = "Руководитель проекта",
-                EmploymentDate = new DateTime(2010, 4, 18),
-                DismissalDate = null,
-                Salary = 250000m,
+                Name = "Лукойл",
+                Industry = "Нефть и газ",
+                FoundationYear = 1991,
+                Revenue = 8600m,
+                Employees = 100000,
+                Description = "Одна из крупнейших российских нефтяных и газовых компаний, вторая по объёму выручки в России. Основная деятельность — разведка и добыча нефти и газа, производство нефтепродуктов.",
             });
             _cards.Add(new CardDto
             {
                 Id = 2,
-                FirstName = "Нина",
-                MiddleName = "Аркадьевна",
-                LastName = "Шевченко",
-                BirthDate = new DateTime(1990, 8, 21),
-                Department = "Отдел тестирования",
-                Position = "Старший тестировщик",
-                EmploymentDate = new DateTime(2015, 2, 14),
-                DismissalDate = new DateTime(2024, 11, 3),
-                Salary = 200000m,
+                Name = "Газпром",
+                Industry = "Нефть и газ",
+                FoundationYear = 1989,
+                Revenue = 10800m,
+                Employees = 490000,
+                Description = "Крупнейшая газовая компания в мире, занимает около 12% мировой добычи газа. Владелец крупнейшей в мире газотранспортной системы.",
             });
             _cards.Add(new CardDto
             {
                 Id = 3,
-                FirstName = "Виктор",
-                MiddleName = "Петрович",
-                LastName = "Васильев",
-                BirthDate = new DateTime(2001, 3, 11),
-                Department = "Отдел разработки",
-                Position = "Ведущий разработчик",
-                EmploymentDate = new DateTime(2020, 9, 25),
-                DismissalDate = null,
-                Salary = 300000m,
+                Name = "Роснефть",
+                Industry = "Нефть и газ",
+                FoundationYear = 1993,
+                Revenue = 9200m,
+                Employees = 330000,
+                Description = "Крупнейшая нефтяная компания России, входит в топ-5 мировых публичных нефтегазовых корпораций по объёму добычи. Контролируется государством.",
             });
             _cards.Add(new CardDto
             {
                 Id = 4,
-                FirstName = "Ольга",
-                MiddleName = "Владимировна",
-                LastName = "Меднис",
-                BirthDate = new DateTime(1981, 9, 2),
-                Department = "Бухгалтерия",
-                Position = "Главный бухгалтер",
-                EmploymentDate = new DateTime(2010, 9, 25),
-                DismissalDate = new DateTime(2023, 3, 18),
-                Salary = 150000m,
+                Name = "Сбербанк",
+                Industry = "Банковский сектор",
+                FoundationYear = 1841,
+                Revenue = 3800m,
+                Employees = 280000,
+                Description = "Крупнейший российский и восточноевропейский банк, основной кредитор национальной экономики. Предоставляет широкий спектр банковских и финансовых услуг.",
+            });
+            _cards.Add(new CardDto
+            {
+                Id = 5,
+                Name = "Яндекс",
+                Industry = "Информационные технологии",
+                FoundationYear = 1997,
+                Revenue = 950m,
+                Employees = 25000,
+                Description = "Одна из крупнейших IT-компаний России, оператор одноимённой поисковой системы. Развивает сервисы: поиск, карты, такси, доставку, маркетплейс, облачные технологии.",
             });
 
             MapperInitialization.PreRegister();
@@ -74,17 +69,6 @@ namespace CardFile.DataStore.DataCollection
 
         public IEnumerable<CardDto> GetAll()
         {
-            //return _cards;
-
-            //var result = new List<CardDto>();
-
-            //foreach (var card in _cards)
-            //{
-            //    result.Add(card.Clone());
-            //}
-
-            //return result;
-
             return _cards.Select(c => c.Clone()).ToList();
         }
 

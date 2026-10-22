@@ -1,109 +1,49 @@
 ﻿using CardFile.Common.Infrastructure;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CardFile.Wpf.ViewModels
 {
     public class CardViewModel : ViewModelBase
     {
-        /// <summary>
-        /// Id
-        /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// Имя
+        /// Название компании
         /// </summary>
-        public string FirstName { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
-        /// Отчество
+        /// Отрасль
         /// </summary>
-        public string MiddleName { get; set; }
+        public string Industry { get; set; }
 
         /// <summary>
-        /// Фамилия
+        /// Год основания
         /// </summary>
-        public string LastName { get; set; }
-
-        public string Fio => $"{LastName} {FirstName} {MiddleName}";
+        public int FoundationYear { get; set; }
 
         /// <summary>
-        /// Дата рождения
+        /// Выручка (млрд руб.)
         /// </summary>
-        public DateTime BirthDate { get; set; }
+        public decimal Revenue { get; set; }
 
-        public string BirthDateText => BirthDate.ToShortDateString();
+        public string RevenueText => $"{Revenue:N0} млрд ₽";
 
         /// <summary>
-        /// Подразделение
+        /// Число сотрудников
         /// </summary>
-        public string Department { get; set; }
+        public int Employees { get; set; }
+
+        public string EmployeesText => $"{Employees:N0} чел.";
 
         /// <summary>
-        /// Должность
+        /// Информация о компании
         /// </summary>
-        public string Position { get; set; }
-
-        /// <summary>
-        /// Дата трудоустройства
-        /// </summary>
-        public DateTime EmploymentDate { get; set; }
-
-        public string EmploymentDateText => EmploymentDate.ToShortDateString();
-
-        /// <summary>
-        /// Дата увольнения
-        /// </summary>
-        public DateTime? DismissalDate { get; set; }
-
-        public string DismissalDateText => DismissalDate?.ToShortDateString() ?? "-";
-
-        /// <summary>
-        /// Оклад
-        /// </summary>
-        public decimal Salary { get; set; }
-
-        public string SalaryText => Salary.ToString("c");
-
-        public bool IsWorkingTillNow { get; set; }
-
-        public bool IsDismissalDateEnabled => !IsWorkingTillNow;
-
-        public void IsWorkingTillNowChecked()
-        {
-            DismissalDate = null;
-
-            OnPropertyChanged(nameof(DismissalDate));
-            OnPropertyChanged(nameof(IsDismissalDateEnabled));
-        }
-
-        public void IsWorkingTillNowUnchecked()
-        {
-            DismissalDate = DateTime.Today;
-
-            OnPropertyChanged(nameof(DismissalDate));
-            OnPropertyChanged(nameof(IsDismissalDateEnabled));
-        }
+        public string Description { get; set; }
 
         public void LoadViewModel(CardViewModel model)
         {
             Mapping.Mapper.Map(model, this);
-            //Id = model.Id;
-            //FirstName = model.FirstName;
-            //MiddleName = model.MiddleName;
-            //LastName = model.LastName;
-            //BirthDate = model.BirthDate;
-            //Department = model.Department;
-            //Position = model.Position;
-            //EmploymentDate = model.EmploymentDate;
-            //DismissalDate = model.DismissalDate;
-            //Salary = model.Salary;
-
-            IsWorkingTillNow = !model.DismissalDate.HasValue;
 
             UpdateAll();
         }
@@ -111,18 +51,14 @@ namespace CardFile.Wpf.ViewModels
         private void UpdateAll()
         {
             OnPropertyChanged(nameof(Id));
-            OnPropertyChanged(nameof(FirstName));
-            OnPropertyChanged(nameof(MiddleName));
-            OnPropertyChanged(nameof(LastName));
-            OnPropertyChanged(nameof(Fio));
-            OnPropertyChanged(nameof(BirthDate));
-            OnPropertyChanged(nameof(Department));
-            OnPropertyChanged(nameof(Position));
-            OnPropertyChanged(nameof(EmploymentDate));
-            OnPropertyChanged(nameof(DismissalDate));
-            OnPropertyChanged(nameof(Salary));
-            OnPropertyChanged(nameof(IsWorkingTillNow));
-            OnPropertyChanged(nameof(IsDismissalDateEnabled));
+            OnPropertyChanged(nameof(Name));
+            OnPropertyChanged(nameof(Industry));
+            OnPropertyChanged(nameof(FoundationYear));
+            OnPropertyChanged(nameof(Revenue));
+            OnPropertyChanged(nameof(RevenueText));
+            OnPropertyChanged(nameof(Employees));
+            OnPropertyChanged(nameof(EmployeesText));
+            OnPropertyChanged(nameof(Description));
         }
     }
 }

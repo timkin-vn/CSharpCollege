@@ -14,10 +14,14 @@ namespace Drawing.Services
 
         private Scaler _scaler;
 
-        private PictureBuilder _builder = new PictureBuilder();
+        private PictureBuilder _builder;
 
-        public void Initialize(Rectangle bounds)
+
+        public void Initialize(Rectangle bounds, PictureBuilder builder)
         {
+            _builder = builder;
+            _builder.PreparePicture();
+
             _scaler = new Scaler
             {
                 TargetBounds = bounds,
@@ -93,6 +97,14 @@ namespace Drawing.Services
             if (pen != null)
             {
                 _graphics.DrawPolygon(pen, points);
+            }
+        }
+
+        public void DrawText(string text, int x, int y)
+        {
+            if (_graphics != null)
+            {
+                _graphics.DrawString(text, new Font("Arial", 16), Brushes.Black, x, y);
             }
         }
     }

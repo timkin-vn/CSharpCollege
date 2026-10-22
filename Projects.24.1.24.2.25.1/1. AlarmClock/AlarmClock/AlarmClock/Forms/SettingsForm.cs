@@ -13,7 +13,7 @@ namespace AlarmClock.Forms
 {
     public partial class SettingsForm : Form
     {
-        public AlarmState AlarmState { get; set; }
+        public Models.AlarmState AlarmState { get; set; }
 
         public SettingsForm()
         {

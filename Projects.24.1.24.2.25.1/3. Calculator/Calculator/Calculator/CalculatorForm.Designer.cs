@@ -46,6 +46,7 @@
             this.SubtractButton = new System.Windows.Forms.Button();
             this.EqualButton = new System.Windows.Forms.Button();
             this.MoveXToYButton = new System.Windows.Forms.Button();
+            this.SquareButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // DisplayLabel
@@ -245,8 +246,18 @@
             this.MoveXToYButton.TabIndex = 17;
             this.MoveXToYButton.Text = "X -> Y";
             this.MoveXToYButton.UseVisualStyleBackColor = true;
-            this.MoveXToYButton.Visible = false;
+            this.MoveXToYButton.Visible = true;
             this.MoveXToYButton.Click += new System.EventHandler(this.MoveXToYButton_Click);
+            // 
+            // SquareButton
+            // 
+            this.SquareButton = new System.Windows.Forms.Button();
+            this.SquareButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F);
+            this.SquareButton.Location = new System.Drawing.Point(239, 347);
+            this.SquareButton.Name = "SquareButton";
+            this.SquareButton.Size = new System.Drawing.Size(107, 63);
+            this.SquareButton.Text = "x²";
+            this.SquareButton.Click += new System.EventHandler(this.SquareButton_Click);
             // 
             // CalculatorForm
             // 
@@ -260,6 +271,8 @@
             this.Controls.Add(this.DivideButton);
             this.Controls.Add(this.MultiplyButton);
             this.Controls.Add(this.ClearButton);
+            this.Controls.Add(this.SquareButton);
+            this.Controls.Add(this.MoveXToYButton);
             this.Controls.Add(this.Digit8Button);
             this.Controls.Add(this.Digit9Button);
             this.Controls.Add(this.Digit4Button);
@@ -298,7 +311,10 @@
         private System.Windows.Forms.Button AddButton;
         private System.Windows.Forms.Button SubtractButton;
         private System.Windows.Forms.Button EqualButton;
+        private System.Windows.Forms.Button SquareButton;
         private System.Windows.Forms.Button MoveXToYButton;
+        
+        
     }
 }
 
