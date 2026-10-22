@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Game2048.Common\Game2048.Common.csproj" />
+    <ProjectReference Include="..\Game2048.DataAccess\Game2048.DataAccess.csproj" />
+  </ItemGroup>
+</Project>
