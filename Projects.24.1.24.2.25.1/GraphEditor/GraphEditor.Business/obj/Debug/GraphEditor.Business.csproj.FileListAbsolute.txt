@@ -1,0 +1,12 @@
+C:\Users\tyuty\Desktop\MOSHIKN\MokhinNikita\GraphEditor\GraphEditor.Business\bin\Debug\GraphEditor.Business.dll
+C:\Users\tyuty\Desktop\MOSHIKN\MokhinNikita\GraphEditor\GraphEditor.Business\bin\Debug\GraphEditor.Business.pdb
+C:\Users\tyuty\Desktop\MOSHIKN\MokhinNikita\GraphEditor\GraphEditor.Business\obj\Debug\GraphEditor.Business.csproj.AssemblyReference.cache
+C:\Users\tyuty\Desktop\MOSHIKN\MokhinNikita\GraphEditor\GraphEditor.Business\obj\Debug\GraphEditor.Business.csproj.CoreCompileInputs.cache
+C:\Users\tyuty\Desktop\MOSHIKN\MokhinNikita\GraphEditor\GraphEditor.Business\obj\Debug\GraphEditor.Business.dll
+C:\Users\tyuty\Desktop\MOSHIKN\MokhinNikita\GraphEditor\GraphEditor.Business\obj\Debug\GraphEditor.Business.pdb
+C:\Users\tyuty\Desktop\GraphEditor\GraphEditor.Business\bin\Debug\GraphEditor.Business.dll
+C:\Users\tyuty\Desktop\GraphEditor\GraphEditor.Business\bin\Debug\GraphEditor.Business.pdb
+C:\Users\tyuty\Desktop\GraphEditor\GraphEditor.Business\obj\Debug\GraphEditor.Business.csproj.AssemblyReference.cache
+C:\Users\tyuty\Desktop\GraphEditor\GraphEditor.Business\obj\Debug\GraphEditor.Business.csproj.CoreCompileInputs.cache
+C:\Users\tyuty\Desktop\GraphEditor\GraphEditor.Business\obj\Debug\GraphEditor.Business.dll
+C:\Users\tyuty\Desktop\GraphEditor\GraphEditor.Business\obj\Debug\GraphEditor.Business.pdb
