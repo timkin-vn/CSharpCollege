@@ -1,0 +1,11 @@
+<Window x:Class="Game2048.Client.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Вход" Height="180" Width="360" Background="#FAF8EF"
+        WindowStartupLocation="CenterScreen">
+    <StackPanel Margin="24" VerticalAlignment="Center">
+        <TextBlock Text="Имя игрока:" FontSize="16" Foreground="#776E65"/>
+        <TextBox x:Name="NameBox" FontSize="16" Margin="0,8" Padding="4"/>
+        <Button Content="Войти" FontSize="16" Padding="8,4" Click="EnterButton_Click"/>
+    </StackPanel>
+</Window>
