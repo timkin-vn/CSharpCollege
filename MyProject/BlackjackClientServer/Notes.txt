@@ -1,0 +1,30 @@
+﻿Проект 10. Игра 21 (Блэкджек) — клиент-сервер
+
+Сервер — BlackjackServer.sln:
+  Blackjack.WebApi      — REST API (ASP.NET Core) на http://localhost:5080, Swagger: /swagger
+  Blackjack.Business    — правила игры (те же, что в проекте 9)
+  Blackjack.DataAccess  — EF Core + PostgreSQL (база blackjack_server, создаётся сама)
+  Blackjack.Common      — общие модели и интерфейсы
+  Blackjack.UnitTests   — тесты правил
+
+Клиент — BlackjackClient.sln:
+  Blackjack.Wpf           — окно игры (то же, что в проекте 9)
+  Blackjack.BusinessProxy — GameServiceProxy / UserServiceProxy: реализуют те же интерфейсы,
+                            но каждый вызов отправляют на сервер по HTTP
+  Blackjack.Common        — общие модели и интерфейсы
+
+Клиент не обращается к базе данных — только к серверу.
+
+Как запустить:
+  1. Должен работать PostgreSQL. Пароль — в Blackjack.WebApi/appsettings.json.
+  2. Открыть BlackjackServer.sln и запустить Blackjack.WebApi (F5). Откроется Swagger.
+  3. Во втором окне Visual Studio открыть BlackjackClient.sln и запустить Blackjack.Wpf.
+
+Методы сервера:
+  POST api/users/login            { "name": "..." }  — вход / регистрация
+  GET  api/games/current?userId=  — текущая партия (или новая)
+  POST api/games/new?userId=      — новая партия
+  POST api/games/{id}/hit         — взять карту
+  POST api/games/{id}/stand       — хватит
+  GET  api/games/stats?userId=    — статистика
+  GET  api/games/history?userId=  — последние 10 партий
