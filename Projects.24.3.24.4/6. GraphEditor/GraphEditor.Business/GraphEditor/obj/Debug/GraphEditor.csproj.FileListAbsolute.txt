@@ -1,0 +1,12 @@
+E:\For_code\C++\GraphEditor.Business\GraphEditor\bin\Debug\GraphEditor.exe.config
+E:\For_code\C++\GraphEditor.Business\GraphEditor\bin\Debug\GraphEditor.exe
+E:\For_code\C++\GraphEditor.Business\GraphEditor\bin\Debug\GraphEditor.pdb
+E:\For_code\C++\GraphEditor.Business\GraphEditor\bin\Debug\GraphEditor.Business.dll
+E:\For_code\C++\GraphEditor.Business\GraphEditor\bin\Debug\GraphEditor.Business.pdb
+E:\For_code\C++\GraphEditor.Business\GraphEditor\obj\Debug\GraphEditor.csproj.AssemblyReference.cache
+E:\For_code\C++\GraphEditor.Business\GraphEditor\obj\Debug\GraphEditor.Properties.Resources.resources
+E:\For_code\C++\GraphEditor.Business\GraphEditor\obj\Debug\GraphEditor.csproj.GenerateResource.cache
+E:\For_code\C++\GraphEditor.Business\GraphEditor\obj\Debug\GraphEditor.csproj.CoreCompileInputs.cache
+E:\For_code\C++\GraphEditor.Business\GraphEditor\obj\Debug\GraphEdi.B75FE3B2.Up2Date
+E:\For_code\C++\GraphEditor.Business\GraphEditor\obj\Debug\GraphEditor.exe
+E:\For_code\C++\GraphEditor.Business\GraphEditor\obj\Debug\GraphEditor.pdb
