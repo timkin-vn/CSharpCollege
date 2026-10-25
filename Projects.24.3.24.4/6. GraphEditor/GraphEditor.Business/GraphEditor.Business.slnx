@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="GraphEditor.Business/GraphEditor.Business.csproj" />
+  <Project Path="GraphEditor/GraphEditor.csproj" />
+</Solution>
