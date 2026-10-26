@@ -1,0 +1,6 @@
+C:\Users\kotov\OneDrive\Рабочий стол\CSharpCollege-AndreyKotov\Projects.24.1.24.2.25.1\9. Game DB\Minesweeper\Minesweeper.Business\bin\Debug\Minesweeper.Business.dll
+C:\Users\kotov\OneDrive\Рабочий стол\CSharpCollege-AndreyKotov\Projects.24.1.24.2.25.1\9. Game DB\Minesweeper\Minesweeper.Business\bin\Debug\Minesweeper.Business.pdb
+C:\Users\kotov\OneDrive\Рабочий стол\CSharpCollege-AndreyKotov\Projects.24.1.24.2.25.1\9. Game DB\Minesweeper\Minesweeper.Business\obj\Debug\Minesweeper.Business.csproj.AssemblyReference.cache
+C:\Users\kotov\OneDrive\Рабочий стол\CSharpCollege-AndreyKotov\Projects.24.1.24.2.25.1\9. Game DB\Minesweeper\Minesweeper.Business\obj\Debug\Minesweeper.Business.csproj.CoreCompileInputs.cache
+C:\Users\kotov\OneDrive\Рабочий стол\CSharpCollege-AndreyKotov\Projects.24.1.24.2.25.1\9. Game DB\Minesweeper\Minesweeper.Business\obj\Debug\Minesweeper.Business.dll
+C:\Users\kotov\OneDrive\Рабочий стол\CSharpCollege-AndreyKotov\Projects.24.1.24.2.25.1\9. Game DB\Minesweeper\Minesweeper.Business\obj\Debug\Minesweeper.Business.pdb
