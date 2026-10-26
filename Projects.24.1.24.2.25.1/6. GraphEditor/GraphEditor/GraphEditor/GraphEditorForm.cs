@@ -1,13 +1,7 @@
 ﻿using GraphEditor.ViewServices;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GraphEditor
@@ -15,8 +9,8 @@ namespace GraphEditor
     public partial class GraphEditorForm : Form
     {
         private readonly PictureViewService _viewService = new PictureViewService();
-
         private bool _isMouseDown;
+        private bool _isDarkTheme = false;
 
         public GraphEditorForm()
         {
@@ -30,11 +24,7 @@ namespace GraphEditor
 
         private void GraphEditorForm_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button != MouseButtons.Left)
-            {
-                return;
-            }
-
+            if (e.Button != MouseButtons.Left) return;
             _isMouseDown = true;
             _viewService.MouseDown(e.Location);
             Refresh();
@@ -43,11 +33,7 @@ namespace GraphEditor
 
         private void GraphEditorForm_MouseUp(object sender, MouseEventArgs e)
         {
-            if (e.Button != MouseButtons.Left)
-            {
-                return;
-            }
-
+            if (e.Button != MouseButtons.Left) return;
             _isMouseDown = false;
             _viewService.MouseUp();
             Refresh();
@@ -57,12 +43,7 @@ namespace GraphEditor
         private void GraphEditorForm_MouseMove(object sender, MouseEventArgs e)
         {
             Cursor = _viewService.GetCursor(e.Location);
-
-            if (!_isMouseDown)
-            {
-                return;
-            }
-
+            if (!_isMouseDown) return;
             _viewService.MouseMove(e.Location);
             Refresh();
             UpdateViewControls();
@@ -70,8 +51,74 @@ namespace GraphEditor
 
         private void CreateRectangleButton_Click(object sender, EventArgs e)
         {
+            _viewService.SelectedShapeType = "Rectangle";
             _viewService.CreateButtonClicked();
             UpdateViewControls();
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            _viewService.SelectedShapeType = "Circle";
+            _viewService.CreateButtonClicked();
+            UpdateViewControls();
+        }
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            _viewService.SelectedShapeType = "Rhombus";
+            _viewService.CreateButtonClicked();
+            UpdateViewControls();
+        }
+
+        private void toolStripButton1_Click_1(object sender, EventArgs e)
+        {
+            _isDarkTheme = !_isDarkTheme;
+            ApplyTheme();
+            Refresh();
+        }
+
+        private void ApplyTheme()
+        {
+            if (_isDarkTheme)
+            {
+                this.BackColor = Color.FromArgb(30, 30, 30);
+                this.ForeColor = Color.White;
+
+                foreach (Control control in this.Controls)
+                {
+                    if (control is ToolStrip toolStrip)
+                    {
+                        toolStrip.BackColor = Color.FromArgb(45, 45, 48);
+                        toolStrip.ForeColor = Color.White;
+
+                        foreach (ToolStripItem item in toolStrip.Items)
+                        {
+                            item.BackColor = Color.FromArgb(45, 45, 48);
+                            item.ForeColor = Color.White;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                this.BackColor = SystemColors.Control;
+                this.ForeColor = SystemColors.ControlText;
+
+                foreach (Control control in this.Controls)
+                {
+                    if (control is ToolStrip toolStrip)
+                    {
+                        toolStrip.BackColor = SystemColors.Control;
+                        toolStrip.ForeColor = SystemColors.ControlText;
+
+                        foreach (ToolStripItem item in toolStrip.Items)
+                        {
+                            item.BackColor = SystemColors.Control;
+                            item.ForeColor = SystemColors.ControlText;
+                        }
+                    }
+                }
+            }
         }
 
         private void UpdateViewControls()
@@ -93,11 +140,7 @@ namespace GraphEditor
         private void FillColorMenuItem_Click(object sender, EventArgs e)
         {
             FillColorDialog.Color = _viewService.GetCurrentFillColor();
-            if (FillColorDialog.ShowDialog() != DialogResult.OK)
-            {
-                return;
-            }
-
+            if (FillColorDialog.ShowDialog() != DialogResult.OK) return;
             _viewService.SetFillColor(FillColorDialog.Color);
             Refresh();
         }
@@ -117,11 +160,7 @@ namespace GraphEditor
 
         private void FileOpenMenuItem_Click(object sender, EventArgs e)
         {
-            if (FileOpenDialog.ShowDialog() != DialogResult.OK)
-            {
-                return;
-            }
-
+            if (FileOpenDialog.ShowDialog() != DialogResult.OK) return;
             _viewService.Open(FileOpenDialog.FileName);
             UpdateViewControls();
             Refresh();
@@ -129,14 +168,8 @@ namespace GraphEditor
 
         private void FileSaveMenuItem_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(_viewService.FileName))
-            {
-                DoSaveAs();
-            }
-            else
-            {
-                _viewService.Save();
-            }
+            if (string.IsNullOrEmpty(_viewService.FileName)) DoSaveAs();
+            else _viewService.Save();
         }
 
         private void FileSaveAsMenuItem_Click(object sender, EventArgs e)
@@ -146,11 +179,7 @@ namespace GraphEditor
 
         private void FileExportMenuItem_Click(object sender, EventArgs e)
         {
-            if (FileExportDialog.ShowDialog() != DialogResult.OK)
-            {
-                return;
-            }
-
+            if (FileExportDialog.ShowDialog() != DialogResult.OK) return;
             _viewService.Export(FileExportDialog.FileName, ClientRectangle, BackColor);
         }
 
@@ -161,11 +190,7 @@ namespace GraphEditor
 
         private void DoSaveAs()
         {
-            if (FileSaveDialog.ShowDialog() != DialogResult.OK)
-            {
-                return;
-            }
-
+            if (FileSaveDialog.ShowDialog() != DialogResult.OK) return;
             _viewService.Save(FileSaveDialog.FileName);
             UpdateViewControls();
         }

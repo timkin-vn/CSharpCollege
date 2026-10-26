@@ -47,6 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\RhombusModel.cs" />
+    <Compile Include="Models\EllipseModel..cs" />
     <Compile Include="Models\EditMode.cs" />
     <Compile Include="Models\PictureModel.cs" />
     <Compile Include="Models\PointModel.cs" />

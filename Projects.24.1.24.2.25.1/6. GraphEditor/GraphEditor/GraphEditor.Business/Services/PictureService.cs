@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GraphEditor.Business.Services
 {
@@ -13,7 +11,6 @@ namespace GraphEditor.Business.Services
         public PictureModel PictureModel { get; private set; } = new PictureModel();
 
         public static Color DefaultFillColor { get; set; } = Color.Yellow;
-
         public static Color DefaultBorderColor { get; set; } = Color.Blue;
 
         public PictureService()
@@ -25,21 +22,33 @@ namespace GraphEditor.Business.Services
             PictureModel.Rectangles.Add(new RectangleModel { Left = 250, Top = 150, Width = 200, Height = 200, FillColor = Color.DarkMagenta, });
         }
 
-        public void CreateAndSetCreateMode(PointModel loc)
+        public void CreateAndSetCreateMode(PointModel loc, string shapeType)
         {
-            var newRectangle = new RectangleModel
-            {
-                Left = loc.X,
-                Top = loc.Y,
-                Width = 0,
-                Height = 0,
-                FillColor = DefaultFillColor,
-                BorderColor = DefaultBorderColor,
-            };
+            RectangleModel newShape;
 
-            PictureModel.Rectangles.Add(newRectangle);
-            PictureModel.SelectedRectangle = newRectangle;
-            newRectangle.EditMode = EditMode.Creating;
+            if (shapeType == "Circle")
+            {
+                newShape = new EllipseModel();
+            }
+            else if (shapeType == "Rhombus")
+            {
+                newShape = new RhombusModel();
+            }
+            else
+            {
+                newShape = new RectangleModel();
+            }
+
+            newShape.Left = loc.X;
+            newShape.Top = loc.Y;
+            newShape.Width = 0;
+            newShape.Height = 0;
+            newShape.FillColor = DefaultFillColor;
+            newShape.BorderColor = DefaultBorderColor;
+
+            PictureModel.Rectangles.Add(newShape);
+            PictureModel.SelectedRectangle = newShape;
+            newShape.EditMode = EditMode.Creating;
         }
 
         public void CreateNewPicture()
@@ -50,27 +59,16 @@ namespace GraphEditor.Business.Services
 
         public void DeleteRectangle()
         {
-            if (PictureModel.SelectedRectangle == null)
-            {
-                return;
-            }
-
+            if (PictureModel.SelectedRectangle == null) return;
             PictureModel.Rectangles.Remove(PictureModel.SelectedRectangle);
             PictureModel.SelectedRectangle = null;
         }
 
         public void MoveForward()
         {
-            if (PictureModel.SelectedRectangle == null)
-            {
-                return;
-            }
-
+            if (PictureModel.SelectedRectangle == null) return;
             var selectedIndex = PictureModel.Rectangles.IndexOf(PictureModel.SelectedRectangle);
-            if (selectedIndex < 0 || selectedIndex == PictureModel.Rectangles.Count - 1)
-            {
-                return;
-            }
+            if (selectedIndex < 0 || selectedIndex == PictureModel.Rectangles.Count - 1) return;
 
             var rect = PictureModel.Rectangles[selectedIndex + 1];
             PictureModel.Rectangles[selectedIndex + 1] = PictureModel.Rectangles[selectedIndex];
@@ -102,10 +100,7 @@ namespace GraphEditor.Business.Services
             var selectedRect = PictureModel.Rectangles.LastOrDefault(r => r.IsInside(loc));
             PictureModel.SelectedRectangle = selectedRect;
 
-            if (selectedRect == null)
-            {
-                return;
-            }
+            if (selectedRect == null) return;
 
             selectedRect.EditMode = EditMode.Moving;
             selectedRect.Dx = loc.X - selectedRect.Left;
@@ -128,10 +123,7 @@ namespace GraphEditor.Business.Services
         public void UpdateMovingPoint(PointModel loc)
         {
             var selectedRect = PictureModel.SelectedRectangle;
-            if (selectedRect == null)
-            {
-                return;
-            }
+            if (selectedRect == null) return;
 
             switch (selectedRect.EditMode)
             {

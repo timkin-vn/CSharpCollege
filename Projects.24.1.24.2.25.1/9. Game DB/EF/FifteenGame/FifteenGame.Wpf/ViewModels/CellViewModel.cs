@@ -1,22 +1,25 @@
-﻿using FifteenGame.Common.BusinessModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace FifteenGame.Wpf.ViewModels
 {
-    public class CellViewModel : ViewModelBase
+    public class CellViewModel : INotifyPropertyChanged
     {
-        public int Value { get; set; }
+        private string _text;
 
-        public string Text => Value.ToString();
+        public string Text
+        {
+            get => _text;
+            set { _text = value; OnPropertyChanged(); }
+        }
 
         public int Row { get; set; }
+        public int Col { get; set; }
 
-        public int Column { get; set; }
-
-        public MoveDirection Direction { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
     }
 }

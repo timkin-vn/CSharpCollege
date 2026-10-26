@@ -1,98 +1,62 @@
-﻿using FifteenGame.Business.Models;
-using FifteenGame.Business.Services;
+﻿using FifteenGame.Business.Services;
 using FifteenGame.Web.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace FifteenGame.Web.Controllers
 {
     public class GameController : Controller
     {
-        private readonly GameService _service = new GameService();
+        private GameService GetGameService()
+        {
+            if (Session["GameService"] == null)
+                Session["GameService"] = new GameService();
+            return (GameService)Session["GameService"];
+        }
 
-        // GET: Game
         public ActionResult Index()
         {
-            var model = GetGameModel();
-            _service.Shuffle(model);
-            SaveGameModel(model);
-
-            return View(ToViewModel(model));
+            var service = GetGameService();
+            return View(BuildViewModel(service));
         }
 
-        public ActionResult MakeMove(string directionText)
+        [HttpPost]
+        public ActionResult Move(int row, int col)
         {
-            var model = GetGameModel();
-            if (Enum.TryParse<MoveDirection>(directionText, out var direction))
-            {
-                _service.MakeMove(model, direction);
-                SaveGameModel(model);
+            var service = GetGameService();
+            service.MakeMove(row, col);
+            return View("Index", BuildViewModel(service));
+        }
 
-                if (_service.IsGameOver(model))
+        public ActionResult NewGame()
+        {
+            var service = GetGameService();
+            service.StartNewGame();
+            return View("Index", BuildViewModel(service));
+        }
+
+        private GameViewModel BuildViewModel(GameService service)
+        {
+            var vm = new GameViewModel();
+
+            for (int i = 0; i < 9; i++)
+            {
+                int r = i / 3;
+                int c = i % 3;
+                int val = service.Model.Board[r, c];
+                vm.Cells.Add(new CellViewModel
                 {
-                    ViewBag.IsGameOver = true;
-                }
+                    Row = r,
+                    Col = c,
+                    Text = val == 1 ? "X" : val == 2 ? "O" : ""
+                });
             }
 
-            return View("Index", ToViewModel(model));
-        }
+            if (service.Model.Winner == 1) vm.Status = "Победили Крестики!";
+            else if (service.Model.Winner == 2) vm.Status = "Победили Нолики!";
+            else vm.Status = service.Model.CurrentPlayer == 1 ? "Ход: X" : "Ход: O";
 
-        private GameModel GetGameModel()
-        {
-            if (Session.IsNewSession)
-            {
-                Session["GameModel"] = new GameModel();
-            }
-
-            return (GameModel)Session["GameModel"];
-        }
-
-        private void SaveGameModel(GameModel model)
-        {
-            Session["GameModel"] = model;
-        }
-
-        private GameViewModel ToViewModel(GameModel model)
-        {
-            var result = new GameViewModel();
-
-            for (int row = 0; row < GameModel.RowCount; row++)
-            {
-                for (int column = 0; column < GameModel.ColumnCount; column++)
-                {
-                    result.Cells[row, column] = new CellViewModel
-                    {
-                        Value = model[row, column],
-                        Direction = MoveDirection.None,
-                        IsEmpty = model[row, column] == GameModel.FreeCellValue,
-                    };
-                }
-            }
-
-            if (model.FreeCellColumn > 0)
-            {
-                result.Cells[model.FreeCellRow, model.FreeCellColumn - 1].Direction = MoveDirection.Right;
-            }
-
-            if (model.FreeCellColumn < GameModel.ColumnCount - 1)
-            {
-                result.Cells[model.FreeCellRow, model.FreeCellColumn + 1].Direction = MoveDirection.Left;
-            }
-
-            if (model.FreeCellRow > 0)
-            {
-                result.Cells[model.FreeCellRow - 1, model.FreeCellColumn].Direction = MoveDirection.Down;
-            }
-
-            if (model.FreeCellRow < GameModel.RowCount - 1)
-            {
-                result.Cells[model.FreeCellRow + 1, model.FreeCellColumn].Direction = MoveDirection.Up;
-            }
-
-            return result;
+            return vm;
         }
     }
 }

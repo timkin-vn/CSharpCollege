@@ -68,6 +68,7 @@ namespace FifteenGame.DataAccess.EF.Repositories
 
                 var newGame = new Game
                 {
+                    Winner = gameDto.Winner,
                     User = user,
                     MoveCount = gameDto.MoveCount,
                     Cells = new List<Cell>(),
@@ -152,6 +153,7 @@ namespace FifteenGame.DataAccess.EF.Repositories
                 Id = game.Id,
                 UserId = game.UserId,
                 MoveCount = game.MoveCount,
+                Winner = game.Winner,
             };
 
             for (int row = 0; row < Constants.RowCount; row++)

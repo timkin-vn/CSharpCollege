@@ -34,7 +34,7 @@ namespace FifteenGame.Wpf.ViewModels
 
         public void CommitUser()
         {
-            MainViewModel.CommitUser(_userModel);
+            
         }
     }
 }

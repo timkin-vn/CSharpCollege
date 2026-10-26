@@ -1,4 +1,5 @@
-﻿using GraphEditor.ViewModels;
+﻿using GraphEditor.Business.Models;
+using GraphEditor.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -23,8 +24,28 @@ namespace GraphEditor.ViewServices
                 pen = new Pen(rectangle.BorderColor, 3);
                 var brush = new SolidBrush(rectangle.FillColor);
 
-                g.FillRectangle(brush, rectangle.Rectangle);
-                g.DrawRectangle(pen, rectangle.Rectangle);
+                if (rectangle.Model is EllipseModel)
+                {
+                    g.FillEllipse(brush, rectangle.Rectangle);
+                    g.DrawEllipse(pen, rectangle.Rectangle);
+                }
+                else if (rectangle.Model is RhombusModel)
+                {
+                    var rect = rectangle.Rectangle;
+                    var points = new Point[] {
+                        new Point(rect.X + rect.Width / 2, rect.Y),
+                        new Point(rect.X + rect.Width, rect.Y + rect.Height / 2),
+                        new Point(rect.X + rect.Width / 2, rect.Y + rect.Height),
+                        new Point(rect.X, rect.Y + rect.Height / 2)
+                    };
+                    g.FillPolygon(brush, points);
+                    g.DrawPolygon(pen, points);
+                }
+                else
+                {
+                    g.FillRectangle(brush, rectangle.Rectangle);
+                    g.DrawRectangle(pen, rectangle.Rectangle);
+                }
             }
 
             if (isInteractive)
