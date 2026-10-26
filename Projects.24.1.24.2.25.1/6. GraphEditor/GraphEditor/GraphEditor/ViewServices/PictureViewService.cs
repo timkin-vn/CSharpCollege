@@ -135,6 +135,35 @@ namespace GraphEditor.ViewServices
             LoadViewModel();
         }
 
+        public bool DuplicateSelectedRectangle()
+        {
+            var selected = _businessService.PictureModel.SelectedRectangle;
+            if (selected == null)
+            {
+                return false;
+            }
+
+            var copy = new RectangleModel
+            {
+                Left = selected.Left + 15,
+                Top = selected.Top + 15,
+                Width = selected.Width,
+                Height = selected.Height,
+                FillColor = selected.FillColor,
+                BorderColor = selected.BorderColor
+            };
+
+            _businessService.PictureModel.Rectangles.Add(copy);
+            _businessService.PictureModel.SelectedRectangle = copy;
+            LoadViewModel();
+            return true;
+        }
+
+        public int GetRectangleCount()
+        {
+            return _businessService.PictureModel.Rectangles.Count;
+        }
+
         public void Open(string fileName)
         {
             _businessService.Open(fileName);

@@ -1,0 +1,12 @@
+C:\Users\kotov\OneDrive\Рабочий стол\GraphEditor\GraphEditor.Business\bin\Debug\GraphEditor.Business.dll
+C:\Users\kotov\OneDrive\Рабочий стол\GraphEditor\GraphEditor.Business\bin\Debug\GraphEditor.Business.pdb
+C:\Users\kotov\OneDrive\Рабочий стол\GraphEditor\GraphEditor.Business\obj\Debug\GraphEditor.Business.csproj.AssemblyReference.cache
+C:\Users\kotov\OneDrive\Рабочий стол\GraphEditor\GraphEditor.Business\obj\Debug\GraphEditor.Business.csproj.CoreCompileInputs.cache
+C:\Users\kotov\OneDrive\Рабочий стол\GraphEditor\GraphEditor.Business\obj\Debug\GraphEditor.Business.dll
+C:\Users\kotov\OneDrive\Рабочий стол\GraphEditor\GraphEditor.Business\obj\Debug\GraphEditor.Business.pdb
+C:\Users\kotov\OneDrive\Рабочий стол\CSharpCollege-AndreyKotov\Projects.24.1.24.2.25.1\6. GraphEditor\GraphEditor\GraphEditor.Business\bin\Debug\GraphEditor.Business.dll
+C:\Users\kotov\OneDrive\Рабочий стол\CSharpCollege-AndreyKotov\Projects.24.1.24.2.25.1\6. GraphEditor\GraphEditor\GraphEditor.Business\bin\Debug\GraphEditor.Business.pdb
+C:\Users\kotov\OneDrive\Рабочий стол\CSharpCollege-AndreyKotov\Projects.24.1.24.2.25.1\6. GraphEditor\GraphEditor\GraphEditor.Business\obj\Debug\GraphEditor.Business.csproj.AssemblyReference.cache
+C:\Users\kotov\OneDrive\Рабочий стол\CSharpCollege-AndreyKotov\Projects.24.1.24.2.25.1\6. GraphEditor\GraphEditor\GraphEditor.Business\obj\Debug\GraphEditor.Business.csproj.CoreCompileInputs.cache
+C:\Users\kotov\OneDrive\Рабочий стол\CSharpCollege-AndreyKotov\Projects.24.1.24.2.25.1\6. GraphEditor\GraphEditor\GraphEditor.Business\obj\Debug\GraphEditor.Business.dll
+C:\Users\kotov\OneDrive\Рабочий стол\CSharpCollege-AndreyKotov\Projects.24.1.24.2.25.1\6. GraphEditor\GraphEditor\GraphEditor.Business\obj\Debug\GraphEditor.Business.pdb

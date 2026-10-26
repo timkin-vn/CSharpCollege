@@ -21,6 +21,58 @@ namespace GraphEditor
         public GraphEditorForm()
         {
             InitializeComponent();
+            AddEditingFeatures();
+        }
+
+        private void AddEditingFeatures()
+        {
+            var editMenu = new ToolStripMenuItem("Правка");
+            var duplicateItem = new ToolStripMenuItem("Дублировать фигуру");
+            duplicateItem.ShortcutKeys = Keys.Control | Keys.D;
+            duplicateItem.Click += DuplicateRectangleMenuItem_Click;
+
+            var infoItem = new ToolStripMenuItem("Информация о рисунке");
+            infoItem.Click += PictureInfoMenuItem_Click;
+
+            editMenu.DropDownItems.Add(duplicateItem);
+            editMenu.DropDownItems.Add(infoItem);
+            menuStrip1.Items.Add(editMenu);
+        }
+
+        private void DuplicateRectangleMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!_viewService.DuplicateSelectedRectangle())
+            {
+                MessageBox.Show("Сначала выберите фигуру, которую нужно дублировать.",
+                    "Дублирование фигуры", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            Refresh();
+            UpdateViewControls();
+        }
+
+        private void PictureInfoMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Количество фигур на рисунке: " + _viewService.GetRectangleCount(),
+                "Информация о рисунке", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Control | Keys.D))
+            {
+                DuplicateRectangleMenuItem_Click(this, EventArgs.Empty);
+                return true;
+            }
+
+            if (keyData == Keys.Delete && _viewService.CanDelete)
+            {
+                DeleteRectangleButton_Click(this, EventArgs.Empty);
+                return true;
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
         }
 
         private void GraphEditorForm_Paint(object sender, PaintEventArgs e)
